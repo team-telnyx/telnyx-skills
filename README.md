@@ -68,16 +68,29 @@ Each product is available for:
 ### Claude Code
 
 ```bash
-# Install a specific skill
-claude mcp add-skill telnyx-messaging-python
+# Add the Telnyx skills marketplace
+/plugin marketplace add team-telnyx/telnyx-ext-agent-skills
 
-# Or install from this repository
-claude mcp add-skill ./telnyx-messaging-python
+# Install a product category (includes all 5 languages)
+/plugin install telnyx-messaging@team-telnyx/telnyx-ext-agent-skills
+/plugin install telnyx-voice@team-telnyx/telnyx-ext-agent-skills
 ```
 
-### Manual Installation
+Available plugins:
 
-Copy the desired skill directory to your agent's skills location, or reference the `SKILL.md` file directly.
+| Plugin | Skills | Includes |
+|--------|--------|----------|
+| `telnyx-messaging` | 20 | SMS/MMS, messaging profiles, hosted numbers, 10DLC |
+| `telnyx-voice` | 35 | Call control, media, gather, streaming, conferencing, TeXML |
+| `telnyx-connectivity` | 15 | SIP trunking, SIP integrations, WebRTC |
+| `telnyx-phone-numbers` | 30 | Search, order, configure, compliance, porting |
+| `telnyx-identity-ai` | 15 | Verification, AI assistants, LLM inference |
+| `telnyx-infrastructure` | 35 | IoT, networking, storage, video, fax, OAuth |
+| `telnyx-account` | 25 | Billing, access control, sub-accounts, reports |
+
+### Other Agents
+
+For Cursor, Windsurf, and other agents that support the [Agent Skills specification](https://agentskills.io/specification), copy the desired skill directory to your agent's skills location or reference the `SKILL.md` file directly.
 
 ## Skill Structure
 
