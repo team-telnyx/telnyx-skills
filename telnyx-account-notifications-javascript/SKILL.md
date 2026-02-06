@@ -17,9 +17,7 @@ metadata:
 npm install telnyx
 ```
 
-## List notification channels
-
-`GET /notification_channels`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -27,7 +25,17 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## List notification channels
+
+List notification channels.
+
+`GET /notification_channels`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const notificationChannel of client.notificationChannels.list()) {
   console.log(notificationChannel.id);
@@ -36,15 +44,11 @@ for await (const notificationChannel of client.notificationChannels.list()) {
 
 ## Create a notification channel
 
+Create a notification channel.
+
 `POST /notification_channels`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationChannel = await client.notificationChannels.create();
 
 console.log(notificationChannel.data);
@@ -52,15 +56,11 @@ console.log(notificationChannel.data);
 
 ## Get a notification channel
 
+Get a notification channel.
+
 `GET /notification_channels/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationChannel = await client.notificationChannels.retrieve(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -70,15 +70,11 @@ console.log(notificationChannel.data);
 
 ## Update a notification channel
 
+Update a notification channel.
+
 `PATCH /notification_channels/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationChannel = await client.notificationChannels.update(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -88,15 +84,11 @@ console.log(notificationChannel.data);
 
 ## Delete a notification channel
 
+Delete a notification channel.
+
 `DELETE /notification_channels/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationChannel = await client.notificationChannels.delete(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -106,15 +98,11 @@ console.log(notificationChannel.data);
 
 ## List all Notifications Events Conditions
 
+Returns a list of your notifications events conditions.
+
 `GET /notification_event_conditions`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const notificationEventConditionListResponse of client.notificationEventConditions.list()) {
   console.log(notificationEventConditionListResponse.id);
@@ -123,15 +111,11 @@ for await (const notificationEventConditionListResponse of client.notificationEv
 
 ## List all Notifications Events
 
+Returns a list of your notifications events.
+
 `GET /notification_events`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const notificationEventListResponse of client.notificationEvents.list()) {
   console.log(notificationEventListResponse.id);
@@ -140,15 +124,11 @@ for await (const notificationEventListResponse of client.notificationEvents.list
 
 ## List all Notifications Profiles
 
+Returns a list of your notifications profiles.
+
 `GET /notification_profiles`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const notificationProfile of client.notificationProfiles.list()) {
   console.log(notificationProfile.id);
@@ -157,15 +137,11 @@ for await (const notificationProfile of client.notificationProfiles.list()) {
 
 ## Create a notification profile
 
+Create a notification profile.
+
 `POST /notification_profiles`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationProfile = await client.notificationProfiles.create();
 
 console.log(notificationProfile.data);
@@ -173,15 +149,11 @@ console.log(notificationProfile.data);
 
 ## Get a notification profile
 
+Get a notification profile.
+
 `GET /notification_profiles/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationProfile = await client.notificationProfiles.retrieve(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -191,15 +163,11 @@ console.log(notificationProfile.data);
 
 ## Update a notification profile
 
+Update a notification profile.
+
 `PATCH /notification_profiles/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationProfile = await client.notificationProfiles.update(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -209,15 +177,11 @@ console.log(notificationProfile.data);
 
 ## Delete a notification profile
 
+Delete a notification profile.
+
 `DELETE /notification_profiles/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationProfile = await client.notificationProfiles.delete(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -227,15 +191,11 @@ console.log(notificationProfile.data);
 
 ## List notification settings
 
+List notification settings.
+
 `GET /notification_settings`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const notificationSetting of client.notificationSettings.list()) {
   console.log(notificationSetting.id);
@@ -244,15 +204,11 @@ for await (const notificationSetting of client.notificationSettings.list()) {
 
 ## Add a Notification Setting
 
+Add a notification setting.
+
 `POST /notification_settings`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationSetting = await client.notificationSettings.create();
 
 console.log(notificationSetting.data);
@@ -260,15 +216,11 @@ console.log(notificationSetting.data);
 
 ## Get a notification setting
 
+Get a notification setting.
+
 `GET /notification_settings/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationSetting = await client.notificationSettings.retrieve(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -278,15 +230,11 @@ console.log(notificationSetting.data);
 
 ## Delete a notification setting
 
+Delete a notification setting.
+
 `DELETE /notification_settings/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const notificationSetting = await client.notificationSettings.delete(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );

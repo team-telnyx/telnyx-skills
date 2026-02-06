@@ -17,457 +17,267 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
+## Setup
+
+```go
+import (
+  "context"
+  "fmt"
+
+  "github.com/team-telnyx/telnyx-go"
+  "github.com/team-telnyx/telnyx-go/option"
+)
+
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Authorization server metadata
+
+OAuth 2.0 Authorization Server Metadata (RFC 8414)
 
 `GET /.well-known/oauth-authorization-server`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.WellKnown.GetAuthorizationServerMetadata(context.TODO())
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.AuthorizationEndpoint)
+response, err := client.WellKnown.GetAuthorizationServerMetadata(context.TODO())
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.AuthorizationEndpoint)
 ```
 
 ## Protected resource metadata
 
+OAuth 2.0 Protected Resource Metadata for resource discovery
+
 `GET /.well-known/oauth-protected-resource`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.WellKnown.GetProtectedResourceMetadata(context.TODO())
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.AuthorizationServers)
+response, err := client.WellKnown.GetProtectedResourceMetadata(context.TODO())
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.AuthorizationServers)
 ```
 
 ## OAuth authorization endpoint
 
+OAuth 2.0 authorization endpoint for the authorization code flow
+
 `GET /oauth/authorize`
 
 ```go
-package main
-
-import (
-  "context"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  err := client.OAuth.GetAuthorize(context.TODO(), telnyx.OAuthGetAuthorizeParams{
-    ClientID: "client_id",
-    RedirectUri: "https://example.com",
-    ResponseType: telnyx.OAuthGetAuthorizeParamsResponseTypeCode,
-  })
-  if err != nil {
-    panic(err.Error())
-  }
+err := client.OAuth.GetAuthorize(context.TODO(), telnyx.OAuthGetAuthorizeParams{
+  ClientID: "client_id",
+  RedirectUri: "https://example.com",
+  ResponseType: telnyx.OAuthGetAuthorizeParamsResponseTypeCode,
+})
+if err != nil {
+  panic(err.Error())
 }
 ```
 
 ## List OAuth clients
 
+Retrieve a paginated list of OAuth clients for the authenticated user
+
 `GET /oauth/clients`
 
 ```go
-package main
+page, err := client.OAuthClients.List(context.TODO(), telnyx.OAuthClientListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.OAuthClients.List(context.TODO(), telnyx.OAuthClientListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create OAuth client
 
-`POST /oauth/clients`
+Create a new OAuth client
+
+`POST /oauth/clients` — Required: `name`, `allowed_scopes`, `client_type`, `allowed_grant_types`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  oauthClient, err := client.OAuthClients.New(context.TODO(), telnyx.OAuthClientNewParams{
-    AllowedGrantTypes: []string{"client_credentials"},
-    AllowedScopes: []string{"admin"},
-    ClientType: telnyx.OAuthClientNewParamsClientTypePublic,
-    Name: "My OAuth client",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", oauthClient.Data)
+oauthClient, err := client.OAuthClients.New(context.TODO(), telnyx.OAuthClientNewParams{
+  AllowedGrantTypes: []string{"client_credentials"},
+  AllowedScopes: []string{"admin"},
+  ClientType: telnyx.OAuthClientNewParamsClientTypePublic,
+  Name: "My OAuth client",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", oauthClient.Data)
 ```
 
 ## Get OAuth client
 
+Retrieve a single OAuth client by ID
+
 `GET /oauth/clients/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  oauthClient, err := client.OAuthClients.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", oauthClient.Data)
+oauthClient, err := client.OAuthClients.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", oauthClient.Data)
 ```
 
 ## Update OAuth client
 
+Update an existing OAuth client
+
 `PUT /oauth/clients/{id}`
 
 ```go
-package main
+oauthClient, err := client.OAuthClients.Update(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.OAuthClientUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  oauthClient, err := client.OAuthClients.Update(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.OAuthClientUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", oauthClient.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", oauthClient.Data)
 ```
 
 ## Delete OAuth client
 
+Delete an OAuth client
+
 `DELETE /oauth/clients/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  err := client.OAuthClients.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
+err := client.OAuthClients.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
 ```
 
 ## Get OAuth consent token
 
+Retrieve details about an OAuth consent token
+
 `GET /oauth/consent/{consent_token}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  oauth, err := client.OAuth.Get(context.TODO(), "consent_token")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", oauth.Data)
+oauth, err := client.OAuth.Get(context.TODO(), "consent_token")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", oauth.Data)
 ```
 
 ## List OAuth grants
 
+Retrieve a paginated list of OAuth grants for the authenticated user
+
 `GET /oauth/grants`
 
 ```go
-package main
+page, err := client.OAuthGrants.List(context.TODO(), telnyx.OAuthGrantListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.OAuthGrants.List(context.TODO(), telnyx.OAuthGrantListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Get OAuth grant
 
+Retrieve a single OAuth grant by ID
+
 `GET /oauth/grants/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  oauthGrant, err := client.OAuthGrants.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", oauthGrant.Data)
+oauthGrant, err := client.OAuthGrants.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", oauthGrant.Data)
 ```
 
 ## Revoke OAuth grant
 
+Revoke an OAuth grant
+
 `DELETE /oauth/grants/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  oauthGrant, err := client.OAuthGrants.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", oauthGrant.Data)
+oauthGrant, err := client.OAuthGrants.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", oauthGrant.Data)
 ```
 
 ## Token introspection
 
-`POST /oauth/introspect`
+Introspect an OAuth access token to check its validity and metadata
+
+`POST /oauth/introspect` — Required: `token`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithClientID("My Client ID"),
-    option.WithClientSecret("My Client Secret"),
-  )
-  response, err := client.OAuth.Introspect(context.TODO(), telnyx.OAuthIntrospectParams{
-    Token: "token",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.ClientID)
+response, err := client.OAuth.Introspect(context.TODO(), telnyx.OAuthIntrospectParams{
+  Token: "token",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.ClientID)
 ```
 
 ## JSON Web Key Set
 
+Retrieve the JSON Web Key Set for token verification
+
 `GET /oauth/jwks`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.OAuth.GetJwks(context.TODO())
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Keys)
+response, err := client.OAuth.GetJwks(context.TODO())
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Keys)
 ```
 
 ## Dynamic client registration
 
+Register a new OAuth client dynamically (RFC 7591)
+
 `POST /oauth/register`
 
 ```go
-package main
+response, err := client.OAuth.Register(context.TODO(), telnyx.OAuthRegisterParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.OAuth.Register(context.TODO(), telnyx.OAuthRegisterParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.ClientID)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.ClientID)
 ```
 
 ## OAuth token endpoint
 
-`POST /oauth/token`
+Exchange authorization code, client credentials, or refresh token for access token
+
+`POST /oauth/token` — Required: `grant_type`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithClientID("My Client ID"),
-    option.WithClientSecret("My Client Secret"),
-  )
-  response, err := client.OAuth.Token(context.TODO(), telnyx.OAuthTokenParams{
-    GrantType: telnyx.OAuthTokenParamsGrantTypeClientCredentials,
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.AccessToken)
+response, err := client.OAuth.Token(context.TODO(), telnyx.OAuthTokenParams{
+  GrantType: telnyx.OAuthTokenParamsGrantTypeClientCredentials,
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.AccessToken)
 ```

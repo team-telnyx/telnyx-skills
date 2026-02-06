@@ -17,9 +17,7 @@ metadata:
 pip install telnyx
 ```
 
-## View a list of room compositions.
-
-`GET /room_compositions`
+## Setup
 
 ```python
 import os
@@ -28,6 +26,15 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## View a list of room compositions.
+
+`GET /room_compositions`
+
+```python
 page = client.room_compositions.list()
 page = page.data[0]
 print(page.id)
@@ -35,15 +42,11 @@ print(page.id)
 
 ## Create a room composition.
 
+Asynchronously create a room composition.
+
 `POST /room_compositions`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 room_composition = client.room_compositions.create()
 print(room_composition.data)
 ```
@@ -53,12 +56,6 @@ print(room_composition.data)
 `GET /room_compositions/{room_composition_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 room_composition = client.room_compositions.retrieve(
     "5219b3af-87c6-4c08-9b58-5a533d893e21",
 )
@@ -67,15 +64,11 @@ print(room_composition.data)
 
 ## Delete a room composition.
 
+Synchronously delete a room composition.
+
 `DELETE /room_compositions/{room_composition_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.room_compositions.delete(
     "5219b3af-87c6-4c08-9b58-5a533d893e21",
 )
@@ -86,12 +79,6 @@ client.room_compositions.delete(
 `GET /room_participants`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.room_participants.list()
 page = page.data[0]
 print(page.id)
@@ -102,12 +89,6 @@ print(page.id)
 `GET /room_participants/{room_participant_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 room_participant = client.room_participants.retrieve(
     "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -119,12 +100,6 @@ print(room_participant.data)
 `GET /room_recordings`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.room_recordings.list()
 page = page.data[0]
 print(page.id)
@@ -135,12 +110,6 @@ print(page.id)
 `DELETE /room_recordings`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.room_recordings.delete_bulk()
 print(response.data)
 ```
@@ -150,12 +119,6 @@ print(response.data)
 `GET /room_recordings/{room_recording_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 room_recording = client.room_recordings.retrieve(
     "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -164,15 +127,11 @@ print(room_recording.data)
 
 ## Delete a room recording.
 
+Synchronously delete a Room Recording.
+
 `DELETE /room_recordings/{room_recording_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.room_recordings.delete(
     "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -183,12 +142,6 @@ client.room_recordings.delete(
 `GET /room_sessions`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.rooms.sessions.list_0()
 page = page.data[0]
 print(page.id)
@@ -199,12 +152,6 @@ print(page.id)
 `GET /room_sessions/{room_session_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 session = client.rooms.sessions.retrieve(
     room_session_id="0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -213,12 +160,11 @@ print(session.data)
 
 ## End a room session.
 
+Note: this will also kick all participants currently present in the room
+
 `POST /room_sessions/{room_session_id}/actions/end`
 
 ```python
-from telnyx import Telnyx
-
-client = Telnyx()
 response = client.rooms.sessions.actions.end(
     "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -230,9 +176,6 @@ print(response.data)
 `POST /room_sessions/{room_session_id}/actions/kick`
 
 ```python
-from telnyx import Telnyx
-
-client = Telnyx()
 response = client.rooms.sessions.actions.kick(
     room_session_id="0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -244,9 +187,6 @@ print(response.data)
 `POST /room_sessions/{room_session_id}/actions/mute`
 
 ```python
-from telnyx import Telnyx
-
-client = Telnyx()
 response = client.rooms.sessions.actions.mute(
     room_session_id="0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -258,9 +198,6 @@ print(response.data)
 `POST /room_sessions/{room_session_id}/actions/unmute`
 
 ```python
-from telnyx import Telnyx
-
-client = Telnyx()
 response = client.rooms.sessions.actions.unmute(
     room_session_id="0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -272,12 +209,6 @@ print(response.data)
 `GET /room_sessions/{room_session_id}/participants`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.rooms.sessions.retrieve_participants(
     room_session_id="0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -290,12 +221,6 @@ print(page.id)
 `GET /rooms`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.rooms.list()
 page = page.data[0]
 print(page.id)
@@ -303,15 +228,11 @@ print(page.id)
 
 ## Create a room.
 
+Synchronously create a Room.
+
 `POST /rooms`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 room = client.rooms.create()
 print(room.data)
 ```
@@ -321,12 +242,6 @@ print(room.data)
 `GET /rooms/{room_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 room = client.rooms.retrieve(
     room_id="0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -335,15 +250,11 @@ print(room.data)
 
 ## Update a room.
 
+Synchronously update a Room.
+
 `PATCH /rooms/{room_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 room = client.rooms.update(
     room_id="0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -352,15 +263,11 @@ print(room.data)
 
 ## Delete a room.
 
+Synchronously delete a Room.
+
 `DELETE /rooms/{room_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.rooms.delete(
     "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -368,15 +275,11 @@ client.rooms.delete(
 
 ## Create Client Token to join a room.
 
+Synchronously create an Client Token to join a Room.
+
 `POST /rooms/{room_id}/actions/generate_join_client_token`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.rooms.actions.generate_join_client_token(
     room_id="0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )
@@ -385,12 +288,11 @@ print(response.data)
 
 ## Refresh Client Token to join a room.
 
-`POST /rooms/{room_id}/actions/refresh_client_token`
+Synchronously refresh an Client Token to join a Room.
+
+`POST /rooms/{room_id}/actions/refresh_client_token` — Required: `refresh_token`
 
 ```python
-from telnyx import Telnyx
-
-client = Telnyx()
 response = client.rooms.actions.refresh_client_token(
     room_id="0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
     refresh_token="eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0ZWxueXhfdGVsZXBob255IiwiZXhwIjoxNTkwMDEwMTQzLCJpYXQiOjE1ODc1OTA5NDMsImlzcyI6InRlbG55eF90ZWxlcGhvbnkiLCJqdGkiOiJiOGM3NDgzNy1kODllLTRhNjUtOWNmMi0zNGM3YTZmYTYwYzgiLCJuYmYiOjE1ODc1OTA5NDIsInN1YiI6IjVjN2FjN2QwLWRiNjUtNGYxMS05OGUxLWVlYzBkMWQ1YzZhZSIsInRlbF90b2tlbiI6InJqX1pra1pVT1pNeFpPZk9tTHBFVUIzc2lVN3U2UmpaRmVNOXMtZ2JfeENSNTZXRktGQUppTXlGMlQ2Q0JSbWxoX1N5MGlfbGZ5VDlBSThzRWlmOE1USUlzenl6U2xfYURuRzQ4YU81MHlhSEd1UlNZYlViU1ltOVdJaVEwZz09IiwidHlwIjoiYWNjZXNzIn0.gNEwzTow5MLLPLQENytca7pUN79PmPj6FyqZWW06ZeEmesxYpwKh0xRtA0TzLh6CDYIRHrI8seofOO0YFGDhpQ",
@@ -403,12 +305,6 @@ print(response.data)
 `GET /rooms/{room_id}/sessions`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.rooms.sessions.list_1(
     room_id="0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 )

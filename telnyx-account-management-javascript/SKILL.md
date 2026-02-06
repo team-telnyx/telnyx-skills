@@ -17,9 +17,7 @@ metadata:
 npm install telnyx
 ```
 
-## Lists accounts managed by the current user.
-
-`GET /managed_accounts`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -27,7 +25,17 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## Lists accounts managed by the current user.
+
+Lists the accounts managed by the current user.
+
+`GET /managed_accounts`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const managedAccountListResponse of client.managedAccounts.list()) {
   console.log(managedAccountListResponse.id);
@@ -36,15 +44,11 @@ for await (const managedAccountListResponse of client.managedAccounts.list()) {
 
 ## Create a new managed account.
 
-`POST /managed_accounts`
+Create a new managed account owned by the authenticated user.
+
+`POST /managed_accounts` — Required: `business_name`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const managedAccount = await client.managedAccounts.create({
   business_name: "Larry's Cat Food Inc",
 });
@@ -54,15 +58,11 @@ console.log(managedAccount.data);
 
 ## Retrieve a managed account
 
+Retrieves the details of a single managed account.
+
 `GET /managed_accounts/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const managedAccount = await client.managedAccounts.retrieve('id');
 
 console.log(managedAccount.data);
@@ -70,15 +70,11 @@ console.log(managedAccount.data);
 
 ## Update a managed account
 
+Update a single managed account.
+
 `PATCH /managed_accounts/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const managedAccount = await client.managedAccounts.update('id');
 
 console.log(managedAccount.data);
@@ -86,15 +82,11 @@ console.log(managedAccount.data);
 
 ## Disables a managed account
 
+Disables a managed account, forbidding it to use Telnyx services, including sending or receiving phone calls and SMS messages.
+
 `POST /managed_accounts/{id}/actions/disable`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.managedAccounts.actions.disable('id');
 
 console.log(response.data);
@@ -102,15 +94,11 @@ console.log(response.data);
 
 ## Enables a managed account
 
+Enables a managed account and its sub-users to use Telnyx services.
+
 `POST /managed_accounts/{id}/actions/enable`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.managedAccounts.actions.enable('id');
 
 console.log(response.data);
@@ -121,12 +109,6 @@ console.log(response.data);
 `PATCH /managed_accounts/{id}/update_global_channel_limit`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.managedAccounts.updateGlobalChannelLimit('id');
 
 console.log(response.data);
@@ -137,12 +119,6 @@ console.log(response.data);
 `GET /managed_accounts/allocatable_global_outbound_channels`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.managedAccounts.getAllocatableGlobalOutboundChannels();
 
 console.log(response.data);

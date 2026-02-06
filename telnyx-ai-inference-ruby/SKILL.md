@@ -17,13 +17,25 @@ metadata:
 gem install telnyx
 ```
 
-## List conversations
-
-`GET /ai/conversations`
+## Setup
 
 ```ruby
 require "telnyx"
 
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List conversations
+
+Retrieve a list of all AI conversations configured by the user.
+
+`GET /ai/conversations`
+
+```ruby
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 conversations = telnyx.ai.conversations.list
@@ -33,11 +45,11 @@ puts(conversations)
 
 ## Create a conversation
 
+Create a new AI Conversation.
+
 `POST /ai/conversations`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 conversation = telnyx.ai.conversations.create
@@ -47,11 +59,11 @@ puts(conversation)
 
 ## Get Insight Template Groups
 
+Get all insight groups
+
 `GET /ai/conversations/insight-groups`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.ai.conversations.insight_groups.retrieve_insight_groups
@@ -61,11 +73,11 @@ puts(page)
 
 ## Create Insight Template Group
 
-`POST /ai/conversations/insight-groups`
+Create a new insight group
+
+`POST /ai/conversations/insight-groups` — Required: `name`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 insight_template_group_detail = telnyx.ai.conversations.insight_groups.insight_groups(name: "name")
@@ -75,11 +87,11 @@ puts(insight_template_group_detail)
 
 ## Get Insight Template Group
 
+Get insight group by ID
+
 `GET /ai/conversations/insight-groups/{group_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 insight_template_group_detail = telnyx.ai.conversations.insight_groups.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -89,11 +101,11 @@ puts(insight_template_group_detail)
 
 ## Update Insight Template Group
 
+Update an insight template group
+
 `PUT /ai/conversations/insight-groups/{group_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 insight_template_group_detail = telnyx.ai.conversations.insight_groups.update("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -103,11 +115,11 @@ puts(insight_template_group_detail)
 
 ## Delete Insight Template Group
 
+Delete insight group by ID
+
 `DELETE /ai/conversations/insight-groups/{group_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.ai.conversations.insight_groups.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -117,11 +129,11 @@ puts(result)
 
 ## Assign Insight Template To Group
 
+Assign an insight to a group
+
 `POST /ai/conversations/insight-groups/{group_id}/insights/{insight_id}/assign`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.ai.conversations.insight_groups.insights.assign(
@@ -134,11 +146,11 @@ puts(result)
 
 ## Unassign Insight Template From Group
 
+Remove an insight from a group
+
 `DELETE /ai/conversations/insight-groups/{group_id}/insights/{insight_id}/unassign`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.ai.conversations.insight_groups.insights.delete_unassign(
@@ -151,11 +163,11 @@ puts(result)
 
 ## Get Insight Templates
 
+Get all insights
+
 `GET /ai/conversations/insights`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.ai.conversations.insights.list
@@ -165,11 +177,11 @@ puts(page)
 
 ## Create Insight Template
 
-`POST /ai/conversations/insights`
+Create a new insight
+
+`POST /ai/conversations/insights` — Required: `instructions`, `name`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 insight_template_detail = telnyx.ai.conversations.insights.create(instructions: "instructions", name: "name")
@@ -179,11 +191,11 @@ puts(insight_template_detail)
 
 ## Get Insight Template
 
+Get insight by ID
+
 `GET /ai/conversations/insights/{insight_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 insight_template_detail = telnyx.ai.conversations.insights.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -193,11 +205,11 @@ puts(insight_template_detail)
 
 ## Update Insight Template
 
+Update an insight template
+
 `PUT /ai/conversations/insights/{insight_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 insight_template_detail = telnyx.ai.conversations.insights.update("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -207,11 +219,11 @@ puts(insight_template_detail)
 
 ## Delete Insight Template
 
+Delete insight by ID
+
 `DELETE /ai/conversations/insights/{insight_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.ai.conversations.insights.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -221,11 +233,11 @@ puts(result)
 
 ## Get a conversation
 
+Retrieve a specific AI conversation by its ID.
+
 `GET /ai/conversations/{conversation_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 conversation = telnyx.ai.conversations.retrieve("conversation_id")
@@ -235,11 +247,11 @@ puts(conversation)
 
 ## Update conversation metadata
 
+Update metadata for a specific conversation.
+
 `PUT /ai/conversations/{conversation_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 conversation = telnyx.ai.conversations.update("conversation_id")
@@ -249,11 +261,11 @@ puts(conversation)
 
 ## Delete a conversation
 
+Delete a specific conversation by its ID.
+
 `DELETE /ai/conversations/{conversation_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.ai.conversations.delete("conversation_id")
@@ -263,11 +275,11 @@ puts(result)
 
 ## Get insights for a conversation
 
+Retrieve insights for a specific conversation
+
 `GET /ai/conversations/{conversation_id}/conversations-insights`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.ai.conversations.retrieve_conversations_insights("conversation_id")
@@ -277,11 +289,11 @@ puts(response)
 
 ## Create Message
 
-`POST /ai/conversations/{conversation_id}/message`
+Add a new message to the conversation.
+
+`POST /ai/conversations/{conversation_id}/message` — Required: `role`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.ai.conversations.add_message("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", role: "role")
@@ -291,11 +303,11 @@ puts(result)
 
 ## Get conversation messages
 
+Retrieve messages for a specific conversation, including tool calls made by the assistant.
+
 `GET /ai/conversations/{conversation_id}/messages`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 messages = telnyx.ai.conversations.messages.list("conversation_id")
@@ -305,11 +317,11 @@ puts(messages)
 
 ## Get Tasks by Status
 
+Retrieve tasks for the user that are either `queued`, `processing`, `failed`, `success` or `partial_success` based on the query string.
+
 `GET /ai/embeddings`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 embeddings = telnyx.ai.embeddings.list
@@ -319,11 +331,11 @@ puts(embeddings)
 
 ## Embed documents
 
-`POST /ai/embeddings`
+Perform embedding on a Telnyx Storage Bucket using the a embedding model.
+
+`POST /ai/embeddings` — Required: `bucket_name`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 embedding_response = telnyx.ai.embeddings.create(bucket_name: "bucket_name")
@@ -333,11 +345,11 @@ puts(embedding_response)
 
 ## List embedded buckets
 
+Get all embedding buckets for a user.
+
 `GET /ai/embeddings/buckets`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 buckets = telnyx.ai.embeddings.buckets.list
@@ -347,11 +359,11 @@ puts(buckets)
 
 ## Get file-level embedding statuses for a bucket
 
+Get all embedded files for a given user bucket, including their processing status.
+
 `GET /ai/embeddings/buckets/{bucket_name}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 bucket = telnyx.ai.embeddings.buckets.retrieve("bucket_name")
@@ -361,11 +373,11 @@ puts(bucket)
 
 ## Disable AI for an Embedded Bucket
 
+Deletes an entire bucket's embeddings and disables the bucket for AI-use, returning it to normal storage pricing.
+
 `DELETE /ai/embeddings/buckets/{bucket_name}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.ai.embeddings.buckets.delete("bucket_name")
@@ -375,11 +387,11 @@ puts(result)
 
 ## Search for documents
 
-`POST /ai/embeddings/similarity-search`
+Perform a similarity search on a Telnyx Storage Bucket, returning the most similar `num_docs` document chunks to the query.
+
+`POST /ai/embeddings/similarity-search` — Required: `bucket_name`, `query`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.ai.embeddings.similarity_search(bucket_name: "bucket_name", query: "query")
@@ -389,11 +401,11 @@ puts(response)
 
 ## Embed URL content
 
-`POST /ai/embeddings/url`
+Embed website content from a specified URL, including child pages up to 5 levels deep within the same domain.
+
+`POST /ai/embeddings/url` — Required: `url`, `bucket_name`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 embedding_response = telnyx.ai.embeddings.url(bucket_name: "bucket_name", url: "url")
@@ -403,11 +415,11 @@ puts(embedding_response)
 
 ## Get an embedding task's status
 
+Check the status of a current embedding task.
+
 `GET /ai/embeddings/{task_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 embedding = telnyx.ai.embeddings.retrieve("task_id")
@@ -420,8 +432,6 @@ puts(embedding)
 `GET /ai/clusters`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.ai.clusters.list
@@ -431,11 +441,11 @@ puts(page)
 
 ## Compute new clusters
 
-`POST /ai/clusters`
+Starts a background task to compute how the data in an [embedded storage bucket](https://developers.telnyx.com/api-reference/embeddings/embed-documents) is clustered.
+
+`POST /ai/clusters` — Required: `bucket`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.ai.clusters.compute(bucket: "bucket")
@@ -448,8 +458,6 @@ puts(response)
 `GET /ai/clusters/{task_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 cluster = telnyx.ai.clusters.retrieve("task_id")
@@ -462,8 +470,6 @@ puts(cluster)
 `DELETE /ai/clusters/{task_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.ai.clusters.delete("task_id")
@@ -476,8 +482,6 @@ puts(result)
 `GET /ai/clusters/{task_id}/graph`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.ai.clusters.fetch_graph("task_id")
@@ -487,11 +491,11 @@ puts(response)
 
 ## Transcribe speech to text
 
+Transcribe speech to text.
+
 `POST /ai/audio/transcriptions`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.ai.audio.transcribe(model: :"distil-whisper/distil-large-v2")
@@ -501,11 +505,11 @@ puts(response)
 
 ## Create a chat completion
 
-`POST /ai/chat/completions`
+Chat with a language model.
+
+`POST /ai/chat/completions` — Required: `messages`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.ai.chat.create_completion(
@@ -517,11 +521,11 @@ puts(response)
 
 ## List fine tuning jobs
 
+Retrieve a list of all fine tuning jobs created by the user.
+
 `GET /ai/fine_tuning/jobs`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 jobs = telnyx.ai.fine_tuning.jobs.list
@@ -531,11 +535,11 @@ puts(jobs)
 
 ## Create a fine tuning job
 
-`POST /ai/fine_tuning/jobs`
+Create a new fine tuning job.
+
+`POST /ai/fine_tuning/jobs` — Required: `model`, `training_file`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 fine_tuning_job = telnyx.ai.fine_tuning.jobs.create(model: "model", training_file: "training_file")
@@ -545,11 +549,11 @@ puts(fine_tuning_job)
 
 ## Get a fine tuning job
 
+Retrieve a fine tuning job by `job_id`.
+
 `GET /ai/fine_tuning/jobs/{job_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 fine_tuning_job = telnyx.ai.fine_tuning.jobs.retrieve("job_id")
@@ -559,11 +563,11 @@ puts(fine_tuning_job)
 
 ## Cancel a fine tuning job
 
+Cancel a fine tuning job.
+
 `POST /ai/fine_tuning/jobs/{job_id}/cancel`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 fine_tuning_job = telnyx.ai.fine_tuning.jobs.cancel("job_id")
@@ -573,11 +577,11 @@ puts(fine_tuning_job)
 
 ## Get available models
 
+This endpoint returns a list of Open Source and OpenAI models that are available for use.
+
 `GET /ai/models`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.ai.retrieve_models
@@ -587,11 +591,11 @@ puts(response)
 
 ## Summarize file content
 
-`POST /ai/summarize`
+Generate a summary of a file's contents.
+
+`POST /ai/summarize` — Required: `bucket`, `filename`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.ai.summarize(bucket: "bucket", filename: "filename")

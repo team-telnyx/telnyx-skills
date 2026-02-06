@@ -18,376 +18,260 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
+## Setup
+
+```go
+import (
+  "context"
+  "fmt"
+
+  "github.com/team-telnyx/telnyx-go"
+  "github.com/team-telnyx/telnyx-go/option"
+)
+
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Answer call
+
+Answer an incoming call.
 
 `POST /calls/{call_control_id}/actions/answer`
 
 ```go
-package main
+response, err := client.Calls.Actions.Answer(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionAnswerParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.Answer(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionAnswerParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Bridge calls
 
-`POST /calls/{call_control_id}/actions/bridge`
+Bridge two call control calls.
+
+`POST /calls/{call_control_id}/actions/bridge` — Required: `call_control_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Calls.Actions.Bridge(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionBridgeParams{
+    CallControlIDToBridgeWith: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.Bridge(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionBridgeParams{
-      CallControlIDToBridgeWith: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Dial
 
-`POST /calls`
+Dial a number or SIP URI from a given connection.
+
+`POST /calls` — Required: `connection_id`, `to`, `from`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Dial(context.TODO(), telnyx.CallDialParams{
-    ConnectionID: "7267xxxxxxxxxxxxxx",
-    From: "+18005550101",
-    To: telnyx.CallDialParamsToUnion{
-      OfString: telnyx.String("+18005550100 or sip:username@sip.telnyx.com"),
-    },
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.Calls.Dial(context.TODO(), telnyx.CallDialParams{
+  ConnectionID: "7267xxxxxxxxxxxxxx",
+  From: "+18005550101",
+  To: telnyx.CallDialParamsToUnion{
+    OfString: telnyx.String("+18005550100 or sip:username@sip.telnyx.com"),
+  },
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Hangup call
 
+Hang up the call.
+
 `POST /calls/{call_control_id}/actions/hangup`
 
 ```go
-package main
+response, err := client.Calls.Actions.Hangup(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionHangupParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.Hangup(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionHangupParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Transfer call
 
-`POST /calls/{call_control_id}/actions/transfer`
+Transfer a call to a new destination.
+
+`POST /calls/{call_control_id}/actions/transfer` — Required: `to`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Calls.Actions.Transfer(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionTransferParams{
+    To: "+18005550100 or sip:username@sip.telnyx.com",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.Transfer(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionTransferParams{
-      To: "+18005550100 or sip:username@sip.telnyx.com",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List all active calls for given connection
 
+Lists all active calls for given connection.
+
 `GET /connections/{connection_id}/active_calls`
 
 ```go
-package main
+page, err := client.Connections.ListActiveCalls(
+  context.TODO(),
+  "1293384261075731461",
+  telnyx.ConnectionListActiveCallsParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Connections.ListActiveCalls(
-    context.TODO(),
-    "1293384261075731461",
-    telnyx.ConnectionListActiveCallsParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## List call control applications
 
+Return a list of call control applications.
+
 `GET /call_control_applications`
 
 ```go
-package main
+page, err := client.CallControlApplications.List(context.TODO(), telnyx.CallControlApplicationListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.CallControlApplications.List(context.TODO(), telnyx.CallControlApplicationListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a call control application
 
-`POST /call_control_applications`
+Create a call control application.
+
+`POST /call_control_applications` — Required: `application_name`, `webhook_event_url`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  callControlApplication, err := client.CallControlApplications.New(context.TODO(), telnyx.CallControlApplicationNewParams{
-    ApplicationName: "call-router",
-    WebhookEventURL: "https://example.com",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", callControlApplication.Data)
+callControlApplication, err := client.CallControlApplications.New(context.TODO(), telnyx.CallControlApplicationNewParams{
+  ApplicationName: "call-router",
+  WebhookEventURL: "https://example.com",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", callControlApplication.Data)
 ```
 
 ## Retrieve a call control application
 
+Retrieves the details of an existing call control application.
+
 `GET /call_control_applications/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  callControlApplication, err := client.CallControlApplications.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", callControlApplication.Data)
+callControlApplication, err := client.CallControlApplications.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", callControlApplication.Data)
 ```
 
 ## Update a call control application
 
-`PATCH /call_control_applications/{id}`
+Updates settings of an existing call control application.
+
+`PATCH /call_control_applications/{id}` — Required: `application_name`, `webhook_event_url`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+callControlApplication, err := client.CallControlApplications.Update(
+  context.TODO(),
+  "id",
+  telnyx.CallControlApplicationUpdateParams{
+    ApplicationName: "call-router",
+    WebhookEventURL: "https://example.com",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  callControlApplication, err := client.CallControlApplications.Update(
-    context.TODO(),
-    "id",
-    telnyx.CallControlApplicationUpdateParams{
-      ApplicationName: "call-router",
-      WebhookEventURL: "https://example.com",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", callControlApplication.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", callControlApplication.Data)
 ```
 
 ## Delete a call control application
 
+Deletes a call control application.
+
 `DELETE /call_control_applications/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  callControlApplication, err := client.CallControlApplications.Delete(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", callControlApplication.Data)
+callControlApplication, err := client.CallControlApplications.Delete(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", callControlApplication.Data)
 ```
 
 ## List call events
 
+Filters call events by given filter parameters.
+
 `GET /call_events`
 
 ```go
-package main
+page, err := client.CallEvents.List(context.TODO(), telnyx.CallEventListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.CallEvents.List(context.TODO(), telnyx.CallEventListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callAnswered` | Call Answered |
+| `callStreamingStarted` | Call Streaming Started |
+| `callStreamingStopped` | Call Streaming Stopped |
+| `callStreamingFailed` | Call Streaming Failed |
+| `callBridged` | Call Bridged |
+| `callInitiated` | Call Initiated |
+| `callHangup` | Call Hangup |
+| `callRecordingSaved` | Call Recording Saved |
+| `callMachineDetectionEnded` | Call Machine Detection Ended |
+| `callMachineGreetingEnded` | Call Machine Greeting Ended |
+| `callMachinePremiumDetectionEnded` | Call Machine Premium Detection Ended |
+| `callMachinePremiumGreetingEnded` | Call Machine Premium Greeting Ended |

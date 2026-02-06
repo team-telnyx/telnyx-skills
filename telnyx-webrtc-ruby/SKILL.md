@@ -18,13 +18,23 @@ metadata:
 gem install telnyx
 ```
 
+## Setup
+
+```ruby
+require "telnyx"
+
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## List mobile push credentials
 
 `GET /mobile_push_credentials`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.mobile_push_credentials.list
@@ -37,8 +47,6 @@ puts(page)
 `POST /mobile_push_credentials`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 push_credential_response = telnyx.mobile_push_credentials.create(
@@ -55,11 +63,11 @@ puts(push_credential_response)
 
 ## Retrieves a mobile push credential
 
+Retrieves mobile push credential based on the given `push_credential_id`
+
 `GET /mobile_push_credentials/{push_credential_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 push_credential_response = telnyx.mobile_push_credentials.retrieve("0ccc7b76-4df3-4bca-a05a-3da1ecc389f0")
@@ -69,11 +77,11 @@ puts(push_credential_response)
 
 ## Deletes a mobile push credential
 
+Deletes a mobile push credential based on the given `push_credential_id`
+
 `DELETE /mobile_push_credentials/{push_credential_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.mobile_push_credentials.delete("0ccc7b76-4df3-4bca-a05a-3da1ecc389f0")
@@ -83,11 +91,11 @@ puts(result)
 
 ## List all credentials
 
+List all On-demand Credentials.
+
 `GET /telephony_credentials`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.telephony_credentials.list
@@ -97,11 +105,11 @@ puts(page)
 
 ## Create a credential
 
-`POST /telephony_credentials`
+Create a credential.
+
+`POST /telephony_credentials` — Required: `connection_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telephony_credential = telnyx.telephony_credentials.create(connection_id: "1234567890")
@@ -111,11 +119,11 @@ puts(telephony_credential)
 
 ## Get a credential
 
+Get the details of an existing On-demand Credential.
+
 `GET /telephony_credentials/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telephony_credential = telnyx.telephony_credentials.retrieve("id")
@@ -125,11 +133,11 @@ puts(telephony_credential)
 
 ## Update a credential
 
+Update an existing credential.
+
 `PATCH /telephony_credentials/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telephony_credential = telnyx.telephony_credentials.update("id")
@@ -139,11 +147,11 @@ puts(telephony_credential)
 
 ## Delete a credential
 
+Delete an existing credential.
+
 `DELETE /telephony_credentials/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telephony_credential = telnyx.telephony_credentials.delete("id")
@@ -153,11 +161,11 @@ puts(telephony_credential)
 
 ## Create an Access Token.
 
+Create an Access Token (JWT) for the credential.
+
 `POST /telephony_credentials/{id}/token`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.telephony_credentials.create_token("id")

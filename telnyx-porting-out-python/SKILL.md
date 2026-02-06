@@ -17,9 +17,7 @@ metadata:
 pip install telnyx
 ```
 
-## List portout requests
-
-`GET /portouts`
+## Setup
 
 ```python
 import os
@@ -28,6 +26,17 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List portout requests
+
+Returns the portout requests according to filters
+
+`GET /portouts`
+
+```python
 page = client.portouts.list()
 page = page.data[0]
 print(page.id)
@@ -35,15 +44,11 @@ print(page.id)
 
 ## Get a portout request
 
+Returns the portout request based on the ID provided
+
 `GET /portouts/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 portout = client.portouts.retrieve(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -52,15 +57,11 @@ print(portout.data)
 
 ## List all comments for a portout request
 
+Returns a list of comments for a portout request.
+
 `GET /portouts/{id}/comments`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 comments = client.portouts.comments.list(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -69,15 +70,11 @@ print(comments.data)
 
 ## Create a comment on a portout request
 
+Creates a comment on a portout request.
+
 `POST /portouts/{id}/comments`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 comment = client.portouts.comments.create(
     id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -86,15 +83,11 @@ print(comment.data)
 
 ## List supporting documents on a portout request
 
+List every supporting documents for a portout request.
+
 `GET /portouts/{id}/supporting_documents`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 supporting_documents = client.portouts.supporting_documents.list(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -103,15 +96,11 @@ print(supporting_documents.data)
 
 ## Create a list of supporting documents on a portout request
 
+Creates a list of supporting documents on a portout request.
+
 `POST /portouts/{id}/supporting_documents`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 supporting_document = client.portouts.supporting_documents.create(
     id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -120,15 +109,11 @@ print(supporting_document.data)
 
 ## Update Status
 
-`PATCH /portouts/{id}/{status}`
+Authorize or reject portout request
+
+`PATCH /portouts/{id}/{status}` — Required: `reason`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.portouts.update_status(
     status="authorized",
     id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -139,15 +124,11 @@ print(response.data)
 
 ## List all port-out events
 
+Returns a list of all port-out events.
+
 `GET /portouts/events`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.portouts.events.list()
 page = page.data[0]
 print(page)
@@ -155,15 +136,11 @@ print(page)
 
 ## Show a port-out event
 
+Show a specific port-out event.
+
 `GET /portouts/events/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 event = client.portouts.events.retrieve(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -172,15 +149,11 @@ print(event.data)
 
 ## Republish a port-out event
 
+Republish a specific port-out event.
+
 `POST /portouts/events/{id}/republish`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.portouts.events.republish(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -188,15 +161,11 @@ client.portouts.events.republish(
 
 ## List eligible port-out rejection codes for a specific order
 
+Given a port-out ID, list rejection codes that are eligible for that port-out
+
 `GET /portouts/rejections/{portout_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.portouts.list_rejection_codes(
     portout_id="329d6658-8f93-405d-862f-648776e8afd7",
 )
@@ -205,15 +174,11 @@ print(response.data)
 
 ## List port-out related reports
 
+List the reports generated about port-out operations.
+
 `GET /portouts/reports`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.portouts.reports.list()
 page = page.data[0]
 print(page.id)
@@ -221,15 +186,11 @@ print(page.id)
 
 ## Create a port-out related report
 
+Generate reports about port-out operations.
+
 `POST /portouts/reports`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 report = client.portouts.reports.create(
     params={
         "filters": {}
@@ -241,15 +202,11 @@ print(report.data)
 
 ## Retrieve a report
 
+Retrieve a specific report generated.
+
 `GET /portouts/reports/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 report = client.portouts.reports.retrieve(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )

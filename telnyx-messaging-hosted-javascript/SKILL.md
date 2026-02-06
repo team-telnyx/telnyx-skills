@@ -18,9 +18,7 @@ metadata:
 npm install telnyx
 ```
 
-## List messaging hosted number orders
-
-`GET /messaging_hosted_number_orders`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -28,7 +26,15 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## List messaging hosted number orders
+
+`GET /messaging_hosted_number_orders`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const messagingHostedNumberOrder of client.messagingHostedNumberOrders.list()) {
   console.log(messagingHostedNumberOrder.id);
@@ -40,12 +46,6 @@ for await (const messagingHostedNumberOrder of client.messagingHostedNumberOrder
 `POST /messaging_hosted_number_orders`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const messagingHostedNumberOrder = await client.messagingHostedNumberOrders.create();
 
 console.log(messagingHostedNumberOrder.data);
@@ -56,12 +56,6 @@ console.log(messagingHostedNumberOrder.data);
 `GET /messaging_hosted_number_orders/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const messagingHostedNumberOrder = await client.messagingHostedNumberOrders.retrieve('id');
 
 console.log(messagingHostedNumberOrder.data);
@@ -69,15 +63,11 @@ console.log(messagingHostedNumberOrder.data);
 
 ## Delete a messaging hosted number order
 
+Delete a messaging hosted number order and all associated phone numbers.
+
 `DELETE /messaging_hosted_number_orders/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const messagingHostedNumberOrder = await client.messagingHostedNumberOrders.delete('id');
 
 console.log(messagingHostedNumberOrder.data);
@@ -88,12 +78,6 @@ console.log(messagingHostedNumberOrder.data);
 `POST /messaging_hosted_number_orders/{id}/actions/file_upload`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.messagingHostedNumberOrders.actions.uploadFile('id');
 
 console.log(response.data);
@@ -101,15 +85,11 @@ console.log(response.data);
 
 ## Validate hosted number codes
 
-`POST /messaging_hosted_number_orders/{id}/validation_codes`
+Validate the verification codes sent to the numbers of the hosted order.
+
+`POST /messaging_hosted_number_orders/{id}/validation_codes` — Required: `verification_codes`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.messagingHostedNumberOrders.validateCodes('id', {
   verification_codes: [{ code: 'code', phone_number: 'phone_number' }],
 });
@@ -119,15 +99,11 @@ console.log(response.data);
 
 ## Create hosted number verification codes
 
-`POST /messaging_hosted_number_orders/{id}/verification_codes`
+Create verification codes to validate numbers of the hosted order.
+
+`POST /messaging_hosted_number_orders/{id}/verification_codes` — Required: `phone_numbers`, `verification_method`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.messagingHostedNumberOrders.createVerificationCodes('id', {
   phone_numbers: ['string'],
   verification_method: 'sms',
@@ -138,15 +114,9 @@ console.log(response.data);
 
 ## Check hosted messaging eligibility
 
-`POST /messaging_hosted_number_orders/eligibility_numbers_check`
+`POST /messaging_hosted_number_orders/eligibility_numbers_check` — Required: `phone_numbers`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.messagingHostedNumberOrders.checkEligibility({
   phone_numbers: ['string'],
 });
@@ -159,12 +129,6 @@ console.log(response.phone_numbers);
 `DELETE /messaging_hosted_numbers/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const messagingHostedNumber = await client.messagingHostedNumbers.delete('id');
 
 console.log(messagingHostedNumber.data);
@@ -172,15 +136,9 @@ console.log(messagingHostedNumber.data);
 
 ## Send an RCS message
 
-`POST /messages/rcs`
+`POST /messages/rcs` — Required: `agent_id`, `to`, `messaging_profile_id`, `agent_message`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.messages.rcs.send({
   agent_id: 'Agent007',
   agent_message: {},
@@ -196,12 +154,6 @@ console.log(response.data);
 `GET /messaging/rcs/agents`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const rcsAgent of client.messaging.rcs.agents.list()) {
   console.log(rcsAgent.agent_id);
@@ -213,12 +165,6 @@ for await (const rcsAgent of client.messaging.rcs.agents.list()) {
 `GET /messaging/rcs/agents/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const rcsAgentResponse = await client.messaging.rcs.agents.retrieve('id');
 
 console.log(rcsAgentResponse.data);
@@ -229,12 +175,6 @@ console.log(rcsAgentResponse.data);
 `PATCH /messaging/rcs/agents/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const rcsAgentResponse = await client.messaging.rcs.agents.update('id');
 
 console.log(rcsAgentResponse.data);
@@ -242,15 +182,9 @@ console.log(rcsAgentResponse.data);
 
 ## Check RCS capabilities (batch)
 
-`POST /messaging/rcs/bulk_capabilities`
+`POST /messaging/rcs/bulk_capabilities` — Required: `agent_id`, `phone_numbers`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.messaging.rcs.listBulkCapabilities({
   agent_id: 'TestAgent',
   phone_numbers: ['+13125551234'],
@@ -264,12 +198,6 @@ console.log(response.data);
 `GET /messaging/rcs/capabilities/{agent_id}/{phone_number}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.messaging.rcs.retrieveCapabilities('phone_number', {
   agent_id: 'agent_id',
 });
@@ -279,15 +207,11 @@ console.log(response.data);
 
 ## Add RCS test number
 
+Adds a test phone number to an RCS agent for testing purposes.
+
 `PUT /messaging/rcs/test_number_invite/{id}/{phone_number}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.messaging.rcs.inviteTestNumber('phone_number', { id: 'id' });
 
 console.log(response.data);
@@ -295,15 +219,11 @@ console.log(response.data);
 
 ## Generate RCS deeplink
 
+Generate a deeplink URL that can be used to start an RCS conversation with a specific agent.
+
 `GET /messages/rcs_deeplinks/{agent_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.messages.rcs.generateDeeplink('agent_id');
 
 console.log(response.data);
@@ -311,15 +231,11 @@ console.log(response.data);
 
 ## List Verification Requests
 
+Get a list of previously-submitted tollfree verification requests
+
 `GET /messaging_tollfree/verification/requests`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const verificationRequestStatus of client.messagingTollfree.verification.requests.list({
   page: 1,
@@ -331,15 +247,11 @@ for await (const verificationRequestStatus of client.messagingTollfree.verificat
 
 ## Submit Verification Request
 
-`POST /messaging_tollfree/verification/requests`
+Submit a new tollfree verification request
+
+`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const verificationRequestEgress = await client.messagingTollfree.verification.requests.create({
   additionalInformation: 'additionalInformation',
   businessAddr1: '600 Congress Avenue',
@@ -372,15 +284,11 @@ console.log(verificationRequestEgress.id);
 
 ## Get Verification Request
 
+Get a single verification request by its ID.
+
 `GET /messaging_tollfree/verification/requests/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const verificationRequestStatus = await client.messagingTollfree.verification.requests.retrieve(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -390,15 +298,11 @@ console.log(verificationRequestStatus.id);
 
 ## Update Verification Request
 
-`PATCH /messaging_tollfree/verification/requests/{id}`
+Update an existing tollfree verification request.
+
+`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const verificationRequestEgress = await client.messagingTollfree.verification.requests.update(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   {
@@ -434,14 +338,12 @@ console.log(verificationRequestEgress.id);
 
 ## Delete Verification Request
 
+Delete a verification request
+
+A request may only be deleted when when the request is in the "rejected" state.
+
 `DELETE /messaging_tollfree/verification/requests/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.messagingTollfree.verification.requests.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 ```

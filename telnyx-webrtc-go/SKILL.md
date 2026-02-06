@@ -18,13 +18,9 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
-## List mobile push credentials
-
-`GET /mobile_push_credentials`
+## Setup
 
 ```go
-package main
-
 import (
   "context"
   "fmt"
@@ -33,18 +29,25 @@ import (
   "github.com/team-telnyx/telnyx-go/option"
 )
 
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.MobilePushCredentials.List(context.TODO(), telnyx.MobilePushCredentialListParams{
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
 
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+All examples below assume `client` is already initialized as shown above.
+
+## List mobile push credentials
+
+`GET /mobile_push_credentials`
+
+```go
+page, err := client.MobilePushCredentials.List(context.TODO(), telnyx.MobilePushCredentialListParams{
+
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Creates a new mobile push credential
@@ -52,254 +55,136 @@ func main() {
 `POST /mobile_push_credentials`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  pushCredentialResponse, err := client.MobilePushCredentials.New(context.TODO(), telnyx.MobilePushCredentialNewParams{
-    OfIos: &telnyx.MobilePushCredentialNewParamsCreateMobilePushCredentialRequestIos{
-      Alias: "LucyIosCredential",
-      Certificate: "-----BEGIN CERTIFICATE----- MIIGVDCCBTKCAQEAsNlRJVZn9ZvXcECQm65czs... -----END CERTIFICATE-----",
-      PrivateKey: "-----BEGIN RSA PRIVATE KEY----- MIIEpQIBAAKCAQEAsNlRJVZn9ZvXcECQm65czs... -----END RSA PRIVATE KEY-----",
-    },
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", pushCredentialResponse.Data)
+pushCredentialResponse, err := client.MobilePushCredentials.New(context.TODO(), telnyx.MobilePushCredentialNewParams{
+  OfIos: &telnyx.MobilePushCredentialNewParamsCreateMobilePushCredentialRequestIos{
+    Alias: "LucyIosCredential",
+    Certificate: "-----BEGIN CERTIFICATE----- MIIGVDCCBTKCAQEAsNlRJVZn9ZvXcECQm65czs... -----END CERTIFICATE-----",
+    PrivateKey: "-----BEGIN RSA PRIVATE KEY----- MIIEpQIBAAKCAQEAsNlRJVZn9ZvXcECQm65czs... -----END RSA PRIVATE KEY-----",
+  },
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", pushCredentialResponse.Data)
 ```
 
 ## Retrieves a mobile push credential
 
+Retrieves mobile push credential based on the given `push_credential_id`
+
 `GET /mobile_push_credentials/{push_credential_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  pushCredentialResponse, err := client.MobilePushCredentials.Get(context.TODO(), "0ccc7b76-4df3-4bca-a05a-3da1ecc389f0")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", pushCredentialResponse.Data)
+pushCredentialResponse, err := client.MobilePushCredentials.Get(context.TODO(), "0ccc7b76-4df3-4bca-a05a-3da1ecc389f0")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", pushCredentialResponse.Data)
 ```
 
 ## Deletes a mobile push credential
 
+Deletes a mobile push credential based on the given `push_credential_id`
+
 `DELETE /mobile_push_credentials/{push_credential_id}`
 
 ```go
-package main
-
-import (
-  "context"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  err := client.MobilePushCredentials.Delete(context.TODO(), "0ccc7b76-4df3-4bca-a05a-3da1ecc389f0")
-  if err != nil {
-    panic(err.Error())
-  }
+err := client.MobilePushCredentials.Delete(context.TODO(), "0ccc7b76-4df3-4bca-a05a-3da1ecc389f0")
+if err != nil {
+  panic(err.Error())
 }
 ```
 
 ## List all credentials
 
+List all On-demand Credentials.
+
 `GET /telephony_credentials`
 
 ```go
-package main
+page, err := client.TelephonyCredentials.List(context.TODO(), telnyx.TelephonyCredentialListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.TelephonyCredentials.List(context.TODO(), telnyx.TelephonyCredentialListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a credential
 
-`POST /telephony_credentials`
+Create a credential.
+
+`POST /telephony_credentials` — Required: `connection_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telephonyCredential, err := client.TelephonyCredentials.New(context.TODO(), telnyx.TelephonyCredentialNewParams{
-    ConnectionID: "1234567890",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telephonyCredential.Data)
+telephonyCredential, err := client.TelephonyCredentials.New(context.TODO(), telnyx.TelephonyCredentialNewParams{
+  ConnectionID: "1234567890",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", telephonyCredential.Data)
 ```
 
 ## Get a credential
 
+Get the details of an existing On-demand Credential.
+
 `GET /telephony_credentials/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telephonyCredential, err := client.TelephonyCredentials.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telephonyCredential.Data)
+telephonyCredential, err := client.TelephonyCredentials.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", telephonyCredential.Data)
 ```
 
 ## Update a credential
 
+Update an existing credential.
+
 `PATCH /telephony_credentials/{id}`
 
 ```go
-package main
+telephonyCredential, err := client.TelephonyCredentials.Update(
+  context.TODO(),
+  "id",
+  telnyx.TelephonyCredentialUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telephonyCredential, err := client.TelephonyCredentials.Update(
-    context.TODO(),
-    "id",
-    telnyx.TelephonyCredentialUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telephonyCredential.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", telephonyCredential.Data)
 ```
 
 ## Delete a credential
 
+Delete an existing credential.
+
 `DELETE /telephony_credentials/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telephonyCredential, err := client.TelephonyCredentials.Delete(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telephonyCredential.Data)
+telephonyCredential, err := client.TelephonyCredentials.Delete(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", telephonyCredential.Data)
 ```
 
 ## Create an Access Token.
 
+Create an Access Token (JWT) for the credential.
+
 `POST /telephony_credentials/{id}/token`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.TelephonyCredentials.NewToken(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response)
+response, err := client.TelephonyCredentials.NewToken(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response)
 ```

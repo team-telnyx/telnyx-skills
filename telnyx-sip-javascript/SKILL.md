@@ -18,9 +18,7 @@ metadata:
 npm install telnyx
 ```
 
-## Get all outbound voice profiles
-
-`GET /outbound_voice_profiles`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -28,7 +26,17 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## Get all outbound voice profiles
+
+Get all outbound voice profiles belonging to the user that match the given filters.
+
+`GET /outbound_voice_profiles`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const outboundVoiceProfile of client.outboundVoiceProfiles.list()) {
   console.log(outboundVoiceProfile.id);
@@ -37,15 +45,11 @@ for await (const outboundVoiceProfile of client.outboundVoiceProfiles.list()) {
 
 ## Create an outbound voice profile
 
-`POST /outbound_voice_profiles`
+Create an outbound voice profile.
+
+`POST /outbound_voice_profiles` — Required: `name`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const outboundVoiceProfile = await client.outboundVoiceProfiles.create({ name: 'office' });
 
 console.log(outboundVoiceProfile.data);
@@ -53,15 +57,11 @@ console.log(outboundVoiceProfile.data);
 
 ## Retrieve an outbound voice profile
 
+Retrieves the details of an existing outbound voice profile.
+
 `GET /outbound_voice_profiles/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const outboundVoiceProfile = await client.outboundVoiceProfiles.retrieve('1293384261075731499');
 
 console.log(outboundVoiceProfile.data);
@@ -69,15 +69,9 @@ console.log(outboundVoiceProfile.data);
 
 ## Updates an existing outbound voice profile.
 
-`PATCH /outbound_voice_profiles/{id}`
+`PATCH /outbound_voice_profiles/{id}` — Required: `name`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const outboundVoiceProfile = await client.outboundVoiceProfiles.update('1293384261075731499', {
   name: 'office',
 });
@@ -87,15 +81,11 @@ console.log(outboundVoiceProfile.data);
 
 ## Delete an outbound voice profile
 
+Deletes an existing outbound voice profile.
+
 `DELETE /outbound_voice_profiles/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const outboundVoiceProfile = await client.outboundVoiceProfiles.delete('1293384261075731499');
 
 console.log(outboundVoiceProfile.data);
@@ -103,15 +93,11 @@ console.log(outboundVoiceProfile.data);
 
 ## List connections
 
+Returns a list of your connections irrespective of type.
+
 `GET /connections`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const connectionListResponse of client.connections.list()) {
   console.log(connectionListResponse.id);
@@ -120,15 +106,11 @@ for await (const connectionListResponse of client.connections.list()) {
 
 ## Retrieve a connection
 
+Retrieves the high-level details of an existing connection.
+
 `GET /connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const connection = await client.connections.retrieve('id');
 
 console.log(connection.data);
@@ -136,15 +118,11 @@ console.log(connection.data);
 
 ## List credential connections
 
+Returns a list of your credential connections.
+
 `GET /credential_connections`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const credentialConnection of client.credentialConnections.list()) {
   console.log(credentialConnection.id);
@@ -153,15 +131,11 @@ for await (const credentialConnection of client.credentialConnections.list()) {
 
 ## Create a credential connection
 
-`POST /credential_connections`
+Creates a credential connection.
+
+`POST /credential_connections` — Required: `user_name`, `password`, `connection_name`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const credentialConnection = await client.credentialConnections.create({
   connection_name: 'my name',
   password: 'my123secure456password789',
@@ -173,15 +147,11 @@ console.log(credentialConnection.data);
 
 ## Retrieve a credential connection
 
+Retrieves the details of an existing credential connection.
+
 `GET /credential_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const credentialConnection = await client.credentialConnections.retrieve('id');
 
 console.log(credentialConnection.data);
@@ -189,15 +159,11 @@ console.log(credentialConnection.data);
 
 ## Update a credential connection
 
+Updates settings of an existing credential connection.
+
 `PATCH /credential_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const credentialConnection = await client.credentialConnections.update('id');
 
 console.log(credentialConnection.data);
@@ -205,15 +171,11 @@ console.log(credentialConnection.data);
 
 ## Delete a credential connection
 
+Deletes an existing credential connection.
+
 `DELETE /credential_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const credentialConnection = await client.credentialConnections.delete('id');
 
 console.log(credentialConnection.data);
@@ -221,15 +183,11 @@ console.log(credentialConnection.data);
 
 ## Check a Credential Connection Registration Status
 
+Checks the registration_status for a credential connection, (`registration_status`) as well as the timestamp for the last SIP registration event (`registration_status_updated_at`)
+
 `POST /credential_connections/{id}/actions/check_registration_status`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.credentialConnections.actions.checkRegistrationStatus('id');
 
 console.log(response.data);
@@ -237,15 +195,11 @@ console.log(response.data);
 
 ## List Ips
 
+Get all IPs belonging to the user that match the given filters.
+
 `GET /ips`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const ip of client.ips.list()) {
   console.log(ip.id);
@@ -254,15 +208,11 @@ for await (const ip of client.ips.list()) {
 
 ## Create an Ip
 
-`POST /ips`
+Create a new IP object.
+
+`POST /ips` — Required: `ip_address`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const ip = await client.ips.create({ ip_address: '192.168.0.0' });
 
 console.log(ip.data);
@@ -270,15 +220,11 @@ console.log(ip.data);
 
 ## Retrieve an Ip
 
+Return the details regarding a specific IP.
+
 `GET /ips/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const ip = await client.ips.retrieve('6a09cdc3-8948-47f0-aa62-74ac943d6c58');
 
 console.log(ip.data);
@@ -286,15 +232,11 @@ console.log(ip.data);
 
 ## Update an Ip
 
-`PATCH /ips/{id}`
+Update the details of a specific IP.
+
+`PATCH /ips/{id}` — Required: `ip_address`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const ip = await client.ips.update('6a09cdc3-8948-47f0-aa62-74ac943d6c58', {
   ip_address: '192.168.0.0',
 });
@@ -304,15 +246,11 @@ console.log(ip.data);
 
 ## Delete an Ip
 
+Delete an IP.
+
 `DELETE /ips/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const ip = await client.ips.delete('6a09cdc3-8948-47f0-aa62-74ac943d6c58');
 
 console.log(ip.data);
@@ -320,15 +258,11 @@ console.log(ip.data);
 
 ## List Ip connections
 
+Returns a list of your IP connections.
+
 `GET /ip_connections`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const ipConnection of client.ipConnections.list()) {
   console.log(ipConnection.id);
@@ -337,15 +271,11 @@ for await (const ipConnection of client.ipConnections.list()) {
 
 ## Create an Ip connection
 
+Creates an IP connection.
+
 `POST /ip_connections`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const ipConnection = await client.ipConnections.create();
 
 console.log(ipConnection.data);
@@ -353,15 +283,11 @@ console.log(ipConnection.data);
 
 ## Retrieve an Ip connection
 
+Retrieves the details of an existing ip connection.
+
 `GET /ip_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const ipConnection = await client.ipConnections.retrieve('id');
 
 console.log(ipConnection.data);
@@ -369,15 +295,11 @@ console.log(ipConnection.data);
 
 ## Update an Ip connection
 
+Updates settings of an existing IP connection.
+
 `PATCH /ip_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const ipConnection = await client.ipConnections.update('id');
 
 console.log(ipConnection.data);
@@ -385,15 +307,11 @@ console.log(ipConnection.data);
 
 ## Delete an Ip connection
 
+Deletes an existing IP connection.
+
 `DELETE /ip_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const ipConnection = await client.ipConnections.delete('id');
 
 console.log(ipConnection.data);
@@ -401,15 +319,11 @@ console.log(ipConnection.data);
 
 ## List FQDNs
 
+Get all FQDNs belonging to the user that match the given filters.
+
 `GET /fqdns`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const fqdn of client.fqdns.list()) {
   console.log(fqdn.id);
@@ -418,15 +332,11 @@ for await (const fqdn of client.fqdns.list()) {
 
 ## Create an FQDN
 
-`POST /fqdns`
+Create a new FQDN object.
+
+`POST /fqdns` — Required: `fqdn`, `dns_record_type`, `connection_id`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const fqdn = await client.fqdns.create({
   connection_id: '1516447646313612565',
   dns_record_type: 'a',
@@ -438,15 +348,11 @@ console.log(fqdn.data);
 
 ## Retrieve an FQDN
 
+Return the details regarding a specific FQDN.
+
 `GET /fqdns/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const fqdn = await client.fqdns.retrieve('id');
 
 console.log(fqdn.data);
@@ -454,15 +360,11 @@ console.log(fqdn.data);
 
 ## Update an FQDN
 
+Update the details of a specific FQDN.
+
 `PATCH /fqdns/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const fqdn = await client.fqdns.update('id');
 
 console.log(fqdn.data);
@@ -470,15 +372,11 @@ console.log(fqdn.data);
 
 ## Delete an FQDN
 
+Delete an FQDN.
+
 `DELETE /fqdns/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const fqdn = await client.fqdns.delete('id');
 
 console.log(fqdn.data);
@@ -486,15 +384,11 @@ console.log(fqdn.data);
 
 ## List FQDN connections
 
+Returns a list of your FQDN connections.
+
 `GET /fqdn_connections`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const fqdnConnection of client.fqdnConnections.list()) {
   console.log(fqdnConnection.id);
@@ -503,15 +397,11 @@ for await (const fqdnConnection of client.fqdnConnections.list()) {
 
 ## Create an FQDN connection
 
-`POST /fqdn_connections`
+Creates a FQDN connection.
+
+`POST /fqdn_connections` — Required: `connection_name`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const fqdnConnection = await client.fqdnConnections.create({ connection_name: 'string' });
 
 console.log(fqdnConnection.data);
@@ -519,15 +409,11 @@ console.log(fqdnConnection.data);
 
 ## Retrieve an FQDN connection
 
+Retrieves the details of an existing FQDN connection.
+
 `GET /fqdn_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const fqdnConnection = await client.fqdnConnections.retrieve('id');
 
 console.log(fqdnConnection.data);
@@ -535,15 +421,11 @@ console.log(fqdnConnection.data);
 
 ## Update an FQDN connection
 
+Updates settings of an existing FQDN connection.
+
 `PATCH /fqdn_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const fqdnConnection = await client.fqdnConnections.update('id');
 
 console.log(fqdnConnection.data);
@@ -551,15 +433,11 @@ console.log(fqdnConnection.data);
 
 ## Delete an FQDN connection
 
+Deletes an FQDN connection.
+
 `DELETE /fqdn_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const fqdnConnection = await client.fqdnConnections.delete('id');
 
 console.log(fqdnConnection.data);
@@ -570,12 +448,6 @@ console.log(fqdnConnection.data);
 `GET /v2/mobile_voice_connections`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const mobileVoiceConnection of client.mobileVoiceConnections.list()) {
   console.log(mobileVoiceConnection.id);
@@ -587,12 +459,6 @@ for await (const mobileVoiceConnection of client.mobileVoiceConnections.list()) 
 `POST /v2/mobile_voice_connections`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const mobileVoiceConnection = await client.mobileVoiceConnections.create();
 
 console.log(mobileVoiceConnection.data);
@@ -603,12 +469,6 @@ console.log(mobileVoiceConnection.data);
 `GET /v2/mobile_voice_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const mobileVoiceConnection = await client.mobileVoiceConnections.retrieve('id');
 
 console.log(mobileVoiceConnection.data);
@@ -619,12 +479,6 @@ console.log(mobileVoiceConnection.data);
 `PATCH /v2/mobile_voice_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const mobileVoiceConnection = await client.mobileVoiceConnections.update('id');
 
 console.log(mobileVoiceConnection.data);
@@ -635,12 +489,6 @@ console.log(mobileVoiceConnection.data);
 `DELETE /v2/mobile_voice_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const mobileVoiceConnection = await client.mobileVoiceConnections.delete('id');
 
 console.log(mobileVoiceConnection.data);

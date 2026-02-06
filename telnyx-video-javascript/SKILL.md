@@ -17,9 +17,7 @@ metadata:
 npm install telnyx
 ```
 
-## View a list of room compositions.
-
-`GET /room_compositions`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -27,7 +25,15 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## View a list of room compositions.
+
+`GET /room_compositions`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const roomComposition of client.roomCompositions.list()) {
   console.log(roomComposition.id);
@@ -36,15 +42,11 @@ for await (const roomComposition of client.roomCompositions.list()) {
 
 ## Create a room composition.
 
+Asynchronously create a room composition.
+
 `POST /room_compositions`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const roomComposition = await client.roomCompositions.create();
 
 console.log(roomComposition.data);
@@ -55,12 +57,6 @@ console.log(roomComposition.data);
 `GET /room_compositions/{room_composition_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const roomComposition = await client.roomCompositions.retrieve(
   '5219b3af-87c6-4c08-9b58-5a533d893e21',
 );
@@ -70,15 +66,11 @@ console.log(roomComposition.data);
 
 ## Delete a room composition.
 
+Synchronously delete a room composition.
+
 `DELETE /room_compositions/{room_composition_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.roomCompositions.delete('5219b3af-87c6-4c08-9b58-5a533d893e21');
 ```
 
@@ -87,12 +79,6 @@ await client.roomCompositions.delete('5219b3af-87c6-4c08-9b58-5a533d893e21');
 `GET /room_participants`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const roomParticipant of client.roomParticipants.list()) {
   console.log(roomParticipant.id);
@@ -104,12 +90,6 @@ for await (const roomParticipant of client.roomParticipants.list()) {
 `GET /room_participants/{room_participant_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const roomParticipant = await client.roomParticipants.retrieve(
   '0ccc7b54-4df3-4bca-a65a-3da1ecc777f0',
 );
@@ -122,12 +102,6 @@ console.log(roomParticipant.data);
 `GET /room_recordings`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const roomRecordingListResponse of client.roomRecordings.list()) {
   console.log(roomRecordingListResponse.id);
@@ -139,12 +113,6 @@ for await (const roomRecordingListResponse of client.roomRecordings.list()) {
 `DELETE /room_recordings`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.roomRecordings.deleteBulk();
 
 console.log(response.data);
@@ -155,12 +123,6 @@ console.log(response.data);
 `GET /room_recordings/{room_recording_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const roomRecording = await client.roomRecordings.retrieve('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 
 console.log(roomRecording.data);
@@ -168,15 +130,11 @@ console.log(roomRecording.data);
 
 ## Delete a room recording.
 
+Synchronously delete a Room Recording.
+
 `DELETE /room_recordings/{room_recording_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.roomRecordings.delete('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 ```
 
@@ -185,12 +143,6 @@ await client.roomRecordings.delete('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 `GET /room_sessions`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const roomSession of client.rooms.sessions.list0()) {
   console.log(roomSession.id);
@@ -202,12 +154,6 @@ for await (const roomSession of client.rooms.sessions.list0()) {
 `GET /room_sessions/{room_session_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const session = await client.rooms.sessions.retrieve('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 
 console.log(session.data);
@@ -215,13 +161,11 @@ console.log(session.data);
 
 ## End a room session.
 
+Note: this will also kick all participants currently present in the room
+
 `POST /room_sessions/{room_session_id}/actions/end`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx();
-
 const response = await client.rooms.sessions.actions.end('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 
 console.log(response.data);
@@ -232,10 +176,6 @@ console.log(response.data);
 `POST /room_sessions/{room_session_id}/actions/kick`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx();
-
 const response = await client.rooms.sessions.actions.kick('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 
 console.log(response.data);
@@ -246,10 +186,6 @@ console.log(response.data);
 `POST /room_sessions/{room_session_id}/actions/mute`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx();
-
 const response = await client.rooms.sessions.actions.mute('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 
 console.log(response.data);
@@ -260,10 +196,6 @@ console.log(response.data);
 `POST /room_sessions/{room_session_id}/actions/unmute`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx();
-
 const response = await client.rooms.sessions.actions.unmute('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 
 console.log(response.data);
@@ -274,12 +206,6 @@ console.log(response.data);
 `GET /room_sessions/{room_session_id}/participants`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const roomParticipant of client.rooms.sessions.retrieveParticipants(
   '0ccc7b54-4df3-4bca-a65a-3da1ecc777f0',
@@ -293,12 +219,6 @@ for await (const roomParticipant of client.rooms.sessions.retrieveParticipants(
 `GET /rooms`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const room of client.rooms.list()) {
   console.log(room.id);
@@ -307,15 +227,11 @@ for await (const room of client.rooms.list()) {
 
 ## Create a room.
 
+Synchronously create a Room.
+
 `POST /rooms`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const room = await client.rooms.create();
 
 console.log(room.data);
@@ -326,12 +242,6 @@ console.log(room.data);
 `GET /rooms/{room_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const room = await client.rooms.retrieve('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 
 console.log(room.data);
@@ -339,15 +249,11 @@ console.log(room.data);
 
 ## Update a room.
 
+Synchronously update a Room.
+
 `PATCH /rooms/{room_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const room = await client.rooms.update('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 
 console.log(room.data);
@@ -355,29 +261,21 @@ console.log(room.data);
 
 ## Delete a room.
 
+Synchronously delete a Room.
+
 `DELETE /rooms/{room_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.rooms.delete('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 ```
 
 ## Create Client Token to join a room.
 
+Synchronously create an Client Token to join a Room.
+
 `POST /rooms/{room_id}/actions/generate_join_client_token`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.rooms.actions.generateJoinClientToken(
   '0ccc7b54-4df3-4bca-a65a-3da1ecc777f0',
 );
@@ -387,13 +285,11 @@ console.log(response.data);
 
 ## Refresh Client Token to join a room.
 
-`POST /rooms/{room_id}/actions/refresh_client_token`
+Synchronously refresh an Client Token to join a Room.
+
+`POST /rooms/{room_id}/actions/refresh_client_token` — Required: `refresh_token`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx();
-
 const response = await client.rooms.actions.refreshClientToken(
   '0ccc7b54-4df3-4bca-a65a-3da1ecc777f0',
   {
@@ -410,12 +306,6 @@ console.log(response.data);
 `GET /rooms/{room_id}/sessions`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const roomSession of client.rooms.sessions.list1(
   '0ccc7b54-4df3-4bca-a65a-3da1ecc777f0',

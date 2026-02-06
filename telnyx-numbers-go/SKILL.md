@@ -18,13 +18,9 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
-## Get country coverage
-
-`GET /country_coverage`
+## Setup
 
 ```go
-package main
-
 import (
   "context"
   "fmt"
@@ -33,16 +29,23 @@ import (
   "github.com/team-telnyx/telnyx-go/option"
 )
 
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  countryCoverage, err := client.CountryCoverage.Get(context.TODO())
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", countryCoverage.Data)
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Get country coverage
+
+`GET /country_coverage`
+
+```go
+countryCoverage, err := client.CountryCoverage.Get(context.TODO())
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", countryCoverage.Data)
 ```
 
 ## Get coverage for a specific country
@@ -50,731 +53,400 @@ func main() {
 `GET /country_coverage/countries/{country_code}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.CountryCoverage.GetCountry(context.TODO(), "US")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.CountryCoverage.GetCountry(context.TODO(), "US")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Create an inventory coverage request
 
+Creates an inventory coverage request.
+
 `GET /inventory_coverage`
 
 ```go
-package main
+inventoryCoverages, err := client.InventoryCoverage.List(context.TODO(), telnyx.InventoryCoverageListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  inventoryCoverages, err := client.InventoryCoverage.List(context.TODO(), telnyx.InventoryCoverageListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", inventoryCoverages.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", inventoryCoverages.Data)
 ```
 
 ## List number reservations
 
+Gets a paginated list of phone number reservations.
+
 `GET /number_reservations`
 
 ```go
-package main
+page, err := client.NumberReservations.List(context.TODO(), telnyx.NumberReservationListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.NumberReservations.List(context.TODO(), telnyx.NumberReservationListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a number reservation
 
+Creates a Phone Number Reservation for multiple numbers.
+
 `POST /number_reservations`
 
 ```go
-package main
+numberReservation, err := client.NumberReservations.New(context.TODO(), telnyx.NumberReservationNewParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numberReservation, err := client.NumberReservations.New(context.TODO(), telnyx.NumberReservationNewParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numberReservation.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numberReservation.Data)
 ```
 
 ## Retrieve a number reservation
 
+Gets a single phone number reservation.
+
 `GET /number_reservations/{number_reservation_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numberReservation, err := client.NumberReservations.Get(context.TODO(), "number_reservation_id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numberReservation.Data)
+numberReservation, err := client.NumberReservations.Get(context.TODO(), "number_reservation_id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numberReservation.Data)
 ```
 
 ## Extend a number reservation
 
+Extends reservation expiry time on all phone numbers.
+
 `POST /number_reservations/{number_reservation_id}/actions/extend`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.NumberReservations.Actions.Extend(context.TODO(), "number_reservation_id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.NumberReservations.Actions.Extend(context.TODO(), "number_reservation_id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List number orders
 
+Get a paginated list of number orders.
+
 `GET /number_orders`
 
 ```go
-package main
+page, err := client.NumberOrders.List(context.TODO(), telnyx.NumberOrderListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.NumberOrders.List(context.TODO(), telnyx.NumberOrderListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a number order
 
+Creates a phone number order.
+
 `POST /number_orders`
 
 ```go
-package main
+numberOrder, err := client.NumberOrders.New(context.TODO(), telnyx.NumberOrderNewParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numberOrder, err := client.NumberOrders.New(context.TODO(), telnyx.NumberOrderNewParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numberOrder.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numberOrder.Data)
 ```
 
 ## Retrieve a number order
 
+Get an existing phone number order.
+
 `GET /number_orders/{number_order_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numberOrder, err := client.NumberOrders.Get(context.TODO(), "number_order_id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numberOrder.Data)
+numberOrder, err := client.NumberOrders.Get(context.TODO(), "number_order_id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numberOrder.Data)
 ```
 
 ## Update a number order
 
+Updates a phone number order.
+
 `PATCH /number_orders/{number_order_id}`
 
 ```go
-package main
+numberOrder, err := client.NumberOrders.Update(
+  context.TODO(),
+  "number_order_id",
+  telnyx.NumberOrderUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numberOrder, err := client.NumberOrders.Update(
-    context.TODO(),
-    "number_order_id",
-    telnyx.NumberOrderUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numberOrder.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numberOrder.Data)
 ```
 
 ## List number block orders
 
+Get a paginated list of number block orders.
+
 `GET /number_block_orders`
 
 ```go
-package main
+page, err := client.NumberBlockOrders.List(context.TODO(), telnyx.NumberBlockOrderListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.NumberBlockOrders.List(context.TODO(), telnyx.NumberBlockOrderListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a number block order
 
-`POST /number_block_orders`
+Creates a phone number block order.
+
+`POST /number_block_orders` — Required: `starting_number`, `range`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numberBlockOrder, err := client.NumberBlockOrders.New(context.TODO(), telnyx.NumberBlockOrderNewParams{
-    Range: 10,
-    StartingNumber: "+19705555000",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numberBlockOrder.Data)
+numberBlockOrder, err := client.NumberBlockOrders.New(context.TODO(), telnyx.NumberBlockOrderNewParams{
+  Range: 10,
+  StartingNumber: "+19705555000",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numberBlockOrder.Data)
 ```
 
 ## Retrieve a number block order
 
+Get an existing phone number block order.
+
 `GET /number_block_orders/{number_block_order_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numberBlockOrder, err := client.NumberBlockOrders.Get(context.TODO(), "number_block_order_id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numberBlockOrder.Data)
+numberBlockOrder, err := client.NumberBlockOrders.Get(context.TODO(), "number_block_order_id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numberBlockOrder.Data)
 ```
 
 ## Retrieve a list of phone numbers associated to orders
 
+Get a list of phone numbers associated to orders.
+
 `GET /number_order_phone_numbers`
 
 ```go
-package main
+numberOrderPhoneNumbers, err := client.NumberOrderPhoneNumbers.List(context.TODO(), telnyx.NumberOrderPhoneNumberListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numberOrderPhoneNumbers, err := client.NumberOrderPhoneNumbers.List(context.TODO(), telnyx.NumberOrderPhoneNumberListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numberOrderPhoneNumbers.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numberOrderPhoneNumbers.Data)
 ```
 
 ## Update requirement group for a phone number order
 
-`POST /number_order_phone_numbers/{id}/requirement_group`
+`POST /number_order_phone_numbers/{id}/requirement_group` — Required: `requirement_group_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.NumberOrderPhoneNumbers.UpdateRequirementGroup(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.NumberOrderPhoneNumberUpdateRequirementGroupParams{
+    RequirementGroupID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.NumberOrderPhoneNumbers.UpdateRequirementGroup(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.NumberOrderPhoneNumberUpdateRequirementGroupParams{
-      RequirementGroupID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Retrieve a single phone number within a number order.
 
+Get an existing phone number in number order.
+
 `GET /number_order_phone_numbers/{number_order_phone_number_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numberOrderPhoneNumber, err := client.NumberOrderPhoneNumbers.Get(context.TODO(), "number_order_phone_number_id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numberOrderPhoneNumber.Data)
+numberOrderPhoneNumber, err := client.NumberOrderPhoneNumbers.Get(context.TODO(), "number_order_phone_number_id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numberOrderPhoneNumber.Data)
 ```
 
 ## Update requirements for a single phone number within a number order.
 
+Updates requirements for a single phone number within a number order.
+
 `PATCH /number_order_phone_numbers/{number_order_phone_number_id}`
 
 ```go
-package main
+response, err := client.NumberOrderPhoneNumbers.UpdateRequirements(
+  context.TODO(),
+  "number_order_phone_number_id",
+  telnyx.NumberOrderPhoneNumberUpdateRequirementsParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.NumberOrderPhoneNumbers.UpdateRequirements(
-    context.TODO(),
-    "number_order_phone_number_id",
-    telnyx.NumberOrderPhoneNumberUpdateRequirementsParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List sub number orders
 
+Get a paginated list of sub number orders.
+
 `GET /sub_number_orders`
 
 ```go
-package main
+subNumberOrders, err := client.SubNumberOrders.List(context.TODO(), telnyx.SubNumberOrderListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  subNumberOrders, err := client.SubNumberOrders.List(context.TODO(), telnyx.SubNumberOrderListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", subNumberOrders.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", subNumberOrders.Data)
 ```
 
 ## Update requirement group for a sub number order
 
-`POST /sub_number_orders/{id}/requirement_group`
+`POST /sub_number_orders/{id}/requirement_group` — Required: `requirement_group_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.SubNumberOrders.UpdateRequirementGroup(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.SubNumberOrderUpdateRequirementGroupParams{
+    RequirementGroupID: "a4b201f9-8646-4e54-a7d2-b2e403eeaf8c",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.SubNumberOrders.UpdateRequirementGroup(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.SubNumberOrderUpdateRequirementGroupParams{
-      RequirementGroupID: "a4b201f9-8646-4e54-a7d2-b2e403eeaf8c",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Retrieve a sub number order
 
+Get an existing sub number order.
+
 `GET /sub_number_orders/{sub_number_order_id}`
 
 ```go
-package main
+subNumberOrder, err := client.SubNumberOrders.Get(
+  context.TODO(),
+  "sub_number_order_id",
+  telnyx.SubNumberOrderGetParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  subNumberOrder, err := client.SubNumberOrders.Get(
-    context.TODO(),
-    "sub_number_order_id",
-    telnyx.SubNumberOrderGetParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", subNumberOrder.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", subNumberOrder.Data)
 ```
 
 ## Update a sub number order's requirements
 
+Updates a sub number order.
+
 `PATCH /sub_number_orders/{sub_number_order_id}`
 
 ```go
-package main
+subNumberOrder, err := client.SubNumberOrders.Update(
+  context.TODO(),
+  "sub_number_order_id",
+  telnyx.SubNumberOrderUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  subNumberOrder, err := client.SubNumberOrders.Update(
-    context.TODO(),
-    "sub_number_order_id",
-    telnyx.SubNumberOrderUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", subNumberOrder.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", subNumberOrder.Data)
 ```
 
 ## Cancel a sub number order
 
+Allows you to cancel a sub number order in 'pending' status.
+
 `PATCH /sub_number_orders/{sub_number_order_id}/cancel`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.SubNumberOrders.Cancel(context.TODO(), "sub_number_order_id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.SubNumberOrders.Cancel(context.TODO(), "sub_number_order_id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Create a sub number orders report
 
+Create a CSV report for sub number orders.
+
 `POST /sub_number_orders/report`
 
 ```go
-package main
+subNumberOrdersReport, err := client.SubNumberOrdersReport.New(context.TODO(), telnyx.SubNumberOrdersReportNewParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  subNumberOrdersReport, err := client.SubNumberOrdersReport.New(context.TODO(), telnyx.SubNumberOrdersReportNewParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", subNumberOrdersReport.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", subNumberOrdersReport.Data)
 ```
 
 ## Retrieve a sub number orders report
 
+Get the status and details of a sub number orders report.
+
 `GET /sub_number_orders/report/{report_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  subNumberOrdersReport, err := client.SubNumberOrdersReport.Get(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c293")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", subNumberOrdersReport.Data)
+subNumberOrdersReport, err := client.SubNumberOrdersReport.Get(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c293")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", subNumberOrdersReport.Data)
 ```
 
 ## Download a sub number orders report
 
+Download the CSV file for a completed sub number orders report.
+
 `GET /sub_number_orders/report/{report_id}/download`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.SubNumberOrdersReport.Download(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c293")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response)
+response, err := client.SubNumberOrdersReport.Download(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c293")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response)
 ```
 
 ## List Advanced Orders
@@ -782,26 +454,11 @@ func main() {
 `GET /advanced_orders`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  advancedOrders, err := client.AdvancedOrders.List(context.TODO())
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", advancedOrders.Data)
+advancedOrders, err := client.AdvancedOrders.List(context.TODO())
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", advancedOrders.Data)
 ```
 
 ## Create Advanced Order
@@ -809,30 +466,15 @@ func main() {
 `POST /advanced_orders`
 
 ```go
-package main
+advancedOrder, err := client.AdvancedOrders.New(context.TODO(), telnyx.AdvancedOrderNewParams{
+  AdvancedOrder: telnyx.AdvancedOrderParam{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  advancedOrder, err := client.AdvancedOrders.New(context.TODO(), telnyx.AdvancedOrderNewParams{
-    AdvancedOrder: telnyx.AdvancedOrderParam{
-
-    },
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", advancedOrder.ID)
+  },
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", advancedOrder.ID)
 ```
 
 ## Update Advanced Order
@@ -840,34 +482,19 @@ func main() {
 `PATCH /advanced_orders/{advanced-order-id}/requirement_group`
 
 ```go
-package main
+response, err := client.AdvancedOrders.UpdateRequirementGroup(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.AdvancedOrderUpdateRequirementGroupParams{
+    AdvancedOrder: telnyx.AdvancedOrderParam{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.AdvancedOrders.UpdateRequirementGroup(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.AdvancedOrderUpdateRequirementGroupParams{
-      AdvancedOrder: telnyx.AdvancedOrderParam{
-
-      },
     },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.ID)
+  },
+)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.ID)
 ```
 
 ## Get Advanced Order
@@ -875,115 +502,61 @@ func main() {
 `GET /advanced_orders/{order_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  advancedOrder, err := client.AdvancedOrders.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", advancedOrder.ID)
+advancedOrder, err := client.AdvancedOrders.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", advancedOrder.ID)
 ```
 
 ## List inexplicit number orders
 
+Get a paginated list of inexplicit number orders.
+
 `GET /inexplicit_number_orders`
 
 ```go
-package main
+page, err := client.InexplicitNumberOrders.List(context.TODO(), telnyx.InexplicitNumberOrderListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.InexplicitNumberOrders.List(context.TODO(), telnyx.InexplicitNumberOrderListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create an inexplicit number order
 
-`POST /inexplicit_number_orders`
+Create an inexplicit number order to programmatically purchase phone numbers without specifying exact numbers.
+
+`POST /inexplicit_number_orders` — Required: `ordering_groups`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  inexplicitNumberOrder, err := client.InexplicitNumberOrders.New(context.TODO(), telnyx.InexplicitNumberOrderNewParams{
-    OrderingGroups: []telnyx.InexplicitNumberOrderNewParamsOrderingGroup{telnyx.InexplicitNumberOrderNewParamsOrderingGroup{
-      CountRequested: "count_requested",
-      CountryISO: "US",
-      PhoneNumberType: "phone_number_type",
-    }},
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", inexplicitNumberOrder.Data)
+inexplicitNumberOrder, err := client.InexplicitNumberOrders.New(context.TODO(), telnyx.InexplicitNumberOrderNewParams{
+  OrderingGroups: []telnyx.InexplicitNumberOrderNewParamsOrderingGroup{telnyx.InexplicitNumberOrderNewParamsOrderingGroup{
+    CountRequested: "count_requested",
+    CountryISO: "US",
+    PhoneNumberType: "phone_number_type",
+  }},
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", inexplicitNumberOrder.Data)
 ```
 
 ## Retrieve an inexplicit number order
 
+Get an existing inexplicit number order by ID.
+
 `GET /inexplicit_number_orders/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  inexplicitNumberOrder, err := client.InexplicitNumberOrders.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", inexplicitNumberOrder.Data)
+inexplicitNumberOrder, err := client.InexplicitNumberOrders.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", inexplicitNumberOrder.Data)
 ```
 
 ## Retrieve all comments
@@ -991,28 +564,13 @@ func main() {
 `GET /comments`
 
 ```go
-package main
+comments, err := client.Comments.List(context.TODO(), telnyx.CommentListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  comments, err := client.Comments.List(context.TODO(), telnyx.CommentListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", comments.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", comments.Data)
 ```
 
 ## Create a comment
@@ -1020,28 +578,13 @@ func main() {
 `POST /comments`
 
 ```go
-package main
+comment, err := client.Comments.New(context.TODO(), telnyx.CommentNewParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  comment, err := client.Comments.New(context.TODO(), telnyx.CommentNewParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", comment.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", comment.Data)
 ```
 
 ## Retrieve a comment
@@ -1049,26 +592,11 @@ func main() {
 `GET /comments/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  comment, err := client.Comments.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", comment.Data)
+comment, err := client.Comments.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", comment.Data)
 ```
 
 ## Mark a comment as read
@@ -1076,26 +604,11 @@ func main() {
 `PATCH /comments/{id}/read`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Comments.MarkAsRead(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.Comments.MarkAsRead(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List available phone number blocks
@@ -1103,28 +616,13 @@ func main() {
 `GET /available_phone_number_blocks`
 
 ```go
-package main
+availablePhoneNumberBlocks, err := client.AvailablePhoneNumberBlocks.List(context.TODO(), telnyx.AvailablePhoneNumberBlockListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  availablePhoneNumberBlocks, err := client.AvailablePhoneNumberBlocks.List(context.TODO(), telnyx.AvailablePhoneNumberBlockListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", availablePhoneNumberBlocks.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", availablePhoneNumberBlocks.Data)
 ```
 
 ## List available phone numbers
@@ -1132,55 +630,36 @@ func main() {
 `GET /available_phone_numbers`
 
 ```go
-package main
+availablePhoneNumbers, err := client.AvailablePhoneNumbers.List(context.TODO(), telnyx.AvailablePhoneNumberListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  availablePhoneNumbers, err := client.AvailablePhoneNumbers.List(context.TODO(), telnyx.AvailablePhoneNumberListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", availablePhoneNumbers.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", availablePhoneNumbers.Data)
 ```
 
 ## Retrieve the features for a list of numbers
 
-`POST /numbers_features`
+`POST /numbers_features` — Required: `phone_numbers`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numbersFeature, err := client.NumbersFeatures.New(context.TODO(), telnyx.NumbersFeatureNewParams{
-    PhoneNumbers: []string{"string"},
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numbersFeature.Data)
+numbersFeature, err := client.NumbersFeatures.New(context.TODO(), telnyx.NumbersFeatureNewParams{
+  PhoneNumbers: []string{"string"},
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numbersFeature.Data)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `numberOrderStatusUpdate` | Number Order Status Update |

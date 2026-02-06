@@ -18,961 +18,548 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
+## Setup
+
+```go
+import (
+  "context"
+  "fmt"
+
+  "github.com/team-telnyx/telnyx-go"
+  "github.com/team-telnyx/telnyx-go/option"
+)
+
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Get all outbound voice profiles
+
+Get all outbound voice profiles belonging to the user that match the given filters.
 
 `GET /outbound_voice_profiles`
 
 ```go
-package main
+page, err := client.OutboundVoiceProfiles.List(context.TODO(), telnyx.OutboundVoiceProfileListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.OutboundVoiceProfiles.List(context.TODO(), telnyx.OutboundVoiceProfileListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create an outbound voice profile
 
-`POST /outbound_voice_profiles`
+Create an outbound voice profile.
+
+`POST /outbound_voice_profiles` — Required: `name`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  outboundVoiceProfile, err := client.OutboundVoiceProfiles.New(context.TODO(), telnyx.OutboundVoiceProfileNewParams{
-    Name: "office",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", outboundVoiceProfile.Data)
+outboundVoiceProfile, err := client.OutboundVoiceProfiles.New(context.TODO(), telnyx.OutboundVoiceProfileNewParams{
+  Name: "office",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", outboundVoiceProfile.Data)
 ```
 
 ## Retrieve an outbound voice profile
 
+Retrieves the details of an existing outbound voice profile.
+
 `GET /outbound_voice_profiles/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  outboundVoiceProfile, err := client.OutboundVoiceProfiles.Get(context.TODO(), "1293384261075731499")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", outboundVoiceProfile.Data)
+outboundVoiceProfile, err := client.OutboundVoiceProfiles.Get(context.TODO(), "1293384261075731499")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", outboundVoiceProfile.Data)
 ```
 
 ## Updates an existing outbound voice profile.
 
-`PATCH /outbound_voice_profiles/{id}`
+`PATCH /outbound_voice_profiles/{id}` — Required: `name`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+outboundVoiceProfile, err := client.OutboundVoiceProfiles.Update(
+  context.TODO(),
+  "1293384261075731499",
+  telnyx.OutboundVoiceProfileUpdateParams{
+    Name: "office",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  outboundVoiceProfile, err := client.OutboundVoiceProfiles.Update(
-    context.TODO(),
-    "1293384261075731499",
-    telnyx.OutboundVoiceProfileUpdateParams{
-      Name: "office",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", outboundVoiceProfile.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", outboundVoiceProfile.Data)
 ```
 
 ## Delete an outbound voice profile
 
+Deletes an existing outbound voice profile.
+
 `DELETE /outbound_voice_profiles/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  outboundVoiceProfile, err := client.OutboundVoiceProfiles.Delete(context.TODO(), "1293384261075731499")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", outboundVoiceProfile.Data)
+outboundVoiceProfile, err := client.OutboundVoiceProfiles.Delete(context.TODO(), "1293384261075731499")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", outboundVoiceProfile.Data)
 ```
 
 ## List connections
 
+Returns a list of your connections irrespective of type.
+
 `GET /connections`
 
 ```go
-package main
+page, err := client.Connections.List(context.TODO(), telnyx.ConnectionListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Connections.List(context.TODO(), telnyx.ConnectionListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Retrieve a connection
 
+Retrieves the high-level details of an existing connection.
+
 `GET /connections/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  connection, err := client.Connections.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", connection.Data)
+connection, err := client.Connections.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", connection.Data)
 ```
 
 ## List credential connections
 
+Returns a list of your credential connections.
+
 `GET /credential_connections`
 
 ```go
-package main
+page, err := client.CredentialConnections.List(context.TODO(), telnyx.CredentialConnectionListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.CredentialConnections.List(context.TODO(), telnyx.CredentialConnectionListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a credential connection
 
-`POST /credential_connections`
+Creates a credential connection.
+
+`POST /credential_connections` — Required: `user_name`, `password`, `connection_name`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  credentialConnection, err := client.CredentialConnections.New(context.TODO(), telnyx.CredentialConnectionNewParams{
-    ConnectionName: "my name",
-    Password: "my123secure456password789",
-    UserName: "myusername123",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", credentialConnection.Data)
+credentialConnection, err := client.CredentialConnections.New(context.TODO(), telnyx.CredentialConnectionNewParams{
+  ConnectionName: "my name",
+  Password: "my123secure456password789",
+  UserName: "myusername123",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", credentialConnection.Data)
 ```
 
 ## Retrieve a credential connection
 
+Retrieves the details of an existing credential connection.
+
 `GET /credential_connections/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  credentialConnection, err := client.CredentialConnections.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", credentialConnection.Data)
+credentialConnection, err := client.CredentialConnections.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", credentialConnection.Data)
 ```
 
 ## Update a credential connection
 
+Updates settings of an existing credential connection.
+
 `PATCH /credential_connections/{id}`
 
 ```go
-package main
+credentialConnection, err := client.CredentialConnections.Update(
+  context.TODO(),
+  "id",
+  telnyx.CredentialConnectionUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  credentialConnection, err := client.CredentialConnections.Update(
-    context.TODO(),
-    "id",
-    telnyx.CredentialConnectionUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", credentialConnection.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", credentialConnection.Data)
 ```
 
 ## Delete a credential connection
 
+Deletes an existing credential connection.
+
 `DELETE /credential_connections/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  credentialConnection, err := client.CredentialConnections.Delete(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", credentialConnection.Data)
+credentialConnection, err := client.CredentialConnections.Delete(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", credentialConnection.Data)
 ```
 
 ## Check a Credential Connection Registration Status
 
+Checks the registration_status for a credential connection, (`registration_status`) as well as the timestamp for the last SIP registration event (`registration_status_updated_at`)
+
 `POST /credential_connections/{id}/actions/check_registration_status`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.CredentialConnections.Actions.CheckRegistrationStatus(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.CredentialConnections.Actions.CheckRegistrationStatus(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List Ips
 
+Get all IPs belonging to the user that match the given filters.
+
 `GET /ips`
 
 ```go
-package main
+page, err := client.IPs.List(context.TODO(), telnyx.IPListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.IPs.List(context.TODO(), telnyx.IPListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create an Ip
 
-`POST /ips`
+Create a new IP object.
+
+`POST /ips` — Required: `ip_address`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  ip, err := client.IPs.New(context.TODO(), telnyx.IPNewParams{
-    IPAddress: "192.168.0.0",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", ip.Data)
+ip, err := client.IPs.New(context.TODO(), telnyx.IPNewParams{
+  IPAddress: "192.168.0.0",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", ip.Data)
 ```
 
 ## Retrieve an Ip
 
+Return the details regarding a specific IP.
+
 `GET /ips/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  ip, err := client.IPs.Get(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", ip.Data)
+ip, err := client.IPs.Get(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", ip.Data)
 ```
 
 ## Update an Ip
 
-`PATCH /ips/{id}`
+Update the details of a specific IP.
+
+`PATCH /ips/{id}` — Required: `ip_address`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+ip, err := client.IPs.Update(
+  context.TODO(),
+  "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
+  telnyx.IPUpdateParams{
+    IPAddress: "192.168.0.0",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  ip, err := client.IPs.Update(
-    context.TODO(),
-    "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-    telnyx.IPUpdateParams{
-      IPAddress: "192.168.0.0",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", ip.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", ip.Data)
 ```
 
 ## Delete an Ip
 
+Delete an IP.
+
 `DELETE /ips/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  ip, err := client.IPs.Delete(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", ip.Data)
+ip, err := client.IPs.Delete(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", ip.Data)
 ```
 
 ## List Ip connections
 
+Returns a list of your IP connections.
+
 `GET /ip_connections`
 
 ```go
-package main
+page, err := client.IPConnections.List(context.TODO(), telnyx.IPConnectionListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.IPConnections.List(context.TODO(), telnyx.IPConnectionListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create an Ip connection
 
+Creates an IP connection.
+
 `POST /ip_connections`
 
 ```go
-package main
+ipConnection, err := client.IPConnections.New(context.TODO(), telnyx.IPConnectionNewParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  ipConnection, err := client.IPConnections.New(context.TODO(), telnyx.IPConnectionNewParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", ipConnection.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", ipConnection.Data)
 ```
 
 ## Retrieve an Ip connection
 
+Retrieves the details of an existing ip connection.
+
 `GET /ip_connections/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  ipConnection, err := client.IPConnections.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", ipConnection.Data)
+ipConnection, err := client.IPConnections.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", ipConnection.Data)
 ```
 
 ## Update an Ip connection
 
+Updates settings of an existing IP connection.
+
 `PATCH /ip_connections/{id}`
 
 ```go
-package main
+ipConnection, err := client.IPConnections.Update(
+  context.TODO(),
+  "id",
+  telnyx.IPConnectionUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  ipConnection, err := client.IPConnections.Update(
-    context.TODO(),
-    "id",
-    telnyx.IPConnectionUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", ipConnection.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", ipConnection.Data)
 ```
 
 ## Delete an Ip connection
 
+Deletes an existing IP connection.
+
 `DELETE /ip_connections/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  ipConnection, err := client.IPConnections.Delete(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", ipConnection.Data)
+ipConnection, err := client.IPConnections.Delete(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", ipConnection.Data)
 ```
 
 ## List FQDNs
 
+Get all FQDNs belonging to the user that match the given filters.
+
 `GET /fqdns`
 
 ```go
-package main
+page, err := client.Fqdns.List(context.TODO(), telnyx.FqdnListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Fqdns.List(context.TODO(), telnyx.FqdnListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create an FQDN
 
-`POST /fqdns`
+Create a new FQDN object.
+
+`POST /fqdns` — Required: `fqdn`, `dns_record_type`, `connection_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  fqdn, err := client.Fqdns.New(context.TODO(), telnyx.FqdnNewParams{
-    ConnectionID: "1516447646313612565",
-    DNSRecordType: "a",
-    Fqdn: "example.com",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", fqdn.Data)
+fqdn, err := client.Fqdns.New(context.TODO(), telnyx.FqdnNewParams{
+  ConnectionID: "1516447646313612565",
+  DNSRecordType: "a",
+  Fqdn: "example.com",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", fqdn.Data)
 ```
 
 ## Retrieve an FQDN
 
+Return the details regarding a specific FQDN.
+
 `GET /fqdns/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  fqdn, err := client.Fqdns.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", fqdn.Data)
+fqdn, err := client.Fqdns.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", fqdn.Data)
 ```
 
 ## Update an FQDN
 
+Update the details of a specific FQDN.
+
 `PATCH /fqdns/{id}`
 
 ```go
-package main
+fqdn, err := client.Fqdns.Update(
+  context.TODO(),
+  "id",
+  telnyx.FqdnUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  fqdn, err := client.Fqdns.Update(
-    context.TODO(),
-    "id",
-    telnyx.FqdnUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", fqdn.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", fqdn.Data)
 ```
 
 ## Delete an FQDN
 
+Delete an FQDN.
+
 `DELETE /fqdns/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  fqdn, err := client.Fqdns.Delete(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", fqdn.Data)
+fqdn, err := client.Fqdns.Delete(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", fqdn.Data)
 ```
 
 ## List FQDN connections
 
+Returns a list of your FQDN connections.
+
 `GET /fqdn_connections`
 
 ```go
-package main
+page, err := client.FqdnConnections.List(context.TODO(), telnyx.FqdnConnectionListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.FqdnConnections.List(context.TODO(), telnyx.FqdnConnectionListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create an FQDN connection
 
-`POST /fqdn_connections`
+Creates a FQDN connection.
+
+`POST /fqdn_connections` — Required: `connection_name`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  fqdnConnection, err := client.FqdnConnections.New(context.TODO(), telnyx.FqdnConnectionNewParams{
-    ConnectionName: "string",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", fqdnConnection.Data)
+fqdnConnection, err := client.FqdnConnections.New(context.TODO(), telnyx.FqdnConnectionNewParams{
+  ConnectionName: "string",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", fqdnConnection.Data)
 ```
 
 ## Retrieve an FQDN connection
 
+Retrieves the details of an existing FQDN connection.
+
 `GET /fqdn_connections/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  fqdnConnection, err := client.FqdnConnections.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", fqdnConnection.Data)
+fqdnConnection, err := client.FqdnConnections.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", fqdnConnection.Data)
 ```
 
 ## Update an FQDN connection
 
+Updates settings of an existing FQDN connection.
+
 `PATCH /fqdn_connections/{id}`
 
 ```go
-package main
+fqdnConnection, err := client.FqdnConnections.Update(
+  context.TODO(),
+  "id",
+  telnyx.FqdnConnectionUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  fqdnConnection, err := client.FqdnConnections.Update(
-    context.TODO(),
-    "id",
-    telnyx.FqdnConnectionUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", fqdnConnection.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", fqdnConnection.Data)
 ```
 
 ## Delete an FQDN connection
 
+Deletes an FQDN connection.
+
 `DELETE /fqdn_connections/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  fqdnConnection, err := client.FqdnConnections.Delete(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", fqdnConnection.Data)
+fqdnConnection, err := client.FqdnConnections.Delete(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", fqdnConnection.Data)
 ```
 
 ## List Mobile Voice Connections
@@ -980,28 +567,13 @@ func main() {
 `GET /v2/mobile_voice_connections`
 
 ```go
-package main
+page, err := client.MobileVoiceConnections.List(context.TODO(), telnyx.MobileVoiceConnectionListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.MobileVoiceConnections.List(context.TODO(), telnyx.MobileVoiceConnectionListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a Mobile Voice Connection
@@ -1009,28 +581,13 @@ func main() {
 `POST /v2/mobile_voice_connections`
 
 ```go
-package main
+mobileVoiceConnection, err := client.MobileVoiceConnections.New(context.TODO(), telnyx.MobileVoiceConnectionNewParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  mobileVoiceConnection, err := client.MobileVoiceConnections.New(context.TODO(), telnyx.MobileVoiceConnectionNewParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", mobileVoiceConnection.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", mobileVoiceConnection.Data)
 ```
 
 ## Retrieve a Mobile Voice Connection
@@ -1038,26 +595,11 @@ func main() {
 `GET /v2/mobile_voice_connections/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  mobileVoiceConnection, err := client.MobileVoiceConnections.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", mobileVoiceConnection.Data)
+mobileVoiceConnection, err := client.MobileVoiceConnections.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", mobileVoiceConnection.Data)
 ```
 
 ## Update a Mobile Voice Connection
@@ -1065,32 +607,17 @@ func main() {
 `PATCH /v2/mobile_voice_connections/{id}`
 
 ```go
-package main
+mobileVoiceConnection, err := client.MobileVoiceConnections.Update(
+  context.TODO(),
+  "id",
+  telnyx.MobileVoiceConnectionUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  mobileVoiceConnection, err := client.MobileVoiceConnections.Update(
-    context.TODO(),
-    "id",
-    telnyx.MobileVoiceConnectionUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", mobileVoiceConnection.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", mobileVoiceConnection.Data)
 ```
 
 ## Delete a Mobile Voice Connection
@@ -1098,24 +625,9 @@ func main() {
 `DELETE /v2/mobile_voice_connections/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  mobileVoiceConnection, err := client.MobileVoiceConnections.Delete(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", mobileVoiceConnection.Data)
+mobileVoiceConnection, err := client.MobileVoiceConnections.Delete(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", mobileVoiceConnection.Data)
 ```

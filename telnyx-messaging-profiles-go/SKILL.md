@@ -18,63 +18,51 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
+## Setup
+
+```go
+import (
+  "context"
+  "fmt"
+
+  "github.com/team-telnyx/telnyx-go"
+  "github.com/team-telnyx/telnyx-go/option"
+)
+
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## List messaging profiles
 
 `GET /messaging_profiles`
 
 ```go
-package main
+page, err := client.MessagingProfiles.List(context.TODO(), telnyx.MessagingProfileListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.MessagingProfiles.List(context.TODO(), telnyx.MessagingProfileListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a messaging profile
 
-`POST /messaging_profiles`
+`POST /messaging_profiles` — Required: `name`, `whitelisted_destinations`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messagingProfile, err := client.MessagingProfiles.New(context.TODO(), telnyx.MessagingProfileNewParams{
-    Name: "My name",
-    WhitelistedDestinations: []string{"US"},
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messagingProfile.Data)
+messagingProfile, err := client.MessagingProfiles.New(context.TODO(), telnyx.MessagingProfileNewParams{
+  Name: "My name",
+  WhitelistedDestinations: []string{"US"},
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messagingProfile.Data)
 ```
 
 ## Retrieve a messaging profile
@@ -82,26 +70,11 @@ func main() {
 `GET /messaging_profiles/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messagingProfile, err := client.MessagingProfiles.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messagingProfile.Data)
+messagingProfile, err := client.MessagingProfiles.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messagingProfile.Data)
 ```
 
 ## Update a messaging profile
@@ -109,32 +82,17 @@ func main() {
 `PATCH /messaging_profiles/{id}`
 
 ```go
-package main
+messagingProfile, err := client.MessagingProfiles.Update(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.MessagingProfileUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messagingProfile, err := client.MessagingProfiles.Update(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.MessagingProfileUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messagingProfile.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messagingProfile.Data)
 ```
 
 ## Delete a messaging profile
@@ -142,26 +100,11 @@ func main() {
 `DELETE /messaging_profiles/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messagingProfile, err := client.MessagingProfiles.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messagingProfile.Data)
+messagingProfile, err := client.MessagingProfiles.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messagingProfile.Data)
 ```
 
 ## List phone numbers associated with a messaging profile
@@ -169,32 +112,17 @@ func main() {
 `GET /messaging_profiles/{id}/phone_numbers`
 
 ```go
-package main
+page, err := client.MessagingProfiles.ListPhoneNumbers(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.MessagingProfileListPhoneNumbersParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.MessagingProfiles.ListPhoneNumbers(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.MessagingProfileListPhoneNumbersParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## List short codes associated with a messaging profile
@@ -202,32 +130,17 @@ func main() {
 `GET /messaging_profiles/{id}/short_codes`
 
 ```go
-package main
+page, err := client.MessagingProfiles.ListShortCodes(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.MessagingProfileListShortCodesParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.MessagingProfiles.ListShortCodes(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.MessagingProfileListShortCodesParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## List Auto-Response Settings
@@ -235,69 +148,39 @@ func main() {
 `GET /messaging_profiles/{profile_id}/autoresp_configs`
 
 ```go
-package main
+autorespConfigs, err := client.MessagingProfiles.AutorespConfigs.List(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.MessagingProfileAutorespConfigListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  autorespConfigs, err := client.MessagingProfiles.AutorespConfigs.List(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.MessagingProfileAutorespConfigListParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", autorespConfigs.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", autorespConfigs.Data)
 ```
 
 ## Create auto-response setting
 
-`POST /messaging_profiles/{profile_id}/autoresp_configs`
+`POST /messaging_profiles/{profile_id}/autoresp_configs` — Required: `op`, `keywords`, `country_code`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  autoRespConfigResponse, err := client.MessagingProfiles.AutorespConfigs.New(
-    context.TODO(),
-    "profile_id",
-    telnyx.MessagingProfileAutorespConfigNewParams{
-      AutoRespConfigCreate: telnyx.AutoRespConfigCreateParam{
-        CountryCode: "US",
-        Keywords: []string{"keyword1", "keyword2"},
-        Op: telnyx.AutoRespConfigCreateOpStart,
-      },
+autoRespConfigResponse, err := client.MessagingProfiles.AutorespConfigs.New(
+  context.TODO(),
+  "profile_id",
+  telnyx.MessagingProfileAutorespConfigNewParams{
+    AutoRespConfigCreate: telnyx.AutoRespConfigCreateParam{
+      CountryCode: "US",
+      Keywords: []string{"keyword1", "keyword2"},
+      Op: telnyx.AutoRespConfigCreateOpStart,
     },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", autoRespConfigResponse.Data)
+  },
+)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", autoRespConfigResponse.Data)
 ```
 
 ## Get Auto-Response Setting
@@ -305,70 +188,40 @@ func main() {
 `GET /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+autoRespConfigResponse, err := client.MessagingProfiles.AutorespConfigs.Get(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.MessagingProfileAutorespConfigGetParams{
+    ProfileID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  autoRespConfigResponse, err := client.MessagingProfiles.AutorespConfigs.Get(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.MessagingProfileAutorespConfigGetParams{
-      ProfileID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", autoRespConfigResponse.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", autoRespConfigResponse.Data)
 ```
 
 ## Update Auto-Response Setting
 
-`PUT /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
+`PUT /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}` — Required: `op`, `keywords`, `country_code`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  autoRespConfigResponse, err := client.MessagingProfiles.AutorespConfigs.Update(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.MessagingProfileAutorespConfigUpdateParams{
-      ProfileID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      AutoRespConfigCreate: telnyx.AutoRespConfigCreateParam{
-        CountryCode: "US",
-        Keywords: []string{"keyword1", "keyword2"},
-        Op: telnyx.AutoRespConfigCreateOpStart,
-      },
+autoRespConfigResponse, err := client.MessagingProfiles.AutorespConfigs.Update(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.MessagingProfileAutorespConfigUpdateParams{
+    ProfileID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    AutoRespConfigCreate: telnyx.AutoRespConfigCreateParam{
+      CountryCode: "US",
+      Keywords: []string{"keyword1", "keyword2"},
+      Op: telnyx.AutoRespConfigCreateOpStart,
     },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", autoRespConfigResponse.Data)
+  },
+)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", autoRespConfigResponse.Data)
 ```
 
 ## Delete Auto-Response Setting
@@ -376,32 +229,17 @@ func main() {
 `DELETE /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+autorespConfig, err := client.MessagingProfiles.AutorespConfigs.Delete(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.MessagingProfileAutorespConfigDeleteParams{
+    ProfileID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  autorespConfig, err := client.MessagingProfiles.AutorespConfigs.Delete(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.MessagingProfileAutorespConfigDeleteParams{
-      ProfileID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", autorespConfig)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", autorespConfig)
 ```
 
 ## List short codes
@@ -409,28 +247,13 @@ func main() {
 `GET /short_codes`
 
 ```go
-package main
+page, err := client.ShortCodes.List(context.TODO(), telnyx.ShortCodeListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.ShortCodes.List(context.TODO(), telnyx.ShortCodeListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Retrieve a short code
@@ -438,57 +261,29 @@ func main() {
 `GET /short_codes/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  shortCode, err := client.ShortCodes.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", shortCode.Data)
+shortCode, err := client.ShortCodes.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", shortCode.Data)
 ```
 
 ## Update short code
 
-`PATCH /short_codes/{id}`
+Update the settings for a specific short code.
+
+`PATCH /short_codes/{id}` — Required: `messaging_profile_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+shortCode, err := client.ShortCodes.Update(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.ShortCodeUpdateParams{
+    MessagingProfileID: "abc85f64-5717-4562-b3fc-2c9600000000",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  shortCode, err := client.ShortCodes.Update(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.ShortCodeUpdateParams{
-      MessagingProfileID: "abc85f64-5717-4562-b3fc-2c9600000000",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", shortCode.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", shortCode.Data)
 ```

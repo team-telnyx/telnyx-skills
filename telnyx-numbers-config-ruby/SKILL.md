@@ -18,13 +18,23 @@ metadata:
 gem install telnyx
 ```
 
+## Setup
+
+```ruby
+require "telnyx"
+
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Lists the phone number blocks jobs
 
 `GET /phone_number_blocks/jobs`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.phone_number_blocks.jobs.list
@@ -37,8 +47,6 @@ puts(page)
 `GET /phone_number_blocks/jobs/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 job = telnyx.phone_number_blocks.jobs.retrieve("id")
@@ -48,11 +56,11 @@ puts(job)
 
 ## Deletes all numbers associated with a phone number block
 
-`POST /phone_number_blocks/jobs/delete_phone_number_block`
+Creates a new background job to delete all the phone numbers associated with the given block.
+
+`POST /phone_number_blocks/jobs/delete_phone_number_block` — Required: `phone_number_block_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.phone_number_blocks.jobs.delete_phone_number_block(
@@ -67,8 +75,6 @@ puts(response)
 `GET /phone_numbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.phone_numbers.list
@@ -81,8 +87,6 @@ puts(page)
 `GET /phone_numbers/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 phone_number = telnyx.phone_numbers.retrieve("1293384261075731499")
@@ -95,8 +99,6 @@ puts(phone_number)
 `PATCH /phone_numbers/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 phone_number = telnyx.phone_numbers.update("1293384261075731499")
@@ -109,8 +111,6 @@ puts(phone_number)
 `DELETE /phone_numbers/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 phone_number = telnyx.phone_numbers.delete("1293384261075731499")
@@ -120,11 +120,9 @@ puts(phone_number)
 
 ## Change the bundle status for a phone number (set to being in a bundle or remove from a bundle)
 
-`PATCH /phone_numbers/{id}/actions/bundle_status_change`
+`PATCH /phone_numbers/{id}/actions/bundle_status_change` — Required: `bundle_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.phone_numbers.actions.change_bundle_status(
@@ -137,11 +135,9 @@ puts(response)
 
 ## Enable emergency for a phone number
 
-`POST /phone_numbers/{id}/actions/enable_emergency`
+`POST /phone_numbers/{id}/actions/enable_emergency` — Required: `emergency_enabled`, `emergency_address_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.phone_numbers.actions.enable_emergency(
@@ -158,8 +154,6 @@ puts(response)
 `GET /phone_numbers/{id}/voice`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 voice = telnyx.phone_numbers.voice.retrieve("1293384261075731499")
@@ -172,8 +166,6 @@ puts(voice)
 `PATCH /phone_numbers/{id}/voice`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 voice = telnyx.phone_numbers.voice.update("1293384261075731499")
@@ -183,11 +175,11 @@ puts(voice)
 
 ## Verify ownership of phone numbers
 
-`POST /phone_numbers/actions/verify_ownership`
+Verifies ownership of the provided phone numbers and returns a mapping of numbers to their IDs, plus a list of numbers not found in the account.
+
+`POST /phone_numbers/actions/verify_ownership` — Required: `phone_numbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.phone_numbers.actions.verify_ownership(phone_numbers: ["+15551234567"])
@@ -200,8 +192,6 @@ puts(response)
 `GET /phone_numbers/csv_downloads`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.phone_numbers.csv_downloads.list
@@ -214,8 +204,6 @@ puts(page)
 `POST /phone_numbers/csv_downloads`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 csv_download = telnyx.phone_numbers.csv_downloads.create
@@ -228,8 +216,6 @@ puts(csv_download)
 `GET /phone_numbers/csv_downloads/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 csv_download = telnyx.phone_numbers.csv_downloads.retrieve("id")
@@ -242,8 +228,6 @@ puts(csv_download)
 `GET /phone_numbers/jobs`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.phone_numbers.jobs.list
@@ -256,8 +240,6 @@ puts(page)
 `GET /phone_numbers/jobs/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 job = telnyx.phone_numbers.jobs.retrieve("id")
@@ -267,11 +249,11 @@ puts(job)
 
 ## Delete a batch of numbers
 
-`POST /phone_numbers/jobs/delete_phone_numbers`
+Creates a new background job to delete a batch of numbers.
+
+`POST /phone_numbers/jobs/delete_phone_numbers` — Required: `phone_numbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.phone_numbers.jobs.delete_batch(phone_numbers: ["+19705555098", "+19715555098", "32873127836"])
@@ -281,11 +263,11 @@ puts(response)
 
 ## Update the emergency settings from a batch of numbers
 
-`POST /phone_numbers/jobs/update_emergency_settings`
+Creates a background job to update the emergency settings of a collection of phone numbers.
+
+`POST /phone_numbers/jobs/update_emergency_settings` — Required: `emergency_enabled`, `phone_numbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.phone_numbers.jobs.update_emergency_settings_batch(
@@ -298,11 +280,11 @@ puts(response)
 
 ## Update a batch of numbers
 
-`POST /phone_numbers/jobs/update_phone_numbers`
+Creates a new background job to update a batch of numbers.
+
+`POST /phone_numbers/jobs/update_phone_numbers` — Required: `phone_numbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.phone_numbers.jobs.update_batch(phone_numbers: ["1583466971586889004", "+13127367254"])
@@ -315,8 +297,6 @@ puts(response)
 `GET /phone_numbers/regulatory_requirements`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 phone_numbers_regulatory_requirement = telnyx.phone_numbers_regulatory_requirements.retrieve
@@ -326,11 +306,11 @@ puts(phone_numbers_regulatory_requirement)
 
 ## Slim List phone numbers
 
+List phone numbers, This endpoint is a lighter version of the /phone_numbers endpoint having higher performance and rate limit.
+
 `GET /phone_numbers/slim`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.phone_numbers.slim_list
@@ -343,8 +323,6 @@ puts(page)
 `GET /phone_numbers/voice`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.phone_numbers.voice.list
@@ -357,8 +335,6 @@ puts(page)
 `GET /v2/mobile_phone_numbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.mobile_phone_numbers.list
@@ -371,8 +347,6 @@ puts(page)
 `GET /v2/mobile_phone_numbers/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 mobile_phone_number = telnyx.mobile_phone_numbers.retrieve("id")
@@ -385,8 +359,6 @@ puts(mobile_phone_number)
 `PATCH /v2/mobile_phone_numbers/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 mobile_phone_number = telnyx.mobile_phone_numbers.update("id")

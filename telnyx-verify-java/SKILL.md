@@ -18,108 +18,73 @@ metadata:
 // Add to pom.xml or build.gradle - see https://github.com/team-telnyx/telnyx-java
 ```
 
+## Setup
+
+```java
+import com.telnyx.sdk.client.TelnyxClient;
+import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
+
+TelnyxClient client = TelnyxOkHttpClient.fromEnv();
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Lookup phone number data
+
+Returns information about the provided phone number.
 
 `GET /number_lookup/{phone_number}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.numberlookup.NumberLookupRetrieveParams;
 import com.telnyx.sdk.models.numberlookup.NumberLookupRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        NumberLookupRetrieveResponse numberLookup = client.numberLookup().retrieve("+18665552368");
-    }
-}
+NumberLookupRetrieveResponse numberLookup = client.numberLookup().retrieve("+18665552368");
 ```
 
 ## Trigger Call verification
 
-`POST /verifications/call`
+`POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifications.CreateVerificationResponse;
 import com.telnyx.sdk.models.verifications.VerificationTriggerCallParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerificationTriggerCallParams params = VerificationTriggerCallParams.builder()
-            .phoneNumber("+13035551234")
-            .verifyProfileId("12ade33a-21c0-473b-b055-b3c836e1c292")
-            .build();
-        CreateVerificationResponse createVerificationResponse = client.verifications().triggerCall(params);
-    }
-}
+VerificationTriggerCallParams params = VerificationTriggerCallParams.builder()
+    .phoneNumber("+13035551234")
+    .verifyProfileId("12ade33a-21c0-473b-b055-b3c836e1c292")
+    .build();
+CreateVerificationResponse createVerificationResponse = client.verifications().triggerCall(params);
 ```
 
 ## Trigger Flash call verification
 
-`POST /verifications/flashcall`
+`POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifications.CreateVerificationResponse;
 import com.telnyx.sdk.models.verifications.VerificationTriggerFlashcallParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerificationTriggerFlashcallParams params = VerificationTriggerFlashcallParams.builder()
-            .phoneNumber("+13035551234")
-            .verifyProfileId("12ade33a-21c0-473b-b055-b3c836e1c292")
-            .build();
-        CreateVerificationResponse createVerificationResponse = client.verifications().triggerFlashcall(params);
-    }
-}
+VerificationTriggerFlashcallParams params = VerificationTriggerFlashcallParams.builder()
+    .phoneNumber("+13035551234")
+    .verifyProfileId("12ade33a-21c0-473b-b055-b3c836e1c292")
+    .build();
+CreateVerificationResponse createVerificationResponse = client.verifications().triggerFlashcall(params);
 ```
 
 ## Trigger SMS verification
 
-`POST /verifications/sms`
+`POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifications.CreateVerificationResponse;
 import com.telnyx.sdk.models.verifications.VerificationTriggerSmsParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerificationTriggerSmsParams params = VerificationTriggerSmsParams.builder()
-            .phoneNumber("+13035551234")
-            .verifyProfileId("12ade33a-21c0-473b-b055-b3c836e1c292")
-            .build();
-        CreateVerificationResponse createVerificationResponse = client.verifications().triggerSms(params);
-    }
-}
+VerificationTriggerSmsParams params = VerificationTriggerSmsParams.builder()
+    .phoneNumber("+13035551234")
+    .verifyProfileId("12ade33a-21c0-473b-b055-b3c836e1c292")
+    .build();
+CreateVerificationResponse createVerificationResponse = client.verifications().triggerSms(params);
 ```
 
 ## Retrieve verification
@@ -127,22 +92,10 @@ public final class Main {
 `GET /verifications/{verification_id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifications.VerificationRetrieveParams;
 import com.telnyx.sdk.models.verifications.VerificationRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerificationRetrieveResponse verification = client.verifications().retrieve("12ade33a-21c0-473b-b055-b3c836e1c292");
-    }
-}
+VerificationRetrieveResponse verification = client.verifications().retrieve("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
 
 ## Verify verification code by ID
@@ -150,22 +103,10 @@ public final class Main {
 `POST /verifications/{verification_id}/actions/verify`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifications.actions.ActionVerifyParams;
 import com.telnyx.sdk.models.verifications.byphonenumber.actions.VerifyVerificationCodeResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerifyVerificationCodeResponse verifyVerificationCodeResponse = client.verifications().actions().verify("12ade33a-21c0-473b-b055-b3c836e1c292");
-    }
-}
+VerifyVerificationCodeResponse verifyVerificationCodeResponse = client.verifications().actions().verify("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
 
 ## List verifications by phone number
@@ -173,122 +114,68 @@ public final class Main {
 `GET /verifications/by_phone_number/{phone_number}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifications.byphonenumber.ByPhoneNumberListParams;
 import com.telnyx.sdk.models.verifications.byphonenumber.ByPhoneNumberListResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ByPhoneNumberListResponse byPhoneNumbers = client.verifications().byPhoneNumber().list("+13035551234");
-    }
-}
+ByPhoneNumberListResponse byPhoneNumbers = client.verifications().byPhoneNumber().list("+13035551234");
 ```
 
 ## Verify verification code by phone number
 
-`POST /verifications/by_phone_number/{phone_number}/actions/verify`
+`POST /verifications/by_phone_number/{phone_number}/actions/verify` — Required: `code`, `verify_profile_id`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifications.byphonenumber.actions.ActionVerifyParams;
 import com.telnyx.sdk.models.verifications.byphonenumber.actions.VerifyVerificationCodeResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionVerifyParams params = ActionVerifyParams.builder()
-            .phoneNumber("+13035551234")
-            .code("17686")
-            .verifyProfileId("12ade33a-21c0-473b-b055-b3c836e1c292")
-            .build();
-        VerifyVerificationCodeResponse verifyVerificationCodeResponse = client.verifications().byPhoneNumber().actions().verify(params);
-    }
-}
+ActionVerifyParams params = ActionVerifyParams.builder()
+    .phoneNumber("+13035551234")
+    .code("17686")
+    .verifyProfileId("12ade33a-21c0-473b-b055-b3c836e1c292")
+    .build();
+VerifyVerificationCodeResponse verifyVerificationCodeResponse = client.verifications().byPhoneNumber().actions().verify(params);
 ```
 
 ## List all Verify profiles
 
+Gets a paginated list of Verify profiles.
+
 `GET /verify_profiles`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileListPage;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerifyProfileListPage page = client.verifyProfiles().list();
-    }
-}
+VerifyProfileListPage page = client.verifyProfiles().list();
 ```
 
 ## Create a Verify profile
 
-`POST /verify_profiles`
+Creates a new Verify profile to associate verifications with.
+
+`POST /verify_profiles` — Required: `name`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileCreateParams;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileData;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerifyProfileCreateParams params = VerifyProfileCreateParams.builder()
-            .name("Test Profile")
-            .build();
-        VerifyProfileData verifyProfileData = client.verifyProfiles().create(params);
-    }
-}
+VerifyProfileCreateParams params = VerifyProfileCreateParams.builder()
+    .name("Test Profile")
+    .build();
+VerifyProfileData verifyProfileData = client.verifyProfiles().create(params);
 ```
 
 ## Retrieve Verify profile
 
+Gets a single Verify profile.
+
 `GET /verify_profiles/{verify_profile_id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileData;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileRetrieveParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerifyProfileData verifyProfileData = client.verifyProfiles().retrieve("12ade33a-21c0-473b-b055-b3c836e1c292");
-    }
-}
+VerifyProfileData verifyProfileData = client.verifyProfiles().retrieve("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
 
 ## Update Verify profile
@@ -296,22 +183,10 @@ public final class Main {
 `PATCH /verify_profiles/{verify_profile_id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileData;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileUpdateParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerifyProfileData verifyProfileData = client.verifyProfiles().update("12ade33a-21c0-473b-b055-b3c836e1c292");
-    }
-}
+VerifyProfileData verifyProfileData = client.verifyProfiles().update("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
 
 ## Delete Verify profile
@@ -319,96 +194,54 @@ public final class Main {
 `DELETE /verify_profiles/{verify_profile_id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileData;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileDeleteParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerifyProfileData verifyProfileData = client.verifyProfiles().delete("12ade33a-21c0-473b-b055-b3c836e1c292");
-    }
-}
+VerifyProfileData verifyProfileData = client.verifyProfiles().delete("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
 
 ## Retrieve Verify profile message templates
 
+List all Verify profile message templates.
+
 `GET /verify_profiles/templates`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileRetrieveTemplatesParams;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileRetrieveTemplatesResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerifyProfileRetrieveTemplatesResponse response = client.verifyProfiles().retrieveTemplates();
-    }
-}
+VerifyProfileRetrieveTemplatesResponse response = client.verifyProfiles().retrieveTemplates();
 ```
 
 ## Create message template
 
-`POST /verify_profiles/templates`
+Create a new Verify profile message template.
+
+`POST /verify_profiles/templates` — Required: `text`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifyprofiles.MessageTemplate;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileCreateTemplateParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerifyProfileCreateTemplateParams params = VerifyProfileCreateTemplateParams.builder()
-            .text("Your {{app_name}} verification code is: {{code}}.")
-            .build();
-        MessageTemplate messageTemplate = client.verifyProfiles().createTemplate(params);
-    }
-}
+VerifyProfileCreateTemplateParams params = VerifyProfileCreateTemplateParams.builder()
+    .text("Your {{app_name}} verification code is: {{code}}.")
+    .build();
+MessageTemplate messageTemplate = client.verifyProfiles().createTemplate(params);
 ```
 
 ## Update message template
 
-`PATCH /verify_profiles/templates/{template_id}`
+Update an existing Verify profile message template.
+
+`PATCH /verify_profiles/templates/{template_id}` — Required: `text`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.verifyprofiles.MessageTemplate;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileUpdateTemplateParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        VerifyProfileUpdateTemplateParams params = VerifyProfileUpdateTemplateParams.builder()
-            .templateId("12ade33a-21c0-473b-b055-b3c836e1c292")
-            .text("Your {{app_name}} verification code is: {{code}}.")
-            .build();
-        MessageTemplate messageTemplate = client.verifyProfiles().updateTemplate(params);
-    }
-}
+VerifyProfileUpdateTemplateParams params = VerifyProfileUpdateTemplateParams.builder()
+    .templateId("12ade33a-21c0-473b-b055-b3c836e1c292")
+    .text("Your {{app_name}} verification code is: {{code}}.")
+    .build();
+MessageTemplate messageTemplate = client.verifyProfiles().updateTemplate(params);
 ```

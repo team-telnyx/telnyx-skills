@@ -18,9 +18,7 @@ metadata:
 npm install telnyx
 ```
 
-## List all porting events
-
-`GET /porting/events`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -28,7 +26,17 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## List all porting events
+
+Returns a list of all porting events.
+
+`GET /porting/events`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const eventListResponse of client.porting.events.list()) {
   console.log(eventListResponse);
@@ -37,15 +45,11 @@ for await (const eventListResponse of client.porting.events.list()) {
 
 ## Show a porting event
 
+Show a specific porting event.
+
 `GET /porting/events/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const event = await client.porting.events.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(event.data);
@@ -53,29 +57,21 @@ console.log(event.data);
 
 ## Republish a porting event
 
+Republish a specific porting event.
+
 `POST /porting/events/{id}/republish`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.porting.events.republish('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 ```
 
 ## Preview the LOA configuration parameters
 
+Preview the LOA template that would be generated without need to create LOA configuration.
+
 `POST /porting/loa_configuration_preview`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.porting.loaConfigurations.preview0({
   address: {
     city: 'Austin',
@@ -98,15 +94,11 @@ console.log(content);
 
 ## List LOA configurations
 
+List the LOA configurations.
+
 `GET /porting/loa_configurations`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const portingLoaConfiguration of client.porting.loaConfigurations.list()) {
   console.log(portingLoaConfiguration.id);
@@ -115,15 +107,11 @@ for await (const portingLoaConfiguration of client.porting.loaConfigurations.lis
 
 ## Create a LOA configuration
 
+Create a LOA configuration.
+
 `POST /porting/loa_configurations`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const loaConfiguration = await client.porting.loaConfigurations.create({
   address: {
     city: 'Austin',
@@ -143,15 +131,11 @@ console.log(loaConfiguration.data);
 
 ## Retrieve a LOA configuration
 
+Retrieve a specific LOA configuration.
+
 `GET /porting/loa_configurations/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const loaConfiguration = await client.porting.loaConfigurations.retrieve(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -161,15 +145,11 @@ console.log(loaConfiguration.data);
 
 ## Update a LOA configuration
 
+Update a specific LOA configuration.
+
 `PATCH /porting/loa_configurations/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const loaConfiguration = await client.porting.loaConfigurations.update(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   {
@@ -192,29 +172,21 @@ console.log(loaConfiguration.data);
 
 ## Delete a LOA configuration
 
+Delete a specific LOA configuration.
+
 `DELETE /porting/loa_configurations/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.porting.loaConfigurations.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 ```
 
 ## Preview a LOA configuration
 
+Preview a specific LOA configuration.
+
 `GET /porting/loa_configurations/{id}/preview`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.porting.loaConfigurations.preview1(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -227,15 +199,11 @@ console.log(content);
 
 ## List all porting orders
 
+Returns a list of your porting order.
+
 `GET /porting_orders`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const portingOrder of client.portingOrders.list()) {
   console.log(portingOrder.id);
@@ -244,15 +212,11 @@ for await (const portingOrder of client.portingOrders.list()) {
 
 ## Create a porting order
 
-`POST /porting_orders`
+Creates a new porting order object.
+
+`POST /porting_orders` — Required: `phone_numbers`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const portingOrder = await client.portingOrders.create({
   phone_numbers: ['+13035550000', '+13035550001', '+13035550002'],
 });
@@ -262,15 +226,11 @@ console.log(portingOrder.data);
 
 ## Retrieve a porting order
 
+Retrieves the details of an existing porting order.
+
 `GET /porting_orders/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const portingOrder = await client.portingOrders.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(portingOrder.data);
@@ -278,15 +238,11 @@ console.log(portingOrder.data);
 
 ## Edit a porting order
 
+Edits the details of an existing porting order.
+
 `PATCH /porting_orders/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const portingOrder = await client.portingOrders.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(portingOrder.data);
@@ -294,29 +250,21 @@ console.log(portingOrder.data);
 
 ## Delete a porting order
 
+Deletes an existing porting order.
+
 `DELETE /porting_orders/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.portingOrders.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 ```
 
 ## Activate every number in a porting order asynchronously.
 
+Activate each number in a porting order asynchronously.
+
 `POST /porting_orders/{id}/actions/activate`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portingOrders.actions.activate(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -329,12 +277,6 @@ console.log(response.data);
 `POST /porting_orders/{id}/actions/cancel`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portingOrders.actions.cancel('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(response.data);
@@ -342,15 +284,11 @@ console.log(response.data);
 
 ## Submit a porting order.
 
+Confirm and submit your porting order.
+
 `POST /porting_orders/{id}/actions/confirm`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portingOrders.actions.confirm('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(response.data);
@@ -358,15 +296,11 @@ console.log(response.data);
 
 ## Share a porting order
 
+Creates a sharing token for a porting order.
+
 `POST /porting_orders/{id}/actions/share`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portingOrders.actions.share('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(response.data);
@@ -374,15 +308,11 @@ console.log(response.data);
 
 ## List all porting activation jobs
 
+Returns a list of your porting activation jobs.
+
 `GET /porting_orders/{id}/activation_jobs`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const portingOrdersActivationJob of client.portingOrders.activationJobs.list(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -393,15 +323,11 @@ for await (const portingOrdersActivationJob of client.portingOrders.activationJo
 
 ## Retrieve a porting activation job
 
+Returns a porting activation job.
+
 `GET /porting_orders/{id}/activation_jobs/{activationJobId}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const activationJob = await client.portingOrders.activationJobs.retrieve(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   { id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
@@ -412,15 +338,11 @@ console.log(activationJob.data);
 
 ## Update a porting activation job
 
+Updates the activation time of a porting activation job.
+
 `PATCH /porting_orders/{id}/activation_jobs/{activationJobId}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const activationJob = await client.portingOrders.activationJobs.update(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   { id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
@@ -431,15 +353,11 @@ console.log(activationJob.data);
 
 ## List additional documents
 
+Returns a list of additional documents for a porting order.
+
 `GET /porting_orders/{id}/additional_documents`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const additionalDocumentListResponse of client.portingOrders.additionalDocuments.list(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -450,15 +368,11 @@ for await (const additionalDocumentListResponse of client.portingOrders.addition
 
 ## Create a list of additional documents
 
+Creates a list of additional documents for a porting order.
+
 `POST /porting_orders/{id}/additional_documents`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const additionalDocument = await client.portingOrders.additionalDocuments.create(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -468,15 +382,11 @@ console.log(additionalDocument.data);
 
 ## Delete an additional document
 
+Deletes an additional document for a porting order.
+
 `DELETE /porting_orders/{id}/additional_documents/{additional_document_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.portingOrders.additionalDocuments.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
   id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 });
@@ -484,15 +394,11 @@ await client.portingOrders.additionalDocuments.delete('182bd5e5-6e1a-4fe4-a799-a
 
 ## List allowed FOC dates
 
+Returns a list of allowed FOC dates for a porting order.
+
 `GET /porting_orders/{id}/allowed_foc_windows`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portingOrders.retrieveAllowedFocWindows(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -502,15 +408,11 @@ console.log(response.data);
 
 ## List all comments of a porting order
 
+Returns a list of all comments of a porting order.
+
 `GET /porting_orders/{id}/comments`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const commentListResponse of client.portingOrders.comments.list(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -521,15 +423,11 @@ for await (const commentListResponse of client.portingOrders.comments.list(
 
 ## Create a comment for a porting order
 
+Creates a new comment for a porting order.
+
 `POST /porting_orders/{id}/comments`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const comment = await client.portingOrders.comments.create('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(comment.data);
@@ -540,12 +438,6 @@ console.log(comment.data);
 `GET /porting_orders/{id}/loa_template`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portingOrders.retrieveLoaTemplate(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -558,15 +450,11 @@ console.log(content);
 
 ## List porting order requirements
 
+Returns a list of all requirements based on country/number type for this porting order.
+
 `GET /porting_orders/{id}/requirements`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const portingOrderRetrieveRequirementsResponse of client.portingOrders.retrieveRequirements(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -580,12 +468,6 @@ for await (const portingOrderRetrieveRequirementsResponse of client.portingOrder
 `GET /porting_orders/{id}/sub_request`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portingOrders.retrieveSubRequest(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -595,15 +477,11 @@ console.log(response.data);
 
 ## List verification codes
 
+Returns a list of verification codes for a porting order.
+
 `GET /porting_orders/{id}/verification_codes`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const verificationCodeListResponse of client.portingOrders.verificationCodes.list(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -614,29 +492,21 @@ for await (const verificationCodeListResponse of client.portingOrders.verificati
 
 ## Send the verification codes
 
+Send the verification code for all porting phone numbers.
+
 `POST /porting_orders/{id}/verification_codes/send`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.portingOrders.verificationCodes.send('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 ```
 
 ## Verify the verification code for a list of phone numbers
 
+Verifies the verification code for a list of phone numbers.
+
 `POST /porting_orders/{id}/verification_codes/verify`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portingOrders.verificationCodes.verify(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -646,15 +516,11 @@ console.log(response.data);
 
 ## List action requirements for a porting order
 
+Returns a list of action requirements for a specific porting order.
+
 `GET /porting_orders/{porting_order_id}/action_requirements`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const actionRequirementListResponse of client.portingOrders.actionRequirements.list(
   'porting_order_id',
@@ -665,15 +531,11 @@ for await (const actionRequirementListResponse of client.portingOrders.actionReq
 
 ## Initiate an action requirement
 
+Initiates a specific action requirement for a porting order.
+
 `POST /porting_orders/{porting_order_id}/action_requirements/{id}/initiate`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portingOrders.actionRequirements.initiate('id', {
   porting_order_id: 'porting_order_id',
   params: { first_name: 'John', last_name: 'Doe' },
@@ -684,15 +546,11 @@ console.log(response.data);
 
 ## List all associated phone numbers
 
+Returns a list of all associated phone numbers for a porting order.
+
 `GET /porting_orders/{porting_order_id}/associated_phone_numbers`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const portingAssociatedPhoneNumber of client.portingOrders.associatedPhoneNumbers.list(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -703,15 +561,11 @@ for await (const portingAssociatedPhoneNumber of client.portingOrders.associated
 
 ## Create an associated phone number
 
+Creates a new associated phone number for a porting order.
+
 `POST /porting_orders/{porting_order_id}/associated_phone_numbers`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const associatedPhoneNumber = await client.portingOrders.associatedPhoneNumbers.create(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   {
@@ -725,15 +579,11 @@ console.log(associatedPhoneNumber.data);
 
 ## Delete an associated phone number
 
+Deletes an associated phone number from a porting order.
+
 `DELETE /porting_orders/{porting_order_id}/associated_phone_numbers/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const associatedPhoneNumber = await client.portingOrders.associatedPhoneNumbers.delete(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   { porting_order_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
@@ -744,15 +594,11 @@ console.log(associatedPhoneNumber.data);
 
 ## List all phone number blocks
 
+Returns a list of all phone number blocks of a porting order.
+
 `GET /porting_orders/{porting_order_id}/phone_number_blocks`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const portingPhoneNumberBlock of client.portingOrders.phoneNumberBlocks.list(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -763,15 +609,11 @@ for await (const portingPhoneNumberBlock of client.portingOrders.phoneNumberBloc
 
 ## Create a phone number block
 
+Creates a new phone number block.
+
 `POST /porting_orders/{porting_order_id}/phone_number_blocks`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const phoneNumberBlock = await client.portingOrders.phoneNumberBlocks.create(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   {
@@ -785,15 +627,11 @@ console.log(phoneNumberBlock.data);
 
 ## Delete a phone number block
 
+Deletes a phone number block.
+
 `DELETE /porting_orders/{porting_order_id}/phone_number_blocks/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const phoneNumberBlock = await client.portingOrders.phoneNumberBlocks.delete(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   { porting_order_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
@@ -804,15 +642,11 @@ console.log(phoneNumberBlock.data);
 
 ## List all phone number extensions
 
+Returns a list of all phone number extensions of a porting order.
+
 `GET /porting_orders/{porting_order_id}/phone_number_extensions`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const portingPhoneNumberExtension of client.portingOrders.phoneNumberExtensions.list(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -823,15 +657,11 @@ for await (const portingPhoneNumberExtension of client.portingOrders.phoneNumber
 
 ## Create a phone number extension
 
+Creates a new phone number extension.
+
 `POST /porting_orders/{porting_order_id}/phone_number_extensions`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const phoneNumberExtension = await client.portingOrders.phoneNumberExtensions.create(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   {
@@ -846,15 +676,11 @@ console.log(phoneNumberExtension.data);
 
 ## Delete a phone number extension
 
+Deletes a phone number extension.
+
 `DELETE /porting_orders/{porting_order_id}/phone_number_extensions/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const phoneNumberExtension = await client.portingOrders.phoneNumberExtensions.delete(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   { porting_order_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
@@ -865,15 +691,11 @@ console.log(phoneNumberExtension.data);
 
 ## List all exception types
 
+Returns a list of all possible exception types for a porting order.
+
 `GET /porting_orders/exception_types`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portingOrders.retrieveExceptionTypes();
 
 console.log(response.data);
@@ -881,15 +703,11 @@ console.log(response.data);
 
 ## List all phone number configurations
 
+Returns a list of phone number configurations paginated.
+
 `GET /porting_orders/phone_number_configurations`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const phoneNumberConfigurationListResponse of client.portingOrders.phoneNumberConfigurations.list()) {
   console.log(phoneNumberConfigurationListResponse.id);
@@ -898,15 +716,11 @@ for await (const phoneNumberConfigurationListResponse of client.portingOrders.ph
 
 ## Create a list of phone number configurations
 
+Creates a list of phone number configurations.
+
 `POST /porting_orders/phone_number_configurations`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const phoneNumberConfiguration = await client.portingOrders.phoneNumberConfigurations.create();
 
 console.log(phoneNumberConfiguration.data);
@@ -914,15 +728,11 @@ console.log(phoneNumberConfiguration.data);
 
 ## List all porting phone numbers
 
+Returns a list of your porting phone numbers.
+
 `GET /porting/phone_numbers`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const portingPhoneNumberListResponse of client.portingPhoneNumbers.list()) {
   console.log(portingPhoneNumberListResponse.porting_order_id);
@@ -931,15 +741,11 @@ for await (const portingPhoneNumberListResponse of client.portingPhoneNumbers.li
 
 ## List porting related reports
 
+List the reports generated about porting operations.
+
 `GET /porting/reports`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const portingReport of client.porting.reports.list()) {
   console.log(portingReport.id);
@@ -948,15 +754,11 @@ for await (const portingReport of client.porting.reports.list()) {
 
 ## Create a porting related report
 
+Generate reports about porting operations.
+
 `POST /porting/reports`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const report = await client.porting.reports.create({
   params: { filters: {} },
   report_type: 'export_porting_orders_csv',
@@ -967,15 +769,11 @@ console.log(report.data);
 
 ## Retrieve a report
 
+Retrieve a specific report generated.
+
 `GET /porting/reports/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const report = await client.porting.reports.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(report.data);
@@ -983,15 +781,11 @@ console.log(report.data);
 
 ## List available carriers in the UK
 
+List available carriers in the UK.
+
 `GET /porting/uk_carriers`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.porting.listUkCarriers();
 
 console.log(response.data);
@@ -999,15 +793,11 @@ console.log(response.data);
 
 ## Run a portability check
 
+Runs a portability check, returning the results immediately.
+
 `POST /portability_checks`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portabilityChecks.run();
 
 console.log(response.data);

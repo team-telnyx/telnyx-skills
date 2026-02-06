@@ -17,9 +17,7 @@ metadata:
 pip install telnyx
 ```
 
-## Retrieve Black Box Test Results
-
-`GET /seti/black_box_test_results`
+## Setup
 
 ```python
 import os
@@ -28,6 +26,17 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Retrieve Black Box Test Results
+
+Returns the results of the various black box tests
+
+`GET /seti/black_box_test_results`
+
+```python
 response = client.seti.retrieve_black_box_test_results()
 print(response.data)
 ```

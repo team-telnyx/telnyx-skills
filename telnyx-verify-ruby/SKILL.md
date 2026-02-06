@@ -18,13 +18,25 @@ metadata:
 gem install telnyx
 ```
 
-## Lookup phone number data
-
-`GET /number_lookup/{phone_number}`
+## Setup
 
 ```ruby
 require "telnyx"
 
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Lookup phone number data
+
+Returns information about the provided phone number.
+
+`GET /number_lookup/{phone_number}`
+
+```ruby
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 number_lookup = telnyx.number_lookup.retrieve("+18665552368")
@@ -34,11 +46,9 @@ puts(number_lookup)
 
 ## Trigger Call verification
 
-`POST /verifications/call`
+`POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 create_verification_response = telnyx.verifications.trigger_call(
@@ -51,11 +61,9 @@ puts(create_verification_response)
 
 ## Trigger Flash call verification
 
-`POST /verifications/flashcall`
+`POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 create_verification_response = telnyx.verifications.trigger_flashcall(
@@ -68,11 +76,9 @@ puts(create_verification_response)
 
 ## Trigger SMS verification
 
-`POST /verifications/sms`
+`POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 create_verification_response = telnyx.verifications.trigger_sms(
@@ -88,8 +94,6 @@ puts(create_verification_response)
 `GET /verifications/{verification_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 verification = telnyx.verifications.retrieve("12ade33a-21c0-473b-b055-b3c836e1c292")
@@ -102,8 +106,6 @@ puts(verification)
 `POST /verifications/{verification_id}/actions/verify`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 verify_verification_code_response = telnyx.verifications.actions.verify("12ade33a-21c0-473b-b055-b3c836e1c292")
@@ -116,8 +118,6 @@ puts(verify_verification_code_response)
 `GET /verifications/by_phone_number/{phone_number}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 by_phone_numbers = telnyx.verifications.by_phone_number.list("+13035551234")
@@ -127,11 +127,9 @@ puts(by_phone_numbers)
 
 ## Verify verification code by phone number
 
-`POST /verifications/by_phone_number/{phone_number}/actions/verify`
+`POST /verifications/by_phone_number/{phone_number}/actions/verify` — Required: `code`, `verify_profile_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 verify_verification_code_response = telnyx.verifications.by_phone_number.actions.verify(
@@ -145,11 +143,11 @@ puts(verify_verification_code_response)
 
 ## List all Verify profiles
 
+Gets a paginated list of Verify profiles.
+
 `GET /verify_profiles`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.verify_profiles.list
@@ -159,11 +157,11 @@ puts(page)
 
 ## Create a Verify profile
 
-`POST /verify_profiles`
+Creates a new Verify profile to associate verifications with.
+
+`POST /verify_profiles` — Required: `name`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 verify_profile_data = telnyx.verify_profiles.create(name: "Test Profile")
@@ -173,11 +171,11 @@ puts(verify_profile_data)
 
 ## Retrieve Verify profile
 
+Gets a single Verify profile.
+
 `GET /verify_profiles/{verify_profile_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 verify_profile_data = telnyx.verify_profiles.retrieve("12ade33a-21c0-473b-b055-b3c836e1c292")
@@ -190,8 +188,6 @@ puts(verify_profile_data)
 `PATCH /verify_profiles/{verify_profile_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 verify_profile_data = telnyx.verify_profiles.update("12ade33a-21c0-473b-b055-b3c836e1c292")
@@ -204,8 +200,6 @@ puts(verify_profile_data)
 `DELETE /verify_profiles/{verify_profile_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 verify_profile_data = telnyx.verify_profiles.delete("12ade33a-21c0-473b-b055-b3c836e1c292")
@@ -215,11 +209,11 @@ puts(verify_profile_data)
 
 ## Retrieve Verify profile message templates
 
+List all Verify profile message templates.
+
 `GET /verify_profiles/templates`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.verify_profiles.retrieve_templates
@@ -229,11 +223,11 @@ puts(response)
 
 ## Create message template
 
-`POST /verify_profiles/templates`
+Create a new Verify profile message template.
+
+`POST /verify_profiles/templates` — Required: `text`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 message_template = telnyx.verify_profiles.create_template(text: "Your {{app_name}} verification code is: {{code}}.")
@@ -243,11 +237,11 @@ puts(message_template)
 
 ## Update message template
 
-`PATCH /verify_profiles/templates/{template_id}`
+Update an existing Verify profile message template.
+
+`PATCH /verify_profiles/templates/{template_id}` — Required: `text`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 message_template = telnyx.verify_profiles.update_template(

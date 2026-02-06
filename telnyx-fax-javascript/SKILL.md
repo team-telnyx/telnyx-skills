@@ -17,9 +17,7 @@ metadata:
 npm install telnyx
 ```
 
-## List all Fax Applications
-
-`GET /fax_applications`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -27,7 +25,17 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## List all Fax Applications
+
+This endpoint returns a list of your Fax Applications inside the 'data' attribute of the response.
+
+`GET /fax_applications`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const faxApplication of client.faxApplications.list()) {
   console.log(faxApplication.id);
@@ -36,15 +44,11 @@ for await (const faxApplication of client.faxApplications.list()) {
 
 ## Creates a Fax Application
 
-`POST /fax_applications`
+Creates a new Fax Application based on the parameters sent in the request.
+
+`POST /fax_applications` — Required: `application_name`, `webhook_event_url`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const faxApplication = await client.faxApplications.create({
   application_name: 'fax-router',
   webhook_event_url: 'https://example.com',
@@ -55,15 +59,11 @@ console.log(faxApplication.data);
 
 ## Retrieve a Fax Application
 
+Return the details of an existing Fax Application inside the 'data' attribute of the response.
+
 `GET /fax_applications/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const faxApplication = await client.faxApplications.retrieve('1293384261075731499');
 
 console.log(faxApplication.data);
@@ -71,15 +71,11 @@ console.log(faxApplication.data);
 
 ## Update a Fax Application
 
-`PATCH /fax_applications/{id}`
+Updates settings of an existing Fax Application based on the parameters of the request.
+
+`PATCH /fax_applications/{id}` — Required: `application_name`, `webhook_event_url`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const faxApplication = await client.faxApplications.update('1293384261075731499', {
   application_name: 'fax-router',
   webhook_event_url: 'https://example.com',
@@ -90,15 +86,11 @@ console.log(faxApplication.data);
 
 ## Deletes a Fax Application
 
+Permanently deletes a Fax Application.
+
 `DELETE /fax_applications/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const faxApplication = await client.faxApplications.delete('1293384261075731499');
 
 console.log(faxApplication.data);
@@ -109,12 +101,6 @@ console.log(faxApplication.data);
 `GET /faxes`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const fax of client.faxes.list()) {
   console.log(fax.id);
@@ -123,15 +109,11 @@ for await (const fax of client.faxes.list()) {
 
 ## Send a fax
 
-`POST /faxes`
+Send a fax.
+
+`POST /faxes` — Required: `connection_id`, `from`, `to`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const fax = await client.faxes.create({
   connection_id: '234423',
   from: '+13125790015',
@@ -146,12 +128,6 @@ console.log(fax.data);
 `GET /faxes/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const fax = await client.faxes.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(fax.data);
@@ -162,26 +138,16 @@ console.log(fax.data);
 `DELETE /faxes/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.faxes.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 ```
 
 ## Cancel a fax
 
+Cancel the outbound fax that is in one of the following states: `queued`, `media.processed`, `originated` or `sending`
+
 `POST /faxes/{id}/actions/cancel`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.faxes.actions.cancel('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(response.result);
@@ -189,16 +155,27 @@ console.log(response.result);
 
 ## Refresh a fax
 
+Refreshes the inbound fax's media_url when it has expired
+
 `POST /faxes/{id}/actions/refresh`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.faxes.actions.refresh('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(response.result);
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `fax.delivered` | Fax Delivered |
+| `fax.failed` | Fax Failed |
+| `fax.media.processed` | Fax Media Processed |
+| `fax.queued` | Fax Queued |
+| `fax.sending.started` | Fax Sending Started |

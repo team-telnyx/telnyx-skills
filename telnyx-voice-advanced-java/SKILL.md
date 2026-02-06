@@ -18,104 +18,75 @@ metadata:
 // Add to pom.xml or build.gradle - see https://github.com/team-telnyx/telnyx-java
 ```
 
-## Update client state
-
-`PUT /calls/{call_control_id}/actions/client_state_update`
+## Setup
 
 ```java
-package com.telnyx.sdk.example;
-
 import com.telnyx.sdk.client.TelnyxClient;
 import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
+
+TelnyxClient client = TelnyxOkHttpClient.fromEnv();
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Update client state
+
+Updates client state
+
+`PUT /calls/{call_control_id}/actions/client_state_update` — Required: `client_state`
+
+```java
 import com.telnyx.sdk.models.calls.actions.ActionUpdateClientStateParams;
 import com.telnyx.sdk.models.calls.actions.ActionUpdateClientStateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionUpdateClientStateParams params = ActionUpdateClientStateParams.builder()
-            .callControlId("call_control_id")
-            .clientState("aGF2ZSBhIG5pY2UgZGF5ID1d")
-            .build();
-        ActionUpdateClientStateResponse response = client.calls().actions().updateClientState(params);
-    }
-}
+ActionUpdateClientStateParams params = ActionUpdateClientStateParams.builder()
+    .callControlId("call_control_id")
+    .clientState("aGF2ZSBhIG5pY2UgZGF5ID1d")
+    .build();
+ActionUpdateClientStateResponse response = client.calls().actions().updateClientState(params);
 ```
 
 ## Send DTMF
 
-`POST /calls/{call_control_id}/actions/send_dtmf`
+Sends DTMF tones from this leg.
+
+`POST /calls/{call_control_id}/actions/send_dtmf` — Required: `digits`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionSendDtmfParams;
 import com.telnyx.sdk.models.calls.actions.ActionSendDtmfResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionSendDtmfParams params = ActionSendDtmfParams.builder()
-            .callControlId("call_control_id")
-            .digits("1www2WABCDw9")
-            .build();
-        ActionSendDtmfResponse response = client.calls().actions().sendDtmf(params);
-    }
-}
+ActionSendDtmfParams params = ActionSendDtmfParams.builder()
+    .callControlId("call_control_id")
+    .digits("1www2WABCDw9")
+    .build();
+ActionSendDtmfResponse response = client.calls().actions().sendDtmf(params);
 ```
 
 ## SIPREC start
 
+Start siprec session to configured in SIPREC connector SRS.
+
 `POST /calls/{call_control_id}/actions/siprec_start`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionStartSiprecParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartSiprecResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionStartSiprecResponse response = client.calls().actions().startSiprec("call_control_id");
-    }
-}
+ActionStartSiprecResponse response = client.calls().actions().startSiprec("call_control_id");
 ```
 
 ## SIPREC stop
 
+Stop SIPREC session.
+
 `POST /calls/{call_control_id}/actions/siprec_stop`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionStopSiprecParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopSiprecResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionStopSiprecResponse response = client.calls().actions().stopSiprec("call_control_id");
-    }
-}
+ActionStopSiprecResponse response = client.calls().actions().stopSiprec("call_control_id");
 ```
 
 ## Noise Suppression Start (BETA)
@@ -123,22 +94,10 @@ public final class Main {
 `POST /calls/{call_control_id}/actions/suppression_start`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionStartNoiseSuppressionParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartNoiseSuppressionResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionStartNoiseSuppressionResponse response = client.calls().actions().startNoiseSuppression("call_control_id");
-    }
-}
+ActionStartNoiseSuppressionResponse response = client.calls().actions().startNoiseSuppression("call_control_id");
 ```
 
 ## Noise Suppression Stop (BETA)
@@ -146,47 +105,38 @@ public final class Main {
 `POST /calls/{call_control_id}/actions/suppression_stop`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionStopNoiseSuppressionParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopNoiseSuppressionResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionStopNoiseSuppressionResponse response = client.calls().actions().stopNoiseSuppression("call_control_id");
-    }
-}
+ActionStopNoiseSuppressionResponse response = client.calls().actions().stopNoiseSuppression("call_control_id");
 ```
 
 ## Switch supervisor role
 
-`POST /calls/{call_control_id}/actions/switch_supervisor_role`
+Switch the supervisor role for a bridged call.
+
+`POST /calls/{call_control_id}/actions/switch_supervisor_role` — Required: `role`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionSwitchSupervisorRoleParams;
 import com.telnyx.sdk.models.calls.actions.ActionSwitchSupervisorRoleResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionSwitchSupervisorRoleParams params = ActionSwitchSupervisorRoleParams.builder()
-            .callControlId("call_control_id")
-            .role(ActionSwitchSupervisorRoleParams.Role.BARGE)
-            .build();
-        ActionSwitchSupervisorRoleResponse response = client.calls().actions().switchSupervisorRole(params);
-    }
-}
+ActionSwitchSupervisorRoleParams params = ActionSwitchSupervisorRoleParams.builder()
+    .callControlId("call_control_id")
+    .role(ActionSwitchSupervisorRoleParams.Role.BARGE)
+    .build();
+ActionSwitchSupervisorRoleResponse response = client.calls().actions().switchSupervisorRole(params);
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callSiprecStarted` | Call Siprec Started |
+| `callSiprecStopped` | Call Siprec Stopped |
+| `callSiprecFailed` | Call Siprec Failed |

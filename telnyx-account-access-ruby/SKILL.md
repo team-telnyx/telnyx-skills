@@ -18,13 +18,25 @@ metadata:
 gem install telnyx
 ```
 
-## List all addresses
-
-`GET /addresses`
+## Setup
 
 ```ruby
 require "telnyx"
 
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List all addresses
+
+Returns a list of your addresses.
+
+`GET /addresses`
+
+```ruby
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.addresses.list
@@ -34,11 +46,11 @@ puts(page)
 
 ## Creates an address
 
-`POST /addresses`
+Creates an address.
+
+`POST /addresses` — Required: `first_name`, `last_name`, `business_name`, `street_address`, `locality`, `country_code`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 address = telnyx.addresses.create(
@@ -55,11 +67,11 @@ puts(address)
 
 ## Retrieve an address
 
+Retrieves the details of an existing address.
+
 `GET /addresses/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 address = telnyx.addresses.retrieve("id")
@@ -69,11 +81,11 @@ puts(address)
 
 ## Deletes an address
 
+Deletes an existing address.
+
 `DELETE /addresses/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 address = telnyx.addresses.delete("id")
@@ -86,8 +98,6 @@ puts(address)
 `POST /addresses/{id}/actions/accept_suggestions`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.addresses.actions.accept_suggestions("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -97,11 +107,11 @@ puts(response)
 
 ## Validate an address
 
-`POST /addresses/actions/validate`
+Validates an address for emergency services.
+
+`POST /addresses/actions/validate` — Required: `country_code`, `street_address`, `postal_code`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.addresses.actions.validate(
@@ -115,11 +125,11 @@ puts(response)
 
 ## List all SSO authentication providers
 
+Returns a list of your SSO authentication providers.
+
 `GET /authentication_providers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.authentication_providers.list
@@ -129,11 +139,11 @@ puts(page)
 
 ## Creates an authentication provider
 
-`POST /authentication_providers`
+Creates an authentication provider.
+
+`POST /authentication_providers` — Required: `name`, `short_name`, `settings`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 authentication_provider = telnyx.authentication_providers.create(
@@ -151,11 +161,11 @@ puts(authentication_provider)
 
 ## Retrieve an authentication provider
 
+Retrieves the details of an existing authentication provider.
+
 `GET /authentication_providers/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 authentication_provider = telnyx.authentication_providers.retrieve("id")
@@ -165,11 +175,11 @@ puts(authentication_provider)
 
 ## Update an authentication provider
 
+Updates settings of an existing authentication provider.
+
 `PATCH /authentication_providers/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 authentication_provider = telnyx.authentication_providers.update("id")
@@ -179,11 +189,11 @@ puts(authentication_provider)
 
 ## Deletes an authentication provider
 
+Deletes an existing authentication provider.
+
 `DELETE /authentication_providers/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 authentication_provider = telnyx.authentication_providers.delete("id")
@@ -196,8 +206,6 @@ puts(authentication_provider)
 `GET /billing_groups`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.billing_groups.list
@@ -210,8 +218,6 @@ puts(page)
 `POST /billing_groups`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 billing_group = telnyx.billing_groups.create
@@ -224,8 +230,6 @@ puts(billing_group)
 `GET /billing_groups/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 billing_group = telnyx.billing_groups.retrieve("f5586561-8ff0-4291-a0ac-84fe544797bd")
@@ -238,8 +242,6 @@ puts(billing_group)
 `PATCH /billing_groups/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 billing_group = telnyx.billing_groups.update("f5586561-8ff0-4291-a0ac-84fe544797bd")
@@ -252,8 +254,6 @@ puts(billing_group)
 `DELETE /billing_groups/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 billing_group = telnyx.billing_groups.delete("f5586561-8ff0-4291-a0ac-84fe544797bd")
@@ -263,11 +263,11 @@ puts(billing_group)
 
 ## List integration secrets
 
+Retrieve a list of all integration secrets configured by the user.
+
 `GET /integration_secrets`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.integration_secrets.list
@@ -277,11 +277,11 @@ puts(page)
 
 ## Create a secret
 
-`POST /integration_secrets`
+Create a new secret with an associated identifier that can be used to securely integrate with other services.
+
+`POST /integration_secrets` — Required: `identifier`, `type`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 integration_secret = telnyx.integration_secrets.create(identifier: "my_secret", type: :bearer)
@@ -291,11 +291,11 @@ puts(integration_secret)
 
 ## Delete an integration secret
 
+Delete an integration secret given its ID.
+
 `DELETE /integration_secrets/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.integration_secrets.delete("id")
@@ -308,8 +308,6 @@ puts(result)
 `GET /access_ip_address`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.access_ip_address.list
@@ -319,11 +317,9 @@ puts(page)
 
 ## Create new Access IP Address
 
-`POST /access_ip_address`
+`POST /access_ip_address` — Required: `ip_address`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 access_ip_address_response = telnyx.access_ip_address.create(ip_address: "ip_address")
@@ -336,8 +332,6 @@ puts(access_ip_address_response)
 `GET /access_ip_address/{access_ip_address_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 access_ip_address_response = telnyx.access_ip_address.retrieve("access_ip_address_id")
@@ -350,8 +344,6 @@ puts(access_ip_address_response)
 `DELETE /access_ip_address/{access_ip_address_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 access_ip_address_response = telnyx.access_ip_address.delete("access_ip_address_id")
@@ -364,8 +356,6 @@ puts(access_ip_address_response)
 `GET /access_ip_ranges`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.access_ip_ranges.list
@@ -375,11 +365,9 @@ puts(page)
 
 ## Create new Access IP Range
 
-`POST /access_ip_ranges`
+`POST /access_ip_ranges` — Required: `cidr_block`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 access_ip_range = telnyx.access_ip_ranges.create(cidr_block: "cidr_block")
@@ -392,8 +380,6 @@ puts(access_ip_range)
 `DELETE /access_ip_ranges/{access_ip_range_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 access_ip_range = telnyx.access_ip_ranges.delete("access_ip_range_id")

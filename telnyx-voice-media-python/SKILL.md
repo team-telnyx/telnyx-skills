@@ -18,9 +18,7 @@ metadata:
 pip install telnyx
 ```
 
-## Play audio URL
-
-`POST /calls/{call_control_id}/actions/playback_start`
+## Setup
 
 ```python
 import os
@@ -29,6 +27,17 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Play audio URL
+
+Play an audio file on the call.
+
+`POST /calls/{call_control_id}/actions/playback_start`
+
+```python
 response = client.calls.actions.start_playback(
     call_control_id="call_control_id",
 )
@@ -37,15 +46,11 @@ print(response.data)
 
 ## Stop audio playback
 
+Stop audio being played on the call.
+
 `POST /calls/{call_control_id}/actions/playback_stop`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.stop_playback(
     call_control_id="call_control_id",
 )
@@ -54,15 +59,11 @@ print(response.data)
 
 ## Record pause
 
+Pause recording the call.
+
 `POST /calls/{call_control_id}/actions/record_pause`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.pause_recording(
     call_control_id="call_control_id",
 )
@@ -71,15 +72,11 @@ print(response.data)
 
 ## Record resume
 
+Resume recording the call.
+
 `POST /calls/{call_control_id}/actions/record_resume`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.resume_recording(
     call_control_id="call_control_id",
 )
@@ -88,15 +85,11 @@ print(response.data)
 
 ## Recording start
 
-`POST /calls/{call_control_id}/actions/record_start`
+Start recording the call.
+
+`POST /calls/{call_control_id}/actions/record_start` — Required: `format`, `channels`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.start_recording(
     call_control_id="call_control_id",
     channels="single",
@@ -107,15 +100,11 @@ print(response.data)
 
 ## Recording stop
 
+Stop recording the call.
+
 `POST /calls/{call_control_id}/actions/record_stop`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.stop_recording(
     call_control_id="call_control_id",
 )
@@ -124,15 +113,11 @@ print(response.data)
 
 ## Speak text
 
-`POST /calls/{call_control_id}/actions/speak`
+Convert text to speech and play it back on the call.
+
+`POST /calls/{call_control_id}/actions/speak` — Required: `payload`, `voice`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.speak(
     call_control_id="call_control_id",
     payload="Say this on the call",
@@ -140,3 +125,20 @@ response = client.calls.actions.speak(
 )
 print(response.data)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callPlaybackStarted` | Call Playback Started |
+| `callPlaybackEnded` | Call Playback Ended |
+| `callSpeakEnded` | Call Speak Ended |
+| `callRecordingSaved` | Call Recording Saved |
+| `callRecordingError` | Call Recording Error |
+| `callRecordingTranscriptionSaved` | Call Recording Transcription Saved |
+| `callSpeakStarted` | Call Speak Started |

@@ -18,9 +18,7 @@ metadata:
 npm install telnyx
 ```
 
-## List mobile push credentials
-
-`GET /mobile_push_credentials`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -28,7 +26,15 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## List mobile push credentials
+
+`GET /mobile_push_credentials`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const pushCredential of client.mobilePushCredentials.list()) {
   console.log(pushCredential.id);
@@ -40,12 +46,6 @@ for await (const pushCredential of client.mobilePushCredentials.list()) {
 `POST /mobile_push_credentials`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const pushCredentialResponse = await client.mobilePushCredentials.create({
   createMobilePushCredentialRequest: {
     alias: 'LucyIosCredential',
@@ -62,15 +62,11 @@ console.log(pushCredentialResponse.data);
 
 ## Retrieves a mobile push credential
 
+Retrieves mobile push credential based on the given `push_credential_id`
+
 `GET /mobile_push_credentials/{push_credential_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const pushCredentialResponse = await client.mobilePushCredentials.retrieve(
   '0ccc7b76-4df3-4bca-a05a-3da1ecc389f0',
 );
@@ -80,29 +76,21 @@ console.log(pushCredentialResponse.data);
 
 ## Deletes a mobile push credential
 
+Deletes a mobile push credential based on the given `push_credential_id`
+
 `DELETE /mobile_push_credentials/{push_credential_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.mobilePushCredentials.delete('0ccc7b76-4df3-4bca-a05a-3da1ecc389f0');
 ```
 
 ## List all credentials
 
+List all On-demand Credentials.
+
 `GET /telephony_credentials`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const telephonyCredential of client.telephonyCredentials.list()) {
   console.log(telephonyCredential.id);
@@ -111,15 +99,11 @@ for await (const telephonyCredential of client.telephonyCredentials.list()) {
 
 ## Create a credential
 
-`POST /telephony_credentials`
+Create a credential.
+
+`POST /telephony_credentials` — Required: `connection_id`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const telephonyCredential = await client.telephonyCredentials.create({
   connection_id: '1234567890',
 });
@@ -129,15 +113,11 @@ console.log(telephonyCredential.data);
 
 ## Get a credential
 
+Get the details of an existing On-demand Credential.
+
 `GET /telephony_credentials/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const telephonyCredential = await client.telephonyCredentials.retrieve('id');
 
 console.log(telephonyCredential.data);
@@ -145,15 +125,11 @@ console.log(telephonyCredential.data);
 
 ## Update a credential
 
+Update an existing credential.
+
 `PATCH /telephony_credentials/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const telephonyCredential = await client.telephonyCredentials.update('id');
 
 console.log(telephonyCredential.data);
@@ -161,15 +137,11 @@ console.log(telephonyCredential.data);
 
 ## Delete a credential
 
+Delete an existing credential.
+
 `DELETE /telephony_credentials/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const telephonyCredential = await client.telephonyCredentials.delete('id');
 
 console.log(telephonyCredential.data);
@@ -177,15 +149,11 @@ console.log(telephonyCredential.data);
 
 ## Create an Access Token.
 
+Create an Access Token (JWT) for the credential.
+
 `POST /telephony_credentials/{id}/token`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.telephonyCredentials.createToken('id');
 
 console.log(response);

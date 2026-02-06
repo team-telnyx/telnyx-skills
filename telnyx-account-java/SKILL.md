@@ -17,27 +17,28 @@ metadata:
 // Add to pom.xml or build.gradle - see https://github.com/team-telnyx/telnyx-java
 ```
 
+## Setup
+
+```java
+import com.telnyx.sdk.client.TelnyxClient;
+import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
+
+TelnyxClient client = TelnyxOkHttpClient.fromEnv();
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## List Audit Logs
+
+Retrieve a list of audit log entries.
 
 `GET /audit_events`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.auditevents.AuditEventListPage;
 import com.telnyx.sdk.models.auditevents.AuditEventListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        AuditEventListPage page = client.auditEvents().list();
-    }
-}
+AuditEventListPage page = client.auditEvents().list();
 ```
 
 ## Get user balance details
@@ -45,204 +46,112 @@ public final class Main {
 `GET /balance`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.balance.BalanceRetrieveParams;
 import com.telnyx.sdk.models.balance.BalanceRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        BalanceRetrieveResponse balance = client.balance().retrieve();
-    }
-}
+BalanceRetrieveResponse balance = client.balance().retrieve();
 ```
 
 ## Search detail records
 
+Search for any detail record across the Telnyx Platform
+
 `GET /detail_records`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.detailrecords.DetailRecordListPage;
 import com.telnyx.sdk.models.detailrecords.DetailRecordListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        DetailRecordListPage page = client.detailRecords().list();
-    }
-}
+DetailRecordListPage page = client.detailRecords().list();
 ```
 
 ## List invoices
 
+Retrieve a paginated list of invoices.
+
 `GET /invoices`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.invoices.InvoiceListPage;
 import com.telnyx.sdk.models.invoices.InvoiceListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        InvoiceListPage page = client.invoices().list();
-    }
-}
+InvoiceListPage page = client.invoices().list();
 ```
 
 ## Get invoice by ID
 
+Retrieve a single invoice by its unique identifier.
+
 `GET /invoices/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.invoices.InvoiceRetrieveParams;
 import com.telnyx.sdk.models.invoices.InvoiceRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        InvoiceRetrieveResponse invoice = client.invoices().retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e");
-    }
-}
+InvoiceRetrieveResponse invoice = client.invoices().retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e");
 ```
 
 ## List auto recharge preferences
 
+Returns the payment auto recharge preferences.
+
 `GET /payments/auto_recharge_prefs`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.payment.autorechargeprefs.AutoRechargePrefListParams;
 import com.telnyx.sdk.models.payment.autorechargeprefs.AutoRechargePrefListResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        AutoRechargePrefListResponse autoRechargePrefs = client.payment().autoRechargePrefs().list();
-    }
-}
+AutoRechargePrefListResponse autoRechargePrefs = client.payment().autoRechargePrefs().list();
 ```
 
 ## Update auto recharge preferences
 
+Update payment auto recharge preferences.
+
 `PATCH /payments/auto_recharge_prefs`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.payment.autorechargeprefs.AutoRechargePrefUpdateParams;
 import com.telnyx.sdk.models.payment.autorechargeprefs.AutoRechargePrefUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        AutoRechargePrefUpdateResponse autoRechargePref = client.payment().autoRechargePrefs().update();
-    }
-}
+AutoRechargePrefUpdateResponse autoRechargePref = client.payment().autoRechargePrefs().update();
 ```
 
 ## List User Tags
 
+List all user tags.
+
 `GET /user_tags`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.usertags.UserTagListParams;
 import com.telnyx.sdk.models.usertags.UserTagListResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        UserTagListResponse userTags = client.userTags().list();
-    }
-}
+UserTagListResponse userTags = client.userTags().list();
 ```
 
 ## List webhook deliveries
 
+Lists webhook_deliveries for the authenticated user
+
 `GET /webhook_deliveries`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.webhookdeliveries.WebhookDeliveryListPage;
 import com.telnyx.sdk.models.webhookdeliveries.WebhookDeliveryListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        WebhookDeliveryListPage page = client.webhookDeliveries().list();
-    }
-}
+WebhookDeliveryListPage page = client.webhookDeliveries().list();
 ```
 
 ## Find webhook_delivery details by ID
 
+Provides webhook_delivery debug data, such as timestamps, delivery status and attempts.
+
 `GET /webhook_deliveries/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.webhookdeliveries.WebhookDeliveryRetrieveParams;
 import com.telnyx.sdk.models.webhookdeliveries.WebhookDeliveryRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        WebhookDeliveryRetrieveResponse webhookDelivery = client.webhookDeliveries().retrieve("C9C0797E-901D-4349-A33C-C2C8F31A92C2");
-    }
-}
+WebhookDeliveryRetrieveResponse webhookDelivery = client.webhookDeliveries().retrieve("C9C0797E-901D-4349-A33C-C2C8F31A92C2");
 ```

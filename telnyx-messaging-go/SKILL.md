@@ -18,13 +18,9 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
-## Send a message
-
-`POST /messages`
+## Setup
 
 ```go
-package main
-
 import (
   "context"
   "fmt"
@@ -33,283 +29,165 @@ import (
   "github.com/team-telnyx/telnyx-go/option"
 )
 
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messages.Send(context.TODO(), telnyx.MessageSendParams{
-    To: "+18445550001",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Send a message
+
+Send a message with a Phone Number, Alphanumeric Sender ID, Short Code or Number Pool.
+
+`POST /messages` — Required: `to`
+
+```go
+response, err := client.Messages.Send(context.TODO(), telnyx.MessageSendParams{
+  To: "+18445550001",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Retrieve a message
 
+Note: This API endpoint can only retrieve messages that are no older than 10 days since their creation.
+
 `GET /messages/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  message, err := client.Messages.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", message.Data)
+message, err := client.Messages.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", message.Data)
 ```
 
 ## Cancel a scheduled message
 
+Cancel a scheduled message that has not yet been sent.
+
 `DELETE /messages/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messages.CancelScheduled(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.ID)
+response, err := client.Messages.CancelScheduled(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.ID)
 ```
 
 ## Send a Whatsapp message
 
-`POST /messages/whatsapp`
+`POST /messages/whatsapp` — Required: `from`, `to`, `whatsapp_message`
 
 ```go
-package main
+response, err := client.Messages.SendWhatsapp(context.TODO(), telnyx.MessageSendWhatsappParams{
+  From: "+13125551234",
+  To: "+13125551234",
+  WhatsappMessage: telnyx.MessageSendWhatsappParamsWhatsappMessage{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messages.SendWhatsapp(context.TODO(), telnyx.MessageSendWhatsappParams{
-    From: "+13125551234",
-    To: "+13125551234",
-    WhatsappMessage: telnyx.MessageSendWhatsappParamsWhatsappMessage{
-
-    },
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+  },
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Send a group MMS message
 
-`POST /messages/group_mms`
+`POST /messages/group_mms` — Required: `from`, `to`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messages.SendGroupMms(context.TODO(), telnyx.MessageSendGroupMmsParams{
-    From: "+13125551234",
-    To: []string{"+18655551234", "+14155551234"},
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.Messages.SendGroupMms(context.TODO(), telnyx.MessageSendGroupMmsParams{
+  From: "+13125551234",
+  To: []string{"+18655551234", "+14155551234"},
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Send a long code message
 
-`POST /messages/long_code`
+`POST /messages/long_code` — Required: `from`, `to`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messages.SendLongCode(context.TODO(), telnyx.MessageSendLongCodeParams{
-    From: "+18445550001",
-    To: "+13125550002",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.Messages.SendLongCode(context.TODO(), telnyx.MessageSendLongCodeParams{
+  From: "+18445550001",
+  To: "+13125550002",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Send a message using number pool
 
-`POST /messages/number_pool`
+`POST /messages/number_pool` — Required: `to`, `messaging_profile_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messages.SendNumberPool(context.TODO(), telnyx.MessageSendNumberPoolParams{
-    MessagingProfileID: "abc85f64-5717-4562-b3fc-2c9600000000",
-    To: "+13125550002",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.Messages.SendNumberPool(context.TODO(), telnyx.MessageSendNumberPoolParams{
+  MessagingProfileID: "abc85f64-5717-4562-b3fc-2c9600000000",
+  To: "+13125550002",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Schedule a message
 
-`POST /messages/schedule`
+Schedule a message with a Phone Number, Alphanumeric Sender ID, Short Code or Number Pool.
+
+`POST /messages/schedule` — Required: `to`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messages.Schedule(context.TODO(), telnyx.MessageScheduleParams{
-    To: "+18445550001",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.Messages.Schedule(context.TODO(), telnyx.MessageScheduleParams{
+  To: "+18445550001",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Send a short code message
 
-`POST /messages/short_code`
+`POST /messages/short_code` — Required: `from`, `to`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messages.SendShortCode(context.TODO(), telnyx.MessageSendShortCodeParams{
-    From: "+18445550001",
-    To: "+18445550001",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.Messages.SendShortCode(context.TODO(), telnyx.MessageSendShortCodeParams{
+  From: "+18445550001",
+  To: "+18445550001",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List opt-outs
 
+Retrieve a list of opt-out blocks.
+
 `GET /messaging_optouts`
 
 ```go
-package main
+page, err := client.MessagingOptouts.List(context.TODO(), telnyx.MessagingOptoutListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.MessagingOptouts.List(context.TODO(), telnyx.MessagingOptoutListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Retrieve a phone number with messaging settings
@@ -317,26 +195,11 @@ func main() {
 `GET /phone_numbers/{id}/messaging`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messaging, err := client.PhoneNumbers.Messaging.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messaging.Data)
+messaging, err := client.PhoneNumbers.Messaging.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messaging.Data)
 ```
 
 ## Update the messaging profile and/or messaging product of a phone number
@@ -344,32 +207,17 @@ func main() {
 `PATCH /phone_numbers/{id}/messaging`
 
 ```go
-package main
+messaging, err := client.PhoneNumbers.Messaging.Update(
+  context.TODO(),
+  "id",
+  telnyx.PhoneNumberMessagingUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messaging, err := client.PhoneNumbers.Messaging.Update(
-    context.TODO(),
-    "id",
-    telnyx.PhoneNumberMessagingUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messaging.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messaging.Data)
 ```
 
 ## List phone numbers with messaging settings
@@ -377,28 +225,13 @@ func main() {
 `GET /phone_numbers/messaging`
 
 ```go
-package main
+page, err := client.PhoneNumbers.Messaging.List(context.TODO(), telnyx.PhoneNumberMessagingListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.PhoneNumbers.Messaging.List(context.TODO(), telnyx.PhoneNumberMessagingListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Retrieve a mobile phone number with messaging settings
@@ -406,26 +239,11 @@ func main() {
 `GET /mobile_phone_numbers/{id}/messaging`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messaging, err := client.MobilePhoneNumbers.Messaging.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messaging.Data)
+messaging, err := client.MobilePhoneNumbers.Messaging.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messaging.Data)
 ```
 
 ## List mobile phone numbers with messaging settings
@@ -433,58 +251,28 @@ func main() {
 `GET /mobile_phone_numbers/messaging`
 
 ```go
-package main
+page, err := client.MobilePhoneNumbers.Messaging.List(context.TODO(), telnyx.MobilePhoneNumberMessagingListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.MobilePhoneNumbers.Messaging.List(context.TODO(), telnyx.MobilePhoneNumberMessagingListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Bulk update phone number profiles
 
-`POST /messaging_numbers/bulk_updates`
+`POST /messaging_numbers/bulk_updates` — Required: `messaging_profile_id`, `numbers`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messagingNumbersBulkUpdate, err := client.MessagingNumbersBulkUpdates.New(context.TODO(), telnyx.MessagingNumbersBulkUpdateNewParams{
-    MessagingProfileID: "00000000-0000-0000-0000-000000000000",
-    Numbers: []string{"+18880000000", "+18880000001", "+18880000002"},
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messagingNumbersBulkUpdate.Data)
+messagingNumbersBulkUpdate, err := client.MessagingNumbersBulkUpdates.New(context.TODO(), telnyx.MessagingNumbersBulkUpdateNewParams{
+  MessagingProfileID: "00000000-0000-0000-0000-000000000000",
+  Numbers: []string{"+18880000000", "+18880000001", "+18880000002"},
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messagingNumbersBulkUpdate.Data)
 ```
 
 ## Retrieve bulk update status
@@ -492,24 +280,22 @@ func main() {
 `GET /messaging_numbers/bulk_updates/{order_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messagingNumbersBulkUpdate, err := client.MessagingNumbersBulkUpdates.Get(context.TODO(), "order_id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messagingNumbersBulkUpdate.Data)
+messagingNumbersBulkUpdate, err := client.MessagingNumbersBulkUpdates.Get(context.TODO(), "order_id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messagingNumbersBulkUpdate.Data)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `deliveryUpdate` | Delivery Update |
+| `inboundMessage` | Inbound Message |
+| `replacedLinkClick` | Replaced Link Click |

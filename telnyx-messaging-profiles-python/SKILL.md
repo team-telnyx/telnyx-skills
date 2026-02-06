@@ -18,9 +18,7 @@ metadata:
 pip install telnyx
 ```
 
-## List messaging profiles
-
-`GET /messaging_profiles`
+## Setup
 
 ```python
 import os
@@ -29,6 +27,15 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List messaging profiles
+
+`GET /messaging_profiles`
+
+```python
 page = client.messaging_profiles.list()
 page = page.data[0]
 print(page.id)
@@ -36,15 +43,9 @@ print(page.id)
 
 ## Create a messaging profile
 
-`POST /messaging_profiles`
+`POST /messaging_profiles` — Required: `name`, `whitelisted_destinations`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 messaging_profile = client.messaging_profiles.create(
     name="My name",
     whitelisted_destinations=["US"],
@@ -57,12 +58,6 @@ print(messaging_profile.data)
 `GET /messaging_profiles/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 messaging_profile = client.messaging_profiles.retrieve(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -74,12 +69,6 @@ print(messaging_profile.data)
 `PATCH /messaging_profiles/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 messaging_profile = client.messaging_profiles.update(
     messaging_profile_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -91,12 +80,6 @@ print(messaging_profile.data)
 `DELETE /messaging_profiles/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 messaging_profile = client.messaging_profiles.delete(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -108,12 +91,6 @@ print(messaging_profile.data)
 `GET /messaging_profiles/{id}/phone_numbers`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.messaging_profiles.list_phone_numbers(
     messaging_profile_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -126,12 +103,6 @@ print(page.id)
 `GET /messaging_profiles/{id}/short_codes`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.messaging_profiles.list_short_codes(
     messaging_profile_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -144,12 +115,6 @@ print(page.messaging_profile_id)
 `GET /messaging_profiles/{profile_id}/autoresp_configs`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 autoresp_configs = client.messaging_profiles.autoresp_configs.list(
     profile_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -158,15 +123,9 @@ print(autoresp_configs.data)
 
 ## Create auto-response setting
 
-`POST /messaging_profiles/{profile_id}/autoresp_configs`
+`POST /messaging_profiles/{profile_id}/autoresp_configs` — Required: `op`, `keywords`, `country_code`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 auto_resp_config_response = client.messaging_profiles.autoresp_configs.create(
     profile_id="profile_id",
     country_code="US",
@@ -181,12 +140,6 @@ print(auto_resp_config_response.data)
 `GET /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 auto_resp_config_response = client.messaging_profiles.autoresp_configs.retrieve(
     autoresp_cfg_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     profile_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -196,15 +149,9 @@ print(auto_resp_config_response.data)
 
 ## Update Auto-Response Setting
 
-`PUT /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
+`PUT /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}` — Required: `op`, `keywords`, `country_code`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 auto_resp_config_response = client.messaging_profiles.autoresp_configs.update(
     autoresp_cfg_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     profile_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -220,12 +167,6 @@ print(auto_resp_config_response.data)
 `DELETE /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 autoresp_config = client.messaging_profiles.autoresp_configs.delete(
     autoresp_cfg_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     profile_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -238,12 +179,6 @@ print(autoresp_config)
 `GET /short_codes`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.short_codes.list()
 page = page.data[0]
 print(page.messaging_profile_id)
@@ -254,12 +189,6 @@ print(page.messaging_profile_id)
 `GET /short_codes/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 short_code = client.short_codes.retrieve(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -268,15 +197,11 @@ print(short_code.data)
 
 ## Update short code
 
-`PATCH /short_codes/{id}`
+Update the settings for a specific short code.
+
+`PATCH /short_codes/{id}` — Required: `messaging_profile_id`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 short_code = client.short_codes.update(
     id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     messaging_profile_id="abc85f64-5717-4562-b3fc-2c9600000000",

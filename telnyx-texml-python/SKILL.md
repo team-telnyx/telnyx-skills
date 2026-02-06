@@ -18,9 +18,7 @@ metadata:
 pip install telnyx
 ```
 
-## List all TeXML Applications
-
-`GET /texml_applications`
+## Setup
 
 ```python
 import os
@@ -29,6 +27,17 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List all TeXML Applications
+
+Returns a list of your TeXML Applications.
+
+`GET /texml_applications`
+
+```python
 page = client.texml_applications.list()
 page = page.data[0]
 print(page.id)
@@ -36,15 +45,11 @@ print(page.id)
 
 ## Creates a TeXML Application
 
-`POST /texml_applications`
+Creates a TeXML Application.
+
+`POST /texml_applications` — Required: `friendly_name`, `voice_url`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 texml_application = client.texml_applications.create(
     friendly_name="call-router",
     voice_url="https://example.com",
@@ -54,15 +59,11 @@ print(texml_application.data)
 
 ## Retrieve a TeXML Application
 
+Retrieves the details of an existing TeXML Application.
+
 `GET /texml_applications/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 texml_application = client.texml_applications.retrieve(
     "1293384261075731499",
 )
@@ -71,15 +72,11 @@ print(texml_application.data)
 
 ## Update a TeXML Application
 
-`PATCH /texml_applications/{id}`
+Updates settings of an existing TeXML Application.
+
+`PATCH /texml_applications/{id}` — Required: `friendly_name`, `voice_url`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 texml_application = client.texml_applications.update(
     id="1293384261075731499",
     friendly_name="call-router",
@@ -90,15 +87,11 @@ print(texml_application.data)
 
 ## Deletes a TeXML Application
 
+Deletes a TeXML Application.
+
 `DELETE /texml_applications/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 texml_application = client.texml_applications.delete(
     "1293384261075731499",
 )
@@ -107,15 +100,11 @@ print(texml_application.data)
 
 ## Fetch multiple call resources
 
+Returns multiple call resouces for an account.
+
 `GET /texml/Accounts/{account_sid}/Calls`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.calls.retrieve_calls(
     account_sid="account_sid",
 )
@@ -124,15 +113,11 @@ print(response.calls)
 
 ## Initiate an outbound call
 
-`POST /texml/Accounts/{account_sid}/Calls`
+Initiate an outbound TeXML call.
+
+`POST /texml/Accounts/{account_sid}/Calls` — Required: `To`, `From`, `ApplicationSid`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.calls.calls(
     account_sid="account_sid",
     application_sid="example-app-sid",
@@ -144,15 +129,11 @@ print(response.from_)
 
 ## Fetch a call
 
+Returns an individual call identified by its CallSid.
+
 `GET /texml/Accounts/{account_sid}/Calls/{call_sid}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 call = client.texml.accounts.calls.retrieve(
     call_sid="call_sid",
     account_sid="account_sid",
@@ -162,15 +143,11 @@ print(call.account_sid)
 
 ## Update call
 
+Update TeXML call.
+
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 call = client.texml.accounts.calls.update(
     call_sid="call_sid",
     account_sid="account_sid",
@@ -180,15 +157,11 @@ print(call.account_sid)
 
 ## List conference participants
 
+Lists conference participants
+
 `GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.conferences.participants.retrieve_participants(
     conference_sid="conference_sid",
     account_sid="account_sid",
@@ -198,15 +171,11 @@ print(response.end)
 
 ## Dial a new conference participant
 
+Dials a new conference participant
+
 `POST /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.conferences.participants.participants(
     conference_sid="conference_sid",
     account_sid="account_sid",
@@ -216,15 +185,11 @@ print(response.account_sid)
 
 ## Get conference participant resource
 
+Gets conference participant resource
+
 `GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants/{call_sid_or_participant_label}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 participant = client.texml.accounts.conferences.participants.retrieve(
     call_sid_or_participant_label="call_sid_or_participant_label",
     account_sid="account_sid",
@@ -235,15 +200,11 @@ print(participant.account_sid)
 
 ## Update a conference participant
 
+Updates a conference participant
+
 `POST /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants/{call_sid_or_participant_label}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 participant = client.texml.accounts.conferences.participants.update(
     call_sid_or_participant_label="call_sid_or_participant_label",
     account_sid="account_sid",
@@ -254,15 +215,11 @@ print(participant.account_sid)
 
 ## Delete a conference participant
 
+Deletes a conference participant
+
 `DELETE /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants/{call_sid_or_participant_label}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.texml.accounts.conferences.participants.delete(
     call_sid_or_participant_label="call_sid_or_participant_label",
     account_sid="account_sid",
@@ -272,15 +229,11 @@ client.texml.accounts.conferences.participants.delete(
 
 ## List conference resources
 
+Lists conference resources.
+
 `GET /texml/Accounts/{account_sid}/Conferences`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.conferences.retrieve_conferences(
     account_sid="account_sid",
 )
@@ -289,15 +242,11 @@ print(response.conferences)
 
 ## Fetch a conference resource
 
+Returns a conference resource.
+
 `GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 conference = client.texml.accounts.conferences.retrieve(
     conference_sid="conference_sid",
     account_sid="account_sid",
@@ -307,15 +256,11 @@ print(conference.account_sid)
 
 ## Update a conference resource
 
+Updates a conference resource.
+
 `POST /texml/Accounts/{account_sid}/Conferences/{conference_sid}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 conference = client.texml.accounts.conferences.update(
     conference_sid="conference_sid",
     account_sid="account_sid",
@@ -325,15 +270,11 @@ print(conference.account_sid)
 
 ## List queue resources
 
+Lists queue resources.
+
 `GET /texml/Accounts/{account_sid}/Queues`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.texml.accounts.queues.list(
     account_sid="account_sid",
 )
@@ -343,15 +284,11 @@ print(page.account_sid)
 
 ## Create a new queue
 
+Creates a new queue resource.
+
 `POST /texml/Accounts/{account_sid}/Queues`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 queue = client.texml.accounts.queues.create(
     account_sid="account_sid",
 )
@@ -360,15 +297,11 @@ print(queue.account_sid)
 
 ## Fetch a queue resource
 
+Returns a queue resource.
+
 `GET /texml/Accounts/{account_sid}/Queues/{queue_sid}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 queue = client.texml.accounts.queues.retrieve(
     queue_sid="queue_sid",
     account_sid="account_sid",
@@ -378,15 +311,11 @@ print(queue.account_sid)
 
 ## Update a queue resource
 
+Updates a queue resource.
+
 `POST /texml/Accounts/{account_sid}/Queues/{queue_sid}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 queue = client.texml.accounts.queues.update(
     queue_sid="queue_sid",
     account_sid="account_sid",
@@ -396,15 +325,11 @@ print(queue.account_sid)
 
 ## Delete a queue resource
 
+Delete a queue resource.
+
 `DELETE /texml/Accounts/{account_sid}/Queues/{queue_sid}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.texml.accounts.queues.delete(
     queue_sid="queue_sid",
     account_sid="account_sid",
@@ -413,15 +338,11 @@ client.texml.accounts.queues.delete(
 
 ## Fetch multiple recording resources
 
+Returns multiple recording resources for an account.
+
 `GET /texml/Accounts/{account_sid}/Recordings.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.retrieve_recordings_json(
     account_sid="account_sid",
 )
@@ -430,15 +351,11 @@ print(response.end)
 
 ## Fetch recording resource
 
+Returns recording resource identified by recording id.
+
 `GET /texml/Accounts/{account_sid}/Recordings/{recording_sid}.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 texml_get_call_recording_response_body = client.texml.accounts.recordings.json.retrieve_recording_sid_json(
     recording_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
     account_sid="account_sid",
@@ -448,15 +365,11 @@ print(texml_get_call_recording_response_body.account_sid)
 
 ## Delete recording resource
 
+Deletes recording resource identified by recording id.
+
 `DELETE /texml/Accounts/{account_sid}/Recordings/{recording_sid}.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.texml.accounts.recordings.json.delete_recording_sid_json(
     recording_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
     account_sid="account_sid",
@@ -465,15 +378,11 @@ client.texml.accounts.recordings.json.delete_recording_sid_json(
 
 ## Fetch recordings for a call
 
+Returns recordings for a call identified by call_sid.
+
 `GET /texml/Accounts/{account_sid}/Calls/{call_sid}/Recordings.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.calls.recordings_json.retrieve_recordings_json(
     call_sid="call_sid",
     account_sid="account_sid",
@@ -483,15 +392,11 @@ print(response.end)
 
 ## Request recording for a call
 
+Starts recording with specified parameters for call idientified by call_sid.
+
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Recordings.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.calls.recordings_json.recordings_json(
     call_sid="call_sid",
     account_sid="account_sid",
@@ -501,15 +406,11 @@ print(response.account_sid)
 
 ## Update recording on a call
 
+Updates recording resource for particular call.
+
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Recordings/{recording_sid}.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.calls.recordings.recording_sid_json(
     recording_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
     account_sid="account_sid",
@@ -520,15 +421,11 @@ print(response.account_sid)
 
 ## List conference recordings
 
+Lists conference recordings
+
 `GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Recordings`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.conferences.retrieve_recordings(
     conference_sid="conference_sid",
     account_sid="account_sid",
@@ -538,15 +435,11 @@ print(response.end)
 
 ## Fetch recordings for a conference
 
+Returns recordings for a conference identified by conference_sid.
+
 `GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Recordings.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.conferences.retrieve_recordings_json(
     conference_sid="conference_sid",
     account_sid="account_sid",
@@ -556,15 +449,11 @@ print(response.end)
 
 ## Create a TeXML secret
 
-`POST /texml/secrets`
+Create a TeXML secret which can be later used as a Dynamic Parameter for TeXML when using Mustache Templates in your TeXML.
+
+`POST /texml/secrets` — Required: `name`, `value`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.secrets(
     name="My Secret Name",
     value="My Secret Value",
@@ -574,15 +463,11 @@ print(response.data)
 
 ## Request siprec session for a call
 
+Starts siprec session with specified parameters for call idientified by call_sid.
+
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Siprec.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.calls.siprec_json(
     call_sid="call_sid",
     account_sid="account_sid",
@@ -592,15 +477,11 @@ print(response.account_sid)
 
 ## Updates siprec session for a call
 
+Updates siprec session identified by siprec_sid.
+
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Siprec/{siprec_sid}.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.calls.siprec.siprec_sid_json(
     siprec_sid="siprec_sid",
     account_sid="account_sid",
@@ -611,15 +492,11 @@ print(response.account_sid)
 
 ## Start streaming media from a call.
 
+Starts streaming media from a call to a specific WebSocket address.
+
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Streams.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.calls.streams_json(
     call_sid="call_sid",
     account_sid="account_sid",
@@ -629,15 +506,11 @@ print(response.account_sid)
 
 ## Update streaming on a call
 
+Updates streaming resource for particular call.
+
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Streams/{streaming_sid}.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.calls.streams.streaming_sid_json(
     streaming_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
     account_sid="account_sid",
@@ -648,15 +521,11 @@ print(response.account_sid)
 
 ## List recording transcriptions
 
+Returns multiple recording transcription resources for an account.
+
 `GET /texml/Accounts/{account_sid}/Transcriptions.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.retrieve_transcriptions_json(
     account_sid="account_sid",
 )
@@ -665,15 +534,11 @@ print(response.end)
 
 ## Fetch a recording transcription resource
 
+Returns the recording transcription resource identified by its ID.
+
 `GET /texml/Accounts/{account_sid}/Transcriptions/{recording_transcription_sid}.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.texml.accounts.transcriptions.json.retrieve_recording_transcription_sid_json(
     recording_transcription_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
     account_sid="account_sid",
@@ -683,17 +548,43 @@ print(response.account_sid)
 
 ## Delete a recording transcription
 
+Permanently deletes a recording transcription.
+
 `DELETE /texml/Accounts/{account_sid}/Transcriptions/{recording_transcription_sid}.json`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.texml.accounts.transcriptions.json.delete_recording_transcription_sid_json(
     recording_transcription_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
     account_sid="account_sid",
 )
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `TexmlCallAnsweredWebhook` | TeXML Call Answered. Webhook sent when a TeXML call is answered |
+| `TexmlCallCompletedWebhook` | TeXML Call Completed. Webhook sent when a TeXML call is completed |
+| `TexmlCallInitiatedWebhook` | TeXML Call Initiated. Webhook sent when a TeXML call is initiated |
+| `TexmlCallRingingWebhook` | TeXML Call Ringing. Webhook sent when a TeXML call is ringing |
+| `TexmlCallAmdWebhook` | TeXML Call AMD. Webhook sent when Answering Machine Detection (AMD) completes during a TeXML call |
+| `TexmlCallDtmfWebhook` | TeXML Call DTMF. Webhook sent when a DTMF digit is received during a TeXML call |
+| `TexmlGatherWebhook` | TeXML Gather. Webhook sent when a Gather command completes (sent to the action URL) |
+| `TexmlHttpRequestWebhook` | TeXML HTTP Request. Webhook sent as response to an HTTP Request instruction |
+| `TexmlAiGatherWebhook` | TeXML AI Gather. Webhook sent when AI Gather completes with transcription results |
+| `TexmlConferenceJoinWebhook` | TeXML Conference Join. Webhook sent when a participant joins a TeXML conference |
+| `TexmlConferenceLeaveWebhook` | TeXML Conference Leave. Webhook sent when a participant leaves a TeXML conference |
+| `TexmlConferenceSpeakerWebhook` | TeXML Conference Speaker. Webhook sent when a participant starts or stops speaking in a TeXML conference |
+| `TexmlConferenceEndWebhook` | TeXML Conference End. Webhook sent when a TeXML conference ends |
+| `TexmlConferenceStartWebhook` | TeXML Conference Start. Webhook sent when a TeXML conference starts |
+| `TexmlQueueWebhook` | TeXML Queue. Webhook sent for queue status events (triggered by Enqueue command waitUrl) |
+| `TexmlRecordingCompletedWebhook` | TeXML Recording Completed. Webhook sent when a recording is completed during a TeXML call (triggered by recordingStatusCallbackEvent) |
+| `TexmlRecordingInProgressWebhook` | TeXML Recording In-Progress. Webhook sent when a recording starts during a TeXML call (triggered by recordingStatusCallbackEvent) |
+| `TexmlSiprecWebhook` | TeXML SIPREC. Webhook sent for SIPREC session status updates |
+| `TexmlStreamWebhook` | TeXML Stream. Webhook sent for media streaming status updates |
+| `TexmlTranscriptionWebhook` | TeXML Transcription. Webhook sent when a recording transcription is completed |

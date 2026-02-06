@@ -17,9 +17,7 @@ metadata:
 pip install telnyx
 ```
 
-## List Audit Logs
-
-`GET /audit_events`
+## Setup
 
 ```python
 import os
@@ -28,6 +26,17 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List Audit Logs
+
+Retrieve a list of audit log entries.
+
+`GET /audit_events`
+
+```python
 page = client.audit_events.list()
 page = page.data[0]
 print(page.id)
@@ -38,27 +47,17 @@ print(page.id)
 `GET /balance`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 balance = client.balance.retrieve()
 print(balance.data)
 ```
 
 ## Search detail records
 
+Search for any detail record across the Telnyx Platform
+
 `GET /detail_records`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.detail_records.list()
 page = page.data[0]
 print(page)
@@ -66,15 +65,11 @@ print(page)
 
 ## List invoices
 
+Retrieve a paginated list of invoices.
+
 `GET /invoices`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.invoices.list()
 page = page.data[0]
 print(page.file_id)
@@ -82,15 +77,11 @@ print(page.file_id)
 
 ## Get invoice by ID
 
+Retrieve a single invoice by its unique identifier.
+
 `GET /invoices/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 invoice = client.invoices.retrieve(
     id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -99,60 +90,44 @@ print(invoice.data)
 
 ## List auto recharge preferences
 
+Returns the payment auto recharge preferences.
+
 `GET /payments/auto_recharge_prefs`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 auto_recharge_prefs = client.payment.auto_recharge_prefs.list()
 print(auto_recharge_prefs.data)
 ```
 
 ## Update auto recharge preferences
 
+Update payment auto recharge preferences.
+
 `PATCH /payments/auto_recharge_prefs`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 auto_recharge_pref = client.payment.auto_recharge_prefs.update()
 print(auto_recharge_pref.data)
 ```
 
 ## List User Tags
 
+List all user tags.
+
 `GET /user_tags`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 user_tags = client.user_tags.list()
 print(user_tags.data)
 ```
 
 ## List webhook deliveries
 
+Lists webhook_deliveries for the authenticated user
+
 `GET /webhook_deliveries`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.webhook_deliveries.list()
 page = page.data[0]
 print(page.id)
@@ -160,15 +135,11 @@ print(page.id)
 
 ## Find webhook_delivery details by ID
 
+Provides webhook_delivery debug data, such as timestamps, delivery status and attempts.
+
 `GET /webhook_deliveries/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 webhook_delivery = client.webhook_deliveries.retrieve(
     "C9C0797E-901D-4349-A33C-C2C8F31A92C2",
 )

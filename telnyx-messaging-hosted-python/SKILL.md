@@ -18,9 +18,7 @@ metadata:
 pip install telnyx
 ```
 
-## List messaging hosted number orders
-
-`GET /messaging_hosted_number_orders`
+## Setup
 
 ```python
 import os
@@ -29,6 +27,15 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List messaging hosted number orders
+
+`GET /messaging_hosted_number_orders`
+
+```python
 page = client.messaging_hosted_number_orders.list()
 page = page.data[0]
 print(page.id)
@@ -39,12 +46,6 @@ print(page.id)
 `POST /messaging_hosted_number_orders`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 messaging_hosted_number_order = client.messaging_hosted_number_orders.create()
 print(messaging_hosted_number_order.data)
 ```
@@ -54,12 +55,6 @@ print(messaging_hosted_number_order.data)
 `GET /messaging_hosted_number_orders/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 messaging_hosted_number_order = client.messaging_hosted_number_orders.retrieve(
     "id",
 )
@@ -68,15 +63,11 @@ print(messaging_hosted_number_order.data)
 
 ## Delete a messaging hosted number order
 
+Delete a messaging hosted number order and all associated phone numbers.
+
 `DELETE /messaging_hosted_number_orders/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 messaging_hosted_number_order = client.messaging_hosted_number_orders.delete(
     "id",
 )
@@ -88,12 +79,6 @@ print(messaging_hosted_number_order.data)
 `POST /messaging_hosted_number_orders/{id}/actions/file_upload`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.messaging_hosted_number_orders.actions.upload_file(
     id="id",
 )
@@ -102,15 +87,11 @@ print(response.data)
 
 ## Validate hosted number codes
 
-`POST /messaging_hosted_number_orders/{id}/validation_codes`
+Validate the verification codes sent to the numbers of the hosted order.
+
+`POST /messaging_hosted_number_orders/{id}/validation_codes` — Required: `verification_codes`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.messaging_hosted_number_orders.validate_codes(
     id="id",
     verification_codes=[{
@@ -123,15 +104,11 @@ print(response.data)
 
 ## Create hosted number verification codes
 
-`POST /messaging_hosted_number_orders/{id}/verification_codes`
+Create verification codes to validate numbers of the hosted order.
+
+`POST /messaging_hosted_number_orders/{id}/verification_codes` — Required: `phone_numbers`, `verification_method`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.messaging_hosted_number_orders.create_verification_codes(
     id="id",
     phone_numbers=["string"],
@@ -142,15 +119,9 @@ print(response.data)
 
 ## Check hosted messaging eligibility
 
-`POST /messaging_hosted_number_orders/eligibility_numbers_check`
+`POST /messaging_hosted_number_orders/eligibility_numbers_check` — Required: `phone_numbers`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.messaging_hosted_number_orders.check_eligibility(
     phone_numbers=["string"],
 )
@@ -162,12 +133,6 @@ print(response.phone_numbers)
 `DELETE /messaging_hosted_numbers/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 messaging_hosted_number = client.messaging_hosted_numbers.delete(
     "id",
 )
@@ -176,15 +141,9 @@ print(messaging_hosted_number.data)
 
 ## Send an RCS message
 
-`POST /messages/rcs`
+`POST /messages/rcs` — Required: `agent_id`, `to`, `messaging_profile_id`, `agent_message`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.messages.rcs.send(
     agent_id="Agent007",
     agent_message={},
@@ -199,12 +158,6 @@ print(response.data)
 `GET /messaging/rcs/agents`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.messaging.rcs.agents.list()
 page = page.data[0]
 print(page.agent_id)
@@ -215,12 +168,6 @@ print(page.agent_id)
 `GET /messaging/rcs/agents/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 rcs_agent_response = client.messaging.rcs.agents.retrieve(
     "id",
 )
@@ -232,12 +179,6 @@ print(rcs_agent_response.data)
 `PATCH /messaging/rcs/agents/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 rcs_agent_response = client.messaging.rcs.agents.update(
     id="id",
 )
@@ -246,15 +187,9 @@ print(rcs_agent_response.data)
 
 ## Check RCS capabilities (batch)
 
-`POST /messaging/rcs/bulk_capabilities`
+`POST /messaging/rcs/bulk_capabilities` — Required: `agent_id`, `phone_numbers`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.messaging.rcs.list_bulk_capabilities(
     agent_id="TestAgent",
     phone_numbers=["+13125551234"],
@@ -267,12 +202,6 @@ print(response.data)
 `GET /messaging/rcs/capabilities/{agent_id}/{phone_number}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.messaging.rcs.retrieve_capabilities(
     phone_number="phone_number",
     agent_id="agent_id",
@@ -282,15 +211,11 @@ print(response.data)
 
 ## Add RCS test number
 
+Adds a test phone number to an RCS agent for testing purposes.
+
 `PUT /messaging/rcs/test_number_invite/{id}/{phone_number}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.messaging.rcs.invite_test_number(
     phone_number="phone_number",
     id="id",
@@ -300,15 +225,11 @@ print(response.data)
 
 ## Generate RCS deeplink
 
+Generate a deeplink URL that can be used to start an RCS conversation with a specific agent.
+
 `GET /messages/rcs_deeplinks/{agent_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.messages.rcs.generate_deeplink(
     agent_id="agent_id",
 )
@@ -317,15 +238,11 @@ print(response.data)
 
 ## List Verification Requests
 
+Get a list of previously-submitted tollfree verification requests
+
 `GET /messaging_tollfree/verification/requests`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.messaging_tollfree.verification.requests.list(
     page=1,
     page_size=1,
@@ -336,15 +253,11 @@ print(page.id)
 
 ## Submit Verification Request
 
-`POST /messaging_tollfree/verification/requests`
+Submit a new tollfree verification request
+
+`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 verification_request_egress = client.messaging_tollfree.verification.requests.create(
     additional_information="additionalInformation",
     business_addr1="600 Congress Avenue",
@@ -379,15 +292,11 @@ print(verification_request_egress.id)
 
 ## Get Verification Request
 
+Get a single verification request by its ID.
+
 `GET /messaging_tollfree/verification/requests/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 verification_request_status = client.messaging_tollfree.verification.requests.retrieve(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -396,15 +305,11 @@ print(verification_request_status.id)
 
 ## Update Verification Request
 
-`PATCH /messaging_tollfree/verification/requests/{id}`
+Update an existing tollfree verification request.
+
+`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 verification_request_egress = client.messaging_tollfree.verification.requests.update(
     id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     additional_information="additionalInformation",
@@ -440,15 +345,13 @@ print(verification_request_egress.id)
 
 ## Delete Verification Request
 
+Delete a verification request
+
+A request may only be deleted when when the request is in the "rejected" state.
+
 `DELETE /messaging_tollfree/verification/requests/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.messaging_tollfree.verification.requests.delete(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )

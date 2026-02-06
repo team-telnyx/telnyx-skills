@@ -18,9 +18,7 @@ metadata:
 npm install telnyx
 ```
 
-## List messaging profiles
-
-`GET /messaging_profiles`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -28,7 +26,15 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## List messaging profiles
+
+`GET /messaging_profiles`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const messagingProfile of client.messagingProfiles.list()) {
   console.log(messagingProfile.id);
@@ -37,15 +43,9 @@ for await (const messagingProfile of client.messagingProfiles.list()) {
 
 ## Create a messaging profile
 
-`POST /messaging_profiles`
+`POST /messaging_profiles` — Required: `name`, `whitelisted_destinations`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const messagingProfile = await client.messagingProfiles.create({
   name: 'My name',
   whitelisted_destinations: ['US'],
@@ -59,12 +59,6 @@ console.log(messagingProfile.data);
 `GET /messaging_profiles/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const messagingProfile = await client.messagingProfiles.retrieve(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -77,12 +71,6 @@ console.log(messagingProfile.data);
 `PATCH /messaging_profiles/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const messagingProfile = await client.messagingProfiles.update(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -95,12 +83,6 @@ console.log(messagingProfile.data);
 `DELETE /messaging_profiles/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const messagingProfile = await client.messagingProfiles.delete(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -113,12 +95,6 @@ console.log(messagingProfile.data);
 `GET /messaging_profiles/{id}/phone_numbers`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const phoneNumberWithMessagingSettings of client.messagingProfiles.listPhoneNumbers(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -132,12 +108,6 @@ for await (const phoneNumberWithMessagingSettings of client.messagingProfiles.li
 `GET /messaging_profiles/{id}/short_codes`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const shortCode of client.messagingProfiles.listShortCodes(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -151,12 +121,6 @@ for await (const shortCode of client.messagingProfiles.listShortCodes(
 `GET /messaging_profiles/{profile_id}/autoresp_configs`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const autorespConfigs = await client.messagingProfiles.autorespConfigs.list(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -166,15 +130,9 @@ console.log(autorespConfigs.data);
 
 ## Create auto-response setting
 
-`POST /messaging_profiles/{profile_id}/autoresp_configs`
+`POST /messaging_profiles/{profile_id}/autoresp_configs` — Required: `op`, `keywords`, `country_code`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const autoRespConfigResponse = await client.messagingProfiles.autorespConfigs.create('profile_id', {
   country_code: 'US',
   keywords: ['keyword1', 'keyword2'],
@@ -189,12 +147,6 @@ console.log(autoRespConfigResponse.data);
 `GET /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const autoRespConfigResponse = await client.messagingProfiles.autorespConfigs.retrieve(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   { profile_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
@@ -205,15 +157,9 @@ console.log(autoRespConfigResponse.data);
 
 ## Update Auto-Response Setting
 
-`PUT /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
+`PUT /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}` — Required: `op`, `keywords`, `country_code`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const autoRespConfigResponse = await client.messagingProfiles.autorespConfigs.update(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   {
@@ -232,12 +178,6 @@ console.log(autoRespConfigResponse.data);
 `DELETE /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const autorespConfig = await client.messagingProfiles.autorespConfigs.delete(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   { profile_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
@@ -251,12 +191,6 @@ console.log(autorespConfig);
 `GET /short_codes`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const shortCode of client.shortCodes.list()) {
   console.log(shortCode.messaging_profile_id);
@@ -268,12 +202,6 @@ for await (const shortCode of client.shortCodes.list()) {
 `GET /short_codes/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const shortCode = await client.shortCodes.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(shortCode.data);
@@ -281,15 +209,11 @@ console.log(shortCode.data);
 
 ## Update short code
 
-`PATCH /short_codes/{id}`
+Update the settings for a specific short code.
+
+`PATCH /short_codes/{id}` — Required: `messaging_profile_id`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const shortCode = await client.shortCodes.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
   messaging_profile_id: 'abc85f64-5717-4562-b3fc-2c9600000000',
 });

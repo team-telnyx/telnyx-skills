@@ -18,13 +18,25 @@ metadata:
 gem install telnyx
 ```
 
-## Enqueue call
-
-`POST /calls/{call_control_id}/actions/enqueue`
+## Setup
 
 ```ruby
 require "telnyx"
 
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Enqueue call
+
+Put the call in a queue.
+
+`POST /calls/{call_control_id}/actions/enqueue` — Required: `queue_name`
+
+```ruby
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.calls.actions.enqueue("call_control_id", queue_name: "support")
@@ -34,11 +46,11 @@ puts(response)
 
 ## Remove call from a queue
 
+Removes the call from a queue.
+
 `POST /calls/{call_control_id}/actions/leave_queue`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.calls.actions.leave_queue("call_control_id")
@@ -48,11 +60,11 @@ puts(response)
 
 ## List conferences
 
+Lists conferences.
+
 `GET /conferences`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.conferences.list
@@ -62,11 +74,11 @@ puts(page)
 
 ## Create conference
 
-`POST /conferences`
+Create a conference from an existing call leg using a `call_control_id` and a conference name.
+
+`POST /conferences` — Required: `call_control_id`, `name`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 conference = telnyx.conferences.create(
@@ -79,11 +91,11 @@ puts(conference)
 
 ## Retrieve a conference
 
+Retrieve an existing conference
+
 `GET /conferences/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 conference = telnyx.conferences.retrieve("id")
@@ -93,11 +105,11 @@ puts(conference)
 
 ## Hold conference participants
 
+Hold a list of participants in a conference call
+
 `POST /conferences/{id}/actions/hold`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.hold("id")
@@ -107,11 +119,11 @@ puts(response)
 
 ## Join a conference
 
-`POST /conferences/{id}/actions/join`
+Join an existing call leg to a conference.
+
+`POST /conferences/{id}/actions/join` — Required: `call_control_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.join(
@@ -124,11 +136,11 @@ puts(response)
 
 ## Leave a conference
 
-`POST /conferences/{id}/actions/leave`
+Removes a call leg from a conference and moves it back to parked state.
+
+`POST /conferences/{id}/actions/leave` — Required: `call_control_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.leave("id", call_control_id: "c46e06d7-b78f-4b13-96b6-c576af9640ff")
@@ -138,11 +150,11 @@ puts(response)
 
 ## Mute conference participants
 
+Mute a list of participants in a conference call
+
 `POST /conferences/{id}/actions/mute`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.mute("id")
@@ -152,11 +164,11 @@ puts(response)
 
 ## Play audio to conference participants
 
+Play audio to all or some participants on a conference call.
+
 `POST /conferences/{id}/actions/play`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.play("id")
@@ -166,11 +178,11 @@ puts(response)
 
 ## Conference recording pause
 
+Pause conference recording.
+
 `POST /conferences/{id}/actions/record_pause`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.record_pause("id")
@@ -180,11 +192,11 @@ puts(response)
 
 ## Conference recording resume
 
+Resume conference recording.
+
 `POST /conferences/{id}/actions/record_resume`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.record_resume("id")
@@ -194,11 +206,11 @@ puts(response)
 
 ## Conference recording start
 
-`POST /conferences/{id}/actions/record_start`
+Start recording the conference.
+
+`POST /conferences/{id}/actions/record_start` — Required: `format`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.record_start("id", format_: :wav)
@@ -208,11 +220,11 @@ puts(response)
 
 ## Conference recording stop
 
+Stop recording the conference.
+
 `POST /conferences/{id}/actions/record_stop`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.record_stop("id")
@@ -222,11 +234,11 @@ puts(response)
 
 ## Speak text to conference participants
 
-`POST /conferences/{id}/actions/speak`
+Convert text to speech and play it to all or some participants.
+
+`POST /conferences/{id}/actions/speak` — Required: `payload`, `voice`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.speak("id", payload: "Say this to participants", voice: "female")
@@ -236,11 +248,11 @@ puts(response)
 
 ## Stop audio being played on the conference
 
+Stop audio being played to all or some participants on a conference call.
+
 `POST /conferences/{id}/actions/stop`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.stop("id")
@@ -250,11 +262,11 @@ puts(response)
 
 ## Unhold conference participants
 
-`POST /conferences/{id}/actions/unhold`
+Unhold a list of participants in a conference call
+
+`POST /conferences/{id}/actions/unhold` — Required: `call_control_ids`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.unhold(
@@ -267,11 +279,11 @@ puts(response)
 
 ## Unmute conference participants
 
+Unmute a list of participants in a conference call
+
 `POST /conferences/{id}/actions/unmute`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.conferences.actions.unmute("id")
@@ -281,11 +293,11 @@ puts(response)
 
 ## Update conference participant
 
-`POST /conferences/{id}/actions/update`
+Update conference participant supervisor_role
+
+`POST /conferences/{id}/actions/update` — Required: `call_control_id`, `supervisor_role`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 action = telnyx.conferences.actions.update(
@@ -299,14 +311,40 @@ puts(action)
 
 ## List conference participants
 
+Lists conference participants
+
 `GET /conferences/{conference_id}/participants`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.conferences.list_participants("conference_id")
 
 puts(page)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callEnqueued` | Call Enqueued |
+| `callLeftQueue` | Call Left Queue |
+| `conferenceCreated` | Conference Created |
+| `conferenceEnded` | Conference Ended |
+| `conferenceFloorChanged` | Conference Floor Changed |
+| `conferenceParticipantJoined` | Conference Participant Joined |
+| `conferenceParticipantLeft` | Conference Participant Left |
+| `conferenceParticipantPlaybackEnded` | Conference Participant Playback Ended |
+| `conferenceParticipantPlaybackStarted` | Conference Participant Playback Started |
+| `conferenceParticipantSpeakEnded` | Conference Participant Speak Ended |
+| `conferenceParticipantSpeakStarted` | Conference Participant Speak Started |
+| `conferencePlaybackEnded` | Conference Playback Ended |
+| `conferencePlaybackStarted` | Conference Playback Started |
+| `conferenceRecordingSaved` | Conference Recording Saved |
+| `conferenceSpeakEnded` | Conference Speak Ended |
+| `conferenceSpeakStarted` | Conference Speak Started |

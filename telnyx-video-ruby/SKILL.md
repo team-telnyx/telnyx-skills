@@ -17,13 +17,23 @@ metadata:
 gem install telnyx
 ```
 
+## Setup
+
+```ruby
+require "telnyx"
+
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## View a list of room compositions.
 
 `GET /room_compositions`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.room_compositions.list
@@ -33,11 +43,11 @@ puts(page)
 
 ## Create a room composition.
 
+Asynchronously create a room composition.
+
 `POST /room_compositions`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 room_composition = telnyx.room_compositions.create
@@ -50,8 +60,6 @@ puts(room_composition)
 `GET /room_compositions/{room_composition_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 room_composition = telnyx.room_compositions.retrieve("5219b3af-87c6-4c08-9b58-5a533d893e21")
@@ -61,11 +69,11 @@ puts(room_composition)
 
 ## Delete a room composition.
 
+Synchronously delete a room composition.
+
 `DELETE /room_compositions/{room_composition_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.room_compositions.delete("5219b3af-87c6-4c08-9b58-5a533d893e21")
@@ -78,8 +86,6 @@ puts(result)
 `GET /room_participants`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.room_participants.list
@@ -92,8 +98,6 @@ puts(page)
 `GET /room_participants/{room_participant_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 room_participant = telnyx.room_participants.retrieve("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -106,8 +110,6 @@ puts(room_participant)
 `GET /room_recordings`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.room_recordings.list
@@ -120,8 +122,6 @@ puts(page)
 `DELETE /room_recordings`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.room_recordings.delete_bulk
@@ -134,8 +134,6 @@ puts(response)
 `GET /room_recordings/{room_recording_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 room_recording = telnyx.room_recordings.retrieve("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -145,11 +143,11 @@ puts(room_recording)
 
 ## Delete a room recording.
 
+Synchronously delete a Room Recording.
+
 `DELETE /room_recordings/{room_recording_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.room_recordings.delete("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -162,8 +160,6 @@ puts(result)
 `GET /room_sessions`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.rooms.sessions.list_0
@@ -176,8 +172,6 @@ puts(page)
 `GET /room_sessions/{room_session_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 session = telnyx.rooms.sessions.retrieve("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -187,11 +181,11 @@ puts(session)
 
 ## End a room session.
 
+Note: this will also kick all participants currently present in the room
+
 `POST /room_sessions/{room_session_id}/actions/end`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.rooms.sessions.actions.end_("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -204,8 +198,6 @@ puts(response)
 `POST /room_sessions/{room_session_id}/actions/kick`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.rooms.sessions.actions.kick("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -218,8 +210,6 @@ puts(response)
 `POST /room_sessions/{room_session_id}/actions/mute`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.rooms.sessions.actions.mute("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -232,8 +222,6 @@ puts(response)
 `POST /room_sessions/{room_session_id}/actions/unmute`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.rooms.sessions.actions.unmute("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -246,8 +234,6 @@ puts(response)
 `GET /room_sessions/{room_session_id}/participants`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.rooms.sessions.retrieve_participants("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -260,8 +246,6 @@ puts(page)
 `GET /rooms`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.rooms.list
@@ -271,11 +255,11 @@ puts(page)
 
 ## Create a room.
 
+Synchronously create a Room.
+
 `POST /rooms`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 room = telnyx.rooms.create
@@ -288,8 +272,6 @@ puts(room)
 `GET /rooms/{room_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 room = telnyx.rooms.retrieve("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -299,11 +281,11 @@ puts(room)
 
 ## Update a room.
 
+Synchronously update a Room.
+
 `PATCH /rooms/{room_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 room = telnyx.rooms.update("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -313,11 +295,11 @@ puts(room)
 
 ## Delete a room.
 
+Synchronously delete a Room.
+
 `DELETE /rooms/{room_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.rooms.delete("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -327,11 +309,11 @@ puts(result)
 
 ## Create Client Token to join a room.
 
+Synchronously create an Client Token to join a Room.
+
 `POST /rooms/{room_id}/actions/generate_join_client_token`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.rooms.actions.generate_join_client_token("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
@@ -341,11 +323,11 @@ puts(response)
 
 ## Refresh Client Token to join a room.
 
-`POST /rooms/{room_id}/actions/refresh_client_token`
+Synchronously refresh an Client Token to join a Room.
+
+`POST /rooms/{room_id}/actions/refresh_client_token` — Required: `refresh_token`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.rooms.actions.refresh_client_token(
@@ -361,8 +343,6 @@ puts(response)
 `GET /rooms/{room_id}/sessions`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.rooms.sessions.list_1("0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")

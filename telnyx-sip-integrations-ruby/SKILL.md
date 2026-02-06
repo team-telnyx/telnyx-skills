@@ -17,13 +17,25 @@ metadata:
 gem install telnyx
 ```
 
-## List all call recordings
-
-`GET /recordings`
+## Setup
 
 ```ruby
 require "telnyx"
 
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List all call recordings
+
+Returns a list of your call recordings.
+
+`GET /recordings`
+
+```ruby
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.recordings.list
@@ -33,11 +45,11 @@ puts(page)
 
 ## Retrieve a call recording
 
+Retrieves the details of an existing call recording.
+
 `GET /recordings/{recording_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 recording = telnyx.recordings.retrieve("recording_id")
@@ -47,11 +59,11 @@ puts(recording)
 
 ## Delete a call recording
 
+Permanently deletes a call recording.
+
 `DELETE /recordings/{recording_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 recording = telnyx.recordings.delete("recording_id")
@@ -61,11 +73,11 @@ puts(recording)
 
 ## Delete a list of call recordings
 
+Permanently deletes a list of call recordings.
+
 `POST /recordings/actions/delete`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.recordings.actions.delete(
@@ -77,11 +89,11 @@ puts(result)
 
 ## List all recording transcriptions
 
+Returns a list of your recording transcriptions.
+
 `GET /recording_transcriptions`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 recording_transcriptions = telnyx.recording_transcriptions.list
@@ -91,11 +103,11 @@ puts(recording_transcriptions)
 
 ## Retrieve a recording transcription
 
+Retrieves the details of an existing recording transcription.
+
 `GET /recording_transcriptions/{recording_transcription_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 recording_transcription = telnyx.recording_transcriptions.retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
@@ -105,11 +117,11 @@ puts(recording_transcription)
 
 ## Delete a recording transcription
 
+Permanently deletes a recording transcription.
+
 `DELETE /recording_transcriptions/{recording_transcription_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 recording_transcription = telnyx.recording_transcriptions.delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
@@ -119,11 +131,11 @@ puts(recording_transcription)
 
 ## Retrieve a stored credential
 
+Returns the information about custom storage credentials.
+
 `GET /custom_storage_credentials/{connection_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 custom_storage_credential = telnyx.custom_storage_credentials.retrieve("connection_id")
@@ -133,11 +145,11 @@ puts(custom_storage_credential)
 
 ## Create a custom storage credential
 
+Creates a custom storage credentials configuration.
+
 `POST /custom_storage_credentials/{connection_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 custom_storage_credential = telnyx.custom_storage_credentials.create("connection_id", backend: :gcs, configuration: {backend: :gcs})
@@ -147,11 +159,11 @@ puts(custom_storage_credential)
 
 ## Update a stored credential
 
+Updates a stored custom credentials configuration.
+
 `PUT /custom_storage_credentials/{connection_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 custom_storage_credential = telnyx.custom_storage_credentials.update("connection_id", backend: :gcs, configuration: {backend: :gcs})
@@ -161,11 +173,11 @@ puts(custom_storage_credential)
 
 ## Delete a stored credential
 
+Deletes a stored custom credentials configuration.
+
 `DELETE /custom_storage_credentials/{connection_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.custom_storage_credentials.delete("connection_id")
@@ -175,11 +187,11 @@ puts(result)
 
 ## Retrieve stored Dialogflow Connection
 
+Return details of the Dialogflow connection associated with the given CallControl connection.
+
 `GET /dialogflow_connections/{connection_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 dialogflow_connection = telnyx.dialogflow_connections.retrieve("connection_id")
@@ -189,11 +201,11 @@ puts(dialogflow_connection)
 
 ## Create a Dialogflow Connection
 
+Save Dialogflow Credentiails to Telnyx, so it can be used with other Telnyx services.
+
 `POST /dialogflow_connections/{connection_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 dialogflow_connection = telnyx.dialogflow_connections.create(
@@ -217,11 +229,11 @@ puts(dialogflow_connection)
 
 ## Update stored Dialogflow Connection
 
+Updates a stored Dialogflow Connection.
+
 `PUT /dialogflow_connections/{connection_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 dialogflow_connection = telnyx.dialogflow_connections.update(
@@ -245,11 +257,11 @@ puts(dialogflow_connection)
 
 ## Delete stored Dialogflow Connection
 
+Deletes a stored Dialogflow Connection.
+
 `DELETE /dialogflow_connections/{connection_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.dialogflow_connections.delete("connection_id")
@@ -259,11 +271,11 @@ puts(result)
 
 ## List all External Connections
 
+This endpoint returns a list of your External Connections inside the 'data' attribute of the response.
+
 `GET /external_connections`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.external_connections.list
@@ -273,11 +285,11 @@ puts(page)
 
 ## Creates an External Connection
 
-`POST /external_connections`
+Creates a new External Connection based on the parameters sent in the request.
+
+`POST /external_connections` — Required: `external_sip_connection`, `outbound`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 external_connection = telnyx.external_connections.create(external_sip_connection: :zoom, outbound: {})
@@ -287,11 +299,11 @@ puts(external_connection)
 
 ## Retrieve an External Connection
 
+Return the details of an existing External Connection inside the 'data' attribute of the response.
+
 `GET /external_connections/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 external_connection = telnyx.external_connections.retrieve("id")
@@ -301,11 +313,11 @@ puts(external_connection)
 
 ## Update an External Connection
 
-`PATCH /external_connections/{id}`
+Updates settings of an existing External Connection based on the parameters of the request.
+
+`PATCH /external_connections/{id}` — Required: `outbound`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 external_connection = telnyx.external_connections.update(
@@ -318,11 +330,11 @@ puts(external_connection)
 
 ## Deletes an External Connection
 
+Permanently deletes an External Connection.
+
 `DELETE /external_connections/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 external_connection = telnyx.external_connections.delete("id")
@@ -332,11 +344,11 @@ puts(external_connection)
 
 ## List all civic addresses and locations
 
+Returns the civic addresses and locations from Microsoft Teams.
+
 `GET /external_connections/{id}/civic_addresses`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 civic_addresses = telnyx.external_connections.civic_addresses.list("id")
@@ -346,11 +358,11 @@ puts(civic_addresses)
 
 ## Retrieve a Civic Address
 
+Return the details of an existing Civic Address with its Locations inside the 'data' attribute of the response.
+
 `GET /external_connections/{id}/civic_addresses/{address_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 civic_address = telnyx.external_connections.civic_addresses.retrieve("318fb664-d341-44d2-8405-e6bfb9ced6d9", id: "id")
@@ -360,11 +372,9 @@ puts(civic_address)
 
 ## Update a location's static emergency address
 
-`PATCH /external_connections/{id}/locations/{location_id}`
+`PATCH /external_connections/{id}/locations/{location_id}` — Required: `static_emergency_address_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.external_connections.update_location(
@@ -378,11 +388,11 @@ puts(response)
 
 ## List all phone numbers
 
+Returns a list of all active phone numbers associated with the given external connection.
+
 `GET /external_connections/{id}/phone_numbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.external_connections.phone_numbers.list("id")
@@ -392,11 +402,11 @@ puts(page)
 
 ## Retrieve a phone number
 
+Return the details of a phone number associated with the given external connection.
+
 `GET /external_connections/{id}/phone_numbers/{phone_number_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 phone_number = telnyx.external_connections.phone_numbers.retrieve("1234567889", id: "id")
@@ -406,11 +416,11 @@ puts(phone_number)
 
 ## Update a phone number
 
+Asynchronously update settings of the phone number associated with the given external connection.
+
 `PATCH /external_connections/{id}/phone_numbers/{phone_number_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 phone_number = telnyx.external_connections.phone_numbers.update("1234567889", id: "id")
@@ -420,11 +430,11 @@ puts(phone_number)
 
 ## List all Releases
 
+Returns a list of your Releases for the given external connection.
+
 `GET /external_connections/{id}/releases`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.external_connections.releases.list("id")
@@ -434,11 +444,11 @@ puts(page)
 
 ## Retrieve a Release request
 
+Return the details of a Release request and its phone numbers.
+
 `GET /external_connections/{id}/releases/{release_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 release = telnyx.external_connections.releases.retrieve("7b6a6449-b055-45a6-81f6-f6f0dffa4cc6", id: "id")
@@ -448,11 +458,11 @@ puts(release)
 
 ## List all Upload requests
 
+Returns a list of your Upload requests for the given external connection.
+
 `GET /external_connections/{id}/uploads`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.external_connections.uploads.list("id")
@@ -462,11 +472,11 @@ puts(page)
 
 ## Creates an Upload request
 
-`POST /external_connections/{id}/uploads`
+Creates a new Upload request to Microsoft teams with the included phone numbers.
+
+`POST /external_connections/{id}/uploads` — Required: `number_ids`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 upload = telnyx.external_connections.uploads.create(
@@ -479,11 +489,11 @@ puts(upload)
 
 ## Refresh the status of all Upload requests
 
+Forces a recheck of the status of all pending Upload requests for the given external connection in the background.
+
 `POST /external_connections/{id}/uploads/refresh`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.external_connections.uploads.refresh_status("id")
@@ -493,11 +503,11 @@ puts(response)
 
 ## Get the count of pending upload requests
 
+Returns the count of all pending upload requests for the given external connection.
+
 `GET /external_connections/{id}/uploads/status`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.external_connections.uploads.pending_count("id")
@@ -507,11 +517,11 @@ puts(response)
 
 ## Retrieve an Upload request
 
+Return the details of an Upload request and its phone numbers.
+
 `GET /external_connections/{id}/uploads/{ticket_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 upload = telnyx.external_connections.uploads.retrieve("7b6a6449-b055-45a6-81f6-f6f0dffa4cc6", id: "id")
@@ -521,11 +531,11 @@ puts(upload)
 
 ## Retry an Upload request
 
+If there were any errors during the upload process, this endpoint will retry the upload request.
+
 `POST /external_connections/{id}/uploads/{ticket_id}/retry`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.external_connections.uploads.retry_("7b6a6449-b055-45a6-81f6-f6f0dffa4cc6", id: "id")
@@ -535,11 +545,11 @@ puts(response)
 
 ## List all log messages
 
+Retrieve a list of log messages for all external connections associated with your account.
+
 `GET /external_connections/log_messages`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.external_connections.log_messages.list
@@ -549,11 +559,11 @@ puts(page)
 
 ## Retrieve a log message
 
+Retrieve a log message for an external connection associated with your account.
+
 `GET /external_connections/log_messages/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 log_message = telnyx.external_connections.log_messages.retrieve("id")
@@ -563,11 +573,11 @@ puts(log_message)
 
 ## Dismiss a log message
 
+Dismiss a log message for an external connection associated with your account.
+
 `DELETE /external_connections/log_messages/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.external_connections.log_messages.dismiss("id")
@@ -577,11 +587,11 @@ puts(response)
 
 ## Refresh Operator Connect integration
 
+This endpoint will make an asynchronous request to refresh the Operator Connect integration with Microsoft Teams for the current user.
+
 `POST /operator_connect/actions/refresh`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.operator_connect.actions.refresh
@@ -591,11 +601,11 @@ puts(response)
 
 ## List uploaded media
 
+Returns a list of stored media files.
+
 `GET /media`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 media = telnyx.media.list
@@ -605,11 +615,11 @@ puts(media)
 
 ## Upload media
 
-`POST /media`
+Upload media file to Telnyx so it can be used with other Telnyx services
+
+`POST /media` — Required: `media_url`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.media.upload(media_url: "http://www.example.com/audio.mp3")
@@ -619,11 +629,11 @@ puts(response)
 
 ## Retrieve stored media
 
+Returns the information about a stored media file.
+
 `GET /media/{media_name}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 media = telnyx.media.retrieve("media_name")
@@ -633,11 +643,11 @@ puts(media)
 
 ## Update stored media
 
+Updates a stored media file.
+
 `PUT /media/{media_name}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 media = telnyx.media.update("media_name")
@@ -647,11 +657,11 @@ puts(media)
 
 ## Deletes stored media
 
+Deletes a stored media file.
+
 `DELETE /media/{media_name}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.media.delete("media_name")
@@ -661,11 +671,11 @@ puts(result)
 
 ## Download stored media
 
+Downloads a stored media file.
+
 `GET /media/{media_name}/download`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.media.download("media_name")

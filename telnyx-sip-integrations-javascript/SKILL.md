@@ -17,9 +17,7 @@ metadata:
 npm install telnyx
 ```
 
-## List all call recordings
-
-`GET /recordings`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -27,7 +25,17 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## List all call recordings
+
+Returns a list of your call recordings.
+
+`GET /recordings`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const recordingResponseData of client.recordings.list()) {
   console.log(recordingResponseData.id);
@@ -36,15 +44,11 @@ for await (const recordingResponseData of client.recordings.list()) {
 
 ## Retrieve a call recording
 
+Retrieves the details of an existing call recording.
+
 `GET /recordings/{recording_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const recording = await client.recordings.retrieve('recording_id');
 
 console.log(recording.data);
@@ -52,15 +56,11 @@ console.log(recording.data);
 
 ## Delete a call recording
 
+Permanently deletes a call recording.
+
 `DELETE /recordings/{recording_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const recording = await client.recordings.delete('recording_id');
 
 console.log(recording.data);
@@ -68,15 +68,11 @@ console.log(recording.data);
 
 ## Delete a list of call recordings
 
+Permanently deletes a list of call recordings.
+
 `POST /recordings/actions/delete`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.recordings.actions.delete({
   ids: ['428c31b6-7af4-4bcb-b7f5-5013ef9657c1', '428c31b6-7af4-4bcb-b7f5-5013ef9657c2'],
 });
@@ -84,15 +80,11 @@ await client.recordings.actions.delete({
 
 ## List all recording transcriptions
 
+Returns a list of your recording transcriptions.
+
 `GET /recording_transcriptions`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const recordingTranscriptions = await client.recordingTranscriptions.list();
 
 console.log(recordingTranscriptions.data);
@@ -100,15 +92,11 @@ console.log(recordingTranscriptions.data);
 
 ## Retrieve a recording transcription
 
+Retrieves the details of an existing recording transcription.
+
 `GET /recording_transcriptions/{recording_transcription_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const recordingTranscription = await client.recordingTranscriptions.retrieve(
   '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
 );
@@ -118,15 +106,11 @@ console.log(recordingTranscription.data);
 
 ## Delete a recording transcription
 
+Permanently deletes a recording transcription.
+
 `DELETE /recording_transcriptions/{recording_transcription_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const recordingTranscription = await client.recordingTranscriptions.delete(
   '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
 );
@@ -136,15 +120,11 @@ console.log(recordingTranscription.data);
 
 ## Retrieve a stored credential
 
+Returns the information about custom storage credentials.
+
 `GET /custom_storage_credentials/{connection_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const customStorageCredential = await client.customStorageCredentials.retrieve('connection_id');
 
 console.log(customStorageCredential.connection_id);
@@ -152,15 +132,11 @@ console.log(customStorageCredential.connection_id);
 
 ## Create a custom storage credential
 
+Creates a custom storage credentials configuration.
+
 `POST /custom_storage_credentials/{connection_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const customStorageCredential = await client.customStorageCredentials.create('connection_id', {
   backend: 'gcs',
   configuration: { backend: 'gcs' },
@@ -171,15 +147,11 @@ console.log(customStorageCredential.connection_id);
 
 ## Update a stored credential
 
+Updates a stored custom credentials configuration.
+
 `PUT /custom_storage_credentials/{connection_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const customStorageCredential = await client.customStorageCredentials.update('connection_id', {
   backend: 'gcs',
   configuration: { backend: 'gcs' },
@@ -190,29 +162,21 @@ console.log(customStorageCredential.connection_id);
 
 ## Delete a stored credential
 
+Deletes a stored custom credentials configuration.
+
 `DELETE /custom_storage_credentials/{connection_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.customStorageCredentials.delete('connection_id');
 ```
 
 ## Retrieve stored Dialogflow Connection
 
+Return details of the Dialogflow connection associated with the given CallControl connection.
+
 `GET /dialogflow_connections/{connection_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const dialogflowConnection = await client.dialogflowConnections.retrieve('connection_id');
 
 console.log(dialogflowConnection.data);
@@ -220,15 +184,11 @@ console.log(dialogflowConnection.data);
 
 ## Create a Dialogflow Connection
 
+Save Dialogflow Credentiails to Telnyx, so it can be used with other Telnyx services.
+
 `POST /dialogflow_connections/{connection_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const dialogflowConnection = await client.dialogflowConnections.create('connection_id', {
   service_account: {
     type: 'bar',
@@ -249,15 +209,11 @@ console.log(dialogflowConnection.data);
 
 ## Update stored Dialogflow Connection
 
+Updates a stored Dialogflow Connection.
+
 `PUT /dialogflow_connections/{connection_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const dialogflowConnection = await client.dialogflowConnections.update('connection_id', {
   service_account: {
     type: 'bar',
@@ -278,29 +234,21 @@ console.log(dialogflowConnection.data);
 
 ## Delete stored Dialogflow Connection
 
+Deletes a stored Dialogflow Connection.
+
 `DELETE /dialogflow_connections/{connection_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.dialogflowConnections.delete('connection_id');
 ```
 
 ## List all External Connections
 
+This endpoint returns a list of your External Connections inside the 'data' attribute of the response.
+
 `GET /external_connections`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const externalConnection of client.externalConnections.list()) {
   console.log(externalConnection.id);
@@ -309,15 +257,11 @@ for await (const externalConnection of client.externalConnections.list()) {
 
 ## Creates an External Connection
 
-`POST /external_connections`
+Creates a new External Connection based on the parameters sent in the request.
+
+`POST /external_connections` — Required: `external_sip_connection`, `outbound`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const externalConnection = await client.externalConnections.create({
   external_sip_connection: 'zoom',
   outbound: {},
@@ -328,15 +272,11 @@ console.log(externalConnection.data);
 
 ## Retrieve an External Connection
 
+Return the details of an existing External Connection inside the 'data' attribute of the response.
+
 `GET /external_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const externalConnection = await client.externalConnections.retrieve('id');
 
 console.log(externalConnection.data);
@@ -344,15 +284,11 @@ console.log(externalConnection.data);
 
 ## Update an External Connection
 
-`PATCH /external_connections/{id}`
+Updates settings of an existing External Connection based on the parameters of the request.
+
+`PATCH /external_connections/{id}` — Required: `outbound`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const externalConnection = await client.externalConnections.update('id', {
   outbound: { outbound_voice_profile_id: 'outbound_voice_profile_id' },
 });
@@ -362,15 +298,11 @@ console.log(externalConnection.data);
 
 ## Deletes an External Connection
 
+Permanently deletes an External Connection.
+
 `DELETE /external_connections/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const externalConnection = await client.externalConnections.delete('id');
 
 console.log(externalConnection.data);
@@ -378,15 +310,11 @@ console.log(externalConnection.data);
 
 ## List all civic addresses and locations
 
+Returns the civic addresses and locations from Microsoft Teams.
+
 `GET /external_connections/{id}/civic_addresses`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const civicAddresses = await client.externalConnections.civicAddresses.list('id');
 
 console.log(civicAddresses.data);
@@ -394,15 +322,11 @@ console.log(civicAddresses.data);
 
 ## Retrieve a Civic Address
 
+Return the details of an existing Civic Address with its Locations inside the 'data' attribute of the response.
+
 `GET /external_connections/{id}/civic_addresses/{address_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const civicAddress = await client.externalConnections.civicAddresses.retrieve(
   '318fb664-d341-44d2-8405-e6bfb9ced6d9',
   { id: 'id' },
@@ -413,15 +337,9 @@ console.log(civicAddress.data);
 
 ## Update a location's static emergency address
 
-`PATCH /external_connections/{id}/locations/{location_id}`
+`PATCH /external_connections/{id}/locations/{location_id}` — Required: `static_emergency_address_id`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.externalConnections.updateLocation(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   {
@@ -435,15 +353,11 @@ console.log(response.data);
 
 ## List all phone numbers
 
+Returns a list of all active phone numbers associated with the given external connection.
+
 `GET /external_connections/{id}/phone_numbers`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const externalConnectionPhoneNumber of client.externalConnections.phoneNumbers.list(
   'id',
@@ -454,15 +368,11 @@ for await (const externalConnectionPhoneNumber of client.externalConnections.pho
 
 ## Retrieve a phone number
 
+Return the details of a phone number associated with the given external connection.
+
 `GET /external_connections/{id}/phone_numbers/{phone_number_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const phoneNumber = await client.externalConnections.phoneNumbers.retrieve('1234567889', {
   id: 'id',
 });
@@ -472,15 +382,11 @@ console.log(phoneNumber.data);
 
 ## Update a phone number
 
+Asynchronously update settings of the phone number associated with the given external connection.
+
 `PATCH /external_connections/{id}/phone_numbers/{phone_number_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const phoneNumber = await client.externalConnections.phoneNumbers.update('1234567889', {
   id: 'id',
 });
@@ -490,15 +396,11 @@ console.log(phoneNumber.data);
 
 ## List all Releases
 
+Returns a list of your Releases for the given external connection.
+
 `GET /external_connections/{id}/releases`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const releaseListResponse of client.externalConnections.releases.list('id')) {
   console.log(releaseListResponse.tenant_id);
@@ -507,15 +409,11 @@ for await (const releaseListResponse of client.externalConnections.releases.list
 
 ## Retrieve a Release request
 
+Return the details of a Release request and its phone numbers.
+
 `GET /external_connections/{id}/releases/{release_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const release = await client.externalConnections.releases.retrieve(
   '7b6a6449-b055-45a6-81f6-f6f0dffa4cc6',
   { id: 'id' },
@@ -526,15 +424,11 @@ console.log(release.data);
 
 ## List all Upload requests
 
+Returns a list of your Upload requests for the given external connection.
+
 `GET /external_connections/{id}/uploads`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const upload of client.externalConnections.uploads.list('id')) {
   console.log(upload.location_id);
@@ -543,15 +437,11 @@ for await (const upload of client.externalConnections.uploads.list('id')) {
 
 ## Creates an Upload request
 
-`POST /external_connections/{id}/uploads`
+Creates a new Upload request to Microsoft teams with the included phone numbers.
+
+`POST /external_connections/{id}/uploads` — Required: `number_ids`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const upload = await client.externalConnections.uploads.create('id', {
   number_ids: [
     '3920457616934164700',
@@ -566,15 +456,11 @@ console.log(upload.ticket_id);
 
 ## Refresh the status of all Upload requests
 
+Forces a recheck of the status of all pending Upload requests for the given external connection in the background.
+
 `POST /external_connections/{id}/uploads/refresh`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.externalConnections.uploads.refreshStatus('id');
 
 console.log(response.success);
@@ -582,15 +468,11 @@ console.log(response.success);
 
 ## Get the count of pending upload requests
 
+Returns the count of all pending upload requests for the given external connection.
+
 `GET /external_connections/{id}/uploads/status`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.externalConnections.uploads.pendingCount('id');
 
 console.log(response.data);
@@ -598,15 +480,11 @@ console.log(response.data);
 
 ## Retrieve an Upload request
 
+Return the details of an Upload request and its phone numbers.
+
 `GET /external_connections/{id}/uploads/{ticket_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const upload = await client.externalConnections.uploads.retrieve(
   '7b6a6449-b055-45a6-81f6-f6f0dffa4cc6',
   { id: 'id' },
@@ -617,15 +495,11 @@ console.log(upload.data);
 
 ## Retry an Upload request
 
+If there were any errors during the upload process, this endpoint will retry the upload request.
+
 `POST /external_connections/{id}/uploads/{ticket_id}/retry`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.externalConnections.uploads.retry(
   '7b6a6449-b055-45a6-81f6-f6f0dffa4cc6',
   { id: 'id' },
@@ -636,15 +510,11 @@ console.log(response.data);
 
 ## List all log messages
 
+Retrieve a list of log messages for all external connections associated with your account.
+
 `GET /external_connections/log_messages`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const logMessageListResponse of client.externalConnections.logMessages.list()) {
   console.log(logMessageListResponse.code);
@@ -653,15 +523,11 @@ for await (const logMessageListResponse of client.externalConnections.logMessage
 
 ## Retrieve a log message
 
+Retrieve a log message for an external connection associated with your account.
+
 `GET /external_connections/log_messages/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const logMessage = await client.externalConnections.logMessages.retrieve('id');
 
 console.log(logMessage.log_messages);
@@ -669,15 +535,11 @@ console.log(logMessage.log_messages);
 
 ## Dismiss a log message
 
+Dismiss a log message for an external connection associated with your account.
+
 `DELETE /external_connections/log_messages/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.externalConnections.logMessages.dismiss('id');
 
 console.log(response.success);
@@ -685,15 +547,11 @@ console.log(response.success);
 
 ## Refresh Operator Connect integration
 
+This endpoint will make an asynchronous request to refresh the Operator Connect integration with Microsoft Teams for the current user.
+
 `POST /operator_connect/actions/refresh`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.operatorConnect.actions.refresh();
 
 console.log(response.message);
@@ -701,15 +559,11 @@ console.log(response.message);
 
 ## List uploaded media
 
+Returns a list of stored media files.
+
 `GET /media`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const media = await client.media.list();
 
 console.log(media.data);
@@ -717,15 +571,11 @@ console.log(media.data);
 
 ## Upload media
 
-`POST /media`
+Upload media file to Telnyx so it can be used with other Telnyx services
+
+`POST /media` — Required: `media_url`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.media.upload({ media_url: 'http://www.example.com/audio.mp3' });
 
 console.log(response.data);
@@ -733,15 +583,11 @@ console.log(response.data);
 
 ## Retrieve stored media
 
+Returns the information about a stored media file.
+
 `GET /media/{media_name}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const media = await client.media.retrieve('media_name');
 
 console.log(media.data);
@@ -749,15 +595,11 @@ console.log(media.data);
 
 ## Update stored media
 
+Updates a stored media file.
+
 `PUT /media/{media_name}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const media = await client.media.update('media_name');
 
 console.log(media.data);
@@ -765,29 +607,21 @@ console.log(media.data);
 
 ## Deletes stored media
 
+Deletes a stored media file.
+
 `DELETE /media/{media_name}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.media.delete('media_name');
 ```
 
 ## Download stored media
 
+Downloads a stored media file.
+
 `GET /media/{media_name}/download`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.media.download('media_name');
 
 console.log(response);

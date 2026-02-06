@@ -17,9 +17,7 @@ metadata:
 npm install telnyx
 ```
 
-## List portout requests
-
-`GET /portouts`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -27,7 +25,17 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## List portout requests
+
+Returns the portout requests according to filters
+
+`GET /portouts`
+
+```javascript
 // Automatically fetches more pages as needed.
 for await (const portoutDetails of client.portouts.list()) {
   console.log(portoutDetails.id);
@@ -36,15 +44,11 @@ for await (const portoutDetails of client.portouts.list()) {
 
 ## Get a portout request
 
+Returns the portout request based on the ID provided
+
 `GET /portouts/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const portout = await client.portouts.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(portout.data);
@@ -52,15 +56,11 @@ console.log(portout.data);
 
 ## List all comments for a portout request
 
+Returns a list of comments for a portout request.
+
 `GET /portouts/{id}/comments`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const comments = await client.portouts.comments.list('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(comments.data);
@@ -68,15 +68,11 @@ console.log(comments.data);
 
 ## Create a comment on a portout request
 
+Creates a comment on a portout request.
+
 `POST /portouts/{id}/comments`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const comment = await client.portouts.comments.create('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(comment.data);
@@ -84,15 +80,11 @@ console.log(comment.data);
 
 ## List supporting documents on a portout request
 
+List every supporting documents for a portout request.
+
 `GET /portouts/{id}/supporting_documents`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const supportingDocuments = await client.portouts.supportingDocuments.list(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -102,15 +94,11 @@ console.log(supportingDocuments.data);
 
 ## Create a list of supporting documents on a portout request
 
+Creates a list of supporting documents on a portout request.
+
 `POST /portouts/{id}/supporting_documents`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const supportingDocument = await client.portouts.supportingDocuments.create(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
 );
@@ -120,15 +108,11 @@ console.log(supportingDocument.data);
 
 ## Update Status
 
-`PATCH /portouts/{id}/{status}`
+Authorize or reject portout request
+
+`PATCH /portouts/{id}/{status}` — Required: `reason`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portouts.updateStatus('authorized', {
   id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   reason: 'I do not recognize this transaction',
@@ -139,15 +123,11 @@ console.log(response.data);
 
 ## List all port-out events
 
+Returns a list of all port-out events.
+
 `GET /portouts/events`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const eventListResponse of client.portouts.events.list()) {
   console.log(eventListResponse);
@@ -156,15 +136,11 @@ for await (const eventListResponse of client.portouts.events.list()) {
 
 ## Show a port-out event
 
+Show a specific port-out event.
+
 `GET /portouts/events/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const event = await client.portouts.events.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(event.data);
@@ -172,29 +148,21 @@ console.log(event.data);
 
 ## Republish a port-out event
 
+Republish a specific port-out event.
+
 `POST /portouts/events/{id}/republish`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 await client.portouts.events.republish('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 ```
 
 ## List eligible port-out rejection codes for a specific order
 
+Given a port-out ID, list rejection codes that are eligible for that port-out
+
 `GET /portouts/rejections/{portout_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.portouts.listRejectionCodes('329d6658-8f93-405d-862f-648776e8afd7');
 
 console.log(response.data);
@@ -202,15 +170,11 @@ console.log(response.data);
 
 ## List port-out related reports
 
+List the reports generated about port-out operations.
+
 `GET /portouts/reports`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const portoutReport of client.portouts.reports.list()) {
   console.log(portoutReport.id);
@@ -219,15 +183,11 @@ for await (const portoutReport of client.portouts.reports.list()) {
 
 ## Create a port-out related report
 
+Generate reports about port-out operations.
+
 `POST /portouts/reports`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const report = await client.portouts.reports.create({
   params: { filters: {} },
   report_type: 'export_portouts_csv',
@@ -238,15 +198,11 @@ console.log(report.data);
 
 ## Retrieve a report
 
+Retrieve a specific report generated.
+
 `GET /portouts/reports/{id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const report = await client.portouts.reports.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
 console.log(report.data);

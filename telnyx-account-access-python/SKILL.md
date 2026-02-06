@@ -18,9 +18,7 @@ metadata:
 pip install telnyx
 ```
 
-## List all addresses
-
-`GET /addresses`
+## Setup
 
 ```python
 import os
@@ -29,6 +27,17 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List all addresses
+
+Returns a list of your addresses.
+
+`GET /addresses`
+
+```python
 page = client.addresses.list()
 page = page.data[0]
 print(page.id)
@@ -36,15 +45,11 @@ print(page.id)
 
 ## Creates an address
 
-`POST /addresses`
+Creates an address.
+
+`POST /addresses` — Required: `first_name`, `last_name`, `business_name`, `street_address`, `locality`, `country_code`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 address = client.addresses.create(
     business_name="Toy-O'Kon",
     country_code="US",
@@ -58,15 +63,11 @@ print(address.data)
 
 ## Retrieve an address
 
+Retrieves the details of an existing address.
+
 `GET /addresses/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 address = client.addresses.retrieve(
     "id",
 )
@@ -75,15 +76,11 @@ print(address.data)
 
 ## Deletes an address
 
+Deletes an existing address.
+
 `DELETE /addresses/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 address = client.addresses.delete(
     "id",
 )
@@ -95,12 +92,6 @@ print(address.data)
 `POST /addresses/{id}/actions/accept_suggestions`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.addresses.actions.accept_suggestions(
     address_uuid="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -109,15 +100,11 @@ print(response.data)
 
 ## Validate an address
 
-`POST /addresses/actions/validate`
+Validates an address for emergency services.
+
+`POST /addresses/actions/validate` — Required: `country_code`, `street_address`, `postal_code`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.addresses.actions.validate(
     country_code="US",
     postal_code="78701",
@@ -128,15 +115,11 @@ print(response.data)
 
 ## List all SSO authentication providers
 
+Returns a list of your SSO authentication providers.
+
 `GET /authentication_providers`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.authentication_providers.list()
 page = page.data[0]
 print(page.id)
@@ -144,15 +127,11 @@ print(page.id)
 
 ## Creates an authentication provider
 
-`POST /authentication_providers`
+Creates an authentication provider.
+
+`POST /authentication_providers` — Required: `name`, `short_name`, `settings`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 authentication_provider = client.authentication_providers.create(
     name="Okta",
     settings={
@@ -167,15 +146,11 @@ print(authentication_provider.data)
 
 ## Retrieve an authentication provider
 
+Retrieves the details of an existing authentication provider.
+
 `GET /authentication_providers/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 authentication_provider = client.authentication_providers.retrieve(
     "id",
 )
@@ -184,15 +159,11 @@ print(authentication_provider.data)
 
 ## Update an authentication provider
 
+Updates settings of an existing authentication provider.
+
 `PATCH /authentication_providers/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 authentication_provider = client.authentication_providers.update(
     id="id",
     active=True,
@@ -210,15 +181,11 @@ print(authentication_provider.data)
 
 ## Deletes an authentication provider
 
+Deletes an existing authentication provider.
+
 `DELETE /authentication_providers/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 authentication_provider = client.authentication_providers.delete(
     "id",
 )
@@ -230,12 +197,6 @@ print(authentication_provider.data)
 `GET /billing_groups`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.billing_groups.list()
 page = page.data[0]
 print(page.id)
@@ -246,12 +207,6 @@ print(page.id)
 `POST /billing_groups`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 billing_group = client.billing_groups.create(
     name="string",
 )
@@ -263,12 +218,6 @@ print(billing_group.data)
 `GET /billing_groups/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 billing_group = client.billing_groups.retrieve(
     "f5586561-8ff0-4291-a0ac-84fe544797bd",
 )
@@ -280,12 +229,6 @@ print(billing_group.data)
 `PATCH /billing_groups/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 billing_group = client.billing_groups.update(
     id="f5586561-8ff0-4291-a0ac-84fe544797bd",
     name="string",
@@ -298,12 +241,6 @@ print(billing_group.data)
 `DELETE /billing_groups/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 billing_group = client.billing_groups.delete(
     "f5586561-8ff0-4291-a0ac-84fe544797bd",
 )
@@ -312,15 +249,11 @@ print(billing_group.data)
 
 ## List integration secrets
 
+Retrieve a list of all integration secrets configured by the user.
+
 `GET /integration_secrets`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.integration_secrets.list()
 page = page.data[0]
 print(page.id)
@@ -328,15 +261,11 @@ print(page.id)
 
 ## Create a secret
 
-`POST /integration_secrets`
+Create a new secret with an associated identifier that can be used to securely integrate with other services.
+
+`POST /integration_secrets` — Required: `identifier`, `type`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 integration_secret = client.integration_secrets.create(
     identifier="my_secret",
     type="bearer",
@@ -347,15 +276,11 @@ print(integration_secret.data)
 
 ## Delete an integration secret
 
+Delete an integration secret given its ID.
+
 `DELETE /integration_secrets/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.integration_secrets.delete(
     "id",
 )
@@ -366,12 +291,6 @@ client.integration_secrets.delete(
 `GET /access_ip_address`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.access_ip_address.list()
 page = page.data[0]
 print(page.id)
@@ -379,15 +298,9 @@ print(page.id)
 
 ## Create new Access IP Address
 
-`POST /access_ip_address`
+`POST /access_ip_address` — Required: `ip_address`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 access_ip_address_response = client.access_ip_address.create(
     ip_address="ip_address",
 )
@@ -399,12 +312,6 @@ print(access_ip_address_response.id)
 `GET /access_ip_address/{access_ip_address_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 access_ip_address_response = client.access_ip_address.retrieve(
     "access_ip_address_id",
 )
@@ -416,12 +323,6 @@ print(access_ip_address_response.id)
 `DELETE /access_ip_address/{access_ip_address_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 access_ip_address_response = client.access_ip_address.delete(
     "access_ip_address_id",
 )
@@ -433,12 +334,6 @@ print(access_ip_address_response.id)
 `GET /access_ip_ranges`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.access_ip_ranges.list()
 page = page.data[0]
 print(page.id)
@@ -446,15 +341,9 @@ print(page.id)
 
 ## Create new Access IP Range
 
-`POST /access_ip_ranges`
+`POST /access_ip_ranges` — Required: `cidr_block`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 access_ip_range = client.access_ip_ranges.create(
     cidr_block="cidr_block",
 )
@@ -466,12 +355,6 @@ print(access_ip_range.id)
 `DELETE /access_ip_ranges/{access_ip_range_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 access_ip_range = client.access_ip_ranges.delete(
     "access_ip_range_id",
 )

@@ -18,9 +18,7 @@ metadata:
 pip install telnyx
 ```
 
-## Update client state
-
-`PUT /calls/{call_control_id}/actions/client_state_update`
+## Setup
 
 ```python
 import os
@@ -29,6 +27,17 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Update client state
+
+Updates client state
+
+`PUT /calls/{call_control_id}/actions/client_state_update` — Required: `client_state`
+
+```python
 response = client.calls.actions.update_client_state(
     call_control_id="call_control_id",
     client_state="aGF2ZSBhIG5pY2UgZGF5ID1d",
@@ -38,15 +47,11 @@ print(response.data)
 
 ## Send DTMF
 
-`POST /calls/{call_control_id}/actions/send_dtmf`
+Sends DTMF tones from this leg.
+
+`POST /calls/{call_control_id}/actions/send_dtmf` — Required: `digits`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.send_dtmf(
     call_control_id="call_control_id",
     digits="1www2WABCDw9",
@@ -56,15 +61,11 @@ print(response.data)
 
 ## SIPREC start
 
+Start siprec session to configured in SIPREC connector SRS.
+
 `POST /calls/{call_control_id}/actions/siprec_start`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.start_siprec(
     call_control_id="call_control_id",
 )
@@ -73,15 +74,11 @@ print(response.data)
 
 ## SIPREC stop
 
+Stop SIPREC session.
+
 `POST /calls/{call_control_id}/actions/siprec_stop`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.stop_siprec(
     call_control_id="call_control_id",
 )
@@ -93,12 +90,6 @@ print(response.data)
 `POST /calls/{call_control_id}/actions/suppression_start`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.start_noise_suppression(
     call_control_id="call_control_id",
 )
@@ -110,12 +101,6 @@ print(response.data)
 `POST /calls/{call_control_id}/actions/suppression_stop`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.stop_noise_suppression(
     call_control_id="call_control_id",
 )
@@ -124,18 +109,27 @@ print(response.data)
 
 ## Switch supervisor role
 
-`POST /calls/{call_control_id}/actions/switch_supervisor_role`
+Switch the supervisor role for a bridged call.
+
+`POST /calls/{call_control_id}/actions/switch_supervisor_role` — Required: `role`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.switch_supervisor_role(
     call_control_id="call_control_id",
     role="barge",
 )
 print(response.data)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callSiprecStarted` | Call Siprec Started |
+| `callSiprecStopped` | Call Siprec Stopped |
+| `callSiprecFailed` | Call Siprec Failed |

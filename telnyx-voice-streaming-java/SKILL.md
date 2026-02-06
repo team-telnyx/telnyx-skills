@@ -18,145 +18,112 @@ metadata:
 // Add to pom.xml or build.gradle - see https://github.com/team-telnyx/telnyx-java
 ```
 
+## Setup
+
+```java
+import com.telnyx.sdk.client.TelnyxClient;
+import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
+
+TelnyxClient client = TelnyxOkHttpClient.fromEnv();
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Forking start
+
+Call forking allows you to stream the media from a call to a specific target in realtime.
 
 `POST /calls/{call_control_id}/actions/fork_start`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionStartForkingParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartForkingResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionStartForkingResponse response = client.calls().actions().startForking("call_control_id");
-    }
-}
+ActionStartForkingResponse response = client.calls().actions().startForking("call_control_id");
 ```
 
 ## Forking stop
 
+Stop forking a call.
+
 `POST /calls/{call_control_id}/actions/fork_stop`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionStopForkingParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopForkingResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionStopForkingResponse response = client.calls().actions().stopForking("call_control_id");
-    }
-}
+ActionStopForkingResponse response = client.calls().actions().stopForking("call_control_id");
 ```
 
 ## Streaming start
 
+Start streaming the media from a call to a specific WebSocket address or Dialogflow connection in near-realtime.
+
 `POST /calls/{call_control_id}/actions/streaming_start`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionStartStreamingParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartStreamingResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionStartStreamingResponse response = client.calls().actions().startStreaming("call_control_id");
-    }
-}
+ActionStartStreamingResponse response = client.calls().actions().startStreaming("call_control_id");
 ```
 
 ## Streaming stop
 
+Stop streaming a call to a WebSocket.
+
 `POST /calls/{call_control_id}/actions/streaming_stop`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionStopStreamingParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopStreamingResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionStopStreamingResponse response = client.calls().actions().stopStreaming("call_control_id");
-    }
-}
+ActionStopStreamingResponse response = client.calls().actions().stopStreaming("call_control_id");
 ```
 
 ## Transcription start
 
+Start real-time transcription.
+
 `POST /calls/{call_control_id}/actions/transcription_start`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionStartTranscriptionParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartTranscriptionResponse;
 import com.telnyx.sdk.models.calls.actions.TranscriptionStartRequest;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionStartTranscriptionParams params = ActionStartTranscriptionParams.builder()
-            .callControlId("call_control_id")
-            .transcriptionStartRequest(TranscriptionStartRequest.builder().build())
-            .build();
-        ActionStartTranscriptionResponse response = client.calls().actions().startTranscription(params);
-    }
-}
+ActionStartTranscriptionParams params = ActionStartTranscriptionParams.builder()
+    .callControlId("call_control_id")
+    .transcriptionStartRequest(TranscriptionStartRequest.builder().build())
+    .build();
+ActionStartTranscriptionResponse response = client.calls().actions().startTranscription(params);
 ```
 
 ## Transcription stop
 
+Stop real-time transcription.
+
 `POST /calls/{call_control_id}/actions/transcription_stop`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.calls.actions.ActionStopTranscriptionParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopTranscriptionResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionStopTranscriptionResponse response = client.calls().actions().stopTranscription("call_control_id");
-    }
-}
+ActionStopTranscriptionResponse response = client.calls().actions().stopTranscription("call_control_id");
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callForkStarted` | Call Fork Started |
+| `callForkStopped` | Call Fork Stopped |
+| `callStreamingStarted` | Call Streaming Started |
+| `callStreamingStopped` | Call Streaming Stopped |
+| `callStreamingFailed` | Call Streaming Failed |
+| `transcription` | Transcription |

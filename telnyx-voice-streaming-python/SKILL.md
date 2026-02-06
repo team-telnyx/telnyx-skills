@@ -18,9 +18,7 @@ metadata:
 pip install telnyx
 ```
 
-## Forking start
-
-`POST /calls/{call_control_id}/actions/fork_start`
+## Setup
 
 ```python
 import os
@@ -29,6 +27,17 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Forking start
+
+Call forking allows you to stream the media from a call to a specific target in realtime.
+
+`POST /calls/{call_control_id}/actions/fork_start`
+
+```python
 response = client.calls.actions.start_forking(
     call_control_id="call_control_id",
 )
@@ -37,15 +46,11 @@ print(response.data)
 
 ## Forking stop
 
+Stop forking a call.
+
 `POST /calls/{call_control_id}/actions/fork_stop`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.stop_forking(
     call_control_id="call_control_id",
 )
@@ -54,15 +59,11 @@ print(response.data)
 
 ## Streaming start
 
+Start streaming the media from a call to a specific WebSocket address or Dialogflow connection in near-realtime.
+
 `POST /calls/{call_control_id}/actions/streaming_start`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.start_streaming(
     call_control_id="call_control_id",
 )
@@ -71,15 +72,11 @@ print(response.data)
 
 ## Streaming stop
 
+Stop streaming a call to a WebSocket.
+
 `POST /calls/{call_control_id}/actions/streaming_stop`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.stop_streaming(
     call_control_id="call_control_id",
 )
@@ -88,15 +85,11 @@ print(response.data)
 
 ## Transcription start
 
+Start real-time transcription.
+
 `POST /calls/{call_control_id}/actions/transcription_start`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.start_transcription(
     call_control_id="call_control_id",
 )
@@ -105,17 +98,29 @@ print(response.data)
 
 ## Transcription stop
 
+Stop real-time transcription.
+
 `POST /calls/{call_control_id}/actions/transcription_stop`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.calls.actions.stop_transcription(
     call_control_id="call_control_id",
 )
 print(response.data)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callForkStarted` | Call Fork Started |
+| `callForkStopped` | Call Fork Stopped |
+| `callStreamingStarted` | Call Streaming Started |
+| `callStreamingStopped` | Call Streaming Stopped |
+| `callStreamingFailed` | Call Streaming Failed |
+| `transcription` | Transcription |

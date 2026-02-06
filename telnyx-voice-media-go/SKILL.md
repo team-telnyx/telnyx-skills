@@ -18,237 +18,181 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
+## Setup
+
+```go
+import (
+  "context"
+  "fmt"
+
+  "github.com/team-telnyx/telnyx-go"
+  "github.com/team-telnyx/telnyx-go/option"
+)
+
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Play audio URL
+
+Play an audio file on the call.
 
 `POST /calls/{call_control_id}/actions/playback_start`
 
 ```go
-package main
+response, err := client.Calls.Actions.StartPlayback(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStartPlaybackParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StartPlayback(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStartPlaybackParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Stop audio playback
 
+Stop audio being played on the call.
+
 `POST /calls/{call_control_id}/actions/playback_stop`
 
 ```go
-package main
+response, err := client.Calls.Actions.StopPlayback(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStopPlaybackParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StopPlayback(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStopPlaybackParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Record pause
 
+Pause recording the call.
+
 `POST /calls/{call_control_id}/actions/record_pause`
 
 ```go
-package main
+response, err := client.Calls.Actions.PauseRecording(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionPauseRecordingParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.PauseRecording(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionPauseRecordingParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Record resume
 
+Resume recording the call.
+
 `POST /calls/{call_control_id}/actions/record_resume`
 
 ```go
-package main
+response, err := client.Calls.Actions.ResumeRecording(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionResumeRecordingParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.ResumeRecording(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionResumeRecordingParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Recording start
 
-`POST /calls/{call_control_id}/actions/record_start`
+Start recording the call.
+
+`POST /calls/{call_control_id}/actions/record_start` — Required: `format`, `channels`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Calls.Actions.StartRecording(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStartRecordingParams{
+    Channels: telnyx.CallActionStartRecordingParamsChannelsSingle,
+    Format: telnyx.CallActionStartRecordingParamsFormatWav,
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StartRecording(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStartRecordingParams{
-      Channels: telnyx.CallActionStartRecordingParamsChannelsSingle,
-      Format: telnyx.CallActionStartRecordingParamsFormatWav,
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Recording stop
 
+Stop recording the call.
+
 `POST /calls/{call_control_id}/actions/record_stop`
 
 ```go
-package main
+response, err := client.Calls.Actions.StopRecording(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStopRecordingParams{
+    StopRecordingRequest: telnyx.StopRecordingRequestParam{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StopRecording(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStopRecordingParams{
-      StopRecordingRequest: telnyx.StopRecordingRequestParam{
-
-      },
     },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+  },
+)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Speak text
 
-`POST /calls/{call_control_id}/actions/speak`
+Convert text to speech and play it back on the call.
+
+`POST /calls/{call_control_id}/actions/speak` — Required: `payload`, `voice`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Calls.Actions.Speak(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionSpeakParams{
+    Payload: "Say this on the call",
+    Voice: "female",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.Speak(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionSpeakParams{
-      Payload: "Say this on the call",
-      Voice: "female",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callPlaybackStarted` | Call Playback Started |
+| `callPlaybackEnded` | Call Playback Ended |
+| `callSpeakEnded` | Call Speak Ended |
+| `callRecordingSaved` | Call Recording Saved |
+| `callRecordingError` | Call Recording Error |
+| `callRecordingTranscriptionSaved` | Call Recording Transcription Saved |
+| `callSpeakStarted` | Call Speak Started |

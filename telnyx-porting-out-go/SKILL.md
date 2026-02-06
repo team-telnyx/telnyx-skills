@@ -17,416 +17,253 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
+## Setup
+
+```go
+import (
+  "context"
+  "fmt"
+
+  "github.com/team-telnyx/telnyx-go"
+  "github.com/team-telnyx/telnyx-go/option"
+)
+
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## List portout requests
+
+Returns the portout requests according to filters
 
 `GET /portouts`
 
 ```go
-package main
+page, err := client.Portouts.List(context.TODO(), telnyx.PortoutListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Portouts.List(context.TODO(), telnyx.PortoutListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Get a portout request
 
+Returns the portout request based on the ID provided
+
 `GET /portouts/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  portout, err := client.Portouts.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", portout.Data)
+portout, err := client.Portouts.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", portout.Data)
 ```
 
 ## List all comments for a portout request
 
+Returns a list of comments for a portout request.
+
 `GET /portouts/{id}/comments`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  comments, err := client.Portouts.Comments.List(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", comments.Data)
+comments, err := client.Portouts.Comments.List(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", comments.Data)
 ```
 
 ## Create a comment on a portout request
 
+Creates a comment on a portout request.
+
 `POST /portouts/{id}/comments`
 
 ```go
-package main
+comment, err := client.Portouts.Comments.New(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.PortoutCommentNewParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  comment, err := client.Portouts.Comments.New(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.PortoutCommentNewParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", comment.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", comment.Data)
 ```
 
 ## List supporting documents on a portout request
 
+List every supporting documents for a portout request.
+
 `GET /portouts/{id}/supporting_documents`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  supportingDocuments, err := client.Portouts.SupportingDocuments.List(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", supportingDocuments.Data)
+supportingDocuments, err := client.Portouts.SupportingDocuments.List(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", supportingDocuments.Data)
 ```
 
 ## Create a list of supporting documents on a portout request
 
+Creates a list of supporting documents on a portout request.
+
 `POST /portouts/{id}/supporting_documents`
 
 ```go
-package main
+supportingDocument, err := client.Portouts.SupportingDocuments.New(
+  context.TODO(),
+  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+  telnyx.PortoutSupportingDocumentNewParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  supportingDocument, err := client.Portouts.SupportingDocuments.New(
-    context.TODO(),
-    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx.PortoutSupportingDocumentNewParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", supportingDocument.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", supportingDocument.Data)
 ```
 
 ## Update Status
 
-`PATCH /portouts/{id}/{status}`
+Authorize or reject portout request
+
+`PATCH /portouts/{id}/{status}` — Required: `reason`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Portouts.UpdateStatus(
+  context.TODO(),
+  telnyx.PortoutUpdateStatusParamsStatusAuthorized,
+  telnyx.PortoutUpdateStatusParams{
+    ID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+    Reason: "I do not recognize this transaction",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Portouts.UpdateStatus(
-    context.TODO(),
-    telnyx.PortoutUpdateStatusParamsStatusAuthorized,
-    telnyx.PortoutUpdateStatusParams{
-      ID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      Reason: "I do not recognize this transaction",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List all port-out events
 
+Returns a list of all port-out events.
+
 `GET /portouts/events`
 
 ```go
-package main
+page, err := client.Portouts.Events.List(context.TODO(), telnyx.PortoutEventListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Portouts.Events.List(context.TODO(), telnyx.PortoutEventListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Show a port-out event
 
+Show a specific port-out event.
+
 `GET /portouts/events/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  event, err := client.Portouts.Events.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", event.Data)
+event, err := client.Portouts.Events.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", event.Data)
 ```
 
 ## Republish a port-out event
 
+Republish a specific port-out event.
+
 `POST /portouts/events/{id}/republish`
 
 ```go
-package main
-
-import (
-  "context"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  err := client.Portouts.Events.Republish(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
+err := client.Portouts.Events.Republish(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
 ```
 
 ## List eligible port-out rejection codes for a specific order
 
+Given a port-out ID, list rejection codes that are eligible for that port-out
+
 `GET /portouts/rejections/{portout_id}`
 
 ```go
-package main
+response, err := client.Portouts.ListRejectionCodes(
+  context.TODO(),
+  "329d6658-8f93-405d-862f-648776e8afd7",
+  telnyx.PortoutListRejectionCodesParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Portouts.ListRejectionCodes(
-    context.TODO(),
-    "329d6658-8f93-405d-862f-648776e8afd7",
-    telnyx.PortoutListRejectionCodesParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List port-out related reports
 
+List the reports generated about port-out operations.
+
 `GET /portouts/reports`
 
 ```go
-package main
+page, err := client.Portouts.Reports.List(context.TODO(), telnyx.PortoutReportListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Portouts.Reports.List(context.TODO(), telnyx.PortoutReportListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a port-out related report
 
+Generate reports about port-out operations.
+
 `POST /portouts/reports`
 
 ```go
-package main
+report, err := client.Portouts.Reports.New(context.TODO(), telnyx.PortoutReportNewParams{
+  Params: telnyx.ExportPortoutsCsvReportParam{
+    Filters: telnyx.ExportPortoutsCsvReportFiltersParam{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  report, err := client.Portouts.Reports.New(context.TODO(), telnyx.PortoutReportNewParams{
-    Params: telnyx.ExportPortoutsCsvReportParam{
-      Filters: telnyx.ExportPortoutsCsvReportFiltersParam{
-
-      },
     },
-    ReportType: telnyx.PortoutReportNewParamsReportTypeExportPortoutsCsv,
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", report.Data)
+  },
+  ReportType: telnyx.PortoutReportNewParamsReportTypeExportPortoutsCsv,
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", report.Data)
 ```
 
 ## Retrieve a report
 
+Retrieve a specific report generated.
+
 `GET /portouts/reports/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  report, err := client.Portouts.Reports.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", report.Data)
+report, err := client.Portouts.Reports.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", report.Data)
 ```

@@ -18,13 +18,25 @@ metadata:
 gem install telnyx
 ```
 
-## List Brands
-
-`GET /10dlc/brand`
+## Setup
 
 ```ruby
 require "telnyx"
 
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List Brands
+
+This endpoint is used to list all brands associated with your organization.
+
+`GET /10dlc/brand`
+
+```ruby
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging_10dlc.brand.list
@@ -34,11 +46,11 @@ puts(page)
 
 ## Create Brand
 
-`POST /10dlc/brand`
+This endpoint is used to create a new brand.
+
+`POST /10dlc/brand` — Required: `entityType`, `displayName`, `country`, `email`, `vertical`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telnyx_brand = telnyx.messaging_10dlc.brand.create(
@@ -54,11 +66,11 @@ puts(telnyx_brand)
 
 ## Get Brand
 
+Retrieve a brand by `brandId`.
+
 `GET /10dlc/brand/{brandId}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 brand = telnyx.messaging_10dlc.brand.retrieve("brandId")
@@ -68,11 +80,11 @@ puts(brand)
 
 ## Update Brand
 
-`PUT /10dlc/brand/{brandId}`
+Update a brand's attributes by `brandId`.
+
+`PUT /10dlc/brand/{brandId}` — Required: `entityType`, `displayName`, `country`, `email`, `vertical`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telnyx_brand = telnyx.messaging_10dlc.brand.update(
@@ -89,11 +101,11 @@ puts(telnyx_brand)
 
 ## Delete Brand
 
+Delete Brand.
+
 `DELETE /10dlc/brand/{brandId}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.messaging_10dlc.brand.delete("brandId")
@@ -106,8 +118,6 @@ puts(result)
 `POST /10dlc/brand/{brandId}/2faEmail`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.messaging_10dlc.brand.resend_2fa_email("brandId")
@@ -117,11 +127,11 @@ puts(result)
 
 ## List External Vettings
 
+Get list of valid external vetting record for a given brand
+
 `GET /10dlc/brand/{brandId}/externalVetting`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 external_vettings = telnyx.messaging_10dlc.brand.external_vetting.list("brandId")
@@ -131,11 +141,11 @@ puts(external_vettings)
 
 ## Order Brand External Vetting
 
-`POST /10dlc/brand/{brandId}/externalVetting`
+Order new external vetting for a brand
+
+`POST /10dlc/brand/{brandId}/externalVetting` — Required: `evpId`, `vettingClass`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.brand.external_vetting.order(
@@ -149,11 +159,12 @@ puts(response)
 
 ## Import External Vetting Record
 
-`PUT /10dlc/brand/{brandId}/externalVetting`
+This operation can be used to import an external vetting record from a TCR-approved
+vetting provider.
+
+`PUT /10dlc/brand/{brandId}/externalVetting` — Required: `evpId`, `vettingId`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.brand.external_vetting.imports("brandId", evp_id: "evpId", vetting_id: "vettingId")
@@ -163,11 +174,11 @@ puts(response)
 
 ## Revet Brand
 
+This operation allows you to revet the brand.
+
 `PUT /10dlc/brand/{brandId}/revet`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telnyx_brand = telnyx.messaging_10dlc.brand.revet("brandId")
@@ -177,11 +188,11 @@ puts(telnyx_brand)
 
 ## Get Brand SMS OTP Status by Brand ID
 
+Query the status of an SMS OTP (One-Time Password) for Sole Proprietor brand verification using the Brand ID.
+
 `GET /10dlc/brand/{brandId}/smsOtp`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.brand.retrieve_sms_otp_status("4b20019b-043a-78f8-0657-b3be3f4b4002")
@@ -191,11 +202,11 @@ puts(response)
 
 ## Trigger Brand SMS OTP
 
-`POST /10dlc/brand/{brandId}/smsOtp`
+Trigger or re-trigger an SMS OTP (One-Time Password) for Sole Proprietor brand verification.
+
+`POST /10dlc/brand/{brandId}/smsOtp` — Required: `pinSms`, `successSms`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.brand.trigger_sms_otp(
@@ -209,11 +220,11 @@ puts(response)
 
 ## Verify Brand SMS OTP
 
-`PUT /10dlc/brand/{brandId}/smsOtp`
+Verify the SMS OTP (One-Time Password) for Sole Proprietor brand verification.
+
+`PUT /10dlc/brand/{brandId}/smsOtp` — Required: `otpPin`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.messaging_10dlc.brand.verify_sms_otp("4b20019b-043a-78f8-0657-b3be3f4b4002", otp_pin: "123456")
@@ -223,11 +234,11 @@ puts(result)
 
 ## Get Brand Feedback By Id
 
+Get feedback about a brand by ID.
+
 `GET /10dlc/brand_feedback/{brandId}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.brand.get_feedback("brandId")
@@ -237,11 +248,11 @@ puts(response)
 
 ## Submit Campaign
 
-`POST /10dlc/campaignBuilder`
+Before creating a campaign, use the [Qualify By Usecase endpoint](https://developers.telnyx.com/api-reference/campaign/qualify-by-usecase) to ensure that the brand you want to assign a new campaign...
+
+`POST /10dlc/campaignBuilder` — Required: `brandId`, `description`, `usecase`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telnyx_campaign_csp = telnyx.messaging_10dlc.campaign_builder.submit(
@@ -255,11 +266,11 @@ puts(telnyx_campaign_csp)
 
 ## Qualify By Usecase
 
+This endpoint allows you to see whether or not the supplied brand is suitable for your desired campaign use case.
+
 `GET /10dlc/campaignBuilder/brand/{brandId}/usecase/{usecase}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.campaign_builder.brand.qualify_by_usecase("usecase", brand_id: "brandId")
@@ -269,11 +280,11 @@ puts(response)
 
 ## List Campaigns
 
+Retrieve a list of campaigns associated with a supplied `brandId`.
+
 `GET /10dlc/campaign`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging_10dlc.campaign.list(brand_id: "brandId")
@@ -283,11 +294,11 @@ puts(page)
 
 ## Get campaign
 
+Retrieve campaign details by `campaignId`.
+
 `GET /10dlc/campaign/{campaignId}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telnyx_campaign_csp = telnyx.messaging_10dlc.campaign.retrieve("campaignId")
@@ -297,11 +308,11 @@ puts(telnyx_campaign_csp)
 
 ## Update campaign
 
+Update a campaign's properties by `campaignId`.
+
 `PUT /10dlc/campaign/{campaignId}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telnyx_campaign_csp = telnyx.messaging_10dlc.campaign.update("campaignId")
@@ -311,11 +322,11 @@ puts(telnyx_campaign_csp)
 
 ## Deactivate campaign
 
+Terminate a campaign.
+
 `DELETE /10dlc/campaign/{campaignId}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.campaign.deactivate("campaignId")
@@ -325,11 +336,11 @@ puts(response)
 
 ## Submit campaign appeal for manual review
 
-`POST /10dlc/campaign/{campaignId}/appeal`
+Submits an appeal for rejected native campaigns in TELNYX_FAILED or MNO_REJECTED status.
+
+`POST /10dlc/campaign/{campaignId}/appeal` — Required: `appeal_reason`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.campaign.submit_appeal(
@@ -342,11 +353,11 @@ puts(response)
 
 ## Get Campaign Mno Metadata
 
+Get the campaign metadata for each MNO it was submitted to.
+
 `GET /10dlc/campaign/{campaignId}/mnoMetadata`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.campaign.get_mno_metadata("campaignId")
@@ -356,11 +367,11 @@ puts(response)
 
 ## Get campaign operation status
 
+Retrieve campaign's operation status at MNO level.
+
 `GET /10dlc/campaign/{campaignId}/operationStatus`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.campaign.get_operation_status("campaignId")
@@ -373,8 +384,6 @@ puts(response)
 `GET /10dlc/campaign/{campaignId}/osr_attributes`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.campaign.osr.get_attributes("campaignId")
@@ -387,8 +396,6 @@ puts(response)
 `GET /10dlc/campaign/{campaignId}/sharing`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.campaign.get_sharing_status("campaignId")
@@ -398,11 +405,11 @@ puts(response)
 
 ## Accept Shared Campaign
 
+Manually accept a campaign shared with Telnyx
+
 `POST /10dlc/campaign/acceptSharing/{campaignId}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.campaign.accept_sharing("C26F1KLZN")
@@ -415,8 +422,6 @@ puts(response)
 `GET /10dlc/campaign/usecase_cost`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.campaign.usecase.get_cost(usecase: "usecase")
@@ -426,11 +431,11 @@ puts(response)
 
 ## List Shared Campaigns
 
+Retrieve all partner campaigns you have shared to Telnyx in a paginated fashion.
+
 `GET /10dlc/partner_campaigns`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging_10dlc.partner_campaigns.list
@@ -440,11 +445,11 @@ puts(page)
 
 ## Get Single Shared Campaign
 
+Retrieve campaign details by `campaignId`.
+
 `GET /10dlc/partner_campaigns/{campaignId}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telnyx_downstream_campaign = telnyx.messaging_10dlc.partner_campaigns.retrieve("campaignId")
@@ -454,11 +459,11 @@ puts(telnyx_downstream_campaign)
 
 ## Update Single Shared Campaign
 
+Update campaign details by `campaignId`.
+
 `PATCH /10dlc/partner_campaigns/{campaignId}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 telnyx_downstream_campaign = telnyx.messaging_10dlc.partner_campaigns.update("campaignId")
@@ -471,8 +476,6 @@ puts(telnyx_downstream_campaign)
 `GET /10dlc/partnerCampaign/{campaignId}/sharing`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.partner_campaigns.retrieve_sharing_status("campaignId")
@@ -482,11 +485,14 @@ puts(response)
 
 ## List shared partner campaigns
 
+Get all partner campaigns you have shared to Telnyx in a paginated fashion
+
+This endpoint is currently limited to only returning shared campaigns that Telnyx
+has accepted.
+
 `GET /10dlc/partnerCampaign/sharedByMe`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging_10dlc.partner_campaigns.list_shared_by_me
@@ -499,8 +505,6 @@ puts(page)
 `GET /10dlc/phone_number_campaigns`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging_10dlc.phone_number_campaigns.list
@@ -510,11 +514,9 @@ puts(page)
 
 ## Create New Phone Number Campaign
 
-`POST /10dlc/phone_number_campaigns`
+`POST /10dlc/phone_number_campaigns` — Required: `phoneNumber`, `campaignId`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 phone_number_campaign = telnyx.messaging_10dlc.phone_number_campaigns.create(
@@ -527,11 +529,11 @@ puts(phone_number_campaign)
 
 ## Get Single Phone Number Campaign
 
+Retrieve an individual phone number/campaign assignment by `phoneNumber`.
+
 `GET /10dlc/phone_number_campaigns/{phoneNumber}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 phone_number_campaign = telnyx.messaging_10dlc.phone_number_campaigns.retrieve("phoneNumber")
@@ -541,11 +543,9 @@ puts(phone_number_campaign)
 
 ## Create New Phone Number Campaign
 
-`PUT /10dlc/phone_number_campaigns/{phoneNumber}`
+`PUT /10dlc/phone_number_campaigns/{phoneNumber}` — Required: `phoneNumber`, `campaignId`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 phone_number_campaign = telnyx.messaging_10dlc.phone_number_campaigns.update(
@@ -559,11 +559,11 @@ puts(phone_number_campaign)
 
 ## Delete Phone Number Campaign
 
+This endpoint allows you to remove a campaign assignment from the supplied `phoneNumber`.
+
 `DELETE /10dlc/phone_number_campaigns/{phoneNumber}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 phone_number_campaign = telnyx.messaging_10dlc.phone_number_campaigns.delete("phoneNumber")
@@ -573,11 +573,11 @@ puts(phone_number_campaign)
 
 ## Assign Messaging Profile To Campaign
 
-`POST /10dlc/phoneNumberAssignmentByProfile`
+This endpoint allows you to link all phone numbers associated with a Messaging Profile to a campaign.
+
+`POST /10dlc/phoneNumberAssignmentByProfile` — Required: `messagingProfileId`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.phone_number_assignment_by_profile.assign(
@@ -589,11 +589,11 @@ puts(response)
 
 ## Get Assignment Task Status
 
+Check the status of the task associated with assigning all phone numbers on a messaging profile to a campaign by `taskId`.
+
 `GET /10dlc/phoneNumberAssignmentByProfile/{taskId}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.phone_number_assignment_by_profile.retrieve_status("taskId")
@@ -603,14 +603,25 @@ puts(response)
 
 ## Get Phone Number Status
 
+Check the status of the individual phone number/campaign assignments associated with the supplied `taskId`.
+
 `GET /10dlc/phoneNumberAssignmentByProfile/{taskId}/phoneNumbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_10dlc.phone_number_assignment_by_profile.list_phone_number_status("taskId")
 
 puts(response)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `campaignStatusUpdate` | Campaign Status Update |

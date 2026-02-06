@@ -17,9 +17,7 @@ metadata:
 pip install telnyx
 ```
 
-## List dynamic emergency addresses
-
-`GET /dynamic_emergency_addresses`
+## Setup
 
 ```python
 import os
@@ -28,6 +26,17 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List dynamic emergency addresses
+
+Returns the dynamic emergency addresses according to filters
+
+`GET /dynamic_emergency_addresses`
+
+```python
 page = client.dynamic_emergency_addresses.list()
 page = page.data[0]
 print(page.id)
@@ -35,15 +44,11 @@ print(page.id)
 
 ## Create a dynamic emergency address.
 
-`POST /dynamic_emergency_addresses`
+Creates a dynamic emergency address.
+
+`POST /dynamic_emergency_addresses` — Required: `house_number`, `street_name`, `locality`, `administrative_area`, `postal_code`, `country_code`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 dynamic_emergency_address = client.dynamic_emergency_addresses.create(
     administrative_area="TX",
     country_code="US",
@@ -57,15 +62,11 @@ print(dynamic_emergency_address.data)
 
 ## Get a dynamic emergency address
 
+Returns the dynamic emergency address based on the ID provided
+
 `GET /dynamic_emergency_addresses/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 dynamic_emergency_address = client.dynamic_emergency_addresses.retrieve(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -74,15 +75,11 @@ print(dynamic_emergency_address.data)
 
 ## Delete a dynamic emergency address
 
+Deletes the dynamic emergency address based on the ID provided
+
 `DELETE /dynamic_emergency_addresses/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 dynamic_emergency_address = client.dynamic_emergency_addresses.delete(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -91,15 +88,11 @@ print(dynamic_emergency_address.data)
 
 ## List dynamic emergency endpoints
 
+Returns the dynamic emergency endpoints according to filters
+
 `GET /dynamic_emergency_endpoints`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.dynamic_emergency_endpoints.list()
 page = page.data[0]
 print(page.dynamic_emergency_address_id)
@@ -107,15 +100,11 @@ print(page.dynamic_emergency_address_id)
 
 ## Create a dynamic emergency endpoint.
 
-`POST /dynamic_emergency_endpoints`
+Creates a dynamic emergency endpoints.
+
+`POST /dynamic_emergency_endpoints` — Required: `dynamic_emergency_address_id`, `callback_number`, `caller_name`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 dynamic_emergency_endpoint = client.dynamic_emergency_endpoints.create(
     callback_number="+13125550000",
     caller_name="Jane Doe Desk Phone",
@@ -126,15 +115,11 @@ print(dynamic_emergency_endpoint.data)
 
 ## Get a dynamic emergency endpoint
 
+Returns the dynamic emergency endpoint based on the ID provided
+
 `GET /dynamic_emergency_endpoints/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 dynamic_emergency_endpoint = client.dynamic_emergency_endpoints.retrieve(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -143,15 +128,11 @@ print(dynamic_emergency_endpoint.data)
 
 ## Delete a dynamic emergency endpoint
 
+Deletes the dynamic emergency endpoint based on the ID provided
+
 `DELETE /dynamic_emergency_endpoints/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 dynamic_emergency_endpoint = client.dynamic_emergency_endpoints.delete(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -160,15 +141,11 @@ print(dynamic_emergency_endpoint.data)
 
 ## List your voice channels for non-US zones
 
+Returns the non-US voice channels for your account.
+
 `GET /channel_zones`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.channel_zones.list()
 page = page.data[0]
 print(page.id)
@@ -176,15 +153,11 @@ print(page.id)
 
 ## Update voice channels for non-US Zones
 
-`PUT /channel_zones/{channel_zone_id}`
+Update the number of Voice Channels for the Non-US Zones.
+
+`PUT /channel_zones/{channel_zone_id}` — Required: `channels`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 channel_zone = client.channel_zones.update(
     channel_zone_id="channel_zone_id",
     channels=0,
@@ -194,30 +167,22 @@ print(channel_zone.id)
 
 ## List your voice channels for US Zone
 
+Returns the US Zone voice channels for your account.
+
 `GET /inbound_channels`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 inbound_channels = client.inbound_channels.list()
 print(inbound_channels.data)
 ```
 
 ## Update voice channels for US Zone
 
-`PATCH /inbound_channels`
+Update the number of Voice Channels for the US Zone.
+
+`PATCH /inbound_channels` — Required: `channels`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 inbound_channel = client.inbound_channels.update(
     channels=7,
 )
@@ -226,30 +191,22 @@ print(inbound_channel.data)
 
 ## List All Numbers using Channel Billing
 
+Retrieve a list of all phone numbers using Channel Billing, grouped by Zone.
+
 `GET /list`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.list.retrieve_all()
 print(response.data)
 ```
 
 ## List Numbers using Channel Billing for a specific Zone
 
+Retrieve a list of phone numbers using Channel Billing for a specific Zone.
+
 `GET /list/{channel_zone_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.list.retrieve_by_zone(
     "channel_zone_id",
 )
@@ -258,15 +215,11 @@ print(response.data)
 
 ## Get voicemail
 
+Returns the voicemail settings for a phone number
+
 `GET /phone_numbers/{phone_number_id}/voicemail`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 voicemail = client.phone_numbers.voicemail.retrieve(
     "123455678900",
 )
@@ -275,15 +228,11 @@ print(voicemail.data)
 
 ## Create voicemail
 
+Create voicemail settings for a phone number
+
 `POST /phone_numbers/{phone_number_id}/voicemail`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 voicemail = client.phone_numbers.voicemail.create(
     phone_number_id="123455678900",
 )
@@ -292,15 +241,11 @@ print(voicemail.data)
 
 ## Update voicemail
 
+Update voicemail settings for a phone number
+
 `PATCH /phone_numbers/{phone_number_id}/voicemail`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 voicemail = client.phone_numbers.voicemail.update(
     phone_number_id="123455678900",
 )

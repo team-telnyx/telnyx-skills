@@ -18,271 +18,203 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
+## Setup
+
+```go
+import (
+  "context"
+  "fmt"
+
+  "github.com/team-telnyx/telnyx-go"
+  "github.com/team-telnyx/telnyx-go/option"
+)
+
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Add messages to AI Assistant
+
+Add messages to the conversation started by an AI assistant on the call.
 
 `POST /calls/{call_control_id}/actions/ai_assistant_add_messages`
 
 ```go
-package main
+response, err := client.Calls.Actions.AddAIAssistantMessages(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionAddAIAssistantMessagesParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.AddAIAssistantMessages(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionAddAIAssistantMessagesParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Start AI Assistant
 
+Start an AI assistant on the call.
+
 `POST /calls/{call_control_id}/actions/ai_assistant_start`
 
 ```go
-package main
+response, err := client.Calls.Actions.StartAIAssistant(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStartAIAssistantParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StartAIAssistant(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStartAIAssistantParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Stop AI Assistant
 
+Stop an AI assistant on the call.
+
 `POST /calls/{call_control_id}/actions/ai_assistant_stop`
 
 ```go
-package main
+response, err := client.Calls.Actions.StopAIAssistant(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStopAIAssistantParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StopAIAssistant(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStopAIAssistantParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Gather stop
 
+Stop current gather.
+
 `POST /calls/{call_control_id}/actions/gather_stop`
 
 ```go
-package main
+response, err := client.Calls.Actions.StopGather(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStopGatherParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StopGather(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStopGatherParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Gather using AI
 
-`POST /calls/{call_control_id}/actions/gather_using_ai`
+Gather parameters defined in the request payload using a voice assistant.
+
+`POST /calls/{call_control_id}/actions/gather_using_ai` — Required: `parameters`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.GatherUsingAI(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionGatherUsingAIParams{
-      Parameters: map[string]any{
-      "properties": "bar",
-      "required": "bar",
-      "type": "bar",
-      },
+response, err := client.Calls.Actions.GatherUsingAI(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionGatherUsingAIParams{
+    Parameters: map[string]any{
+    "properties": "bar",
+    "required": "bar",
+    "type": "bar",
     },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+  },
+)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Gather using audio
 
+Play an audio file on the call until the required DTMF signals are gathered to build interactive menus.
+
 `POST /calls/{call_control_id}/actions/gather_using_audio`
 
 ```go
-package main
+response, err := client.Calls.Actions.GatherUsingAudio(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionGatherUsingAudioParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.GatherUsingAudio(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionGatherUsingAudioParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Gather using speak
 
-`POST /calls/{call_control_id}/actions/gather_using_speak`
+Convert text to speech and play it on the call until the required DTMF signals are gathered to build interactive menus.
+
+`POST /calls/{call_control_id}/actions/gather_using_speak` — Required: `voice`, `payload`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Calls.Actions.GatherUsingSpeak(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionGatherUsingSpeakParams{
+    Payload: "say this on call",
+    Voice: "male",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.GatherUsingSpeak(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionGatherUsingSpeakParams{
-      Payload: "say this on call",
-      Voice: "male",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Gather
 
+Gather DTMF signals to build interactive menus.
+
 `POST /calls/{call_control_id}/actions/gather`
 
 ```go
-package main
+response, err := client.Calls.Actions.Gather(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionGatherParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.Gather(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionGatherParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callGatherEnded` | Call Gather Ended |
+| `CallAIGatherEnded` | Call AI Gather Ended |
+| `CallAIGatherMessageHistoryUpdated` | Call AI Gather Message History Updated |
+| `CallAIGatherPartialResults` | Call AI Gather Partial Results |
+| `CallConversationEnded` | Call Conversation Ended |
+| `callPlaybackStarted` | Call Playback Started |
+| `callPlaybackEnded` | Call Playback Ended |
+| `callDtmfReceived` | Call Dtmf Received |

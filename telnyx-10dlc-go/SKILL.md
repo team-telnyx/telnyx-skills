@@ -18,154 +18,108 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
+## Setup
+
+```go
+import (
+  "context"
+  "fmt"
+
+  "github.com/team-telnyx/telnyx-go"
+  "github.com/team-telnyx/telnyx-go/option"
+)
+
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## List Brands
+
+This endpoint is used to list all brands associated with your organization.
 
 `GET /10dlc/brand`
 
 ```go
-package main
+page, err := client.Messaging10dlc.Brand.List(context.TODO(), telnyx.Messaging10dlcBrandListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Messaging10dlc.Brand.List(context.TODO(), telnyx.Messaging10dlcBrandListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create Brand
 
-`POST /10dlc/brand`
+This endpoint is used to create a new brand.
+
+`POST /10dlc/brand` — Required: `entityType`, `displayName`, `country`, `email`, `vertical`
 
 ```go
-package main
+telnyxBrand, err := client.Messaging10dlc.Brand.New(context.TODO(), telnyx.Messaging10dlcBrandNewParams{
+  Country: "US",
+  DisplayName: "ABC Mobile",
+  Email: "email",
+  EntityType: telnyx.EntityTypePrivateProfit,
+  Vertical: telnyx.VerticalTechnology,
+})
+if err != nil {
+  panic(err.Error())
+}
+fmt.Printf("%+v\n", telnyxBrand.IdentityStatus)
+```
 
-import (
-  "context"
-  "fmt"
+## Get Brand
 
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
+Retrieve a brand by `brandId`.
 
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telnyxBrand, err := client.Messaging10dlc.Brand.New(context.TODO(), telnyx.Messaging10dlcBrandNewParams{
+`GET /10dlc/brand/{brandId}`
+
+```go
+brand, err := client.Messaging10dlc.Brand.Get(context.TODO(), "brandId")
+if err != nil {
+  panic(err.Error())
+}
+fmt.Printf("%+v\n", brand)
+```
+
+## Update Brand
+
+Update a brand's attributes by `brandId`.
+
+`PUT /10dlc/brand/{brandId}` — Required: `entityType`, `displayName`, `country`, `email`, `vertical`
+
+```go
+telnyxBrand, err := client.Messaging10dlc.Brand.Update(
+  context.TODO(),
+  "brandId",
+  telnyx.Messaging10dlcBrandUpdateParams{
     Country: "US",
     DisplayName: "ABC Mobile",
     Email: "email",
     EntityType: telnyx.EntityTypePrivateProfit,
     Vertical: telnyx.VerticalTechnology,
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telnyxBrand.IdentityStatus)
-}
-```
-
-## Get Brand
-
-`GET /10dlc/brand/{brandId}`
-
-```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  brand, err := client.Messaging10dlc.Brand.Get(context.TODO(), "brandId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", brand)
+if err != nil {
+  panic(err.Error())
 }
-```
-
-## Update Brand
-
-`PUT /10dlc/brand/{brandId}`
-
-```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telnyxBrand, err := client.Messaging10dlc.Brand.Update(
-    context.TODO(),
-    "brandId",
-    telnyx.Messaging10dlcBrandUpdateParams{
-      Country: "US",
-      DisplayName: "ABC Mobile",
-      Email: "email",
-      EntityType: telnyx.EntityTypePrivateProfit,
-      Vertical: telnyx.VerticalTechnology,
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telnyxBrand.IdentityStatus)
-}
+fmt.Printf("%+v\n", telnyxBrand.IdentityStatus)
 ```
 
 ## Delete Brand
 
+Delete Brand.
+
 `DELETE /10dlc/brand/{brandId}`
 
 ```go
-package main
-
-import (
-  "context"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  err := client.Messaging10dlc.Brand.Delete(context.TODO(), "brandId")
-  if err != nil {
-    panic(err.Error())
-  }
+err := client.Messaging10dlc.Brand.Delete(context.TODO(), "brandId")
+if err != nil {
+  panic(err.Error())
 }
 ```
 
@@ -174,532 +128,299 @@ func main() {
 `POST /10dlc/brand/{brandId}/2faEmail`
 
 ```go
-package main
-
-import (
-  "context"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  err := client.Messaging10dlc.Brand.Resend2faEmail(context.TODO(), "brandId")
-  if err != nil {
-    panic(err.Error())
-  }
+err := client.Messaging10dlc.Brand.Resend2faEmail(context.TODO(), "brandId")
+if err != nil {
+  panic(err.Error())
 }
 ```
 
 ## List External Vettings
 
+Get list of valid external vetting record for a given brand
+
 `GET /10dlc/brand/{brandId}/externalVetting`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  externalVettings, err := client.Messaging10dlc.Brand.ExternalVetting.List(context.TODO(), "brandId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", externalVettings)
+externalVettings, err := client.Messaging10dlc.Brand.ExternalVetting.List(context.TODO(), "brandId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", externalVettings)
 ```
 
 ## Order Brand External Vetting
 
-`POST /10dlc/brand/{brandId}/externalVetting`
+Order new external vetting for a brand
+
+`POST /10dlc/brand/{brandId}/externalVetting` — Required: `evpId`, `vettingClass`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Messaging10dlc.Brand.ExternalVetting.Order(
+  context.TODO(),
+  "brandId",
+  telnyx.Messaging10dlcBrandExternalVettingOrderParams{
+    EvpID: "evpId",
+    VettingClass: "vettingClass",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Brand.ExternalVetting.Order(
-    context.TODO(),
-    "brandId",
-    telnyx.Messaging10dlcBrandExternalVettingOrderParams{
-      EvpID: "evpId",
-      VettingClass: "vettingClass",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.CreateDate)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.CreateDate)
 ```
 
 ## Import External Vetting Record
 
-`PUT /10dlc/brand/{brandId}/externalVetting`
+This operation can be used to import an external vetting record from a TCR-approved
+vetting provider.
+
+`PUT /10dlc/brand/{brandId}/externalVetting` — Required: `evpId`, `vettingId`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Messaging10dlc.Brand.ExternalVetting.Imports(
+  context.TODO(),
+  "brandId",
+  telnyx.Messaging10dlcBrandExternalVettingImportsParams{
+    EvpID: "evpId",
+    VettingID: "vettingId",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Brand.ExternalVetting.Imports(
-    context.TODO(),
-    "brandId",
-    telnyx.Messaging10dlcBrandExternalVettingImportsParams{
-      EvpID: "evpId",
-      VettingID: "vettingId",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.CreateDate)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.CreateDate)
 ```
 
 ## Revet Brand
 
+This operation allows you to revet the brand.
+
 `PUT /10dlc/brand/{brandId}/revet`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telnyxBrand, err := client.Messaging10dlc.Brand.Revet(context.TODO(), "brandId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telnyxBrand.IdentityStatus)
+telnyxBrand, err := client.Messaging10dlc.Brand.Revet(context.TODO(), "brandId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", telnyxBrand.IdentityStatus)
 ```
 
 ## Get Brand SMS OTP Status by Brand ID
 
+Query the status of an SMS OTP (One-Time Password) for Sole Proprietor brand verification using the Brand ID.
+
 `GET /10dlc/brand/{brandId}/smsOtp`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Brand.GetSMSOtpStatus(context.TODO(), "4b20019b-043a-78f8-0657-b3be3f4b4002")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.BrandID)
+response, err := client.Messaging10dlc.Brand.GetSMSOtpStatus(context.TODO(), "4b20019b-043a-78f8-0657-b3be3f4b4002")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.BrandID)
 ```
 
 ## Trigger Brand SMS OTP
 
-`POST /10dlc/brand/{brandId}/smsOtp`
+Trigger or re-trigger an SMS OTP (One-Time Password) for Sole Proprietor brand verification.
+
+`POST /10dlc/brand/{brandId}/smsOtp` — Required: `pinSms`, `successSms`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Messaging10dlc.Brand.TriggerSMSOtp(
+  context.TODO(),
+  "4b20019b-043a-78f8-0657-b3be3f4b4002",
+  telnyx.Messaging10dlcBrandTriggerSMSOtpParams{
+    PinSMS: "Your PIN is @OTP_PIN@",
+    SuccessSMS: "Verification successful!",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Brand.TriggerSMSOtp(
-    context.TODO(),
-    "4b20019b-043a-78f8-0657-b3be3f4b4002",
-    telnyx.Messaging10dlcBrandTriggerSMSOtpParams{
-      PinSMS: "Your PIN is @OTP_PIN@",
-      SuccessSMS: "Verification successful!",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.BrandID)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.BrandID)
 ```
 
 ## Verify Brand SMS OTP
 
-`PUT /10dlc/brand/{brandId}/smsOtp`
+Verify the SMS OTP (One-Time Password) for Sole Proprietor brand verification.
+
+`PUT /10dlc/brand/{brandId}/smsOtp` — Required: `otpPin`
 
 ```go
-package main
-
-import (
-  "context"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+err := client.Messaging10dlc.Brand.VerifySMSOtp(
+  context.TODO(),
+  "4b20019b-043a-78f8-0657-b3be3f4b4002",
+  telnyx.Messaging10dlcBrandVerifySMSOtpParams{
+    OtpPin: "123456",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  err := client.Messaging10dlc.Brand.VerifySMSOtp(
-    context.TODO(),
-    "4b20019b-043a-78f8-0657-b3be3f4b4002",
-    telnyx.Messaging10dlcBrandVerifySMSOtpParams{
-      OtpPin: "123456",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
+if err != nil {
+  panic(err.Error())
 }
 ```
 
 ## Get Brand Feedback By Id
 
+Get feedback about a brand by ID.
+
 `GET /10dlc/brand_feedback/{brandId}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Brand.GetFeedback(context.TODO(), "brandId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.BrandID)
+response, err := client.Messaging10dlc.Brand.GetFeedback(context.TODO(), "brandId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.BrandID)
 ```
 
 ## Submit Campaign
 
-`POST /10dlc/campaignBuilder`
+Before creating a campaign, use the [Qualify By Usecase endpoint](https://developers.telnyx.com/api-reference/campaign/qualify-by-usecase) to ensure that the brand you want to assign a new campaign...
+
+`POST /10dlc/campaignBuilder` — Required: `brandId`, `description`, `usecase`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telnyxCampaignCsp, err := client.Messaging10dlc.CampaignBuilder.Submit(context.TODO(), telnyx.Messaging10dlcCampaignBuilderSubmitParams{
-    BrandID: "brandId",
-    Description: "description",
-    Usecase: "usecase",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telnyxCampaignCsp.BrandID)
+telnyxCampaignCsp, err := client.Messaging10dlc.CampaignBuilder.Submit(context.TODO(), telnyx.Messaging10dlcCampaignBuilderSubmitParams{
+  BrandID: "brandId",
+  Description: "description",
+  Usecase: "usecase",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", telnyxCampaignCsp.BrandID)
 ```
 
 ## Qualify By Usecase
 
+This endpoint allows you to see whether or not the supplied brand is suitable for your desired campaign use case.
+
 `GET /10dlc/campaignBuilder/brand/{brandId}/usecase/{usecase}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Messaging10dlc.CampaignBuilder.Brand.QualifyByUsecase(
+  context.TODO(),
+  "usecase",
+  telnyx.Messaging10dlcCampaignBuilderBrandQualifyByUsecaseParams{
+    BrandID: "brandId",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.CampaignBuilder.Brand.QualifyByUsecase(
-    context.TODO(),
-    "usecase",
-    telnyx.Messaging10dlcCampaignBuilderBrandQualifyByUsecaseParams{
-      BrandID: "brandId",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.AnnualFee)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.AnnualFee)
 ```
 
 ## List Campaigns
 
+Retrieve a list of campaigns associated with a supplied `brandId`.
+
 `GET /10dlc/campaign`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Messaging10dlc.Campaign.List(context.TODO(), telnyx.Messaging10dlcCampaignListParams{
-    BrandID: "brandId",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+page, err := client.Messaging10dlc.Campaign.List(context.TODO(), telnyx.Messaging10dlcCampaignListParams{
+  BrandID: "brandId",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Get campaign
 
+Retrieve campaign details by `campaignId`.
+
 `GET /10dlc/campaign/{campaignId}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telnyxCampaignCsp, err := client.Messaging10dlc.Campaign.Get(context.TODO(), "campaignId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telnyxCampaignCsp.BrandID)
+telnyxCampaignCsp, err := client.Messaging10dlc.Campaign.Get(context.TODO(), "campaignId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", telnyxCampaignCsp.BrandID)
 ```
 
 ## Update campaign
 
+Update a campaign's properties by `campaignId`.
+
 `PUT /10dlc/campaign/{campaignId}`
 
 ```go
-package main
+telnyxCampaignCsp, err := client.Messaging10dlc.Campaign.Update(
+  context.TODO(),
+  "campaignId",
+  telnyx.Messaging10dlcCampaignUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telnyxCampaignCsp, err := client.Messaging10dlc.Campaign.Update(
-    context.TODO(),
-    "campaignId",
-    telnyx.Messaging10dlcCampaignUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telnyxCampaignCsp.BrandID)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", telnyxCampaignCsp.BrandID)
 ```
 
 ## Deactivate campaign
 
+Terminate a campaign.
+
 `DELETE /10dlc/campaign/{campaignId}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Campaign.Deactivate(context.TODO(), "campaignId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Time)
+response, err := client.Messaging10dlc.Campaign.Deactivate(context.TODO(), "campaignId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Time)
 ```
 
 ## Submit campaign appeal for manual review
 
-`POST /10dlc/campaign/{campaignId}/appeal`
+Submits an appeal for rejected native campaigns in TELNYX_FAILED or MNO_REJECTED status.
+
+`POST /10dlc/campaign/{campaignId}/appeal` — Required: `appeal_reason`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Messaging10dlc.Campaign.SubmitAppeal(
+  context.TODO(),
+  "5eb13888-32b7-4cab-95e6-d834dde21d64",
+  telnyx.Messaging10dlcCampaignSubmitAppealParams{
+    AppealReason: "The website has been updated to include the required privacy policy and terms of service.",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Campaign.SubmitAppeal(
-    context.TODO(),
-    "5eb13888-32b7-4cab-95e6-d834dde21d64",
-    telnyx.Messaging10dlcCampaignSubmitAppealParams{
-      AppealReason: "The website has been updated to include the required privacy policy and terms of service.",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.AppealedAt)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.AppealedAt)
 ```
 
 ## Get Campaign Mno Metadata
 
+Get the campaign metadata for each MNO it was submitted to.
+
 `GET /10dlc/campaign/{campaignId}/mnoMetadata`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Campaign.GetMnoMetadata(context.TODO(), "campaignId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Number10999)
+response, err := client.Messaging10dlc.Campaign.GetMnoMetadata(context.TODO(), "campaignId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Number10999)
 ```
 
 ## Get campaign operation status
 
+Retrieve campaign's operation status at MNO level.
+
 `GET /10dlc/campaign/{campaignId}/operationStatus`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Campaign.GetOperationStatus(context.TODO(), "campaignId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response)
+response, err := client.Messaging10dlc.Campaign.GetOperationStatus(context.TODO(), "campaignId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response)
 ```
 
 ## Get OSR campaign attributes
@@ -707,26 +428,11 @@ func main() {
 `GET /10dlc/campaign/{campaignId}/osr_attributes`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Campaign.Osr.GetAttributes(context.TODO(), "campaignId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response)
+response, err := client.Messaging10dlc.Campaign.Osr.GetAttributes(context.TODO(), "campaignId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response)
 ```
 
 ## Get Sharing Status
@@ -734,53 +440,25 @@ func main() {
 `GET /10dlc/campaign/{campaignId}/sharing`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Campaign.GetSharingStatus(context.TODO(), "campaignId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.SharedByMe)
+response, err := client.Messaging10dlc.Campaign.GetSharingStatus(context.TODO(), "campaignId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.SharedByMe)
 ```
 
 ## Accept Shared Campaign
 
+Manually accept a campaign shared with Telnyx
+
 `POST /10dlc/campaign/acceptSharing/{campaignId}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Campaign.AcceptSharing(context.TODO(), "C26F1KLZN")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response)
+response, err := client.Messaging10dlc.Campaign.AcceptSharing(context.TODO(), "C26F1KLZN")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response)
 ```
 
 ## Get Campaign Cost
@@ -788,117 +466,63 @@ func main() {
 `GET /10dlc/campaign/usecase_cost`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.Campaign.Usecase.GetCost(context.TODO(), telnyx.Messaging10dlcCampaignUsecaseGetCostParams{
-    Usecase: "usecase",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.CampaignUsecase)
+response, err := client.Messaging10dlc.Campaign.Usecase.GetCost(context.TODO(), telnyx.Messaging10dlcCampaignUsecaseGetCostParams{
+  Usecase: "usecase",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.CampaignUsecase)
 ```
 
 ## List Shared Campaigns
 
+Retrieve all partner campaigns you have shared to Telnyx in a paginated fashion.
+
 `GET /10dlc/partner_campaigns`
 
 ```go
-package main
+page, err := client.Messaging10dlc.PartnerCampaigns.List(context.TODO(), telnyx.Messaging10dlcPartnerCampaignListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Messaging10dlc.PartnerCampaigns.List(context.TODO(), telnyx.Messaging10dlcPartnerCampaignListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Get Single Shared Campaign
 
+Retrieve campaign details by `campaignId`.
+
 `GET /10dlc/partner_campaigns/{campaignId}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telnyxDownstreamCampaign, err := client.Messaging10dlc.PartnerCampaigns.Get(context.TODO(), "campaignId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telnyxDownstreamCampaign.TcrBrandID)
+telnyxDownstreamCampaign, err := client.Messaging10dlc.PartnerCampaigns.Get(context.TODO(), "campaignId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", telnyxDownstreamCampaign.TcrBrandID)
 ```
 
 ## Update Single Shared Campaign
 
+Update campaign details by `campaignId`.
+
 `PATCH /10dlc/partner_campaigns/{campaignId}`
 
 ```go
-package main
+telnyxDownstreamCampaign, err := client.Messaging10dlc.PartnerCampaigns.Update(
+  context.TODO(),
+  "campaignId",
+  telnyx.Messaging10dlcPartnerCampaignUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  telnyxDownstreamCampaign, err := client.Messaging10dlc.PartnerCampaigns.Update(
-    context.TODO(),
-    "campaignId",
-    telnyx.Messaging10dlcPartnerCampaignUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", telnyxDownstreamCampaign.TcrBrandID)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", telnyxDownstreamCampaign.TcrBrandID)
 ```
 
 ## Get Sharing Status
@@ -906,55 +530,30 @@ func main() {
 `GET /10dlc/partnerCampaign/{campaignId}/sharing`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.PartnerCampaigns.GetSharingStatus(context.TODO(), "campaignId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response)
+response, err := client.Messaging10dlc.PartnerCampaigns.GetSharingStatus(context.TODO(), "campaignId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response)
 ```
 
 ## List shared partner campaigns
 
+Get all partner campaigns you have shared to Telnyx in a paginated fashion
+
+This endpoint is currently limited to only returning shared campaigns that Telnyx
+has accepted.
+
 `GET /10dlc/partnerCampaign/sharedByMe`
 
 ```go
-package main
+page, err := client.Messaging10dlc.PartnerCampaigns.ListSharedByMe(context.TODO(), telnyx.Messaging10dlcPartnerCampaignListSharedByMeParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Messaging10dlc.PartnerCampaigns.ListSharedByMe(context.TODO(), telnyx.Messaging10dlcPartnerCampaignListSharedByMeParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## List phone number campaigns
@@ -962,237 +561,138 @@ func main() {
 `GET /10dlc/phone_number_campaigns`
 
 ```go
-package main
+page, err := client.Messaging10dlc.PhoneNumberCampaigns.List(context.TODO(), telnyx.Messaging10dlcPhoneNumberCampaignListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Messaging10dlc.PhoneNumberCampaigns.List(context.TODO(), telnyx.Messaging10dlcPhoneNumberCampaignListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create New Phone Number Campaign
 
-`POST /10dlc/phone_number_campaigns`
+`POST /10dlc/phone_number_campaigns` — Required: `phoneNumber`, `campaignId`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  phoneNumberCampaign, err := client.Messaging10dlc.PhoneNumberCampaigns.New(context.TODO(), telnyx.Messaging10dlcPhoneNumberCampaignNewParams{
-    PhoneNumberCampaignCreate: telnyx.PhoneNumberCampaignCreateParam{
-      CampaignID: "4b300178-131c-d902-d54e-72d90ba1620j",
-      PhoneNumber: "+18005550199",
-    },
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", phoneNumberCampaign.CampaignID)
+phoneNumberCampaign, err := client.Messaging10dlc.PhoneNumberCampaigns.New(context.TODO(), telnyx.Messaging10dlcPhoneNumberCampaignNewParams{
+  PhoneNumberCampaignCreate: telnyx.PhoneNumberCampaignCreateParam{
+    CampaignID: "4b300178-131c-d902-d54e-72d90ba1620j",
+    PhoneNumber: "+18005550199",
+  },
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", phoneNumberCampaign.CampaignID)
 ```
 
 ## Get Single Phone Number Campaign
 
+Retrieve an individual phone number/campaign assignment by `phoneNumber`.
+
 `GET /10dlc/phone_number_campaigns/{phoneNumber}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  phoneNumberCampaign, err := client.Messaging10dlc.PhoneNumberCampaigns.Get(context.TODO(), "phoneNumber")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", phoneNumberCampaign.CampaignID)
+phoneNumberCampaign, err := client.Messaging10dlc.PhoneNumberCampaigns.Get(context.TODO(), "phoneNumber")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", phoneNumberCampaign.CampaignID)
 ```
 
 ## Create New Phone Number Campaign
 
-`PUT /10dlc/phone_number_campaigns/{phoneNumber}`
+`PUT /10dlc/phone_number_campaigns/{phoneNumber}` — Required: `phoneNumber`, `campaignId`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  phoneNumberCampaign, err := client.Messaging10dlc.PhoneNumberCampaigns.Update(
-    context.TODO(),
-    "phoneNumber",
-    telnyx.Messaging10dlcPhoneNumberCampaignUpdateParams{
-      PhoneNumberCampaignCreate: telnyx.PhoneNumberCampaignCreateParam{
-        CampaignID: "4b300178-131c-d902-d54e-72d90ba1620j",
-        PhoneNumber: "+18005550199",
-      },
+phoneNumberCampaign, err := client.Messaging10dlc.PhoneNumberCampaigns.Update(
+  context.TODO(),
+  "phoneNumber",
+  telnyx.Messaging10dlcPhoneNumberCampaignUpdateParams{
+    PhoneNumberCampaignCreate: telnyx.PhoneNumberCampaignCreateParam{
+      CampaignID: "4b300178-131c-d902-d54e-72d90ba1620j",
+      PhoneNumber: "+18005550199",
     },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", phoneNumberCampaign.CampaignID)
+  },
+)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", phoneNumberCampaign.CampaignID)
 ```
 
 ## Delete Phone Number Campaign
 
+This endpoint allows you to remove a campaign assignment from the supplied `phoneNumber`.
+
 `DELETE /10dlc/phone_number_campaigns/{phoneNumber}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  phoneNumberCampaign, err := client.Messaging10dlc.PhoneNumberCampaigns.Delete(context.TODO(), "phoneNumber")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", phoneNumberCampaign.CampaignID)
+phoneNumberCampaign, err := client.Messaging10dlc.PhoneNumberCampaigns.Delete(context.TODO(), "phoneNumber")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", phoneNumberCampaign.CampaignID)
 ```
 
 ## Assign Messaging Profile To Campaign
 
-`POST /10dlc/phoneNumberAssignmentByProfile`
+This endpoint allows you to link all phone numbers associated with a Messaging Profile to a campaign.
+
+`POST /10dlc/phoneNumberAssignmentByProfile` — Required: `messagingProfileId`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.PhoneNumberAssignmentByProfile.Assign(context.TODO(), telnyx.Messaging10dlcPhoneNumberAssignmentByProfileAssignParams{
-    MessagingProfileID: "4001767e-ce0f-4cae-9d5f-0d5e636e7809",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.MessagingProfileID)
+response, err := client.Messaging10dlc.PhoneNumberAssignmentByProfile.Assign(context.TODO(), telnyx.Messaging10dlcPhoneNumberAssignmentByProfileAssignParams{
+  MessagingProfileID: "4001767e-ce0f-4cae-9d5f-0d5e636e7809",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.MessagingProfileID)
 ```
 
 ## Get Assignment Task Status
 
+Check the status of the task associated with assigning all phone numbers on a messaging profile to a campaign by `taskId`.
+
 `GET /10dlc/phoneNumberAssignmentByProfile/{taskId}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.PhoneNumberAssignmentByProfile.GetStatus(context.TODO(), "taskId")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Status)
+response, err := client.Messaging10dlc.PhoneNumberAssignmentByProfile.GetStatus(context.TODO(), "taskId")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Status)
 ```
 
 ## Get Phone Number Status
 
+Check the status of the individual phone number/campaign assignments associated with the supplied `taskId`.
+
 `GET /10dlc/phoneNumberAssignmentByProfile/{taskId}/phoneNumbers`
 
 ```go
-package main
+response, err := client.Messaging10dlc.PhoneNumberAssignmentByProfile.ListPhoneNumberStatus(
+  context.TODO(),
+  "taskId",
+  telnyx.Messaging10dlcPhoneNumberAssignmentByProfileListPhoneNumberStatusParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Messaging10dlc.PhoneNumberAssignmentByProfile.ListPhoneNumberStatus(
-    context.TODO(),
-    "taskId",
-    telnyx.Messaging10dlcPhoneNumberAssignmentByProfileListPhoneNumberStatusParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Records)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Records)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `campaignStatusUpdate` | Campaign Status Update |

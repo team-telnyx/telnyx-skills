@@ -18,13 +18,25 @@ metadata:
 gem install telnyx
 ```
 
-## Add messages to AI Assistant
-
-`POST /calls/{call_control_id}/actions/ai_assistant_add_messages`
+## Setup
 
 ```ruby
 require "telnyx"
 
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Add messages to AI Assistant
+
+Add messages to the conversation started by an AI assistant on the call.
+
+`POST /calls/{call_control_id}/actions/ai_assistant_add_messages`
+
+```ruby
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.calls.actions.add_ai_assistant_messages("call_control_id")
@@ -34,11 +46,11 @@ puts(response)
 
 ## Start AI Assistant
 
+Start an AI assistant on the call.
+
 `POST /calls/{call_control_id}/actions/ai_assistant_start`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.calls.actions.start_ai_assistant("call_control_id")
@@ -48,11 +60,11 @@ puts(response)
 
 ## Stop AI Assistant
 
+Stop an AI assistant on the call.
+
 `POST /calls/{call_control_id}/actions/ai_assistant_stop`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.calls.actions.stop_ai_assistant("call_control_id")
@@ -62,11 +74,11 @@ puts(response)
 
 ## Gather stop
 
+Stop current gather.
+
 `POST /calls/{call_control_id}/actions/gather_stop`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.calls.actions.stop_gather("call_control_id")
@@ -76,11 +88,11 @@ puts(response)
 
 ## Gather using AI
 
-`POST /calls/{call_control_id}/actions/gather_using_ai`
+Gather parameters defined in the request payload using a voice assistant.
+
+`POST /calls/{call_control_id}/actions/gather_using_ai` — Required: `parameters`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.calls.actions.gather_using_ai(
@@ -93,11 +105,11 @@ puts(response)
 
 ## Gather using audio
 
+Play an audio file on the call until the required DTMF signals are gathered to build interactive menus.
+
 `POST /calls/{call_control_id}/actions/gather_using_audio`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.calls.actions.gather_using_audio("call_control_id")
@@ -107,11 +119,11 @@ puts(response)
 
 ## Gather using speak
 
-`POST /calls/{call_control_id}/actions/gather_using_speak`
+Convert text to speech and play it on the call until the required DTMF signals are gathered to build interactive menus.
+
+`POST /calls/{call_control_id}/actions/gather_using_speak` — Required: `voice`, `payload`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.calls.actions.gather_using_speak("call_control_id", payload: "say this on call", voice: "male")
@@ -121,14 +133,32 @@ puts(response)
 
 ## Gather
 
+Gather DTMF signals to build interactive menus.
+
 `POST /calls/{call_control_id}/actions/gather`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.calls.actions.gather("call_control_id")
 
 puts(response)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callGatherEnded` | Call Gather Ended |
+| `CallAIGatherEnded` | Call AI Gather Ended |
+| `CallAIGatherMessageHistoryUpdated` | Call AI Gather Message History Updated |
+| `CallAIGatherPartialResults` | Call AI Gather Partial Results |
+| `CallConversationEnded` | Call Conversation Ended |
+| `callPlaybackStarted` | Call Playback Started |
+| `callPlaybackEnded` | Call Playback Ended |
+| `callDtmfReceived` | Call Dtmf Received |

@@ -18,13 +18,9 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
-## Update client state
-
-`PUT /calls/{call_control_id}/actions/client_state_update`
+## Setup
 
 ```go
-package main
-
 import (
   "context"
   "fmt"
@@ -33,121 +29,91 @@ import (
   "github.com/team-telnyx/telnyx-go/option"
 )
 
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.UpdateClientState(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionUpdateClientStateParams{
-      ClientState: "aGF2ZSBhIG5pY2UgZGF5ID1d",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Update client state
+
+Updates client state
+
+`PUT /calls/{call_control_id}/actions/client_state_update` — Required: `client_state`
+
+```go
+response, err := client.Calls.Actions.UpdateClientState(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionUpdateClientStateParams{
+    ClientState: "aGF2ZSBhIG5pY2UgZGF5ID1d",
+  },
+)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Send DTMF
 
-`POST /calls/{call_control_id}/actions/send_dtmf`
+Sends DTMF tones from this leg.
+
+`POST /calls/{call_control_id}/actions/send_dtmf` — Required: `digits`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Calls.Actions.SendDtmf(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionSendDtmfParams{
+    Digits: "1www2WABCDw9",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.SendDtmf(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionSendDtmfParams{
-      Digits: "1www2WABCDw9",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## SIPREC start
 
+Start siprec session to configured in SIPREC connector SRS.
+
 `POST /calls/{call_control_id}/actions/siprec_start`
 
 ```go
-package main
+response, err := client.Calls.Actions.StartSiprec(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStartSiprecParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StartSiprec(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStartSiprecParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## SIPREC stop
 
+Stop SIPREC session.
+
 `POST /calls/{call_control_id}/actions/siprec_stop`
 
 ```go
-package main
+response, err := client.Calls.Actions.StopSiprec(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStopSiprecParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StopSiprec(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStopSiprecParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Noise Suppression Start (BETA)
@@ -155,32 +121,17 @@ func main() {
 `POST /calls/{call_control_id}/actions/suppression_start`
 
 ```go
-package main
+response, err := client.Calls.Actions.StartNoiseSuppression(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStartNoiseSuppressionParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StartNoiseSuppression(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStartNoiseSuppressionParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Noise Suppression Stop (BETA)
@@ -188,63 +139,48 @@ func main() {
 `POST /calls/{call_control_id}/actions/suppression_stop`
 
 ```go
-package main
+response, err := client.Calls.Actions.StopNoiseSuppression(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionStopNoiseSuppressionParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.StopNoiseSuppression(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionStopNoiseSuppressionParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Switch supervisor role
 
-`POST /calls/{call_control_id}/actions/switch_supervisor_role`
+Switch the supervisor role for a bridged call.
+
+`POST /calls/{call_control_id}/actions/switch_supervisor_role` — Required: `role`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Calls.Actions.SwitchSupervisorRole(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionSwitchSupervisorRoleParams{
+    Role: telnyx.CallActionSwitchSupervisorRoleParamsRoleBarge,
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.SwitchSupervisorRole(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionSwitchSupervisorRoleParams{
-      Role: telnyx.CallActionSwitchSupervisorRoleParamsRoleBarge,
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callSiprecStarted` | Call Siprec Started |
+| `callSiprecStopped` | Call Siprec Stopped |
+| `callSiprecFailed` | Call Siprec Failed |

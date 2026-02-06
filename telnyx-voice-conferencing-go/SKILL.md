@@ -18,13 +18,9 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
-## Enqueue call
-
-`POST /calls/{call_control_id}/actions/enqueue`
+## Setup
 
 ```go
-package main
-
 import (
   "context"
   "fmt"
@@ -33,644 +29,432 @@ import (
   "github.com/team-telnyx/telnyx-go/option"
 )
 
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.Enqueue(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionEnqueueParams{
-      QueueName: "support",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## Enqueue call
+
+Put the call in a queue.
+
+`POST /calls/{call_control_id}/actions/enqueue` — Required: `queue_name`
+
+```go
+response, err := client.Calls.Actions.Enqueue(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionEnqueueParams{
+    QueueName: "support",
+  },
+)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Remove call from a queue
 
+Removes the call from a queue.
+
 `POST /calls/{call_control_id}/actions/leave_queue`
 
 ```go
-package main
+response, err := client.Calls.Actions.LeaveQueue(
+  context.TODO(),
+  "call_control_id",
+  telnyx.CallActionLeaveQueueParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Calls.Actions.LeaveQueue(
-    context.TODO(),
-    "call_control_id",
-    telnyx.CallActionLeaveQueueParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List conferences
 
+Lists conferences.
+
 `GET /conferences`
 
 ```go
-package main
+page, err := client.Conferences.List(context.TODO(), telnyx.ConferenceListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Conferences.List(context.TODO(), telnyx.ConferenceListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create conference
 
-`POST /conferences`
+Create a conference from an existing call leg using a `call_control_id` and a conference name.
+
+`POST /conferences` — Required: `call_control_id`, `name`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  conference, err := client.Conferences.New(context.TODO(), telnyx.ConferenceNewParams{
-    CallControlID: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
-    Name: "Business",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", conference.Data)
+conference, err := client.Conferences.New(context.TODO(), telnyx.ConferenceNewParams{
+  CallControlID: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
+  Name: "Business",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", conference.Data)
 ```
 
 ## Retrieve a conference
 
+Retrieve an existing conference
+
 `GET /conferences/{id}`
 
 ```go
-package main
+conference, err := client.Conferences.Get(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceGetParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  conference, err := client.Conferences.Get(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceGetParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", conference.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", conference.Data)
 ```
 
 ## Hold conference participants
 
+Hold a list of participants in a conference call
+
 `POST /conferences/{id}/actions/hold`
 
 ```go
-package main
+response, err := client.Conferences.Actions.Hold(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionHoldParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.Hold(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionHoldParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Join a conference
 
-`POST /conferences/{id}/actions/join`
+Join an existing call leg to a conference.
+
+`POST /conferences/{id}/actions/join` — Required: `call_control_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Conferences.Actions.Join(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionJoinParams{
+    CallControlID: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.Join(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionJoinParams{
-      CallControlID: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Leave a conference
 
-`POST /conferences/{id}/actions/leave`
+Removes a call leg from a conference and moves it back to parked state.
+
+`POST /conferences/{id}/actions/leave` — Required: `call_control_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Conferences.Actions.Leave(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionLeaveParams{
+    CallControlID: "c46e06d7-b78f-4b13-96b6-c576af9640ff",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.Leave(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionLeaveParams{
-      CallControlID: "c46e06d7-b78f-4b13-96b6-c576af9640ff",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Mute conference participants
 
+Mute a list of participants in a conference call
+
 `POST /conferences/{id}/actions/mute`
 
 ```go
-package main
+response, err := client.Conferences.Actions.Mute(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionMuteParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.Mute(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionMuteParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Play audio to conference participants
 
+Play audio to all or some participants on a conference call.
+
 `POST /conferences/{id}/actions/play`
 
 ```go
-package main
+response, err := client.Conferences.Actions.Play(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionPlayParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.Play(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionPlayParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Conference recording pause
 
+Pause conference recording.
+
 `POST /conferences/{id}/actions/record_pause`
 
 ```go
-package main
+response, err := client.Conferences.Actions.RecordPause(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionRecordPauseParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.RecordPause(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionRecordPauseParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Conference recording resume
 
+Resume conference recording.
+
 `POST /conferences/{id}/actions/record_resume`
 
 ```go
-package main
+response, err := client.Conferences.Actions.RecordResume(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionRecordResumeParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.RecordResume(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionRecordResumeParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Conference recording start
 
-`POST /conferences/{id}/actions/record_start`
+Start recording the conference.
+
+`POST /conferences/{id}/actions/record_start` — Required: `format`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Conferences.Actions.RecordStart(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionRecordStartParams{
+    Format: telnyx.ConferenceActionRecordStartParamsFormatWav,
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.RecordStart(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionRecordStartParams{
-      Format: telnyx.ConferenceActionRecordStartParamsFormatWav,
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Conference recording stop
 
+Stop recording the conference.
+
 `POST /conferences/{id}/actions/record_stop`
 
 ```go
-package main
+response, err := client.Conferences.Actions.RecordStop(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionRecordStopParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.RecordStop(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionRecordStopParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Speak text to conference participants
 
-`POST /conferences/{id}/actions/speak`
+Convert text to speech and play it to all or some participants.
+
+`POST /conferences/{id}/actions/speak` — Required: `payload`, `voice`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Conferences.Actions.Speak(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionSpeakParams{
+    Payload: "Say this to participants",
+    Voice: "female",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.Speak(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionSpeakParams{
-      Payload: "Say this to participants",
-      Voice: "female",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Stop audio being played on the conference
 
+Stop audio being played to all or some participants on a conference call.
+
 `POST /conferences/{id}/actions/stop`
 
 ```go
-package main
+response, err := client.Conferences.Actions.Stop(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionStopParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.Stop(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionStopParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Unhold conference participants
 
-`POST /conferences/{id}/actions/unhold`
+Unhold a list of participants in a conference call
+
+`POST /conferences/{id}/actions/unhold` — Required: `call_control_ids`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.Conferences.Actions.Unhold(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionUnholdParams{
+    CallControlIDs: []string{"v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg"},
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.Unhold(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionUnholdParams{
-      CallControlIDs: []string{"v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg"},
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Unmute conference participants
 
+Unmute a list of participants in a conference call
+
 `POST /conferences/{id}/actions/unmute`
 
 ```go
-package main
+response, err := client.Conferences.Actions.Unmute(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionUnmuteParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Conferences.Actions.Unmute(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionUnmuteParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Update conference participant
 
-`POST /conferences/{id}/actions/update`
+Update conference participant supervisor_role
+
+`POST /conferences/{id}/actions/update` — Required: `call_control_id`, `supervisor_role`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  action, err := client.Conferences.Actions.Update(
-    context.TODO(),
-    "id",
-    telnyx.ConferenceActionUpdateParams{
-      UpdateConference: telnyx.UpdateConferenceParam{
-        CallControlID: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
-        SupervisorRole: telnyx.UpdateConferenceSupervisorRoleWhisper,
-      },
+action, err := client.Conferences.Actions.Update(
+  context.TODO(),
+  "id",
+  telnyx.ConferenceActionUpdateParams{
+    UpdateConference: telnyx.UpdateConferenceParam{
+      CallControlID: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
+      SupervisorRole: telnyx.UpdateConferenceSupervisorRoleWhisper,
     },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", action.Data)
+  },
+)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", action.Data)
 ```
 
 ## List conference participants
 
+Lists conference participants
+
 `GET /conferences/{conference_id}/participants`
 
 ```go
-package main
+page, err := client.Conferences.ListParticipants(
+  context.TODO(),
+  "conference_id",
+  telnyx.ConferenceListParticipantsParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.Conferences.ListParticipants(
-    context.TODO(),
-    "conference_id",
-    telnyx.ConferenceListParticipantsParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
+
+---
+
+## Webhooks
+
+The following webhook events are sent to your configured webhook URL.
+All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers for verification (Standard Webhooks compatible).
+
+| Event | Description |
+|-------|-------------|
+| `callEnqueued` | Call Enqueued |
+| `callLeftQueue` | Call Left Queue |
+| `conferenceCreated` | Conference Created |
+| `conferenceEnded` | Conference Ended |
+| `conferenceFloorChanged` | Conference Floor Changed |
+| `conferenceParticipantJoined` | Conference Participant Joined |
+| `conferenceParticipantLeft` | Conference Participant Left |
+| `conferenceParticipantPlaybackEnded` | Conference Participant Playback Ended |
+| `conferenceParticipantPlaybackStarted` | Conference Participant Playback Started |
+| `conferenceParticipantSpeakEnded` | Conference Participant Speak Ended |
+| `conferenceParticipantSpeakStarted` | Conference Participant Speak Started |
+| `conferencePlaybackEnded` | Conference Playback Ended |
+| `conferencePlaybackStarted` | Conference Playback Started |
+| `conferenceRecordingSaved` | Conference Recording Saved |
+| `conferenceSpeakEnded` | Conference Speak Ended |
+| `conferenceSpeakStarted` | Conference Speak Started |

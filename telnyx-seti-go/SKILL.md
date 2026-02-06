@@ -17,13 +17,9 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
-## Retrieve Black Box Test Results
-
-`GET /seti/black_box_test_results`
+## Setup
 
 ```go
-package main
-
 import (
   "context"
   "fmt"
@@ -32,16 +28,25 @@ import (
   "github.com/team-telnyx/telnyx-go/option"
 )
 
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.Seti.GetBlackBoxTestResults(context.TODO(), telnyx.SetiGetBlackBoxTestResultsParams{
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
 
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+All examples below assume `client` is already initialized as shown above.
+
+## Retrieve Black Box Test Results
+
+Returns the results of the various black box tests
+
+`GET /seti/black_box_test_results`
+
+```go
+response, err := client.Seti.GetBlackBoxTestResults(context.TODO(), telnyx.SetiGetBlackBoxTestResultsParams{
+
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```

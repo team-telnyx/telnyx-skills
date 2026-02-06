@@ -18,790 +18,469 @@ metadata:
 // Add to pom.xml or build.gradle - see https://github.com/team-telnyx/telnyx-java
 ```
 
+## Setup
+
+```java
+import com.telnyx.sdk.client.TelnyxClient;
+import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
+
+TelnyxClient client = TelnyxOkHttpClient.fromEnv();
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Get all outbound voice profiles
+
+Get all outbound voice profiles belonging to the user that match the given filters.
 
 `GET /outbound_voice_profiles`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileListPage;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        OutboundVoiceProfileListPage page = client.outboundVoiceProfiles().list();
-    }
-}
+OutboundVoiceProfileListPage page = client.outboundVoiceProfiles().list();
 ```
 
 ## Create an outbound voice profile
 
-`POST /outbound_voice_profiles`
+Create an outbound voice profile.
+
+`POST /outbound_voice_profiles` — Required: `name`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileCreateParams;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        OutboundVoiceProfileCreateParams params = OutboundVoiceProfileCreateParams.builder()
-            .name("office")
-            .build();
-        OutboundVoiceProfileCreateResponse outboundVoiceProfile = client.outboundVoiceProfiles().create(params);
-    }
-}
+OutboundVoiceProfileCreateParams params = OutboundVoiceProfileCreateParams.builder()
+    .name("office")
+    .build();
+OutboundVoiceProfileCreateResponse outboundVoiceProfile = client.outboundVoiceProfiles().create(params);
 ```
 
 ## Retrieve an outbound voice profile
 
+Retrieves the details of an existing outbound voice profile.
+
 `GET /outbound_voice_profiles/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileRetrieveParams;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        OutboundVoiceProfileRetrieveResponse outboundVoiceProfile = client.outboundVoiceProfiles().retrieve("1293384261075731499");
-    }
-}
+OutboundVoiceProfileRetrieveResponse outboundVoiceProfile = client.outboundVoiceProfiles().retrieve("1293384261075731499");
 ```
 
 ## Updates an existing outbound voice profile.
 
-`PATCH /outbound_voice_profiles/{id}`
+`PATCH /outbound_voice_profiles/{id}` — Required: `name`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileUpdateParams;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        OutboundVoiceProfileUpdateParams params = OutboundVoiceProfileUpdateParams.builder()
-            .id("1293384261075731499")
-            .name("office")
-            .build();
-        OutboundVoiceProfileUpdateResponse outboundVoiceProfile = client.outboundVoiceProfiles().update(params);
-    }
-}
+OutboundVoiceProfileUpdateParams params = OutboundVoiceProfileUpdateParams.builder()
+    .id("1293384261075731499")
+    .name("office")
+    .build();
+OutboundVoiceProfileUpdateResponse outboundVoiceProfile = client.outboundVoiceProfiles().update(params);
 ```
 
 ## Delete an outbound voice profile
 
+Deletes an existing outbound voice profile.
+
 `DELETE /outbound_voice_profiles/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileDeleteParams;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        OutboundVoiceProfileDeleteResponse outboundVoiceProfile = client.outboundVoiceProfiles().delete("1293384261075731499");
-    }
-}
+OutboundVoiceProfileDeleteResponse outboundVoiceProfile = client.outboundVoiceProfiles().delete("1293384261075731499");
 ```
 
 ## List connections
 
+Returns a list of your connections irrespective of type.
+
 `GET /connections`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.connections.ConnectionListPage;
 import com.telnyx.sdk.models.connections.ConnectionListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ConnectionListPage page = client.connections().list();
-    }
-}
+ConnectionListPage page = client.connections().list();
 ```
 
 ## Retrieve a connection
 
+Retrieves the high-level details of an existing connection.
+
 `GET /connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.connections.ConnectionRetrieveParams;
 import com.telnyx.sdk.models.connections.ConnectionRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ConnectionRetrieveResponse connection = client.connections().retrieve("id");
-    }
-}
+ConnectionRetrieveResponse connection = client.connections().retrieve("id");
 ```
 
 ## List credential connections
 
+Returns a list of your credential connections.
+
 `GET /credential_connections`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionListPage;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        CredentialConnectionListPage page = client.credentialConnections().list();
-    }
-}
+CredentialConnectionListPage page = client.credentialConnections().list();
 ```
 
 ## Create a credential connection
 
-`POST /credential_connections`
+Creates a credential connection.
+
+`POST /credential_connections` — Required: `user_name`, `password`, `connection_name`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionCreateParams;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        CredentialConnectionCreateParams params = CredentialConnectionCreateParams.builder()
-            .connectionName("my name")
-            .password("my123secure456password789")
-            .userName("myusername123")
-            .build();
-        CredentialConnectionCreateResponse credentialConnection = client.credentialConnections().create(params);
-    }
-}
+CredentialConnectionCreateParams params = CredentialConnectionCreateParams.builder()
+    .connectionName("my name")
+    .password("my123secure456password789")
+    .userName("myusername123")
+    .build();
+CredentialConnectionCreateResponse credentialConnection = client.credentialConnections().create(params);
 ```
 
 ## Retrieve a credential connection
 
+Retrieves the details of an existing credential connection.
+
 `GET /credential_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionRetrieveParams;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        CredentialConnectionRetrieveResponse credentialConnection = client.credentialConnections().retrieve("id");
-    }
-}
+CredentialConnectionRetrieveResponse credentialConnection = client.credentialConnections().retrieve("id");
 ```
 
 ## Update a credential connection
 
+Updates settings of an existing credential connection.
+
 `PATCH /credential_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionUpdateParams;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        CredentialConnectionUpdateResponse credentialConnection = client.credentialConnections().update("id");
-    }
-}
+CredentialConnectionUpdateResponse credentialConnection = client.credentialConnections().update("id");
 ```
 
 ## Delete a credential connection
 
+Deletes an existing credential connection.
+
 `DELETE /credential_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionDeleteParams;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        CredentialConnectionDeleteResponse credentialConnection = client.credentialConnections().delete("id");
-    }
-}
+CredentialConnectionDeleteResponse credentialConnection = client.credentialConnections().delete("id");
 ```
 
 ## Check a Credential Connection Registration Status
 
+Checks the registration_status for a credential connection, (`registration_status`) as well as the timestamp for the last SIP registration event (`registration_status_updated_at`)
+
 `POST /credential_connections/{id}/actions/check_registration_status`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.credentialconnections.actions.ActionCheckRegistrationStatusParams;
 import com.telnyx.sdk.models.credentialconnections.actions.ActionCheckRegistrationStatusResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionCheckRegistrationStatusResponse response = client.credentialConnections().actions().checkRegistrationStatus("id");
-    }
-}
+ActionCheckRegistrationStatusResponse response = client.credentialConnections().actions().checkRegistrationStatus("id");
 ```
 
 ## List Ips
 
+Get all IPs belonging to the user that match the given filters.
+
 `GET /ips`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.ips.IpListPage;
 import com.telnyx.sdk.models.ips.IpListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        IpListPage page = client.ips().list();
-    }
-}
+IpListPage page = client.ips().list();
 ```
 
 ## Create an Ip
 
-`POST /ips`
+Create a new IP object.
+
+`POST /ips` — Required: `ip_address`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.ips.IpCreateParams;
 import com.telnyx.sdk.models.ips.IpCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        IpCreateParams params = IpCreateParams.builder()
-            .ipAddress("192.168.0.0")
-            .build();
-        IpCreateResponse ip = client.ips().create(params);
-    }
-}
+IpCreateParams params = IpCreateParams.builder()
+    .ipAddress("192.168.0.0")
+    .build();
+IpCreateResponse ip = client.ips().create(params);
 ```
 
 ## Retrieve an Ip
 
+Return the details regarding a specific IP.
+
 `GET /ips/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.ips.IpRetrieveParams;
 import com.telnyx.sdk.models.ips.IpRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        IpRetrieveResponse ip = client.ips().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+IpRetrieveResponse ip = client.ips().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Update an Ip
 
-`PATCH /ips/{id}`
+Update the details of a specific IP.
+
+`PATCH /ips/{id}` — Required: `ip_address`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.ips.IpUpdateParams;
 import com.telnyx.sdk.models.ips.IpUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        IpUpdateParams params = IpUpdateParams.builder()
-            .id("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-            .ipAddress("192.168.0.0")
-            .build();
-        IpUpdateResponse ip = client.ips().update(params);
-    }
-}
+IpUpdateParams params = IpUpdateParams.builder()
+    .id("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+    .ipAddress("192.168.0.0")
+    .build();
+IpUpdateResponse ip = client.ips().update(params);
 ```
 
 ## Delete an Ip
 
+Delete an IP.
+
 `DELETE /ips/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.ips.IpDeleteParams;
 import com.telnyx.sdk.models.ips.IpDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        IpDeleteResponse ip = client.ips().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+IpDeleteResponse ip = client.ips().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## List Ip connections
 
+Returns a list of your IP connections.
+
 `GET /ip_connections`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.ipconnections.IpConnectionListPage;
 import com.telnyx.sdk.models.ipconnections.IpConnectionListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        IpConnectionListPage page = client.ipConnections().list();
-    }
-}
+IpConnectionListPage page = client.ipConnections().list();
 ```
 
 ## Create an Ip connection
 
+Creates an IP connection.
+
 `POST /ip_connections`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.ipconnections.IpConnectionCreateParams;
 import com.telnyx.sdk.models.ipconnections.IpConnectionCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        IpConnectionCreateResponse ipConnection = client.ipConnections().create();
-    }
-}
+IpConnectionCreateResponse ipConnection = client.ipConnections().create();
 ```
 
 ## Retrieve an Ip connection
 
+Retrieves the details of an existing ip connection.
+
 `GET /ip_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.ipconnections.IpConnectionRetrieveParams;
 import com.telnyx.sdk.models.ipconnections.IpConnectionRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        IpConnectionRetrieveResponse ipConnection = client.ipConnections().retrieve("id");
-    }
-}
+IpConnectionRetrieveResponse ipConnection = client.ipConnections().retrieve("id");
 ```
 
 ## Update an Ip connection
 
+Updates settings of an existing IP connection.
+
 `PATCH /ip_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.ipconnections.IpConnectionUpdateParams;
 import com.telnyx.sdk.models.ipconnections.IpConnectionUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        IpConnectionUpdateResponse ipConnection = client.ipConnections().update("id");
-    }
-}
+IpConnectionUpdateResponse ipConnection = client.ipConnections().update("id");
 ```
 
 ## Delete an Ip connection
 
+Deletes an existing IP connection.
+
 `DELETE /ip_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.ipconnections.IpConnectionDeleteParams;
 import com.telnyx.sdk.models.ipconnections.IpConnectionDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        IpConnectionDeleteResponse ipConnection = client.ipConnections().delete("id");
-    }
-}
+IpConnectionDeleteResponse ipConnection = client.ipConnections().delete("id");
 ```
 
 ## List FQDNs
 
+Get all FQDNs belonging to the user that match the given filters.
+
 `GET /fqdns`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.fqdns.FqdnListPage;
 import com.telnyx.sdk.models.fqdns.FqdnListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        FqdnListPage page = client.fqdns().list();
-    }
-}
+FqdnListPage page = client.fqdns().list();
 ```
 
 ## Create an FQDN
 
-`POST /fqdns`
+Create a new FQDN object.
+
+`POST /fqdns` — Required: `fqdn`, `dns_record_type`, `connection_id`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.fqdns.FqdnCreateParams;
 import com.telnyx.sdk.models.fqdns.FqdnCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        FqdnCreateParams params = FqdnCreateParams.builder()
-            .connectionId("1516447646313612565")
-            .dnsRecordType("a")
-            .fqdn("example.com")
-            .build();
-        FqdnCreateResponse fqdn = client.fqdns().create(params);
-    }
-}
+FqdnCreateParams params = FqdnCreateParams.builder()
+    .connectionId("1516447646313612565")
+    .dnsRecordType("a")
+    .fqdn("example.com")
+    .build();
+FqdnCreateResponse fqdn = client.fqdns().create(params);
 ```
 
 ## Retrieve an FQDN
 
+Return the details regarding a specific FQDN.
+
 `GET /fqdns/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.fqdns.FqdnRetrieveParams;
 import com.telnyx.sdk.models.fqdns.FqdnRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        FqdnRetrieveResponse fqdn = client.fqdns().retrieve("id");
-    }
-}
+FqdnRetrieveResponse fqdn = client.fqdns().retrieve("id");
 ```
 
 ## Update an FQDN
 
+Update the details of a specific FQDN.
+
 `PATCH /fqdns/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.fqdns.FqdnUpdateParams;
 import com.telnyx.sdk.models.fqdns.FqdnUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        FqdnUpdateResponse fqdn = client.fqdns().update("id");
-    }
-}
+FqdnUpdateResponse fqdn = client.fqdns().update("id");
 ```
 
 ## Delete an FQDN
 
+Delete an FQDN.
+
 `DELETE /fqdns/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.fqdns.FqdnDeleteParams;
 import com.telnyx.sdk.models.fqdns.FqdnDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        FqdnDeleteResponse fqdn = client.fqdns().delete("id");
-    }
-}
+FqdnDeleteResponse fqdn = client.fqdns().delete("id");
 ```
 
 ## List FQDN connections
 
+Returns a list of your FQDN connections.
+
 `GET /fqdn_connections`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionListPage;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        FqdnConnectionListPage page = client.fqdnConnections().list();
-    }
-}
+FqdnConnectionListPage page = client.fqdnConnections().list();
 ```
 
 ## Create an FQDN connection
 
-`POST /fqdn_connections`
+Creates a FQDN connection.
+
+`POST /fqdn_connections` — Required: `connection_name`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionCreateParams;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        FqdnConnectionCreateParams params = FqdnConnectionCreateParams.builder()
-            .connectionName("string")
-            .build();
-        FqdnConnectionCreateResponse fqdnConnection = client.fqdnConnections().create(params);
-    }
-}
+FqdnConnectionCreateParams params = FqdnConnectionCreateParams.builder()
+    .connectionName("string")
+    .build();
+FqdnConnectionCreateResponse fqdnConnection = client.fqdnConnections().create(params);
 ```
 
 ## Retrieve an FQDN connection
 
+Retrieves the details of an existing FQDN connection.
+
 `GET /fqdn_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionRetrieveParams;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        FqdnConnectionRetrieveResponse fqdnConnection = client.fqdnConnections().retrieve("id");
-    }
-}
+FqdnConnectionRetrieveResponse fqdnConnection = client.fqdnConnections().retrieve("id");
 ```
 
 ## Update an FQDN connection
 
+Updates settings of an existing FQDN connection.
+
 `PATCH /fqdn_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionUpdateParams;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        FqdnConnectionUpdateResponse fqdnConnection = client.fqdnConnections().update("id");
-    }
-}
+FqdnConnectionUpdateResponse fqdnConnection = client.fqdnConnections().update("id");
 ```
 
 ## Delete an FQDN connection
 
+Deletes an FQDN connection.
+
 `DELETE /fqdn_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionDeleteParams;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        FqdnConnectionDeleteResponse fqdnConnection = client.fqdnConnections().delete("id");
-    }
-}
+FqdnConnectionDeleteResponse fqdnConnection = client.fqdnConnections().delete("id");
 ```
 
 ## List Mobile Voice Connections
@@ -809,22 +488,10 @@ public final class Main {
 `GET /v2/mobile_voice_connections`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionListPage;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        MobileVoiceConnectionListPage page = client.mobileVoiceConnections().list();
-    }
-}
+MobileVoiceConnectionListPage page = client.mobileVoiceConnections().list();
 ```
 
 ## Create a Mobile Voice Connection
@@ -832,22 +499,10 @@ public final class Main {
 `POST /v2/mobile_voice_connections`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionCreateParams;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        MobileVoiceConnectionCreateResponse mobileVoiceConnection = client.mobileVoiceConnections().create();
-    }
-}
+MobileVoiceConnectionCreateResponse mobileVoiceConnection = client.mobileVoiceConnections().create();
 ```
 
 ## Retrieve a Mobile Voice Connection
@@ -855,22 +510,10 @@ public final class Main {
 `GET /v2/mobile_voice_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionRetrieveParams;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        MobileVoiceConnectionRetrieveResponse mobileVoiceConnection = client.mobileVoiceConnections().retrieve("id");
-    }
-}
+MobileVoiceConnectionRetrieveResponse mobileVoiceConnection = client.mobileVoiceConnections().retrieve("id");
 ```
 
 ## Update a Mobile Voice Connection
@@ -878,22 +521,10 @@ public final class Main {
 `PATCH /v2/mobile_voice_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionUpdateParams;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        MobileVoiceConnectionUpdateResponse mobileVoiceConnection = client.mobileVoiceConnections().update("id");
-    }
-}
+MobileVoiceConnectionUpdateResponse mobileVoiceConnection = client.mobileVoiceConnections().update("id");
 ```
 
 ## Delete a Mobile Voice Connection
@@ -901,20 +532,8 @@ public final class Main {
 `DELETE /v2/mobile_voice_connections/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionDeleteParams;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        MobileVoiceConnectionDeleteResponse mobileVoiceConnection = client.mobileVoiceConnections().delete("id");
-    }
-}
+MobileVoiceConnectionDeleteResponse mobileVoiceConnection = client.mobileVoiceConnections().delete("id");
 ```

@@ -18,13 +18,23 @@ metadata:
 gem install telnyx
 ```
 
+## Setup
+
+```ruby
+require "telnyx"
+
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## List messaging profiles
 
 `GET /messaging_profiles`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging_profiles.list
@@ -34,11 +44,9 @@ puts(page)
 
 ## Create a messaging profile
 
-`POST /messaging_profiles`
+`POST /messaging_profiles` — Required: `name`, `whitelisted_destinations`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 messaging_profile = telnyx.messaging_profiles.create(name: "My name", whitelisted_destinations: ["US"])
@@ -51,8 +59,6 @@ puts(messaging_profile)
 `GET /messaging_profiles/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 messaging_profile = telnyx.messaging_profiles.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -65,8 +71,6 @@ puts(messaging_profile)
 `PATCH /messaging_profiles/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 messaging_profile = telnyx.messaging_profiles.update("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -79,8 +83,6 @@ puts(messaging_profile)
 `DELETE /messaging_profiles/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 messaging_profile = telnyx.messaging_profiles.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -93,8 +95,6 @@ puts(messaging_profile)
 `GET /messaging_profiles/{id}/phone_numbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging_profiles.list_phone_numbers("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -107,8 +107,6 @@ puts(page)
 `GET /messaging_profiles/{id}/short_codes`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging_profiles.list_short_codes("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -121,8 +119,6 @@ puts(page)
 `GET /messaging_profiles/{profile_id}/autoresp_configs`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 autoresp_configs = telnyx.messaging_profiles.autoresp_configs.list("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -132,11 +128,9 @@ puts(autoresp_configs)
 
 ## Create auto-response setting
 
-`POST /messaging_profiles/{profile_id}/autoresp_configs`
+`POST /messaging_profiles/{profile_id}/autoresp_configs` — Required: `op`, `keywords`, `country_code`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 auto_resp_config_response = telnyx.messaging_profiles.autoresp_configs.create(
@@ -154,8 +148,6 @@ puts(auto_resp_config_response)
 `GET /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 auto_resp_config_response = telnyx.messaging_profiles.autoresp_configs.retrieve(
@@ -168,11 +160,9 @@ puts(auto_resp_config_response)
 
 ## Update Auto-Response Setting
 
-`PUT /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
+`PUT /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}` — Required: `op`, `keywords`, `country_code`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 auto_resp_config_response = telnyx.messaging_profiles.autoresp_configs.update(
@@ -191,8 +181,6 @@ puts(auto_resp_config_response)
 `DELETE /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 autoresp_config = telnyx.messaging_profiles.autoresp_configs.delete(
@@ -208,8 +196,6 @@ puts(autoresp_config)
 `GET /short_codes`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.short_codes.list
@@ -222,8 +208,6 @@ puts(page)
 `GET /short_codes/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 short_code = telnyx.short_codes.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -233,11 +217,11 @@ puts(short_code)
 
 ## Update short code
 
-`PATCH /short_codes/{id}`
+Update the settings for a specific short code.
+
+`PATCH /short_codes/{id}` — Required: `messaging_profile_id`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 short_code = telnyx.short_codes.update(

@@ -18,9 +18,7 @@ metadata:
 pip install telnyx
 ```
 
-## List mobile push credentials
-
-`GET /mobile_push_credentials`
+## Setup
 
 ```python
 import os
@@ -29,6 +27,15 @@ from telnyx import Telnyx
 client = Telnyx(
     api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
 )
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List mobile push credentials
+
+`GET /mobile_push_credentials`
+
+```python
 page = client.mobile_push_credentials.list()
 page = page.data[0]
 print(page.id)
@@ -39,12 +46,6 @@ print(page.id)
 `POST /mobile_push_credentials`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 push_credential_response = client.mobile_push_credentials.create(
     create_mobile_push_credential_request={
         "alias": "LucyIosCredential",
@@ -58,15 +59,11 @@ print(push_credential_response.data)
 
 ## Retrieves a mobile push credential
 
+Retrieves mobile push credential based on the given `push_credential_id`
+
 `GET /mobile_push_credentials/{push_credential_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 push_credential_response = client.mobile_push_credentials.retrieve(
     "0ccc7b76-4df3-4bca-a05a-3da1ecc389f0",
 )
@@ -75,15 +72,11 @@ print(push_credential_response.data)
 
 ## Deletes a mobile push credential
 
+Deletes a mobile push credential based on the given `push_credential_id`
+
 `DELETE /mobile_push_credentials/{push_credential_id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 client.mobile_push_credentials.delete(
     "0ccc7b76-4df3-4bca-a05a-3da1ecc389f0",
 )
@@ -91,15 +84,11 @@ client.mobile_push_credentials.delete(
 
 ## List all credentials
 
+List all On-demand Credentials.
+
 `GET /telephony_credentials`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 page = client.telephony_credentials.list()
 page = page.data[0]
 print(page.id)
@@ -107,15 +96,11 @@ print(page.id)
 
 ## Create a credential
 
-`POST /telephony_credentials`
+Create a credential.
+
+`POST /telephony_credentials` — Required: `connection_id`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 telephony_credential = client.telephony_credentials.create(
     connection_id="1234567890",
 )
@@ -124,15 +109,11 @@ print(telephony_credential.data)
 
 ## Get a credential
 
+Get the details of an existing On-demand Credential.
+
 `GET /telephony_credentials/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 telephony_credential = client.telephony_credentials.retrieve(
     "id",
 )
@@ -141,15 +122,11 @@ print(telephony_credential.data)
 
 ## Update a credential
 
+Update an existing credential.
+
 `PATCH /telephony_credentials/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 telephony_credential = client.telephony_credentials.update(
     id="id",
 )
@@ -158,15 +135,11 @@ print(telephony_credential.data)
 
 ## Delete a credential
 
+Delete an existing credential.
+
 `DELETE /telephony_credentials/{id}`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 telephony_credential = client.telephony_credentials.delete(
     "id",
 )
@@ -175,15 +148,11 @@ print(telephony_credential.data)
 
 ## Create an Access Token.
 
+Create an Access Token (JWT) for the credential.
+
 `POST /telephony_credentials/{id}/token`
 
 ```python
-import os
-from telnyx import Telnyx
-
-client = Telnyx(
-    api_key=os.environ.get("TELNYX_API_KEY"),  # This is the default and can be omitted
-)
 response = client.telephony_credentials.create_token(
     "id",
 )

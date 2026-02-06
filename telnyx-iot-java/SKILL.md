@@ -17,1020 +17,619 @@ metadata:
 // Add to pom.xml or build.gradle - see https://github.com/team-telnyx/telnyx-java
 ```
 
+## Setup
+
+```java
+import com.telnyx.sdk.client.TelnyxClient;
+import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
+
+TelnyxClient client = TelnyxOkHttpClient.fromEnv();
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Get all wireless regions
+
+Retrieve all wireless regions for the given product.
 
 `GET /wireless/regions`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.wireless.WirelessRetrieveRegionsParams;
 import com.telnyx.sdk.models.wireless.WirelessRetrieveRegionsResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        WirelessRetrieveRegionsParams params = WirelessRetrieveRegionsParams.builder()
-            .product("public_ips")
-            .build();
-        WirelessRetrieveRegionsResponse response = client.wireless().retrieveRegions(params);
-    }
-}
+WirelessRetrieveRegionsParams params = WirelessRetrieveRegionsParams.builder()
+    .product("public_ips")
+    .build();
+WirelessRetrieveRegionsResponse response = client.wireless().retrieveRegions(params);
 ```
 
 ## Get all SIM cards
 
+Get all SIM cards belonging to the user that match the given filters.
+
 `GET /sim_cards`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.SimCardListPage;
 import com.telnyx.sdk.models.simcards.SimCardListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardListPage page = client.simCards().list();
-    }
-}
+SimCardListPage page = client.simCards().list();
 ```
 
 ## Get SIM card
 
+Returns the details regarding a specific SIM card.
+
 `GET /sim_cards/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.SimCardRetrieveParams;
 import com.telnyx.sdk.models.simcards.SimCardRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardRetrieveResponse simCard = client.simCards().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardRetrieveResponse simCard = client.simCards().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Update a SIM card
 
+Updates SIM card data
+
 `PATCH /sim_cards/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.SimCard;
 import com.telnyx.sdk.models.simcards.SimCardUpdateParams;
 import com.telnyx.sdk.models.simcards.SimCardUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardUpdateParams params = SimCardUpdateParams.builder()
-            .simCardId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-            .simCard(SimCard.builder().build())
-            .build();
-        SimCardUpdateResponse simCard = client.simCards().update(params);
-    }
-}
+SimCardUpdateParams params = SimCardUpdateParams.builder()
+    .simCardId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+    .simCard(SimCard.builder().build())
+    .build();
+SimCardUpdateResponse simCard = client.simCards().update(params);
 ```
 
 ## Deletes a SIM card
 
+The SIM card will be decommissioned, removed from your account and you will stop being charged.<br />The SIM card won't be able to connect to the network after the deletion is completed, thus makin...
+
 `DELETE /sim_cards/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.SimCardDeleteParams;
 import com.telnyx.sdk.models.simcards.SimCardDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardDeleteResponse simCard = client.simCards().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardDeleteResponse simCard = client.simCards().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Get activation code for an eSIM
 
+It returns the activation code for an eSIM.<br/><br/>
+ This API is only available for eSIMs.
+
 `GET /sim_cards/{id}/activation_code`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.SimCardGetActivationCodeParams;
 import com.telnyx.sdk.models.simcards.SimCardGetActivationCodeResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardGetActivationCodeResponse response = client.simCards().getActivationCode("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardGetActivationCodeResponse response = client.simCards().getActivationCode("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Get SIM card device details
 
+It returns the device details where a SIM card is currently being used.
+
 `GET /sim_cards/{id}/device_details`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.SimCardGetDeviceDetailsParams;
 import com.telnyx.sdk.models.simcards.SimCardGetDeviceDetailsResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardGetDeviceDetailsResponse response = client.simCards().getDeviceDetails("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardGetDeviceDetailsResponse response = client.simCards().getDeviceDetails("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Get SIM card public IP definition
 
+It returns the public IP requested for a SIM card.
+
 `GET /sim_cards/{id}/public_ip`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.SimCardGetPublicIpParams;
 import com.telnyx.sdk.models.simcards.SimCardGetPublicIpResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardGetPublicIpResponse response = client.simCards().getPublicIp("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardGetPublicIpResponse response = client.simCards().getPublicIp("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## List wireless connectivity logs
 
+This API allows listing a paginated collection of Wireless Connectivity Logs associated with a SIM Card, for troubleshooting purposes.
+
 `GET /sim_cards/{id}/wireless_connectivity_logs`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.SimCardListWirelessConnectivityLogsPage;
 import com.telnyx.sdk.models.simcards.SimCardListWirelessConnectivityLogsParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardListWirelessConnectivityLogsPage page = client.simCards().listWirelessConnectivityLogs("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardListWirelessConnectivityLogsPage page = client.simCards().listWirelessConnectivityLogs("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Request a SIM card disable
 
+This API disables a SIM card, disconnecting it from the network and making it impossible to consume data.<br/>
+The API will trigger an asynchronous operation called a SIM Card Action.
+
 `POST /sim_cards/{id}/actions/disable`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.actions.ActionDisableParams;
 import com.telnyx.sdk.models.simcards.actions.ActionDisableResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionDisableResponse response = client.simCards().actions().disable("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+ActionDisableResponse response = client.simCards().actions().disable("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Request a SIM card enable
 
+This API enables a SIM card, connecting it to the network and making it possible to consume data.<br/>
+To enable a SIM card, it must be associated with a SIM card group.<br/>
+The API will trigger a...
+
 `POST /sim_cards/{id}/actions/enable`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.actions.ActionEnableParams;
 import com.telnyx.sdk.models.simcards.actions.ActionEnableResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionEnableResponse response = client.simCards().actions().enable("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+ActionEnableResponse response = client.simCards().actions().enable("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Request removing a SIM card public IP
 
+This API removes an existing public IP from a SIM card.
+
 `POST /sim_cards/{id}/actions/remove_public_ip`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.actions.ActionRemovePublicIpParams;
 import com.telnyx.sdk.models.simcards.actions.ActionRemovePublicIpResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionRemovePublicIpResponse response = client.simCards().actions().removePublicIp("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+ActionRemovePublicIpResponse response = client.simCards().actions().removePublicIp("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Request setting a SIM card public IP
 
+This API makes a SIM card reachable on the public internet by mapping a random public IP to the SIM card.
+
 `POST /sim_cards/{id}/actions/set_public_ip`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.actions.ActionSetPublicIpParams;
 import com.telnyx.sdk.models.simcards.actions.ActionSetPublicIpResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionSetPublicIpResponse response = client.simCards().actions().setPublicIp("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+ActionSetPublicIpResponse response = client.simCards().actions().setPublicIp("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Request setting a SIM card to standby
 
+The SIM card will be able to connect to the network once the process to set it to standby has been completed, thus making it possible to consume data.<br/>
+To set a SIM card to standby, it must be ...
+
 `POST /sim_cards/{id}/actions/set_standby`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.actions.ActionSetStandbyParams;
 import com.telnyx.sdk.models.simcards.actions.ActionSetStandbyResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionSetStandbyResponse response = client.simCards().actions().setStandby("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+ActionSetStandbyResponse response = client.simCards().actions().setStandby("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Request bulk setting SIM card public IPs.
 
-`POST /sim_cards/actions/bulk_set_public_ips`
+This API triggers an asynchronous operation to set a public IP for each of the specified SIM cards.<br/>
+For each SIM Card a SIM Card Action will be generated.
+
+`POST /sim_cards/actions/bulk_set_public_ips` — Required: `sim_card_ids`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.actions.ActionBulkSetPublicIpsParams;
 import com.telnyx.sdk.models.simcards.actions.ActionBulkSetPublicIpsResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionBulkSetPublicIpsParams params = ActionBulkSetPublicIpsParams.builder()
-            .addSimCardId("6b14e151-8493-4fa1-8664-1cc4e6d14158")
-            .build();
-        ActionBulkSetPublicIpsResponse response = client.simCards().actions().bulkSetPublicIps(params);
-    }
-}
+ActionBulkSetPublicIpsParams params = ActionBulkSetPublicIpsParams.builder()
+    .addSimCardId("6b14e151-8493-4fa1-8664-1cc4e6d14158")
+    .build();
+ActionBulkSetPublicIpsResponse response = client.simCards().actions().bulkSetPublicIps(params);
 ```
 
 ## Validate SIM cards registration codes
 
+It validates whether SIM card registration codes are valid or not.
+
 `POST /sim_cards/actions/validate_registration_codes`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.actions.ActionValidateRegistrationCodesParams;
 import com.telnyx.sdk.models.simcards.actions.ActionValidateRegistrationCodesResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionValidateRegistrationCodesResponse response = client.simCards().actions().validateRegistrationCodes();
-    }
-}
+ActionValidateRegistrationCodesResponse response = client.simCards().actions().validateRegistrationCodes();
 ```
 
 ## List SIM card actions
 
+This API lists a paginated collection of SIM card actions.
+
 `GET /sim_card_actions`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.actions.ActionListPage;
 import com.telnyx.sdk.models.simcards.actions.ActionListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionListPage page = client.simCards().actions().list();
-    }
-}
+ActionListPage page = client.simCards().actions().list();
 ```
 
 ## Get SIM card action details
 
+This API fetches detailed information about a SIM card action to follow-up on an existing asynchronous operation.
+
 `GET /sim_card_actions/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcards.actions.ActionRetrieveParams;
 import com.telnyx.sdk.models.simcards.actions.ActionRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionRetrieveResponse action = client.simCards().actions().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+ActionRetrieveResponse action = client.simCards().actions().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## List bulk SIM card actions
 
+This API lists a paginated collection of bulk SIM card actions.
+
 `GET /bulk_sim_card_actions`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.bulksimcardactions.BulkSimCardActionListPage;
 import com.telnyx.sdk.models.bulksimcardactions.BulkSimCardActionListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        BulkSimCardActionListPage page = client.bulkSimCardActions().list();
-    }
-}
+BulkSimCardActionListPage page = client.bulkSimCardActions().list();
 ```
 
 ## Get bulk SIM card action details
 
+This API fetches information about a bulk SIM card action.
+
 `GET /bulk_sim_card_actions/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.bulksimcardactions.BulkSimCardActionRetrieveParams;
 import com.telnyx.sdk.models.bulksimcardactions.BulkSimCardActionRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        BulkSimCardActionRetrieveResponse bulkSimCardAction = client.bulkSimCardActions().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+BulkSimCardActionRetrieveResponse bulkSimCardAction = client.bulkSimCardActions().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Get all SIM card groups
 
+Get all SIM card groups belonging to the user that match the given filters.
+
 `GET /sim_card_groups`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupListPage;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardGroupListPage page = client.simCardGroups().list();
-    }
-}
+SimCardGroupListPage page = client.simCardGroups().list();
 ```
 
 ## Create a SIM card group
 
-`POST /sim_card_groups`
+Creates a new SIM card group object
+
+`POST /sim_card_groups` — Required: `name`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupCreateParams;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardGroupCreateParams params = SimCardGroupCreateParams.builder()
-            .name("My Test Group")
-            .build();
-        SimCardGroupCreateResponse simCardGroup = client.simCardGroups().create(params);
-    }
-}
+SimCardGroupCreateParams params = SimCardGroupCreateParams.builder()
+    .name("My Test Group")
+    .build();
+SimCardGroupCreateResponse simCardGroup = client.simCardGroups().create(params);
 ```
 
 ## Get SIM card group
 
+Returns the details regarding a specific SIM card group
+
 `GET /sim_card_groups/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupRetrieveParams;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardGroupRetrieveResponse simCardGroup = client.simCardGroups().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardGroupRetrieveResponse simCardGroup = client.simCardGroups().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Update a SIM card group
 
+Updates a SIM card group
+
 `PATCH /sim_card_groups/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupUpdateParams;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardGroupUpdateResponse simCardGroup = client.simCardGroups().update("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardGroupUpdateResponse simCardGroup = client.simCardGroups().update("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Delete a SIM card group
 
+Permanently deletes a SIM card group
+
 `DELETE /sim_card_groups/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupDeleteParams;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardGroupDeleteResponse simCardGroup = client.simCardGroups().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardGroupDeleteResponse simCardGroup = client.simCardGroups().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Request Private Wireless Gateway removal from SIM card group
 
+This action will asynchronously remove an existing Private Wireless Gateway definition from a SIM card group.
+
 `POST /sim_card_groups/{id}/actions/remove_private_wireless_gateway`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionRemovePrivateWirelessGatewayParams;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionRemovePrivateWirelessGatewayResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionRemovePrivateWirelessGatewayResponse response = client.simCardGroups().actions().removePrivateWirelessGateway("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+ActionRemovePrivateWirelessGatewayResponse response = client.simCardGroups().actions().removePrivateWirelessGateway("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Request Wireless Blocklist removal from SIM card group
 
+This action will asynchronously remove an existing Wireless Blocklist to all the SIMs in the SIM card group.
+
 `POST /sim_card_groups/{id}/actions/remove_wireless_blocklist`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionRemoveWirelessBlocklistParams;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionRemoveWirelessBlocklistResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionRemoveWirelessBlocklistResponse response = client.simCardGroups().actions().removeWirelessBlocklist("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+ActionRemoveWirelessBlocklistResponse response = client.simCardGroups().actions().removeWirelessBlocklist("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Request Private Wireless Gateway assignment for SIM card group
 
-`POST /sim_card_groups/{id}/actions/set_private_wireless_gateway`
+This action will asynchronously assign a provisioned Private Wireless Gateway to the SIM card group.
+
+`POST /sim_card_groups/{id}/actions/set_private_wireless_gateway` — Required: `private_wireless_gateway_id`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionSetPrivateWirelessGatewayParams;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionSetPrivateWirelessGatewayResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionSetPrivateWirelessGatewayParams params = ActionSetPrivateWirelessGatewayParams.builder()
-            .id("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-            .privateWirelessGatewayId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-            .build();
-        ActionSetPrivateWirelessGatewayResponse response = client.simCardGroups().actions().setPrivateWirelessGateway(params);
-    }
-}
+ActionSetPrivateWirelessGatewayParams params = ActionSetPrivateWirelessGatewayParams.builder()
+    .id("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+    .privateWirelessGatewayId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+    .build();
+ActionSetPrivateWirelessGatewayResponse response = client.simCardGroups().actions().setPrivateWirelessGateway(params);
 ```
 
 ## Request Wireless Blocklist assignment for SIM card group
 
-`POST /sim_card_groups/{id}/actions/set_wireless_blocklist`
+This action will asynchronously assign a Wireless Blocklist to all the SIMs in the SIM card group.
+
+`POST /sim_card_groups/{id}/actions/set_wireless_blocklist` — Required: `wireless_blocklist_id`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionSetWirelessBlocklistParams;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionSetWirelessBlocklistResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionSetWirelessBlocklistParams params = ActionSetWirelessBlocklistParams.builder()
-            .id("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-            .wirelessBlocklistId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-            .build();
-        ActionSetWirelessBlocklistResponse response = client.simCardGroups().actions().setWirelessBlocklist(params);
-    }
-}
+ActionSetWirelessBlocklistParams params = ActionSetWirelessBlocklistParams.builder()
+    .id("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+    .wirelessBlocklistId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+    .build();
+ActionSetWirelessBlocklistResponse response = client.simCardGroups().actions().setWirelessBlocklist(params);
 ```
 
 ## List SIM card group actions
 
+This API allows listing a paginated collection a SIM card group actions.
+
 `GET /sim_card_group_actions`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionListPage;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionListPage page = client.simCardGroups().actions().list();
-    }
-}
+ActionListPage page = client.simCardGroups().actions().list();
 ```
 
 ## Get SIM card group action details
 
+This API allows fetching detailed information about a SIM card group action resource to make follow-ups in an existing asynchronous operation.
+
 `GET /sim_card_group_actions/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionRetrieveParams;
 import com.telnyx.sdk.models.simcardgroups.actions.ActionRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        ActionRetrieveResponse action = client.simCardGroups().actions().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+ActionRetrieveResponse action = client.simCardGroups().actions().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Get all SIM card orders
 
+Get all SIM card orders according to filters.
+
 `GET /sim_card_orders`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardorders.SimCardOrderListPage;
 import com.telnyx.sdk.models.simcardorders.SimCardOrderListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardOrderListPage page = client.simCardOrders().list();
-    }
-}
+SimCardOrderListPage page = client.simCardOrders().list();
 ```
 
 ## Create a SIM card order
 
-`POST /sim_card_orders`
+Creates a new order for SIM cards.
+
+`POST /sim_card_orders` — Required: `address_id`, `quantity`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardorders.SimCardOrderCreateParams;
 import com.telnyx.sdk.models.simcardorders.SimCardOrderCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardOrderCreateParams params = SimCardOrderCreateParams.builder()
-            .addressId("1293384261075731499")
-            .quantity(23L)
-            .build();
-        SimCardOrderCreateResponse simCardOrder = client.simCardOrders().create(params);
-    }
-}
+SimCardOrderCreateParams params = SimCardOrderCreateParams.builder()
+    .addressId("1293384261075731499")
+    .quantity(23L)
+    .build();
+SimCardOrderCreateResponse simCardOrder = client.simCardOrders().create(params);
 ```
 
 ## Get a single SIM card order
 
+Get a single SIM card order by its ID.
+
 `GET /sim_card_orders/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardorders.SimCardOrderRetrieveParams;
 import com.telnyx.sdk.models.simcardorders.SimCardOrderRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardOrderRetrieveResponse simCardOrder = client.simCardOrders().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardOrderRetrieveResponse simCardOrder = client.simCardOrders().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Preview SIM card orders
 
-`POST /sim_card_order_preview`
+Preview SIM card order purchases.
+
+`POST /sim_card_order_preview` — Required: `quantity`, `address_id`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcardorderpreview.SimCardOrderPreviewPreviewParams;
 import com.telnyx.sdk.models.simcardorderpreview.SimCardOrderPreviewPreviewResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardOrderPreviewPreviewParams params = SimCardOrderPreviewPreviewParams.builder()
-            .addressId("1293384261075731499")
-            .quantity(21L)
-            .build();
-        SimCardOrderPreviewPreviewResponse response = client.simCardOrderPreview().preview(params);
-    }
-}
+SimCardOrderPreviewPreviewParams params = SimCardOrderPreviewPreviewParams.builder()
+    .addressId("1293384261075731499")
+    .quantity(21L)
+    .build();
+SimCardOrderPreviewPreviewResponse response = client.simCardOrderPreview().preview(params);
 ```
 
 ## List SIM card data usage notifications
 
+Lists a paginated collection of SIM card data usage notifications.
+
 `GET /sim_card_data_usage_notifications`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationListPage;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardDataUsageNotificationListPage page = client.simCardDataUsageNotifications().list();
-    }
-}
+SimCardDataUsageNotificationListPage page = client.simCardDataUsageNotifications().list();
 ```
 
 ## Create a new SIM card data usage notification
 
-`POST /sim_card_data_usage_notifications`
+Creates a new SIM card data usage notification.
+
+`POST /sim_card_data_usage_notifications` — Required: `sim_card_id`, `threshold`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationCreateParams;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardDataUsageNotificationCreateParams params = SimCardDataUsageNotificationCreateParams.builder()
-            .simCardId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-            .threshold(SimCardDataUsageNotificationCreateParams.Threshold.builder().build())
-            .build();
-        SimCardDataUsageNotificationCreateResponse simCardDataUsageNotification = client.simCardDataUsageNotifications().create(params);
-    }
-}
+SimCardDataUsageNotificationCreateParams params = SimCardDataUsageNotificationCreateParams.builder()
+    .simCardId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+    .threshold(SimCardDataUsageNotificationCreateParams.Threshold.builder().build())
+    .build();
+SimCardDataUsageNotificationCreateResponse simCardDataUsageNotification = client.simCardDataUsageNotifications().create(params);
 ```
 
 ## Get a single SIM card data usage notification
 
+Get a single SIM Card Data Usage Notification.
+
 `GET /sim_card_data_usage_notifications/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationRetrieveParams;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardDataUsageNotificationRetrieveResponse simCardDataUsageNotification = client.simCardDataUsageNotifications().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardDataUsageNotificationRetrieveResponse simCardDataUsageNotification = client.simCardDataUsageNotifications().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Updates information for a SIM Card Data Usage Notification
 
+Updates information for a SIM Card Data Usage Notification.
+
 `PATCH /sim_card_data_usage_notifications/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotification;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationUpdateParams;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardDataUsageNotificationUpdateParams params = SimCardDataUsageNotificationUpdateParams.builder()
-            .simCardDataUsageNotificationId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-            .simCardDataUsageNotification(SimCardDataUsageNotification.builder().build())
-            .build();
-        SimCardDataUsageNotificationUpdateResponse simCardDataUsageNotification = client.simCardDataUsageNotifications().update(params);
-    }
-}
+SimCardDataUsageNotificationUpdateParams params = SimCardDataUsageNotificationUpdateParams.builder()
+    .simCardDataUsageNotificationId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+    .simCardDataUsageNotification(SimCardDataUsageNotification.builder().build())
+    .build();
+SimCardDataUsageNotificationUpdateResponse simCardDataUsageNotification = client.simCardDataUsageNotifications().update(params);
 ```
 
 ## Delete SIM card data usage notifications
 
+Delete the SIM Card Data Usage Notification.
+
 `DELETE /sim_card_data_usage_notifications/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationDeleteParams;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        SimCardDataUsageNotificationDeleteResponse simCardDataUsageNotification = client.simCardDataUsageNotifications().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+SimCardDataUsageNotificationDeleteResponse simCardDataUsageNotification = client.simCardDataUsageNotifications().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Purchase eSIMs
 
-`POST /actions/purchase/esims`
+Purchases and registers the specified amount of eSIMs to the current user's account.<br/><br/>
+If <code>sim_card_group_id</code> is provided, the eSIMs will be associated with that group.
+
+`POST /actions/purchase/esims` — Required: `amount`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.actions.purchase.PurchaseCreateParams;
 import com.telnyx.sdk.models.actions.purchase.PurchaseCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        PurchaseCreateParams params = PurchaseCreateParams.builder()
-            .amount(10L)
-            .build();
-        PurchaseCreateResponse purchase = client.actions().purchase().create(params);
-    }
-}
+PurchaseCreateParams params = PurchaseCreateParams.builder()
+    .amount(10L)
+    .build();
+PurchaseCreateResponse purchase = client.actions().purchase().create(params);
 ```
 
 ## Register SIM cards
 
-`POST /actions/register/sim_cards`
+Register the SIM cards associated with the provided registration codes to the current user's account.<br/><br/>
+If <code>sim_card_group_id</code> is provided, the SIM cards will be associated with ...
+
+`POST /actions/register/sim_cards` — Required: `registration_codes`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.actions.register.RegisterCreateParams;
 import com.telnyx.sdk.models.actions.register.RegisterCreateResponse;
 import java.util.List;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        RegisterCreateParams params = RegisterCreateParams.builder()
-            .registrationCodes(List.of(
-              "0000000001",
-              "0000000002",
-              "0000000003"
-            ))
-            .build();
-        RegisterCreateResponse register = client.actions().register().create(params);
-    }
-}
+RegisterCreateParams params = RegisterCreateParams.builder()
+    .registrationCodes(List.of(
+      "0000000001",
+      "0000000002",
+      "0000000003"
+    ))
+    .build();
+RegisterCreateResponse register = client.actions().register().create(params);
 ```
 
 ## List OTA updates
@@ -1038,286 +637,164 @@ public final class Main {
 `GET /ota_updates`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.otaupdates.OtaUpdateListPage;
 import com.telnyx.sdk.models.otaupdates.OtaUpdateListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        OtaUpdateListPage page = client.otaUpdates().list();
-    }
-}
+OtaUpdateListPage page = client.otaUpdates().list();
 ```
 
 ## Get OTA update
 
+This API returns the details of an Over the Air (OTA) update.
+
 `GET /ota_updates/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.otaupdates.OtaUpdateRetrieveParams;
 import com.telnyx.sdk.models.otaupdates.OtaUpdateRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        OtaUpdateRetrieveResponse otaUpdate = client.otaUpdates().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+OtaUpdateRetrieveResponse otaUpdate = client.otaUpdates().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Get all Private Wireless Gateways
 
+Get all Private Wireless Gateways belonging to the user.
+
 `GET /private_wireless_gateways`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.privatewirelessgateways.PrivateWirelessGatewayListPage;
 import com.telnyx.sdk.models.privatewirelessgateways.PrivateWirelessGatewayListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        PrivateWirelessGatewayListPage page = client.privateWirelessGateways().list();
-    }
-}
+PrivateWirelessGatewayListPage page = client.privateWirelessGateways().list();
 ```
 
 ## Create a Private Wireless Gateway
 
-`POST /private_wireless_gateways`
+Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
+
+`POST /private_wireless_gateways` — Required: `network_id`, `name`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.privatewirelessgateways.PrivateWirelessGatewayCreateParams;
 import com.telnyx.sdk.models.privatewirelessgateways.PrivateWirelessGatewayCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        PrivateWirelessGatewayCreateParams params = PrivateWirelessGatewayCreateParams.builder()
-            .name("My private wireless gateway")
-            .networkId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-            .build();
-        PrivateWirelessGatewayCreateResponse privateWirelessGateway = client.privateWirelessGateways().create(params);
-    }
-}
+PrivateWirelessGatewayCreateParams params = PrivateWirelessGatewayCreateParams.builder()
+    .name("My private wireless gateway")
+    .networkId("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+    .build();
+PrivateWirelessGatewayCreateResponse privateWirelessGateway = client.privateWirelessGateways().create(params);
 ```
 
 ## Get a Private Wireless Gateway
 
+Retrieve information about a Private Wireless Gateway.
+
 `GET /private_wireless_gateways/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.privatewirelessgateways.PrivateWirelessGatewayRetrieveParams;
 import com.telnyx.sdk.models.privatewirelessgateways.PrivateWirelessGatewayRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        PrivateWirelessGatewayRetrieveResponse privateWirelessGateway = client.privateWirelessGateways().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+PrivateWirelessGatewayRetrieveResponse privateWirelessGateway = client.privateWirelessGateways().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Delete a Private Wireless Gateway
 
+Deletes the Private Wireless Gateway.
+
 `DELETE /private_wireless_gateways/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.privatewirelessgateways.PrivateWirelessGatewayDeleteParams;
 import com.telnyx.sdk.models.privatewirelessgateways.PrivateWirelessGatewayDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        PrivateWirelessGatewayDeleteResponse privateWirelessGateway = client.privateWirelessGateways().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+PrivateWirelessGatewayDeleteResponse privateWirelessGateway = client.privateWirelessGateways().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Get all Wireless Blocklists
 
+Get all Wireless Blocklists belonging to the user.
+
 `GET /wireless_blocklists`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistListPage;
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistListParams;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        WirelessBlocklistListPage page = client.wirelessBlocklists().list();
-    }
-}
+WirelessBlocklistListPage page = client.wirelessBlocklists().list();
 ```
 
 ## Create a Wireless Blocklist
 
-`POST /wireless_blocklists`
+Create a Wireless Blocklist to prevent SIMs from connecting to certain networks.
+
+`POST /wireless_blocklists` — Required: `name`, `type`, `values`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistCreateParams;
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistCreateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        WirelessBlocklistCreateParams params = WirelessBlocklistCreateParams.builder()
-            .name("My Wireless Blocklist")
-            .type(WirelessBlocklistCreateParams.Type.COUNTRY)
-            .addValue("CA")
-            .addValue("US")
-            .build();
-        WirelessBlocklistCreateResponse wirelessBlocklist = client.wirelessBlocklists().create(params);
-    }
-}
+WirelessBlocklistCreateParams params = WirelessBlocklistCreateParams.builder()
+    .name("My Wireless Blocklist")
+    .type(WirelessBlocklistCreateParams.Type.COUNTRY)
+    .addValue("CA")
+    .addValue("US")
+    .build();
+WirelessBlocklistCreateResponse wirelessBlocklist = client.wirelessBlocklists().create(params);
 ```
 
 ## Update a Wireless Blocklist
 
+Update a Wireless Blocklist.
+
 `PATCH /wireless_blocklists`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistUpdateParams;
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistUpdateResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        WirelessBlocklistUpdateResponse wirelessBlocklist = client.wirelessBlocklists().update();
-    }
-}
+WirelessBlocklistUpdateResponse wirelessBlocklist = client.wirelessBlocklists().update();
 ```
 
 ## Get a Wireless Blocklist
 
+Retrieve information about a Wireless Blocklist.
+
 `GET /wireless_blocklists/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistRetrieveParams;
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistRetrieveResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        WirelessBlocklistRetrieveResponse wirelessBlocklist = client.wirelessBlocklists().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+WirelessBlocklistRetrieveResponse wirelessBlocklist = client.wirelessBlocklists().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Delete a Wireless Blocklist
 
+Deletes the Wireless Blocklist.
+
 `DELETE /wireless_blocklists/{id}`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistDeleteParams;
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistDeleteResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        WirelessBlocklistDeleteResponse wirelessBlocklist = client.wirelessBlocklists().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-    }
-}
+WirelessBlocklistDeleteResponse wirelessBlocklist = client.wirelessBlocklists().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
 ## Get all possible wireless blocklist values
 
+Retrieve all wireless blocklist values for a given blocklist type.
+
 `GET /wireless_blocklist_values`
 
 ```java
-package com.telnyx.sdk.example;
-
-import com.telnyx.sdk.client.TelnyxClient;
-import com.telnyx.sdk.client.okhttp.TelnyxOkHttpClient;
 import com.telnyx.sdk.models.wirelessblocklistvalues.WirelessBlocklistValueListParams;
 import com.telnyx.sdk.models.wirelessblocklistvalues.WirelessBlocklistValueListResponse;
 
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        TelnyxClient client = TelnyxOkHttpClient.fromEnv();
-
-        WirelessBlocklistValueListParams params = WirelessBlocklistValueListParams.builder()
-            .type(WirelessBlocklistValueListParams.Type.COUNTRY)
-            .build();
-        WirelessBlocklistValueListResponse wirelessBlocklistValues = client.wirelessBlocklistValues().list(params);
-    }
-}
+WirelessBlocklistValueListParams params = WirelessBlocklistValueListParams.builder()
+    .type(WirelessBlocklistValueListParams.Type.COUNTRY)
+    .build();
+WirelessBlocklistValueListResponse wirelessBlocklistValues = client.wirelessBlocklistValues().list(params);
 ```

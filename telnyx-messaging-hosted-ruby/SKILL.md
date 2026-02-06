@@ -18,13 +18,23 @@ metadata:
 gem install telnyx
 ```
 
+## Setup
+
+```ruby
+require "telnyx"
+
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## List messaging hosted number orders
 
 `GET /messaging_hosted_number_orders`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging_hosted_number_orders.list
@@ -37,8 +47,6 @@ puts(page)
 `POST /messaging_hosted_number_orders`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 messaging_hosted_number_order = telnyx.messaging_hosted_number_orders.create
@@ -51,8 +59,6 @@ puts(messaging_hosted_number_order)
 `GET /messaging_hosted_number_orders/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 messaging_hosted_number_order = telnyx.messaging_hosted_number_orders.retrieve("id")
@@ -62,11 +68,11 @@ puts(messaging_hosted_number_order)
 
 ## Delete a messaging hosted number order
 
+Delete a messaging hosted number order and all associated phone numbers.
+
 `DELETE /messaging_hosted_number_orders/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 messaging_hosted_number_order = telnyx.messaging_hosted_number_orders.delete("id")
@@ -79,8 +85,6 @@ puts(messaging_hosted_number_order)
 `POST /messaging_hosted_number_orders/{id}/actions/file_upload`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_hosted_number_orders.actions.upload_file("id")
@@ -90,11 +94,11 @@ puts(response)
 
 ## Validate hosted number codes
 
-`POST /messaging_hosted_number_orders/{id}/validation_codes`
+Validate the verification codes sent to the numbers of the hosted order.
+
+`POST /messaging_hosted_number_orders/{id}/validation_codes` — Required: `verification_codes`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_hosted_number_orders.validate_codes(
@@ -107,11 +111,11 @@ puts(response)
 
 ## Create hosted number verification codes
 
-`POST /messaging_hosted_number_orders/{id}/verification_codes`
+Create verification codes to validate numbers of the hosted order.
+
+`POST /messaging_hosted_number_orders/{id}/verification_codes` — Required: `phone_numbers`, `verification_method`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_hosted_number_orders.create_verification_codes(
@@ -125,11 +129,9 @@ puts(response)
 
 ## Check hosted messaging eligibility
 
-`POST /messaging_hosted_number_orders/eligibility_numbers_check`
+`POST /messaging_hosted_number_orders/eligibility_numbers_check` — Required: `phone_numbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging_hosted_number_orders.check_eligibility(phone_numbers: ["string"])
@@ -142,8 +144,6 @@ puts(response)
 `DELETE /messaging_hosted_numbers/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 messaging_hosted_number = telnyx.messaging_hosted_numbers.delete("id")
@@ -153,11 +153,9 @@ puts(messaging_hosted_number)
 
 ## Send an RCS message
 
-`POST /messages/rcs`
+`POST /messages/rcs` — Required: `agent_id`, `to`, `messaging_profile_id`, `agent_message`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messages.rcs.send_(
@@ -175,8 +173,6 @@ puts(response)
 `GET /messaging/rcs/agents`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging.rcs.agents.list
@@ -189,8 +185,6 @@ puts(page)
 `GET /messaging/rcs/agents/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 rcs_agent_response = telnyx.messaging.rcs.agents.retrieve("id")
@@ -203,8 +197,6 @@ puts(rcs_agent_response)
 `PATCH /messaging/rcs/agents/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 rcs_agent_response = telnyx.messaging.rcs.agents.update("id")
@@ -214,11 +206,9 @@ puts(rcs_agent_response)
 
 ## Check RCS capabilities (batch)
 
-`POST /messaging/rcs/bulk_capabilities`
+`POST /messaging/rcs/bulk_capabilities` — Required: `agent_id`, `phone_numbers`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging.rcs.list_bulk_capabilities(agent_id: "TestAgent", phone_numbers: ["+13125551234"])
@@ -231,8 +221,6 @@ puts(response)
 `GET /messaging/rcs/capabilities/{agent_id}/{phone_number}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging.rcs.retrieve_capabilities("phone_number", agent_id: "agent_id")
@@ -242,11 +230,11 @@ puts(response)
 
 ## Add RCS test number
 
+Adds a test phone number to an RCS agent for testing purposes.
+
 `PUT /messaging/rcs/test_number_invite/{id}/{phone_number}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messaging.rcs.invite_test_number("phone_number", id: "id")
@@ -256,11 +244,11 @@ puts(response)
 
 ## Generate RCS deeplink
 
+Generate a deeplink URL that can be used to start an RCS conversation with a specific agent.
+
 `GET /messages/rcs_deeplinks/{agent_id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 response = telnyx.messages.rcs.generate_deeplink("agent_id")
@@ -270,11 +258,11 @@ puts(response)
 
 ## List Verification Requests
 
+Get a list of previously-submitted tollfree verification requests
+
 `GET /messaging_tollfree/verification/requests`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 page = telnyx.messaging_tollfree.verification.requests.list(page: 1, page_size: 1)
@@ -284,11 +272,11 @@ puts(page)
 
 ## Submit Verification Request
 
-`POST /messaging_tollfree/verification/requests`
+Submit a new tollfree verification request
+
+`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 verification_request_egress = telnyx.messaging_tollfree.verification.requests.create(
@@ -318,11 +306,11 @@ puts(verification_request_egress)
 
 ## Get Verification Request
 
+Get a single verification request by its ID.
+
 `GET /messaging_tollfree/verification/requests/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 verification_request_status = telnyx.messaging_tollfree.verification.requests.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -332,11 +320,11 @@ puts(verification_request_status)
 
 ## Update Verification Request
 
-`PATCH /messaging_tollfree/verification/requests/{id}`
+Update an existing tollfree verification request.
+
+`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 verification_request_egress = telnyx.messaging_tollfree.verification.requests.update(
@@ -367,11 +355,13 @@ puts(verification_request_egress)
 
 ## Delete Verification Request
 
+Delete a verification request
+
+A request may only be deleted when when the request is in the "rejected" state.
+
 `DELETE /messaging_tollfree/verification/requests/{id}`
 
 ```ruby
-require "telnyx"
-
 telnyx = Telnyx::Client.new(api_key: "My API Key")
 
 result = telnyx.messaging_tollfree.verification.requests.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

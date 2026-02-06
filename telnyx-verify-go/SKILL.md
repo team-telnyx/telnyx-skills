@@ -18,127 +18,87 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
+## Setup
+
+```go
+import (
+  "context"
+  "fmt"
+
+  "github.com/team-telnyx/telnyx-go"
+  "github.com/team-telnyx/telnyx-go/option"
+)
+
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
 ## Lookup phone number data
+
+Returns information about the provided phone number.
 
 `GET /number_lookup/{phone_number}`
 
 ```go
-package main
+numberLookup, err := client.NumberLookup.Get(
+  context.TODO(),
+  "+18665552368",
+  telnyx.NumberLookupGetParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  numberLookup, err := client.NumberLookup.Get(
-    context.TODO(),
-    "+18665552368",
-    telnyx.NumberLookupGetParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", numberLookup.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", numberLookup.Data)
 ```
 
 ## Trigger Call verification
 
-`POST /verifications/call`
+`POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  createVerificationResponse, err := client.Verifications.TriggerCall(context.TODO(), telnyx.VerificationTriggerCallParams{
-    PhoneNumber: "+13035551234",
-    VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", createVerificationResponse.Data)
+createVerificationResponse, err := client.Verifications.TriggerCall(context.TODO(), telnyx.VerificationTriggerCallParams{
+  PhoneNumber: "+13035551234",
+  VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", createVerificationResponse.Data)
 ```
 
 ## Trigger Flash call verification
 
-`POST /verifications/flashcall`
+`POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  createVerificationResponse, err := client.Verifications.TriggerFlashcall(context.TODO(), telnyx.VerificationTriggerFlashcallParams{
-    PhoneNumber: "+13035551234",
-    VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", createVerificationResponse.Data)
+createVerificationResponse, err := client.Verifications.TriggerFlashcall(context.TODO(), telnyx.VerificationTriggerFlashcallParams{
+  PhoneNumber: "+13035551234",
+  VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", createVerificationResponse.Data)
 ```
 
 ## Trigger SMS verification
 
-`POST /verifications/sms`
+`POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  createVerificationResponse, err := client.Verifications.TriggerSMS(context.TODO(), telnyx.VerificationTriggerSMSParams{
-    PhoneNumber: "+13035551234",
-    VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", createVerificationResponse.Data)
+createVerificationResponse, err := client.Verifications.TriggerSMS(context.TODO(), telnyx.VerificationTriggerSMSParams{
+  PhoneNumber: "+13035551234",
+  VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", createVerificationResponse.Data)
 ```
 
 ## Retrieve verification
@@ -146,26 +106,11 @@ func main() {
 `GET /verifications/{verification_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  verification, err := client.Verifications.Get(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c292")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", verification.Data)
+verification, err := client.Verifications.Get(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c292")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", verification.Data)
 ```
 
 ## Verify verification code by ID
@@ -173,32 +118,17 @@ func main() {
 `POST /verifications/{verification_id}/actions/verify`
 
 ```go
-package main
+verifyVerificationCodeResponse, err := client.Verifications.Actions.Verify(
+  context.TODO(),
+  "12ade33a-21c0-473b-b055-b3c836e1c292",
+  telnyx.VerificationActionVerifyParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  verifyVerificationCodeResponse, err := client.Verifications.Actions.Verify(
-    context.TODO(),
-    "12ade33a-21c0-473b-b055-b3c836e1c292",
-    telnyx.VerificationActionVerifyParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", verifyVerificationCodeResponse.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", verifyVerificationCodeResponse.Data)
 ```
 
 ## List verifications by phone number
@@ -206,145 +136,76 @@ func main() {
 `GET /verifications/by_phone_number/{phone_number}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  byPhoneNumbers, err := client.Verifications.ByPhoneNumber.List(context.TODO(), "+13035551234")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", byPhoneNumbers.Data)
+byPhoneNumbers, err := client.Verifications.ByPhoneNumber.List(context.TODO(), "+13035551234")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", byPhoneNumbers.Data)
 ```
 
 ## Verify verification code by phone number
 
-`POST /verifications/by_phone_number/{phone_number}/actions/verify`
+`POST /verifications/by_phone_number/{phone_number}/actions/verify` — Required: `code`, `verify_profile_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+verifyVerificationCodeResponse, err := client.Verifications.ByPhoneNumber.Actions.Verify(
+  context.TODO(),
+  "+13035551234",
+  telnyx.VerificationByPhoneNumberActionVerifyParams{
+    Code: "17686",
+    VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  verifyVerificationCodeResponse, err := client.Verifications.ByPhoneNumber.Actions.Verify(
-    context.TODO(),
-    "+13035551234",
-    telnyx.VerificationByPhoneNumberActionVerifyParams{
-      Code: "17686",
-      VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", verifyVerificationCodeResponse.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", verifyVerificationCodeResponse.Data)
 ```
 
 ## List all Verify profiles
 
+Gets a paginated list of Verify profiles.
+
 `GET /verify_profiles`
 
 ```go
-package main
+page, err := client.VerifyProfiles.List(context.TODO(), telnyx.VerifyProfileListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.VerifyProfiles.List(context.TODO(), telnyx.VerifyProfileListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a Verify profile
 
-`POST /verify_profiles`
+Creates a new Verify profile to associate verifications with.
+
+`POST /verify_profiles` — Required: `name`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  verifyProfileData, err := client.VerifyProfiles.New(context.TODO(), telnyx.VerifyProfileNewParams{
-    Name: "Test Profile",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", verifyProfileData.Data)
+verifyProfileData, err := client.VerifyProfiles.New(context.TODO(), telnyx.VerifyProfileNewParams{
+  Name: "Test Profile",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
 
 ## Retrieve Verify profile
 
+Gets a single Verify profile.
+
 `GET /verify_profiles/{verify_profile_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  verifyProfileData, err := client.VerifyProfiles.Get(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c292")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", verifyProfileData.Data)
+verifyProfileData, err := client.VerifyProfiles.Get(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c292")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
 
 ## Update Verify profile
@@ -352,32 +213,17 @@ func main() {
 `PATCH /verify_profiles/{verify_profile_id}`
 
 ```go
-package main
+verifyProfileData, err := client.VerifyProfiles.Update(
+  context.TODO(),
+  "12ade33a-21c0-473b-b055-b3c836e1c292",
+  telnyx.VerifyProfileUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  verifyProfileData, err := client.VerifyProfiles.Update(
-    context.TODO(),
-    "12ade33a-21c0-473b-b055-b3c836e1c292",
-    telnyx.VerifyProfileUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", verifyProfileData.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
 
 ## Delete Verify profile
@@ -385,113 +231,59 @@ func main() {
 `DELETE /verify_profiles/{verify_profile_id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  verifyProfileData, err := client.VerifyProfiles.Delete(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c292")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", verifyProfileData.Data)
+verifyProfileData, err := client.VerifyProfiles.Delete(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c292")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
 
 ## Retrieve Verify profile message templates
 
+List all Verify profile message templates.
+
 `GET /verify_profiles/templates`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.VerifyProfiles.GetTemplates(context.TODO())
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.VerifyProfiles.GetTemplates(context.TODO())
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Create message template
 
-`POST /verify_profiles/templates`
+Create a new Verify profile message template.
+
+`POST /verify_profiles/templates` — Required: `text`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messageTemplate, err := client.VerifyProfiles.NewTemplate(context.TODO(), telnyx.VerifyProfileNewTemplateParams{
-    Text: "Your {{app_name}} verification code is: {{code}}.",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messageTemplate.Data)
+messageTemplate, err := client.VerifyProfiles.NewTemplate(context.TODO(), telnyx.VerifyProfileNewTemplateParams{
+  Text: "Your {{app_name}} verification code is: {{code}}.",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messageTemplate.Data)
 ```
 
 ## Update message template
 
-`PATCH /verify_profiles/templates/{template_id}`
+Update an existing Verify profile message template.
+
+`PATCH /verify_profiles/templates/{template_id}` — Required: `text`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+messageTemplate, err := client.VerifyProfiles.UpdateTemplate(
+  context.TODO(),
+  "12ade33a-21c0-473b-b055-b3c836e1c292",
+  telnyx.VerifyProfileUpdateTemplateParams{
+    Text: "Your {{app_name}} verification code is: {{code}}.",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  messageTemplate, err := client.VerifyProfiles.UpdateTemplate(
-    context.TODO(),
-    "12ade33a-21c0-473b-b055-b3c836e1c292",
-    telnyx.VerifyProfileUpdateTemplateParams{
-      Text: "Your {{app_name}} verification code is: {{code}}.",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", messageTemplate.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", messageTemplate.Data)
 ```

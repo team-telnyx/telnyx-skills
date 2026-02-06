@@ -18,13 +18,9 @@ metadata:
 go get github.com/team-telnyx/telnyx-go
 ```
 
-## Lists the phone number blocks jobs
-
-`GET /phone_number_blocks/jobs`
+## Setup
 
 ```go
-package main
-
 import (
   "context"
   "fmt"
@@ -33,18 +29,25 @@ import (
   "github.com/team-telnyx/telnyx-go/option"
 )
 
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.PhoneNumberBlocks.Jobs.List(context.TODO(), telnyx.PhoneNumberBlockJobListParams{
+client := telnyx.NewClient(
+  option.WithAPIKey(os.Getenv("TELNYX_API_KEY")),
+)
+```
 
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+All examples below assume `client` is already initialized as shown above.
+
+## Lists the phone number blocks jobs
+
+`GET /phone_number_blocks/jobs`
+
+```go
+page, err := client.PhoneNumberBlocks.Jobs.List(context.TODO(), telnyx.PhoneNumberBlockJobListParams{
+
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Retrieves a phone number blocks job
@@ -52,55 +55,27 @@ func main() {
 `GET /phone_number_blocks/jobs/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  job, err := client.PhoneNumberBlocks.Jobs.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", job.Data)
+job, err := client.PhoneNumberBlocks.Jobs.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", job.Data)
 ```
 
 ## Deletes all numbers associated with a phone number block
 
-`POST /phone_number_blocks/jobs/delete_phone_number_block`
+Creates a new background job to delete all the phone numbers associated with the given block.
+
+`POST /phone_number_blocks/jobs/delete_phone_number_block` — Required: `phone_number_block_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.PhoneNumberBlocks.Jobs.DeletePhoneNumberBlock(context.TODO(), telnyx.PhoneNumberBlockJobDeletePhoneNumberBlockParams{
-    PhoneNumberBlockID: "f3946371-7199-4261-9c3d-81a0d7935146",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.PhoneNumberBlocks.Jobs.DeletePhoneNumberBlock(context.TODO(), telnyx.PhoneNumberBlockJobDeletePhoneNumberBlockParams{
+  PhoneNumberBlockID: "f3946371-7199-4261-9c3d-81a0d7935146",
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List phone numbers
@@ -108,28 +83,13 @@ func main() {
 `GET /phone_numbers`
 
 ```go
-package main
+page, err := client.PhoneNumbers.List(context.TODO(), telnyx.PhoneNumberListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.PhoneNumbers.List(context.TODO(), telnyx.PhoneNumberListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Retrieve a phone number
@@ -137,26 +97,11 @@ func main() {
 `GET /phone_numbers/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  phoneNumber, err := client.PhoneNumbers.Get(context.TODO(), "1293384261075731499")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", phoneNumber.Data)
+phoneNumber, err := client.PhoneNumbers.Get(context.TODO(), "1293384261075731499")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", phoneNumber.Data)
 ```
 
 ## Update a phone number
@@ -164,32 +109,17 @@ func main() {
 `PATCH /phone_numbers/{id}`
 
 ```go
-package main
+phoneNumber, err := client.PhoneNumbers.Update(
+  context.TODO(),
+  "1293384261075731499",
+  telnyx.PhoneNumberUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  phoneNumber, err := client.PhoneNumbers.Update(
-    context.TODO(),
-    "1293384261075731499",
-    telnyx.PhoneNumberUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", phoneNumber.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", phoneNumber.Data)
 ```
 
 ## Delete a phone number
@@ -197,93 +127,48 @@ func main() {
 `DELETE /phone_numbers/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  phoneNumber, err := client.PhoneNumbers.Delete(context.TODO(), "1293384261075731499")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", phoneNumber.Data)
+phoneNumber, err := client.PhoneNumbers.Delete(context.TODO(), "1293384261075731499")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", phoneNumber.Data)
 ```
 
 ## Change the bundle status for a phone number (set to being in a bundle or remove from a bundle)
 
-`PATCH /phone_numbers/{id}/actions/bundle_status_change`
+`PATCH /phone_numbers/{id}/actions/bundle_status_change` — Required: `bundle_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.PhoneNumbers.Actions.ChangeBundleStatus(
+  context.TODO(),
+  "1293384261075731499",
+  telnyx.PhoneNumberActionChangeBundleStatusParams{
+    BundleID: "5194d8fc-87e6-4188-baa9-1c434bbe861b",
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.PhoneNumbers.Actions.ChangeBundleStatus(
-    context.TODO(),
-    "1293384261075731499",
-    telnyx.PhoneNumberActionChangeBundleStatusParams{
-      BundleID: "5194d8fc-87e6-4188-baa9-1c434bbe861b",
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Enable emergency for a phone number
 
-`POST /phone_numbers/{id}/actions/enable_emergency`
+`POST /phone_numbers/{id}/actions/enable_emergency` — Required: `emergency_enabled`, `emergency_address_id`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+response, err := client.PhoneNumbers.Actions.EnableEmergency(
+  context.TODO(),
+  "1293384261075731499",
+  telnyx.PhoneNumberActionEnableEmergencyParams{
+    EmergencyAddressID: "53829456729313",
+    EmergencyEnabled: true,
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.PhoneNumbers.Actions.EnableEmergency(
-    context.TODO(),
-    "1293384261075731499",
-    telnyx.PhoneNumberActionEnableEmergencyParams{
-      EmergencyAddressID: "53829456729313",
-      EmergencyEnabled: true,
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Retrieve a phone number with voice settings
@@ -291,26 +176,11 @@ func main() {
 `GET /phone_numbers/{id}/voice`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  voice, err := client.PhoneNumbers.Voice.Get(context.TODO(), "1293384261075731499")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", voice.Data)
+voice, err := client.PhoneNumbers.Voice.Get(context.TODO(), "1293384261075731499")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", voice.Data)
 ```
 
 ## Update a phone number with voice settings
@@ -318,63 +188,35 @@ func main() {
 `PATCH /phone_numbers/{id}/voice`
 
 ```go
-package main
+voice, err := client.PhoneNumbers.Voice.Update(
+  context.TODO(),
+  "1293384261075731499",
+  telnyx.PhoneNumberVoiceUpdateParams{
+    UpdateVoiceSettings: telnyx.UpdateVoiceSettingsParam{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  voice, err := client.PhoneNumbers.Voice.Update(
-    context.TODO(),
-    "1293384261075731499",
-    telnyx.PhoneNumberVoiceUpdateParams{
-      UpdateVoiceSettings: telnyx.UpdateVoiceSettingsParam{
-
-      },
     },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", voice.Data)
+  },
+)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", voice.Data)
 ```
 
 ## Verify ownership of phone numbers
 
-`POST /phone_numbers/actions/verify_ownership`
+Verifies ownership of the provided phone numbers and returns a mapping of numbers to their IDs, plus a list of numbers not found in the account.
+
+`POST /phone_numbers/actions/verify_ownership` — Required: `phone_numbers`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.PhoneNumbers.Actions.VerifyOwnership(context.TODO(), telnyx.PhoneNumberActionVerifyOwnershipParams{
-    PhoneNumbers: []string{"+15551234567"},
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.PhoneNumbers.Actions.VerifyOwnership(context.TODO(), telnyx.PhoneNumberActionVerifyOwnershipParams{
+  PhoneNumbers: []string{"+15551234567"},
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## List CSV downloads
@@ -382,28 +224,13 @@ func main() {
 `GET /phone_numbers/csv_downloads`
 
 ```go
-package main
+page, err := client.PhoneNumbers.CsvDownloads.List(context.TODO(), telnyx.PhoneNumberCsvDownloadListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.PhoneNumbers.CsvDownloads.List(context.TODO(), telnyx.PhoneNumberCsvDownloadListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Create a CSV download
@@ -411,28 +238,13 @@ func main() {
 `POST /phone_numbers/csv_downloads`
 
 ```go
-package main
+csvDownload, err := client.PhoneNumbers.CsvDownloads.New(context.TODO(), telnyx.PhoneNumberCsvDownloadNewParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  csvDownload, err := client.PhoneNumbers.CsvDownloads.New(context.TODO(), telnyx.PhoneNumberCsvDownloadNewParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", csvDownload.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", csvDownload.Data)
 ```
 
 ## Retrieve a CSV download
@@ -440,26 +252,11 @@ func main() {
 `GET /phone_numbers/csv_downloads/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  csvDownload, err := client.PhoneNumbers.CsvDownloads.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", csvDownload.Data)
+csvDownload, err := client.PhoneNumbers.CsvDownloads.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", csvDownload.Data)
 ```
 
 ## Lists the phone numbers jobs
@@ -467,28 +264,13 @@ func main() {
 `GET /phone_numbers/jobs`
 
 ```go
-package main
+page, err := client.PhoneNumbers.Jobs.List(context.TODO(), telnyx.PhoneNumberJobListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.PhoneNumbers.Jobs.List(context.TODO(), telnyx.PhoneNumberJobListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Retrieve a phone numbers job
@@ -496,114 +278,60 @@ func main() {
 `GET /phone_numbers/jobs/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  job, err := client.PhoneNumbers.Jobs.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", job.Data)
+job, err := client.PhoneNumbers.Jobs.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", job.Data)
 ```
 
 ## Delete a batch of numbers
 
-`POST /phone_numbers/jobs/delete_phone_numbers`
+Creates a new background job to delete a batch of numbers.
+
+`POST /phone_numbers/jobs/delete_phone_numbers` — Required: `phone_numbers`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.PhoneNumbers.Jobs.DeleteBatch(context.TODO(), telnyx.PhoneNumberJobDeleteBatchParams{
-    PhoneNumbers: []string{"+19705555098", "+19715555098", "32873127836"},
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.PhoneNumbers.Jobs.DeleteBatch(context.TODO(), telnyx.PhoneNumberJobDeleteBatchParams{
+  PhoneNumbers: []string{"+19705555098", "+19715555098", "32873127836"},
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Update the emergency settings from a batch of numbers
 
-`POST /phone_numbers/jobs/update_emergency_settings`
+Creates a background job to update the emergency settings of a collection of phone numbers.
+
+`POST /phone_numbers/jobs/update_emergency_settings` — Required: `emergency_enabled`, `phone_numbers`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.PhoneNumbers.Jobs.UpdateEmergencySettingsBatch(context.TODO(), telnyx.PhoneNumberJobUpdateEmergencySettingsBatchParams{
-    EmergencyEnabled: true,
-    PhoneNumbers: []string{"+19705555098", "+19715555098", "32873127836"},
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.PhoneNumbers.Jobs.UpdateEmergencySettingsBatch(context.TODO(), telnyx.PhoneNumberJobUpdateEmergencySettingsBatchParams{
+  EmergencyEnabled: true,
+  PhoneNumbers: []string{"+19705555098", "+19715555098", "32873127836"},
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Update a batch of numbers
 
-`POST /phone_numbers/jobs/update_phone_numbers`
+Creates a new background job to update a batch of numbers.
+
+`POST /phone_numbers/jobs/update_phone_numbers` — Required: `phone_numbers`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  response, err := client.PhoneNumbers.Jobs.UpdateBatch(context.TODO(), telnyx.PhoneNumberJobUpdateBatchParams{
-    PhoneNumbers: []string{"1583466971586889004", "+13127367254"},
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.Data)
+response, err := client.PhoneNumbers.Jobs.UpdateBatch(context.TODO(), telnyx.PhoneNumberJobUpdateBatchParams{
+  PhoneNumbers: []string{"1583466971586889004", "+13127367254"},
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", response.Data)
 ```
 
 ## Retrieve regulatory requirements for a list of phone numbers
@@ -611,57 +339,29 @@ func main() {
 `GET /phone_numbers/regulatory_requirements`
 
 ```go
-package main
+phoneNumbersRegulatoryRequirement, err := client.PhoneNumbersRegulatoryRequirements.Get(context.TODO(), telnyx.PhoneNumbersRegulatoryRequirementGetParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  phoneNumbersRegulatoryRequirement, err := client.PhoneNumbersRegulatoryRequirements.Get(context.TODO(), telnyx.PhoneNumbersRegulatoryRequirementGetParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", phoneNumbersRegulatoryRequirement.Data)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", phoneNumbersRegulatoryRequirement.Data)
 ```
 
 ## Slim List phone numbers
 
+List phone numbers, This endpoint is a lighter version of the /phone_numbers endpoint having higher performance and rate limit.
+
 `GET /phone_numbers/slim`
 
 ```go
-package main
+page, err := client.PhoneNumbers.SlimList(context.TODO(), telnyx.PhoneNumberSlimListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.PhoneNumbers.SlimList(context.TODO(), telnyx.PhoneNumberSlimListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## List phone numbers with voice settings
@@ -669,28 +369,13 @@ func main() {
 `GET /phone_numbers/voice`
 
 ```go
-package main
+page, err := client.PhoneNumbers.Voice.List(context.TODO(), telnyx.PhoneNumberVoiceListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.PhoneNumbers.Voice.List(context.TODO(), telnyx.PhoneNumberVoiceListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## List Mobile Phone Numbers
@@ -698,28 +383,13 @@ func main() {
 `GET /v2/mobile_phone_numbers`
 
 ```go
-package main
+page, err := client.MobilePhoneNumbers.List(context.TODO(), telnyx.MobilePhoneNumberListParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  page, err := client.MobilePhoneNumbers.List(context.TODO(), telnyx.MobilePhoneNumberListParams{
-
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", page)
+})
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", page)
 ```
 
 ## Retrieve a Mobile Phone Number
@@ -727,26 +397,11 @@ func main() {
 `GET /v2/mobile_phone_numbers/{id}`
 
 ```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
-)
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  mobilePhoneNumber, err := client.MobilePhoneNumbers.Get(context.TODO(), "id")
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", mobilePhoneNumber.Data)
+mobilePhoneNumber, err := client.MobilePhoneNumbers.Get(context.TODO(), "id")
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", mobilePhoneNumber.Data)
 ```
 
 ## Update a Mobile Phone Number
@@ -754,30 +409,15 @@ func main() {
 `PATCH /v2/mobile_phone_numbers/{id}`
 
 ```go
-package main
+mobilePhoneNumber, err := client.MobilePhoneNumbers.Update(
+  context.TODO(),
+  "id",
+  telnyx.MobilePhoneNumberUpdateParams{
 
-import (
-  "context"
-  "fmt"
-
-  "github.com/team-telnyx/telnyx-go"
-  "github.com/team-telnyx/telnyx-go/option"
+  },
 )
-
-func main() {
-  client := telnyx.NewClient(
-    option.WithAPIKey("My API Key"),
-  )
-  mobilePhoneNumber, err := client.MobilePhoneNumbers.Update(
-    context.TODO(),
-    "id",
-    telnyx.MobilePhoneNumberUpdateParams{
-
-    },
-  )
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", mobilePhoneNumber.Data)
+if err != nil {
+  panic(err.Error())
 }
+fmt.Printf("%+v\n", mobilePhoneNumber.Data)
 ```

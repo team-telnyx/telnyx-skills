@@ -18,9 +18,7 @@ metadata:
 npm install telnyx
 ```
 
-## Lookup phone number data
-
-`GET /number_lookup/{phone_number}`
+## Setup
 
 ```javascript
 import Telnyx from 'telnyx';
@@ -28,7 +26,17 @@ import Telnyx from 'telnyx';
 const client = new Telnyx({
   apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
 });
+```
 
+All examples below assume `client` is already initialized as shown above.
+
+## Lookup phone number data
+
+Returns information about the provided phone number.
+
+`GET /number_lookup/{phone_number}`
+
+```javascript
 const numberLookup = await client.numberLookup.retrieve('+18665552368');
 
 console.log(numberLookup.data);
@@ -36,15 +44,9 @@ console.log(numberLookup.data);
 
 ## Trigger Call verification
 
-`POST /verifications/call`
+`POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const createVerificationResponse = await client.verifications.triggerCall({
   phone_number: '+13035551234',
   verify_profile_id: '12ade33a-21c0-473b-b055-b3c836e1c292',
@@ -55,15 +57,9 @@ console.log(createVerificationResponse.data);
 
 ## Trigger Flash call verification
 
-`POST /verifications/flashcall`
+`POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const createVerificationResponse = await client.verifications.triggerFlashcall({
   phone_number: '+13035551234',
   verify_profile_id: '12ade33a-21c0-473b-b055-b3c836e1c292',
@@ -74,15 +70,9 @@ console.log(createVerificationResponse.data);
 
 ## Trigger SMS verification
 
-`POST /verifications/sms`
+`POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const createVerificationResponse = await client.verifications.triggerSMS({
   phone_number: '+13035551234',
   verify_profile_id: '12ade33a-21c0-473b-b055-b3c836e1c292',
@@ -96,12 +86,6 @@ console.log(createVerificationResponse.data);
 `GET /verifications/{verification_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const verification = await client.verifications.retrieve('12ade33a-21c0-473b-b055-b3c836e1c292');
 
 console.log(verification.data);
@@ -112,12 +96,6 @@ console.log(verification.data);
 `POST /verifications/{verification_id}/actions/verify`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const verifyVerificationCodeResponse = await client.verifications.actions.verify(
   '12ade33a-21c0-473b-b055-b3c836e1c292',
 );
@@ -130,12 +108,6 @@ console.log(verifyVerificationCodeResponse.data);
 `GET /verifications/by_phone_number/{phone_number}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const byPhoneNumbers = await client.verifications.byPhoneNumber.list('+13035551234');
 
 console.log(byPhoneNumbers.data);
@@ -143,15 +115,9 @@ console.log(byPhoneNumbers.data);
 
 ## Verify verification code by phone number
 
-`POST /verifications/by_phone_number/{phone_number}/actions/verify`
+`POST /verifications/by_phone_number/{phone_number}/actions/verify` — Required: `code`, `verify_profile_id`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const verifyVerificationCodeResponse = await client.verifications.byPhoneNumber.actions.verify(
   '+13035551234',
   { code: '17686', verify_profile_id: '12ade33a-21c0-473b-b055-b3c836e1c292' },
@@ -162,15 +128,11 @@ console.log(verifyVerificationCodeResponse.data);
 
 ## List all Verify profiles
 
+Gets a paginated list of Verify profiles.
+
 `GET /verify_profiles`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 // Automatically fetches more pages as needed.
 for await (const verifyProfile of client.verifyProfiles.list()) {
   console.log(verifyProfile.id);
@@ -179,15 +141,11 @@ for await (const verifyProfile of client.verifyProfiles.list()) {
 
 ## Create a Verify profile
 
-`POST /verify_profiles`
+Creates a new Verify profile to associate verifications with.
+
+`POST /verify_profiles` — Required: `name`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const verifyProfileData = await client.verifyProfiles.create({ name: 'Test Profile' });
 
 console.log(verifyProfileData.data);
@@ -195,15 +153,11 @@ console.log(verifyProfileData.data);
 
 ## Retrieve Verify profile
 
+Gets a single Verify profile.
+
 `GET /verify_profiles/{verify_profile_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const verifyProfileData = await client.verifyProfiles.retrieve(
   '12ade33a-21c0-473b-b055-b3c836e1c292',
 );
@@ -216,12 +170,6 @@ console.log(verifyProfileData.data);
 `PATCH /verify_profiles/{verify_profile_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const verifyProfileData = await client.verifyProfiles.update(
   '12ade33a-21c0-473b-b055-b3c836e1c292',
 );
@@ -234,12 +182,6 @@ console.log(verifyProfileData.data);
 `DELETE /verify_profiles/{verify_profile_id}`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const verifyProfileData = await client.verifyProfiles.delete(
   '12ade33a-21c0-473b-b055-b3c836e1c292',
 );
@@ -249,15 +191,11 @@ console.log(verifyProfileData.data);
 
 ## Retrieve Verify profile message templates
 
+List all Verify profile message templates.
+
 `GET /verify_profiles/templates`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const response = await client.verifyProfiles.retrieveTemplates();
 
 console.log(response.data);
@@ -265,15 +203,11 @@ console.log(response.data);
 
 ## Create message template
 
-`POST /verify_profiles/templates`
+Create a new Verify profile message template.
+
+`POST /verify_profiles/templates` — Required: `text`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const messageTemplate = await client.verifyProfiles.createTemplate({
   text: 'Your {{app_name}} verification code is: {{code}}.',
 });
@@ -283,15 +217,11 @@ console.log(messageTemplate.data);
 
 ## Update message template
 
-`PATCH /verify_profiles/templates/{template_id}`
+Update an existing Verify profile message template.
+
+`PATCH /verify_profiles/templates/{template_id}` — Required: `text`
 
 ```javascript
-import Telnyx from 'telnyx';
-
-const client = new Telnyx({
-  apiKey: process.env['TELNYX_API_KEY'], // This is the default and can be omitted
-});
-
 const messageTemplate = await client.verifyProfiles.updateTemplate(
   '12ade33a-21c0-473b-b055-b3c836e1c292',
   { text: 'Your {{app_name}} verification code is: {{code}}.' },
