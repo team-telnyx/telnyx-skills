@@ -6,7 +6,7 @@ These skills follow the [Agent Skills specification](https://agentskills.io/spec
 
 ## Available Skills
 
-Skills are organized by product and language. Each skill teaches an AI agent how to use Telnyx SDKs correctly with production-ready code examples.
+Skills are organized by product and language. Each skill teaches an AI agent how to use Telnyx SDKs correctly with code examples generated from the official OpenAPI specifications.
 
 ### Products
 
@@ -46,6 +46,7 @@ Skills are organized by product and language. Each skill teaches an AI agent how
 | `telnyx-storage-*` | S3-compatible cloud storage |
 | `telnyx-video-*` | Video rooms and conferencing |
 | `telnyx-fax-*` | Programmable fax |
+| `telnyx-seti-*` | Space Exploration Telecommunications Infrastructure |
 | `telnyx-oauth-*` | OAuth 2.0 authentication flows |
 | **Account** | |
 | `telnyx-account-*` | Balance, payments, invoices, webhooks, audit logs |
@@ -77,32 +78,47 @@ Then install the plugin for your language. Each plugin includes all 35 Telnyx pr
 
 #### Python
 ```bash
-/plugin install telnyx-python@team-telnyx/telnyx-ext-agent-skills
+/plugin install telnyx-python@telnyx-agent-skills
 ```
 
 #### JavaScript / Node.js
 ```bash
-/plugin install telnyx-javascript@team-telnyx/telnyx-ext-agent-skills
+/plugin install telnyx-javascript@telnyx-agent-skills
 ```
 
 #### Go
 ```bash
-/plugin install telnyx-go@team-telnyx/telnyx-ext-agent-skills
+/plugin install telnyx-go@telnyx-agent-skills
 ```
 
 #### Java
 ```bash
-/plugin install telnyx-java@team-telnyx/telnyx-ext-agent-skills
+/plugin install telnyx-java@telnyx-agent-skills
 ```
 
 #### Ruby
 ```bash
-/plugin install telnyx-ruby@team-telnyx/telnyx-ext-agent-skills
+/plugin install telnyx-ruby@telnyx-agent-skills
 ```
+
+### Cursor
+
+Add Telnyx skills as project context by referencing the raw `SKILL.md` files from GitHub:
+
+1. Open **Cursor Settings > Rules > Project Rules**
+2. Create a rule file (e.g., `.cursor/rules/telnyx.mdc`) and paste the contents of the desired `SKILL.md` file
+3. Alternatively, download the `SKILL.md` file into your project and add it via **@Files** in the chat
+
+### Windsurf
+
+Add skills to Windsurf via project rules:
+
+1. Create a `.windsurfrules` file in your project root
+2. Paste the contents of the desired `SKILL.md` file(s) into it
 
 ### Other Agents
 
-For Cursor, Windsurf, and other agents that support the [Agent Skills specification](https://agentskills.io/specification), copy the desired skill directory to your agent's skills location or reference the `SKILL.md` file directly.
+For any agent that supports the [Agent Skills specification](https://agentskills.io/specification), point it to the skill directory or `SKILL.md` file. For agents without native skill support, copy the contents of the relevant `SKILL.md` into your agent's system prompt or rules file.
 
 ## Skill Structure
 
@@ -113,23 +129,31 @@ Each skill contains a single `SKILL.md` file with:
 - Concise code examples for every API operation
 - Webhook event reference tables where applicable
 
-All code examples are extracted directly from Telnyx OpenAPI specifications and are guaranteed to work with the latest SDK versions.
+All code examples are extracted from Telnyx OpenAPI specifications and are designed to work with the latest SDK versions.
 
 ## Example
 
 After installing `telnyx-messaging-python`, your AI agent will know how to:
 
 ```python
-# Setup (shown once at top of skill)
+import os
 from telnyx import Telnyx
-client = Telnyx()
 
-# Send an SMS
-response = client.messages.send(
-    from_="+15551234567",
-    to="+15559876543",
-    text="Hello from Telnyx!",
+client = Telnyx(
+    api_key=os.environ.get("TELNYX_API_KEY"),
 )
+
+# Send a message
+response = client.messages.send(
+    to="+18445550001",
+)
+print(response.data)
+
+# Retrieve a message
+message = client.messages.retrieve(
+    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+)
+print(message.data)
 ```
 
 ## Documentation
