@@ -15,6 +15,8 @@ metadata:
 
 Build real-time voice and video communication into browser applications.
 
+> **Prerequisites**: Create WebRTC credentials and generate a login token using the Telnyx server-side SDK. See the `telnyx-webrtc-*` skill in your server language plugin (e.g., `telnyx-python`, `telnyx-javascript`).
+
 ## Installation
 
 ```bash

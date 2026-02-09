@@ -15,6 +15,8 @@ metadata:
 
 Build real-time voice communication into Flutter applications (Android, iOS, Web).
 
+> **Prerequisites**: Create WebRTC credentials and generate a login token using the Telnyx server-side SDK. See the `telnyx-webrtc-*` skill in your server language plugin (e.g., `telnyx-python`, `telnyx-javascript`).
+
 ## Quick Start Option
 
 For faster implementation, consider [Telnyx Common](https://pub.dev/packages/telnyx_common) - a higher-level abstraction that simplifies WebRTC integration with minimal setup.

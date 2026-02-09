@@ -16,6 +16,8 @@ metadata:
 
 Build real-time voice communication into iOS applications using Telnyx WebRTC.
 
+> **Prerequisites**: Create WebRTC credentials and generate a login token using the Telnyx server-side SDK. See the `telnyx-webrtc-*` skill in your server language plugin (e.g., `telnyx-python`, `telnyx-javascript`).
+
 ## Installation
 
 ### CocoaPods
