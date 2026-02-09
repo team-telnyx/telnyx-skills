@@ -28,7 +28,7 @@ Skills are organized by product and language. Each skill teaches an AI agent how
 | **Connectivity** | |
 | `telnyx-sip-*` | SIP trunking connections, outbound voice profiles |
 | `telnyx-sip-integrations-*` | Call recordings, media storage, Dialogflow integration |
-| `telnyx-webrtc-*` | WebRTC credentials and mobile push notifications |
+| `telnyx-webrtc-*` | WebRTC credentials and mobile push notifications (server-side REST API) |
 | **Phone Numbers** | |
 | `telnyx-numbers-*` | Search, order, and manage phone numbers |
 | `telnyx-numbers-config-*` | Phone number configuration and settings |
@@ -54,6 +54,20 @@ Skills are organized by product and language. Each skill teaches an AI agent how
 | `telnyx-account-management-*` | Sub-account management (resellers) |
 | `telnyx-account-notifications-*` | Notification channels and settings |
 | `telnyx-account-reports-*` | Usage reports for billing and analytics |
+
+### WebRTC Client-Side SDKs
+
+In addition to the server-side REST API skills above, we provide skills for the **client-side WebRTC SDKs** — native libraries for building VoIP calling apps on web and mobile platforms.
+
+| Skill | Platform | Language |
+|-------|----------|----------|
+| `telnyx-webrtc-client-js` | Browser | JavaScript |
+| `telnyx-webrtc-client-ios` | iOS | Swift |
+| `telnyx-webrtc-client-android` | Android | Kotlin |
+| `telnyx-webrtc-client-flutter` | Flutter (Android/iOS/Web) | Dart |
+| `telnyx-webrtc-client-react-native` | React Native (Android/iOS) | TypeScript |
+
+These skills cover authentication, call controls, push notifications, call quality metrics, and AI Agent integration. Install the `telnyx-webrtc-client` plugin to get all five.
 
 ### Languages
 
@@ -99,6 +113,11 @@ Then install the plugin for your language. Each plugin includes all 35 Telnyx pr
 #### Ruby
 ```bash
 /plugin install telnyx-ruby@telnyx-agent-skills
+```
+
+#### WebRTC Client SDKs (all platforms)
+```bash
+/plugin install telnyx-webrtc-client@telnyx-agent-skills
 ```
 
 ### Cursor
