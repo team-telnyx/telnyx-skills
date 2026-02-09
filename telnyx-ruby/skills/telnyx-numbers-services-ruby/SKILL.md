@@ -1,0 +1,248 @@
+---
+name: telnyx-numbers-services-ruby
+description: >-
+  Configure voicemail, voice channels, and emergency (E911) services for your
+  phone numbers. This skill provides Ruby SDK examples.
+metadata:
+  author: telnyx
+  product: numbers-services
+  language: ruby
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
+
+# Telnyx Numbers Services - Ruby
+
+## Installation
+
+```bash
+gem install telnyx
+```
+
+## Setup
+
+```ruby
+require "telnyx"
+
+client = Telnyx::Client.new(
+  api_key: ENV["TELNYX_API_KEY"], # This is the default and can be omitted
+)
+```
+
+All examples below assume `client` is already initialized as shown above.
+
+## List dynamic emergency addresses
+
+Returns the dynamic emergency addresses according to filters
+
+`GET /dynamic_emergency_addresses`
+
+```ruby
+page = client.dynamic_emergency_addresses.list
+
+puts(page)
+```
+
+## Create a dynamic emergency address.
+
+Creates a dynamic emergency address.
+
+`POST /dynamic_emergency_addresses` — Required: `house_number`, `street_name`, `locality`, `administrative_area`, `postal_code`, `country_code`
+
+```ruby
+dynamic_emergency_address = client.dynamic_emergency_addresses.create(
+  administrative_area: "TX",
+  country_code: :US,
+  house_number: "600",
+  locality: "Austin",
+  postal_code: "78701",
+  street_name: "Congress"
+)
+
+puts(dynamic_emergency_address)
+```
+
+## Get a dynamic emergency address
+
+Returns the dynamic emergency address based on the ID provided
+
+`GET /dynamic_emergency_addresses/{id}`
+
+```ruby
+dynamic_emergency_address = client.dynamic_emergency_addresses.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+puts(dynamic_emergency_address)
+```
+
+## Delete a dynamic emergency address
+
+Deletes the dynamic emergency address based on the ID provided
+
+`DELETE /dynamic_emergency_addresses/{id}`
+
+```ruby
+dynamic_emergency_address = client.dynamic_emergency_addresses.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+puts(dynamic_emergency_address)
+```
+
+## List dynamic emergency endpoints
+
+Returns the dynamic emergency endpoints according to filters
+
+`GET /dynamic_emergency_endpoints`
+
+```ruby
+page = client.dynamic_emergency_endpoints.list
+
+puts(page)
+```
+
+## Create a dynamic emergency endpoint.
+
+Creates a dynamic emergency endpoints.
+
+`POST /dynamic_emergency_endpoints` — Required: `dynamic_emergency_address_id`, `callback_number`, `caller_name`
+
+```ruby
+dynamic_emergency_endpoint = client.dynamic_emergency_endpoints.create(
+  callback_number: "+13125550000",
+  caller_name: "Jane Doe Desk Phone",
+  dynamic_emergency_address_id: "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0"
+)
+
+puts(dynamic_emergency_endpoint)
+```
+
+## Get a dynamic emergency endpoint
+
+Returns the dynamic emergency endpoint based on the ID provided
+
+`GET /dynamic_emergency_endpoints/{id}`
+
+```ruby
+dynamic_emergency_endpoint = client.dynamic_emergency_endpoints.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+puts(dynamic_emergency_endpoint)
+```
+
+## Delete a dynamic emergency endpoint
+
+Deletes the dynamic emergency endpoint based on the ID provided
+
+`DELETE /dynamic_emergency_endpoints/{id}`
+
+```ruby
+dynamic_emergency_endpoint = client.dynamic_emergency_endpoints.delete("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+puts(dynamic_emergency_endpoint)
+```
+
+## List your voice channels for non-US zones
+
+Returns the non-US voice channels for your account.
+
+`GET /channel_zones`
+
+```ruby
+page = client.channel_zones.list
+
+puts(page)
+```
+
+## Update voice channels for non-US Zones
+
+Update the number of Voice Channels for the Non-US Zones.
+
+`PUT /channel_zones/{channel_zone_id}` — Required: `channels`
+
+```ruby
+channel_zone = client.channel_zones.update("channel_zone_id", channels: 0)
+
+puts(channel_zone)
+```
+
+## List your voice channels for US Zone
+
+Returns the US Zone voice channels for your account.
+
+`GET /inbound_channels`
+
+```ruby
+inbound_channels = client.inbound_channels.list
+
+puts(inbound_channels)
+```
+
+## Update voice channels for US Zone
+
+Update the number of Voice Channels for the US Zone.
+
+`PATCH /inbound_channels` — Required: `channels`
+
+```ruby
+inbound_channel = client.inbound_channels.update(channels: 7)
+
+puts(inbound_channel)
+```
+
+## List All Numbers using Channel Billing
+
+Retrieve a list of all phone numbers using Channel Billing, grouped by Zone.
+
+`GET /list`
+
+```ruby
+response = client.list.retrieve_all
+
+puts(response)
+```
+
+## List Numbers using Channel Billing for a specific Zone
+
+Retrieve a list of phone numbers using Channel Billing for a specific Zone.
+
+`GET /list/{channel_zone_id}`
+
+```ruby
+response = client.list.retrieve_by_zone("channel_zone_id")
+
+puts(response)
+```
+
+## Get voicemail
+
+Returns the voicemail settings for a phone number
+
+`GET /phone_numbers/{phone_number_id}/voicemail`
+
+```ruby
+voicemail = client.phone_numbers.voicemail.retrieve("123455678900")
+
+puts(voicemail)
+```
+
+## Create voicemail
+
+Create voicemail settings for a phone number
+
+`POST /phone_numbers/{phone_number_id}/voicemail`
+
+```ruby
+voicemail = client.phone_numbers.voicemail.create("123455678900")
+
+puts(voicemail)
+```
+
+## Update voicemail
+
+Update voicemail settings for a phone number
+
+`PATCH /phone_numbers/{phone_number_id}/voicemail`
+
+```ruby
+voicemail = client.phone_numbers.voicemail.update("123455678900")
+
+puts(voicemail)
+```
