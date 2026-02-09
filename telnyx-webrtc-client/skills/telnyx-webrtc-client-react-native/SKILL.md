@@ -1,5 +1,5 @@
 ---
-name: telnyx-webrtc-react-native
+name: telnyx-webrtc-client-react-native
 description: >-
   Build cross-platform VoIP calling apps with React Native using Telnyx Voice SDK.
   High-level reactive API with automatic lifecycle management, CallKit/ConnectionService

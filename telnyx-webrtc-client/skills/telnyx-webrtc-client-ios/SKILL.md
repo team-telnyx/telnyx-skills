@@ -1,5 +1,5 @@
 ---
-name: telnyx-webrtc-ios
+name: telnyx-webrtc-client-ios
 description: >-
   Build VoIP calling apps on iOS using Telnyx WebRTC SDK. Covers authentication,
   making/receiving calls, CallKit integration, PushKit/APNS push notifications,

@@ -1,5 +1,5 @@
 ---
-name: telnyx-webrtc-android
+name: telnyx-webrtc-client-android
 description: >-
   Build VoIP calling apps on Android using Telnyx WebRTC SDK. Covers authentication,
   making/receiving calls, push notifications (FCM), call quality metrics, and AI Agent

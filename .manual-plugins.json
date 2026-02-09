@@ -2,15 +2,15 @@
   "extra_skills": {},
   "plugins": [
     {
-      "name": "telnyx-webrtc",
+      "name": "telnyx-webrtc-client",
       "description": "Telnyx WebRTC client SDK skills \u2014 build VoIP calling apps on web, iOS, Android, Flutter, and React Native. Covers authentication, call controls, push notifications, call quality metrics, and AI Agent integration.",
-      "source": "./telnyx-webrtc",
+      "source": "./telnyx-webrtc-client",
       "skills": [
-        "./telnyx-webrtc/skills/telnyx-webrtc-js",
-        "./telnyx-webrtc/skills/telnyx-webrtc-ios",
-        "./telnyx-webrtc/skills/telnyx-webrtc-android",
-        "./telnyx-webrtc/skills/telnyx-webrtc-flutter",
-        "./telnyx-webrtc/skills/telnyx-webrtc-react-native"
+        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-js",
+        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-ios",
+        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-android",
+        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-flutter",
+        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-react-native"
       ]
     }
   ]

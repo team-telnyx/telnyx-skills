@@ -61,13 +61,13 @@ In addition to the server-side REST API skills above, we provide skills for the 
 
 | Skill | Platform | Language |
 |-------|----------|----------|
-| `telnyx-webrtc-js` | Browser | JavaScript |
-| `telnyx-webrtc-ios` | iOS | Swift |
-| `telnyx-webrtc-android` | Android | Kotlin |
-| `telnyx-webrtc-flutter` | Flutter (Android/iOS/Web) | Dart |
-| `telnyx-webrtc-react-native` | React Native (Android/iOS) | TypeScript |
+| `telnyx-webrtc-client-js` | Browser | JavaScript |
+| `telnyx-webrtc-client-ios` | iOS | Swift |
+| `telnyx-webrtc-client-android` | Android | Kotlin |
+| `telnyx-webrtc-client-flutter` | Flutter (Android/iOS/Web) | Dart |
+| `telnyx-webrtc-client-react-native` | React Native (Android/iOS) | TypeScript |
 
-These skills cover authentication, call controls, push notifications, call quality metrics, and AI Agent integration. Install the `telnyx-webrtc` plugin to get all five.
+These skills cover authentication, call controls, push notifications, call quality metrics, and AI Agent integration. Install the `telnyx-webrtc-client` plugin to get all five.
 
 ### Languages
 
@@ -117,7 +117,7 @@ Then install the plugin for your language. Each plugin includes all 35 Telnyx pr
 
 #### WebRTC Client SDKs (all platforms)
 ```bash
-/plugin install telnyx-webrtc@telnyx-agent-skills
+/plugin install telnyx-webrtc-client@telnyx-agent-skills
 ```
 
 ### Cursor
