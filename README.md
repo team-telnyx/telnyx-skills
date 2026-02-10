@@ -12,7 +12,7 @@ These skills follow the [Agent Skills specification](https://agentskills.io/spec
 /plugin marketplace add team-telnyx/telnyx-ext-agent-skills
 ```
 
-**Step 2.** Install a plugin — pick one for your language:
+**Step 2.** Install a plugin — pick your language, or the WebRTC client-side plugin:
 
 ```bash
 /plugin install telnyx-python@telnyx-agent-skills
@@ -29,7 +29,9 @@ Replace `telnyx-python` with the plugin for your stack:
 | `telnyx-ruby` | Ruby |
 | `telnyx-webrtc-client` | WebRTC client SDKs (JS, iOS, Android, Flutter, React Native) |
 
-Each language plugin includes all 35 Telnyx products (messaging, voice, numbers, IoT, AI, and more). The WebRTC client plugin covers building VoIP calling apps — see [WebRTC Client SDKs](#webrtc-client-sdks) for details.
+Each language plugin includes all 35 Telnyx products (messaging, voice, numbers, IoT, AI, and more). 
+
+The WebRTC client plugin covers building VoIP calling apps — see [WebRTC Client SDKs](#webrtc-client-sdks) for details.
 
 ## Example
 
