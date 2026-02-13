@@ -116,6 +116,12 @@ Skills are organized by product and language. Each product is available in **Jav
 | `telnyx-seti-*` | Space Exploration Telecommunications Infrastructure |
 | `telnyx-oauth-*` | OAuth 2.0 authentication flows |
 
+#### Infrastructure & Troubleshooting
+
+| Skill | Description |
+|-------|-------------|
+| `vm-network-troubleshooting` | Diagnose and troubleshoot VM network connectivity issues across cloud providers (AWS, Azure, GCP) |
+
 #### Account
 
 | Skill | Description |

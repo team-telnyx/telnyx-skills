@@ -12,6 +12,14 @@
         "./telnyx-webrtc-client/skills/telnyx-webrtc-client-flutter",
         "./telnyx-webrtc-client/skills/telnyx-webrtc-client-react-native"
       ]
+    },
+    {
+      "name": "vm-troubleshooting",
+      "description": "VM network troubleshooting skills \u2014 diagnose and troubleshoot network connectivity issues in virtual machines across cloud providers (AWS, Azure, GCP). Includes connectivity diagnostics, DNS troubleshooting, route analysis, firewall inspection, and remediation suggestions.",
+      "source": "./vm-troubleshooting",
+      "skills": [
+        "./vm-troubleshooting/skills/vm-network-troubleshooting"
+      ]
     }
   ]
 }
