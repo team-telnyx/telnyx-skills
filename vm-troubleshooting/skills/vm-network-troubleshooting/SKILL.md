@@ -176,7 +176,6 @@ def test_tcp_port(host: str, port: int, timeout: int = 5) -> dict:
     sock.settimeout(timeout)
     
     try:
-        start_time = socket.getdefaulttimeout()
         result = sock.connect_ex((host, port))
         
         if result == 0:
@@ -282,6 +281,8 @@ def test_ssh_connection(
         dict with connection status and details
     """
     client = paramiko.SSHClient()
+    # WARNING: AutoAddPolicy automatically accepts all host keys, which is a security risk.
+    # For production use, consider using RejectPolicy or a custom policy with known host verification.
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     
     try:
@@ -1356,13 +1357,13 @@ class GCPNetworkDiagnostics:
                     'name': nic.name,
                     'network': nic.network.split('/')[-1],
                     'subnetwork': nic.subnetwork.split('/')[-1] if nic.subnetwork else None,
-                    'internal_ip': nic.network_i_p,
+                    'internal_ip': nic.network_ip,
                     'external_ip': None
                 }
                 
                 for access_config in nic.access_configs:
-                    if access_config.nat_i_p:
-                        nic_info['external_ip'] = access_config.nat_i_p
+                    if access_config.nat_ip:
+                        nic_info['external_ip'] = access_config.nat_ip
                 
                 network_info['network_interfaces'].append(nic_info)
             
@@ -1405,13 +1406,13 @@ class GCPNetworkDiagnostics:
                 
                 for allowed in fw.allowed:
                     rule['allowed'].append({
-                        'protocol': allowed.I_p_protocol,
+                        'protocol': allowed.ip_protocol,
                         'ports': list(allowed.ports) if allowed.ports else []
                     })
                 
                 for denied in fw.denied:
                     rule['denied'].append({
-                        'protocol': denied.I_p_protocol,
+                        'protocol': denied.ip_protocol,
                         'ports': list(denied.ports) if denied.ports else []
                     })
                 
