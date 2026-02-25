@@ -233,7 +233,16 @@
         "./telnyx-webrtc-client/skills/telnyx-webrtc-client-ios",
         "./telnyx-webrtc-client/skills/telnyx-webrtc-client-android",
         "./telnyx-webrtc-client/skills/telnyx-webrtc-client-flutter",
-        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-react-native"
+        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-react-native",
+        "./telnyx-webrtc-client/skills/push-notification-tester"
+      ]
+    },
+    {
+      "name": "telnyx-twilio-migration",
+      "description": "Migrate from Twilio to Telnyx \u2014 product mapping, voice (TwiML to TeXML with full verb reference), messaging, WebRTC, number porting via FastPort, and Verify. Includes migration scripts and compatibility validation.",
+      "source": "./telnyx-twilio-migration",
+      "skills": [
+        "./telnyx-twilio-migration/skills/telnyx-twilio-migration"
       ]
     }
   ]
