@@ -51,6 +51,8 @@ Creates an address.
 
 `POST /addresses` — Required: `first_name`, `last_name`, `business_name`, `street_address`, `locality`, `country_code`
 
+Optional: `address_book` (boolean), `administrative_area` (string), `borough` (string), `customer_reference` (string), `extended_address` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `validate_address` (boolean)
+
 ```java
 import com.telnyx.sdk.models.addresses.AddressCreateParams;
 import com.telnyx.sdk.models.addresses.AddressCreateResponse;
@@ -96,6 +98,8 @@ AddressDeleteResponse address = client.addresses().delete("id");
 
 `POST /addresses/{id}/actions/accept_suggestions`
 
+Optional: `id` (string)
+
 ```java
 import com.telnyx.sdk.models.addresses.actions.ActionAcceptSuggestionsParams;
 import com.telnyx.sdk.models.addresses.actions.ActionAcceptSuggestionsResponse;
@@ -108,6 +112,8 @@ ActionAcceptSuggestionsResponse response = client.addresses().actions().acceptSu
 Validates an address for emergency services.
 
 `POST /addresses/actions/validate` — Required: `country_code`, `street_address`, `postal_code`
+
+Optional: `administrative_area` (string), `extended_address` (string), `locality` (string)
 
 ```java
 import com.telnyx.sdk.models.addresses.actions.ActionValidateParams;
@@ -139,6 +145,8 @@ AuthenticationProviderListPage page = client.authenticationProviders().list();
 Creates an authentication provider.
 
 `POST /authentication_providers` — Required: `name`, `short_name`, `settings`
+
+Optional: `active` (boolean), `settings_url` (uri)
 
 ```java
 import com.telnyx.sdk.models.authenticationproviders.AuthenticationProviderCreateParams;
@@ -176,6 +184,8 @@ Updates settings of an existing authentication provider.
 
 `PATCH /authentication_providers/{id}`
 
+Optional: `active` (boolean), `name` (string), `settings` (object), `settings_url` (uri), `short_name` (string)
+
 ```java
 import com.telnyx.sdk.models.authenticationproviders.AuthenticationProviderUpdateParams;
 import com.telnyx.sdk.models.authenticationproviders.AuthenticationProviderUpdateResponse;
@@ -211,6 +221,8 @@ BillingGroupListPage page = client.billingGroups().list();
 
 `POST /billing_groups`
 
+Optional: `name` (string)
+
 ```java
 import com.telnyx.sdk.models.billinggroups.BillingGroupCreateParams;
 import com.telnyx.sdk.models.billinggroups.BillingGroupCreateResponse;
@@ -232,6 +244,8 @@ BillingGroupRetrieveResponse billingGroup = client.billingGroups().retrieve("f55
 ## Update a billing group
 
 `PATCH /billing_groups/{id}`
+
+Optional: `name` (string)
 
 ```java
 import com.telnyx.sdk.models.billinggroups.BillingGroupUpdateParams;
@@ -270,6 +284,8 @@ Create a new secret with an associated identifier that can be used to securely i
 
 `POST /integration_secrets` — Required: `identifier`, `type`
 
+Optional: `password` (string), `token` (string), `username` (string)
+
 ```java
 import com.telnyx.sdk.models.integrationsecrets.IntegrationSecretCreateParams;
 import com.telnyx.sdk.models.integrationsecrets.IntegrationSecretCreateResponse;
@@ -307,6 +323,8 @@ AccessIpAddressListPage page = client.accessIpAddress().list();
 ## Create new Access IP Address
 
 `POST /access_ip_address` — Required: `ip_address`
+
+Optional: `description` (string)
 
 ```java
 import com.telnyx.sdk.models.accessipaddress.AccessIpAddressCreateParams;
@@ -354,6 +372,8 @@ AccessIpRangeListPage page = client.accessIpRanges().list();
 ## Create new Access IP Range
 
 `POST /access_ip_ranges` — Required: `cidr_block`
+
+Optional: `description` (string)
 
 ```java
 import com.telnyx.sdk.models.accessipranges.AccessIpRange;

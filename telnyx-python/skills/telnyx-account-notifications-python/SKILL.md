@@ -51,6 +51,8 @@ Create a notification channel.
 
 `POST /notification_channels`
 
+Optional: `channel_destination` (string), `channel_type_id` (enum), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
+
 ```python
 notification_channel = client.notification_channels.create()
 print(notification_channel.data)
@@ -74,6 +76,8 @@ print(notification_channel.data)
 Update a notification channel.
 
 `PATCH /notification_channels/{id}`
+
+Optional: `channel_destination` (string), `channel_type_id` (enum), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
 
 ```python
 notification_channel = client.notification_channels.update(
@@ -137,6 +141,8 @@ Create a notification profile.
 
 `POST /notification_profiles`
 
+Optional: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)
+
 ```python
 notification_profile = client.notification_profiles.create()
 print(notification_profile.data)
@@ -160,6 +166,8 @@ print(notification_profile.data)
 Update a notification profile.
 
 `PATCH /notification_profiles/{id}`
+
+Optional: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)
 
 ```python
 notification_profile = client.notification_profiles.update(
@@ -198,6 +206,8 @@ print(page.id)
 Add a notification setting.
 
 `POST /notification_settings`
+
+Optional: `associated_record_type` (string), `associated_record_type_value` (string), `created_at` (date-time), `id` (string), `notification_channel_id` (string), `notification_event_condition_id` (string), `notification_profile_id` (string), `parameters` (array[object]), `status` (enum), `updated_at` (date-time)
 
 ```python
 notification_setting = client.notification_settings.create()

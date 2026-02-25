@@ -45,6 +45,8 @@ Returns a timed and authenticated URL to download (GET) or upload (PUT) an objec
 
 `POST /storage/buckets/{bucketName}/{objectName}/presigned_url`
 
+Optional: `ttl` (integer)
+
 ```go
 	response, err := client.Storage.Buckets.NewPresignedURL(
 		context.TODO(),
@@ -172,6 +174,8 @@ Create a source from which data can be migrated from.
 
 `POST /storage/migration_sources` — Required: `provider`, `provider_auth`, `bucket_name`
 
+Optional: `id` (string), `source_region` (string)
+
 ```go
 	migrationSource, err := client.Storage.MigrationSources.New(context.TODO(), telnyx.StorageMigrationSourceNewParams{
 		MigrationSourceParams: telnyx.MigrationSourceParams{
@@ -227,6 +231,8 @@ Create a source from which data can be migrated from.
 Initiate a migration of data from an external provider into Telnyx Cloud Storage.
 
 `POST /storage/migrations` — Required: `source_id`, `target_bucket_name`, `target_region`
+
+Optional: `bytes_migrated` (integer), `bytes_to_migrate` (integer), `created_at` (date-time), `eta` (date-time), `id` (string), `last_copy` (date-time), `refresh` (boolean), `speed` (integer), `status` (enum)
 
 ```go
 	migration, err := client.Storage.Migrations.New(context.TODO(), telnyx.StorageMigrationNewParams{

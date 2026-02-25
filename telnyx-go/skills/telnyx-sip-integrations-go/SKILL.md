@@ -328,6 +328,8 @@ Creates a new External Connection based on the parameters sent in the request.
 
 `POST /external_connections` — Required: `external_sip_connection`, `outbound`
 
+Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```go
 	externalConnection, err := client.ExternalConnections.New(context.TODO(), telnyx.ExternalConnectionNewParams{
 		ExternalSipConnection: telnyx.ExternalConnectionNewParamsExternalSipConnectionZoom,
@@ -346,7 +348,7 @@ Return the details of an existing External Connection inside the 'data' attribut
 `GET /external_connections/{id}`
 
 ```go
-	externalConnection, err := client.ExternalConnections.Get(context.TODO(), "id")
+	externalConnection, err := client.ExternalConnections.Get(context.TODO(), "1293384261075731499")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -359,13 +361,15 @@ Updates settings of an existing External Connection based on the parameters of t
 
 `PATCH /external_connections/{id}` — Required: `outbound`
 
+Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```go
 	externalConnection, err := client.ExternalConnections.Update(
 		context.TODO(),
-		"id",
+		"1293384261075731499",
 		telnyx.ExternalConnectionUpdateParams{
 			Outbound: telnyx.ExternalConnectionUpdateParamsOutbound{
-				OutboundVoiceProfileID: "outbound_voice_profile_id",
+				OutboundVoiceProfileID: "1911630617284445511",
 			},
 		},
 	)
@@ -382,7 +386,7 @@ Permanently deletes an External Connection.
 `DELETE /external_connections/{id}`
 
 ```go
-	externalConnection, err := client.ExternalConnections.Delete(context.TODO(), "id")
+	externalConnection, err := client.ExternalConnections.Delete(context.TODO(), "1293384261075731499")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -398,7 +402,7 @@ Returns the civic addresses and locations from Microsoft Teams.
 ```go
 	civicAddresses, err := client.ExternalConnections.CivicAddresses.List(
 		context.TODO(),
-		"id",
+		"1293384261075731499",
 		telnyx.ExternalConnectionCivicAddressListParams{},
 	)
 	if err != nil {
@@ -418,7 +422,7 @@ Return the details of an existing Civic Address with its Locations inside the 'd
 		context.TODO(),
 		"318fb664-d341-44d2-8405-e6bfb9ced6d9",
 		telnyx.ExternalConnectionCivicAddressGetParams{
-			ID: "id",
+			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
@@ -455,7 +459,7 @@ Returns a list of all active phone numbers associated with the given external co
 ```go
 	page, err := client.ExternalConnections.PhoneNumbers.List(
 		context.TODO(),
-		"id",
+		"1293384261075731499",
 		telnyx.ExternalConnectionPhoneNumberListParams{},
 	)
 	if err != nil {
@@ -475,7 +479,7 @@ Return the details of a phone number associated with the given external connecti
 		context.TODO(),
 		"1234567889",
 		telnyx.ExternalConnectionPhoneNumberGetParams{
-			ID: "id",
+			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
@@ -490,12 +494,14 @@ Asynchronously update settings of the phone number associated with the given ext
 
 `PATCH /external_connections/{id}/phone_numbers/{phone_number_id}`
 
+Optional: `location_id` (uuid)
+
 ```go
 	phoneNumber, err := client.ExternalConnections.PhoneNumbers.Update(
 		context.TODO(),
 		"1234567889",
 		telnyx.ExternalConnectionPhoneNumberUpdateParams{
-			ID: "id",
+			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
@@ -513,7 +519,7 @@ Returns a list of your Releases for the given external connection.
 ```go
 	page, err := client.ExternalConnections.Releases.List(
 		context.TODO(),
-		"id",
+		"1293384261075731499",
 		telnyx.ExternalConnectionReleaseListParams{},
 	)
 	if err != nil {
@@ -533,7 +539,7 @@ Return the details of a Release request and its phone numbers.
 		context.TODO(),
 		"7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
 		telnyx.ExternalConnectionReleaseGetParams{
-			ID: "id",
+			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
@@ -551,7 +557,7 @@ Returns a list of your Upload requests for the given external connection.
 ```go
 	page, err := client.ExternalConnections.Uploads.List(
 		context.TODO(),
-		"id",
+		"1293384261075731499",
 		telnyx.ExternalConnectionUploadListParams{},
 	)
 	if err != nil {
@@ -566,10 +572,12 @@ Creates a new Upload request to Microsoft teams with the included phone numbers.
 
 `POST /external_connections/{id}/uploads` — Required: `number_ids`
 
+Optional: `additional_usages` (array[string]), `civic_address_id` (uuid), `location_id` (uuid), `usage` (enum)
+
 ```go
 	upload, err := client.ExternalConnections.Uploads.New(
 		context.TODO(),
-		"id",
+		"1293384261075731499",
 		telnyx.ExternalConnectionUploadNewParams{
 			NumberIDs: []string{"3920457616934164700", "3920457616934164701", "3920457616934164702", "3920457616934164703"},
 		},
@@ -587,7 +595,7 @@ Forces a recheck of the status of all pending Upload requests for the given exte
 `POST /external_connections/{id}/uploads/refresh`
 
 ```go
-	response, err := client.ExternalConnections.Uploads.RefreshStatus(context.TODO(), "id")
+	response, err := client.ExternalConnections.Uploads.RefreshStatus(context.TODO(), "1293384261075731499")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -601,7 +609,7 @@ Returns the count of all pending upload requests for the given external connecti
 `GET /external_connections/{id}/uploads/status`
 
 ```go
-	response, err := client.ExternalConnections.Uploads.PendingCount(context.TODO(), "id")
+	response, err := client.ExternalConnections.Uploads.PendingCount(context.TODO(), "1293384261075731499")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -619,7 +627,7 @@ Return the details of an Upload request and its phone numbers.
 		context.TODO(),
 		"7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
 		telnyx.ExternalConnectionUploadGetParams{
-			ID: "id",
+			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
@@ -639,7 +647,7 @@ If there were any errors during the upload process, this endpoint will retry the
 		context.TODO(),
 		"7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
 		telnyx.ExternalConnectionUploadRetryParams{
-			ID: "id",
+			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
@@ -669,7 +677,7 @@ Retrieve a log message for an external connection associated with your account.
 `GET /external_connections/log_messages/{id}`
 
 ```go
-	logMessage, err := client.ExternalConnections.LogMessages.Get(context.TODO(), "id")
+	logMessage, err := client.ExternalConnections.LogMessages.Get(context.TODO(), "1293384261075731499")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -683,7 +691,7 @@ Dismiss a log message for an external connection associated with your account.
 `DELETE /external_connections/log_messages/{id}`
 
 ```go
-	response, err := client.ExternalConnections.LogMessages.Dismiss(context.TODO(), "id")
+	response, err := client.ExternalConnections.LogMessages.Dismiss(context.TODO(), "1293384261075731499")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -724,6 +732,8 @@ Upload media file to Telnyx so it can be used with other Telnyx services
 
 `POST /media` — Required: `media_url`
 
+Optional: `media_name` (string), `ttl_secs` (integer)
+
 ```go
 	response, err := client.Media.Upload(context.TODO(), telnyx.MediaUploadParams{
 		MediaURL: "http://www.example.com/audio.mp3",
@@ -753,6 +763,8 @@ Returns the information about a stored media file.
 Updates a stored media file.
 
 `PUT /media/{media_name}`
+
+Optional: `media_url` (string), `ttl_secs` (integer)
 
 ```go
 	media, err := client.Media.Update(

@@ -47,6 +47,8 @@ puts(page)
 
 `POST /messaging_hosted_number_orders`
 
+Optional: `messaging_profile_id` (string), `phone_numbers` (array[string])
+
 ```ruby
 messaging_hosted_number_order = client.messaging_hosted_number_orders.create
 
@@ -126,6 +128,32 @@ response = client.messaging_hosted_number_orders.check_eligibility(phone_numbers
 puts(response)
 ```
 
+## Retrieve a messaging hosted number
+
+Retrieve a specific messaging hosted number by its ID or phone number.
+
+`GET /messaging_hosted_numbers/{id}`
+
+```ruby
+messaging_hosted_number = client.messaging_hosted_numbers.retrieve("id")
+
+puts(messaging_hosted_number)
+```
+
+## Update a messaging hosted number
+
+Update the messaging settings for a hosted number.
+
+`PATCH /messaging_hosted_numbers/{id}`
+
+Optional: `messaging_product` (string), `messaging_profile_id` (string), `tags` (array[string])
+
+```ruby
+messaging_hosted_number = client.messaging_hosted_numbers.update("id")
+
+puts(messaging_hosted_number)
+```
+
 ## Delete a messaging hosted number
 
 `DELETE /messaging_hosted_numbers/{id}`
@@ -139,6 +167,8 @@ puts(messaging_hosted_number)
 ## Send an RCS message
 
 `POST /messages/rcs` — Required: `agent_id`, `to`, `messaging_profile_id`, `agent_message`
+
+Optional: `mms_fallback` (object), `sms_fallback` (object), `type` (enum), `webhook_url` (url)
 
 ```ruby
 response = client.messages.rcs.send_(
@@ -174,6 +204,8 @@ puts(rcs_agent_response)
 ## Modify an RCS agent
 
 `PATCH /messaging/rcs/agents/{id}`
+
+Optional: `profile_id` (uuid), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```ruby
 rcs_agent_response = client.messaging.rcs.agents.update("id")
@@ -241,7 +273,9 @@ puts(page)
 
 Submit a new tollfree verification request
 
-`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
+`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`
+
+Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegistrationCountry` (['string', 'null']), `businessRegistrationNumber` (['string', 'null']), `businessRegistrationType` (['string', 'null']), `campaignVerifyAuthorizationToken` (['string', 'null']), `doingBusinessAs` (['string', 'null']), `entityType` (object), `helpMessageResponse` (['string', 'null']), `isvReseller` (['string', 'null']), `optInConfirmationResponse` (['string', 'null']), `optInKeywords` (['string', 'null']), `privacyPolicyURL` (['string', 'null']), `termsAndConditionURL` (['string', 'null']), `webhookUrl` (string)
 
 ```ruby
 verification_request_egress = client.messaging_tollfree.verification.requests.create(
@@ -256,7 +290,6 @@ verification_request_egress = client.messaging_tollfree.verification.requests.cr
   business_state: "Texas",
   business_zip: "78701",
   corporate_website: "http://example.com",
-  isv_reseller: "isvReseller",
   message_volume: :"100,000",
   opt_in_workflow: "User signs into the Telnyx portal, enters a number and is prompted to select whether they want to use 2FA verification for security purposes. If they've opted in a confirmation message is sent out to the handset",
   opt_in_workflow_image_urls: [{url: "https://client.com/sign-up"}, {url: "https://client.com/company/data-privacy"}],
@@ -285,7 +318,9 @@ puts(verification_request_status)
 
 Update an existing tollfree verification request.
 
-`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
+`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`
+
+Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegistrationCountry` (['string', 'null']), `businessRegistrationNumber` (['string', 'null']), `businessRegistrationType` (['string', 'null']), `campaignVerifyAuthorizationToken` (['string', 'null']), `doingBusinessAs` (['string', 'null']), `entityType` (object), `helpMessageResponse` (['string', 'null']), `isvReseller` (['string', 'null']), `optInConfirmationResponse` (['string', 'null']), `optInKeywords` (['string', 'null']), `privacyPolicyURL` (['string', 'null']), `termsAndConditionURL` (['string', 'null']), `webhookUrl` (string)
 
 ```ruby
 verification_request_egress = client.messaging_tollfree.verification.requests.update(
@@ -301,7 +336,6 @@ verification_request_egress = client.messaging_tollfree.verification.requests.up
   business_state: "Texas",
   business_zip: "78701",
   corporate_website: "http://example.com",
-  isv_reseller: "isvReseller",
   message_volume: :"100,000",
   opt_in_workflow: "User signs into the Telnyx portal, enters a number and is prompted to select whether they want to use 2FA verification for security purposes. If they've opted in a confirmation message is sent out to the handset",
   opt_in_workflow_image_urls: [{url: "https://client.com/sign-up"}, {url: "https://client.com/company/data-privacy"}],

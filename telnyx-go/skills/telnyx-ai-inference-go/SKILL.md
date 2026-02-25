@@ -59,6 +59,8 @@ Create a new AI Conversation.
 
 `POST /ai/conversations`
 
+Optional: `metadata` (object), `name` (string)
+
 ```go
 	conversation, err := client.AI.Conversations.New(context.TODO(), telnyx.AIConversationNewParams{})
 	if err != nil {
@@ -86,6 +88,8 @@ Get all insight groups
 Create a new insight group
 
 `POST /ai/conversations/insight-groups` — Required: `name`
+
+Optional: `description` (string), `webhook` (string)
 
 ```go
 	insightTemplateGroupDetail, err := client.AI.Conversations.InsightGroups.InsightGroups(context.TODO(), telnyx.AIConversationInsightGroupInsightGroupsParams{
@@ -116,6 +120,8 @@ Get insight group by ID
 Update an insight template group
 
 `PUT /ai/conversations/insight-groups/{group_id}`
+
+Optional: `description` (string), `name` (string), `webhook` (string)
 
 ```go
 	insightTemplateGroupDetail, err := client.AI.Conversations.InsightGroups.Update(
@@ -200,6 +206,8 @@ Create a new insight
 
 `POST /ai/conversations/insights` — Required: `instructions`, `name`
 
+Optional: `json_schema` (object), `webhook` (string)
+
 ```go
 	insightTemplateDetail, err := client.AI.Conversations.Insights.New(context.TODO(), telnyx.AIConversationInsightNewParams{
 		Instructions: "instructions",
@@ -230,6 +238,8 @@ Get insight by ID
 Update an insight template
 
 `PUT /ai/conversations/insights/{insight_id}`
+
+Optional: `instructions` (string), `json_schema` (object), `name` (string), `webhook` (string)
 
 ```go
 	insightTemplateDetail, err := client.AI.Conversations.Insights.Update(
@@ -276,6 +286,8 @@ Update metadata for a specific conversation.
 
 `PUT /ai/conversations/{conversation_id}`
 
+Optional: `metadata` (object)
+
 ```go
 	conversation, err := client.AI.Conversations.Update(
 		context.TODO(),
@@ -320,6 +332,8 @@ Retrieve insights for a specific conversation
 Add a new message to the conversation.
 
 `POST /ai/conversations/{conversation_id}/message` — Required: `role`
+
+Optional: `content` (string), `metadata` (object), `name` (string), `sent_at` (date-time), `tool_call_id` (string), `tool_calls` (array[object]), `tool_choice` (object)
 
 ```go
 	err := client.AI.Conversations.AddMessage(
@@ -367,6 +381,8 @@ Retrieve tasks for the user that are either `queued`, `processing`, `failed`, `s
 Perform embedding on a Telnyx Storage Bucket using an embedding model.
 
 `POST /ai/embeddings` — Required: `bucket_name`
+
+Optional: `document_chunk_overlap_size` (integer), `document_chunk_size` (integer), `embedding_model` (object), `loader` (object)
 
 ```go
 	embeddingResponse, err := client.AI.Embeddings.New(context.TODO(), telnyx.AIEmbeddingNewParams{
@@ -424,6 +440,8 @@ Deletes an entire bucket's embeddings and disables the bucket for AI-use, return
 Perform a similarity search on a Telnyx Storage Bucket, returning the most similar `num_docs` document chunks to the query.
 
 `POST /ai/embeddings/similarity-search` — Required: `bucket_name`, `query`
+
+Optional: `num_of_docs` (integer)
 
 ```go
 	response, err := client.AI.Embeddings.SimilaritySearch(context.TODO(), telnyx.AIEmbeddingSimilaritySearchParams{
@@ -484,6 +502,8 @@ Check the status of a current embedding task.
 Starts a background task to compute how the data in an [embedded storage bucket](https://developers.telnyx.com/api-reference/embeddings/embed-documents) is clustered.
 
 `POST /ai/clusters` — Required: `bucket`
+
+Optional: `files` (array[string]), `min_cluster_size` (integer), `min_subcluster_size` (integer), `prefix` (string)
 
 ```go
 	response, err := client.AI.Clusters.Compute(context.TODO(), telnyx.AIClusterComputeParams{
@@ -560,6 +580,8 @@ Chat with a language model.
 
 `POST /ai/chat/completions` — Required: `messages`
 
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+
 ```go
 	response, err := client.AI.Chat.NewCompletion(context.TODO(), telnyx.AIChatNewCompletionParams{
 		Messages: []telnyx.AIChatNewCompletionParamsMessage{{
@@ -600,6 +622,8 @@ Create a new fine tuning job.
 
 `POST /ai/fine_tuning/jobs` — Required: `model`, `training_file`
 
+Optional: `hyperparameters` (object), `suffix` (string)
+
 ```go
 	fineTuningJob, err := client.AI.FineTuning.Jobs.New(context.TODO(), telnyx.AIFineTuningJobNewParams{
 		Model:        "model",
@@ -639,6 +663,41 @@ Cancel a fine tuning job.
 	fmt.Printf("%+v\n", fineTuningJob.ID)
 ```
 
+## Create embeddings
+
+Creates an embedding vector representing the input text.
+
+`POST /ai/openai/embeddings` — Required: `input`, `model`
+
+Optional: `dimensions` (integer), `encoding_format` (enum), `user` (string)
+
+```go
+	response, err := client.AI.OpenAI.Embeddings.NewEmbeddings(context.TODO(), telnyx.AIOpenAIEmbeddingNewEmbeddingsParams{
+		Input: telnyx.AIOpenAIEmbeddingNewEmbeddingsParamsInputUnion{
+			OfString: telnyx.String("The quick brown fox jumps over the lazy dog"),
+		},
+		Model: "thenlper/gte-large",
+	})
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("%+v\n", response.Data)
+```
+
+## List embedding models
+
+Returns a list of available embedding models.
+
+`GET /ai/openai/embeddings/models`
+
+```go
+	response, err := client.AI.OpenAI.Embeddings.ListEmbeddingModels(context.TODO())
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("%+v\n", response.Data)
+```
+
 ## Get available models
 
 This endpoint returns a list of Open Source and OpenAI models that are available for use.
@@ -658,6 +717,8 @@ This endpoint returns a list of Open Source and OpenAI models that are available
 Generate a summary of a file's contents.
 
 `POST /ai/summarize` — Required: `bucket`, `filename`
+
+Optional: `system_prompt` (string)
 
 ```go
 	response, err := client.AI.Summarize(context.TODO(), telnyx.AISummarizeParams{

@@ -57,6 +57,8 @@ Asynchronously create a room composition.
 
 `POST /room_compositions`
 
+Optional: `format` (string), `resolution` (string), `session_id` (uuid), `video_layout` (object), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
+
 ```go
 	roomComposition, err := client.RoomCompositions.New(context.TODO(), telnyx.RoomCompositionNewParams{})
 	if err != nil {
@@ -209,6 +211,8 @@ Note: this will also kick all participants currently present in the room
 
 `POST /room_sessions/{room_session_id}/actions/kick`
 
+Optional: `exclude` (array[string]), `participants` (object)
+
 ```go
 	response, err := client.Rooms.Sessions.Actions.Kick(
 		context.TODO(),
@@ -227,6 +231,8 @@ Note: this will also kick all participants currently present in the room
 
 `POST /room_sessions/{room_session_id}/actions/mute`
 
+Optional: `exclude` (array[string]), `participants` (object)
+
 ```go
 	response, err := client.Rooms.Sessions.Actions.Mute(
 		context.TODO(),
@@ -244,6 +250,8 @@ Note: this will also kick all participants currently present in the room
 ## Unmute participants in room session.
 
 `POST /room_sessions/{room_session_id}/actions/unmute`
+
+Optional: `exclude` (array[string]), `participants` (object)
 
 ```go
 	response, err := client.Rooms.Sessions.Actions.Unmute(
@@ -293,6 +301,8 @@ Synchronously create a Room.
 
 `POST /rooms`
 
+Optional: `enable_recording` (boolean), `max_participants` (integer), `unique_name` (string), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
+
 ```go
 	room, err := client.Rooms.New(context.TODO(), telnyx.RoomNewParams{})
 	if err != nil {
@@ -322,6 +332,8 @@ Synchronously create a Room.
 Synchronously update a Room.
 
 `PATCH /rooms/{room_id}`
+
+Optional: `enable_recording` (boolean), `max_participants` (integer), `unique_name` (string), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
 
 ```go
 	room, err := client.Rooms.Update(
@@ -354,6 +366,8 @@ Synchronously create an Client Token to join a Room.
 
 `POST /rooms/{room_id}/actions/generate_join_client_token`
 
+Optional: `refresh_token_ttl_secs` (integer), `token_ttl_secs` (integer)
+
 ```go
 	response, err := client.Rooms.Actions.GenerateJoinClientToken(
 		context.TODO(),
@@ -371,6 +385,8 @@ Synchronously create an Client Token to join a Room.
 Synchronously refresh an Client Token to join a Room.
 
 `POST /rooms/{room_id}/actions/refresh_client_token` — Required: `refresh_token`
+
+Optional: `token_ttl_secs` (integer)
 
 ```go
 	response, err := client.Rooms.Actions.RefreshClientToken(

@@ -51,6 +51,8 @@ Create an outbound voice profile.
 
 `POST /outbound_voice_profiles` — Required: `name`
 
+Optional: `billing_group_id` (uuid), `call_recording` (object), `calling_window` (object), `concurrent_call_limit` (['integer', 'null']), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `max_destination_rate` (number), `service_plan` (enum), `tags` (array[string]), `traffic_type` (enum), `usage_payment_method` (enum), `whitelisted_destinations` (array[string])
+
 ```ruby
 outbound_voice_profile = client.outbound_voice_profiles.create(name: "office")
 
@@ -72,6 +74,8 @@ puts(outbound_voice_profile)
 ## Updates an existing outbound voice profile.
 
 `PATCH /outbound_voice_profiles/{id}` — Required: `name`
+
+Optional: `billing_group_id` (uuid), `call_recording` (object), `calling_window` (object), `concurrent_call_limit` (['integer', 'null']), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `max_destination_rate` (number), `service_plan` (enum), `tags` (array[string]), `traffic_type` (enum), `usage_payment_method` (enum), `whitelisted_destinations` (array[string])
 
 ```ruby
 outbound_voice_profile = client.outbound_voice_profiles.update("1293384261075731499", name: "office")
@@ -133,6 +137,8 @@ Creates a credential connection.
 
 `POST /credential_connections` — Required: `user_name`, `password`, `connection_name`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `sip_uri_calling_preference` (enum), `tags` (array[string]), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```ruby
 credential_connection = client.credential_connections.create(
   connection_name: "my name",
@@ -160,6 +166,8 @@ puts(credential_connection)
 Updates settings of an existing credential connection.
 
 `PATCH /credential_connections/{id}`
+
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum), `tags` (array[string]), `user_name` (string), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
 
 ```ruby
 credential_connection = client.credential_connections.update("id")
@@ -209,6 +217,8 @@ Create a new IP object.
 
 `POST /ips` — Required: `ip_address`
 
+Optional: `connection_id` (string), `port` (integer)
+
 ```ruby
 ip = client.ips.create(ip_address: "192.168.0.0")
 
@@ -232,6 +242,8 @@ puts(ip)
 Update the details of a specific IP.
 
 `PATCH /ips/{id}` — Required: `ip_address`
+
+Optional: `connection_id` (string), `port` (integer)
 
 ```ruby
 ip = client.ips.update("6a09cdc3-8948-47f0-aa62-74ac943d6c58", ip_address: "192.168.0.0")
@@ -269,6 +281,8 @@ Creates an IP connection.
 
 `POST /ip_connections`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```ruby
 ip_connection = client.ip_connections.create
 
@@ -292,6 +306,8 @@ puts(ip_connection)
 Updates settings of an existing IP connection.
 
 `PATCH /ip_connections/{id}`
+
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
 
 ```ruby
 ip_connection = client.ip_connections.update("id")
@@ -329,6 +345,8 @@ Create a new FQDN object.
 
 `POST /fqdns` — Required: `fqdn`, `dns_record_type`, `connection_id`
 
+Optional: `port` (['integer', 'null'])
+
 ```ruby
 fqdn = client.fqdns.create(connection_id: "1516447646313612565", dns_record_type: "a", fqdn: "example.com")
 
@@ -342,7 +360,7 @@ Return the details regarding a specific FQDN.
 `GET /fqdns/{id}`
 
 ```ruby
-fqdn = client.fqdns.retrieve("id")
+fqdn = client.fqdns.retrieve("1517907029795014409")
 
 puts(fqdn)
 ```
@@ -353,8 +371,10 @@ Update the details of a specific FQDN.
 
 `PATCH /fqdns/{id}`
 
+Optional: `connection_id` (string), `dns_record_type` (string), `fqdn` (string), `port` (['integer', 'null'])
+
 ```ruby
-fqdn = client.fqdns.update("id")
+fqdn = client.fqdns.update("1517907029795014409")
 
 puts(fqdn)
 ```
@@ -366,7 +386,7 @@ Delete an FQDN.
 `DELETE /fqdns/{id}`
 
 ```ruby
-fqdn = client.fqdns.delete("id")
+fqdn = client.fqdns.delete("1517907029795014409")
 
 puts(fqdn)
 ```
@@ -389,6 +409,8 @@ Creates a FQDN connection.
 
 `POST /fqdn_connections` — Required: `connection_name`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `microsoft_teams_sbc` (boolean), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```ruby
 fqdn_connection = client.fqdn_connections.create(connection_name: "string")
 
@@ -402,7 +424,7 @@ Retrieves the details of an existing FQDN connection.
 `GET /fqdn_connections/{id}`
 
 ```ruby
-fqdn_connection = client.fqdn_connections.retrieve("id")
+fqdn_connection = client.fqdn_connections.retrieve("1293384261075731499")
 
 puts(fqdn_connection)
 ```
@@ -413,8 +435,10 @@ Updates settings of an existing FQDN connection.
 
 `PATCH /fqdn_connections/{id}`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```ruby
-fqdn_connection = client.fqdn_connections.update("id")
+fqdn_connection = client.fqdn_connections.update("1293384261075731499")
 
 puts(fqdn_connection)
 ```
@@ -426,7 +450,7 @@ Deletes an FQDN connection.
 `DELETE /fqdn_connections/{id}`
 
 ```ruby
-fqdn_connection = client.fqdn_connections.delete("id")
+fqdn_connection = client.fqdn_connections.delete("1293384261075731499")
 
 puts(fqdn_connection)
 ```
@@ -444,6 +468,8 @@ puts(page)
 ## Create a Mobile Voice Connection
 
 `POST /v2/mobile_voice_connections`
+
+Optional: `active` (boolean), `connection_name` (string), `inbound` (object), `outbound` (object), `tags` (array[string]), `webhook_api_version` (enum), `webhook_event_failover_url` (['string', 'null']), `webhook_event_url` (['string', 'null']), `webhook_timeout_secs` (['integer', 'null'])
 
 ```ruby
 mobile_voice_connection = client.mobile_voice_connections.create
@@ -464,6 +490,8 @@ puts(mobile_voice_connection)
 ## Update a Mobile Voice Connection
 
 `PATCH /v2/mobile_voice_connections/{id}`
+
+Optional: `active` (boolean), `connection_name` (string), `inbound` (object), `outbound` (object), `tags` (array[string]), `webhook_api_version` (enum), `webhook_event_failover_url` (['string', 'null']), `webhook_event_url` (['string', 'null']), `webhook_timeout_secs` (integer)
 
 ```ruby
 mobile_voice_connection = client.mobile_voice_connections.update("id")

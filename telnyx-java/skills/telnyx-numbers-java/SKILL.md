@@ -86,6 +86,8 @@ Creates a Phone Number Reservation for multiple numbers.
 
 `POST /number_reservations`
 
+Optional: `created_at` (date-time), `customer_reference` (string), `id` (uuid), `phone_numbers` (array[object]), `record_type` (string), `status` (enum), `updated_at` (date-time)
+
 ```java
 import com.telnyx.sdk.models.numberreservations.NumberReservationCreateParams;
 import com.telnyx.sdk.models.numberreservations.NumberReservationCreateResponse;
@@ -138,6 +140,8 @@ Creates a phone number order.
 
 `POST /number_orders`
 
+Optional: `billing_group_id` (string), `connection_id` (string), `customer_reference` (string), `messaging_profile_id` (string), `phone_numbers` (array[object])
+
 ```java
 import com.telnyx.sdk.models.numberorders.NumberOrderCreateParams;
 import com.telnyx.sdk.models.numberorders.NumberOrderCreateResponse;
@@ -164,6 +168,8 @@ Updates a phone number order.
 
 `PATCH /number_orders/{number_order_id}`
 
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
+
 ```java
 import com.telnyx.sdk.models.numberorders.NumberOrderUpdateParams;
 import com.telnyx.sdk.models.numberorders.NumberOrderUpdateResponse;
@@ -189,6 +195,8 @@ NumberBlockOrderListPage page = client.numberBlockOrders().list();
 Creates a phone number block order.
 
 `POST /number_block_orders` — Required: `starting_number`, `range`
+
+Optional: `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `errors` (string), `id` (uuid), `messaging_profile_id` (string), `phone_numbers_count` (integer), `record_type` (string), `requirements_met` (boolean), `status` (enum), `updated_at` (date-time)
 
 ```java
 import com.telnyx.sdk.models.numberblockorders.NumberBlockOrderCreateParams;
@@ -261,6 +269,8 @@ Updates requirements for a single phone number within a number order.
 
 `PATCH /number_order_phone_numbers/{number_order_phone_number_id}`
 
+Optional: `regulatory_requirements` (array[object])
+
 ```java
 import com.telnyx.sdk.models.numberorderphonenumbers.NumberOrderPhoneNumberUpdateRequirementsParams;
 import com.telnyx.sdk.models.numberorderphonenumbers.NumberOrderPhoneNumberUpdateRequirementsResponse;
@@ -315,6 +325,8 @@ Updates a sub number order.
 
 `PATCH /sub_number_orders/{sub_number_order_id}`
 
+Optional: `regulatory_requirements` (array[object])
+
 ```java
 import com.telnyx.sdk.models.subnumberorders.SubNumberOrderUpdateParams;
 import com.telnyx.sdk.models.subnumberorders.SubNumberOrderUpdateResponse;
@@ -340,6 +352,8 @@ SubNumberOrderCancelResponse response = client.subNumberOrders().cancel("sub_num
 Create a CSV report for sub number orders.
 
 `POST /sub_number_orders/report`
+
+Optional: `country_code` (string), `created_at_gt` (date-time), `created_at_lt` (date-time), `customer_reference` (string), `order_request_id` (uuid), `status` (enum)
 
 ```java
 import com.telnyx.sdk.models.subnumberordersreport.SubNumberOrdersReportCreateParams;
@@ -388,6 +402,8 @@ AdvancedOrderListResponse advancedOrders = client.advancedOrders().list();
 
 `POST /advanced_orders`
 
+Optional: `area_code` (string), `comments` (string), `country_code` (string), `customer_reference` (string), `features` (array[object]), `phone_number_type` (enum), `quantity` (integer), `requirement_group_id` (uuid)
+
 ```java
 import com.telnyx.sdk.models.advancedorders.AdvancedOrder;
 import com.telnyx.sdk.models.advancedorders.AdvancedOrderCreateParams;
@@ -400,6 +416,8 @@ AdvancedOrderCreateResponse advancedOrder = client.advancedOrders().create(param
 ## Update Advanced Order
 
 `PATCH /advanced_orders/{advanced-order-id}/requirement_group`
+
+Optional: `area_code` (string), `comments` (string), `country_code` (string), `customer_reference` (string), `features` (array[object]), `phone_number_type` (enum), `quantity` (integer), `requirement_group_id` (uuid)
 
 ```java
 import com.telnyx.sdk.models.advancedorders.AdvancedOrder;
@@ -443,6 +461,8 @@ Create an inexplicit number order to programmatically purchase phone numbers wit
 
 `POST /inexplicit_number_orders` — Required: `ordering_groups`
 
+Optional: `billing_group_id` (string), `connection_id` (string), `customer_reference` (string), `messaging_profile_id` (string)
+
 ```java
 import com.telnyx.sdk.models.inexplicitnumberorders.InexplicitNumberOrderCreateParams;
 import com.telnyx.sdk.models.inexplicitnumberorders.InexplicitNumberOrderCreateResponse;
@@ -484,6 +504,8 @@ CommentListResponse comments = client.comments().list();
 ## Create a comment
 
 `POST /comments`
+
+Optional: `body` (string), `comment_record_id` (uuid), `comment_record_type` (enum), `commenter` (string), `commenter_type` (enum), `created_at` (date-time), `id` (uuid), `read_at` (date-time), `updated_at` (date-time)
 
 ```java
 import com.telnyx.sdk.models.comments.CommentCreateParams;
@@ -560,3 +582,29 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | Event | Description |
 |-------|-------------|
 | `numberOrderStatusUpdate` | Number Order Status Update |
+
+### Webhook payload fields
+
+**`numberOrderStatusUpdate`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.event_type` | string | The type of event being sent |
+| `data.id` | uuid | Unique identifier for the event |
+| `data.occurred_at` | date-time | ISO 8601 timestamp of when the event occurred |
+| `data.payload.id` | uuid |  |
+| `data.payload.record_type` | string |  |
+| `data.payload.phone_numbers_count` | integer | The count of phone numbers in the number order. |
+| `data.payload.connection_id` | string | Identifies the connection associated with this phone number. |
+| `data.payload.messaging_profile_id` | string | Identifies the messaging profile associated with the phone number. |
+| `data.payload.billing_group_id` | string | Identifies the messaging profile associated with the phone number. |
+| `data.payload.phone_numbers` | array[object] |  |
+| `data.payload.sub_number_orders_ids` | array[string] |  |
+| `data.payload.status` | enum | The status of the order. |
+| `data.payload.customer_reference` | string | A customer reference string for customer look ups. |
+| `data.payload.created_at` | date-time | An ISO 8901 datetime string denoting when the number order was created. |
+| `data.payload.updated_at` | date-time | An ISO 8901 datetime string for when the number order was updated. |
+| `data.payload.requirements_met` | boolean | True if all requirements are met for every phone number, false otherwise. |
+| `data.record_type` | string | Type of record |
+| `meta.attempt` | integer | Webhook delivery attempt number |
+| `meta.delivered_to` | uri | URL where the webhook was delivered |

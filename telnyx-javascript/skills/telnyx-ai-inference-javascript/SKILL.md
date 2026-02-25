@@ -50,6 +50,8 @@ Create a new AI Conversation.
 
 `POST /ai/conversations`
 
+Optional: `metadata` (object), `name` (string)
+
 ```javascript
 const conversation = await client.ai.conversations.create();
 
@@ -74,6 +76,8 @@ for await (const insightTemplateGroup of client.ai.conversations.insightGroups.r
 Create a new insight group
 
 `POST /ai/conversations/insight-groups` — Required: `name`
+
+Optional: `description` (string), `webhook` (string)
 
 ```javascript
 const insightTemplateGroupDetail = await client.ai.conversations.insightGroups.insightGroups({
@@ -102,6 +106,8 @@ console.log(insightTemplateGroupDetail.data);
 Update an insight template group
 
 `PUT /ai/conversations/insight-groups/{group_id}`
+
+Optional: `description` (string), `name` (string), `webhook` (string)
 
 ```javascript
 const insightTemplateGroupDetail = await client.ai.conversations.insightGroups.update(
@@ -166,6 +172,8 @@ Create a new insight
 
 `POST /ai/conversations/insights` — Required: `instructions`, `name`
 
+Optional: `json_schema` (object), `webhook` (string)
+
 ```javascript
 const insightTemplateDetail = await client.ai.conversations.insights.create({
   instructions: 'instructions',
@@ -194,6 +202,8 @@ console.log(insightTemplateDetail.data);
 Update an insight template
 
 `PUT /ai/conversations/insights/{insight_id}`
+
+Optional: `instructions` (string), `json_schema` (object), `name` (string), `webhook` (string)
 
 ```javascript
 const insightTemplateDetail = await client.ai.conversations.insights.update(
@@ -231,6 +241,8 @@ Update metadata for a specific conversation.
 
 `PUT /ai/conversations/{conversation_id}`
 
+Optional: `metadata` (object)
+
 ```javascript
 const conversation = await client.ai.conversations.update('conversation_id');
 
@@ -265,6 +277,8 @@ Add a new message to the conversation.
 
 `POST /ai/conversations/{conversation_id}/message` — Required: `role`
 
+Optional: `content` (string), `metadata` (object), `name` (string), `sent_at` (date-time), `tool_call_id` (string), `tool_calls` (array[object]), `tool_choice` (object)
+
 ```javascript
 await client.ai.conversations.addMessage('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { role: 'role' });
 ```
@@ -298,6 +312,8 @@ console.log(embeddings.data);
 Perform embedding on a Telnyx Storage Bucket using an embedding model.
 
 `POST /ai/embeddings` — Required: `bucket_name`
+
+Optional: `document_chunk_overlap_size` (integer), `document_chunk_size` (integer), `embedding_model` (object), `loader` (object)
 
 ```javascript
 const embeddingResponse = await client.ai.embeddings.create({ bucket_name: 'bucket_name' });
@@ -344,6 +360,8 @@ await client.ai.embeddings.buckets.delete('bucket_name');
 Perform a similarity search on a Telnyx Storage Bucket, returning the most similar `num_docs` document chunks to the query.
 
 `POST /ai/embeddings/similarity-search` — Required: `bucket_name`, `query`
+
+Optional: `num_of_docs` (integer)
 
 ```javascript
 const response = await client.ai.embeddings.similaritySearch({
@@ -397,6 +415,8 @@ for await (const clusterListResponse of client.ai.clusters.list()) {
 Starts a background task to compute how the data in an [embedded storage bucket](https://developers.telnyx.com/api-reference/embeddings/embed-documents) is clustered.
 
 `POST /ai/clusters` — Required: `bucket`
+
+Optional: `files` (array[string]), `min_cluster_size` (integer), `min_subcluster_size` (integer), `prefix` (string)
 
 ```javascript
 const response = await client.ai.clusters.compute({ bucket: 'bucket' });
@@ -453,6 +473,8 @@ Chat with a language model.
 
 `POST /ai/chat/completions` — Required: `messages`
 
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+
 ```javascript
 const response = await client.ai.chat.createCompletion({
   messages: [
@@ -481,6 +503,8 @@ console.log(jobs.data);
 Create a new fine tuning job.
 
 `POST /ai/fine_tuning/jobs` — Required: `model`, `training_file`
+
+Optional: `hyperparameters` (object), `suffix` (string)
 
 ```javascript
 const fineTuningJob = await client.ai.fineTuning.jobs.create({
@@ -515,6 +539,35 @@ const fineTuningJob = await client.ai.fineTuning.jobs.cancel('job_id');
 console.log(fineTuningJob.id);
 ```
 
+## Create embeddings
+
+Creates an embedding vector representing the input text.
+
+`POST /ai/openai/embeddings` — Required: `input`, `model`
+
+Optional: `dimensions` (integer), `encoding_format` (enum), `user` (string)
+
+```javascript
+const response = await client.ai.openai.embeddings.createEmbeddings({
+  input: 'The quick brown fox jumps over the lazy dog',
+  model: 'thenlper/gte-large',
+});
+
+console.log(response.data);
+```
+
+## List embedding models
+
+Returns a list of available embedding models.
+
+`GET /ai/openai/embeddings/models`
+
+```javascript
+const response = await client.ai.openai.embeddings.listEmbeddingModels();
+
+console.log(response.data);
+```
+
 ## Get available models
 
 This endpoint returns a list of Open Source and OpenAI models that are available for use.
@@ -532,6 +585,8 @@ console.log(response.data);
 Generate a summary of a file's contents.
 
 `POST /ai/summarize` — Required: `bucket`, `filename`
+
+Optional: `system_prompt` (string)
 
 ```javascript
 const response = await client.ai.summarize({ bucket: 'bucket', filename: 'filename' });

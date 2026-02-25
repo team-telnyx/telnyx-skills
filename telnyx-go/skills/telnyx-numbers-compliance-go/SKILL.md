@@ -91,6 +91,8 @@ Creates multiple user bundles for the user.
 
 `POST /bundle_pricing/user_bundles/bulk`
 
+Optional: `idempotency_key` (uuid), `items` (array[object])
+
 ```go
 	userBundle, err := client.BundlePricing.UserBundles.New(context.TODO(), telnyx.BundlePricingUserBundleNewParams{})
 	if err != nil {
@@ -200,6 +202,8 @@ List all documents ordered by created_at descending.
 Upload a document.<br /><br />Uploaded files must be linked to a service within 30 minutes or they will be automatically deleted.
 
 `POST /documents`
+
+Optional: `customer_reference` (string), `file` (byte), `filename` (string), `url` (string)
 
 ```go
 	response, err := client.Documents.UploadJson(context.TODO(), telnyx.DocumentUploadJsonParams{
@@ -371,6 +375,8 @@ Retrieve a requirement type by id
 
 `POST /requirement_groups` — Required: `country_code`, `phone_number_type`, `action`
 
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
+
 ```go
 	requirementGroup, err := client.RequirementGroups.New(context.TODO(), telnyx.RequirementGroupNewParams{
 		Action:          telnyx.RequirementGroupNewParamsActionOrdering,
@@ -398,6 +404,8 @@ Retrieve a requirement type by id
 ## Update requirement values in requirement group
 
 `PATCH /requirement_groups/{id}`
+
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
 
 ```go
 	requirementGroup, err := client.RequirementGroups.Update(
@@ -454,6 +462,8 @@ Gets a paginated list of Verified Numbers.
 Initiates phone number verification procedure.
 
 `POST /verified_numbers` — Required: `phone_number`, `verification_method`
+
+Optional: `extension` (string)
 
 ```go
 	verifiedNumber, err := client.VerifiedNumbers.New(context.TODO(), telnyx.VerifiedNumberNewParams{

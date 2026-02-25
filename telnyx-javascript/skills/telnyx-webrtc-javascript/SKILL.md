@@ -106,6 +106,8 @@ Create a credential.
 
 `POST /telephony_credentials` — Required: `connection_id`
 
+Optional: `expires_at` (string), `name` (string), `tag` (string)
+
 ```javascript
 const telephonyCredential = await client.telephonyCredentials.create({
   connection_id: '1234567890',
@@ -131,6 +133,8 @@ console.log(telephonyCredential.data);
 Update an existing credential.
 
 `PATCH /telephony_credentials/{id}`
+
+Optional: `connection_id` (string), `expires_at` (string), `name` (string), `tag` (string)
 
 ```javascript
 const telephonyCredential = await client.telephonyCredentials.update('id');

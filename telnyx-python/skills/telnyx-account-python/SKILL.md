@@ -108,6 +108,8 @@ Update payment auto recharge preferences.
 
 `PATCH /payments/auto_recharge_prefs`
 
+Optional: `enabled` (boolean), `invoice_enabled` (boolean), `preference` (enum), `recharge_amount` (string), `threshold_amount` (string)
+
 ```python
 auto_recharge_pref = client.payment.auto_recharge_prefs.update()
 print(auto_recharge_pref.data)

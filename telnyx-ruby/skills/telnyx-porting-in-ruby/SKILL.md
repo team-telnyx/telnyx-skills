@@ -190,6 +190,8 @@ Creates a new porting order object.
 
 `POST /porting_orders` — Required: `phone_numbers`
 
+Optional: `customer_group_reference` (string), `customer_reference` (['string', 'null'])
+
 ```ruby
 porting_order = client.porting_orders.create(phone_numbers: ["+13035550000", "+13035550001", "+13035550002"])
 
@@ -213,6 +215,8 @@ puts(porting_order)
 Edits the details of an existing porting order.
 
 `PATCH /porting_orders/{id}`
+
+Optional: `activation_settings` (object), `customer_group_reference` (string), `customer_reference` (string), `documents` (object), `end_user` (object), `messaging` (object), `misc` (object), `phone_number_configuration` (object), `requirement_group_id` (uuid), `requirements` (array[object]), `user_feedback` (object), `webhook_url` (uri)
 
 ```ruby
 porting_order = client.porting_orders.update("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -388,6 +392,8 @@ puts(page)
 Creates a new comment for a porting order.
 
 `POST /porting_orders/{id}/comments`
+
+Optional: `body` (string)
 
 ```ruby
 comment = client.porting_orders.comments.create("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -722,6 +728,8 @@ puts(response)
 Runs a portability check, returning the results immediately.
 
 `POST /portability_checks`
+
+Optional: `phone_numbers` (array[string])
 
 ```ruby
 response = client.portability_checks.run

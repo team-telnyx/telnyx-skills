@@ -104,6 +104,8 @@ Create a new OAuth client
 
 `POST /oauth/clients` — Required: `name`, `allowed_scopes`, `client_type`, `allowed_grant_types`
 
+Optional: `logo_uri` (uri), `policy_uri` (uri), `redirect_uris` (array[string]), `require_pkce` (boolean), `tos_uri` (uri)
+
 ```go
 	oauthClient, err := client.OAuthClients.New(context.TODO(), telnyx.OAuthClientNewParams{
 		AllowedGrantTypes: []string{"client_credentials"},
@@ -136,6 +138,8 @@ Retrieve a single OAuth client by ID
 Update an existing OAuth client
 
 `PUT /oauth/clients/{id}`
+
+Optional: `allowed_grant_types` (array[string]), `allowed_scopes` (array[string]), `logo_uri` (uri), `name` (string), `policy_uri` (uri), `redirect_uris` (array[string]), `require_pkce` (boolean), `tos_uri` (uri)
 
 ```go
 	oauthClient, err := client.OAuthClients.Update(
@@ -254,6 +258,8 @@ Register a new OAuth client dynamically (RFC 7591)
 
 `POST /oauth/register`
 
+Optional: `client_name` (string), `grant_types` (array[string]), `logo_uri` (uri), `policy_uri` (uri), `redirect_uris` (array[string]), `response_types` (array[string]), `scope` (string), `token_endpoint_auth_method` (enum), `tos_uri` (uri)
+
 ```go
 	response, err := client.OAuth.Register(context.TODO(), telnyx.OAuthRegisterParams{})
 	if err != nil {
@@ -267,6 +273,8 @@ Register a new OAuth client dynamically (RFC 7591)
 Exchange authorization code, client credentials, or refresh token for access token
 
 `POST /oauth/token` — Required: `grant_type`
+
+Optional: `client_id` (string), `client_secret` (string), `code` (string), `code_verifier` (string), `redirect_uri` (uri), `refresh_token` (string), `scope` (string)
 
 ```go
 	response, err := client.OAuth.Token(context.TODO(), telnyx.OAuthTokenParams{

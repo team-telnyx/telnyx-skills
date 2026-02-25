@@ -39,6 +39,8 @@ Returns a timed and authenticated URL to download (GET) or upload (PUT) an objec
 
 `POST /storage/buckets/{bucketName}/{objectName}/presigned_url`
 
+Optional: `ttl` (integer)
+
 ```python
 response = client.storage.buckets.create_presigned_url(
     object_name="",
@@ -142,6 +144,8 @@ Create a source from which data can be migrated from.
 
 `POST /storage/migration_sources` — Required: `provider`, `provider_auth`, `bucket_name`
 
+Optional: `id` (string), `source_region` (string)
+
 ```python
 migration_source = client.storage.migration_sources.create(
     bucket_name="bucket_name",
@@ -187,6 +191,8 @@ print(migrations.data)
 Initiate a migration of data from an external provider into Telnyx Cloud Storage.
 
 `POST /storage/migrations` — Required: `source_id`, `target_bucket_name`, `target_region`
+
+Optional: `bytes_migrated` (integer), `bytes_to_migrate` (integer), `created_at` (date-time), `eta` (date-time), `id` (string), `last_copy` (date-time), `refresh` (boolean), `speed` (integer), `status` (enum)
 
 ```python
 migration = client.storage.migrations.create(

@@ -51,6 +51,8 @@ Creates an address.
 
 `POST /addresses` — Required: `first_name`, `last_name`, `business_name`, `street_address`, `locality`, `country_code`
 
+Optional: `address_book` (boolean), `administrative_area` (string), `borough` (string), `customer_reference` (string), `extended_address` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `validate_address` (boolean)
+
 ```ruby
 address = client.addresses.create(
   business_name: "Toy-O'Kon",
@@ -92,6 +94,8 @@ puts(address)
 
 `POST /addresses/{id}/actions/accept_suggestions`
 
+Optional: `id` (string)
+
 ```ruby
 response = client.addresses.actions.accept_suggestions("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
@@ -103,6 +107,8 @@ puts(response)
 Validates an address for emergency services.
 
 `POST /addresses/actions/validate` — Required: `country_code`, `street_address`, `postal_code`
+
+Optional: `administrative_area` (string), `extended_address` (string), `locality` (string)
 
 ```ruby
 response = client.addresses.actions.validate(
@@ -131,6 +137,8 @@ puts(page)
 Creates an authentication provider.
 
 `POST /authentication_providers` — Required: `name`, `short_name`, `settings`
+
+Optional: `active` (boolean), `settings_url` (uri)
 
 ```ruby
 authentication_provider = client.authentication_providers.create(
@@ -164,6 +172,8 @@ Updates settings of an existing authentication provider.
 
 `PATCH /authentication_providers/{id}`
 
+Optional: `active` (boolean), `name` (string), `settings` (object), `settings_url` (uri), `short_name` (string)
+
 ```ruby
 authentication_provider = client.authentication_providers.update("id")
 
@@ -196,6 +206,8 @@ puts(page)
 
 `POST /billing_groups`
 
+Optional: `name` (string)
+
 ```ruby
 billing_group = client.billing_groups.create
 
@@ -215,6 +227,8 @@ puts(billing_group)
 ## Update a billing group
 
 `PATCH /billing_groups/{id}`
+
+Optional: `name` (string)
 
 ```ruby
 billing_group = client.billing_groups.update("f5586561-8ff0-4291-a0ac-84fe544797bd")
@@ -250,6 +264,8 @@ Create a new secret with an associated identifier that can be used to securely i
 
 `POST /integration_secrets` — Required: `identifier`, `type`
 
+Optional: `password` (string), `token` (string), `username` (string)
+
 ```ruby
 integration_secret = client.integration_secrets.create(identifier: "my_secret", type: :bearer)
 
@@ -281,6 +297,8 @@ puts(page)
 ## Create new Access IP Address
 
 `POST /access_ip_address` — Required: `ip_address`
+
+Optional: `description` (string)
 
 ```ruby
 access_ip_address_response = client.access_ip_address.create(ip_address: "ip_address")
@@ -321,6 +339,8 @@ puts(page)
 ## Create new Access IP Range
 
 `POST /access_ip_ranges` — Required: `cidr_block`
+
+Optional: `description` (string)
 
 ```ruby
 access_ip_range = client.access_ip_ranges.create(cidr_block: "cidr_block")

@@ -38,6 +38,8 @@ Put the call in a queue.
 
 `POST /calls/{call_control_id}/actions/enqueue` — Required: `queue_name`
 
+Optional: `client_state` (string), `command_id` (string), `keep_after_hangup` (boolean), `max_size` (integer), `max_wait_time_secs` (integer)
+
 ```java
 import com.telnyx.sdk.models.calls.actions.ActionEnqueueParams;
 import com.telnyx.sdk.models.calls.actions.ActionEnqueueResponse;
@@ -54,6 +56,8 @@ ActionEnqueueResponse response = client.calls().actions().enqueue(params);
 Removes the call from a queue.
 
 `POST /calls/{call_control_id}/actions/leave_queue`
+
+Optional: `client_state` (string), `command_id` (string)
 
 ```java
 import com.telnyx.sdk.models.calls.actions.ActionLeaveQueueParams;
@@ -80,6 +84,8 @@ ConferenceListPage page = client.conferences().list();
 Create a conference from an existing call leg using a `call_control_id` and a conference name.
 
 `POST /conferences` — Required: `call_control_id`, `name`
+
+Optional: `beep_enabled` (enum), `client_state` (string), `comfort_noise` (boolean), `command_id` (string), `duration_minutes` (integer), `hold_audio_url` (string), `hold_media_name` (string), `max_participants` (integer), `region` (enum), `start_conference_on_create` (boolean)
 
 ```java
 import com.telnyx.sdk.models.conferences.ConferenceCreateParams;
@@ -111,6 +117,8 @@ Hold a list of participants in a conference call
 
 `POST /conferences/{id}/actions/hold`
 
+Optional: `audio_url` (string), `call_control_ids` (array[string]), `media_name` (string), `region` (enum)
+
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionHoldParams;
 import com.telnyx.sdk.models.conferences.actions.ActionHoldResponse;
@@ -123,6 +131,8 @@ ActionHoldResponse response = client.conferences().actions().hold("id");
 Join an existing call leg to a conference.
 
 `POST /conferences/{id}/actions/join` — Required: `call_control_id`
+
+Optional: `beep_enabled` (enum), `client_state` (string), `command_id` (string), `end_conference_on_exit` (boolean), `hold` (boolean), `hold_audio_url` (string), `hold_media_name` (string), `mute` (boolean), `region` (enum), `soft_end_conference_on_exit` (boolean), `start_conference_on_enter` (boolean), `supervisor_role` (enum), `whisper_call_control_ids` (array[string])
 
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionJoinParams;
@@ -141,6 +151,8 @@ Removes a call leg from a conference and moves it back to parked state.
 
 `POST /conferences/{id}/actions/leave` — Required: `call_control_id`
 
+Optional: `beep_enabled` (enum), `command_id` (string), `region` (enum)
+
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionLeaveParams;
 import com.telnyx.sdk.models.conferences.actions.ActionLeaveResponse;
@@ -158,6 +170,8 @@ Mute a list of participants in a conference call
 
 `POST /conferences/{id}/actions/mute`
 
+Optional: `call_control_ids` (array[string]), `region` (enum)
+
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionMuteParams;
 import com.telnyx.sdk.models.conferences.actions.ActionMuteResponse;
@@ -170,6 +184,8 @@ ActionMuteResponse response = client.conferences().actions().mute("id");
 Play audio to all or some participants on a conference call.
 
 `POST /conferences/{id}/actions/play`
+
+Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (object), `media_name` (string), `region` (enum)
 
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionPlayParams;
@@ -184,6 +200,8 @@ Pause conference recording.
 
 `POST /conferences/{id}/actions/record_pause`
 
+Optional: `command_id` (string), `recording_id` (string), `region` (enum)
+
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionRecordPauseParams;
 import com.telnyx.sdk.models.conferences.actions.ActionRecordPauseResponse;
@@ -197,6 +215,8 @@ Resume conference recording.
 
 `POST /conferences/{id}/actions/record_resume`
 
+Optional: `command_id` (string), `recording_id` (string), `region` (enum)
+
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionRecordResumeParams;
 import com.telnyx.sdk.models.conferences.actions.ActionRecordResumeResponse;
@@ -209,6 +229,8 @@ ActionRecordResumeResponse response = client.conferences().actions().recordResum
 Start recording the conference.
 
 `POST /conferences/{id}/actions/record_start` — Required: `format`
+
+Optional: `command_id` (string), `custom_file_name` (string), `play_beep` (boolean), `region` (enum), `trim` (enum)
 
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionRecordStartParams;
@@ -227,6 +249,8 @@ Stop recording the conference.
 
 `POST /conferences/{id}/actions/record_stop`
 
+Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid), `region` (enum)
+
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionRecordStopParams;
 import com.telnyx.sdk.models.conferences.actions.ActionRecordStopResponse;
@@ -239,6 +263,8 @@ ActionRecordStopResponse response = client.conferences().actions().recordStop("i
 Convert text to speech and play it to all or some participants.
 
 `POST /conferences/{id}/actions/speak` — Required: `payload`, `voice`
+
+Optional: `call_control_ids` (array[string]), `command_id` (string), `language` (enum), `payload_type` (enum), `region` (enum), `voice_settings` (object)
 
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionSpeakParams;
@@ -258,6 +284,8 @@ Stop audio being played to all or some participants on a conference call.
 
 `POST /conferences/{id}/actions/stop`
 
+Optional: `call_control_ids` (array[string]), `region` (enum)
+
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionStopParams;
 import com.telnyx.sdk.models.conferences.actions.ActionStopResponse;
@@ -270,6 +298,8 @@ ActionStopResponse response = client.conferences().actions().stop("id");
 Unhold a list of participants in a conference call
 
 `POST /conferences/{id}/actions/unhold` — Required: `call_control_ids`
+
+Optional: `region` (enum)
 
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionUnholdParams;
@@ -288,6 +318,8 @@ Unmute a list of participants in a conference call
 
 `POST /conferences/{id}/actions/unmute`
 
+Optional: `call_control_ids` (array[string]), `region` (enum)
+
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionUnmuteParams;
 import com.telnyx.sdk.models.conferences.actions.ActionUnmuteResponse;
@@ -300,6 +332,8 @@ ActionUnmuteResponse response = client.conferences().actions().unmute("id");
 Update conference participant supervisor_role
 
 `POST /conferences/{id}/actions/update` — Required: `call_control_id`, `supervisor_role`
+
+Optional: `command_id` (string), `region` (enum), `whisper_call_control_ids` (array[string])
 
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionUpdateParams;
@@ -314,6 +348,59 @@ ActionUpdateParams params = ActionUpdateParams.builder()
         .build())
     .build();
 ActionUpdateResponse action = client.conferences().actions().update(params);
+```
+
+## End a conference
+
+End a conference and terminate all active participants.
+
+`POST /conferences/{id}/actions/end`
+
+Optional: `command_id` (string)
+
+```java
+import com.telnyx.sdk.models.conferences.actions.ActionEndConferenceParams;
+import com.telnyx.sdk.models.conferences.actions.ActionEndConferenceResponse;
+
+ActionEndConferenceResponse response = client.conferences().actions().endConference("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e");
+```
+
+## Gather DTMF using audio prompt in a conference
+
+Play an audio file to a specific conference participant and gather DTMF input.
+
+`POST /conferences/{id}/actions/gather_using_audio` — Required: `call_control_id`
+
+Optional: `audio_url` (string), `client_state` (string), `gather_id` (string), `initial_timeout_millis` (integer), `inter_digit_timeout_millis` (integer), `invalid_audio_url` (string), `invalid_media_name` (string), `maximum_digits` (integer), `maximum_tries` (integer), `media_name` (string), `minimum_digits` (integer), `stop_playback_on_dtmf` (boolean), `terminating_digit` (string), `timeout_millis` (integer), `valid_digits` (string)
+
+```java
+import com.telnyx.sdk.models.conferences.actions.ActionGatherDtmfAudioParams;
+import com.telnyx.sdk.models.conferences.actions.ActionGatherDtmfAudioResponse;
+
+ActionGatherDtmfAudioParams params = ActionGatherDtmfAudioParams.builder()
+    .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+    .callControlId("v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg")
+    .build();
+ActionGatherDtmfAudioResponse response = client.conferences().actions().gatherDtmfAudio(params);
+```
+
+## Send DTMF to conference participants
+
+Send DTMF tones to one or more conference participants.
+
+`POST /conferences/{id}/actions/send_dtmf` — Required: `digits`
+
+Optional: `call_control_ids` (array[string]), `client_state` (string), `duration_millis` (integer)
+
+```java
+import com.telnyx.sdk.models.conferences.actions.ActionSendDtmfParams;
+import com.telnyx.sdk.models.conferences.actions.ActionSendDtmfResponse;
+
+ActionSendDtmfParams params = ActionSendDtmfParams.builder()
+    .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+    .digits("1234#")
+    .build();
+ActionSendDtmfResponse response = client.conferences().actions().sendDtmf(params);
 ```
 
 ## List conference participants
@@ -354,3 +441,254 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | `conferenceRecordingSaved` | Conference Recording Saved |
 | `conferenceSpeakEnded` | Conference Speak Ended |
 | `conferenceSpeakStarted` | Conference Speak Started |
+
+### Webhook payload fields
+
+**`callEnqueued`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.queue` | string | The name of the queue |
+| `data.payload.current_position` | integer | Current position of the call in the queue. |
+| `data.payload.queue_avg_wait_time_secs` | integer | Average time call spends in the queue in seconds. |
+
+**`callLeftQueue`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.queue` | string | The name of the queue |
+| `data.payload.queue_position` | integer | Last position of the call in the queue. |
+| `data.payload.reason` | enum | The reason for leaving the queue |
+| `data.payload.wait_time_secs` | integer | Time call spent in the queue in seconds. |
+
+**`conferenceCreated`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.conference_id` | string | Conference ID that the participant joined. |
+| `data.payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+
+**`conferenceEnded`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.conference_id` | string | Conference ID that the participant joined. |
+| `data.payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.reason` | enum | Reason the conference ended. |
+
+**`conferenceFloorChanged`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `record_type` | enum | Identifies the type of the resource. |
+| `event_type` | enum | The type of event being delivered. |
+| `id` | uuid | Identifies the type of resource. |
+| `payload.call_control_id` | string | Call Control ID of the new speaker. |
+| `payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `payload.call_leg_id` | string | Call Leg ID of the new speaker. |
+| `payload.call_session_id` | string | Call Session ID of the new speaker. |
+| `payload.client_state` | string | State received from a command. |
+| `payload.conference_id` | string | Conference ID that had a speaker change event. |
+| `payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+
+**`conferenceParticipantJoined`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.conference_id` | string | Conference ID that the participant joined. |
+
+**`conferenceParticipantLeft`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.conference_id` | string | Conference ID that the participant joined. |
+
+**`conferenceParticipantPlaybackEnded`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.call_control_id` | string | Participant's call ID used to issue commands via Call Control API. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.creator_call_session_id` | string | ID that is unique to the call session that started the conference. |
+| `data.payload.conference_id` | string | ID of the conference the text was spoken in. |
+| `data.payload.media_url` | string | The audio URL being played back, if audio_url has been used to start. |
+| `data.payload.media_name` | string | The name of the audio media file being played back, if media_name has been used to start. |
+| `data.payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+
+**`conferenceParticipantPlaybackStarted`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.call_control_id` | string | Participant's call ID used to issue commands via Call Control API. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.creator_call_session_id` | string | ID that is unique to the call session that started the conference. |
+| `data.payload.conference_id` | string | ID of the conference the text was spoken in. |
+| `data.payload.media_url` | string | The audio URL being played back, if audio_url has been used to start. |
+| `data.payload.media_name` | string | The name of the audio media file being played back, if media_name has been used to start. |
+| `data.payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+
+**`conferenceParticipantSpeakEnded`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.call_control_id` | string | Participant's call ID used to issue commands via Call Control API. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.creator_call_session_id` | string | ID that is unique to the call session that started the conference. |
+| `data.payload.conference_id` | string | ID of the conference the text was spoken in. |
+| `data.payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+
+**`conferenceParticipantSpeakStarted`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.call_control_id` | string | Participant's call ID used to issue commands via Call Control API. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.creator_call_session_id` | string | ID that is unique to the call session that started the conference. |
+| `data.payload.conference_id` | string | ID of the conference the text was spoken in. |
+| `data.payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+
+**`conferencePlaybackEnded`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.creator_call_session_id` | string | ID that is unique to the call session that started the conference. |
+| `data.payload.conference_id` | string | ID of the conference the text was spoken in. |
+| `data.payload.media_url` | string | The audio URL being played back, if audio_url has been used to start. |
+| `data.payload.media_name` | string | The name of the audio media file being played back, if media_name has been used to start. |
+| `data.payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+
+**`conferencePlaybackStarted`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.creator_call_session_id` | string | ID that is unique to the call session that started the conference. |
+| `data.payload.conference_id` | string | ID of the conference the text was spoken in. |
+| `data.payload.media_url` | string | The audio URL being played back, if audio_url has been used to start. |
+| `data.payload.media_name` | string | The name of the audio media file being played back, if media_name has been used to start. |
+| `data.payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+
+**`conferenceRecordingSaved`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.call_control_id` | string | Participant's call ID used to issue commands via Call Control API. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.channels` | enum | Whether recording was recorded in `single` or `dual` channel. |
+| `data.payload.conference_id` | uuid | ID of the conference that is being recorded. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.format` | enum | The audio file format used when storing the call recording. |
+| `data.payload.recording_ended_at` | date-time | ISO 8601 datetime of when recording ended. |
+| `data.payload.recording_id` | uuid | ID of the conference recording. |
+| `data.payload.recording_started_at` | date-time | ISO 8601 datetime of when recording started. |
+
+**`conferenceSpeakEnded`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.creator_call_session_id` | string | ID that is unique to the call session that started the conference. |
+| `data.payload.conference_id` | string | ID of the conference the text was spoken in. |
+| `data.payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+
+**`conferenceSpeakStarted`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.creator_call_session_id` | string | ID that is unique to the call session that started the conference. |
+| `data.payload.conference_id` | string | ID of the conference the text was spoken in. |
+| `data.payload.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |

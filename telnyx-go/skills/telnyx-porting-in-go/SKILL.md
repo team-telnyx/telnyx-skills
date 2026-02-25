@@ -252,6 +252,8 @@ Creates a new porting order object.
 
 `POST /porting_orders` — Required: `phone_numbers`
 
+Optional: `customer_group_reference` (string), `customer_reference` (['string', 'null'])
+
 ```go
 	portingOrder, err := client.PortingOrders.New(context.TODO(), telnyx.PortingOrderNewParams{
 		PhoneNumbers: []string{"+13035550000", "+13035550001", "+13035550002"},
@@ -285,6 +287,8 @@ Retrieves the details of an existing porting order.
 Edits the details of an existing porting order.
 
 `PATCH /porting_orders/{id}`
+
+Optional: `activation_settings` (object), `customer_group_reference` (string), `customer_reference` (string), `documents` (object), `end_user` (object), `messaging` (object), `misc` (object), `phone_number_configuration` (object), `requirement_group_id` (uuid), `requirements` (array[object]), `user_feedback` (object), `webhook_url` (uri)
 
 ```go
 	portingOrder, err := client.PortingOrders.Update(
@@ -519,6 +523,8 @@ Returns a list of all comments of a porting order.
 Creates a new comment for a porting order.
 
 `POST /porting_orders/{id}/comments`
+
+Optional: `body` (string)
 
 ```go
 	comment, err := client.PortingOrders.Comments.New(
@@ -985,6 +991,8 @@ List available carriers in the UK.
 Runs a portability check, returning the results immediately.
 
 `POST /portability_checks`
+
+Optional: `phone_numbers` (array[string])
 
 ```go
 	response, err := client.PortabilityChecks.Run(context.TODO(), telnyx.PortabilityCheckRunParams{})

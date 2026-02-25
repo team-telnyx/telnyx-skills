@@ -103,6 +103,8 @@ Create a credential.
 
 `POST /telephony_credentials` — Required: `connection_id`
 
+Optional: `expires_at` (string), `name` (string), `tag` (string)
+
 ```python
 telephony_credential = client.telephony_credentials.create(
     connection_id="1234567890",
@@ -128,6 +130,8 @@ print(telephony_credential.data)
 Update an existing credential.
 
 `PATCH /telephony_credentials/{id}`
+
+Optional: `connection_id` (string), `expires_at` (string), `name` (string), `tag` (string)
 
 ```python
 telephony_credential = client.telephony_credentials.update(

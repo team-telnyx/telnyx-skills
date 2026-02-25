@@ -62,6 +62,8 @@ Returns information about the provided phone number.
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
+Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), `timeout_secs` (integer)
+
 ```go
 	createVerificationResponse, err := client.Verifications.TriggerCall(context.TODO(), telnyx.VerificationTriggerCallParams{
 		PhoneNumber:     "+13035551234",
@@ -77,6 +79,8 @@ Returns information about the provided phone number.
 
 `POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
 
+Optional: `timeout_secs` (integer)
+
 ```go
 	createVerificationResponse, err := client.Verifications.TriggerFlashcall(context.TODO(), telnyx.VerificationTriggerFlashcallParams{
 		PhoneNumber:     "+13035551234",
@@ -91,6 +95,8 @@ Returns information about the provided phone number.
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
+
+Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
 
 ```go
 	createVerificationResponse, err := client.Verifications.TriggerSMS(context.TODO(), telnyx.VerificationTriggerSMSParams{
@@ -118,6 +124,8 @@ Returns information about the provided phone number.
 ## Verify verification code by ID
 
 `POST /verifications/{verification_id}/actions/verify`
+
+Optional: `code` (string), `status` (enum)
 
 ```go
 	verifyVerificationCodeResponse, err := client.Verifications.Actions.Verify(
@@ -182,6 +190,8 @@ Creates a new Verify profile to associate verifications with.
 
 `POST /verify_profiles` — Required: `name`
 
+Optional: `call` (object), `flashcall` (object), `language` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
+
 ```go
 	verifyProfileData, err := client.VerifyProfiles.New(context.TODO(), telnyx.VerifyProfileNewParams{
 		Name: "Test Profile",
@@ -209,6 +219,8 @@ Gets a single Verify profile.
 ## Update Verify profile
 
 `PATCH /verify_profiles/{verify_profile_id}`
+
+Optional: `call` (object), `flashcall` (object), `language` (string), `name` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
 
 ```go
 	verifyProfileData, err := client.VerifyProfiles.Update(

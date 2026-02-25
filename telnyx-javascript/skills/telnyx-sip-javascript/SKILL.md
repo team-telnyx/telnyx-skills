@@ -52,6 +52,8 @@ Create an outbound voice profile.
 
 `POST /outbound_voice_profiles` — Required: `name`
 
+Optional: `billing_group_id` (uuid), `call_recording` (object), `calling_window` (object), `concurrent_call_limit` (['integer', 'null']), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `max_destination_rate` (number), `service_plan` (enum), `tags` (array[string]), `traffic_type` (enum), `usage_payment_method` (enum), `whitelisted_destinations` (array[string])
+
 ```javascript
 const outboundVoiceProfile = await client.outboundVoiceProfiles.create({ name: 'office' });
 
@@ -73,6 +75,8 @@ console.log(outboundVoiceProfile.data);
 ## Updates an existing outbound voice profile.
 
 `PATCH /outbound_voice_profiles/{id}` — Required: `name`
+
+Optional: `billing_group_id` (uuid), `call_recording` (object), `calling_window` (object), `concurrent_call_limit` (['integer', 'null']), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `max_destination_rate` (number), `service_plan` (enum), `tags` (array[string]), `traffic_type` (enum), `usage_payment_method` (enum), `whitelisted_destinations` (array[string])
 
 ```javascript
 const outboundVoiceProfile = await client.outboundVoiceProfiles.update('1293384261075731499', {
@@ -138,6 +142,8 @@ Creates a credential connection.
 
 `POST /credential_connections` — Required: `user_name`, `password`, `connection_name`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `sip_uri_calling_preference` (enum), `tags` (array[string]), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```javascript
 const credentialConnection = await client.credentialConnections.create({
   connection_name: 'my name',
@@ -165,6 +171,8 @@ console.log(credentialConnection.data);
 Updates settings of an existing credential connection.
 
 `PATCH /credential_connections/{id}`
+
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum), `tags` (array[string]), `user_name` (string), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
 
 ```javascript
 const credentialConnection = await client.credentialConnections.update('id');
@@ -215,6 +223,8 @@ Create a new IP object.
 
 `POST /ips` — Required: `ip_address`
 
+Optional: `connection_id` (string), `port` (integer)
+
 ```javascript
 const ip = await client.ips.create({ ip_address: '192.168.0.0' });
 
@@ -238,6 +248,8 @@ console.log(ip.data);
 Update the details of a specific IP.
 
 `PATCH /ips/{id}` — Required: `ip_address`
+
+Optional: `connection_id` (string), `port` (integer)
 
 ```javascript
 const ip = await client.ips.update('6a09cdc3-8948-47f0-aa62-74ac943d6c58', {
@@ -278,6 +290,8 @@ Creates an IP connection.
 
 `POST /ip_connections`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```javascript
 const ipConnection = await client.ipConnections.create();
 
@@ -301,6 +315,8 @@ console.log(ipConnection.data);
 Updates settings of an existing IP connection.
 
 `PATCH /ip_connections/{id}`
+
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
 
 ```javascript
 const ipConnection = await client.ipConnections.update('id');
@@ -339,6 +355,8 @@ Create a new FQDN object.
 
 `POST /fqdns` — Required: `fqdn`, `dns_record_type`, `connection_id`
 
+Optional: `port` (['integer', 'null'])
+
 ```javascript
 const fqdn = await client.fqdns.create({
   connection_id: '1516447646313612565',
@@ -356,7 +374,7 @@ Return the details regarding a specific FQDN.
 `GET /fqdns/{id}`
 
 ```javascript
-const fqdn = await client.fqdns.retrieve('id');
+const fqdn = await client.fqdns.retrieve('1517907029795014409');
 
 console.log(fqdn.data);
 ```
@@ -367,8 +385,10 @@ Update the details of a specific FQDN.
 
 `PATCH /fqdns/{id}`
 
+Optional: `connection_id` (string), `dns_record_type` (string), `fqdn` (string), `port` (['integer', 'null'])
+
 ```javascript
-const fqdn = await client.fqdns.update('id');
+const fqdn = await client.fqdns.update('1517907029795014409');
 
 console.log(fqdn.data);
 ```
@@ -380,7 +400,7 @@ Delete an FQDN.
 `DELETE /fqdns/{id}`
 
 ```javascript
-const fqdn = await client.fqdns.delete('id');
+const fqdn = await client.fqdns.delete('1517907029795014409');
 
 console.log(fqdn.data);
 ```
@@ -404,6 +424,8 @@ Creates a FQDN connection.
 
 `POST /fqdn_connections` — Required: `connection_name`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `microsoft_teams_sbc` (boolean), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```javascript
 const fqdnConnection = await client.fqdnConnections.create({ connection_name: 'string' });
 
@@ -417,7 +439,7 @@ Retrieves the details of an existing FQDN connection.
 `GET /fqdn_connections/{id}`
 
 ```javascript
-const fqdnConnection = await client.fqdnConnections.retrieve('id');
+const fqdnConnection = await client.fqdnConnections.retrieve('1293384261075731499');
 
 console.log(fqdnConnection.data);
 ```
@@ -428,8 +450,10 @@ Updates settings of an existing FQDN connection.
 
 `PATCH /fqdn_connections/{id}`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```javascript
-const fqdnConnection = await client.fqdnConnections.update('id');
+const fqdnConnection = await client.fqdnConnections.update('1293384261075731499');
 
 console.log(fqdnConnection.data);
 ```
@@ -441,7 +465,7 @@ Deletes an FQDN connection.
 `DELETE /fqdn_connections/{id}`
 
 ```javascript
-const fqdnConnection = await client.fqdnConnections.delete('id');
+const fqdnConnection = await client.fqdnConnections.delete('1293384261075731499');
 
 console.log(fqdnConnection.data);
 ```
@@ -460,6 +484,8 @@ for await (const mobileVoiceConnection of client.mobileVoiceConnections.list()) 
 ## Create a Mobile Voice Connection
 
 `POST /v2/mobile_voice_connections`
+
+Optional: `active` (boolean), `connection_name` (string), `inbound` (object), `outbound` (object), `tags` (array[string]), `webhook_api_version` (enum), `webhook_event_failover_url` (['string', 'null']), `webhook_event_url` (['string', 'null']), `webhook_timeout_secs` (['integer', 'null'])
 
 ```javascript
 const mobileVoiceConnection = await client.mobileVoiceConnections.create();
@@ -480,6 +506,8 @@ console.log(mobileVoiceConnection.data);
 ## Update a Mobile Voice Connection
 
 `PATCH /v2/mobile_voice_connections/{id}`
+
+Optional: `active` (boolean), `connection_name` (string), `inbound` (object), `outbound` (object), `tags` (array[string]), `webhook_api_version` (enum), `webhook_event_failover_url` (['string', 'null']), `webhook_event_url` (['string', 'null']), `webhook_timeout_secs` (integer)
 
 ```javascript
 const mobileVoiceConnection = await client.mobileVoiceConnections.update('id');

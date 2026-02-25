@@ -47,6 +47,8 @@ MessagingHostedNumberOrderListPage page = client.messagingHostedNumberOrders().l
 
 `POST /messaging_hosted_number_orders`
 
+Optional: `messaging_profile_id` (string), `phone_numbers` (array[string])
+
 ```java
 import com.telnyx.sdk.models.messaginghostednumberorders.MessagingHostedNumberOrderCreateParams;
 import com.telnyx.sdk.models.messaginghostednumberorders.MessagingHostedNumberOrderCreateResponse;
@@ -141,6 +143,34 @@ MessagingHostedNumberOrderCheckEligibilityParams params = MessagingHostedNumberO
 MessagingHostedNumberOrderCheckEligibilityResponse response = client.messagingHostedNumberOrders().checkEligibility(params);
 ```
 
+## Retrieve a messaging hosted number
+
+Retrieve a specific messaging hosted number by its ID or phone number.
+
+`GET /messaging_hosted_numbers/{id}`
+
+```java
+import com.telnyx.sdk.models.messaginghostednumbers.MessagingHostedNumberRetrieveParams;
+import com.telnyx.sdk.models.messaginghostednumbers.MessagingHostedNumberRetrieveResponse;
+
+MessagingHostedNumberRetrieveResponse messagingHostedNumber = client.messagingHostedNumbers().retrieve("id");
+```
+
+## Update a messaging hosted number
+
+Update the messaging settings for a hosted number.
+
+`PATCH /messaging_hosted_numbers/{id}`
+
+Optional: `messaging_product` (string), `messaging_profile_id` (string), `tags` (array[string])
+
+```java
+import com.telnyx.sdk.models.messaginghostednumbers.MessagingHostedNumberUpdateParams;
+import com.telnyx.sdk.models.messaginghostednumbers.MessagingHostedNumberUpdateResponse;
+
+MessagingHostedNumberUpdateResponse messagingHostedNumber = client.messagingHostedNumbers().update("id");
+```
+
 ## Delete a messaging hosted number
 
 `DELETE /messaging_hosted_numbers/{id}`
@@ -155,6 +185,8 @@ MessagingHostedNumberDeleteResponse messagingHostedNumber = client.messagingHost
 ## Send an RCS message
 
 `POST /messages/rcs` — Required: `agent_id`, `to`, `messaging_profile_id`, `agent_message`
+
+Optional: `mms_fallback` (object), `sms_fallback` (object), `type` (enum), `webhook_url` (url)
 
 ```java
 import com.telnyx.sdk.models.messages.RcsAgentMessage;
@@ -195,6 +227,8 @@ RcsAgentResponse rcsAgentResponse = client.messaging().rcs().agents().retrieve("
 ## Modify an RCS agent
 
 `PATCH /messaging/rcs/agents/{id}`
+
+Optional: `profile_id` (uuid), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```java
 import com.telnyx.sdk.models.messaging.rcs.agents.AgentUpdateParams;
@@ -284,7 +318,9 @@ RequestListPage page = client.messagingTollfree().verification().requests().list
 
 Submit a new tollfree verification request
 
-`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
+`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`
+
+Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegistrationCountry` (['string', 'null']), `businessRegistrationNumber` (['string', 'null']), `businessRegistrationType` (['string', 'null']), `campaignVerifyAuthorizationToken` (['string', 'null']), `doingBusinessAs` (['string', 'null']), `entityType` (object), `helpMessageResponse` (['string', 'null']), `isvReseller` (['string', 'null']), `optInConfirmationResponse` (['string', 'null']), `optInKeywords` (['string', 'null']), `privacyPolicyURL` (['string', 'null']), `termsAndConditionURL` (['string', 'null']), `webhookUrl` (string)
 
 ```java
 import com.telnyx.sdk.models.messagingtollfree.verification.requests.RequestCreateParams;
@@ -307,7 +343,6 @@ TfVerificationRequest params = TfVerificationRequest.builder()
     .businessState("Texas")
     .businessZip("78701")
     .corporateWebsite("http://example.com")
-    .isvReseller("isvReseller")
     .messageVolume(Volume.V_100000)
     .optInWorkflow("User signs into the Telnyx portal, enters a number and is prompted to select whether they want to use 2FA verification for security purposes. If they've opted in a confirmation message is sent out to the handset")
     .addOptInWorkflowImageUrl(Url.builder()
@@ -346,7 +381,9 @@ VerificationRequestStatus verificationRequestStatus = client.messagingTollfree()
 
 Update an existing tollfree verification request.
 
-`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
+`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`
+
+Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegistrationCountry` (['string', 'null']), `businessRegistrationNumber` (['string', 'null']), `businessRegistrationType` (['string', 'null']), `campaignVerifyAuthorizationToken` (['string', 'null']), `doingBusinessAs` (['string', 'null']), `entityType` (object), `helpMessageResponse` (['string', 'null']), `isvReseller` (['string', 'null']), `optInConfirmationResponse` (['string', 'null']), `optInKeywords` (['string', 'null']), `privacyPolicyURL` (['string', 'null']), `termsAndConditionURL` (['string', 'null']), `webhookUrl` (string)
 
 ```java
 import com.telnyx.sdk.models.messagingtollfree.verification.requests.RequestUpdateParams;
@@ -371,7 +408,6 @@ RequestUpdateParams params = RequestUpdateParams.builder()
         .businessState("Texas")
         .businessZip("78701")
         .corporateWebsite("http://example.com")
-        .isvReseller("isvReseller")
         .messageVolume(Volume.V_100000)
         .optInWorkflow("User signs into the Telnyx portal, enters a number and is prompted to select whether they want to use 2FA verification for security purposes. If they've opted in a confirmation message is sent out to the handset")
         .addOptInWorkflowImageUrl(Url.builder()

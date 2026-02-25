@@ -52,6 +52,8 @@ This endpoint is used to create a new brand.
 
 `POST /10dlc/brand` — Required: `entityType`, `displayName`, `country`, `email`, `vertical`
 
+Optional: `businessContactEmail` (string), `city` (string), `companyName` (string), `ein` (string), `firstName` (string), `ipAddress` (string), `isReseller` (boolean), `lastName` (string), `mobilePhone` (string), `mock` (boolean), `phone` (string), `postalCode` (string), `state` (string), `stockExchange` (object), `stockSymbol` (string), `street` (string), `webhookFailoverURL` (string), `webhookURL` (string), `website` (string)
+
 ```python
 telnyx_brand = client.messaging_10dlc.brand.create(
     country="US",
@@ -81,6 +83,8 @@ print(brand)
 Update a brand's attributes by `brandId`.
 
 `PUT /10dlc/brand/{brandId}` — Required: `entityType`, `displayName`, `country`, `email`, `vertical`
+
+Optional: `altBusinessId` (string), `altBusinessIdType` (enum), `businessContactEmail` (string), `city` (string), `companyName` (string), `ein` (string), `firstName` (string), `identityStatus` (enum), `ipAddress` (string), `isReseller` (boolean), `lastName` (string), `phone` (string), `postalCode` (string), `state` (string), `stockExchange` (object), `stockSymbol` (string), `street` (string), `webhookFailoverURL` (string), `webhookURL` (string), `website` (string)
 
 ```python
 telnyx_brand = client.messaging_10dlc.brand.update(
@@ -151,6 +155,8 @@ vetting provider.
 
 `PUT /10dlc/brand/{brandId}/externalVetting` — Required: `evpId`, `vettingId`
 
+Optional: `vettingToken` (string)
+
 ```python
 response = client.messaging_10dlc.brand.external_vetting.imports(
     brand_id="brandId",
@@ -214,6 +220,19 @@ client.messaging_10dlc.brand.verify_sms_otp(
 )
 ```
 
+## Get Brand SMS OTP Status
+
+Query the status of an SMS OTP (One-Time Password) for Sole Proprietor brand verification.
+
+`GET /10dlc/brand/smsOtp/{referenceId}`
+
+```python
+response = client.messaging_10dlc.brand.get_sms_otp_by_reference(
+    reference_id="OTP4B2001",
+)
+print(response.brand_id)
+```
+
 ## Get Brand Feedback By Id
 
 Get feedback about a brand by ID.
@@ -232,6 +251,8 @@ print(response.brand_id)
 Before creating a campaign, use the [Qualify By Usecase endpoint](https://developers.telnyx.com/api-reference/campaign/qualify-by-usecase) to ensure that the brand you want to assign a new campaign...
 
 `POST /10dlc/campaignBuilder` — Required: `brandId`, `description`, `usecase`
+
+Optional: `ageGated` (boolean), `autoRenewal` (boolean), `directLending` (boolean), `embeddedLink` (boolean), `embeddedLinkSample` (string), `embeddedPhone` (boolean), `helpKeywords` (string), `helpMessage` (string), `messageFlow` (string), `mnoIds` (array[integer]), `numberPool` (boolean), `optinKeywords` (string), `optinMessage` (string), `optoutKeywords` (string), `optoutMessage` (string), `privacyPolicyLink` (string), `referenceId` (string), `resellerId` (string), `sample1` (string), `sample2` (string), `sample3` (string), `sample4` (string), `sample5` (string), `subUsecases` (array[string]), `subscriberHelp` (boolean), `subscriberOptin` (boolean), `subscriberOptout` (boolean), `tag` (array[string]), `termsAndConditions` (boolean), `termsAndConditionsLink` (string), `webhookFailoverURL` (string), `webhookURL` (string)
 
 ```python
 telnyx_campaign_csp = client.messaging_10dlc.campaign_builder.submit(
@@ -288,6 +309,8 @@ print(telnyx_campaign_csp.brand_id)
 Update a campaign's properties by `campaignId`.
 
 `PUT /10dlc/campaign/{campaignId}`
+
+Optional: `autoRenewal` (boolean), `helpMessage` (string), `messageFlow` (string), `resellerId` (string), `sample1` (string), `sample2` (string), `sample3` (string), `sample4` (string), `sample5` (string), `webhookFailoverURL` (string), `webhookURL` (string)
 
 ```python
 telnyx_campaign_csp = client.messaging_10dlc.campaign.update(
@@ -426,6 +449,8 @@ Update campaign details by `campaignId`.
 
 `PATCH /10dlc/partner_campaigns/{campaignId}`
 
+Optional: `webhookFailoverURL` (string), `webhookURL` (string)
+
 ```python
 telnyx_downstream_campaign = client.messaging_10dlc.partner_campaigns.update(
     campaign_id="campaignId",
@@ -526,6 +551,8 @@ This endpoint allows you to link all phone numbers associated with a Messaging P
 
 `POST /10dlc/phoneNumberAssignmentByProfile` — Required: `messagingProfileId`
 
+Optional: `campaignId` (string), `tcrCampaignId` (string)
+
 ```python
 response = client.messaging_10dlc.phone_number_assignment_by_profile.assign(
     messaging_profile_id="4001767e-ce0f-4cae-9d5f-0d5e636e7809",
@@ -569,3 +596,18 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | Event | Description |
 |-------|-------------|
 | `campaignStatusUpdate` | Campaign Status Update |
+
+### Webhook payload fields
+
+**`campaignStatusUpdate`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `brandId` | string | Brand ID associated with the campaign. |
+| `campaignId` | string | The ID of the campaign. |
+| `createDate` | string | Unix timestamp when campaign was created. |
+| `cspId` | string | Alphanumeric identifier of the CSP associated with this campaign. |
+| `isTMobileRegistered` | boolean | Indicates whether the campaign is registered with T-Mobile. |
+| `type` | enum |  |
+| `description` | string | Description of the event. |
+| `status` | enum | The status of the campaign. |

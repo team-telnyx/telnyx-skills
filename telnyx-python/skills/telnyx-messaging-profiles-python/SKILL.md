@@ -48,6 +48,8 @@ print(page.id)
 
 `POST /messaging_profiles` — Required: `name`, `whitelisted_destinations`
 
+Optional: `ai_assistant_id` (['string', 'null']), `alpha_sender` (['string', 'null']), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `health_webhook_url` (url), `mms_fall_back_to_sms` (boolean), `mms_transcoding` (boolean), `mobile_only` (boolean), `number_pool_settings` (['object', 'null']), `resource_group_id` (['string', 'null']), `smart_encoding` (boolean), `url_shortener_settings` (['object', 'null']), `webhook_api_version` (enum), `webhook_failover_url` (url), `webhook_url` (url)
+
 ```python
 messaging_profile = client.messaging_profiles.create(
     name="My name",
@@ -70,6 +72,8 @@ print(messaging_profile.data)
 ## Update a messaging profile
 
 `PATCH /messaging_profiles/{id}`
+
+Optional: `alpha_sender` (['string', 'null']), `created_at` (date-time), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `id` (uuid), `mms_fall_back_to_sms` (boolean), `mms_transcoding` (boolean), `mobile_only` (boolean), `name` (string), `number_pool_settings` (['object', 'null']), `record_type` (enum), `smart_encoding` (boolean), `updated_at` (date-time), `url_shortener_settings` (['object', 'null']), `v1_secret` (string), `webhook_api_version` (enum), `webhook_failover_url` (url), `webhook_url` (url), `whitelisted_destinations` (array[string])
 
 ```python
 messaging_profile = client.messaging_profiles.update(
@@ -128,6 +132,8 @@ print(autoresp_configs.data)
 
 `POST /messaging_profiles/{profile_id}/autoresp_configs` — Required: `op`, `keywords`, `country_code`
 
+Optional: `resp_text` (string)
+
 ```python
 auto_resp_config_response = client.messaging_profiles.autoresp_configs.create(
     profile_id="profile_id",
@@ -153,6 +159,8 @@ print(auto_resp_config_response.data)
 ## Update Auto-Response Setting
 
 `PUT /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}` — Required: `op`, `keywords`, `country_code`
+
+Optional: `resp_text` (string)
 
 ```python
 auto_resp_config_response = client.messaging_profiles.autoresp_configs.update(
@@ -203,6 +211,8 @@ print(short_code.data)
 Update the settings for a specific short code.
 
 `PATCH /short_codes/{id}` — Required: `messaging_profile_id`
+
+Optional: `tags` (['array'])
 
 ```python
 short_code = client.short_codes.update(

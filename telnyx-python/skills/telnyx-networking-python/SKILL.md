@@ -249,6 +249,8 @@ Update the WireGuard peer.
 
 `PATCH /wireguard_peers/{id}`
 
+Optional: `public_key` (string)
+
 ```python
 wireguard_peer = client.wireguard_peers.update(
     id="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
@@ -297,6 +299,8 @@ print(page.id)
 Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
 
 `POST /private_wireless_gateways` — Required: `network_id`, `name`
+
+Optional: `region_code` (string)
 
 ```python
 private_wireless_gateway = client.private_wireless_gateways.create(

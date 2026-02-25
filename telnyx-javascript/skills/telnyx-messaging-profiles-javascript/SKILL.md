@@ -48,6 +48,8 @@ for await (const messagingProfile of client.messagingProfiles.list()) {
 
 `POST /messaging_profiles` — Required: `name`, `whitelisted_destinations`
 
+Optional: `ai_assistant_id` (['string', 'null']), `alpha_sender` (['string', 'null']), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `health_webhook_url` (url), `mms_fall_back_to_sms` (boolean), `mms_transcoding` (boolean), `mobile_only` (boolean), `number_pool_settings` (['object', 'null']), `resource_group_id` (['string', 'null']), `smart_encoding` (boolean), `url_shortener_settings` (['object', 'null']), `webhook_api_version` (enum), `webhook_failover_url` (url), `webhook_url` (url)
+
 ```javascript
 const messagingProfile = await client.messagingProfiles.create({
   name: 'My name',
@@ -72,6 +74,8 @@ console.log(messagingProfile.data);
 ## Update a messaging profile
 
 `PATCH /messaging_profiles/{id}`
+
+Optional: `alpha_sender` (['string', 'null']), `created_at` (date-time), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `id` (uuid), `mms_fall_back_to_sms` (boolean), `mms_transcoding` (boolean), `mobile_only` (boolean), `name` (string), `number_pool_settings` (['object', 'null']), `record_type` (enum), `smart_encoding` (boolean), `updated_at` (date-time), `url_shortener_settings` (['object', 'null']), `v1_secret` (string), `webhook_api_version` (enum), `webhook_failover_url` (url), `webhook_url` (url), `whitelisted_destinations` (array[string])
 
 ```javascript
 const messagingProfile = await client.messagingProfiles.update(
@@ -135,6 +139,8 @@ console.log(autorespConfigs.data);
 
 `POST /messaging_profiles/{profile_id}/autoresp_configs` — Required: `op`, `keywords`, `country_code`
 
+Optional: `resp_text` (string)
+
 ```javascript
 const autoRespConfigResponse = await client.messagingProfiles.autorespConfigs.create('profile_id', {
   country_code: 'US',
@@ -161,6 +167,8 @@ console.log(autoRespConfigResponse.data);
 ## Update Auto-Response Setting
 
 `PUT /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}` — Required: `op`, `keywords`, `country_code`
+
+Optional: `resp_text` (string)
 
 ```javascript
 const autoRespConfigResponse = await client.messagingProfiles.autorespConfigs.update(
@@ -215,6 +223,8 @@ console.log(shortCode.data);
 Update the settings for a specific short code.
 
 `PATCH /short_codes/{id}` — Required: `messaging_profile_id`
+
+Optional: `tags` (['array'])
 
 ```javascript
 const shortCode = await client.shortCodes.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {

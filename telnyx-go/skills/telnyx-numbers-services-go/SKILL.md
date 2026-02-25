@@ -59,6 +59,8 @@ Creates a dynamic emergency address.
 
 `POST /dynamic_emergency_addresses` — Required: `house_number`, `street_name`, `locality`, `administrative_area`, `postal_code`, `country_code`
 
+Optional: `created_at` (string), `extended_address` (string), `house_suffix` (string), `id` (string), `record_type` (string), `sip_geolocation_id` (string), `status` (enum), `street_post_directional` (string), `street_pre_directional` (string), `street_suffix` (string), `updated_at` (string)
+
 ```go
 	dynamicEmergencyAddress, err := client.DynamicEmergencyAddresses.New(context.TODO(), telnyx.DynamicEmergencyAddressNewParams{
 		DynamicEmergencyAddress: telnyx.DynamicEmergencyAddressParam{
@@ -123,6 +125,8 @@ Returns the dynamic emergency endpoints according to filters
 Creates a dynamic emergency endpoints.
 
 `POST /dynamic_emergency_endpoints` — Required: `dynamic_emergency_address_id`, `callback_number`, `caller_name`
+
+Optional: `created_at` (string), `id` (string), `record_type` (string), `sip_from_id` (string), `status` (enum), `updated_at` (string)
 
 ```go
 	dynamicEmergencyEndpoint, err := client.DynamicEmergencyEndpoints.New(context.TODO(), telnyx.DynamicEmergencyEndpointNewParams{
@@ -278,6 +282,8 @@ Create voicemail settings for a phone number
 
 `POST /phone_numbers/{phone_number_id}/voicemail`
 
+Optional: `enabled` (boolean), `pin` (string)
+
 ```go
 	voicemail, err := client.PhoneNumbers.Voicemail.New(
 		context.TODO(),
@@ -297,6 +303,8 @@ Create voicemail settings for a phone number
 Update voicemail settings for a phone number
 
 `PATCH /phone_numbers/{phone_number_id}/voicemail`
+
+Optional: `enabled` (boolean), `pin` (string)
 
 ```go
 	voicemail, err := client.PhoneNumbers.Voicemail.Update(

@@ -74,6 +74,8 @@ Creates a comment on a portout request.
 
 `POST /portouts/{id}/comments`
 
+Optional: `body` (string)
+
 ```ruby
 comment = client.portouts.comments.create("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
@@ -98,6 +100,8 @@ Creates a list of supporting documents on a portout request.
 
 `POST /portouts/{id}/supporting_documents`
 
+Optional: `documents` (array[object])
+
 ```ruby
 supporting_document = client.portouts.supporting_documents.create("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
@@ -109,6 +113,8 @@ puts(supporting_document)
 Authorize or reject portout request
 
 `PATCH /portouts/{id}/{status}` — Required: `reason`
+
+Optional: `host_messaging` (boolean)
 
 ```ruby
 response = client.portouts.update_status(

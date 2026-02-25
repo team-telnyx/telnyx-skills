@@ -48,6 +48,8 @@ Asynchronously create a room composition.
 
 `POST /room_compositions`
 
+Optional: `format` (string), `resolution` (string), `session_id` (uuid), `video_layout` (object), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
+
 ```java
 import com.telnyx.sdk.models.roomcompositions.RoomCompositionCreateParams;
 import com.telnyx.sdk.models.roomcompositions.RoomCompositionCreateResponse;
@@ -184,6 +186,8 @@ ActionEndResponse response = client.rooms().sessions().actions().end("0ccc7b54-4
 
 `POST /room_sessions/{room_session_id}/actions/kick`
 
+Optional: `exclude` (array[string]), `participants` (object)
+
 ```java
 import com.telnyx.sdk.models.rooms.sessions.actions.ActionKickParams;
 import com.telnyx.sdk.models.rooms.sessions.actions.ActionKickResponse;
@@ -200,6 +204,8 @@ ActionKickResponse response = client.rooms().sessions().actions().kick(params);
 
 `POST /room_sessions/{room_session_id}/actions/mute`
 
+Optional: `exclude` (array[string]), `participants` (object)
+
 ```java
 import com.telnyx.sdk.models.rooms.sessions.actions.ActionMuteParams;
 import com.telnyx.sdk.models.rooms.sessions.actions.ActionMuteResponse;
@@ -215,6 +221,8 @@ ActionMuteResponse response = client.rooms().sessions().actions().mute(params);
 ## Unmute participants in room session.
 
 `POST /room_sessions/{room_session_id}/actions/unmute`
+
+Optional: `exclude` (array[string]), `participants` (object)
 
 ```java
 import com.telnyx.sdk.models.rooms.sessions.actions.ActionUnmuteParams;
@@ -256,6 +264,8 @@ Synchronously create a Room.
 
 `POST /rooms`
 
+Optional: `enable_recording` (boolean), `max_participants` (integer), `unique_name` (string), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
+
 ```java
 import com.telnyx.sdk.models.rooms.RoomCreateParams;
 import com.telnyx.sdk.models.rooms.RoomCreateResponse;
@@ -279,6 +289,8 @@ RoomRetrieveResponse room = client.rooms().retrieve("0ccc7b54-4df3-4bca-a65a-3da
 Synchronously update a Room.
 
 `PATCH /rooms/{room_id}`
+
+Optional: `enable_recording` (boolean), `max_participants` (integer), `unique_name` (string), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
 
 ```java
 import com.telnyx.sdk.models.rooms.RoomUpdateParams;
@@ -305,6 +317,8 @@ Synchronously create an Client Token to join a Room.
 
 `POST /rooms/{room_id}/actions/generate_join_client_token`
 
+Optional: `refresh_token_ttl_secs` (integer), `token_ttl_secs` (integer)
+
 ```java
 import com.telnyx.sdk.models.rooms.actions.ActionGenerateJoinClientTokenParams;
 import com.telnyx.sdk.models.rooms.actions.ActionGenerateJoinClientTokenResponse;
@@ -317,6 +331,8 @@ ActionGenerateJoinClientTokenResponse response = client.rooms().actions().genera
 Synchronously refresh an Client Token to join a Room.
 
 `POST /rooms/{room_id}/actions/refresh_client_token` — Required: `refresh_token`
+
+Optional: `token_ttl_secs` (integer)
 
 ```java
 import com.telnyx.sdk.models.rooms.actions.ActionRefreshClientTokenParams;

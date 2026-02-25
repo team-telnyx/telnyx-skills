@@ -76,6 +76,8 @@ Creates multiple user bundles for the user.
 
 `POST /bundle_pricing/user_bundles/bulk`
 
+Optional: `idempotency_key` (uuid), `items` (array[object])
+
 ```java
 import com.telnyx.sdk.models.bundlepricing.userbundles.UserBundleCreateParams;
 import com.telnyx.sdk.models.bundlepricing.userbundles.UserBundleCreateResponse;
@@ -166,6 +168,8 @@ DocumentListPage page = client.documents().list();
 Upload a document.<br /><br />Uploaded files must be linked to a service within 30 minutes or they will be automatically deleted.
 
 `POST /documents`
+
+Optional: `customer_reference` (string), `file` (byte), `filename` (string), `url` (string)
 
 ```java
 import com.telnyx.sdk.models.documents.DocumentUploadJsonParams;
@@ -322,6 +326,8 @@ List<RequirementGroup> requirementGroups = client.requirementGroups().list();
 
 `POST /requirement_groups` — Required: `country_code`, `phone_number_type`, `action`
 
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
+
 ```java
 import com.telnyx.sdk.models.requirementgroups.RequirementGroup;
 import com.telnyx.sdk.models.requirementgroups.RequirementGroupCreateParams;
@@ -348,6 +354,8 @@ RequirementGroup requirementGroup = client.requirementGroups().retrieve("id");
 ## Update requirement values in requirement group
 
 `PATCH /requirement_groups/{id}`
+
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
 
 ```java
 import com.telnyx.sdk.models.requirementgroups.RequirementGroup;
@@ -396,6 +404,8 @@ VerifiedNumberListPage page = client.verifiedNumbers().list();
 Initiates phone number verification procedure.
 
 `POST /verified_numbers` — Required: `phone_number`, `verification_method`
+
+Optional: `extension` (string)
 
 ```java
 import com.telnyx.sdk.models.verifiednumbers.VerifiedNumberCreateParams;

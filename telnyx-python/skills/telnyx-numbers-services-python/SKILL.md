@@ -51,6 +51,8 @@ Creates a dynamic emergency address.
 
 `POST /dynamic_emergency_addresses` — Required: `house_number`, `street_name`, `locality`, `administrative_area`, `postal_code`, `country_code`
 
+Optional: `created_at` (string), `extended_address` (string), `house_suffix` (string), `id` (string), `record_type` (string), `sip_geolocation_id` (string), `status` (enum), `street_post_directional` (string), `street_pre_directional` (string), `street_suffix` (string), `updated_at` (string)
+
 ```python
 dynamic_emergency_address = client.dynamic_emergency_addresses.create(
     administrative_area="TX",
@@ -106,6 +108,8 @@ print(page.dynamic_emergency_address_id)
 Creates a dynamic emergency endpoints.
 
 `POST /dynamic_emergency_endpoints` — Required: `dynamic_emergency_address_id`, `callback_number`, `caller_name`
+
+Optional: `created_at` (string), `id` (string), `record_type` (string), `sip_from_id` (string), `status` (enum), `updated_at` (string)
 
 ```python
 dynamic_emergency_endpoint = client.dynamic_emergency_endpoints.create(
@@ -235,6 +239,8 @@ Create voicemail settings for a phone number
 
 `POST /phone_numbers/{phone_number_id}/voicemail`
 
+Optional: `enabled` (boolean), `pin` (string)
+
 ```python
 voicemail = client.phone_numbers.voicemail.create(
     phone_number_id="123455678900",
@@ -247,6 +253,8 @@ print(voicemail.data)
 Update voicemail settings for a phone number
 
 `PATCH /phone_numbers/{phone_number_id}/voicemail`
+
+Optional: `enabled` (boolean), `pin` (string)
 
 ```python
 voicemail = client.phone_numbers.voicemail.update(

@@ -50,6 +50,8 @@ Create a new AI Assistant.
 
 `POST /ai/assistants` — Required: `name`, `model`, `instructions`
 
+Optional: `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `insight_settings` (object), `llm_api_key_ref` (string), `messaging_settings` (object), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
+
 ```java
 import com.telnyx.sdk.models.ai.assistants.AssistantCreateParams;
 import com.telnyx.sdk.models.ai.assistants.InferenceEmbedding;
@@ -107,6 +109,8 @@ This endpoint allows a client to send a chat message to a specific AI Assistant.
 
 `POST /ai/assistants/{assistant_id}/chat` — Required: `content`, `conversation_id`
 
+Optional: `name` (string)
+
 ```java
 import com.telnyx.sdk.models.ai.assistants.AssistantChatParams;
 import com.telnyx.sdk.models.ai.assistants.AssistantChatResponse;
@@ -124,6 +128,8 @@ AssistantChatResponse response = client.ai().assistants().chat(params);
 Send an SMS message for an assistant.
 
 `POST /ai/assistants/{assistant_id}/chat/sms` — Required: `from`, `to`
+
+Optional: `conversation_metadata` (object), `should_create_conversation` (boolean), `text` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.assistants.AssistantSendSmsParams;
@@ -156,6 +162,8 @@ Import assistants from external providers.
 
 `POST /ai/assistants/import` — Required: `provider`, `api_key_ref`
 
+Optional: `import_ids` (array[string])
+
 ```java
 import com.telnyx.sdk.models.ai.assistants.AssistantImportsParams;
 import com.telnyx.sdk.models.ai.assistants.AssistantsList;
@@ -185,6 +193,8 @@ ScheduledEventListPage page = client.ai().assistants().scheduledEvents().list("a
 Create a scheduled event for an assistant
 
 `POST /ai/assistants/{assistant_id}/scheduled_events` — Required: `telnyx_conversation_channel`, `telnyx_end_user_target`, `telnyx_agent_target`, `scheduled_at_fixed_datetime`
+
+Optional: `conversation_metadata` (object), `dynamic_variables` (object), `text` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.assistants.scheduledevents.ConversationChannelType;
@@ -254,6 +264,8 @@ Creates a comprehensive test configuration for evaluating AI assistant performan
 
 `POST /ai/assistants/tests` — Required: `name`, `destination`, `instructions`, `rubric`
 
+Optional: `description` (string), `max_duration_seconds` (integer), `telnyx_conversation_channel` (object), `test_suite` (string)
+
 ```java
 import com.telnyx.sdk.models.ai.assistants.tests.AssistantTest;
 import com.telnyx.sdk.models.ai.assistants.tests.TestCreateParams;
@@ -306,6 +318,8 @@ Executes all tests within a specific test suite as a batch operation
 
 `POST /ai/assistants/tests/test-suites/{suite_name}/runs`
 
+Optional: `destination_version_id` (string)
+
 ```java
 import com.telnyx.sdk.models.ai.assistants.tests.runs.TestRunResponse;
 import com.telnyx.sdk.models.ai.assistants.tests.testsuites.runs.RunTriggerParams;
@@ -331,6 +345,8 @@ AssistantTest assistantTest = client.ai().assistants().tests().retrieve("test_id
 Updates an existing assistant test configuration with new settings
 
 `PUT /ai/assistants/tests/{test_id}`
+
+Optional: `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (enum), `test_suite` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.assistants.tests.AssistantTest;
@@ -369,6 +385,8 @@ RunListPage page = client.ai().assistants().tests().runs().list("test_id");
 Initiates immediate execution of a specific assistant test
 
 `POST /ai/assistants/tests/{test_id}/runs`
+
+Optional: `destination_version_id` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.assistants.tests.runs.RunTriggerParams;
@@ -429,6 +447,8 @@ InferenceEmbedding assistant = client.ai().assistants().versions().retrieve(para
 Updates the configuration of a specific assistant version.
 
 `POST /ai/assistants/{assistant_id}/versions/{version_id}`
+
+Optional: `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
 ```java
 import com.telnyx.sdk.models.ai.assistants.InferenceEmbedding;
@@ -567,6 +587,8 @@ Test a webhook tool for an assistant
 
 `POST /ai/assistants/{assistant_id}/tools/{tool_id}/test`
 
+Optional: `arguments` (object), `dynamic_variables` (object)
+
 ```java
 import com.telnyx.sdk.models.ai.assistants.tools.ToolTestParams;
 import com.telnyx.sdk.models.ai.assistants.tools.ToolTestResponse;
@@ -661,6 +683,8 @@ Create a new MCP server.
 
 `POST /ai/mcp_servers` — Required: `name`, `type`, `url`
 
+Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null'])
+
 ```java
 import com.telnyx.sdk.models.ai.mcpservers.McpServerCreateParams;
 import com.telnyx.sdk.models.ai.mcpservers.McpServerCreateResponse;
@@ -691,6 +715,8 @@ McpServerRetrieveResponse mcpServer = client.ai().mcpServers().retrieve("mcp_ser
 Update an existing MCP server.
 
 `PUT /ai/mcp_servers/{mcp_server_id}`
+
+Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.mcpservers.McpServerUpdateParams;

@@ -48,6 +48,8 @@ print(page.id)
 
 `POST /messaging_hosted_number_orders`
 
+Optional: `messaging_profile_id` (string), `phone_numbers` (array[string])
+
 ```python
 messaging_hosted_number_order = client.messaging_hosted_number_orders.create()
 print(messaging_hosted_number_order.data)
@@ -131,6 +133,34 @@ response = client.messaging_hosted_number_orders.check_eligibility(
 print(response.phone_numbers)
 ```
 
+## Retrieve a messaging hosted number
+
+Retrieve a specific messaging hosted number by its ID or phone number.
+
+`GET /messaging_hosted_numbers/{id}`
+
+```python
+messaging_hosted_number = client.messaging_hosted_numbers.retrieve(
+    "id",
+)
+print(messaging_hosted_number.data)
+```
+
+## Update a messaging hosted number
+
+Update the messaging settings for a hosted number.
+
+`PATCH /messaging_hosted_numbers/{id}`
+
+Optional: `messaging_product` (string), `messaging_profile_id` (string), `tags` (array[string])
+
+```python
+messaging_hosted_number = client.messaging_hosted_numbers.update(
+    id="id",
+)
+print(messaging_hosted_number.data)
+```
+
 ## Delete a messaging hosted number
 
 `DELETE /messaging_hosted_numbers/{id}`
@@ -145,6 +175,8 @@ print(messaging_hosted_number.data)
 ## Send an RCS message
 
 `POST /messages/rcs` — Required: `agent_id`, `to`, `messaging_profile_id`, `agent_message`
+
+Optional: `mms_fallback` (object), `sms_fallback` (object), `type` (enum), `webhook_url` (url)
 
 ```python
 response = client.messages.rcs.send(
@@ -180,6 +212,8 @@ print(rcs_agent_response.data)
 ## Modify an RCS agent
 
 `PATCH /messaging/rcs/agents/{id}`
+
+Optional: `profile_id` (uuid), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```python
 rcs_agent_response = client.messaging.rcs.agents.update(
@@ -258,7 +292,9 @@ print(page.id)
 
 Submit a new tollfree verification request
 
-`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
+`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`
+
+Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegistrationCountry` (['string', 'null']), `businessRegistrationNumber` (['string', 'null']), `businessRegistrationType` (['string', 'null']), `campaignVerifyAuthorizationToken` (['string', 'null']), `doingBusinessAs` (['string', 'null']), `entityType` (object), `helpMessageResponse` (['string', 'null']), `isvReseller` (['string', 'null']), `optInConfirmationResponse` (['string', 'null']), `optInKeywords` (['string', 'null']), `privacyPolicyURL` (['string', 'null']), `termsAndConditionURL` (['string', 'null']), `webhookUrl` (string)
 
 ```python
 verification_request_egress = client.messaging_tollfree.verification.requests.create(
@@ -273,7 +309,6 @@ verification_request_egress = client.messaging_tollfree.verification.requests.cr
     business_state="Texas",
     business_zip="78701",
     corporate_website="http://example.com",
-    isv_reseller="isvReseller",
     message_volume="100,000",
     opt_in_workflow="User signs into the Telnyx portal, enters a number and is prompted to select whether they want to use 2FA verification for security purposes. If they've opted in a confirmation message is sent out to the handset",
     opt_in_workflow_image_urls=[{
@@ -310,7 +345,9 @@ print(verification_request_status.id)
 
 Update an existing tollfree verification request.
 
-`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
+`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`
+
+Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegistrationCountry` (['string', 'null']), `businessRegistrationNumber` (['string', 'null']), `businessRegistrationType` (['string', 'null']), `campaignVerifyAuthorizationToken` (['string', 'null']), `doingBusinessAs` (['string', 'null']), `entityType` (object), `helpMessageResponse` (['string', 'null']), `isvReseller` (['string', 'null']), `optInConfirmationResponse` (['string', 'null']), `optInKeywords` (['string', 'null']), `privacyPolicyURL` (['string', 'null']), `termsAndConditionURL` (['string', 'null']), `webhookUrl` (string)
 
 ```python
 verification_request_egress = client.messaging_tollfree.verification.requests.update(
@@ -326,7 +363,6 @@ verification_request_egress = client.messaging_tollfree.verification.requests.up
     business_state="Texas",
     business_zip="78701",
     corporate_website="http://example.com",
-    isv_reseller="isvReseller",
     message_volume="100,000",
     opt_in_workflow="User signs into the Telnyx portal, enters a number and is prompted to select whether they want to use 2FA verification for security purposes. If they've opted in a confirmation message is sent out to the handset",
     opt_in_workflow_image_urls=[{

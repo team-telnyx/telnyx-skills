@@ -76,6 +76,8 @@ Creates a comment on a portout request.
 
 `POST /portouts/{id}/comments`
 
+Optional: `body` (string)
+
 ```java
 import com.telnyx.sdk.models.portouts.comments.CommentCreateParams;
 import com.telnyx.sdk.models.portouts.comments.CommentCreateResponse;
@@ -102,6 +104,8 @@ Creates a list of supporting documents on a portout request.
 
 `POST /portouts/{id}/supporting_documents`
 
+Optional: `documents` (array[object])
+
 ```java
 import com.telnyx.sdk.models.portouts.supportingdocuments.SupportingDocumentCreateParams;
 import com.telnyx.sdk.models.portouts.supportingdocuments.SupportingDocumentCreateResponse;
@@ -114,6 +118,8 @@ SupportingDocumentCreateResponse supportingDocument = client.portouts().supporti
 Authorize or reject portout request
 
 `PATCH /portouts/{id}/{status}` — Required: `reason`
+
+Optional: `host_messaging` (boolean)
 
 ```java
 import com.telnyx.sdk.models.portouts.PortoutUpdateStatusParams;

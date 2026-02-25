@@ -51,6 +51,8 @@ Create an outbound voice profile.
 
 `POST /outbound_voice_profiles` — Required: `name`
 
+Optional: `billing_group_id` (uuid), `call_recording` (object), `calling_window` (object), `concurrent_call_limit` (['integer', 'null']), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `max_destination_rate` (number), `service_plan` (enum), `tags` (array[string]), `traffic_type` (enum), `usage_payment_method` (enum), `whitelisted_destinations` (array[string])
+
 ```java
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileCreateParams;
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileCreateResponse;
@@ -77,6 +79,8 @@ OutboundVoiceProfileRetrieveResponse outboundVoiceProfile = client.outboundVoice
 ## Updates an existing outbound voice profile.
 
 `PATCH /outbound_voice_profiles/{id}` — Required: `name`
+
+Optional: `billing_group_id` (uuid), `call_recording` (object), `calling_window` (object), `concurrent_call_limit` (['integer', 'null']), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `max_destination_rate` (number), `service_plan` (enum), `tags` (array[string]), `traffic_type` (enum), `usage_payment_method` (enum), `whitelisted_destinations` (array[string])
 
 ```java
 import com.telnyx.sdk.models.outboundvoiceprofiles.OutboundVoiceProfileUpdateParams;
@@ -147,6 +151,8 @@ Creates a credential connection.
 
 `POST /credential_connections` — Required: `user_name`, `password`, `connection_name`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `sip_uri_calling_preference` (enum), `tags` (array[string]), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```java
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionCreateParams;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionCreateResponse;
@@ -177,6 +183,8 @@ CredentialConnectionRetrieveResponse credentialConnection = client.credentialCon
 Updates settings of an existing credential connection.
 
 `PATCH /credential_connections/{id}`
+
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum), `tags` (array[string]), `user_name` (string), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
 
 ```java
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionUpdateParams;
@@ -230,6 +238,8 @@ Create a new IP object.
 
 `POST /ips` — Required: `ip_address`
 
+Optional: `connection_id` (string), `port` (integer)
+
 ```java
 import com.telnyx.sdk.models.ips.IpCreateParams;
 import com.telnyx.sdk.models.ips.IpCreateResponse;
@@ -258,6 +268,8 @@ IpRetrieveResponse ip = client.ips().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6
 Update the details of a specific IP.
 
 `PATCH /ips/{id}` — Required: `ip_address`
+
+Optional: `connection_id` (string), `port` (integer)
 
 ```java
 import com.telnyx.sdk.models.ips.IpUpdateParams;
@@ -302,6 +314,8 @@ Creates an IP connection.
 
 `POST /ip_connections`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```java
 import com.telnyx.sdk.models.ipconnections.IpConnectionCreateParams;
 import com.telnyx.sdk.models.ipconnections.IpConnectionCreateResponse;
@@ -327,6 +341,8 @@ IpConnectionRetrieveResponse ipConnection = client.ipConnections().retrieve("id"
 Updates settings of an existing IP connection.
 
 `PATCH /ip_connections/{id}`
+
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
 
 ```java
 import com.telnyx.sdk.models.ipconnections.IpConnectionUpdateParams;
@@ -367,6 +383,8 @@ Create a new FQDN object.
 
 `POST /fqdns` — Required: `fqdn`, `dns_record_type`, `connection_id`
 
+Optional: `port` (['integer', 'null'])
+
 ```java
 import com.telnyx.sdk.models.fqdns.FqdnCreateParams;
 import com.telnyx.sdk.models.fqdns.FqdnCreateResponse;
@@ -389,7 +407,7 @@ Return the details regarding a specific FQDN.
 import com.telnyx.sdk.models.fqdns.FqdnRetrieveParams;
 import com.telnyx.sdk.models.fqdns.FqdnRetrieveResponse;
 
-FqdnRetrieveResponse fqdn = client.fqdns().retrieve("id");
+FqdnRetrieveResponse fqdn = client.fqdns().retrieve("1517907029795014409");
 ```
 
 ## Update an FQDN
@@ -398,11 +416,13 @@ Update the details of a specific FQDN.
 
 `PATCH /fqdns/{id}`
 
+Optional: `connection_id` (string), `dns_record_type` (string), `fqdn` (string), `port` (['integer', 'null'])
+
 ```java
 import com.telnyx.sdk.models.fqdns.FqdnUpdateParams;
 import com.telnyx.sdk.models.fqdns.FqdnUpdateResponse;
 
-FqdnUpdateResponse fqdn = client.fqdns().update("id");
+FqdnUpdateResponse fqdn = client.fqdns().update("1517907029795014409");
 ```
 
 ## Delete an FQDN
@@ -415,7 +435,7 @@ Delete an FQDN.
 import com.telnyx.sdk.models.fqdns.FqdnDeleteParams;
 import com.telnyx.sdk.models.fqdns.FqdnDeleteResponse;
 
-FqdnDeleteResponse fqdn = client.fqdns().delete("id");
+FqdnDeleteResponse fqdn = client.fqdns().delete("1517907029795014409");
 ```
 
 ## List FQDN connections
@@ -437,6 +457,8 @@ Creates a FQDN connection.
 
 `POST /fqdn_connections` — Required: `connection_name`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `microsoft_teams_sbc` (boolean), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```java
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionCreateParams;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionCreateResponse;
@@ -457,7 +479,7 @@ Retrieves the details of an existing FQDN connection.
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionRetrieveParams;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionRetrieveResponse;
 
-FqdnConnectionRetrieveResponse fqdnConnection = client.fqdnConnections().retrieve("id");
+FqdnConnectionRetrieveResponse fqdnConnection = client.fqdnConnections().retrieve("1293384261075731499");
 ```
 
 ## Update an FQDN connection
@@ -466,11 +488,13 @@ Updates settings of an existing FQDN connection.
 
 `PATCH /fqdn_connections/{id}`
 
+Optional: `active` (boolean), `anchorsite_override` (enum), `android_push_credential_id` (['string', 'null']), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum), `inbound` (object), `ios_push_credential_id` (['string', 'null']), `jitter_buffer` (object), `noise_suppression` (enum), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum), `webhook_api_version` (enum), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```java
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionUpdateParams;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionUpdateResponse;
 
-FqdnConnectionUpdateResponse fqdnConnection = client.fqdnConnections().update("id");
+FqdnConnectionUpdateResponse fqdnConnection = client.fqdnConnections().update("1293384261075731499");
 ```
 
 ## Delete an FQDN connection
@@ -483,7 +507,7 @@ Deletes an FQDN connection.
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionDeleteParams;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionDeleteResponse;
 
-FqdnConnectionDeleteResponse fqdnConnection = client.fqdnConnections().delete("id");
+FqdnConnectionDeleteResponse fqdnConnection = client.fqdnConnections().delete("1293384261075731499");
 ```
 
 ## List Mobile Voice Connections
@@ -500,6 +524,8 @@ MobileVoiceConnectionListPage page = client.mobileVoiceConnections().list();
 ## Create a Mobile Voice Connection
 
 `POST /v2/mobile_voice_connections`
+
+Optional: `active` (boolean), `connection_name` (string), `inbound` (object), `outbound` (object), `tags` (array[string]), `webhook_api_version` (enum), `webhook_event_failover_url` (['string', 'null']), `webhook_event_url` (['string', 'null']), `webhook_timeout_secs` (['integer', 'null'])
 
 ```java
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionCreateParams;
@@ -522,6 +548,8 @@ MobileVoiceConnectionRetrieveResponse mobileVoiceConnection = client.mobileVoice
 ## Update a Mobile Voice Connection
 
 `PATCH /v2/mobile_voice_connections/{id}`
+
+Optional: `active` (boolean), `connection_name` (string), `inbound` (object), `outbound` (object), `tags` (array[string]), `webhook_api_version` (enum), `webhook_event_failover_url` (['string', 'null']), `webhook_event_url` (['string', 'null']), `webhook_timeout_secs` (integer)
 
 ```java
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionUpdateParams;

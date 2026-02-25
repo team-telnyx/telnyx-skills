@@ -96,6 +96,8 @@ PhoneNumberRetrieveResponse phoneNumber = client.phoneNumbers().retrieve("129338
 
 `PATCH /phone_numbers/{id}`
 
+Optional: `address_id` (string), `billing_group_id` (string), `connection_id` (string), `customer_reference` (string), `external_pin` (string), `hd_voice_enabled` (boolean), `id` (string), `tags` (array[string])
+
 ```java
 import com.telnyx.sdk.models.phonenumbers.PhoneNumberUpdateParams;
 import com.telnyx.sdk.models.phonenumbers.PhoneNumberUpdateResponse;
@@ -159,6 +161,8 @@ VoiceRetrieveResponse voice = client.phoneNumbers().voice().retrieve("1293384261
 ## Update a phone number with voice settings
 
 `PATCH /phone_numbers/{id}/voice`
+
+Optional: `call_forwarding` (object), `call_recording` (object), `caller_id_name_enabled` (boolean), `cnam_listing` (object), `inbound_call_screening` (enum), `media_features` (object), `tech_prefix_enabled` (boolean), `translated_number` (string), `usage_payment_method` (enum)
 
 ```java
 import com.telnyx.sdk.models.phonenumbers.voice.UpdateVoiceSettings;
@@ -270,6 +274,8 @@ Creates a background job to update the emergency settings of a collection of pho
 
 `POST /phone_numbers/jobs/update_emergency_settings` — Required: `emergency_enabled`, `phone_numbers`
 
+Optional: `emergency_address_id` (['string', 'null'])
+
 ```java
 import com.telnyx.sdk.models.phonenumbers.jobs.JobUpdateEmergencySettingsBatchParams;
 import com.telnyx.sdk.models.phonenumbers.jobs.JobUpdateEmergencySettingsBatchResponse;
@@ -291,6 +297,8 @@ JobUpdateEmergencySettingsBatchResponse response = client.phoneNumbers().jobs().
 Creates a new background job to update a batch of numbers.
 
 `POST /phone_numbers/jobs/update_phone_numbers` — Required: `phone_numbers`
+
+Optional: `billing_group_id` (string), `connection_id` (string), `customer_reference` (string), `deletion_lock_enabled` (boolean), `external_pin` (string), `hd_voice_enabled` (boolean), `tags` (array[string]), `voice` (object)
 
 ```java
 import com.telnyx.sdk.models.phonenumbers.jobs.JobUpdateBatchParams;
@@ -363,6 +371,8 @@ MobilePhoneNumberRetrieveResponse mobilePhoneNumber = client.mobilePhoneNumbers(
 ## Update a Mobile Phone Number
 
 `PATCH /v2/mobile_phone_numbers/{id}`
+
+Optional: `call_forwarding` (object), `call_recording` (object), `caller_id_name_enabled` (boolean), `cnam_listing` (object), `connection_id` (['string', 'null']), `customer_reference` (['string', 'null']), `inbound` (object), `inbound_call_screening` (enum), `noise_suppression` (boolean), `outbound` (object), `tags` (array[string])
 
 ```java
 import com.telnyx.sdk.models.mobilephonenumbers.MobilePhoneNumberUpdateParams;

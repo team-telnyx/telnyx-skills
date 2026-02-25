@@ -50,6 +50,8 @@ Create a new managed account owned by the authenticated user.
 
 `POST /managed_accounts` — Required: `business_name`
 
+Optional: `email` (string), `managed_account_allow_custom_pricing` (boolean), `password` (string), `rollup_billing` (boolean)
+
 ```java
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountCreateParams;
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountCreateResponse;
@@ -79,6 +81,8 @@ Update a single managed account.
 
 `PATCH /managed_accounts/{id}`
 
+Optional: `managed_account_allow_custom_pricing` (boolean)
+
 ```java
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountUpdateParams;
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountUpdateResponse;
@@ -105,6 +109,8 @@ Enables a managed account and its sub-users to use Telnyx services.
 
 `POST /managed_accounts/{id}/actions/enable`
 
+Optional: `reenable_all_connections` (boolean)
+
 ```java
 import com.telnyx.sdk.models.managedaccounts.actions.ActionEnableParams;
 import com.telnyx.sdk.models.managedaccounts.actions.ActionEnableResponse;
@@ -115,6 +121,8 @@ ActionEnableResponse response = client.managedAccounts().actions().enable("id");
 ## Update the amount of allocatable global outbound channels allocated to a specific managed account.
 
 `PATCH /managed_accounts/{id}/update_global_channel_limit`
+
+Optional: `channel_limit` (integer)
 
 ```java
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountUpdateGlobalChannelLimitParams;

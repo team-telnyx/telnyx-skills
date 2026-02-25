@@ -260,6 +260,8 @@ Creates a new External Connection based on the parameters sent in the request.
 
 `POST /external_connections` — Required: `external_sip_connection`, `outbound`
 
+Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```ruby
 external_connection = client.external_connections.create(external_sip_connection: :zoom, outbound: {})
 
@@ -273,7 +275,7 @@ Return the details of an existing External Connection inside the 'data' attribut
 `GET /external_connections/{id}`
 
 ```ruby
-external_connection = client.external_connections.retrieve("id")
+external_connection = client.external_connections.retrieve("1293384261075731499")
 
 puts(external_connection)
 ```
@@ -284,10 +286,12 @@ Updates settings of an existing External Connection based on the parameters of t
 
 `PATCH /external_connections/{id}` — Required: `outbound`
 
+Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```ruby
 external_connection = client.external_connections.update(
-  "id",
-  outbound: {outbound_voice_profile_id: "outbound_voice_profile_id"}
+  "1293384261075731499",
+  outbound: {outbound_voice_profile_id: "1911630617284445511"}
 )
 
 puts(external_connection)
@@ -300,7 +304,7 @@ Permanently deletes an External Connection.
 `DELETE /external_connections/{id}`
 
 ```ruby
-external_connection = client.external_connections.delete("id")
+external_connection = client.external_connections.delete("1293384261075731499")
 
 puts(external_connection)
 ```
@@ -312,7 +316,7 @@ Returns the civic addresses and locations from Microsoft Teams.
 `GET /external_connections/{id}/civic_addresses`
 
 ```ruby
-civic_addresses = client.external_connections.civic_addresses.list("id")
+civic_addresses = client.external_connections.civic_addresses.list("1293384261075731499")
 
 puts(civic_addresses)
 ```
@@ -324,7 +328,10 @@ Return the details of an existing Civic Address with its Locations inside the 'd
 `GET /external_connections/{id}/civic_addresses/{address_id}`
 
 ```ruby
-civic_address = client.external_connections.civic_addresses.retrieve("318fb664-d341-44d2-8405-e6bfb9ced6d9", id: "id")
+civic_address = client.external_connections.civic_addresses.retrieve(
+  "318fb664-d341-44d2-8405-e6bfb9ced6d9",
+  id: "1293384261075731499"
+)
 
 puts(civic_address)
 ```
@@ -350,7 +357,7 @@ Returns a list of all active phone numbers associated with the given external co
 `GET /external_connections/{id}/phone_numbers`
 
 ```ruby
-page = client.external_connections.phone_numbers.list("id")
+page = client.external_connections.phone_numbers.list("1293384261075731499")
 
 puts(page)
 ```
@@ -362,7 +369,7 @@ Return the details of a phone number associated with the given external connecti
 `GET /external_connections/{id}/phone_numbers/{phone_number_id}`
 
 ```ruby
-phone_number = client.external_connections.phone_numbers.retrieve("1234567889", id: "id")
+phone_number = client.external_connections.phone_numbers.retrieve("1234567889", id: "1293384261075731499")
 
 puts(phone_number)
 ```
@@ -373,8 +380,10 @@ Asynchronously update settings of the phone number associated with the given ext
 
 `PATCH /external_connections/{id}/phone_numbers/{phone_number_id}`
 
+Optional: `location_id` (uuid)
+
 ```ruby
-phone_number = client.external_connections.phone_numbers.update("1234567889", id: "id")
+phone_number = client.external_connections.phone_numbers.update("1234567889", id: "1293384261075731499")
 
 puts(phone_number)
 ```
@@ -386,7 +395,7 @@ Returns a list of your Releases for the given external connection.
 `GET /external_connections/{id}/releases`
 
 ```ruby
-page = client.external_connections.releases.list("id")
+page = client.external_connections.releases.list("1293384261075731499")
 
 puts(page)
 ```
@@ -398,7 +407,10 @@ Return the details of a Release request and its phone numbers.
 `GET /external_connections/{id}/releases/{release_id}`
 
 ```ruby
-release = client.external_connections.releases.retrieve("7b6a6449-b055-45a6-81f6-f6f0dffa4cc6", id: "id")
+release = client.external_connections.releases.retrieve(
+  "7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
+  id: "1293384261075731499"
+)
 
 puts(release)
 ```
@@ -410,7 +422,7 @@ Returns a list of your Upload requests for the given external connection.
 `GET /external_connections/{id}/uploads`
 
 ```ruby
-page = client.external_connections.uploads.list("id")
+page = client.external_connections.uploads.list("1293384261075731499")
 
 puts(page)
 ```
@@ -421,9 +433,11 @@ Creates a new Upload request to Microsoft teams with the included phone numbers.
 
 `POST /external_connections/{id}/uploads` — Required: `number_ids`
 
+Optional: `additional_usages` (array[string]), `civic_address_id` (uuid), `location_id` (uuid), `usage` (enum)
+
 ```ruby
 upload = client.external_connections.uploads.create(
-  "id",
+  "1293384261075731499",
   number_ids: ["3920457616934164700", "3920457616934164701", "3920457616934164702", "3920457616934164703"]
 )
 
@@ -437,7 +451,7 @@ Forces a recheck of the status of all pending Upload requests for the given exte
 `POST /external_connections/{id}/uploads/refresh`
 
 ```ruby
-response = client.external_connections.uploads.refresh_status("id")
+response = client.external_connections.uploads.refresh_status("1293384261075731499")
 
 puts(response)
 ```
@@ -449,7 +463,7 @@ Returns the count of all pending upload requests for the given external connecti
 `GET /external_connections/{id}/uploads/status`
 
 ```ruby
-response = client.external_connections.uploads.pending_count("id")
+response = client.external_connections.uploads.pending_count("1293384261075731499")
 
 puts(response)
 ```
@@ -461,7 +475,10 @@ Return the details of an Upload request and its phone numbers.
 `GET /external_connections/{id}/uploads/{ticket_id}`
 
 ```ruby
-upload = client.external_connections.uploads.retrieve("7b6a6449-b055-45a6-81f6-f6f0dffa4cc6", id: "id")
+upload = client.external_connections.uploads.retrieve(
+  "7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
+  id: "1293384261075731499"
+)
 
 puts(upload)
 ```
@@ -473,7 +490,10 @@ If there were any errors during the upload process, this endpoint will retry the
 `POST /external_connections/{id}/uploads/{ticket_id}/retry`
 
 ```ruby
-response = client.external_connections.uploads.retry_("7b6a6449-b055-45a6-81f6-f6f0dffa4cc6", id: "id")
+response = client.external_connections.uploads.retry_(
+  "7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
+  id: "1293384261075731499"
+)
 
 puts(response)
 ```
@@ -497,7 +517,7 @@ Retrieve a log message for an external connection associated with your account.
 `GET /external_connections/log_messages/{id}`
 
 ```ruby
-log_message = client.external_connections.log_messages.retrieve("id")
+log_message = client.external_connections.log_messages.retrieve("1293384261075731499")
 
 puts(log_message)
 ```
@@ -509,7 +529,7 @@ Dismiss a log message for an external connection associated with your account.
 `DELETE /external_connections/log_messages/{id}`
 
 ```ruby
-response = client.external_connections.log_messages.dismiss("id")
+response = client.external_connections.log_messages.dismiss("1293384261075731499")
 
 puts(response)
 ```
@@ -544,6 +564,8 @@ Upload media file to Telnyx so it can be used with other Telnyx services
 
 `POST /media` — Required: `media_url`
 
+Optional: `media_name` (string), `ttl_secs` (integer)
+
 ```ruby
 response = client.media.upload(media_url: "http://www.example.com/audio.mp3")
 
@@ -567,6 +589,8 @@ puts(media)
 Updates a stored media file.
 
 `PUT /media/{media_name}`
+
+Optional: `media_url` (string), `ttl_secs` (integer)
 
 ```ruby
 media = client.media.update("media_name")

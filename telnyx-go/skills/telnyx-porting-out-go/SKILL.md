@@ -87,6 +87,8 @@ Creates a comment on a portout request.
 
 `POST /portouts/{id}/comments`
 
+Optional: `body` (string)
+
 ```go
 	comment, err := client.Portouts.Comments.New(
 		context.TODO(),
@@ -119,6 +121,8 @@ Creates a list of supporting documents on a portout request.
 
 `POST /portouts/{id}/supporting_documents`
 
+Optional: `documents` (array[object])
+
 ```go
 	supportingDocument, err := client.Portouts.SupportingDocuments.New(
 		context.TODO(),
@@ -136,6 +140,8 @@ Creates a list of supporting documents on a portout request.
 Authorize or reject portout request
 
 `PATCH /portouts/{id}/{status}` — Required: `reason`
+
+Optional: `host_messaging` (boolean)
 
 ```go
 	response, err := client.Portouts.UpdateStatus(

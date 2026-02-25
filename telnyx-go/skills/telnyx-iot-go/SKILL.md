@@ -93,6 +93,8 @@ Updates SIM card data
 
 `PATCH /sim_cards/{id}`
 
+Optional: `actions_in_progress` (boolean), `authorized_imeis` (['array', 'null']), `created_at` (string), `current_billing_period_consumed_data` (object), `current_device_location` (object), `current_imei` (string), `current_mcc` (string), `current_mnc` (string), `data_limit` (object), `eid` (['string', 'null']), `esim_installation_status` (enum), `iccid` (string), `id` (uuid), `imsi` (string), `ipv4` (string), `ipv6` (string), `live_data_session` (enum), `msisdn` (string), `pin_puk_codes` (object), `record_type` (string), `resources_with_in_progress_actions` (array[object]), `sim_card_group_id` (uuid), `status` (object), `tags` (array[string]), `type` (enum), `updated_at` (string), `version` (string)
+
 ```go
 	simCard, err := client.SimCards.Update(
 		context.TODO(),
@@ -287,6 +289,8 @@ It validates whether SIM card registration codes are valid or not.
 
 `POST /sim_cards/actions/validate_registration_codes`
 
+Optional: `registration_codes` (array[string])
+
 ```go
 	response, err := client.SimCards.Actions.ValidateRegistrationCodes(context.TODO(), telnyx.SimCardActionValidateRegistrationCodesParams{})
 	if err != nil {
@@ -371,6 +375,8 @@ Creates a new SIM card group object
 
 `POST /sim_card_groups` — Required: `name`
 
+Optional: `data_limit` (object)
+
 ```go
 	simCardGroup, err := client.SimCardGroups.New(context.TODO(), telnyx.SimCardGroupNewParams{
 		Name: "My Test Group",
@@ -404,6 +410,8 @@ Returns the details regarding a specific SIM card group
 Updates a SIM card group
 
 `PATCH /sim_card_groups/{id}`
+
+Optional: `data_limit` (object), `name` (string)
 
 ```go
 	simCardGroup, err := client.SimCardGroups.Update(
@@ -640,6 +648,8 @@ Updates information for a SIM Card Data Usage Notification.
 
 `PATCH /sim_card_data_usage_notifications/{id}`
 
+Optional: `created_at` (string), `id` (uuid), `record_type` (string), `sim_card_id` (uuid), `threshold` (object), `updated_at` (string)
+
 ```go
 	simCardDataUsageNotification, err := client.SimCardDataUsageNotifications.Update(
 		context.TODO(),
@@ -675,6 +685,8 @@ If <code>sim_card_group_id</code> is provided, the eSIMs will be associated with
 
 `POST /actions/purchase/esims` — Required: `amount`
 
+Optional: `product` (string), `sim_card_group_id` (uuid), `status` (enum), `tags` (array[string]), `whitelabel_name` (string)
+
 ```go
 	purchase, err := client.Actions.Purchase.New(context.TODO(), telnyx.ActionPurchaseNewParams{
 		Amount: 10,
@@ -691,6 +703,8 @@ Register the SIM cards associated with the provided registration codes to the cu
 If <code>sim_card_group_id</code> is provided, the SIM cards will be associated with ...
 
 `POST /actions/register/sim_cards` — Required: `registration_codes`
+
+Optional: `sim_card_group_id` (uuid), `status` (enum), `tags` (array[string])
 
 ```go
 	register, err := client.Actions.Register.New(context.TODO(), telnyx.ActionRegisterNewParams{
@@ -747,6 +761,8 @@ Get all Private Wireless Gateways belonging to the user.
 Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
 
 `POST /private_wireless_gateways` — Required: `network_id`, `name`
+
+Optional: `region_code` (string)
 
 ```go
 	privateWirelessGateway, err := client.PrivateWirelessGateways.New(context.TODO(), telnyx.PrivateWirelessGatewayNewParams{
@@ -824,6 +840,8 @@ Create a Wireless Blocklist to prevent SIMs from connecting to certain networks.
 Update a Wireless Blocklist.
 
 `PATCH /wireless_blocklists`
+
+Optional: `name` (string), `type` (enum), `values` (array[object])
 
 ```go
 	wirelessBlocklist, err := client.WirelessBlocklists.Update(context.TODO(), telnyx.WirelessBlocklistUpdateParams{})

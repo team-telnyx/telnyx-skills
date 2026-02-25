@@ -66,6 +66,8 @@ Initiate a SIP Refer on a Call Control call.
 
 `POST /calls/{call_control_id}/actions/refer` — Required: `sip_address`
 
+Optional: `client_state` (string), `command_id` (string), `custom_headers` (array[object]), `sip_auth_password` (string), `sip_auth_username` (string), `sip_headers` (array[object])
+
 ```go
 	response, err := client.Calls.Actions.Refer(
 		context.TODO(),
@@ -85,6 +87,8 @@ Initiate a SIP Refer on a Call Control call.
 Sends DTMF tones from this leg.
 
 `POST /calls/{call_control_id}/actions/send_dtmf` — Required: `digits`
+
+Optional: `client_state` (string), `command_id` (string), `duration_millis` (int32)
 
 ```go
 	response, err := client.Calls.Actions.SendDtmf(
@@ -106,6 +110,8 @@ Start siprec session to configured in SIPREC connector SRS.
 
 `POST /calls/{call_control_id}/actions/siprec_start`
 
+Optional: `client_state` (string), `connector_name` (string), `include_metadata_custom_headers` (enum), `secure` (enum), `session_timeout_secs` (integer), `sip_transport` (enum), `siprec_track` (enum)
+
 ```go
 	response, err := client.Calls.Actions.StartSiprec(
 		context.TODO(),
@@ -124,6 +130,8 @@ Stop SIPREC session.
 
 `POST /calls/{call_control_id}/actions/siprec_stop`
 
+Optional: `client_state` (string), `command_id` (string)
+
 ```go
 	response, err := client.Calls.Actions.StopSiprec(
 		context.TODO(),
@@ -140,6 +148,8 @@ Stop SIPREC session.
 
 `POST /calls/{call_control_id}/actions/suppression_start`
 
+Optional: `client_state` (string), `command_id` (string), `direction` (enum), `noise_suppression_engine` (enum), `noise_suppression_engine_config` (object)
+
 ```go
 	response, err := client.Calls.Actions.StartNoiseSuppression(
 		context.TODO(),
@@ -155,6 +165,8 @@ Stop SIPREC session.
 ## Noise Suppression Stop (BETA)
 
 `POST /calls/{call_control_id}/actions/suppression_stop`
+
+Optional: `client_state` (string), `command_id` (string)
 
 ```go
 	response, err := client.Calls.Actions.StopNoiseSuppression(
@@ -203,3 +215,100 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | `callSiprecStarted` | Call Siprec Started |
 | `callSiprecStopped` | Call Siprec Stopped |
 | `callSiprecFailed` | Call Siprec Failed |
+
+### Webhook payload fields
+
+**`callReferStarted`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.call_control_id` | string | Unique ID for controlling the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.from` | string | Number or SIP URI placing the call. |
+| `data.payload.sip_notify_response` | integer | SIP NOTIFY event status for tracking the REFER attempt. |
+| `data.payload.to` | string | Destination number or SIP URI of the call. |
+
+**`callReferCompleted`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.call_control_id` | string | Unique ID for controlling the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.from` | string | Number or SIP URI placing the call. |
+| `data.payload.sip_notify_response` | integer | SIP NOTIFY event status for tracking the REFER attempt. |
+| `data.payload.to` | string | Destination number or SIP URI of the call. |
+
+**`callReferFailed`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.call_control_id` | string | Unique ID for controlling the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.from` | string | Number or SIP URI placing the call. |
+| `data.payload.sip_notify_response` | integer | SIP NOTIFY event status for tracking the REFER attempt. |
+| `data.payload.to` | string | Destination number or SIP URI of the call. |
+
+**`callSiprecStarted`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+
+**`callSiprecStopped`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.hangup_cause` | string | Q850 reason why the SIPREC session was stopped. |
+
+**`callSiprecFailed`**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.record_type` | enum | Identifies the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
+| `data.id` | uuid | Identifies the type of resource. |
+| `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
+| `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
+| `data.payload.connection_id` | string | Call Control App ID (formerly Telnyx connection ID) used in the call. |
+| `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
+| `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
+| `data.payload.client_state` | string | State received from a command. |
+| `data.payload.failure_cause` | string | Q850 reason why siprec session failed. |

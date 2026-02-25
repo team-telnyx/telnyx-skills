@@ -37,6 +37,8 @@ Returns a timed and authenticated URL to download (GET) or upload (PUT) an objec
 
 `POST /storage/buckets/{bucketName}/{objectName}/presigned_url`
 
+Optional: `ttl` (integer)
+
 ```java
 import com.telnyx.sdk.models.storage.buckets.BucketCreatePresignedUrlParams;
 import com.telnyx.sdk.models.storage.buckets.BucketCreatePresignedUrlResponse;
@@ -149,6 +151,8 @@ Create a source from which data can be migrated from.
 
 `POST /storage/migration_sources` — Required: `provider`, `provider_auth`, `bucket_name`
 
+Optional: `id` (string), `source_region` (string)
+
 ```java
 import com.telnyx.sdk.models.storage.migrationsources.MigrationSourceCreateParams;
 import com.telnyx.sdk.models.storage.migrationsources.MigrationSourceCreateResponse;
@@ -200,6 +204,8 @@ MigrationListResponse migrations = client.storage().migrations().list();
 Initiate a migration of data from an external provider into Telnyx Cloud Storage.
 
 `POST /storage/migrations` — Required: `source_id`, `target_bucket_name`, `target_region`
+
+Optional: `bytes_migrated` (integer), `bytes_to_migrate` (integer), `created_at` (date-time), `eta` (date-time), `id` (string), `last_copy` (date-time), `refresh` (boolean), `speed` (integer), `status` (enum)
 
 ```java
 import com.telnyx.sdk.models.storage.migrations.MigrationCreateParams;

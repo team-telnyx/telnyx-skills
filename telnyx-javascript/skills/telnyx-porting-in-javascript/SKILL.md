@@ -219,6 +219,8 @@ Creates a new porting order object.
 
 `POST /porting_orders` — Required: `phone_numbers`
 
+Optional: `customer_group_reference` (string), `customer_reference` (['string', 'null'])
+
 ```javascript
 const portingOrder = await client.portingOrders.create({
   phone_numbers: ['+13035550000', '+13035550001', '+13035550002'],
@@ -244,6 +246,8 @@ console.log(portingOrder.data);
 Edits the details of an existing porting order.
 
 `PATCH /porting_orders/{id}`
+
+Optional: `activation_settings` (object), `customer_group_reference` (string), `customer_reference` (string), `documents` (object), `end_user` (object), `messaging` (object), `misc` (object), `phone_number_configuration` (object), `requirement_group_id` (uuid), `requirements` (array[object]), `user_feedback` (object), `webhook_url` (uri)
 
 ```javascript
 const portingOrder = await client.portingOrders.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
@@ -429,6 +433,8 @@ for await (const commentListResponse of client.portingOrders.comments.list(
 Creates a new comment for a porting order.
 
 `POST /porting_orders/{id}/comments`
+
+Optional: `body` (string)
 
 ```javascript
 const comment = await client.portingOrders.comments.create('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
@@ -799,6 +805,8 @@ console.log(response.data);
 Runs a portability check, returning the results immediately.
 
 `POST /portability_checks`
+
+Optional: `phone_numbers` (array[string])
 
 ```javascript
 const response = await client.portabilityChecks.run();

@@ -49,6 +49,8 @@ Asynchronously create a room composition.
 
 `POST /room_compositions`
 
+Optional: `format` (string), `resolution` (string), `session_id` (uuid), `video_layout` (object), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
+
 ```javascript
 const roomComposition = await client.roomCompositions.create();
 
@@ -178,6 +180,8 @@ console.log(response.data);
 
 `POST /room_sessions/{room_session_id}/actions/kick`
 
+Optional: `exclude` (array[string]), `participants` (object)
+
 ```javascript
 const response = await client.rooms.sessions.actions.kick('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 
@@ -188,6 +192,8 @@ console.log(response.data);
 
 `POST /room_sessions/{room_session_id}/actions/mute`
 
+Optional: `exclude` (array[string]), `participants` (object)
+
 ```javascript
 const response = await client.rooms.sessions.actions.mute('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
 
@@ -197,6 +203,8 @@ console.log(response.data);
 ## Unmute participants in room session.
 
 `POST /room_sessions/{room_session_id}/actions/unmute`
+
+Optional: `exclude` (array[string]), `participants` (object)
 
 ```javascript
 const response = await client.rooms.sessions.actions.unmute('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
@@ -234,6 +242,8 @@ Synchronously create a Room.
 
 `POST /rooms`
 
+Optional: `enable_recording` (boolean), `max_participants` (integer), `unique_name` (string), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
+
 ```javascript
 const room = await client.rooms.create();
 
@@ -255,6 +265,8 @@ console.log(room.data);
 Synchronously update a Room.
 
 `PATCH /rooms/{room_id}`
+
+Optional: `enable_recording` (boolean), `max_participants` (integer), `unique_name` (string), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
 
 ```javascript
 const room = await client.rooms.update('0ccc7b54-4df3-4bca-a65a-3da1ecc777f0');
@@ -278,6 +290,8 @@ Synchronously create an Client Token to join a Room.
 
 `POST /rooms/{room_id}/actions/generate_join_client_token`
 
+Optional: `refresh_token_ttl_secs` (integer), `token_ttl_secs` (integer)
+
 ```javascript
 const response = await client.rooms.actions.generateJoinClientToken(
   '0ccc7b54-4df3-4bca-a65a-3da1ecc777f0',
@@ -291,6 +305,8 @@ console.log(response.data);
 Synchronously refresh an Client Token to join a Room.
 
 `POST /rooms/{room_id}/actions/refresh_client_token` — Required: `refresh_token`
+
+Optional: `token_ttl_secs` (integer)
 
 ```javascript
 const response = await client.rooms.actions.refreshClientToken(

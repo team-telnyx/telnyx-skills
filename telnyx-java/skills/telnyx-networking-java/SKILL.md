@@ -264,6 +264,8 @@ Update the WireGuard peer.
 
 `PATCH /wireguard_peers/{id}`
 
+Optional: `public_key` (string)
+
 ```java
 import com.telnyx.sdk.models.wireguardpeers.WireguardPeerPatch;
 import com.telnyx.sdk.models.wireguardpeers.WireguardPeerUpdateParams;
@@ -317,6 +319,8 @@ PrivateWirelessGatewayListPage page = client.privateWirelessGateways().list();
 Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
 
 `POST /private_wireless_gateways` — Required: `network_id`, `name`
+
+Optional: `region_code` (string)
 
 ```java
 import com.telnyx.sdk.models.privatewirelessgateways.PrivateWirelessGatewayCreateParams;

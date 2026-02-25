@@ -74,6 +74,8 @@ Updates SIM card data
 
 `PATCH /sim_cards/{id}`
 
+Optional: `actions_in_progress` (boolean), `authorized_imeis` (['array', 'null']), `created_at` (string), `current_billing_period_consumed_data` (object), `current_device_location` (object), `current_imei` (string), `current_mcc` (string), `current_mnc` (string), `data_limit` (object), `eid` (['string', 'null']), `esim_installation_status` (enum), `iccid` (string), `id` (uuid), `imsi` (string), `ipv4` (string), `ipv6` (string), `live_data_session` (enum), `msisdn` (string), `pin_puk_codes` (object), `record_type` (string), `resources_with_in_progress_actions` (array[object]), `sim_card_group_id` (uuid), `status` (object), `tags` (array[string]), `type` (enum), `updated_at` (string), `version` (string)
+
 ```ruby
 sim_card = client.sim_cards.update("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 
@@ -224,6 +226,8 @@ It validates whether SIM card registration codes are valid or not.
 
 `POST /sim_cards/actions/validate_registration_codes`
 
+Optional: `registration_codes` (array[string])
+
 ```ruby
 response = client.sim_cards.actions.validate_registration_codes
 
@@ -296,6 +300,8 @@ Creates a new SIM card group object
 
 `POST /sim_card_groups` — Required: `name`
 
+Optional: `data_limit` (object)
+
 ```ruby
 sim_card_group = client.sim_card_groups.create(name: "My Test Group")
 
@@ -319,6 +325,8 @@ puts(sim_card_group)
 Updates a SIM card group
 
 `PATCH /sim_card_groups/{id}`
+
+Optional: `data_limit` (object), `name` (string)
 
 ```ruby
 sim_card_group = client.sim_card_groups.update("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
@@ -509,6 +517,8 @@ Updates information for a SIM Card Data Usage Notification.
 
 `PATCH /sim_card_data_usage_notifications/{id}`
 
+Optional: `created_at` (string), `id` (uuid), `record_type` (string), `sim_card_id` (uuid), `threshold` (object), `updated_at` (string)
+
 ```ruby
 sim_card_data_usage_notification = client.sim_card_data_usage_notifications.update("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 
@@ -534,6 +544,8 @@ If <code>sim_card_group_id</code> is provided, the eSIMs will be associated with
 
 `POST /actions/purchase/esims` — Required: `amount`
 
+Optional: `product` (string), `sim_card_group_id` (uuid), `status` (enum), `tags` (array[string]), `whitelabel_name` (string)
+
 ```ruby
 purchase = client.actions.purchase.create(amount: 10)
 
@@ -546,6 +558,8 @@ Register the SIM cards associated with the provided registration codes to the cu
 If <code>sim_card_group_id</code> is provided, the SIM cards will be associated with ...
 
 `POST /actions/register/sim_cards` — Required: `registration_codes`
+
+Optional: `sim_card_group_id` (uuid), `status` (enum), `tags` (array[string])
 
 ```ruby
 register = client.actions.register.create(registration_codes: ["0000000001", "0000000002", "0000000003"])
@@ -592,6 +606,8 @@ puts(page)
 Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
 
 `POST /private_wireless_gateways` — Required: `network_id`, `name`
+
+Optional: `region_code` (string)
 
 ```ruby
 private_wireless_gateway = client.private_wireless_gateways.create(
@@ -655,6 +671,8 @@ puts(wireless_blocklist)
 Update a Wireless Blocklist.
 
 `PATCH /wireless_blocklists`
+
+Optional: `name` (string), `type` (enum), `values` (array[object])
 
 ```ruby
 wireless_blocklist = client.wireless_blocklists.update

@@ -50,6 +50,8 @@ Create a new AI Conversation.
 
 `POST /ai/conversations`
 
+Optional: `metadata` (object), `name` (string)
+
 ```java
 import com.telnyx.sdk.models.ai.conversations.Conversation;
 import com.telnyx.sdk.models.ai.conversations.ConversationCreateParams;
@@ -75,6 +77,8 @@ InsightGroupRetrieveInsightGroupsPage page = client.ai().conversations().insight
 Create a new insight group
 
 `POST /ai/conversations/insight-groups` — Required: `name`
+
+Optional: `description` (string), `webhook` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.conversations.insightgroups.InsightGroupInsightGroupsParams;
@@ -104,6 +108,8 @@ InsightTemplateGroupDetail insightTemplateGroupDetail = client.ai().conversation
 Update an insight template group
 
 `PUT /ai/conversations/insight-groups/{group_id}`
+
+Optional: `description` (string), `name` (string), `webhook` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.conversations.insightgroups.InsightGroupUpdateParams;
@@ -175,6 +181,8 @@ Create a new insight
 
 `POST /ai/conversations/insights` — Required: `instructions`, `name`
 
+Optional: `json_schema` (object), `webhook` (string)
+
 ```java
 import com.telnyx.sdk.models.ai.conversations.insights.InsightCreateParams;
 import com.telnyx.sdk.models.ai.conversations.insights.InsightTemplateDetail;
@@ -204,6 +212,8 @@ InsightTemplateDetail insightTemplateDetail = client.ai().conversations().insigh
 Update an insight template
 
 `PUT /ai/conversations/insights/{insight_id}`
+
+Optional: `instructions` (string), `json_schema` (object), `name` (string), `webhook` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.conversations.insights.InsightTemplateDetail;
@@ -243,6 +253,8 @@ Update metadata for a specific conversation.
 
 `PUT /ai/conversations/{conversation_id}`
 
+Optional: `metadata` (object)
+
 ```java
 import com.telnyx.sdk.models.ai.conversations.ConversationUpdateParams;
 import com.telnyx.sdk.models.ai.conversations.ConversationUpdateResponse;
@@ -280,6 +292,8 @@ ConversationRetrieveConversationsInsightsResponse response = client.ai().convers
 Add a new message to the conversation.
 
 `POST /ai/conversations/{conversation_id}/message` — Required: `role`
+
+Optional: `content` (string), `metadata` (object), `name` (string), `sent_at` (date-time), `tool_call_id` (string), `tool_calls` (array[object]), `tool_choice` (object)
 
 ```java
 import com.telnyx.sdk.models.ai.conversations.ConversationAddMessageParams;
@@ -322,6 +336,8 @@ EmbeddingListResponse embeddings = client.ai().embeddings().list();
 Perform embedding on a Telnyx Storage Bucket using an embedding model.
 
 `POST /ai/embeddings` — Required: `bucket_name`
+
+Optional: `document_chunk_overlap_size` (integer), `document_chunk_size` (integer), `embedding_model` (object), `loader` (object)
 
 ```java
 import com.telnyx.sdk.models.ai.embeddings.EmbeddingCreateParams;
@@ -376,6 +392,8 @@ client.ai().embeddings().buckets().delete("bucket_name");
 Perform a similarity search on a Telnyx Storage Bucket, returning the most similar `num_docs` document chunks to the query.
 
 `POST /ai/embeddings/similarity-search` — Required: `bucket_name`, `query`
+
+Optional: `num_of_docs` (integer)
 
 ```java
 import com.telnyx.sdk.models.ai.embeddings.EmbeddingSimilaritySearchParams;
@@ -434,6 +452,8 @@ ClusterListPage page = client.ai().clusters().list();
 Starts a background task to compute how the data in an [embedded storage bucket](https://developers.telnyx.com/api-reference/embeddings/embed-documents) is clustered.
 
 `POST /ai/clusters` — Required: `bucket`
+
+Optional: `files` (array[string]), `min_cluster_size` (integer), `min_subcluster_size` (integer), `prefix` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.clusters.ClusterComputeParams;
@@ -499,6 +519,8 @@ Chat with a language model.
 
 `POST /ai/chat/completions` — Required: `messages`
 
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+
 ```java
 import com.telnyx.sdk.models.ai.chat.ChatCreateCompletionParams;
 import com.telnyx.sdk.models.ai.chat.ChatCreateCompletionResponse;
@@ -534,6 +556,8 @@ JobListResponse jobs = client.ai().fineTuning().jobs().list();
 Create a new fine tuning job.
 
 `POST /ai/fine_tuning/jobs` — Required: `model`, `training_file`
+
+Optional: `hyperparameters` (object), `suffix` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.finetuning.jobs.FineTuningJob;
@@ -572,6 +596,38 @@ import com.telnyx.sdk.models.ai.finetuning.jobs.JobCancelParams;
 FineTuningJob fineTuningJob = client.ai().fineTuning().jobs().cancel("job_id");
 ```
 
+## Create embeddings
+
+Creates an embedding vector representing the input text.
+
+`POST /ai/openai/embeddings` — Required: `input`, `model`
+
+Optional: `dimensions` (integer), `encoding_format` (enum), `user` (string)
+
+```java
+import com.telnyx.sdk.models.ai.openai.embeddings.EmbeddingCreateEmbeddingsParams;
+import com.telnyx.sdk.models.ai.openai.embeddings.EmbeddingCreateEmbeddingsResponse;
+
+EmbeddingCreateEmbeddingsParams params = EmbeddingCreateEmbeddingsParams.builder()
+    .input("The quick brown fox jumps over the lazy dog")
+    .model("thenlper/gte-large")
+    .build();
+EmbeddingCreateEmbeddingsResponse response = client.ai().openai().embeddings().createEmbeddings(params);
+```
+
+## List embedding models
+
+Returns a list of available embedding models.
+
+`GET /ai/openai/embeddings/models`
+
+```java
+import com.telnyx.sdk.models.ai.openai.embeddings.EmbeddingListEmbeddingModelsParams;
+import com.telnyx.sdk.models.ai.openai.embeddings.EmbeddingListEmbeddingModelsResponse;
+
+EmbeddingListEmbeddingModelsResponse response = client.ai().openai().embeddings().listEmbeddingModels();
+```
+
 ## Get available models
 
 This endpoint returns a list of Open Source and OpenAI models that are available for use.
@@ -590,6 +646,8 @@ AiRetrieveModelsResponse response = client.ai().retrieveModels();
 Generate a summary of a file's contents.
 
 `POST /ai/summarize` — Required: `bucket`, `filename`
+
+Optional: `system_prompt` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.AiSummarizeParams;

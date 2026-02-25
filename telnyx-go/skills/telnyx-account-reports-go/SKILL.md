@@ -59,6 +59,8 @@ Creates a new MDR detailed report request with the specified filters
 
 `POST /legacy_reporting/batch_detail_records/messaging` — Required: `start_time`, `end_time`
 
+Optional: `connections` (array[integer]), `directions` (array[integer]), `filters` (array[object]), `include_message_body` (boolean), `managed_accounts` (array[string]), `profiles` (array[string]), `record_types` (array[integer]), `report_name` (string), `select_all_managed_accounts` (boolean), `timezone` (string)
+
 ```go
 	messaging, err := client.Legacy.Reporting.BatchDetailRecords.Messaging.New(context.TODO(), telnyx.LegacyReportingBatchDetailRecordMessagingNewParams{
 		EndTime:   time.Now(),
@@ -117,6 +119,8 @@ Retrieves all CDR report requests for the authenticated user
 Creates a new CDR report request with the specified filters
 
 `POST /legacy_reporting/batch_detail_records/voice` — Required: `start_time`, `end_time`
+
+Optional: `call_types` (array[integer]), `connections` (array[integer]), `fields` (array[string]), `filters` (array[object]), `include_all_metadata` (boolean), `managed_accounts` (array[string]), `record_types` (array[integer]), `report_name` (string), `select_all_managed_accounts` (boolean), `source` (string), `timezone` (string)
 
 ```go
 	voice, err := client.Legacy.Reporting.BatchDetailRecords.Voice.New(context.TODO(), telnyx.LegacyReportingBatchDetailRecordVoiceNewParams{

@@ -264,6 +264,8 @@ Creates a new External Connection based on the parameters sent in the request.
 
 `POST /external_connections` — Required: `external_sip_connection`, `outbound`
 
+Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```javascript
 const externalConnection = await client.externalConnections.create({
   external_sip_connection: 'zoom',
@@ -280,7 +282,7 @@ Return the details of an existing External Connection inside the 'data' attribut
 `GET /external_connections/{id}`
 
 ```javascript
-const externalConnection = await client.externalConnections.retrieve('id');
+const externalConnection = await client.externalConnections.retrieve('1293384261075731499');
 
 console.log(externalConnection.data);
 ```
@@ -291,9 +293,11 @@ Updates settings of an existing External Connection based on the parameters of t
 
 `PATCH /external_connections/{id}` — Required: `outbound`
 
+Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```javascript
-const externalConnection = await client.externalConnections.update('id', {
-  outbound: { outbound_voice_profile_id: 'outbound_voice_profile_id' },
+const externalConnection = await client.externalConnections.update('1293384261075731499', {
+  outbound: { outbound_voice_profile_id: '1911630617284445511' },
 });
 
 console.log(externalConnection.data);
@@ -306,7 +310,7 @@ Permanently deletes an External Connection.
 `DELETE /external_connections/{id}`
 
 ```javascript
-const externalConnection = await client.externalConnections.delete('id');
+const externalConnection = await client.externalConnections.delete('1293384261075731499');
 
 console.log(externalConnection.data);
 ```
@@ -318,7 +322,7 @@ Returns the civic addresses and locations from Microsoft Teams.
 `GET /external_connections/{id}/civic_addresses`
 
 ```javascript
-const civicAddresses = await client.externalConnections.civicAddresses.list('id');
+const civicAddresses = await client.externalConnections.civicAddresses.list('1293384261075731499');
 
 console.log(civicAddresses.data);
 ```
@@ -332,7 +336,7 @@ Return the details of an existing Civic Address with its Locations inside the 'd
 ```javascript
 const civicAddress = await client.externalConnections.civicAddresses.retrieve(
   '318fb664-d341-44d2-8405-e6bfb9ced6d9',
-  { id: 'id' },
+  { id: '1293384261075731499' },
 );
 
 console.log(civicAddress.data);
@@ -363,7 +367,7 @@ Returns a list of all active phone numbers associated with the given external co
 ```javascript
 // Automatically fetches more pages as needed.
 for await (const externalConnectionPhoneNumber of client.externalConnections.phoneNumbers.list(
-  'id',
+  '1293384261075731499',
 )) {
   console.log(externalConnectionPhoneNumber.civic_address_id);
 }
@@ -377,7 +381,7 @@ Return the details of a phone number associated with the given external connecti
 
 ```javascript
 const phoneNumber = await client.externalConnections.phoneNumbers.retrieve('1234567889', {
-  id: 'id',
+  id: '1293384261075731499',
 });
 
 console.log(phoneNumber.data);
@@ -389,9 +393,11 @@ Asynchronously update settings of the phone number associated with the given ext
 
 `PATCH /external_connections/{id}/phone_numbers/{phone_number_id}`
 
+Optional: `location_id` (uuid)
+
 ```javascript
 const phoneNumber = await client.externalConnections.phoneNumbers.update('1234567889', {
-  id: 'id',
+  id: '1293384261075731499',
 });
 
 console.log(phoneNumber.data);
@@ -405,7 +411,9 @@ Returns a list of your Releases for the given external connection.
 
 ```javascript
 // Automatically fetches more pages as needed.
-for await (const releaseListResponse of client.externalConnections.releases.list('id')) {
+for await (const releaseListResponse of client.externalConnections.releases.list(
+  '1293384261075731499',
+)) {
   console.log(releaseListResponse.tenant_id);
 }
 ```
@@ -419,7 +427,7 @@ Return the details of a Release request and its phone numbers.
 ```javascript
 const release = await client.externalConnections.releases.retrieve(
   '7b6a6449-b055-45a6-81f6-f6f0dffa4cc6',
-  { id: 'id' },
+  { id: '1293384261075731499' },
 );
 
 console.log(release.data);
@@ -433,7 +441,7 @@ Returns a list of your Upload requests for the given external connection.
 
 ```javascript
 // Automatically fetches more pages as needed.
-for await (const upload of client.externalConnections.uploads.list('id')) {
+for await (const upload of client.externalConnections.uploads.list('1293384261075731499')) {
   console.log(upload.location_id);
 }
 ```
@@ -444,8 +452,10 @@ Creates a new Upload request to Microsoft teams with the included phone numbers.
 
 `POST /external_connections/{id}/uploads` — Required: `number_ids`
 
+Optional: `additional_usages` (array[string]), `civic_address_id` (uuid), `location_id` (uuid), `usage` (enum)
+
 ```javascript
-const upload = await client.externalConnections.uploads.create('id', {
+const upload = await client.externalConnections.uploads.create('1293384261075731499', {
   number_ids: [
     '3920457616934164700',
     '3920457616934164701',
@@ -464,7 +474,7 @@ Forces a recheck of the status of all pending Upload requests for the given exte
 `POST /external_connections/{id}/uploads/refresh`
 
 ```javascript
-const response = await client.externalConnections.uploads.refreshStatus('id');
+const response = await client.externalConnections.uploads.refreshStatus('1293384261075731499');
 
 console.log(response.success);
 ```
@@ -476,7 +486,7 @@ Returns the count of all pending upload requests for the given external connecti
 `GET /external_connections/{id}/uploads/status`
 
 ```javascript
-const response = await client.externalConnections.uploads.pendingCount('id');
+const response = await client.externalConnections.uploads.pendingCount('1293384261075731499');
 
 console.log(response.data);
 ```
@@ -490,7 +500,7 @@ Return the details of an Upload request and its phone numbers.
 ```javascript
 const upload = await client.externalConnections.uploads.retrieve(
   '7b6a6449-b055-45a6-81f6-f6f0dffa4cc6',
-  { id: 'id' },
+  { id: '1293384261075731499' },
 );
 
 console.log(upload.data);
@@ -505,7 +515,7 @@ If there were any errors during the upload process, this endpoint will retry the
 ```javascript
 const response = await client.externalConnections.uploads.retry(
   '7b6a6449-b055-45a6-81f6-f6f0dffa4cc6',
-  { id: 'id' },
+  { id: '1293384261075731499' },
 );
 
 console.log(response.data);
@@ -531,7 +541,7 @@ Retrieve a log message for an external connection associated with your account.
 `GET /external_connections/log_messages/{id}`
 
 ```javascript
-const logMessage = await client.externalConnections.logMessages.retrieve('id');
+const logMessage = await client.externalConnections.logMessages.retrieve('1293384261075731499');
 
 console.log(logMessage.log_messages);
 ```
@@ -543,7 +553,7 @@ Dismiss a log message for an external connection associated with your account.
 `DELETE /external_connections/log_messages/{id}`
 
 ```javascript
-const response = await client.externalConnections.logMessages.dismiss('id');
+const response = await client.externalConnections.logMessages.dismiss('1293384261075731499');
 
 console.log(response.success);
 ```
@@ -578,6 +588,8 @@ Upload media file to Telnyx so it can be used with other Telnyx services
 
 `POST /media` — Required: `media_url`
 
+Optional: `media_name` (string), `ttl_secs` (integer)
+
 ```javascript
 const response = await client.media.upload({ media_url: 'http://www.example.com/audio.mp3' });
 
@@ -601,6 +613,8 @@ console.log(media.data);
 Updates a stored media file.
 
 `PUT /media/{media_name}`
+
+Optional: `media_url` (string), `ttl_secs` (integer)
 
 ```javascript
 const media = await client.media.update('media_name');

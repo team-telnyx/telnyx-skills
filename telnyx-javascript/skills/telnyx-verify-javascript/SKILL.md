@@ -49,6 +49,8 @@ console.log(numberLookup.data);
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
+Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), `timeout_secs` (integer)
+
 ```javascript
 const createVerificationResponse = await client.verifications.triggerCall({
   phone_number: '+13035551234',
@@ -62,6 +64,8 @@ console.log(createVerificationResponse.data);
 
 `POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
 
+Optional: `timeout_secs` (integer)
+
 ```javascript
 const createVerificationResponse = await client.verifications.triggerFlashcall({
   phone_number: '+13035551234',
@@ -74,6 +78,8 @@ console.log(createVerificationResponse.data);
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
+
+Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
 
 ```javascript
 const createVerificationResponse = await client.verifications.triggerSMS({
@@ -97,6 +103,8 @@ console.log(verification.data);
 ## Verify verification code by ID
 
 `POST /verifications/{verification_id}/actions/verify`
+
+Optional: `code` (string), `status` (enum)
 
 ```javascript
 const verifyVerificationCodeResponse = await client.verifications.actions.verify(
@@ -148,6 +156,8 @@ Creates a new Verify profile to associate verifications with.
 
 `POST /verify_profiles` — Required: `name`
 
+Optional: `call` (object), `flashcall` (object), `language` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
+
 ```javascript
 const verifyProfileData = await client.verifyProfiles.create({ name: 'Test Profile' });
 
@@ -171,6 +181,8 @@ console.log(verifyProfileData.data);
 ## Update Verify profile
 
 `PATCH /verify_profiles/{verify_profile_id}`
+
+Optional: `call` (object), `flashcall` (object), `language` (string), `name` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
 
 ```javascript
 const verifyProfileData = await client.verifyProfiles.update(

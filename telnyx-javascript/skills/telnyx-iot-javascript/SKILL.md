@@ -75,6 +75,8 @@ Updates SIM card data
 
 `PATCH /sim_cards/{id}`
 
+Optional: `actions_in_progress` (boolean), `authorized_imeis` (['array', 'null']), `created_at` (string), `current_billing_period_consumed_data` (object), `current_device_location` (object), `current_imei` (string), `current_mcc` (string), `current_mnc` (string), `data_limit` (object), `eid` (['string', 'null']), `esim_installation_status` (enum), `iccid` (string), `id` (uuid), `imsi` (string), `ipv4` (string), `ipv6` (string), `live_data_session` (enum), `msisdn` (string), `pin_puk_codes` (object), `record_type` (string), `resources_with_in_progress_actions` (array[object]), `sim_card_group_id` (uuid), `status` (object), `tags` (array[string]), `type` (enum), `updated_at` (string), `version` (string)
+
 ```javascript
 const simCard = await client.simCards.update('6a09cdc3-8948-47f0-aa62-74ac943d6c58');
 
@@ -232,6 +234,8 @@ It validates whether SIM card registration codes are valid or not.
 
 `POST /sim_cards/actions/validate_registration_codes`
 
+Optional: `registration_codes` (array[string])
+
 ```javascript
 const response = await client.simCards.actions.validateRegistrationCodes();
 
@@ -309,6 +313,8 @@ Creates a new SIM card group object
 
 `POST /sim_card_groups` — Required: `name`
 
+Optional: `data_limit` (object)
+
 ```javascript
 const simCardGroup = await client.simCardGroups.create({ name: 'My Test Group' });
 
@@ -332,6 +338,8 @@ console.log(simCardGroup.data);
 Updates a SIM card group
 
 `PATCH /sim_card_groups/{id}`
+
+Optional: `data_limit` (object), `name` (string)
 
 ```javascript
 const simCardGroup = await client.simCardGroups.update('6a09cdc3-8948-47f0-aa62-74ac943d6c58');
@@ -537,6 +545,8 @@ Updates information for a SIM Card Data Usage Notification.
 
 `PATCH /sim_card_data_usage_notifications/{id}`
 
+Optional: `created_at` (string), `id` (uuid), `record_type` (string), `sim_card_id` (uuid), `threshold` (object), `updated_at` (string)
+
 ```javascript
 const simCardDataUsageNotification = await client.simCardDataUsageNotifications.update(
   '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
@@ -566,6 +576,8 @@ If <code>sim_card_group_id</code> is provided, the eSIMs will be associated with
 
 `POST /actions/purchase/esims` — Required: `amount`
 
+Optional: `product` (string), `sim_card_group_id` (uuid), `status` (enum), `tags` (array[string]), `whitelabel_name` (string)
+
 ```javascript
 const purchase = await client.actions.purchase.create({ amount: 10 });
 
@@ -578,6 +590,8 @@ Register the SIM cards associated with the provided registration codes to the cu
 If <code>sim_card_group_id</code> is provided, the SIM cards will be associated with ...
 
 `POST /actions/register/sim_cards` — Required: `registration_codes`
+
+Optional: `sim_card_group_id` (uuid), `status` (enum), `tags` (array[string])
 
 ```javascript
 const register = await client.actions.register.create({
@@ -628,6 +642,8 @@ for await (const privateWirelessGateway of client.privateWirelessGateways.list()
 Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
 
 `POST /private_wireless_gateways` — Required: `network_id`, `name`
+
+Optional: `region_code` (string)
 
 ```javascript
 const privateWirelessGateway = await client.privateWirelessGateways.create({
@@ -700,6 +716,8 @@ console.log(wirelessBlocklist.data);
 Update a Wireless Blocklist.
 
 `PATCH /wireless_blocklists`
+
+Optional: `name` (string), `type` (enum), `values` (array[object])
 
 ```javascript
 const wirelessBlocklist = await client.wirelessBlocklists.update();

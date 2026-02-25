@@ -51,6 +51,8 @@ Creates a dynamic emergency address.
 
 `POST /dynamic_emergency_addresses` — Required: `house_number`, `street_name`, `locality`, `administrative_area`, `postal_code`, `country_code`
 
+Optional: `created_at` (string), `extended_address` (string), `house_suffix` (string), `id` (string), `record_type` (string), `sip_geolocation_id` (string), `status` (enum), `street_post_directional` (string), `street_pre_directional` (string), `street_suffix` (string), `updated_at` (string)
+
 ```javascript
 const dynamicEmergencyAddress = await client.dynamicEmergencyAddresses.create({
   administrative_area: 'TX',
@@ -110,6 +112,8 @@ for await (const dynamicEmergencyEndpoint of client.dynamicEmergencyEndpoints.li
 Creates a dynamic emergency endpoints.
 
 `POST /dynamic_emergency_endpoints` — Required: `dynamic_emergency_address_id`, `callback_number`, `caller_name`
+
+Optional: `created_at` (string), `id` (string), `record_type` (string), `sip_from_id` (string), `status` (enum), `updated_at` (string)
 
 ```javascript
 const dynamicEmergencyEndpoint = await client.dynamicEmergencyEndpoints.create({
@@ -240,6 +244,8 @@ Create voicemail settings for a phone number
 
 `POST /phone_numbers/{phone_number_id}/voicemail`
 
+Optional: `enabled` (boolean), `pin` (string)
+
 ```javascript
 const voicemail = await client.phoneNumbers.voicemail.create('123455678900');
 
@@ -251,6 +257,8 @@ console.log(voicemail.data);
 Update voicemail settings for a phone number
 
 `PATCH /phone_numbers/{phone_number_id}/voicemail`
+
+Optional: `enabled` (boolean), `pin` (string)
 
 ```javascript
 const voicemail = await client.phoneNumbers.voicemail.update('123455678900');

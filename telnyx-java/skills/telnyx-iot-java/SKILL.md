@@ -79,6 +79,8 @@ Updates SIM card data
 
 `PATCH /sim_cards/{id}`
 
+Optional: `actions_in_progress` (boolean), `authorized_imeis` (['array', 'null']), `created_at` (string), `current_billing_period_consumed_data` (object), `current_device_location` (object), `current_imei` (string), `current_mcc` (string), `current_mnc` (string), `data_limit` (object), `eid` (['string', 'null']), `esim_installation_status` (enum), `iccid` (string), `id` (uuid), `imsi` (string), `ipv4` (string), `ipv6` (string), `live_data_session` (enum), `msisdn` (string), `pin_puk_codes` (object), `record_type` (string), `resources_with_in_progress_actions` (array[object]), `sim_card_group_id` (uuid), `status` (object), `tags` (array[string]), `type` (enum), `updated_at` (string), `version` (string)
+
 ```java
 import com.telnyx.sdk.models.simcards.SimCard;
 import com.telnyx.sdk.models.simcards.SimCardUpdateParams;
@@ -249,6 +251,8 @@ It validates whether SIM card registration codes are valid or not.
 
 `POST /sim_cards/actions/validate_registration_codes`
 
+Optional: `registration_codes` (array[string])
+
 ```java
 import com.telnyx.sdk.models.simcards.actions.ActionValidateRegistrationCodesParams;
 import com.telnyx.sdk.models.simcards.actions.ActionValidateRegistrationCodesResponse;
@@ -327,6 +331,8 @@ Creates a new SIM card group object
 
 `POST /sim_card_groups` — Required: `name`
 
+Optional: `data_limit` (object)
+
 ```java
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupCreateParams;
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupCreateResponse;
@@ -355,6 +361,8 @@ SimCardGroupRetrieveResponse simCardGroup = client.simCardGroups().retrieve("6a0
 Updates a SIM card group
 
 `PATCH /sim_card_groups/{id}`
+
+Optional: `data_limit` (object), `name` (string)
 
 ```java
 import com.telnyx.sdk.models.simcardgroups.SimCardGroupUpdateParams;
@@ -571,6 +579,8 @@ Updates information for a SIM Card Data Usage Notification.
 
 `PATCH /sim_card_data_usage_notifications/{id}`
 
+Optional: `created_at` (string), `id` (uuid), `record_type` (string), `sim_card_id` (uuid), `threshold` (object), `updated_at` (string)
+
 ```java
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotification;
 import com.telnyx.sdk.models.simcarddatausagenotifications.SimCardDataUsageNotificationUpdateParams;
@@ -603,6 +613,8 @@ If <code>sim_card_group_id</code> is provided, the eSIMs will be associated with
 
 `POST /actions/purchase/esims` — Required: `amount`
 
+Optional: `product` (string), `sim_card_group_id` (uuid), `status` (enum), `tags` (array[string]), `whitelabel_name` (string)
+
 ```java
 import com.telnyx.sdk.models.actions.purchase.PurchaseCreateParams;
 import com.telnyx.sdk.models.actions.purchase.PurchaseCreateResponse;
@@ -619,6 +631,8 @@ Register the SIM cards associated with the provided registration codes to the cu
 If <code>sim_card_group_id</code> is provided, the SIM cards will be associated with ...
 
 `POST /actions/register/sim_cards` — Required: `registration_codes`
+
+Optional: `sim_card_group_id` (uuid), `status` (enum), `tags` (array[string])
 
 ```java
 import com.telnyx.sdk.models.actions.register.RegisterCreateParams;
@@ -677,6 +691,8 @@ PrivateWirelessGatewayListPage page = client.privateWirelessGateways().list();
 Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
 
 `POST /private_wireless_gateways` — Required: `network_id`, `name`
+
+Optional: `region_code` (string)
 
 ```java
 import com.telnyx.sdk.models.privatewirelessgateways.PrivateWirelessGatewayCreateParams;
@@ -752,6 +768,8 @@ WirelessBlocklistCreateResponse wirelessBlocklist = client.wirelessBlocklists().
 Update a Wireless Blocklist.
 
 `PATCH /wireless_blocklists`
+
+Optional: `name` (string), `type` (enum), `values` (array[object])
 
 ```java
 import com.telnyx.sdk.models.wirelessblocklists.WirelessBlocklistUpdateParams;

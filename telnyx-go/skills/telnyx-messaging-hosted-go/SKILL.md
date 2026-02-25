@@ -56,6 +56,8 @@ All examples below assume `client` is already initialized as shown above.
 
 `POST /messaging_hosted_number_orders`
 
+Optional: `messaging_profile_id` (string), `phone_numbers` (array[string])
+
 ```go
 	messagingHostedNumberOrder, err := client.MessagingHostedNumberOrders.New(context.TODO(), telnyx.MessagingHostedNumberOrderNewParams{})
 	if err != nil {
@@ -164,6 +166,40 @@ Create verification codes to validate numbers of the hosted order.
 	fmt.Printf("%+v\n", response.PhoneNumbers)
 ```
 
+## Retrieve a messaging hosted number
+
+Retrieve a specific messaging hosted number by its ID or phone number.
+
+`GET /messaging_hosted_numbers/{id}`
+
+```go
+	messagingHostedNumber, err := client.MessagingHostedNumbers.Get(context.TODO(), "id")
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("%+v\n", messagingHostedNumber.Data)
+```
+
+## Update a messaging hosted number
+
+Update the messaging settings for a hosted number.
+
+`PATCH /messaging_hosted_numbers/{id}`
+
+Optional: `messaging_product` (string), `messaging_profile_id` (string), `tags` (array[string])
+
+```go
+	messagingHostedNumber, err := client.MessagingHostedNumbers.Update(
+		context.TODO(),
+		"id",
+		telnyx.MessagingHostedNumberUpdateParams{},
+	)
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("%+v\n", messagingHostedNumber.Data)
+```
+
 ## Delete a messaging hosted number
 
 `DELETE /messaging_hosted_numbers/{id}`
@@ -179,6 +215,8 @@ Create verification codes to validate numbers of the hosted order.
 ## Send an RCS message
 
 `POST /messages/rcs` — Required: `agent_id`, `to`, `messaging_profile_id`, `agent_message`
+
+Optional: `mms_fallback` (object), `sms_fallback` (object), `type` (enum), `webhook_url` (url)
 
 ```go
 	response, err := client.Messages.Rcs.Send(context.TODO(), telnyx.MessageRcSendParams{
@@ -220,6 +258,8 @@ Create verification codes to validate numbers of the hosted order.
 ## Modify an RCS agent
 
 `PATCH /messaging/rcs/agents/{id}`
+
+Optional: `profile_id` (uuid), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```go
 	rcsAgentResponse, err := client.Messaging.Rcs.Agents.Update(
@@ -325,7 +365,9 @@ Get a list of previously-submitted tollfree verification requests
 
 Submit a new tollfree verification request
 
-`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
+`POST /messaging_tollfree/verification/requests` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`
+
+Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegistrationCountry` (['string', 'null']), `businessRegistrationNumber` (['string', 'null']), `businessRegistrationType` (['string', 'null']), `campaignVerifyAuthorizationToken` (['string', 'null']), `doingBusinessAs` (['string', 'null']), `entityType` (object), `helpMessageResponse` (['string', 'null']), `isvReseller` (['string', 'null']), `optInConfirmationResponse` (['string', 'null']), `optInKeywords` (['string', 'null']), `privacyPolicyURL` (['string', 'null']), `termsAndConditionURL` (['string', 'null']), `webhookUrl` (string)
 
 ```go
 	verificationRequestEgress, err := client.MessagingTollfree.Verification.Requests.New(context.TODO(), telnyx.MessagingTollfreeVerificationRequestNewParams{
@@ -341,7 +383,6 @@ Submit a new tollfree verification request
 			BusinessState:            "Texas",
 			BusinessZip:              "78701",
 			CorporateWebsite:         "http://example.com",
-			IsvReseller:              "isvReseller",
 			MessageVolume:            telnyx.VolumeV100000,
 			OptInWorkflow:            "User signs into the Telnyx portal, enters a number and is prompted to select whether they want to use 2FA verification for security purposes. If they've opted in a confirmation message is sent out to the handset",
 			OptInWorkflowImageURLs: []telnyx.URLParam{{
@@ -383,7 +424,9 @@ Get a single verification request by its ID.
 
 Update an existing tollfree verification request.
 
-`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`, `isvReseller`
+`PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`
+
+Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegistrationCountry` (['string', 'null']), `businessRegistrationNumber` (['string', 'null']), `businessRegistrationType` (['string', 'null']), `campaignVerifyAuthorizationToken` (['string', 'null']), `doingBusinessAs` (['string', 'null']), `entityType` (object), `helpMessageResponse` (['string', 'null']), `isvReseller` (['string', 'null']), `optInConfirmationResponse` (['string', 'null']), `optInKeywords` (['string', 'null']), `privacyPolicyURL` (['string', 'null']), `termsAndConditionURL` (['string', 'null']), `webhookUrl` (string)
 
 ```go
 	verificationRequestEgress, err := client.MessagingTollfree.Verification.Requests.Update(
@@ -402,7 +445,6 @@ Update an existing tollfree verification request.
 				BusinessState:            "Texas",
 				BusinessZip:              "78701",
 				CorporateWebsite:         "http://example.com",
-				IsvReseller:              "isvReseller",
 				MessageVolume:            telnyx.VolumeV100000,
 				OptInWorkflow:            "User signs into the Telnyx portal, enters a number and is prompted to select whether they want to use 2FA verification for security purposes. If they've opted in a confirmation message is sent out to the handset",
 				OptInWorkflowImageURLs: []telnyx.URLParam{{

@@ -117,6 +117,8 @@ Create a credential.
 
 `POST /telephony_credentials` — Required: `connection_id`
 
+Optional: `expires_at` (string), `name` (string), `tag` (string)
+
 ```go
 	telephonyCredential, err := client.TelephonyCredentials.New(context.TODO(), telnyx.TelephonyCredentialNewParams{
 		ConnectionID: "1234567890",
@@ -146,6 +148,8 @@ Get the details of an existing On-demand Credential.
 Update an existing credential.
 
 `PATCH /telephony_credentials/{id}`
+
+Optional: `connection_id` (string), `expires_at` (string), `name` (string), `tag` (string)
 
 ```go
 	telephonyCredential, err := client.TelephonyCredentials.Update(

@@ -272,6 +272,8 @@ Creates a new External Connection based on the parameters sent in the request.
 
 `POST /external_connections` — Required: `external_sip_connection`, `outbound`
 
+Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```python
 external_connection = client.external_connections.create(
     external_sip_connection="zoom",
@@ -288,7 +290,7 @@ Return the details of an existing External Connection inside the 'data' attribut
 
 ```python
 external_connection = client.external_connections.retrieve(
-    "id",
+    "1293384261075731499",
 )
 print(external_connection.data)
 ```
@@ -299,11 +301,13 @@ Updates settings of an existing External Connection based on the parameters of t
 
 `PATCH /external_connections/{id}` — Required: `outbound`
 
+Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```python
 external_connection = client.external_connections.update(
-    id="id",
+    id="1293384261075731499",
     outbound={
-        "outbound_voice_profile_id": "outbound_voice_profile_id"
+        "outbound_voice_profile_id": "1911630617284445511"
     },
 )
 print(external_connection.data)
@@ -317,7 +321,7 @@ Permanently deletes an External Connection.
 
 ```python
 external_connection = client.external_connections.delete(
-    "id",
+    "1293384261075731499",
 )
 print(external_connection.data)
 ```
@@ -330,7 +334,7 @@ Returns the civic addresses and locations from Microsoft Teams.
 
 ```python
 civic_addresses = client.external_connections.civic_addresses.list(
-    id="id",
+    id="1293384261075731499",
 )
 print(civic_addresses.data)
 ```
@@ -344,7 +348,7 @@ Return the details of an existing Civic Address with its Locations inside the 'd
 ```python
 civic_address = client.external_connections.civic_addresses.retrieve(
     address_id="318fb664-d341-44d2-8405-e6bfb9ced6d9",
-    id="id",
+    id="1293384261075731499",
 )
 print(civic_address.data)
 ```
@@ -370,7 +374,7 @@ Returns a list of all active phone numbers associated with the given external co
 
 ```python
 page = client.external_connections.phone_numbers.list(
-    id="id",
+    id="1293384261075731499",
 )
 page = page.data[0]
 print(page.civic_address_id)
@@ -385,7 +389,7 @@ Return the details of a phone number associated with the given external connecti
 ```python
 phone_number = client.external_connections.phone_numbers.retrieve(
     phone_number_id="1234567889",
-    id="id",
+    id="1293384261075731499",
 )
 print(phone_number.data)
 ```
@@ -396,10 +400,12 @@ Asynchronously update settings of the phone number associated with the given ext
 
 `PATCH /external_connections/{id}/phone_numbers/{phone_number_id}`
 
+Optional: `location_id` (uuid)
+
 ```python
 phone_number = client.external_connections.phone_numbers.update(
     phone_number_id="1234567889",
-    id="id",
+    id="1293384261075731499",
 )
 print(phone_number.data)
 ```
@@ -412,7 +418,7 @@ Returns a list of your Releases for the given external connection.
 
 ```python
 page = client.external_connections.releases.list(
-    id="id",
+    id="1293384261075731499",
 )
 page = page.data[0]
 print(page.tenant_id)
@@ -427,7 +433,7 @@ Return the details of a Release request and its phone numbers.
 ```python
 release = client.external_connections.releases.retrieve(
     release_id="7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
-    id="id",
+    id="1293384261075731499",
 )
 print(release.data)
 ```
@@ -440,7 +446,7 @@ Returns a list of your Upload requests for the given external connection.
 
 ```python
 page = client.external_connections.uploads.list(
-    id="id",
+    id="1293384261075731499",
 )
 page = page.data[0]
 print(page.location_id)
@@ -452,9 +458,11 @@ Creates a new Upload request to Microsoft teams with the included phone numbers.
 
 `POST /external_connections/{id}/uploads` — Required: `number_ids`
 
+Optional: `additional_usages` (array[string]), `civic_address_id` (uuid), `location_id` (uuid), `usage` (enum)
+
 ```python
 upload = client.external_connections.uploads.create(
-    id="id",
+    id="1293384261075731499",
     number_ids=["3920457616934164700", "3920457616934164701", "3920457616934164702", "3920457616934164703"],
 )
 print(upload.ticket_id)
@@ -468,7 +476,7 @@ Forces a recheck of the status of all pending Upload requests for the given exte
 
 ```python
 response = client.external_connections.uploads.refresh_status(
-    "id",
+    "1293384261075731499",
 )
 print(response.success)
 ```
@@ -481,7 +489,7 @@ Returns the count of all pending upload requests for the given external connecti
 
 ```python
 response = client.external_connections.uploads.pending_count(
-    "id",
+    "1293384261075731499",
 )
 print(response.data)
 ```
@@ -495,7 +503,7 @@ Return the details of an Upload request and its phone numbers.
 ```python
 upload = client.external_connections.uploads.retrieve(
     ticket_id="7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
-    id="id",
+    id="1293384261075731499",
 )
 print(upload.data)
 ```
@@ -509,7 +517,7 @@ If there were any errors during the upload process, this endpoint will retry the
 ```python
 response = client.external_connections.uploads.retry(
     ticket_id="7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
-    id="id",
+    id="1293384261075731499",
 )
 print(response.data)
 ```
@@ -534,7 +542,7 @@ Retrieve a log message for an external connection associated with your account.
 
 ```python
 log_message = client.external_connections.log_messages.retrieve(
-    "id",
+    "1293384261075731499",
 )
 print(log_message.log_messages)
 ```
@@ -547,7 +555,7 @@ Dismiss a log message for an external connection associated with your account.
 
 ```python
 response = client.external_connections.log_messages.dismiss(
-    "id",
+    "1293384261075731499",
 )
 print(response.success)
 ```
@@ -580,6 +588,8 @@ Upload media file to Telnyx so it can be used with other Telnyx services
 
 `POST /media` — Required: `media_url`
 
+Optional: `media_name` (string), `ttl_secs` (integer)
+
 ```python
 response = client.media.upload(
     media_url="http://www.example.com/audio.mp3",
@@ -605,6 +615,8 @@ print(media.data)
 Updates a stored media file.
 
 `PUT /media/{media_name}`
+
+Optional: `media_url` (string), `ttl_secs` (integer)
 
 ```python
 media = client.media.update(

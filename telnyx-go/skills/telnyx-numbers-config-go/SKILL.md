@@ -108,6 +108,8 @@ Creates a new background job to delete all the phone numbers associated with the
 
 `PATCH /phone_numbers/{id}`
 
+Optional: `address_id` (string), `billing_group_id` (string), `connection_id` (string), `customer_reference` (string), `external_pin` (string), `hd_voice_enabled` (boolean), `id` (string), `tags` (array[string])
+
 ```go
 	phoneNumber, err := client.PhoneNumbers.Update(
 		context.TODO(),
@@ -184,6 +186,8 @@ Creates a new background job to delete all the phone numbers associated with the
 ## Update a phone number with voice settings
 
 `PATCH /phone_numbers/{id}/voice`
+
+Optional: `call_forwarding` (object), `call_recording` (object), `caller_id_name_enabled` (boolean), `cnam_listing` (object), `inbound_call_screening` (enum), `media_features` (object), `tech_prefix_enabled` (boolean), `translated_number` (string), `usage_payment_method` (enum)
 
 ```go
 	voice, err := client.PhoneNumbers.Voice.Update(
@@ -297,6 +301,8 @@ Creates a background job to update the emergency settings of a collection of pho
 
 `POST /phone_numbers/jobs/update_emergency_settings` — Required: `emergency_enabled`, `phone_numbers`
 
+Optional: `emergency_address_id` (['string', 'null'])
+
 ```go
 	response, err := client.PhoneNumbers.Jobs.UpdateEmergencySettingsBatch(context.TODO(), telnyx.PhoneNumberJobUpdateEmergencySettingsBatchParams{
 		EmergencyEnabled: true,
@@ -313,6 +319,8 @@ Creates a background job to update the emergency settings of a collection of pho
 Creates a new background job to update a batch of numbers.
 
 `POST /phone_numbers/jobs/update_phone_numbers` — Required: `phone_numbers`
+
+Optional: `billing_group_id` (string), `connection_id` (string), `customer_reference` (string), `deletion_lock_enabled` (boolean), `external_pin` (string), `hd_voice_enabled` (boolean), `tags` (array[string]), `voice` (object)
 
 ```go
 	response, err := client.PhoneNumbers.Jobs.UpdateBatch(context.TODO(), telnyx.PhoneNumberJobUpdateBatchParams{
@@ -389,6 +397,8 @@ List phone numbers, This endpoint is a lighter version of the /phone_numbers end
 ## Update a Mobile Phone Number
 
 `PATCH /v2/mobile_phone_numbers/{id}`
+
+Optional: `call_forwarding` (object), `call_recording` (object), `caller_id_name_enabled` (boolean), `cnam_listing` (object), `connection_id` (['string', 'null']), `customer_reference` (['string', 'null']), `inbound` (object), `inbound_call_screening` (enum), `noise_suppression` (boolean), `outbound` (object), `tags` (array[string])
 
 ```go
 	mobilePhoneNumber, err := client.MobilePhoneNumbers.Update(

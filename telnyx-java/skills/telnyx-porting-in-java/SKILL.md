@@ -234,6 +234,8 @@ Creates a new porting order object.
 
 `POST /porting_orders` — Required: `phone_numbers`
 
+Optional: `customer_group_reference` (string), `customer_reference` (['string', 'null'])
+
 ```java
 import com.telnyx.sdk.models.portingorders.PortingOrderCreateParams;
 import com.telnyx.sdk.models.portingorders.PortingOrderCreateResponse;
@@ -267,6 +269,8 @@ PortingOrderRetrieveResponse portingOrder = client.portingOrders().retrieve("182
 Edits the details of an existing porting order.
 
 `PATCH /porting_orders/{id}`
+
+Optional: `activation_settings` (object), `customer_group_reference` (string), `customer_reference` (string), `documents` (object), `end_user` (object), `messaging` (object), `misc` (object), `phone_number_configuration` (object), `requirement_group_id` (uuid), `requirements` (array[object]), `user_feedback` (object), `webhook_url` (uri)
 
 ```java
 import com.telnyx.sdk.models.portingorders.PortingOrderUpdateParams;
@@ -457,6 +461,8 @@ CommentListPage page = client.portingOrders().comments().list("182bd5e5-6e1a-4fe
 Creates a new comment for a porting order.
 
 `POST /porting_orders/{id}/comments`
+
+Optional: `body` (string)
 
 ```java
 import com.telnyx.sdk.models.portingorders.comments.CommentCreateParams;
@@ -845,6 +851,8 @@ PortingListUkCarriersResponse response = client.porting().listUkCarriers();
 Runs a portability check, returning the results immediately.
 
 `POST /portability_checks`
+
+Optional: `phone_numbers` (array[string])
 
 ```java
 import com.telnyx.sdk.models.portabilitychecks.PortabilityCheckRunParams;

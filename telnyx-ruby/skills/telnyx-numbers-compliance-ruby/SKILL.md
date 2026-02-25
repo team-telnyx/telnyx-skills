@@ -74,6 +74,8 @@ Creates multiple user bundles for the user.
 
 `POST /bundle_pricing/user_bundles/bulk`
 
+Optional: `idempotency_key` (uuid), `items` (array[object])
+
 ```ruby
 user_bundle = client.bundle_pricing.user_bundles.create
 
@@ -157,6 +159,8 @@ puts(page)
 Upload a document.<br /><br />Uploaded files must be linked to a service within 30 minutes or they will be automatically deleted.
 
 `POST /documents`
+
+Optional: `customer_reference` (string), `file` (byte), `filename` (string), `url` (string)
 
 ```ruby
 response = client.documents.upload_json(document: {})
@@ -296,6 +300,8 @@ puts(requirement_groups)
 
 `POST /requirement_groups` — Required: `country_code`, `phone_number_type`, `action`
 
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
+
 ```ruby
 requirement_group = client.requirement_groups.create(action: :ordering, country_code: "US", phone_number_type: :local)
 
@@ -315,6 +321,8 @@ puts(requirement_group)
 ## Update requirement values in requirement group
 
 `PATCH /requirement_groups/{id}`
+
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
 
 ```ruby
 requirement_group = client.requirement_groups.update("id")
@@ -359,6 +367,8 @@ puts(page)
 Initiates phone number verification procedure.
 
 `POST /verified_numbers` — Required: `phone_number`, `verification_method`
+
+Optional: `extension` (string)
 
 ```ruby
 verified_number = client.verified_numbers.create(phone_number: "+15551234567", verification_method: :sms)

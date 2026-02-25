@@ -59,6 +59,8 @@ Create a new managed account owned by the authenticated user.
 
 `POST /managed_accounts` — Required: `business_name`
 
+Optional: `email` (string), `managed_account_allow_custom_pricing` (boolean), `password` (string), `rollup_billing` (boolean)
+
 ```go
 	managedAccount, err := client.ManagedAccounts.New(context.TODO(), telnyx.ManagedAccountNewParams{
 		BusinessName: "Larry's Cat Food Inc",
@@ -88,6 +90,8 @@ Retrieves the details of a single managed account.
 Update a single managed account.
 
 `PATCH /managed_accounts/{id}`
+
+Optional: `managed_account_allow_custom_pricing` (boolean)
 
 ```go
 	managedAccount, err := client.ManagedAccounts.Update(
@@ -121,6 +125,8 @@ Enables a managed account and its sub-users to use Telnyx services.
 
 `POST /managed_accounts/{id}/actions/enable`
 
+Optional: `reenable_all_connections` (boolean)
+
 ```go
 	response, err := client.ManagedAccounts.Actions.Enable(
 		context.TODO(),
@@ -136,6 +142,8 @@ Enables a managed account and its sub-users to use Telnyx services.
 ## Update the amount of allocatable global outbound channels allocated to a specific managed account.
 
 `PATCH /managed_accounts/{id}/update_global_channel_limit`
+
+Optional: `channel_limit` (integer)
 
 ```go
 	response, err := client.ManagedAccounts.UpdateGlobalChannelLimit(

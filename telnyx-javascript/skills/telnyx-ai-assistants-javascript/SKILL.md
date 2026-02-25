@@ -50,6 +50,8 @@ Create a new AI Assistant.
 
 `POST /ai/assistants` — Required: `name`, `model`, `instructions`
 
+Optional: `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `insight_settings` (object), `llm_api_key_ref` (string), `messaging_settings` (object), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
+
 ```javascript
 const assistant = await client.ai.assistants.create({
   instructions: 'instructions',
@@ -102,6 +104,8 @@ This endpoint allows a client to send a chat message to a specific AI Assistant.
 
 `POST /ai/assistants/{assistant_id}/chat` — Required: `content`, `conversation_id`
 
+Optional: `name` (string)
+
 ```javascript
 const response = await client.ai.assistants.chat('assistant_id', {
   content: 'Tell me a joke about cats',
@@ -116,6 +120,8 @@ console.log(response.content);
 Send an SMS message for an assistant.
 
 `POST /ai/assistants/{assistant_id}/chat/sms` — Required: `from`, `to`
+
+Optional: `conversation_metadata` (object), `should_create_conversation` (boolean), `text` (string)
 
 ```javascript
 const response = await client.ai.assistants.sendSMS('assistant_id', { from: 'from', to: 'to' });
@@ -140,6 +146,8 @@ console.log(assistant.id);
 Import assistants from external providers.
 
 `POST /ai/assistants/import` — Required: `provider`, `api_key_ref`
+
+Optional: `import_ids` (array[string])
 
 ```javascript
 const assistantsList = await client.ai.assistants.imports({
@@ -170,6 +178,8 @@ for await (const scheduledEventListResponse of client.ai.assistants.scheduledEve
 Create a scheduled event for an assistant
 
 `POST /ai/assistants/{assistant_id}/scheduled_events` — Required: `telnyx_conversation_channel`, `telnyx_end_user_target`, `telnyx_agent_target`, `scheduled_at_fixed_datetime`
+
+Optional: `conversation_metadata` (object), `dynamic_variables` (object), `text` (string)
 
 ```javascript
 const scheduledEventResponse = await client.ai.assistants.scheduledEvents.create('assistant_id', {
@@ -225,6 +235,8 @@ Creates a comprehensive test configuration for evaluating AI assistant performan
 
 `POST /ai/assistants/tests` — Required: `name`, `destination`, `instructions`, `rubric`
 
+Optional: `description` (string), `max_duration_seconds` (integer), `telnyx_conversation_channel` (object), `test_suite` (string)
+
 ```javascript
 const assistantTest = await client.ai.assistants.tests.create({
   destination: '+15551234567',
@@ -271,6 +283,8 @@ Executes all tests within a specific test suite as a batch operation
 
 `POST /ai/assistants/tests/test-suites/{suite_name}/runs`
 
+Optional: `destination_version_id` (string)
+
 ```javascript
 const testRunResponses = await client.ai.assistants.tests.testSuites.runs.trigger('suite_name');
 
@@ -294,6 +308,8 @@ console.log(assistantTest.test_id);
 Updates an existing assistant test configuration with new settings
 
 `PUT /ai/assistants/tests/{test_id}`
+
+Optional: `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (enum), `test_suite` (string)
 
 ```javascript
 const assistantTest = await client.ai.assistants.tests.update('test_id');
@@ -329,6 +345,8 @@ for await (const testRunResponse of client.ai.assistants.tests.runs.list('test_i
 Initiates immediate execution of a specific assistant test
 
 `POST /ai/assistants/tests/{test_id}/runs`
+
+Optional: `destination_version_id` (string)
 
 ```javascript
 const testRunResponse = await client.ai.assistants.tests.runs.trigger('test_id');
@@ -381,6 +399,8 @@ console.log(assistant.id);
 Updates the configuration of a specific assistant version.
 
 `POST /ai/assistants/{assistant_id}/versions/{version_id}`
+
+Optional: `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
 ```javascript
 const assistant = await client.ai.assistants.versions.update('version_id', {
@@ -482,6 +502,8 @@ Test a webhook tool for an assistant
 
 `POST /ai/assistants/{assistant_id}/tools/{tool_id}/test`
 
+Optional: `arguments` (object), `dynamic_variables` (object)
+
 ```javascript
 const response = await client.ai.assistants.tools.test('tool_id', { assistant_id: 'assistant_id' });
 
@@ -565,6 +587,8 @@ Create a new MCP server.
 
 `POST /ai/mcp_servers` — Required: `name`, `type`, `url`
 
+Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null'])
+
 ```javascript
 const mcpServer = await client.ai.mcpServers.create({
   name: 'name',
@@ -592,6 +616,8 @@ console.log(mcpServer.id);
 Update an existing MCP server.
 
 `PUT /ai/mcp_servers/{mcp_server_id}`
+
+Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ```javascript
 const mcpServer = await client.ai.mcpServers.update('mcp_server_id');

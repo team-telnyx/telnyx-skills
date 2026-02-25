@@ -50,6 +50,8 @@ Create a new AI Conversation.
 
 `POST /ai/conversations`
 
+Optional: `metadata` (object), `name` (string)
+
 ```ruby
 conversation = client.ai.conversations.create
 
@@ -74,6 +76,8 @@ Create a new insight group
 
 `POST /ai/conversations/insight-groups` — Required: `name`
 
+Optional: `description` (string), `webhook` (string)
+
 ```ruby
 insight_template_group_detail = client.ai.conversations.insight_groups.insight_groups(name: "name")
 
@@ -97,6 +101,8 @@ puts(insight_template_group_detail)
 Update an insight template group
 
 `PUT /ai/conversations/insight-groups/{group_id}`
+
+Optional: `description` (string), `name` (string), `webhook` (string)
 
 ```ruby
 insight_template_group_detail = client.ai.conversations.insight_groups.update("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -164,6 +170,8 @@ Create a new insight
 
 `POST /ai/conversations/insights` — Required: `instructions`, `name`
 
+Optional: `json_schema` (object), `webhook` (string)
+
 ```ruby
 insight_template_detail = client.ai.conversations.insights.create(instructions: "instructions", name: "name")
 
@@ -187,6 +195,8 @@ puts(insight_template_detail)
 Update an insight template
 
 `PUT /ai/conversations/insights/{insight_id}`
+
+Optional: `instructions` (string), `json_schema` (object), `name` (string), `webhook` (string)
 
 ```ruby
 insight_template_detail = client.ai.conversations.insights.update("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -224,6 +234,8 @@ Update metadata for a specific conversation.
 
 `PUT /ai/conversations/{conversation_id}`
 
+Optional: `metadata` (object)
+
 ```ruby
 conversation = client.ai.conversations.update("conversation_id")
 
@@ -260,6 +272,8 @@ Add a new message to the conversation.
 
 `POST /ai/conversations/{conversation_id}/message` — Required: `role`
 
+Optional: `content` (string), `metadata` (object), `name` (string), `sent_at` (date-time), `tool_call_id` (string), `tool_calls` (array[object]), `tool_choice` (object)
+
 ```ruby
 result = client.ai.conversations.add_message("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", role: "role")
 
@@ -295,6 +309,8 @@ puts(embeddings)
 Perform embedding on a Telnyx Storage Bucket using an embedding model.
 
 `POST /ai/embeddings` — Required: `bucket_name`
+
+Optional: `document_chunk_overlap_size` (integer), `document_chunk_size` (integer), `embedding_model` (object), `loader` (object)
 
 ```ruby
 embedding_response = client.ai.embeddings.create(bucket_name: "bucket_name")
@@ -344,6 +360,8 @@ Perform a similarity search on a Telnyx Storage Bucket, returning the most simil
 
 `POST /ai/embeddings/similarity-search` — Required: `bucket_name`, `query`
 
+Optional: `num_of_docs` (integer)
+
 ```ruby
 response = client.ai.embeddings.similarity_search(bucket_name: "bucket_name", query: "query")
 
@@ -389,6 +407,8 @@ puts(page)
 Starts a background task to compute how the data in an [embedded storage bucket](https://developers.telnyx.com/api-reference/embeddings/embed-documents) is clustered.
 
 `POST /ai/clusters` — Required: `bucket`
+
+Optional: `files` (array[string]), `min_cluster_size` (integer), `min_subcluster_size` (integer), `prefix` (string)
 
 ```ruby
 response = client.ai.clusters.compute(bucket: "bucket")
@@ -444,6 +464,8 @@ Chat with a language model.
 
 `POST /ai/chat/completions` — Required: `messages`
 
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+
 ```ruby
 response = client.ai.chat.create_completion(
   messages: [{content: "You are a friendly chatbot.", role: :system}, {content: "Hello, world!", role: :user}]
@@ -469,6 +491,8 @@ puts(jobs)
 Create a new fine tuning job.
 
 `POST /ai/fine_tuning/jobs` — Required: `model`, `training_file`
+
+Optional: `hyperparameters` (object), `suffix` (string)
 
 ```ruby
 fine_tuning_job = client.ai.fine_tuning.jobs.create(model: "model", training_file: "training_file")
@@ -500,6 +524,35 @@ fine_tuning_job = client.ai.fine_tuning.jobs.cancel("job_id")
 puts(fine_tuning_job)
 ```
 
+## Create embeddings
+
+Creates an embedding vector representing the input text.
+
+`POST /ai/openai/embeddings` — Required: `input`, `model`
+
+Optional: `dimensions` (integer), `encoding_format` (enum), `user` (string)
+
+```ruby
+response = client.ai.openai.embeddings.create_embeddings(
+  input: "The quick brown fox jumps over the lazy dog",
+  model: "thenlper/gte-large"
+)
+
+puts(response)
+```
+
+## List embedding models
+
+Returns a list of available embedding models.
+
+`GET /ai/openai/embeddings/models`
+
+```ruby
+response = client.ai.openai.embeddings.list_embedding_models
+
+puts(response)
+```
+
 ## Get available models
 
 This endpoint returns a list of Open Source and OpenAI models that are available for use.
@@ -517,6 +570,8 @@ puts(response)
 Generate a summary of a file's contents.
 
 `POST /ai/summarize` — Required: `bucket`, `filename`
+
+Optional: `system_prompt` (string)
 
 ```ruby
 response = client.ai.summarize(bucket: "bucket", filename: "filename")

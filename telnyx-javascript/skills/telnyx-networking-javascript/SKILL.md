@@ -254,6 +254,8 @@ Update the WireGuard peer.
 
 `PATCH /wireguard_peers/{id}`
 
+Optional: `public_key` (string)
+
 ```javascript
 const wireguardPeer = await client.wireguardPeers.update('6a09cdc3-8948-47f0-aa62-74ac943d6c58');
 
@@ -300,6 +302,8 @@ for await (const privateWirelessGateway of client.privateWirelessGateways.list()
 Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
 
 `POST /private_wireless_gateways` — Required: `network_id`, `name`
+
+Optional: `region_code` (string)
 
 ```javascript
 const privateWirelessGateway = await client.privateWirelessGateways.create({

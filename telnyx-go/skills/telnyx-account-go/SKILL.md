@@ -131,6 +131,8 @@ Update payment auto recharge preferences.
 
 `PATCH /payments/auto_recharge_prefs`
 
+Optional: `enabled` (boolean), `invoice_enabled` (boolean), `preference` (enum), `recharge_amount` (string), `threshold_amount` (string)
+
 ```go
 	autoRechargePref, err := client.Payment.AutoRechargePrefs.Update(context.TODO(), telnyx.PaymentAutoRechargePrefUpdateParams{})
 	if err != nil {

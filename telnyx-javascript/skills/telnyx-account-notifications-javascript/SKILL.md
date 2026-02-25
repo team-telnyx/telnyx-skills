@@ -51,6 +51,8 @@ Create a notification channel.
 
 `POST /notification_channels`
 
+Optional: `channel_destination` (string), `channel_type_id` (enum), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
+
 ```javascript
 const notificationChannel = await client.notificationChannels.create();
 
@@ -76,6 +78,8 @@ console.log(notificationChannel.data);
 Update a notification channel.
 
 `PATCH /notification_channels/{id}`
+
+Optional: `channel_destination` (string), `channel_type_id` (enum), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
 
 ```javascript
 const notificationChannel = await client.notificationChannels.update(
@@ -144,6 +148,8 @@ Create a notification profile.
 
 `POST /notification_profiles`
 
+Optional: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)
+
 ```javascript
 const notificationProfile = await client.notificationProfiles.create();
 
@@ -169,6 +175,8 @@ console.log(notificationProfile.data);
 Update a notification profile.
 
 `PATCH /notification_profiles/{id}`
+
+Optional: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)
 
 ```javascript
 const notificationProfile = await client.notificationProfiles.update(
@@ -210,6 +218,8 @@ for await (const notificationSetting of client.notificationSettings.list()) {
 Add a notification setting.
 
 `POST /notification_settings`
+
+Optional: `associated_record_type` (string), `associated_record_type_value` (string), `created_at` (date-time), `id` (string), `notification_channel_id` (string), `notification_event_condition_id` (string), `notification_profile_id` (string), `parameters` (array[object]), `status` (enum), `updated_at` (date-time)
 
 ```javascript
 const notificationSetting = await client.notificationSettings.create();

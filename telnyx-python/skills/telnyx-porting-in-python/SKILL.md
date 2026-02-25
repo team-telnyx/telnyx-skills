@@ -228,6 +228,8 @@ Creates a new porting order object.
 
 `POST /porting_orders` — Required: `phone_numbers`
 
+Optional: `customer_group_reference` (string), `customer_reference` (['string', 'null'])
+
 ```python
 porting_order = client.porting_orders.create(
     phone_numbers=["+13035550000", "+13035550001", "+13035550002"],
@@ -253,6 +255,8 @@ print(porting_order.data)
 Edits the details of an existing porting order.
 
 `PATCH /porting_orders/{id}`
+
+Optional: `activation_settings` (object), `customer_group_reference` (string), `customer_reference` (string), `documents` (object), `end_user` (object), `messaging` (object), `misc` (object), `phone_number_configuration` (object), `requirement_group_id` (uuid), `requirements` (array[object]), `user_feedback` (object), `webhook_url` (uri)
 
 ```python
 porting_order = client.porting_orders.update(
@@ -437,6 +441,8 @@ print(page.id)
 Creates a new comment for a porting order.
 
 `POST /porting_orders/{id}/comments`
+
+Optional: `body` (string)
 
 ```python
 comment = client.porting_orders.comments.create(
@@ -799,6 +805,8 @@ print(response.data)
 Runs a portability check, returning the results immediately.
 
 `POST /portability_checks`
+
+Optional: `phone_numbers` (array[string])
 
 ```python
 response = client.portability_checks.run()

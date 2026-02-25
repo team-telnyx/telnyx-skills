@@ -301,6 +301,8 @@ Update the WireGuard peer.
 
 `PATCH /wireguard_peers/{id}`
 
+Optional: `public_key` (string)
+
 ```go
 	wireguardPeer, err := client.WireguardPeers.Update(
 		context.TODO(),
@@ -360,6 +362,8 @@ Get all Private Wireless Gateways belonging to the user.
 Asynchronously create a Private Wireless Gateway for SIM cards for a previously created network.
 
 `POST /private_wireless_gateways` — Required: `network_id`, `name`
+
+Optional: `region_code` (string)
 
 ```go
 	privateWirelessGateway, err := client.PrivateWirelessGateways.New(context.TODO(), telnyx.PrivateWirelessGatewayNewParams{

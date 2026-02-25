@@ -300,6 +300,8 @@ Creates a new External Connection based on the parameters sent in the request.
 
 `POST /external_connections` — Required: `external_sip_connection`, `outbound`
 
+Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```java
 import com.telnyx.sdk.models.externalconnections.ExternalConnectionCreateParams;
 import com.telnyx.sdk.models.externalconnections.ExternalConnectionCreateResponse;
@@ -321,7 +323,7 @@ Return the details of an existing External Connection inside the 'data' attribut
 import com.telnyx.sdk.models.externalconnections.ExternalConnectionRetrieveParams;
 import com.telnyx.sdk.models.externalconnections.ExternalConnectionRetrieveResponse;
 
-ExternalConnectionRetrieveResponse externalConnection = client.externalConnections().retrieve("id");
+ExternalConnectionRetrieveResponse externalConnection = client.externalConnections().retrieve("1293384261075731499");
 ```
 
 ## Update an External Connection
@@ -330,14 +332,16 @@ Updates settings of an existing External Connection based on the parameters of t
 
 `PATCH /external_connections/{id}` — Required: `outbound`
 
+Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
+
 ```java
 import com.telnyx.sdk.models.externalconnections.ExternalConnectionUpdateParams;
 import com.telnyx.sdk.models.externalconnections.ExternalConnectionUpdateResponse;
 
 ExternalConnectionUpdateParams params = ExternalConnectionUpdateParams.builder()
-    .id("id")
+    .id("1293384261075731499")
     .outbound(ExternalConnectionUpdateParams.Outbound.builder()
-        .outboundVoiceProfileId("outbound_voice_profile_id")
+        .outboundVoiceProfileId("1911630617284445511")
         .build())
     .build();
 ExternalConnectionUpdateResponse externalConnection = client.externalConnections().update(params);
@@ -353,7 +357,7 @@ Permanently deletes an External Connection.
 import com.telnyx.sdk.models.externalconnections.ExternalConnectionDeleteParams;
 import com.telnyx.sdk.models.externalconnections.ExternalConnectionDeleteResponse;
 
-ExternalConnectionDeleteResponse externalConnection = client.externalConnections().delete("id");
+ExternalConnectionDeleteResponse externalConnection = client.externalConnections().delete("1293384261075731499");
 ```
 
 ## List all civic addresses and locations
@@ -366,7 +370,7 @@ Returns the civic addresses and locations from Microsoft Teams.
 import com.telnyx.sdk.models.externalconnections.civicaddresses.CivicAddressListParams;
 import com.telnyx.sdk.models.externalconnections.civicaddresses.CivicAddressListResponse;
 
-CivicAddressListResponse civicAddresses = client.externalConnections().civicAddresses().list("id");
+CivicAddressListResponse civicAddresses = client.externalConnections().civicAddresses().list("1293384261075731499");
 ```
 
 ## Retrieve a Civic Address
@@ -380,7 +384,7 @@ import com.telnyx.sdk.models.externalconnections.civicaddresses.CivicAddressRetr
 import com.telnyx.sdk.models.externalconnections.civicaddresses.CivicAddressRetrieveResponse;
 
 CivicAddressRetrieveParams params = CivicAddressRetrieveParams.builder()
-    .id("id")
+    .id("1293384261075731499")
     .addressId("318fb664-d341-44d2-8405-e6bfb9ced6d9")
     .build();
 CivicAddressRetrieveResponse civicAddress = client.externalConnections().civicAddresses().retrieve(params);
@@ -412,7 +416,7 @@ Returns a list of all active phone numbers associated with the given external co
 import com.telnyx.sdk.models.externalconnections.phonenumbers.PhoneNumberListPage;
 import com.telnyx.sdk.models.externalconnections.phonenumbers.PhoneNumberListParams;
 
-PhoneNumberListPage page = client.externalConnections().phoneNumbers().list("id");
+PhoneNumberListPage page = client.externalConnections().phoneNumbers().list("1293384261075731499");
 ```
 
 ## Retrieve a phone number
@@ -426,7 +430,7 @@ import com.telnyx.sdk.models.externalconnections.phonenumbers.PhoneNumberRetriev
 import com.telnyx.sdk.models.externalconnections.phonenumbers.PhoneNumberRetrieveResponse;
 
 PhoneNumberRetrieveParams params = PhoneNumberRetrieveParams.builder()
-    .id("id")
+    .id("1293384261075731499")
     .phoneNumberId("1234567889")
     .build();
 PhoneNumberRetrieveResponse phoneNumber = client.externalConnections().phoneNumbers().retrieve(params);
@@ -438,12 +442,14 @@ Asynchronously update settings of the phone number associated with the given ext
 
 `PATCH /external_connections/{id}/phone_numbers/{phone_number_id}`
 
+Optional: `location_id` (uuid)
+
 ```java
 import com.telnyx.sdk.models.externalconnections.phonenumbers.PhoneNumberUpdateParams;
 import com.telnyx.sdk.models.externalconnections.phonenumbers.PhoneNumberUpdateResponse;
 
 PhoneNumberUpdateParams params = PhoneNumberUpdateParams.builder()
-    .id("id")
+    .id("1293384261075731499")
     .phoneNumberId("1234567889")
     .build();
 PhoneNumberUpdateResponse phoneNumber = client.externalConnections().phoneNumbers().update(params);
@@ -459,7 +465,7 @@ Returns a list of your Releases for the given external connection.
 import com.telnyx.sdk.models.externalconnections.releases.ReleaseListPage;
 import com.telnyx.sdk.models.externalconnections.releases.ReleaseListParams;
 
-ReleaseListPage page = client.externalConnections().releases().list("id");
+ReleaseListPage page = client.externalConnections().releases().list("1293384261075731499");
 ```
 
 ## Retrieve a Release request
@@ -473,7 +479,7 @@ import com.telnyx.sdk.models.externalconnections.releases.ReleaseRetrieveParams;
 import com.telnyx.sdk.models.externalconnections.releases.ReleaseRetrieveResponse;
 
 ReleaseRetrieveParams params = ReleaseRetrieveParams.builder()
-    .id("id")
+    .id("1293384261075731499")
     .releaseId("7b6a6449-b055-45a6-81f6-f6f0dffa4cc6")
     .build();
 ReleaseRetrieveResponse release = client.externalConnections().releases().retrieve(params);
@@ -489,7 +495,7 @@ Returns a list of your Upload requests for the given external connection.
 import com.telnyx.sdk.models.externalconnections.uploads.UploadListPage;
 import com.telnyx.sdk.models.externalconnections.uploads.UploadListParams;
 
-UploadListPage page = client.externalConnections().uploads().list("id");
+UploadListPage page = client.externalConnections().uploads().list("1293384261075731499");
 ```
 
 ## Creates an Upload request
@@ -498,13 +504,15 @@ Creates a new Upload request to Microsoft teams with the included phone numbers.
 
 `POST /external_connections/{id}/uploads` — Required: `number_ids`
 
+Optional: `additional_usages` (array[string]), `civic_address_id` (uuid), `location_id` (uuid), `usage` (enum)
+
 ```java
 import com.telnyx.sdk.models.externalconnections.uploads.UploadCreateParams;
 import com.telnyx.sdk.models.externalconnections.uploads.UploadCreateResponse;
 import java.util.List;
 
 UploadCreateParams params = UploadCreateParams.builder()
-    .id("id")
+    .id("1293384261075731499")
     .numberIds(List.of(
       "3920457616934164700",
       "3920457616934164701",
@@ -525,7 +533,7 @@ Forces a recheck of the status of all pending Upload requests for the given exte
 import com.telnyx.sdk.models.externalconnections.uploads.UploadRefreshStatusParams;
 import com.telnyx.sdk.models.externalconnections.uploads.UploadRefreshStatusResponse;
 
-UploadRefreshStatusResponse response = client.externalConnections().uploads().refreshStatus("id");
+UploadRefreshStatusResponse response = client.externalConnections().uploads().refreshStatus("1293384261075731499");
 ```
 
 ## Get the count of pending upload requests
@@ -538,7 +546,7 @@ Returns the count of all pending upload requests for the given external connecti
 import com.telnyx.sdk.models.externalconnections.uploads.UploadPendingCountParams;
 import com.telnyx.sdk.models.externalconnections.uploads.UploadPendingCountResponse;
 
-UploadPendingCountResponse response = client.externalConnections().uploads().pendingCount("id");
+UploadPendingCountResponse response = client.externalConnections().uploads().pendingCount("1293384261075731499");
 ```
 
 ## Retrieve an Upload request
@@ -552,7 +560,7 @@ import com.telnyx.sdk.models.externalconnections.uploads.UploadRetrieveParams;
 import com.telnyx.sdk.models.externalconnections.uploads.UploadRetrieveResponse;
 
 UploadRetrieveParams params = UploadRetrieveParams.builder()
-    .id("id")
+    .id("1293384261075731499")
     .ticketId("7b6a6449-b055-45a6-81f6-f6f0dffa4cc6")
     .build();
 UploadRetrieveResponse upload = client.externalConnections().uploads().retrieve(params);
@@ -569,7 +577,7 @@ import com.telnyx.sdk.models.externalconnections.uploads.UploadRetryParams;
 import com.telnyx.sdk.models.externalconnections.uploads.UploadRetryResponse;
 
 UploadRetryParams params = UploadRetryParams.builder()
-    .id("id")
+    .id("1293384261075731499")
     .ticketId("7b6a6449-b055-45a6-81f6-f6f0dffa4cc6")
     .build();
 UploadRetryResponse response = client.externalConnections().uploads().retry(params);
@@ -598,7 +606,7 @@ Retrieve a log message for an external connection associated with your account.
 import com.telnyx.sdk.models.externalconnections.logmessages.LogMessageRetrieveParams;
 import com.telnyx.sdk.models.externalconnections.logmessages.LogMessageRetrieveResponse;
 
-LogMessageRetrieveResponse logMessage = client.externalConnections().logMessages().retrieve("id");
+LogMessageRetrieveResponse logMessage = client.externalConnections().logMessages().retrieve("1293384261075731499");
 ```
 
 ## Dismiss a log message
@@ -611,7 +619,7 @@ Dismiss a log message for an external connection associated with your account.
 import com.telnyx.sdk.models.externalconnections.logmessages.LogMessageDismissParams;
 import com.telnyx.sdk.models.externalconnections.logmessages.LogMessageDismissResponse;
 
-LogMessageDismissResponse response = client.externalConnections().logMessages().dismiss("id");
+LogMessageDismissResponse response = client.externalConnections().logMessages().dismiss("1293384261075731499");
 ```
 
 ## Refresh Operator Connect integration
@@ -646,6 +654,8 @@ Upload media file to Telnyx so it can be used with other Telnyx services
 
 `POST /media` — Required: `media_url`
 
+Optional: `media_name` (string), `ttl_secs` (integer)
+
 ```java
 import com.telnyx.sdk.models.media.MediaUploadParams;
 import com.telnyx.sdk.models.media.MediaUploadResponse;
@@ -674,6 +684,8 @@ MediaRetrieveResponse media = client.media().retrieve("media_name");
 Updates a stored media file.
 
 `PUT /media/{media_name}`
+
+Optional: `media_url` (string), `ttl_secs` (integer)
 
 ```java
 import com.telnyx.sdk.models.media.MediaUpdateParams;

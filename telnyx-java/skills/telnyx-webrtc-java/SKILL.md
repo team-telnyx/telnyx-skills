@@ -51,12 +51,10 @@ MobilePushCredentialListPage page = client.mobilePushCredentials().list();
 import com.telnyx.sdk.models.mobilepushcredentials.MobilePushCredentialCreateParams;
 import com.telnyx.sdk.models.mobilepushcredentials.PushCredentialResponse;
 
-MobilePushCredentialCreateParams params = MobilePushCredentialCreateParams.builder()
-    .createMobilePushCredentialRequest(MobilePushCredentialCreateParams.CreateMobilePushCredentialRequest.Ios.builder()
-        .alias("LucyIosCredential")
-        .certificate("-----BEGIN CERTIFICATE----- MIIGVDCCBTKCAQEAsNlRJVZn9ZvXcECQm65czs... -----END CERTIFICATE-----")
-        .privateKey("-----BEGIN RSA PRIVATE KEY----- MIIEpQIBAAKCAQEAsNlRJVZn9ZvXcECQm65czs... -----END RSA PRIVATE KEY-----")
-        .build())
+MobilePushCredentialCreateParams.CreateMobilePushCredentialRequest.Ios params = MobilePushCredentialCreateParams.CreateMobilePushCredentialRequest.Ios.builder()
+    .alias("LucyIosCredential")
+    .certificate("-----BEGIN CERTIFICATE----- MIIGVDCCBTKCAQEAsNlRJVZn9ZvXcECQm65czs... -----END CERTIFICATE-----")
+    .privateKey("-----BEGIN RSA PRIVATE KEY----- MIIEpQIBAAKCAQEAsNlRJVZn9ZvXcECQm65czs... -----END RSA PRIVATE KEY-----")
     .build();
 PushCredentialResponse pushCredentialResponse = client.mobilePushCredentials().create(params);
 ```
@@ -105,6 +103,8 @@ Create a credential.
 
 `POST /telephony_credentials` — Required: `connection_id`
 
+Optional: `expires_at` (string), `name` (string), `tag` (string)
+
 ```java
 import com.telnyx.sdk.models.telephonycredentials.TelephonyCredentialCreateParams;
 import com.telnyx.sdk.models.telephonycredentials.TelephonyCredentialCreateResponse;
@@ -133,6 +133,8 @@ TelephonyCredentialRetrieveResponse telephonyCredential = client.telephonyCreden
 Update an existing credential.
 
 `PATCH /telephony_credentials/{id}`
+
+Optional: `connection_id` (string), `expires_at` (string), `name` (string), `tag` (string)
 
 ```java
 import com.telnyx.sdk.models.telephonycredentials.TelephonyCredentialUpdateParams;

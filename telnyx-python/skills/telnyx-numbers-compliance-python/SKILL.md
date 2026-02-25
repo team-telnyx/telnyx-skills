@@ -76,6 +76,8 @@ Creates multiple user bundles for the user.
 
 `POST /bundle_pricing/user_bundles/bulk`
 
+Optional: `idempotency_key` (uuid), `items` (array[object])
+
 ```python
 user_bundle = client.bundle_pricing.user_bundles.create()
 print(user_bundle.data)
@@ -160,6 +162,8 @@ print(page.id)
 Upload a document.<br /><br />Uploaded files must be linked to a service within 30 minutes or they will be automatically deleted.
 
 `POST /documents`
+
+Optional: `customer_reference` (string), `file` (byte), `filename` (string), `url` (string)
 
 ```python
 response = client.documents.upload_json(
@@ -306,6 +310,8 @@ print(requirement_groups)
 
 `POST /requirement_groups` — Required: `country_code`, `phone_number_type`, `action`
 
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
+
 ```python
 requirement_group = client.requirement_groups.create(
     action="ordering",
@@ -329,6 +335,8 @@ print(requirement_group.id)
 ## Update requirement values in requirement group
 
 `PATCH /requirement_groups/{id}`
+
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
 
 ```python
 requirement_group = client.requirement_groups.update(
@@ -376,6 +384,8 @@ print(page.phone_number)
 Initiates phone number verification procedure.
 
 `POST /verified_numbers` — Required: `phone_number`, `verification_method`
+
+Optional: `extension` (string)
 
 ```python
 verified_number = client.verified_numbers.create(

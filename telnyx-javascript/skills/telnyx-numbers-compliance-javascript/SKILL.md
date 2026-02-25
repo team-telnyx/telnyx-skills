@@ -78,6 +78,8 @@ Creates multiple user bundles for the user.
 
 `POST /bundle_pricing/user_bundles/bulk`
 
+Optional: `idempotency_key` (uuid), `items` (array[object])
+
 ```javascript
 const userBundle = await client.bundlePricing.userBundles.create();
 
@@ -169,6 +171,8 @@ for await (const docServiceDocument of client.documents.list()) {
 Upload a document.<br /><br />Uploaded files must be linked to a service within 30 minutes or they will be automatically deleted.
 
 `POST /documents`
+
+Optional: `customer_reference` (string), `file` (byte), `filename` (string), `url` (string)
 
 ```javascript
 const response = await client.documents.uploadJson({ document: {} });
@@ -316,6 +320,8 @@ console.log(requirementGroups);
 
 `POST /requirement_groups` — Required: `country_code`, `phone_number_type`, `action`
 
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
+
 ```javascript
 const requirementGroup = await client.requirementGroups.create({
   action: 'ordering',
@@ -339,6 +345,8 @@ console.log(requirementGroup.id);
 ## Update requirement values in requirement group
 
 `PATCH /requirement_groups/{id}`
+
+Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
 
 ```javascript
 const requirementGroup = await client.requirementGroups.update('id');
@@ -384,6 +392,8 @@ for await (const verifiedNumber of client.verifiedNumbers.list()) {
 Initiates phone number verification procedure.
 
 `POST /verified_numbers` — Required: `phone_number`, `verification_method`
+
+Optional: `extension` (string)
 
 ```javascript
 const verifiedNumber = await client.verifiedNumbers.create({

@@ -113,6 +113,8 @@ Update payment auto recharge preferences.
 
 `PATCH /payments/auto_recharge_prefs`
 
+Optional: `enabled` (boolean), `invoice_enabled` (boolean), `preference` (enum), `recharge_amount` (string), `threshold_amount` (string)
+
 ```java
 import com.telnyx.sdk.models.payment.autorechargeprefs.AutoRechargePrefUpdateParams;
 import com.telnyx.sdk.models.payment.autorechargeprefs.AutoRechargePrefUpdateResponse;

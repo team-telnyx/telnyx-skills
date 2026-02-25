@@ -50,6 +50,8 @@ Creates a new MDR detailed report request with the specified filters
 
 `POST /legacy_reporting/batch_detail_records/messaging` — Required: `start_time`, `end_time`
 
+Optional: `connections` (array[integer]), `directions` (array[integer]), `filters` (array[object]), `include_message_body` (boolean), `managed_accounts` (array[string]), `profiles` (array[string]), `record_types` (array[integer]), `report_name` (string), `select_all_managed_accounts` (boolean), `timezone` (string)
+
 ```java
 import com.telnyx.sdk.models.legacy.reporting.batchdetailrecords.messaging.MessagingCreateParams;
 import com.telnyx.sdk.models.legacy.reporting.batchdetailrecords.messaging.MessagingCreateResponse;
@@ -106,6 +108,8 @@ VoiceListResponse voices = client.legacy().reporting().batchDetailRecords().voic
 Creates a new CDR report request with the specified filters
 
 `POST /legacy_reporting/batch_detail_records/voice` — Required: `start_time`, `end_time`
+
+Optional: `call_types` (array[integer]), `connections` (array[integer]), `fields` (array[string]), `filters` (array[object]), `include_all_metadata` (boolean), `managed_accounts` (array[string]), `record_types` (array[integer]), `report_name` (string), `select_all_managed_accounts` (boolean), `source` (string), `timezone` (string)
 
 ```java
 import com.telnyx.sdk.models.legacy.reporting.batchdetailrecords.voice.VoiceCreateParams;

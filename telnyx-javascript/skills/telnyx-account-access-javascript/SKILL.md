@@ -52,6 +52,8 @@ Creates an address.
 
 `POST /addresses` — Required: `first_name`, `last_name`, `business_name`, `street_address`, `locality`, `country_code`
 
+Optional: `address_book` (boolean), `administrative_area` (string), `borough` (string), `customer_reference` (string), `extended_address` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `validate_address` (boolean)
+
 ```javascript
 const address = await client.addresses.create({
   business_name: "Toy-O'Kon",
@@ -93,6 +95,8 @@ console.log(address.data);
 
 `POST /addresses/{id}/actions/accept_suggestions`
 
+Optional: `id` (string)
+
 ```javascript
 const response = await client.addresses.actions.acceptSuggestions(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -106,6 +110,8 @@ console.log(response.data);
 Validates an address for emergency services.
 
 `POST /addresses/actions/validate` — Required: `country_code`, `street_address`, `postal_code`
+
+Optional: `administrative_area` (string), `extended_address` (string), `locality` (string)
 
 ```javascript
 const response = await client.addresses.actions.validate({
@@ -135,6 +141,8 @@ for await (const authenticationProvider of client.authenticationProviders.list()
 Creates an authentication provider.
 
 `POST /authentication_providers` — Required: `name`, `short_name`, `settings`
+
+Optional: `active` (boolean), `settings_url` (uri)
 
 ```javascript
 const authenticationProvider = await client.authenticationProviders.create({
@@ -167,6 +175,8 @@ console.log(authenticationProvider.data);
 Updates settings of an existing authentication provider.
 
 `PATCH /authentication_providers/{id}`
+
+Optional: `active` (boolean), `name` (string), `settings` (object), `settings_url` (uri), `short_name` (string)
 
 ```javascript
 const authenticationProvider = await client.authenticationProviders.update('id', {
@@ -211,6 +221,8 @@ for await (const billingGroup of client.billingGroups.list()) {
 
 `POST /billing_groups`
 
+Optional: `name` (string)
+
 ```javascript
 const billingGroup = await client.billingGroups.create({ name: 'string' });
 
@@ -230,6 +242,8 @@ console.log(billingGroup.data);
 ## Update a billing group
 
 `PATCH /billing_groups/{id}`
+
+Optional: `name` (string)
 
 ```javascript
 const billingGroup = await client.billingGroups.update('f5586561-8ff0-4291-a0ac-84fe544797bd', {
@@ -268,6 +282,8 @@ Create a new secret with an associated identifier that can be used to securely i
 
 `POST /integration_secrets` — Required: `identifier`, `type`
 
+Optional: `password` (string), `token` (string), `username` (string)
+
 ```javascript
 const integrationSecret = await client.integrationSecrets.create({
   identifier: 'my_secret',
@@ -302,6 +318,8 @@ for await (const accessIPAddressResponse of client.accessIPAddress.list()) {
 ## Create new Access IP Address
 
 `POST /access_ip_address` — Required: `ip_address`
+
+Optional: `description` (string)
 
 ```javascript
 const accessIPAddressResponse = await client.accessIPAddress.create({ ip_address: 'ip_address' });
@@ -343,6 +361,8 @@ for await (const accessIPRange of client.accessIPRanges.list()) {
 ## Create new Access IP Range
 
 `POST /access_ip_ranges` — Required: `cidr_block`
+
+Optional: `description` (string)
 
 ```javascript
 const accessIPRange = await client.accessIPRanges.create({ cidr_block: 'cidr_block' });

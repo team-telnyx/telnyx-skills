@@ -49,6 +49,8 @@ puts(number_lookup)
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
+Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), `timeout_secs` (integer)
+
 ```ruby
 create_verification_response = client.verifications.trigger_call(
   phone_number: "+13035551234",
@@ -62,6 +64,8 @@ puts(create_verification_response)
 
 `POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
 
+Optional: `timeout_secs` (integer)
+
 ```ruby
 create_verification_response = client.verifications.trigger_flashcall(
   phone_number: "+13035551234",
@@ -74,6 +78,8 @@ puts(create_verification_response)
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
+
+Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
 
 ```ruby
 create_verification_response = client.verifications.trigger_sms(
@@ -97,6 +103,8 @@ puts(verification)
 ## Verify verification code by ID
 
 `POST /verifications/{verification_id}/actions/verify`
+
+Optional: `code` (string), `status` (enum)
 
 ```ruby
 verify_verification_code_response = client.verifications.actions.verify("12ade33a-21c0-473b-b055-b3c836e1c292")
@@ -146,6 +154,8 @@ Creates a new Verify profile to associate verifications with.
 
 `POST /verify_profiles` — Required: `name`
 
+Optional: `call` (object), `flashcall` (object), `language` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
+
 ```ruby
 verify_profile_data = client.verify_profiles.create(name: "Test Profile")
 
@@ -167,6 +177,8 @@ puts(verify_profile_data)
 ## Update Verify profile
 
 `PATCH /verify_profiles/{verify_profile_id}`
+
+Optional: `call` (object), `flashcall` (object), `language` (string), `name` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
 
 ```ruby
 verify_profile_data = client.verify_profiles.update("12ade33a-21c0-473b-b055-b3c836e1c292")

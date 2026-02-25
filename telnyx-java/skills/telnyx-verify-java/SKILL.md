@@ -49,6 +49,8 @@ NumberLookupRetrieveResponse numberLookup = client.numberLookup().retrieve("+186
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
+Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), `timeout_secs` (integer)
+
 ```java
 import com.telnyx.sdk.models.verifications.CreateVerificationResponse;
 import com.telnyx.sdk.models.verifications.VerificationTriggerCallParams;
@@ -64,6 +66,8 @@ CreateVerificationResponse createVerificationResponse = client.verifications().t
 
 `POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
 
+Optional: `timeout_secs` (integer)
+
 ```java
 import com.telnyx.sdk.models.verifications.CreateVerificationResponse;
 import com.telnyx.sdk.models.verifications.VerificationTriggerFlashcallParams;
@@ -78,6 +82,8 @@ CreateVerificationResponse createVerificationResponse = client.verifications().t
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
+
+Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
 
 ```java
 import com.telnyx.sdk.models.verifications.CreateVerificationResponse;
@@ -104,6 +110,8 @@ VerificationRetrieveResponse verification = client.verifications().retrieve("12a
 ## Verify verification code by ID
 
 `POST /verifications/{verification_id}/actions/verify`
+
+Optional: `code` (string), `status` (enum)
 
 ```java
 import com.telnyx.sdk.models.verifications.actions.ActionVerifyParams;
@@ -158,6 +166,8 @@ Creates a new Verify profile to associate verifications with.
 
 `POST /verify_profiles` — Required: `name`
 
+Optional: `call` (object), `flashcall` (object), `language` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
+
 ```java
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileCreateParams;
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileData;
@@ -184,6 +194,8 @@ VerifyProfileData verifyProfileData = client.verifyProfiles().retrieve("12ade33a
 ## Update Verify profile
 
 `PATCH /verify_profiles/{verify_profile_id}`
+
+Optional: `call` (object), `flashcall` (object), `language` (string), `name` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
 
 ```java
 import com.telnyx.sdk.models.verifyprofiles.VerifyProfileData;

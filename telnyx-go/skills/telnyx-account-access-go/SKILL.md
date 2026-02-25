@@ -59,6 +59,8 @@ Creates an address.
 
 `POST /addresses` — Required: `first_name`, `last_name`, `business_name`, `street_address`, `locality`, `country_code`
 
+Optional: `address_book` (boolean), `administrative_area` (string), `borough` (string), `customer_reference` (string), `extended_address` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `validate_address` (boolean)
+
 ```go
 	address, err := client.Addresses.New(context.TODO(), telnyx.AddressNewParams{
 		BusinessName:  "Toy-O'Kon",
@@ -106,6 +108,8 @@ Deletes an existing address.
 
 `POST /addresses/{id}/actions/accept_suggestions`
 
+Optional: `id` (string)
+
 ```go
 	response, err := client.Addresses.Actions.AcceptSuggestions(
 		context.TODO(),
@@ -123,6 +127,8 @@ Deletes an existing address.
 Validates an address for emergency services.
 
 `POST /addresses/actions/validate` — Required: `country_code`, `street_address`, `postal_code`
+
+Optional: `administrative_area` (string), `extended_address` (string), `locality` (string)
 
 ```go
 	response, err := client.Addresses.Actions.Validate(context.TODO(), telnyx.AddressActionValidateParams{
@@ -155,6 +161,8 @@ Returns a list of your SSO authentication providers.
 Creates an authentication provider.
 
 `POST /authentication_providers` — Required: `name`, `short_name`, `settings`
+
+Optional: `active` (boolean), `settings_url` (uri)
 
 ```go
 	authenticationProvider, err := client.AuthenticationProviders.New(context.TODO(), telnyx.AuthenticationProviderNewParams{
@@ -191,6 +199,8 @@ Retrieves the details of an existing authentication provider.
 Updates settings of an existing authentication provider.
 
 `PATCH /authentication_providers/{id}`
+
+Optional: `active` (boolean), `name` (string), `settings` (object), `settings_url` (uri), `short_name` (string)
 
 ```go
 	authenticationProvider, err := client.AuthenticationProviders.Update(
@@ -244,6 +254,8 @@ Deletes an existing authentication provider.
 
 `POST /billing_groups`
 
+Optional: `name` (string)
+
 ```go
 	billingGroup, err := client.BillingGroups.New(context.TODO(), telnyx.BillingGroupNewParams{
 		Name: telnyx.String("string"),
@@ -269,6 +281,8 @@ Deletes an existing authentication provider.
 ## Update a billing group
 
 `PATCH /billing_groups/{id}`
+
+Optional: `name` (string)
 
 ```go
 	billingGroup, err := client.BillingGroups.Update(
@@ -316,6 +330,8 @@ Create a new secret with an associated identifier that can be used to securely i
 
 `POST /integration_secrets` — Required: `identifier`, `type`
 
+Optional: `password` (string), `token` (string), `username` (string)
+
 ```go
 	integrationSecret, err := client.IntegrationSecrets.New(context.TODO(), telnyx.IntegrationSecretNewParams{
 		Identifier: "my_secret",
@@ -356,6 +372,8 @@ Delete an integration secret given its ID.
 ## Create new Access IP Address
 
 `POST /access_ip_address` — Required: `ip_address`
+
+Optional: `description` (string)
 
 ```go
 	accessIPAddressResponse, err := client.AccessIPAddress.New(context.TODO(), telnyx.AccessIPAddressNewParams{
@@ -406,6 +424,8 @@ Delete an integration secret given its ID.
 ## Create new Access IP Range
 
 `POST /access_ip_ranges` — Required: `cidr_block`
+
+Optional: `description` (string)
 
 ```go
 	accessIPRange, err := client.AccessIPRanges.New(context.TODO(), telnyx.AccessIPRangeNewParams{

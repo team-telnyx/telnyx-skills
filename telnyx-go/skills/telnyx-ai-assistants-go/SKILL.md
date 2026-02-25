@@ -59,6 +59,8 @@ Create a new AI Assistant.
 
 `POST /ai/assistants` — Required: `name`, `model`, `instructions`
 
+Optional: `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `insight_settings` (object), `llm_api_key_ref` (string), `messaging_settings` (object), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
+
 ```go
 	assistant, err := client.AI.Assistants.New(context.TODO(), telnyx.AIAssistantNewParams{
 		Instructions: "instructions",
@@ -127,6 +129,8 @@ This endpoint allows a client to send a chat message to a specific AI Assistant.
 
 `POST /ai/assistants/{assistant_id}/chat` — Required: `content`, `conversation_id`
 
+Optional: `name` (string)
+
 ```go
 	response, err := client.AI.Assistants.Chat(
 		context.TODO(),
@@ -147,6 +151,8 @@ This endpoint allows a client to send a chat message to a specific AI Assistant.
 Send an SMS message for an assistant.
 
 `POST /ai/assistants/{assistant_id}/chat/sms` — Required: `from`, `to`
+
+Optional: `conversation_metadata` (object), `should_create_conversation` (boolean), `text` (string)
 
 ```go
 	response, err := client.AI.Assistants.SendSMS(
@@ -183,6 +189,8 @@ Import assistants from external providers.
 
 `POST /ai/assistants/import` — Required: `provider`, `api_key_ref`
 
+Optional: `import_ids` (array[string])
+
 ```go
 	assistantsList, err := client.AI.Assistants.Imports(context.TODO(), telnyx.AIAssistantImportsParams{
 		APIKeyRef: "api_key_ref",
@@ -217,6 +225,8 @@ Get scheduled events for an assistant with pagination and filtering
 Create a scheduled event for an assistant
 
 `POST /ai/assistants/{assistant_id}/scheduled_events` — Required: `telnyx_conversation_channel`, `telnyx_end_user_target`, `telnyx_agent_target`, `scheduled_at_fixed_datetime`
+
+Optional: `conversation_metadata` (object), `dynamic_variables` (object), `text` (string)
 
 ```go
 	scheduledEventResponse, err := client.AI.Assistants.ScheduledEvents.New(
@@ -294,6 +304,8 @@ Creates a comprehensive test configuration for evaluating AI assistant performan
 
 `POST /ai/assistants/tests` — Required: `name`, `destination`, `instructions`, `rubric`
 
+Optional: `description` (string), `max_duration_seconds` (integer), `telnyx_conversation_channel` (object), `test_suite` (string)
+
 ```go
 	assistantTest, err := client.AI.Assistants.Tests.New(context.TODO(), telnyx.AIAssistantTestNewParams{
 		Destination:  "+15551234567",
@@ -351,6 +363,8 @@ Executes all tests within a specific test suite as a batch operation
 
 `POST /ai/assistants/tests/test-suites/{suite_name}/runs`
 
+Optional: `destination_version_id` (string)
+
 ```go
 	testRunResponses, err := client.AI.Assistants.Tests.TestSuites.Runs.Trigger(
 		context.TODO(),
@@ -382,6 +396,8 @@ Retrieves detailed information about a specific assistant test
 Updates an existing assistant test configuration with new settings
 
 `PUT /ai/assistants/tests/{test_id}`
+
+Optional: `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (enum), `test_suite` (string)
 
 ```go
 	assistantTest, err := client.AI.Assistants.Tests.Update(
@@ -431,6 +447,8 @@ Retrieves paginated execution history for a specific assistant test with filteri
 Initiates immediate execution of a specific assistant test
 
 `POST /ai/assistants/tests/{test_id}/runs`
+
+Optional: `destination_version_id` (string)
 
 ```go
 	testRunResponse, err := client.AI.Assistants.Tests.Runs.Trigger(
@@ -503,6 +521,8 @@ Retrieves a specific version of an assistant by assistant_id and version_id
 Updates the configuration of a specific assistant version.
 
 `POST /ai/assistants/{assistant_id}/versions/{version_id}`
+
+Optional: `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
 ```go
 	assistant, err := client.AI.Assistants.Versions.Update(
@@ -655,6 +675,8 @@ Test a webhook tool for an assistant
 
 `POST /ai/assistants/{assistant_id}/tools/{tool_id}/test`
 
+Optional: `arguments` (object), `dynamic_variables` (object)
+
 ```go
 	response, err := client.AI.Assistants.Tools.Test(
 		context.TODO(),
@@ -758,6 +780,8 @@ Create a new MCP server.
 
 `POST /ai/mcp_servers` — Required: `name`, `type`, `url`
 
+Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null'])
+
 ```go
 	mcpServer, err := client.AI.McpServers.New(context.TODO(), telnyx.AIMcpServerNewParams{
 		Name: "name",
@@ -789,6 +813,8 @@ Retrieve details for a specific MCP server.
 Update an existing MCP server.
 
 `PUT /ai/mcp_servers/{mcp_server_id}`
+
+Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ```go
 	mcpServer, err := client.AI.McpServers.Update(

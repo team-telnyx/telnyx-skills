@@ -51,6 +51,8 @@ print(number_lookup.data)
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
+Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), `timeout_secs` (integer)
+
 ```python
 create_verification_response = client.verifications.trigger_call(
     phone_number="+13035551234",
@@ -63,6 +65,8 @@ print(create_verification_response.data)
 
 `POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
 
+Optional: `timeout_secs` (integer)
+
 ```python
 create_verification_response = client.verifications.trigger_flashcall(
     phone_number="+13035551234",
@@ -74,6 +78,8 @@ print(create_verification_response.data)
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
+
+Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
 
 ```python
 create_verification_response = client.verifications.trigger_sms(
@@ -97,6 +103,8 @@ print(verification.data)
 ## Verify verification code by ID
 
 `POST /verifications/{verification_id}/actions/verify`
+
+Optional: `code` (string), `status` (enum)
 
 ```python
 verify_verification_code_response = client.verifications.actions.verify(
@@ -147,6 +155,8 @@ Creates a new Verify profile to associate verifications with.
 
 `POST /verify_profiles` — Required: `name`
 
+Optional: `call` (object), `flashcall` (object), `language` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
+
 ```python
 verify_profile_data = client.verify_profiles.create(
     name="Test Profile",
@@ -170,6 +180,8 @@ print(verify_profile_data.data)
 ## Update Verify profile
 
 `PATCH /verify_profiles/{verify_profile_id}`
+
+Optional: `call` (object), `flashcall` (object), `language` (string), `name` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
 
 ```python
 verify_profile_data = client.verify_profiles.update(
