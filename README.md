@@ -29,7 +29,7 @@ Replace `telnyx-python` with the plugin for your stack:
 | `telnyx-ruby` | Ruby |
 | `telnyx-webrtc-client` | WebRTC client SDKs (JS, iOS, Android, Flutter, React Native) |
 
-Each language plugin includes all 35 Telnyx products (messaging, voice, numbers, IoT, AI, and more). 
+Each language plugin includes all <!-- PRODUCT_COUNT -->35<!-- /PRODUCT_COUNT --> Telnyx products (messaging, voice, numbers, IoT, AI, and more).
 
 The WebRTC client plugin covers building VoIP calling apps — see [WebRTC Client SDKs](#webrtc-client-sdks) for details.
 
@@ -56,6 +56,7 @@ print(response.data)
 
 Skills are organized by product and language. Each product is available in **JavaScript**, **Python**, **Go**, **Java**, and **Ruby** (append the language suffix, e.g. `telnyx-messaging-python`).
 
+<!-- BEGIN GENERATED SKILLS_TABLE -->
 #### Messaging
 
 | Skill | Description |
@@ -125,6 +126,7 @@ Skills are organized by product and language. Each product is available in **Jav
 | `telnyx-account-management-*` | Sub-account management (resellers) |
 | `telnyx-account-notifications-*` | Notification channels and settings |
 | `telnyx-account-reports-*` | Usage reports for billing and analytics |
+<!-- END GENERATED SKILLS_TABLE -->
 
 ## WebRTC Client SDKs
 
