@@ -153,6 +153,29 @@ Each skill covers authentication, making/receiving calls, call controls (hold, m
 
 > **Note:** Building a calling app typically requires both plugins — a server-side plugin (e.g. `telnyx-python`) to create WebRTC credentials and generate login tokens, and `telnyx-webrtc-client` for the client-side calling UI.
 
+## Twilio Migration
+
+A comprehensive migration guide for moving from Twilio to Telnyx across all product areas.
+
+```bash
+/plugin install telnyx-twilio-migration@telnyx-skills
+```
+
+**What's covered:**
+
+| Area | Description |
+|------|-------------|
+| Voice (TwiML → TeXML) | Near drop-in XML compatibility with complete verb reference (15 verbs, 8 nouns) |
+| Messaging (SMS/MMS) | Parameter mapping, messaging profiles, 10DLC registration |
+| WebRTC / Client SDKs | Architecture differences, endpoint migration decision trees |
+| Number Porting | FastPort API for same-day US/Canada activation |
+| Verify (2FA) | SMS, voice, flash calling, and PSD2 verification |
+| Universal Changes | Auth (Basic → Bearer), webhook signatures (HMAC-SHA1 → Ed25519), payload structure |
+
+Includes utility scripts for environment validation (`preflight-check.sh`) and TwiML/TeXML compatibility checking (`validate-texml.sh`), plus parameter-by-parameter mapping tables and multi-language code examples.
+
+> **Note:** After migrating, install a language plugin (e.g. `telnyx-python`) for deeper SDK examples, and `telnyx-webrtc-client` if building a calling app.
+
 ## Installation for Other Agents
 
 ### Cursor
