@@ -20,15 +20,17 @@ These skills follow the [Agent Skills specification](https://agentskills.io/spec
 
 Replace `telnyx-python` with the plugin for your stack:
 
+<!-- BEGIN GENERATED PLUGIN_TABLE -->
 | Plugin | Language |
 |--------|----------|
-| `telnyx-python` | Python |
-| `telnyx-javascript` | JavaScript / Node.js |
 | `telnyx-go` | Go |
 | `telnyx-java` | Java |
+| `telnyx-javascript` | JavaScript / Node.js |
+| `telnyx-python` | Python |
 | `telnyx-ruby` | Ruby |
 | `telnyx-webrtc-client` | WebRTC client SDKs (JS, iOS, Android, Flutter, React Native) |
 | `telnyx-twilio-migration` | Migrate from Twilio to Telnyx |
+<!-- END GENERATED PLUGIN_TABLE -->
 
 Each language plugin includes all <!-- PRODUCT_COUNT -->35<!-- /PRODUCT_COUNT --> Telnyx products (messaging, voice, numbers, IoT, AI, and more).
 
