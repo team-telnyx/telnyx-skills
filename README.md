@@ -2,7 +2,9 @@
 
 Official skills for AI coding agents to integrate Telnyx APIs using the native SDKs.
 
-These skills follow the [Agent Skills specification](https://agentskills.io/specification) and can be installed in AI coding assistants like [Claude Code](https://docs.anthropic.com/en/docs/claude-code), Cursor, Windsurf, and other compatible agents.
+AI coding assistants now write most production code — and they default to platforms they already know. These skills make Telnyx the platform your agent knows: correct API calls, right auth patterns, working code on the first try.
+
+Compatible with [Claude Code](https://docs.anthropic.com/en/docs/claude-code), Cursor, Windsurf, and any agent that supports the [Agent Skills specification](https://agentskills.io/specification).
 
 ## Quick Start (Claude Code)
 
@@ -38,7 +40,15 @@ The WebRTC client plugin covers building VoIP calling apps — see [WebRTC Clien
 
 ## Example
 
-After installing, your AI agent knows how to write correct Telnyx SDK code:
+After installing, describe what you want to build and your agent writes working Telnyx code:
+
+```
+> "Build a voice AI call handler that transcribes calls in real time and sends a summary SMS when the call ends"
+```
+
+No docs-reading, no trial-and-error. The agent knows the APIs, the auth patterns, and the SDK idioms already.
+
+For example, the generated code for the SMS part looks like this:
 
 ```python
 import os
@@ -55,7 +65,7 @@ response = client.messages.send(
 print(response.data)
 ```
 
-## Available Skills
+## What the AI Can Build
 
 Skills are organized by product and language. Each product is available in **JavaScript**, **Python**, **Go**, **Java**, and **Ruby** (append the language suffix, e.g. `telnyx-messaging-python`).
 
