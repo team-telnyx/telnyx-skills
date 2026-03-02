@@ -2,9 +2,9 @@
 name: telnyx-twilio-migration
 description: >-
   Migrate from Twilio to Telnyx. Covers voice (TwiML to TeXML with full verb
-  reference), messaging, WebRTC, number porting via FastPort, and Verify.
-  Includes product mapping, migration scripts, and key differences in auth,
-  webhooks, and payload format.
+  reference, Call Control API guidance), messaging, WebRTC, number porting via
+  FastPort, and Verify. Includes product mapping, migration scripts, and key
+  differences in auth, webhooks, and payload format.
 metadata:
   author: telnyx
   product: migration
