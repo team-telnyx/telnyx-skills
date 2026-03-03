@@ -1,4 +1,20 @@
-<!-- SDK reference: telnyx-numbers-compliance-javascript -->
+<!-- Extracted from telnyx-numbers-compliance-javascript by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-javascript/skills/telnyx-numbers-compliance-javascript/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-numbers-compliance-javascript
+description: >-
+  Manage regulatory requirements, number bundles, supporting documents, and
+  verified numbers for compliance. This skill provides JavaScript SDK examples.
+metadata:
+  author: telnyx
+  product: numbers-compliance
+  language: javascript
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Numbers Compliance - JavaScript
 
@@ -33,8 +49,6 @@ for await (const billingBundleSummary of client.bundlePricing.billingBundles.lis
 }
 ```
 
-Returns: `cost_code` (string), `created_at` (date), `currency` (string), `id` (uuid), `is_public` (boolean), `mrc_price` (float), `name` (string), `slug` (string), `specs` (array[string])
-
 ## Get Bundle By Id
 
 Get a single bundle by ID.
@@ -49,8 +63,6 @@ const billingBundle = await client.bundlePricing.billingBundles.retrieve(
 console.log(billingBundle.data);
 ```
 
-Returns: `active` (boolean), `bundle_limits` (array[object]), `cost_code` (string), `created_at` (date), `id` (uuid), `is_public` (boolean), `name` (string), `slug` (string)
-
 ## Get User Bundles
 
 Get a paginated list of user bundles.
@@ -63,8 +75,6 @@ for await (const userBundle of client.bundlePricing.userBundles.list()) {
   console.log(userBundle.id);
 }
 ```
-
-Returns: `active` (boolean), `billing_bundle` (object), `created_at` (date), `id` (uuid), `resources` (array[object]), `updated_at` (date), `user_id` (uuid)
 
 ## Create User Bundles
 
@@ -80,8 +90,6 @@ const userBundle = await client.bundlePricing.userBundles.create();
 console.log(userBundle.data);
 ```
 
-Returns: `active` (boolean), `billing_bundle` (object), `created_at` (date), `id` (uuid), `resources` (array[object]), `updated_at` (date), `user_id` (uuid)
-
 ## Get Unused User Bundles
 
 Returns all user bundles that aren't in use.
@@ -93,8 +101,6 @@ const response = await client.bundlePricing.userBundles.listUnused();
 
 console.log(response.data);
 ```
-
-Returns: `billing_bundle` (object), `user_bundle_ids` (array[string])
 
 ## Get User Bundle by Id
 
@@ -110,8 +116,6 @@ const userBundle = await client.bundlePricing.userBundles.retrieve(
 console.log(userBundle.data);
 ```
 
-Returns: `active` (boolean), `billing_bundle` (object), `created_at` (date), `id` (uuid), `resources` (array[object]), `updated_at` (date), `user_id` (uuid)
-
 ## Deactivate User Bundle
 
 Deactivates a user bundle by its ID.
@@ -125,8 +129,6 @@ const response = await client.bundlePricing.userBundles.deactivate(
 
 console.log(response.data);
 ```
-
-Returns: `active` (boolean), `billing_bundle` (object), `created_at` (date), `id` (uuid), `resources` (array[object]), `updated_at` (date), `user_id` (uuid)
 
 ## Get User Bundle Resources
 
@@ -142,8 +144,6 @@ const response = await client.bundlePricing.userBundles.listResources(
 console.log(response.data);
 ```
 
-Returns: `created_at` (date), `id` (uuid), `resource` (string), `resource_type` (string), `updated_at` (date)
-
 ## List all document links
 
 List all documents links ordered by created_at descending.
@@ -157,8 +157,6 @@ for await (const documentLinkListResponse of client.documentLinks.list()) {
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
-
 ## List all documents
 
 List all documents ordered by created_at descending.
@@ -171,8 +169,6 @@ for await (const docServiceDocument of client.documents.list()) {
   console.log(docServiceDocument.id);
 }
 ```
-
-Returns: `data` (array[object]), `meta` (object)
 
 ## Upload a document
 
@@ -188,8 +184,6 @@ const response = await client.documents.uploadJson({ document: {} });
 console.log(response.data);
 ```
 
-Returns: `data` (object)
-
 ## Retrieve a document
 
 Retrieve a document.
@@ -201,8 +195,6 @@ const document = await client.documents.retrieve('6a09cdc3-8948-47f0-aa62-74ac94
 
 console.log(document.data);
 ```
-
-Returns: `data` (object)
 
 ## Update a document
 
@@ -216,11 +208,9 @@ const document = await client.documents.update('6a09cdc3-8948-47f0-aa62-74ac943d
 console.log(document.data);
 ```
 
-Returns: `data` (object)
-
 ## Delete a document
 
-Delete a document.<br /><br />A document can only be deleted if it's not linked to a service. If it is linked to a service, it must be unlinked prior to deleting.
+Delete a document.<br /><br />A document can only be deleted if it's not linked to a service.
 
 `DELETE /documents/{id}`
 
@@ -229,8 +219,6 @@ const document = await client.documents.delete('6a09cdc3-8948-47f0-aa62-74ac943d
 
 console.log(document.data);
 ```
-
-Returns: `data` (object)
 
 ## Download a document
 
@@ -261,8 +249,6 @@ const response = await client.documents.generateDownloadLink(
 console.log(response.data);
 ```
 
-Returns: `url` (uri)
-
 ## Update requirement group for a phone number order
 
 `POST /number_order_phone_numbers/{id}/requirement_group` — Required: `requirement_group_id`
@@ -276,8 +262,6 @@ const response = await client.numberOrderPhoneNumbers.updateRequirementGroup(
 console.log(response.data);
 ```
 
-Returns: `bundle_id` (uuid), `country_code` (string), `deadline` (date-time), `id` (uuid), `is_block_number` (boolean), `locality` (string), `order_request_id` (uuid), `phone_number` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `requirements_status` (string), `status` (string), `sub_number_order_id` (uuid)
-
 ## Retrieve regulatory requirements for a list of phone numbers
 
 `GET /phone_numbers_regulatory_requirements`
@@ -289,8 +273,6 @@ const phoneNumbersRegulatoryRequirement =
 console.log(phoneNumbersRegulatoryRequirement.data);
 ```
 
-Returns: `phone_number` (string), `phone_number_type` (string), `record_type` (string), `region_information` (array[object]), `regulatory_requirements` (array[object])
-
 ## Retrieve regulatory requirements
 
 `GET /regulatory_requirements`
@@ -300,8 +282,6 @@ const regulatoryRequirement = await client.regulatoryRequirements.retrieve();
 
 console.log(regulatoryRequirement.data);
 ```
-
-Returns: `action` (string), `country_code` (string), `phone_number_type` (string), `regulatory_requirements` (array[object])
 
 ## List requirement groups
 
@@ -329,8 +309,6 @@ const requirementGroup = await client.requirementGroups.create({
 console.log(requirementGroup.id);
 ```
 
-Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
-
 ## Get a single requirement group by ID
 
 `GET /requirement_groups/{id}`
@@ -340,8 +318,6 @@ const requirementGroup = await client.requirementGroups.retrieve('id');
 
 console.log(requirementGroup.id);
 ```
-
-Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
 
 ## Update requirement values in requirement group
 
@@ -355,8 +331,6 @@ const requirementGroup = await client.requirementGroups.update('id');
 console.log(requirementGroup.id);
 ```
 
-Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
-
 ## Delete a requirement group by ID
 
 `DELETE /requirement_groups/{id}`
@@ -367,8 +341,6 @@ const requirementGroup = await client.requirementGroups.delete('id');
 console.log(requirementGroup.id);
 ```
 
-Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
-
 ## Submit a Requirement Group for Approval
 
 `POST /requirement_groups/{id}/submit_for_approval`
@@ -378,8 +350,6 @@ const requirementGroup = await client.requirementGroups.submitForApproval('id');
 
 console.log(requirementGroup.id);
 ```
-
-Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
 
 ## List all requirement types
 
@@ -392,8 +362,6 @@ const requirementTypes = await client.requirementTypes.list();
 
 console.log(requirementTypes.data);
 ```
-
-Returns: `acceptance_criteria` (object), `created_at` (string), `description` (string), `example` (string), `id` (uuid), `name` (string), `record_type` (string), `type` (enum: document, address, textual), `updated_at` (string)
 
 ## Retrieve a requirement types
 
@@ -409,8 +377,6 @@ const requirementType = await client.requirementTypes.retrieve(
 console.log(requirementType.data);
 ```
 
-Returns: `acceptance_criteria` (object), `created_at` (string), `description` (string), `example` (string), `id` (uuid), `name` (string), `record_type` (string), `type` (enum: document, address, textual), `updated_at` (string)
-
 ## List all requirements
 
 List all requirements with filtering, sorting, and pagination
@@ -424,8 +390,6 @@ for await (const requirementListResponse of client.requirements.list()) {
 }
 ```
 
-Returns: `action` (enum: both, branded_calling, ordering, porting), `country_code` (string), `created_at` (string), `id` (uuid), `locality` (string), `phone_number_type` (enum: local, national, toll_free), `record_type` (string), `requirements_types` (array[object]), `updated_at` (string)
-
 ## Retrieve a document requirement
 
 Retrieve a document requirement record
@@ -437,8 +401,6 @@ const requirement = await client.requirements.retrieve('a9dad8d5-fdbd-49d7-aa23-
 
 console.log(requirement.data);
 ```
-
-Returns: `action` (enum: both, branded_calling, ordering, porting), `country_code` (string), `created_at` (string), `id` (uuid), `locality` (string), `phone_number_type` (enum: local, national, toll_free), `record_type` (string), `requirements_types` (array[object]), `updated_at` (string)
 
 ## Update requirement group for a sub number order
 
@@ -453,8 +415,6 @@ const response = await client.subNumberOrders.updateRequirementGroup(
 console.log(response.data);
 ```
 
-Returns: `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `is_block_sub_number_order` (boolean), `order_request_id` (uuid), `phone_number_type` (string), `phone_numbers` (array[object]), `phone_numbers_count` (integer), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `status` (string), `updated_at` (date-time)
-
 ## List all user addresses
 
 Returns a list of your user addresses.
@@ -467,8 +427,6 @@ for await (const userAddress of client.userAddresses.list()) {
   console.log(userAddress.id);
 }
 ```
-
-Returns: `administrative_area` (string), `borough` (string), `business_name` (string), `country_code` (string), `created_at` (string), `customer_reference` (string), `extended_address` (string), `first_name` (string), `id` (uuid), `last_name` (string), `locality` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `record_type` (string), `street_address` (string), `updated_at` (string)
 
 ## Creates a user address
 
@@ -491,8 +449,6 @@ const userAddress = await client.userAddresses.create({
 console.log(userAddress.data);
 ```
 
-Returns: `administrative_area` (string), `borough` (string), `business_name` (string), `country_code` (string), `created_at` (string), `customer_reference` (string), `extended_address` (string), `first_name` (string), `id` (uuid), `last_name` (string), `locality` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `record_type` (string), `street_address` (string), `updated_at` (string)
-
 ## Retrieve a user address
 
 Retrieves the details of an existing user address.
@@ -504,8 +460,6 @@ const userAddress = await client.userAddresses.retrieve('id');
 
 console.log(userAddress.data);
 ```
-
-Returns: `administrative_area` (string), `borough` (string), `business_name` (string), `country_code` (string), `created_at` (string), `customer_reference` (string), `extended_address` (string), `first_name` (string), `id` (uuid), `last_name` (string), `locality` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `record_type` (string), `street_address` (string), `updated_at` (string)
 
 ## List all Verified Numbers
 
@@ -520,11 +474,9 @@ for await (const verifiedNumber of client.verifiedNumbers.list()) {
 }
 ```
 
-Returns: `phone_number` (string), `record_type` (enum: verified_number), `verified_at` (string)
-
 ## Request phone number verification
 
-Initiates phone number verification procedure. Supports DTMF extension dialing for voice calls to numbers behind IVR systems.
+Initiates phone number verification procedure.
 
 `POST /verified_numbers` — Required: `phone_number`, `verification_method`
 
@@ -539,8 +491,6 @@ const verifiedNumber = await client.verifiedNumbers.create({
 console.log(verifiedNumber.phone_number);
 ```
 
-Returns: `phone_number` (string), `verification_method` (string)
-
 ## Retrieve a verified number
 
 `GET /verified_numbers/{phone_number}`
@@ -551,8 +501,6 @@ const verifiedNumberDataWrapper = await client.verifiedNumbers.retrieve('+155512
 console.log(verifiedNumberDataWrapper.data);
 ```
 
-Returns: `phone_number` (string), `record_type` (enum: verified_number), `verified_at` (string)
-
 ## Delete a verified number
 
 `DELETE /verified_numbers/{phone_number}`
@@ -562,8 +510,6 @@ const verifiedNumberDataWrapper = await client.verifiedNumbers.delete('+15551234
 
 console.log(verifiedNumberDataWrapper.data);
 ```
-
-Returns: `phone_number` (string), `record_type` (enum: verified_number), `verified_at` (string)
 
 ## Submit verification code
 
@@ -577,5 +523,3 @@ const verifiedNumberDataWrapper = await client.verifiedNumbers.actions.submitVer
 
 console.log(verifiedNumberDataWrapper.data);
 ```
-
-Returns: `phone_number` (string), `record_type` (enum: verified_number), `verified_at` (string)

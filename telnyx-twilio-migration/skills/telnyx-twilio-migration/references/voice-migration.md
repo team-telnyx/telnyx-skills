@@ -155,6 +155,38 @@ curl -u "$TWILIO_SID:$TWILIO_AUTH_TOKEN" ...
 curl -H "Authorization: Bearer $TELNYX_API_KEY" ...
 ```
 
+```go
+// Go
+// Twilio
+import "github.com/twilio/twilio-go"
+client := twilio.NewRestClientWithParams(twilio.ClientParams{
+    Username: "ACCOUNT_SID", Password: "AUTH_TOKEN",
+})
+
+// Telnyx
+import "github.com/telnyx/telnyx-go"
+client := telnyx.NewClient("YOUR_TELNYX_API_KEY")
+```
+
+```ruby
+# Twilio
+require 'twilio-ruby'
+client = Twilio::REST::Client.new(account_sid, auth_token)
+
+# Telnyx
+require 'telnyx'
+Telnyx.api_key = 'YOUR_TELNYX_API_KEY'
+```
+
+```java
+// Twilio
+import com.twilio.Twilio;
+Twilio.init("ACCOUNT_SID", "AUTH_TOKEN");
+
+// Telnyx — use REST API with Bearer token
+// Java: use OkHttp/HttpClient with Authorization: Bearer header
+```
+
 ## Step 7: Update Webhook Signature Validation
 
 This is the most important code change. Twilio uses HMAC-SHA1 with your auth token. Telnyx uses Ed25519 with a public key.
@@ -207,6 +239,56 @@ try {
 }
 ```
 
+**Go:**
+```go
+// Telnyx webhook signature validation in Go
+// Use the telnyx-go SDK or verify Ed25519 manually:
+import (
+    "crypto/ed25519"
+    "encoding/base64"
+    "net/http"
+)
+
+func verifyWebhook(r *http.Request, publicKeyBase64 string) bool {
+    payload := r.Body // read body bytes
+    signature := r.Header.Get("telnyx-signature-ed25519")
+    timestamp := r.Header.Get("telnyx-timestamp")
+    // Concatenate timestamp + "|" + payload, verify with Ed25519 public key
+    pubKeyBytes, _ := base64.StdEncoding.DecodeString(publicKeyBase64)
+    sigBytes, _ := base64.StdEncoding.DecodeString(signature)
+    message := []byte(timestamp + "|" + string(payload))
+    return ed25519.Verify(ed25519.PublicKey(pubKeyBytes), message, sigBytes)
+}
+```
+
+**Ruby:**
+```ruby
+# Telnyx webhook signature validation in Ruby
+require 'telnyx'
+Telnyx.public_key = 'YOUR_PUBLIC_KEY'
+
+post '/webhook' do
+  payload = request.body.read
+  signature = request.env['HTTP_TELNYX_SIGNATURE_ED25519']
+  timestamp = request.env['HTTP_TELNYX_TIMESTAMP']
+  begin
+    Telnyx::Webhook.construct_event(payload, signature, timestamp)
+    # Signature valid
+  rescue Telnyx::SignatureVerificationError
+    halt 403, 'Forbidden'
+  end
+end
+```
+
+**Java:**
+```java
+// Telnyx webhook signature validation in Java
+// No official Java SDK — verify Ed25519 manually using Bouncy Castle or java.security
+// 1. Decode the base64 public key and signature
+// 2. Concatenate: timestamp + "|" + requestBody
+// 3. Verify using Ed25519 (java.security.Signature with "Ed25519" algorithm, Java 15+)
+```
+
 ## TeXML Bins
 
 Twilio has TwiML Bins — static TwiML documents hosted by Twilio. Telnyx has an equivalent: **TeXML Bins**.
@@ -240,6 +322,20 @@ TeXML callbacks use the same parameter names as TwiML for most fields. Key diffe
 
 Status callback events match Twilio's: `initiated`, `ringing`, `answered`, `completed`.
 
+## Common Pitfalls
+
+1. **Recording channels default to dual-channel** — Telnyx records in dual-channel (stereo) by default, Twilio uses single-channel. If your audio processing expects mono, explicitly set `channels="single"` on `<Record>` or `record_channels: "single"` in Call Control.
+
+2. **Caller ID policy is strict** — Telnyx validates outbound caller IDs against your Outbound Voice Profile. If you're using dynamic caller IDs, make sure they're all authorized in your profile. Calls with unauthorized caller IDs will fail immediately.
+
+3. **Status callback event names match but payloads differ** — Event names (initiated, ringing, answered, completed) are the same, but the webhook payload structure for Call Control API differs from TeXML callbacks. TeXML callbacks are form-encoded like Twilio; Call Control uses JSON.
+
+4. **RecordingUrl is temporary** — Telnyx recording URLs expire 10 minutes after the call ends. Download recordings promptly or configure a storage destination.
+
+5. **AMD (Answering Machine Detection)** — Telnyx supports `Regular` and `Premium` detection modes. Twilio's `machineDetection` param maps to Telnyx's `answering_machine_detection`. The `Premium` mode provides async detection with separate webhook events (`call.machine.detection.ended`).
+
+6. **DTMF collection differences** — In TeXML `<Gather>`, Telnyx supports multiple STT engines (`speechModel` attribute). If you were using Twilio's default speech recognition, you now have a choice of Google, Telnyx, Deepgram, or Azure.
+
 ## REST API Mapping
 
 For REST API operations (managing calls, conferences, recordings programmatically), the existing TeXML skills in this repo provide complete SDK examples:
@@ -247,6 +343,16 @@ For REST API operations (managing calls, conferences, recordings programmaticall
 > **Enhanced coverage**: Install the language plugin for your stack (`telnyx-python`, `telnyx-javascript`, `telnyx-go`, `telnyx-java`, `telnyx-ruby`) and reference the `telnyx-texml-*` skill for complete REST API examples.
 
 ## Call Control API (Alternative to TeXML)
+
+### Decision Tree: TeXML vs Call Control
+
+Choose your migration path based on your current architecture:
+
+- **You have existing TwiML XML** → **Use TeXML** (lowest effort, XML is compatible)
+- **You generate TwiML programmatically** → **Consider either**: TeXML if the XML generation is simple; Call Control if you want finer control
+- **You need real-time call manipulation** (bridge, park, supervisor) → **Use Call Control**
+- **You're building from scratch** during migration → **Use Call Control** (more powerful, Telnyx-native)
+- **You want to migrate incrementally** → **Start with TeXML** (drop-in), then migrate complex flows to Call Control over time
 
 Telnyx offers a second voice API that has no Twilio equivalent: the **Call Control API**. It provides imperative, event-driven call management via REST instead of declarative XML.
 

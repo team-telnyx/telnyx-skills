@@ -1,4 +1,21 @@
-<!-- SDK reference: telnyx-numbers-javascript -->
+<!-- Extracted from telnyx-numbers-javascript by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-javascript/skills/telnyx-numbers-javascript/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-numbers-javascript
+description: >-
+  Search for available phone numbers by location and features, check coverage,
+  and place orders. Use when acquiring new phone numbers. This skill provides
+  JavaScript SDK examples.
+metadata:
+  author: telnyx
+  product: numbers
+  language: javascript
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Numbers - JavaScript
 
@@ -30,13 +47,11 @@ const advancedOrders = await client.advancedOrders.list();
 console.log(advancedOrders.data);
 ```
 
-Returns: `area_code` (string), `comments` (string), `country_code` (string), `customer_reference` (string), `features` (array[object]), `id` (uuid), `orders` (array[string]), `phone_number_type` (object), `quantity` (integer), `requirement_group_id` (uuid), `status` (object)
-
 ## Create Advanced Order
 
 `POST /advanced_orders`
 
-Optional: `area_code` (string), `comments` (string), `country_code` (string), `customer_reference` (string), `features` (array[object]), `phone_number_type` (enum: local, mobile, toll_free, shared_cost, national, landline), `quantity` (integer), `requirement_group_id` (uuid)
+Optional: `area_code` (string), `comments` (string), `country_code` (string), `customer_reference` (string), `features` (array[object]), `phone_number_type` (enum), `quantity` (integer), `requirement_group_id` (uuid)
 
 ```javascript
 const advancedOrder = await client.advancedOrders.create();
@@ -44,13 +59,11 @@ const advancedOrder = await client.advancedOrders.create();
 console.log(advancedOrder.id);
 ```
 
-Returns: `area_code` (string), `comments` (string), `country_code` (string), `customer_reference` (string), `features` (array[object]), `id` (uuid), `orders` (array[string]), `phone_number_type` (object), `quantity` (integer), `requirement_group_id` (uuid), `status` (object)
-
 ## Update Advanced Order
 
 `PATCH /advanced_orders/{advanced-order-id}/requirement_group`
 
-Optional: `area_code` (string), `comments` (string), `country_code` (string), `customer_reference` (string), `features` (array[object]), `phone_number_type` (enum: local, mobile, toll_free, shared_cost, national, landline), `quantity` (integer), `requirement_group_id` (uuid)
+Optional: `area_code` (string), `comments` (string), `country_code` (string), `customer_reference` (string), `features` (array[object]), `phone_number_type` (enum), `quantity` (integer), `requirement_group_id` (uuid)
 
 ```javascript
 const response = await client.advancedOrders.updateRequirementGroup(
@@ -59,8 +72,6 @@ const response = await client.advancedOrders.updateRequirementGroup(
 
 console.log(response.id);
 ```
-
-Returns: `area_code` (string), `comments` (string), `country_code` (string), `customer_reference` (string), `features` (array[object]), `id` (uuid), `orders` (array[string]), `phone_number_type` (object), `quantity` (integer), `requirement_group_id` (uuid), `status` (object)
 
 ## Get Advanced Order
 
@@ -72,8 +83,6 @@ const advancedOrder = await client.advancedOrders.retrieve('182bd5e5-6e1a-4fe4-a
 console.log(advancedOrder.id);
 ```
 
-Returns: `area_code` (string), `comments` (string), `country_code` (string), `customer_reference` (string), `features` (array[object]), `id` (uuid), `orders` (array[string]), `phone_number_type` (object), `quantity` (integer), `requirement_group_id` (uuid), `status` (object)
-
 ## List available phone number blocks
 
 `GET /available_phone_number_blocks`
@@ -83,8 +92,6 @@ const availablePhoneNumberBlocks = await client.availablePhoneNumberBlocks.list(
 
 console.log(availablePhoneNumberBlocks.data);
 ```
-
-Returns: `cost_information` (object), `features` (array[object]), `phone_number` (string), `range` (integer), `record_type` (enum: available_phone_number_block), `region_information` (array[object])
 
 ## List available phone numbers
 
@@ -96,8 +103,6 @@ const availablePhoneNumbers = await client.availablePhoneNumbers.list();
 console.log(availablePhoneNumbers.data);
 ```
 
-Returns: `best_effort` (boolean), `cost_information` (object), `features` (array[object]), `phone_number` (string), `quickship` (boolean), `record_type` (enum: available_phone_number), `region_information` (array[object]), `reservable` (boolean), `vanity_format` (string)
-
 ## Retrieve all comments
 
 `GET /comments`
@@ -108,21 +113,17 @@ const comments = await client.comments.list();
 console.log(comments.data);
 ```
 
-Returns: `body` (string), `comment_record_id` (uuid), `comment_record_type` (enum: sub_number_order, requirement_group), `commenter` (string), `commenter_type` (enum: admin, user), `created_at` (date-time), `id` (uuid), `read_at` (date-time), `updated_at` (date-time)
-
 ## Create a comment
 
 `POST /comments`
 
-Optional: `body` (string), `comment_record_id` (uuid), `comment_record_type` (enum: sub_number_order, requirement_group), `commenter` (string), `commenter_type` (enum: admin, user), `created_at` (date-time), `id` (uuid), `read_at` (date-time), `updated_at` (date-time)
+Optional: `body` (string), `comment_record_id` (uuid), `comment_record_type` (enum), `commenter` (string), `commenter_type` (enum), `created_at` (date-time), `id` (uuid), `read_at` (date-time), `updated_at` (date-time)
 
 ```javascript
 const comment = await client.comments.create();
 
 console.log(comment.data);
 ```
-
-Returns: `data` (object)
 
 ## Retrieve a comment
 
@@ -134,8 +135,6 @@ const comment = await client.comments.retrieve('id');
 console.log(comment.data);
 ```
 
-Returns: `data` (object)
-
 ## Mark a comment as read
 
 `PATCH /comments/{id}/read`
@@ -145,8 +144,6 @@ const response = await client.comments.markAsRead('id');
 
 console.log(response.data);
 ```
-
-Returns: `data` (object)
 
 ## Get country coverage
 
@@ -158,8 +155,6 @@ const countryCoverage = await client.countryCoverage.retrieve();
 console.log(countryCoverage.data);
 ```
 
-Returns: `data` (object)
-
 ## Get coverage for a specific country
 
 `GET /country_coverage/countries/{country_code}`
@@ -169,8 +164,6 @@ const response = await client.countryCoverage.retrieveCountry('US');
 
 console.log(response.data);
 ```
-
-Returns: `code` (string), `features` (array[string]), `international_sms` (boolean), `inventory_coverage` (boolean), `local` (object), `mobile` (object), `national` (object), `numbers` (boolean), `p2p` (boolean), `phone_number_type` (array[string]), `quickship` (boolean), `region` (['string', 'null']), `reservable` (boolean), `shared_cost` (object), `toll_free` (object)
 
 ## List customer service records
 
@@ -184,8 +177,6 @@ for await (const customerServiceRecord of client.customerServiceRecords.list()) 
   console.log(customerServiceRecord.id);
 }
 ```
-
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
 
 ## Create a customer service record
 
@@ -201,8 +192,6 @@ const customerServiceRecord = await client.customerServiceRecords.create({
 console.log(customerServiceRecord.data);
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
-
 ## Verify CSR phone number coverage
 
 Verify the coverage for a list of phone numbers.
@@ -216,8 +205,6 @@ const response = await client.customerServiceRecords.verifyPhoneNumberCoverage({
 
 console.log(response.data);
 ```
-
-Returns: `additional_data_required` (array[string]), `has_csr_coverage` (boolean), `phone_number` (string), `reason` (string), `record_type` (string)
 
 ## Get a customer service record
 
@@ -233,8 +220,6 @@ const customerServiceRecord = await client.customerServiceRecords.retrieve(
 console.log(customerServiceRecord.data);
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
-
 ## List inexplicit number orders
 
 Get a paginated list of inexplicit number orders.
@@ -247,8 +232,6 @@ for await (const inexplicitNumberOrderResponse of client.inexplicitNumberOrders.
   console.log(inexplicitNumberOrderResponse.id);
 }
 ```
-
-Returns: `billing_group_id` (string), `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `messaging_profile_id` (string), `ordering_groups` (array[object]), `updated_at` (date-time)
 
 ## Create an inexplicit number order
 
@@ -272,8 +255,6 @@ const inexplicitNumberOrder = await client.inexplicitNumberOrders.create({
 console.log(inexplicitNumberOrder.data);
 ```
 
-Returns: `billing_group_id` (string), `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `messaging_profile_id` (string), `ordering_groups` (array[object]), `updated_at` (date-time)
-
 ## Retrieve an inexplicit number order
 
 Get an existing inexplicit number order by ID.
@@ -288,11 +269,9 @@ const inexplicitNumberOrder = await client.inexplicitNumberOrders.retrieve(
 console.log(inexplicitNumberOrder.data);
 ```
 
-Returns: `billing_group_id` (string), `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `messaging_profile_id` (string), `ordering_groups` (array[object]), `updated_at` (date-time)
-
 ## Create an inventory coverage request
 
-Creates an inventory coverage request. If locality, npa or national_destination_code is used in groupBy, and no region or locality filters are used, the whole paginated set is returned.
+Creates an inventory coverage request.
 
 `GET /inventory_coverage`
 
@@ -302,11 +281,9 @@ const inventoryCoverages = await client.inventoryCoverage.list();
 console.log(inventoryCoverages.data);
 ```
 
-Returns: `administrative_area` (string), `advance_requirements` (boolean), `count` (integer), `coverage_type` (enum: number, block), `group` (string), `group_type` (string), `number_range` (integer), `number_type` (enum: did, toll-free), `phone_number_type` (enum: local, toll_free, national, landline, shared_cost, mobile), `record_type` (string)
-
 ## List mobile network operators
 
-Telnyx has a set of GSM mobile operators partners that are available through our mobile network roaming. This resource is entirely managed by Telnyx and may change over time. That means that this resource won't allow any write operations for it.
+Telnyx has a set of GSM mobile operators partners that are available through our mobile network roaming.
 
 `GET /mobile_network_operators`
 
@@ -316,8 +293,6 @@ for await (const mobileNetworkOperatorListResponse of client.mobileNetworkOperat
   console.log(mobileNetworkOperatorListResponse.id);
 }
 ```
-
-Returns: `country_code` (string), `id` (uuid), `mcc` (string), `mnc` (string), `name` (string), `network_preferences_enabled` (boolean), `record_type` (string), `tadig` (string)
 
 ## List network coverage locations
 
@@ -332,8 +307,6 @@ for await (const networkCoverageListResponse of client.networkCoverage.list()) {
 }
 ```
 
-Returns: `available_services` (array[object]), `location` (object), `record_type` (string)
-
 ## List number block orders
 
 Get a paginated list of number block orders.
@@ -347,15 +320,13 @@ for await (const numberBlockOrder of client.numberBlockOrders.list()) {
 }
 ```
 
-Returns: `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `messaging_profile_id` (string), `phone_numbers_count` (integer), `range` (integer), `record_type` (string), `requirements_met` (boolean), `starting_number` (string), `status` (enum: pending, success, failure), `updated_at` (date-time)
-
 ## Create a number block order
 
 Creates a phone number block order.
 
 `POST /number_block_orders` — Required: `starting_number`, `range`
 
-Optional: `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `errors` (string), `id` (uuid), `messaging_profile_id` (string), `phone_numbers_count` (integer), `record_type` (string), `requirements_met` (boolean), `status` (enum: pending, success, failure), `updated_at` (date-time)
+Optional: `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `errors` (string), `id` (uuid), `messaging_profile_id` (string), `phone_numbers_count` (integer), `record_type` (string), `requirements_met` (boolean), `status` (enum), `updated_at` (date-time)
 
 ```javascript
 const numberBlockOrder = await client.numberBlockOrders.create({
@@ -365,8 +336,6 @@ const numberBlockOrder = await client.numberBlockOrders.create({
 
 console.log(numberBlockOrder.data);
 ```
-
-Returns: `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `messaging_profile_id` (string), `phone_numbers_count` (integer), `range` (integer), `record_type` (string), `requirements_met` (boolean), `starting_number` (string), `status` (enum: pending, success, failure), `updated_at` (date-time)
 
 ## Retrieve a number block order
 
@@ -380,8 +349,6 @@ const numberBlockOrder = await client.numberBlockOrders.retrieve('number_block_o
 console.log(numberBlockOrder.data);
 ```
 
-Returns: `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `messaging_profile_id` (string), `phone_numbers_count` (integer), `range` (integer), `record_type` (string), `requirements_met` (boolean), `starting_number` (string), `status` (enum: pending, success, failure), `updated_at` (date-time)
-
 ## Retrieve a list of phone numbers associated to orders
 
 Get a list of phone numbers associated to orders.
@@ -393,8 +360,6 @@ const numberOrderPhoneNumbers = await client.numberOrderPhoneNumbers.list();
 
 console.log(numberOrderPhoneNumbers.data);
 ```
-
-Returns: `bundle_id` (uuid), `country_code` (string), `deadline` (date-time), `id` (uuid), `is_block_number` (boolean), `locality` (string), `order_request_id` (uuid), `phone_number` (string), `phone_number_type` (enum: local, toll_free, mobile, national, shared_cost, landline), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `requirements_status` (enum: pending, approved, cancelled, deleted, requirement-info-exception, requirement-info-pending, requirement-info-under-review), `status` (enum: pending, success, failure), `sub_number_order_id` (uuid)
 
 ## Retrieve a single phone number within a number order.
 
@@ -409,8 +374,6 @@ const numberOrderPhoneNumber = await client.numberOrderPhoneNumbers.retrieve(
 
 console.log(numberOrderPhoneNumber.data);
 ```
-
-Returns: `bundle_id` (uuid), `country_code` (string), `deadline` (date-time), `id` (uuid), `is_block_number` (boolean), `locality` (string), `order_request_id` (uuid), `phone_number` (string), `phone_number_type` (enum: local, toll_free, mobile, national, shared_cost, landline), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `requirements_status` (enum: pending, approved, cancelled, deleted, requirement-info-exception, requirement-info-pending, requirement-info-under-review), `status` (enum: pending, success, failure), `sub_number_order_id` (uuid)
 
 ## Update requirements for a single phone number within a number order.
 
@@ -428,8 +391,6 @@ const response = await client.numberOrderPhoneNumbers.updateRequirements(
 console.log(response.data);
 ```
 
-Returns: `bundle_id` (uuid), `country_code` (string), `deadline` (date-time), `id` (uuid), `is_block_number` (boolean), `locality` (string), `order_request_id` (uuid), `phone_number` (string), `phone_number_type` (enum: local, toll_free, mobile, national, shared_cost, landline), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `requirements_status` (enum: pending, approved, cancelled, deleted, requirement-info-exception, requirement-info-pending, requirement-info-under-review), `status` (enum: pending, success, failure), `sub_number_order_id` (uuid)
-
 ## List number orders
 
 Get a paginated list of number orders.
@@ -442,8 +403,6 @@ for await (const numberOrderListResponse of client.numberOrders.list()) {
   console.log(numberOrderListResponse.id);
 }
 ```
-
-Returns: `billing_group_id` (string), `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `messaging_profile_id` (string), `phone_numbers` (array[object]), `phone_numbers_count` (integer), `record_type` (string), `requirements_met` (boolean), `status` (enum: pending, success, failure), `sub_number_orders_ids` (array[string]), `updated_at` (date-time)
 
 ## Create a number order
 
@@ -459,8 +418,6 @@ const numberOrder = await client.numberOrders.create();
 console.log(numberOrder.data);
 ```
 
-Returns: `billing_group_id` (string), `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `messaging_profile_id` (string), `phone_numbers` (array[object]), `phone_numbers_count` (integer), `record_type` (string), `requirements_met` (boolean), `status` (enum: pending, success, failure), `sub_number_orders_ids` (array[string]), `updated_at` (date-time)
-
 ## Retrieve a number order
 
 Get an existing phone number order.
@@ -472,8 +429,6 @@ const numberOrder = await client.numberOrders.retrieve('number_order_id');
 
 console.log(numberOrder.data);
 ```
-
-Returns: `billing_group_id` (string), `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `messaging_profile_id` (string), `phone_numbers` (array[object]), `phone_numbers_count` (integer), `record_type` (string), `requirements_met` (boolean), `status` (enum: pending, success, failure), `sub_number_orders_ids` (array[string]), `updated_at` (date-time)
 
 ## Update a number order
 
@@ -489,8 +444,6 @@ const numberOrder = await client.numberOrders.update('number_order_id');
 console.log(numberOrder.data);
 ```
 
-Returns: `billing_group_id` (string), `connection_id` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `messaging_profile_id` (string), `phone_numbers` (array[object]), `phone_numbers_count` (integer), `record_type` (string), `requirements_met` (boolean), `status` (enum: pending, success, failure), `sub_number_orders_ids` (array[string]), `updated_at` (date-time)
-
 ## List number reservations
 
 Gets a paginated list of phone number reservations.
@@ -504,23 +457,19 @@ for await (const numberReservation of client.numberReservations.list()) {
 }
 ```
 
-Returns: `created_at` (date-time), `customer_reference` (string), `errors` (string), `id` (uuid), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: pending, success, failure), `updated_at` (date-time)
-
 ## Create a number reservation
 
 Creates a Phone Number Reservation for multiple numbers.
 
 `POST /number_reservations`
 
-Optional: `created_at` (date-time), `customer_reference` (string), `id` (uuid), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: pending, success, failure), `updated_at` (date-time)
+Optional: `created_at` (date-time), `customer_reference` (string), `id` (uuid), `phone_numbers` (array[object]), `record_type` (string), `status` (enum), `updated_at` (date-time)
 
 ```javascript
 const numberReservation = await client.numberReservations.create();
 
 console.log(numberReservation.data);
 ```
-
-Returns: `created_at` (date-time), `customer_reference` (string), `errors` (string), `id` (uuid), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: pending, success, failure), `updated_at` (date-time)
 
 ## Retrieve a number reservation
 
@@ -534,8 +483,6 @@ const numberReservation = await client.numberReservations.retrieve('number_reser
 console.log(numberReservation.data);
 ```
 
-Returns: `created_at` (date-time), `customer_reference` (string), `errors` (string), `id` (uuid), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: pending, success, failure), `updated_at` (date-time)
-
 ## Extend a number reservation
 
 Extends reservation expiry time on all phone numbers.
@@ -548,8 +495,6 @@ const response = await client.numberReservations.actions.extend('number_reservat
 console.log(response.data);
 ```
 
-Returns: `created_at` (date-time), `customer_reference` (string), `errors` (string), `id` (uuid), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: pending, success, failure), `updated_at` (date-time)
-
 ## Retrieve the features for a list of numbers
 
 `POST /numbers_features` — Required: `phone_numbers`
@@ -559,8 +504,6 @@ const numbersFeature = await client.numbersFeatures.create({ phone_numbers: ['st
 
 console.log(numbersFeature.data);
 ```
-
-Returns: `features` (array[string]), `phone_number` (string)
 
 ## Lists the phone number blocks jobs
 
@@ -573,11 +516,9 @@ for await (const job of client.phoneNumberBlocks.jobs.list()) {
 }
 ```
 
-Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[object]), `id` (uuid), `record_type` (string), `status` (enum: pending, in_progress, completed, failed), `successful_operations` (array[object]), `type` (enum: delete_phone_number_block), `updated_at` (string)
-
 ## Deletes all numbers associated with a phone number block
 
-Creates a new background job to delete all the phone numbers associated with the given block. We will only consider the phone number block as deleted after all phone numbers associated with it are removed, so multiple executions of this job may be necessary in case some of the phone numbers present errors during the deletion process.
+Creates a new background job to delete all the phone numbers associated with the given block.
 
 `POST /phone_number_blocks/jobs/delete_phone_number_block` — Required: `phone_number_block_id`
 
@@ -589,8 +530,6 @@ const response = await client.phoneNumberBlocks.jobs.deletePhoneNumberBlock({
 console.log(response.data);
 ```
 
-Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[object]), `id` (uuid), `record_type` (string), `status` (enum: pending, in_progress, completed, failed), `successful_operations` (array[object]), `type` (enum: delete_phone_number_block), `updated_at` (string)
-
 ## Retrieves a phone number blocks job
 
 `GET /phone_number_blocks/jobs/{id}`
@@ -600,8 +539,6 @@ const job = await client.phoneNumberBlocks.jobs.retrieve('id');
 
 console.log(job.data);
 ```
-
-Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[object]), `id` (uuid), `record_type` (string), `status` (enum: pending, in_progress, completed, failed), `successful_operations` (array[object]), `type` (enum: delete_phone_number_block), `updated_at` (string)
 
 ## List sub number orders
 
@@ -615,8 +552,6 @@ const subNumberOrders = await client.subNumberOrders.list();
 console.log(subNumberOrders.data);
 ```
 
-Returns: `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `is_block_sub_number_order` (boolean), `order_request_id` (uuid), `phone_number_type` (enum: local, toll_free, mobile, national, shared_cost, landline), `phone_numbers_count` (integer), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `status` (enum: pending, success, failure), `updated_at` (date-time), `user_id` (uuid)
-
 ## Retrieve a sub number order
 
 Get an existing sub number order.
@@ -628,8 +563,6 @@ const subNumberOrder = await client.subNumberOrders.retrieve('sub_number_order_i
 
 console.log(subNumberOrder.data);
 ```
-
-Returns: `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `is_block_sub_number_order` (boolean), `order_request_id` (uuid), `phone_number_type` (enum: local, toll_free, mobile, national, shared_cost, landline), `phone_numbers_count` (integer), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `status` (enum: pending, success, failure), `updated_at` (date-time), `user_id` (uuid)
 
 ## Update a sub number order's requirements
 
@@ -645,8 +578,6 @@ const subNumberOrder = await client.subNumberOrders.update('sub_number_order_id'
 console.log(subNumberOrder.data);
 ```
 
-Returns: `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `is_block_sub_number_order` (boolean), `order_request_id` (uuid), `phone_number_type` (enum: local, toll_free, mobile, national, shared_cost, landline), `phone_numbers_count` (integer), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `status` (enum: pending, success, failure), `updated_at` (date-time), `user_id` (uuid)
-
 ## Cancel a sub number order
 
 Allows you to cancel a sub number order in 'pending' status.
@@ -659,23 +590,19 @@ const response = await client.subNumberOrders.cancel('sub_number_order_id');
 console.log(response.data);
 ```
 
-Returns: `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `is_block_sub_number_order` (boolean), `order_request_id` (uuid), `phone_number_type` (enum: local, toll_free, mobile, national, shared_cost, landline), `phone_numbers_count` (integer), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `status` (enum: pending, success, failure), `updated_at` (date-time), `user_id` (uuid)
-
 ## Create a sub number orders report
 
-Create a CSV report for sub number orders. The report will be generated asynchronously and can be downloaded once complete.
+Create a CSV report for sub number orders.
 
 `POST /sub_number_orders_report`
 
-Optional: `country_code` (string), `created_at_gt` (date-time), `created_at_lt` (date-time), `customer_reference` (string), `order_request_id` (uuid), `status` (enum: pending, success, failure)
+Optional: `country_code` (string), `created_at_gt` (date-time), `created_at_lt` (date-time), `customer_reference` (string), `order_request_id` (uuid), `status` (enum)
 
 ```javascript
 const subNumberOrdersReport = await client.subNumberOrdersReport.create();
 
 console.log(subNumberOrdersReport.data);
 ```
-
-Returns: `created_at` (date-time), `filters` (object), `id` (uuid), `order_type` (string), `status` (enum: pending, success, failed, expired), `updated_at` (date-time), `user_id` (uuid)
 
 ## Retrieve a sub number orders report
 
@@ -691,11 +618,9 @@ const subNumberOrdersReport = await client.subNumberOrdersReport.retrieve(
 console.log(subNumberOrdersReport.data);
 ```
 
-Returns: `created_at` (date-time), `filters` (object), `id` (uuid), `order_type` (string), `status` (enum: pending, success, failed, expired), `updated_at` (date-time), `user_id` (uuid)
-
 ## Download a sub number orders report
 
-Download the CSV file for a completed sub number orders report. The report status must be 'success' before the file can be downloaded.
+Download the CSV file for a completed sub number orders report.
 
 `GET /sub_number_orders_report/{report_id}/download`
 
@@ -735,7 +660,7 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | `data.payload.billing_group_id` | string | Identifies the messaging profile associated with the phone number. |
 | `data.payload.phone_numbers` | array[object] |  |
 | `data.payload.sub_number_orders_ids` | array[string] |  |
-| `data.payload.status` | enum: pending, success, failure | The status of the order. |
+| `data.payload.status` | enum | The status of the order. |
 | `data.payload.customer_reference` | string | A customer reference string for customer look ups. |
 | `data.payload.created_at` | date-time | An ISO 8901 datetime string denoting when the number order was created. |
 | `data.payload.updated_at` | date-time | An ISO 8901 datetime string for when the number order was updated. |

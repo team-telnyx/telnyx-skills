@@ -1,4 +1,21 @@
-<!-- SDK reference: telnyx-messaging-ruby -->
+<!-- Extracted from telnyx-messaging-ruby by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-ruby/skills/telnyx-messaging-ruby/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-messaging-ruby
+description: >-
+  Send and receive SMS/MMS messages, manage messaging-enabled phone numbers, and
+  handle opt-outs. Use when building messaging applications, implementing 2FA,
+  or sending notifications. This skill provides Ruby SDK examples.
+metadata:
+  author: telnyx
+  product: messaging
+  language: ruby
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Messaging - Ruby
 
@@ -32,8 +49,6 @@ page = client.alphanumeric_sender_ids.list
 puts(page)
 ```
 
-Returns: `alphanumeric_sender_id` (string), `id` (uuid), `messaging_profile_id` (uuid), `organization_id` (string), `record_type` (enum: alphanumeric_sender_id), `us_long_code_fallback` (string)
-
 ## Create an alphanumeric sender ID
 
 Create a new alphanumeric sender ID associated with a messaging profile.
@@ -51,8 +66,6 @@ alphanumeric_sender_id = client.alphanumeric_sender_ids.create(
 puts(alphanumeric_sender_id)
 ```
 
-Returns: `alphanumeric_sender_id` (string), `id` (uuid), `messaging_profile_id` (uuid), `organization_id` (string), `record_type` (enum: alphanumeric_sender_id), `us_long_code_fallback` (string)
-
 ## Retrieve an alphanumeric sender ID
 
 Retrieve a specific alphanumeric sender ID.
@@ -64,8 +77,6 @@ alphanumeric_sender_id = client.alphanumeric_sender_ids.retrieve("id")
 
 puts(alphanumeric_sender_id)
 ```
-
-Returns: `alphanumeric_sender_id` (string), `id` (uuid), `messaging_profile_id` (uuid), `organization_id` (string), `record_type` (enum: alphanumeric_sender_id), `us_long_code_fallback` (string)
 
 ## Delete an alphanumeric sender ID
 
@@ -79,16 +90,13 @@ alphanumeric_sender_id = client.alphanumeric_sender_ids.delete("id")
 puts(alphanumeric_sender_id)
 ```
 
-Returns: `alphanumeric_sender_id` (string), `id` (uuid), `messaging_profile_id` (uuid), `organization_id` (string), `record_type` (enum: alphanumeric_sender_id), `us_long_code_fallback` (string)
-
 ## Send a message
 
-Send a message with a Phone Number, Alphanumeric Sender ID, Short Code or Number Pool. This endpoint allows you to send a message with any messaging resource. Current messaging resources include: long-code, short-code, number-pool, and
-alphanumeric-sender-id.
+Send a message with a Phone Number, Alphanumeric Sender ID, Short Code or Number Pool.
 
 `POST /messages` — Required: `to`
 
-Optional: `auto_detect` (boolean), `encoding` (enum: auto, gsm7, ucs2), `from` (string), `media_urls` (array[string]), `messaging_profile_id` (string), `send_at` (date-time), `subject` (string), `text` (string), `type` (enum: SMS, MMS), `use_profile_webhooks` (boolean), `webhook_failover_url` (url), `webhook_url` (url)
+Optional: `auto_detect` (boolean), `encoding` (enum), `from` (string), `media_urls` (array[string]), `messaging_profile_id` (string), `send_at` (date-time), `subject` (string), `text` (string), `type` (enum), `use_profile_webhooks` (boolean), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```ruby
 response = client.messages.send_(to: "+18445550001")
@@ -96,11 +104,9 @@ response = client.messages.send_(to: "+18445550001")
 puts(response)
 ```
 
-Returns: `cc` (array[object]), `completed_at` (date-time), `cost` (['object', 'null']), `cost_breakdown` (['object', 'null']), `direction` (enum: outbound), `encoding` (string), `errors` (array[object]), `from` (object), `id` (uuid), `media` (array[object]), `messaging_profile_id` (string), `organization_id` (uuid), `parts` (integer), `received_at` (date-time), `record_type` (enum: message), `sent_at` (date-time), `smart_encoding_applied` (boolean), `subject` (['string', 'null']), `tags` (array[string]), `tcr_campaign_billable` (boolean), `tcr_campaign_id` (['string', 'null']), `tcr_campaign_registered` (['string', 'null']), `text` (string), `to` (array[object]), `type` (enum: SMS, MMS), `valid_until` (date-time), `webhook_failover_url` (url), `webhook_url` (url)
-
 ## Send a message using an alphanumeric sender ID
 
-Send an SMS message using an alphanumeric sender ID. This is SMS only.
+Send an SMS message using an alphanumeric sender ID.
 
 `POST /messages/alphanumeric_sender_id` — Required: `from`, `to`, `text`, `messaging_profile_id`
 
@@ -117,8 +123,6 @@ response = client.messages.send_with_alphanumeric_sender(
 puts(response)
 ```
 
-Returns: `cc` (array[object]), `completed_at` (date-time), `cost` (['object', 'null']), `cost_breakdown` (['object', 'null']), `direction` (enum: outbound), `encoding` (string), `errors` (array[object]), `from` (object), `id` (uuid), `media` (array[object]), `messaging_profile_id` (string), `organization_id` (uuid), `parts` (integer), `received_at` (date-time), `record_type` (enum: message), `sent_at` (date-time), `smart_encoding_applied` (boolean), `subject` (['string', 'null']), `tags` (array[string]), `tcr_campaign_billable` (boolean), `tcr_campaign_id` (['string', 'null']), `tcr_campaign_registered` (['string', 'null']), `text` (string), `to` (array[object]), `type` (enum: SMS, MMS), `valid_until` (date-time), `webhook_failover_url` (url), `webhook_url` (url)
-
 ## Retrieve group MMS messages
 
 Retrieve all messages in a group MMS conversation by the group message ID.
@@ -130,8 +134,6 @@ response = client.messages.retrieve_group_messages("182bd5e5-6e1a-4fe4-a799-aa6d
 
 puts(response)
 ```
-
-Returns: `cc` (array[object]), `completed_at` (date-time), `cost` (['object', 'null']), `cost_breakdown` (['object', 'null']), `direction` (enum: outbound), `encoding` (string), `errors` (array[object]), `from` (object), `id` (uuid), `media` (array[object]), `messaging_profile_id` (string), `organization_id` (uuid), `parts` (integer), `received_at` (date-time), `record_type` (enum: message), `sent_at` (date-time), `smart_encoding_applied` (boolean), `subject` (['string', 'null']), `tags` (array[string]), `tcr_campaign_billable` (boolean), `tcr_campaign_id` (['string', 'null']), `tcr_campaign_registered` (['string', 'null']), `text` (string), `to` (array[object]), `type` (enum: SMS, MMS), `valid_until` (date-time), `webhook_failover_url` (url), `webhook_url` (url)
 
 ## Send a group MMS message
 
@@ -145,13 +147,11 @@ response = client.messages.send_group_mms(from: "+13125551234", to: ["+186555512
 puts(response)
 ```
 
-Returns: `cc` (array[object]), `completed_at` (date-time), `cost` (['object', 'null']), `cost_breakdown` (['object', 'null']), `direction` (enum: outbound), `encoding` (string), `errors` (array[object]), `from` (object), `id` (uuid), `media` (array[object]), `messaging_profile_id` (string), `organization_id` (uuid), `parts` (integer), `received_at` (date-time), `record_type` (enum: message), `sent_at` (date-time), `smart_encoding_applied` (boolean), `subject` (['string', 'null']), `tags` (array[string]), `tcr_campaign_billable` (boolean), `tcr_campaign_id` (['string', 'null']), `tcr_campaign_registered` (['string', 'null']), `text` (string), `to` (array[object]), `type` (enum: SMS, MMS), `valid_until` (date-time), `webhook_failover_url` (url), `webhook_url` (url)
-
 ## Send a long code message
 
 `POST /messages/long_code` — Required: `from`, `to`
 
-Optional: `auto_detect` (boolean), `encoding` (enum: auto, gsm7, ucs2), `media_urls` (array[string]), `subject` (string), `text` (string), `type` (enum: SMS, MMS), `use_profile_webhooks` (boolean), `webhook_failover_url` (url), `webhook_url` (url)
+Optional: `auto_detect` (boolean), `encoding` (enum), `media_urls` (array[string]), `subject` (string), `text` (string), `type` (enum), `use_profile_webhooks` (boolean), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```ruby
 response = client.messages.send_long_code(from: "+18445550001", to: "+13125550002")
@@ -159,13 +159,11 @@ response = client.messages.send_long_code(from: "+18445550001", to: "+1312555000
 puts(response)
 ```
 
-Returns: `cc` (array[object]), `completed_at` (date-time), `cost` (['object', 'null']), `cost_breakdown` (['object', 'null']), `direction` (enum: outbound), `encoding` (string), `errors` (array[object]), `from` (object), `id` (uuid), `media` (array[object]), `messaging_profile_id` (string), `organization_id` (uuid), `parts` (integer), `received_at` (date-time), `record_type` (enum: message), `sent_at` (date-time), `smart_encoding_applied` (boolean), `subject` (['string', 'null']), `tags` (array[string]), `tcr_campaign_billable` (boolean), `tcr_campaign_id` (['string', 'null']), `tcr_campaign_registered` (['string', 'null']), `text` (string), `to` (array[object]), `type` (enum: SMS, MMS), `valid_until` (date-time), `webhook_failover_url` (url), `webhook_url` (url)
-
 ## Send a message using number pool
 
 `POST /messages/number_pool` — Required: `to`, `messaging_profile_id`
 
-Optional: `auto_detect` (boolean), `encoding` (enum: auto, gsm7, ucs2), `media_urls` (array[string]), `subject` (string), `text` (string), `type` (enum: SMS, MMS), `use_profile_webhooks` (boolean), `webhook_failover_url` (url), `webhook_url` (url)
+Optional: `auto_detect` (boolean), `encoding` (enum), `media_urls` (array[string]), `subject` (string), `text` (string), `type` (enum), `use_profile_webhooks` (boolean), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```ruby
 response = client.messages.send_number_pool(
@@ -176,16 +174,13 @@ response = client.messages.send_number_pool(
 puts(response)
 ```
 
-Returns: `cc` (array[object]), `completed_at` (date-time), `cost` (['object', 'null']), `cost_breakdown` (['object', 'null']), `direction` (enum: outbound), `encoding` (string), `errors` (array[object]), `from` (object), `id` (uuid), `media` (array[object]), `messaging_profile_id` (string), `organization_id` (uuid), `parts` (integer), `received_at` (date-time), `record_type` (enum: message), `sent_at` (date-time), `smart_encoding_applied` (boolean), `subject` (['string', 'null']), `tags` (array[string]), `tcr_campaign_billable` (boolean), `tcr_campaign_id` (['string', 'null']), `tcr_campaign_registered` (['string', 'null']), `text` (string), `to` (array[object]), `type` (enum: SMS, MMS), `valid_until` (date-time), `webhook_failover_url` (url), `webhook_url` (url)
-
 ## Schedule a message
 
-Schedule a message with a Phone Number, Alphanumeric Sender ID, Short Code or Number Pool. This endpoint allows you to schedule a message with any messaging resource. Current messaging resources include: long-code, short-code, number-pool, and
-alphanumeric-sender-id.
+Schedule a message with a Phone Number, Alphanumeric Sender ID, Short Code or Number Pool.
 
 `POST /messages/schedule` — Required: `to`
 
-Optional: `auto_detect` (boolean), `from` (string), `media_urls` (array[string]), `messaging_profile_id` (string), `send_at` (date-time), `subject` (string), `text` (string), `type` (enum: SMS, MMS), `use_profile_webhooks` (boolean), `webhook_failover_url` (url), `webhook_url` (url)
+Optional: `auto_detect` (boolean), `from` (string), `media_urls` (array[string]), `messaging_profile_id` (string), `send_at` (date-time), `subject` (string), `text` (string), `type` (enum), `use_profile_webhooks` (boolean), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```ruby
 response = client.messages.schedule(to: "+18445550001")
@@ -193,13 +188,11 @@ response = client.messages.schedule(to: "+18445550001")
 puts(response)
 ```
 
-Returns: `cc` (array[object]), `completed_at` (date-time), `cost` (['object', 'null']), `cost_breakdown` (['object', 'null']), `direction` (enum: outbound), `encoding` (string), `errors` (array[object]), `from` (object), `id` (uuid), `media` (array[object]), `messaging_profile_id` (string), `organization_id` (uuid), `parts` (integer), `received_at` (date-time), `record_type` (enum: message), `sent_at` (date-time), `smart_encoding_applied` (boolean), `subject` (['string', 'null']), `tags` (array[string]), `tcr_campaign_billable` (boolean), `tcr_campaign_id` (['string', 'null']), `tcr_campaign_registered` (['string', 'null']), `text` (string), `to` (array[object]), `type` (enum: SMS, MMS), `valid_until` (date-time), `webhook_failover_url` (url), `webhook_url` (url)
-
 ## Send a short code message
 
 `POST /messages/short_code` — Required: `from`, `to`
 
-Optional: `auto_detect` (boolean), `encoding` (enum: auto, gsm7, ucs2), `media_urls` (array[string]), `subject` (string), `text` (string), `type` (enum: SMS, MMS), `use_profile_webhooks` (boolean), `webhook_failover_url` (url), `webhook_url` (url)
+Optional: `auto_detect` (boolean), `encoding` (enum), `media_urls` (array[string]), `subject` (string), `text` (string), `type` (enum), `use_profile_webhooks` (boolean), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```ruby
 response = client.messages.send_short_code(from: "+18445550001", to: "+18445550001")
@@ -207,13 +200,11 @@ response = client.messages.send_short_code(from: "+18445550001", to: "+184455500
 puts(response)
 ```
 
-Returns: `cc` (array[object]), `completed_at` (date-time), `cost` (['object', 'null']), `cost_breakdown` (['object', 'null']), `direction` (enum: outbound), `encoding` (string), `errors` (array[object]), `from` (object), `id` (uuid), `media` (array[object]), `messaging_profile_id` (string), `organization_id` (uuid), `parts` (integer), `received_at` (date-time), `record_type` (enum: message), `sent_at` (date-time), `smart_encoding_applied` (boolean), `subject` (['string', 'null']), `tags` (array[string]), `tcr_campaign_billable` (boolean), `tcr_campaign_id` (['string', 'null']), `tcr_campaign_registered` (['string', 'null']), `text` (string), `to` (array[object]), `type` (enum: SMS, MMS), `valid_until` (date-time), `webhook_failover_url` (url), `webhook_url` (url)
-
 ## Send a Whatsapp message
 
 `POST /messages/whatsapp` — Required: `from`, `to`, `whatsapp_message`
 
-Optional: `type` (enum: WHATSAPP), `webhook_url` (url)
+Optional: `type` (enum), `webhook_url` (url)
 
 ```ruby
 response = client.messages.send_whatsapp(from: "+13125551234", to: "+13125551234", whatsapp_message: {})
@@ -221,11 +212,9 @@ response = client.messages.send_whatsapp(from: "+13125551234", to: "+13125551234
 puts(response)
 ```
 
-Returns: `body` (object), `direction` (string), `encoding` (string), `from` (object), `id` (string), `messaging_profile_id` (string), `organization_id` (string), `received_at` (date-time), `record_type` (string), `to` (array[object]), `type` (string)
-
 ## Retrieve a message
 
-Note: This API endpoint can only retrieve messages that are no older than 10 days since their creation. If you require messages older than this, please generate an [MDR report.](https://developers.telnyx.com/api-reference/mdr-usage-reports/create-mdr-usage-report)
+Note: This API endpoint can only retrieve messages that are no older than 10 days since their creation.
 
 `GET /messages/{id}`
 
@@ -235,11 +224,9 @@ message = client.messages.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 puts(message)
 ```
 
-Returns: `data` (object)
-
 ## Cancel a scheduled message
 
-Cancel a scheduled message that has not yet been sent. Only messages with `status=scheduled` and `send_at` more than a minute from now can be cancelled.
+Cancel a scheduled message that has not yet been sent.
 
 `DELETE /messages/{id}`
 
@@ -248,8 +235,6 @@ response = client.messages.cancel_scheduled("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26
 
 puts(response)
 ```
-
-Returns: `cc` (array[object]), `completed_at` (date-time), `cost` (['object', 'null']), `cost_breakdown` (['object', 'null']), `direction` (enum: outbound), `encoding` (string), `errors` (array[object]), `from` (object), `id` (uuid), `media` (array[object]), `messaging_profile_id` (string), `organization_id` (uuid), `parts` (integer), `received_at` (date-time), `record_type` (enum: message), `sent_at` (date-time), `smart_encoding_applied` (boolean), `subject` (['string', 'null']), `tags` (array[string]), `tcr_campaign_billable` (boolean), `tcr_campaign_id` (['string', 'null']), `tcr_campaign_registered` (['string', 'null']), `text` (string), `to` (array[object]), `type` (enum: SMS, MMS), `valid_until` (date-time), `webhook_failover_url` (url), `webhook_url` (url)
 
 ## List messaging hosted numbers
 
@@ -263,8 +248,6 @@ page = client.messaging_hosted_numbers.list
 puts(page)
 ```
 
-Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_products` (array[string]), `features` (object), `health` (object), `id` (string), `messaging_product` (string), `messaging_profile_id` (['string', 'null']), `organization_id` (string), `phone_number` (string), `record_type` (enum: messaging_phone_number, messaging_settings), `tags` (array[string]), `traffic_type` (string), `type` (enum: long-code, toll-free, short-code, longcode, tollfree, shortcode), `updated_at` (date-time)
-
 ## Retrieve a messaging hosted number
 
 Retrieve a specific messaging hosted number by its ID or phone number.
@@ -276,8 +259,6 @@ messaging_hosted_number = client.messaging_hosted_numbers.retrieve("id")
 
 puts(messaging_hosted_number)
 ```
-
-Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_products` (array[string]), `features` (object), `health` (object), `id` (string), `messaging_product` (string), `messaging_profile_id` (['string', 'null']), `organization_id` (string), `phone_number` (string), `record_type` (enum: messaging_phone_number, messaging_settings), `tags` (array[string]), `traffic_type` (string), `type` (enum: long-code, toll-free, short-code, longcode, tollfree, shortcode), `updated_at` (date-time)
 
 ## Update a messaging hosted number
 
@@ -293,8 +274,6 @@ messaging_hosted_number = client.messaging_hosted_numbers.update("id")
 puts(messaging_hosted_number)
 ```
 
-Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_products` (array[string]), `features` (object), `health` (object), `id` (string), `messaging_product` (string), `messaging_profile_id` (['string', 'null']), `organization_id` (string), `phone_number` (string), `record_type` (enum: messaging_phone_number, messaging_settings), `tags` (array[string]), `traffic_type` (string), `type` (enum: long-code, toll-free, short-code, longcode, tollfree, shortcode), `updated_at` (date-time)
-
 ## List opt-outs
 
 Retrieve a list of opt-out blocks.
@@ -306,8 +285,6 @@ page = client.messaging_optouts.list
 
 puts(page)
 ```
-
-Returns: `created_at` (date-time), `from` (string), `keyword` (['string', 'null']), `messaging_profile_id` (['string', 'null']), `to` (string)
 
 ## List high-level messaging profile metrics
 
@@ -321,8 +298,6 @@ messaging_profile_metrics = client.messaging_profile_metrics.list
 puts(messaging_profile_metrics)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
-
 ## Regenerate messaging profile secret
 
 Regenerate the v1 secret for a messaging profile.
@@ -334,8 +309,6 @@ response = client.messaging_profiles.actions.regenerate_secret("182bd5e5-6e1a-4f
 
 puts(response)
 ```
-
-Returns: `ai_assistant_id` (['string', 'null']), `alpha_sender` (['string', 'null']), `created_at` (date-time), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `health_webhook_url` (url), `id` (uuid), `mms_fall_back_to_sms` (boolean), `mms_transcoding` (boolean), `mobile_only` (boolean), `name` (string), `number_pool_settings` (['object', 'null']), `organization_id` (string), `record_type` (enum: messaging_profile), `redaction_enabled` (boolean), `redaction_level` (integer), `resource_group_id` (['string', 'null']), `smart_encoding` (boolean), `updated_at` (date-time), `url_shortener_settings` (['object', 'null']), `v1_secret` (string), `webhook_api_version` (enum: 1, 2, 2010-04-01), `webhook_failover_url` (url), `webhook_url` (url), `whitelisted_destinations` (array[string])
 
 ## List alphanumeric sender IDs for a messaging profile
 
@@ -349,8 +322,6 @@ page = client.messaging_profiles.list_alphanumeric_sender_ids("182bd5e5-6e1a-4fe
 puts(page)
 ```
 
-Returns: `alphanumeric_sender_id` (string), `id` (uuid), `messaging_profile_id` (uuid), `organization_id` (string), `record_type` (enum: alphanumeric_sender_id), `us_long_code_fallback` (string)
-
 ## Get detailed messaging profile metrics
 
 Get detailed metrics for a specific messaging profile, broken down by time interval.
@@ -363,8 +334,6 @@ response = client.messaging_profiles.retrieve_metrics("182bd5e5-6e1a-4fe4-a799-a
 puts(response)
 ```
 
-Returns: `data` (object)
-
 ## List Auto-Response Settings
 
 `GET /messaging_profiles/{profile_id}/autoresp_configs`
@@ -374,8 +343,6 @@ autoresp_configs = client.messaging_profiles.autoresp_configs.list("182bd5e5-6e1
 
 puts(autoresp_configs)
 ```
-
-Returns: `country_code` (string), `created_at` (date-time), `id` (string), `keywords` (array[string]), `op` (enum: start, stop, info), `resp_text` (string), `updated_at` (date-time)
 
 ## Create auto-response setting
 
@@ -394,8 +361,6 @@ auto_resp_config_response = client.messaging_profiles.autoresp_configs.create(
 puts(auto_resp_config_response)
 ```
 
-Returns: `country_code` (string), `created_at` (date-time), `id` (string), `keywords` (array[string]), `op` (enum: start, stop, info), `resp_text` (string), `updated_at` (date-time)
-
 ## Get Auto-Response Setting
 
 `GET /messaging_profiles/{profile_id}/autoresp_configs/{autoresp_cfg_id}`
@@ -408,8 +373,6 @@ auto_resp_config_response = client.messaging_profiles.autoresp_configs.retrieve(
 
 puts(auto_resp_config_response)
 ```
-
-Returns: `country_code` (string), `created_at` (date-time), `id` (string), `keywords` (array[string]), `op` (enum: start, stop, info), `resp_text` (string), `updated_at` (date-time)
 
 ## Update Auto-Response Setting
 
@@ -428,8 +391,6 @@ auto_resp_config_response = client.messaging_profiles.autoresp_configs.update(
 
 puts(auto_resp_config_response)
 ```
-
-Returns: `country_code` (string), `created_at` (date-time), `id` (string), `keywords` (array[string]), `op` (enum: start, stop, info), `resp_text` (string), `updated_at` (date-time)
 
 ## Delete Auto-Response Setting
 
@@ -463,14 +424,14 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
+| `data.record_type` | enum | Identifies the type of the resource. |
 | `data.id` | uuid | Identifies the type of resource. |
-| `data.event_type` | enum: message.sent, message.finalized | The type of event being delivered. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.occurred_at` | date-time | ISO 8601 formatted date indicating when the resource was created. |
-| `data.payload.record_type` | enum: message | Identifies the type of the resource. |
-| `data.payload.direction` | enum: outbound | The direction of the message. |
+| `data.payload.record_type` | enum | Identifies the type of the resource. |
+| `data.payload.direction` | enum | The direction of the message. |
 | `data.payload.id` | uuid | Identifies the type of resource. |
-| `data.payload.type` | enum: SMS, MMS | The type of message. |
+| `data.payload.type` | enum | The type of message. |
 | `data.payload.messaging_profile_id` | string | Unique identifier for a messaging profile. |
 | `data.payload.organization_id` | uuid | The id of the organization the messaging profile belongs to. |
 | `data.payload.to` | array[object] |  |
@@ -501,14 +462,14 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
+| `data.record_type` | enum | Identifies the type of the resource. |
 | `data.id` | uuid | Identifies the type of resource. |
-| `data.event_type` | enum: message.received | The type of event being delivered. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.occurred_at` | date-time | ISO 8601 formatted date indicating when the resource was created. |
-| `data.payload.record_type` | enum: message | Identifies the type of the resource. |
-| `data.payload.direction` | enum: inbound | The direction of the message. |
+| `data.payload.record_type` | enum | Identifies the type of the resource. |
+| `data.payload.direction` | enum | The direction of the message. |
 | `data.payload.id` | uuid | Identifies the type of resource. |
-| `data.payload.type` | enum: SMS, MMS | The type of message. |
+| `data.payload.type` | enum | The type of message. |
 | `data.payload.messaging_profile_id` | string | Unique identifier for a messaging profile. |
 | `data.payload.organization_id` | string | Unique identifier for a messaging profile. |
 | `data.payload.to` | array[object] |  |

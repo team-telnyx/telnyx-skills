@@ -1,4 +1,20 @@
-<!-- SDK reference: telnyx-video-curl -->
+<!-- Extracted from telnyx-video-curl by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-curl/skills/telnyx-video-curl/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-video-curl
+description: >-
+  Create and manage video rooms for real-time video communication and
+  conferencing. This skill provides REST API (curl) examples.
+metadata:
+  author: telnyx
+  product: video
+  language: curl
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Video - curl
 
@@ -24,8 +40,6 @@ All examples below use `$TELNYX_API_KEY` for authentication.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/room_compositions"
 ```
 
-Returns: `completed_at` (date-time), `created_at` (date-time), `download_url` (string), `duration_secs` (integer), `ended_at` (date-time), `format` (enum: mp4), `id` (uuid), `record_type` (string), `resolution` (string), `room_id` (uuid), `session_id` (uuid), `size_mb` (float), `started_at` (date-time), `status` (enum: completed, enqueued, processing), `updated_at` (date-time), `user_id` (uuid), `video_layout` (object), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
-
 ## Create a room composition.
 
 Asynchronously create a room composition.
@@ -50,8 +64,6 @@ curl \
   "https://api.telnyx.com/v2/room_compositions"
 ```
 
-Returns: `completed_at` (date-time), `created_at` (date-time), `download_url` (string), `duration_secs` (integer), `ended_at` (date-time), `format` (enum: mp4), `id` (uuid), `record_type` (string), `resolution` (string), `room_id` (uuid), `session_id` (uuid), `size_mb` (float), `started_at` (date-time), `status` (enum: completed, enqueued, processing), `updated_at` (date-time), `user_id` (uuid), `video_layout` (object), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
-
 ## View a room composition.
 
 `GET /room_compositions/{room_composition_id}`
@@ -59,8 +71,6 @@ Returns: `completed_at` (date-time), `created_at` (date-time), `download_url` (s
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/room_compositions/5219b3af-87c6-4c08-9b58-5a533d893e21"
 ```
-
-Returns: `completed_at` (date-time), `created_at` (date-time), `download_url` (string), `duration_secs` (integer), `ended_at` (date-time), `format` (enum: mp4), `id` (uuid), `record_type` (string), `resolution` (string), `room_id` (uuid), `session_id` (uuid), `size_mb` (float), `started_at` (date-time), `status` (enum: completed, enqueued, processing), `updated_at` (date-time), `user_id` (uuid), `video_layout` (object), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
 
 ## Delete a room composition.
 
@@ -83,8 +93,6 @@ curl \
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/room_participants"
 ```
 
-Returns: `context` (string), `id` (uuid), `joined_at` (date-time), `left_at` (date-time), `record_type` (string), `session_id` (uuid), `updated_at` (date-time)
-
 ## View a room participant.
 
 `GET /room_participants/{room_participant_id}`
@@ -93,8 +101,6 @@ Returns: `context` (string), `id` (uuid), `joined_at` (date-time), `left_at` (da
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/room_participants/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0"
 ```
 
-Returns: `context` (string), `id` (uuid), `joined_at` (date-time), `left_at` (date-time), `record_type` (string), `session_id` (uuid), `updated_at` (date-time)
-
 ## View a list of room recordings.
 
 `GET /room_recordings`
@@ -102,8 +108,6 @@ Returns: `context` (string), `id` (uuid), `joined_at` (date-time), `left_at` (da
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/room_recordings"
 ```
-
-Returns: `codec` (string), `completed_at` (date-time), `created_at` (date-time), `download_url` (string), `duration_secs` (integer), `ended_at` (date-time), `id` (uuid), `participant_id` (uuid), `record_type` (string), `room_id` (uuid), `session_id` (uuid), `size_mb` (float), `started_at` (date-time), `status` (enum: completed, processing), `type` (enum: audio, video), `updated_at` (date-time)
 
 ## Delete several room recordings in a bulk.
 
@@ -116,8 +120,6 @@ curl \
   "https://api.telnyx.com/v2/room_recordings"
 ```
 
-Returns: `room_recordings` (integer)
-
 ## View a room recording.
 
 `GET /room_recordings/{room_recording_id}`
@@ -125,8 +127,6 @@ Returns: `room_recordings` (integer)
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/room_recordings/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0"
 ```
-
-Returns: `codec` (string), `completed_at` (date-time), `created_at` (date-time), `download_url` (string), `duration_secs` (integer), `ended_at` (date-time), `id` (uuid), `participant_id` (uuid), `record_type` (string), `room_id` (uuid), `session_id` (uuid), `size_mb` (float), `started_at` (date-time), `status` (enum: completed, processing), `type` (enum: audio, video), `updated_at` (date-time)
 
 ## Delete a room recording.
 
@@ -149,8 +149,6 @@ curl \
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/room_sessions?include_participants=True"
 ```
 
-Returns: `active` (boolean), `created_at` (date-time), `ended_at` (date-time), `id` (uuid), `participants` (array[object]), `record_type` (string), `room_id` (uuid), `updated_at` (date-time)
-
 ## View a room session.
 
 `GET /room_sessions/{room_session_id}`
@@ -158,8 +156,6 @@ Returns: `active` (boolean), `created_at` (date-time), `ended_at` (date-time), `
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/room_sessions/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0?include_participants=True"
 ```
-
-Returns: `active` (boolean), `created_at` (date-time), `ended_at` (date-time), `id` (uuid), `participants` (array[object]), `record_type` (string), `room_id` (uuid), `updated_at` (date-time)
 
 ## End a room session.
 
@@ -175,8 +171,6 @@ curl \
   "https://api.telnyx.com/v2/room_sessions/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0/actions/end"
 ```
 
-Returns: `result` (string)
-
 ## Kick participants from a room session.
 
 `POST /room_sessions/{room_session_id}/actions/kick`
@@ -190,8 +184,6 @@ curl \
   -H "Content-Type: application/json" \
   "https://api.telnyx.com/v2/room_sessions/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0/actions/kick"
 ```
-
-Returns: `result` (string)
 
 ## Mute participants in room session.
 
@@ -207,8 +199,6 @@ curl \
   "https://api.telnyx.com/v2/room_sessions/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0/actions/mute"
 ```
 
-Returns: `result` (string)
-
 ## Unmute participants in room session.
 
 `POST /room_sessions/{room_session_id}/actions/unmute`
@@ -223,8 +213,6 @@ curl \
   "https://api.telnyx.com/v2/room_sessions/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0/actions/unmute"
 ```
 
-Returns: `result` (string)
-
 ## View a list of room participants.
 
 `GET /room_sessions/{room_session_id}/participants`
@@ -233,8 +221,6 @@ Returns: `result` (string)
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/room_sessions/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0/participants"
 ```
 
-Returns: `context` (string), `id` (uuid), `joined_at` (date-time), `left_at` (date-time), `record_type` (string), `session_id` (uuid), `updated_at` (date-time)
-
 ## View a list of rooms.
 
 `GET /rooms`
@@ -242,8 +228,6 @@ Returns: `context` (string), `id` (uuid), `joined_at` (date-time), `left_at` (da
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/rooms?include_sessions=True"
 ```
-
-Returns: `active_session_id` (uuid), `created_at` (date-time), `enable_recording` (boolean), `id` (uuid), `max_participants` (integer), `record_type` (string), `sessions` (array[object]), `unique_name` (string), `updated_at` (date-time), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
 
 ## Create a room.
 
@@ -269,8 +253,6 @@ curl \
   "https://api.telnyx.com/v2/rooms"
 ```
 
-Returns: `active_session_id` (uuid), `created_at` (date-time), `enable_recording` (boolean), `id` (uuid), `max_participants` (integer), `record_type` (string), `sessions` (array[object]), `unique_name` (string), `updated_at` (date-time), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
-
 ## View a room.
 
 `GET /rooms/{room_id}`
@@ -278,8 +260,6 @@ Returns: `active_session_id` (uuid), `created_at` (date-time), `enable_recording
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/rooms/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0?include_sessions=True"
 ```
-
-Returns: `active_session_id` (uuid), `created_at` (date-time), `enable_recording` (boolean), `id` (uuid), `max_participants` (integer), `record_type` (string), `sessions` (array[object]), `unique_name` (string), `updated_at` (date-time), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
 
 ## Update a room.
 
@@ -305,11 +285,9 @@ curl \
   "https://api.telnyx.com/v2/rooms/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0"
 ```
 
-Returns: `active_session_id` (uuid), `created_at` (date-time), `enable_recording` (boolean), `id` (uuid), `max_participants` (integer), `record_type` (string), `sessions` (array[object]), `unique_name` (string), `updated_at` (date-time), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
-
 ## Delete a room.
 
-Synchronously delete a Room. Participants from that room will be kicked out, they won't be able to join that room anymore, and you won't be charged anymore for that room.
+Synchronously delete a Room.
 
 `DELETE /rooms/{room_id}`
 
@@ -322,7 +300,7 @@ curl \
 
 ## Create Client Token to join a room.
 
-Synchronously create an Client Token to join a Room. Client Token is necessary to join a Telnyx Room. Client Token will expire after `token_ttl_secs`, a Refresh Token is also provided to refresh a Client Token, the Refresh Token expires after `refresh_token_ttl_secs`.
+Synchronously create an Client Token to join a Room.
 
 `POST /rooms/{room_id}/actions/generate_join_client_token`
 
@@ -340,11 +318,9 @@ curl \
   "https://api.telnyx.com/v2/rooms/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0/actions/generate_join_client_token"
 ```
 
-Returns: `refresh_token` (string), `refresh_token_expires_at` (date-time), `token` (string), `token_expires_at` (date-time)
-
 ## Refresh Client Token to join a room.
 
-Synchronously refresh an Client Token to join a Room. Client Token is necessary to join a Telnyx Room. Client Token will expire after `token_ttl_secs`.
+Synchronously refresh an Client Token to join a Room.
 
 `POST /rooms/{room_id}/actions/refresh_client_token` — Required: `refresh_token`
 
@@ -362,8 +338,6 @@ curl \
   "https://api.telnyx.com/v2/rooms/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0/actions/refresh_client_token"
 ```
 
-Returns: `token` (string), `token_expires_at` (date-time)
-
 ## View a list of room sessions.
 
 `GET /rooms/{room_id}/sessions`
@@ -371,5 +345,3 @@ Returns: `token` (string), `token_expires_at` (date-time)
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/rooms/0ccc7b54-4df3-4bca-a65a-3da1ecc777f0/sessions?include_participants=True"
 ```
-
-Returns: `active` (boolean), `created_at` (date-time), `ended_at` (date-time), `id` (uuid), `participants` (array[object]), `record_type` (string), `room_id` (uuid), `updated_at` (date-time)

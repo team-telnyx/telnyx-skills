@@ -1,4 +1,21 @@
-<!-- SDK reference: telnyx-webrtc-javascript -->
+<!-- Extracted from telnyx-webrtc-javascript by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-javascript/skills/telnyx-webrtc-javascript/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-webrtc-javascript
+description: >-
+  Manage WebRTC credentials and mobile push notification settings. Use when
+  building browser-based or mobile softphone applications. This skill provides
+  JavaScript SDK examples.
+metadata:
+  author: telnyx
+  product: webrtc
+  language: javascript
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Webrtc - JavaScript
 
@@ -31,8 +48,6 @@ for await (const pushCredential of client.mobilePushCredentials.list()) {
 }
 ```
 
-Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id` (string), `private_key` (string), `project_account_json_file` (object), `record_type` (string), `type` (string), `updated_at` (date-time)
-
 ## Creates a new mobile push credential
 
 `POST /mobile_push_credentials`
@@ -52,8 +67,6 @@ const pushCredentialResponse = await client.mobilePushCredentials.create({
 console.log(pushCredentialResponse.data);
 ```
 
-Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id` (string), `private_key` (string), `project_account_json_file` (object), `record_type` (string), `type` (string), `updated_at` (date-time)
-
 ## Retrieves a mobile push credential
 
 Retrieves mobile push credential based on the given `push_credential_id`
@@ -67,8 +80,6 @@ const pushCredentialResponse = await client.mobilePushCredentials.retrieve(
 
 console.log(pushCredentialResponse.data);
 ```
-
-Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id` (string), `private_key` (string), `project_account_json_file` (object), `record_type` (string), `type` (string), `updated_at` (date-time)
 
 ## Deletes a mobile push credential
 
@@ -93,8 +104,6 @@ for await (const telephonyCredential of client.telephonyCredentials.list()) {
 }
 ```
 
-Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
-
 ## Create a credential
 
 Create a credential.
@@ -111,8 +120,6 @@ const telephonyCredential = await client.telephonyCredentials.create({
 console.log(telephonyCredential.data);
 ```
 
-Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
-
 ## Get a credential
 
 Get the details of an existing On-demand Credential.
@@ -124,8 +131,6 @@ const telephonyCredential = await client.telephonyCredentials.retrieve('id');
 
 console.log(telephonyCredential.data);
 ```
-
-Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
 
 ## Update a credential
 
@@ -141,8 +146,6 @@ const telephonyCredential = await client.telephonyCredentials.update('id');
 console.log(telephonyCredential.data);
 ```
 
-Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
-
 ## Delete a credential
 
 Delete an existing credential.
@@ -154,5 +157,3 @@ const telephonyCredential = await client.telephonyCredentials.delete('id');
 
 console.log(telephonyCredential.data);
 ```
-
-Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)

@@ -1,4 +1,20 @@
-<!-- SDK reference: telnyx-sip-integrations-ruby -->
+<!-- Extracted from telnyx-sip-integrations-ruby by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-ruby/skills/telnyx-sip-integrations-ruby/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-sip-integrations-ruby
+description: >-
+  Manage call recordings, media storage, Dialogflow integration, and external
+  connections for SIP trunking. This skill provides Ruby SDK examples.
+metadata:
+  author: telnyx
+  product: sip-integrations
+  language: ruby
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Sip Integrations - Ruby
 
@@ -32,8 +48,6 @@ custom_storage_credential = client.custom_storage_credentials.retrieve("connecti
 puts(custom_storage_credential)
 ```
 
-Returns: `backend` (enum: gcs, s3, azure), `configuration` (object)
-
 ## Create a custom storage credential
 
 Creates a custom storage credentials configuration.
@@ -46,8 +60,6 @@ custom_storage_credential = client.custom_storage_credentials.create("connection
 puts(custom_storage_credential)
 ```
 
-Returns: `backend` (enum: gcs, s3, azure), `configuration` (object)
-
 ## Update a stored credential
 
 Updates a stored custom credentials configuration.
@@ -59,8 +71,6 @@ custom_storage_credential = client.custom_storage_credentials.update("connection
 
 puts(custom_storage_credential)
 ```
-
-Returns: `backend` (enum: gcs, s3, azure), `configuration` (object)
 
 ## Delete a stored credential
 
@@ -85,8 +95,6 @@ dialogflow_connection = client.dialogflow_connections.retrieve("connection_id")
 
 puts(dialogflow_connection)
 ```
-
-Returns: `connection_id` (string), `conversation_profile_id` (string), `environment` (string), `record_type` (string), `service_account` (string)
 
 ## Create a Dialogflow Connection
 
@@ -114,8 +122,6 @@ dialogflow_connection = client.dialogflow_connections.create(
 puts(dialogflow_connection)
 ```
 
-Returns: `connection_id` (string), `conversation_profile_id` (string), `environment` (string), `record_type` (string), `service_account` (string)
-
 ## Update stored Dialogflow Connection
 
 Updates a stored Dialogflow Connection.
@@ -142,8 +148,6 @@ dialogflow_connection = client.dialogflow_connections.update(
 puts(dialogflow_connection)
 ```
 
-Returns: `connection_id` (string), `conversation_profile_id` (string), `environment` (string), `record_type` (string), `service_account` (string)
-
 ## Delete stored Dialogflow Connection
 
 Deletes a stored Dialogflow Connection.
@@ -158,7 +162,7 @@ puts(result)
 
 ## List all External Connections
 
-This endpoint returns a list of your External Connections inside the 'data' attribute of the response. External Connections are used by Telnyx customers to seamless configure SIP trunking integrations with Telnyx Partners, through External Voice Integrations in Mission Control Portal.
+This endpoint returns a list of your External Connections inside the 'data' attribute of the response.
 
 `GET /external_connections`
 
@@ -168,11 +172,9 @@ page = client.external_connections.list
 puts(page)
 ```
 
-Returns: `active` (boolean), `created_at` (string), `credential_active` (boolean), `external_sip_connection` (enum: zoom, operator_connect), `id` (string), `inbound` (object), `outbound` (object), `record_type` (string), `tags` (array[string]), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
-
 ## Creates an External Connection
 
-Creates a new External Connection based on the parameters sent in the request. The external_sip_connection and outbound voice profile id are required. Once created, you can assign phone numbers to your application using the `/phone_numbers` endpoint.
+Creates a new External Connection based on the parameters sent in the request.
 
 `POST /external_connections` — Required: `external_sip_connection`, `outbound`
 
@@ -183,8 +185,6 @@ external_connection = client.external_connections.create(external_sip_connection
 
 puts(external_connection)
 ```
-
-Returns: `active` (boolean), `created_at` (string), `credential_active` (boolean), `external_sip_connection` (enum: zoom, operator_connect), `id` (string), `inbound` (object), `outbound` (object), `record_type` (string), `tags` (array[string]), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
 
 ## List all log messages
 
@@ -198,8 +198,6 @@ page = client.external_connections.log_messages.list
 puts(page)
 ```
 
-Returns: `log_messages` (array[object]), `meta` (object)
-
 ## Retrieve a log message
 
 Retrieve a log message for an external connection associated with your account.
@@ -211,8 +209,6 @@ log_message = client.external_connections.log_messages.retrieve("129338426107573
 
 puts(log_message)
 ```
-
-Returns: `log_messages` (array[object])
 
 ## Dismiss a log message
 
@@ -226,8 +222,6 @@ response = client.external_connections.log_messages.dismiss("1293384261075731499
 puts(response)
 ```
 
-Returns: `success` (boolean)
-
 ## Retrieve an External Connection
 
 Return the details of an existing External Connection inside the 'data' attribute of the response.
@@ -239,8 +233,6 @@ external_connection = client.external_connections.retrieve("1293384261075731499"
 
 puts(external_connection)
 ```
-
-Returns: `active` (boolean), `created_at` (string), `credential_active` (boolean), `external_sip_connection` (enum: zoom, operator_connect), `id` (string), `inbound` (object), `outbound` (object), `record_type` (string), `tags` (array[string]), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
 
 ## Update an External Connection
 
@@ -259,11 +251,9 @@ external_connection = client.external_connections.update(
 puts(external_connection)
 ```
 
-Returns: `active` (boolean), `created_at` (string), `credential_active` (boolean), `external_sip_connection` (enum: zoom, operator_connect), `id` (string), `inbound` (object), `outbound` (object), `record_type` (string), `tags` (array[string]), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
-
 ## Deletes an External Connection
 
-Permanently deletes an External Connection. Deletion may be prevented if the application is in use by phone numbers, is active, or if it is an Operator Connect connection. To remove an Operator Connect integration please contact Telnyx support.
+Permanently deletes an External Connection.
 
 `DELETE /external_connections/{id}`
 
@@ -272,8 +262,6 @@ external_connection = client.external_connections.delete("1293384261075731499")
 
 puts(external_connection)
 ```
-
-Returns: `active` (boolean), `created_at` (string), `credential_active` (boolean), `external_sip_connection` (enum: zoom, operator_connect), `id` (string), `inbound` (object), `outbound` (object), `record_type` (string), `tags` (array[string]), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (['integer', 'null'])
 
 ## List all civic addresses and locations
 
@@ -286,8 +274,6 @@ civic_addresses = client.external_connections.civic_addresses.list("129338426107
 
 puts(civic_addresses)
 ```
-
-Returns: `city_or_town` (string), `city_or_town_alias` (string), `company_name` (string), `country` (string), `country_or_district` (string), `default_location_id` (uuid), `description` (string), `house_number` (string), `house_number_suffix` (string), `id` (uuid), `locations` (array[object]), `postal_or_zip_code` (string), `record_type` (string), `state_or_province` (string), `street_name` (string), `street_suffix` (string)
 
 ## Retrieve a Civic Address
 
@@ -304,8 +290,6 @@ civic_address = client.external_connections.civic_addresses.retrieve(
 puts(civic_address)
 ```
 
-Returns: `city_or_town` (string), `city_or_town_alias` (string), `company_name` (string), `country` (string), `country_or_district` (string), `default_location_id` (uuid), `description` (string), `house_number` (string), `house_number_suffix` (string), `id` (uuid), `locations` (array[object]), `postal_or_zip_code` (string), `record_type` (string), `state_or_province` (string), `street_name` (string), `street_suffix` (string)
-
 ## Update a location's static emergency address
 
 `PATCH /external_connections/{id}/locations/{location_id}` — Required: `static_emergency_address_id`
@@ -320,8 +304,6 @@ response = client.external_connections.update_location(
 puts(response)
 ```
 
-Returns: `accepted_address_suggestions` (boolean), `location_id` (uuid), `static_emergency_address_id` (uuid)
-
 ## List all phone numbers
 
 Returns a list of all active phone numbers associated with the given external connection.
@@ -334,8 +316,6 @@ page = client.external_connections.phone_numbers.list("1293384261075731499")
 puts(page)
 ```
 
-Returns: `acquired_capabilities` (array[string]), `civic_address_id` (uuid), `displayed_country_code` (string), `location_id` (uuid), `number_id` (string), `telephone_number` (string), `ticket_id` (uuid)
-
 ## Retrieve a phone number
 
 Return the details of a phone number associated with the given external connection.
@@ -347,8 +327,6 @@ phone_number = client.external_connections.phone_numbers.retrieve("1234567889", 
 
 puts(phone_number)
 ```
-
-Returns: `acquired_capabilities` (array[string]), `civic_address_id` (uuid), `displayed_country_code` (string), `location_id` (uuid), `number_id` (string), `telephone_number` (string), `ticket_id` (uuid)
 
 ## Update a phone number
 
@@ -364,11 +342,9 @@ phone_number = client.external_connections.phone_numbers.update("1234567889", id
 puts(phone_number)
 ```
 
-Returns: `acquired_capabilities` (array[string]), `civic_address_id` (uuid), `displayed_country_code` (string), `location_id` (uuid), `number_id` (string), `telephone_number` (string), `ticket_id` (uuid)
-
 ## List all Releases
 
-Returns a list of your Releases for the given external connection. These are automatically created when you change the `connection_id` of a phone number that is currently on Microsoft Teams.
+Returns a list of your Releases for the given external connection.
 
 `GET /external_connections/{id}/releases`
 
@@ -377,8 +353,6 @@ page = client.external_connections.releases.list("1293384261075731499")
 
 puts(page)
 ```
-
-Returns: `created_at` (string), `error_message` (string), `status` (enum: pending_upload, pending, in_progress, complete, failed, expired, unknown), `telephone_numbers` (array[object]), `tenant_id` (uuid), `ticket_id` (uuid)
 
 ## Retrieve a Release request
 
@@ -395,8 +369,6 @@ release = client.external_connections.releases.retrieve(
 puts(release)
 ```
 
-Returns: `created_at` (string), `error_message` (string), `status` (enum: pending_upload, pending, in_progress, complete, failed, expired, unknown), `telephone_numbers` (array[object]), `tenant_id` (uuid), `ticket_id` (uuid)
-
 ## List all Upload requests
 
 Returns a list of your Upload requests for the given external connection.
@@ -409,15 +381,13 @@ page = client.external_connections.uploads.list("1293384261075731499")
 puts(page)
 ```
 
-Returns: `available_usages` (array[string]), `error_code` (string), `error_message` (string), `location_id` (uuid), `status` (enum: pending_upload, pending, in_progress, partial_success, success, error), `tenant_id` (uuid), `ticket_id` (uuid), `tn_upload_entries` (array[object])
-
 ## Creates an Upload request
 
-Creates a new Upload request to Microsoft teams with the included phone numbers. Only one of civic_address_id or location_id must be provided, not both. The maximum allowed phone numbers for the numbers_ids array is 1000.
+Creates a new Upload request to Microsoft teams with the included phone numbers.
 
 `POST /external_connections/{id}/uploads` — Required: `number_ids`
 
-Optional: `additional_usages` (array[string]), `civic_address_id` (uuid), `location_id` (uuid), `usage` (enum: calling_user_assignment, first_party_app_assignment)
+Optional: `additional_usages` (array[string]), `civic_address_id` (uuid), `location_id` (uuid), `usage` (enum)
 
 ```ruby
 upload = client.external_connections.uploads.create(
@@ -427,8 +397,6 @@ upload = client.external_connections.uploads.create(
 
 puts(upload)
 ```
-
-Returns: `success` (boolean), `ticket_id` (uuid)
 
 ## Refresh the status of all Upload requests
 
@@ -442,8 +410,6 @@ response = client.external_connections.uploads.refresh_status("12933842610757314
 puts(response)
 ```
 
-Returns: `success` (boolean)
-
 ## Get the count of pending upload requests
 
 Returns the count of all pending upload requests for the given external connection.
@@ -455,8 +421,6 @@ response = client.external_connections.uploads.pending_count("129338426107573149
 
 puts(response)
 ```
-
-Returns: `pending_numbers_count` (integer), `pending_orders_count` (integer)
 
 ## Retrieve an Upload request
 
@@ -473,11 +437,9 @@ upload = client.external_connections.uploads.retrieve(
 puts(upload)
 ```
 
-Returns: `available_usages` (array[string]), `error_code` (string), `error_message` (string), `location_id` (uuid), `status` (enum: pending_upload, pending, in_progress, partial_success, success, error), `tenant_id` (uuid), `ticket_id` (uuid), `tn_upload_entries` (array[object])
-
 ## Retry an Upload request
 
-If there were any errors during the upload process, this endpoint will retry the upload request. In some cases this will reattempt the existing upload request, in other cases it may create a new upload request. Please check the ticket_id in the response to determine if a new upload request was created.
+If there were any errors during the upload process, this endpoint will retry the upload request.
 
 `POST /external_connections/{id}/uploads/{ticket_id}/retry`
 
@@ -490,8 +452,6 @@ response = client.external_connections.uploads.retry_(
 puts(response)
 ```
 
-Returns: `available_usages` (array[string]), `error_code` (string), `error_message` (string), `location_id` (uuid), `status` (enum: pending_upload, pending, in_progress, partial_success, success, error), `tenant_id` (uuid), `ticket_id` (uuid), `tn_upload_entries` (array[object])
-
 ## List uploaded media
 
 Returns a list of stored media files.
@@ -503,8 +463,6 @@ media = client.media.list
 
 puts(media)
 ```
-
-Returns: `content_type` (string), `created_at` (string), `expires_at` (string), `media_name` (string), `updated_at` (string)
 
 ## Upload media
 
@@ -520,8 +478,6 @@ response = client.media.upload(media_url: "http://www.example.com/audio.mp3")
 puts(response)
 ```
 
-Returns: `content_type` (string), `created_at` (string), `expires_at` (string), `media_name` (string), `updated_at` (string)
-
 ## Retrieve stored media
 
 Returns the information about a stored media file.
@@ -533,8 +489,6 @@ media = client.media.retrieve("media_name")
 
 puts(media)
 ```
-
-Returns: `content_type` (string), `created_at` (string), `expires_at` (string), `media_name` (string), `updated_at` (string)
 
 ## Update stored media
 
@@ -549,8 +503,6 @@ media = client.media.update("media_name")
 
 puts(media)
 ```
-
-Returns: `content_type` (string), `created_at` (string), `expires_at` (string), `media_name` (string), `updated_at` (string)
 
 ## Deletes stored media
 
@@ -578,7 +530,7 @@ puts(response)
 
 ## Refresh Operator Connect integration
 
-This endpoint will make an asynchronous request to refresh the Operator Connect integration with Microsoft Teams for the current user. This will create new external connections on the user's account if needed, and/or report the integration results as [log messages](https://developers.telnyx.com/api-reference/external-connections/list-all-log-messages#list-all-log-messages).
+This endpoint will make an asynchronous request to refresh the Operator Connect integration with Microsoft Teams for the current user.
 
 `POST /operator_connect/actions/refresh`
 
@@ -587,8 +539,6 @@ response = client.operator_connect.actions.refresh
 
 puts(response)
 ```
-
-Returns: `message` (string), `success` (boolean)
 
 ## List all recording transcriptions
 
@@ -602,8 +552,6 @@ recording_transcriptions = client.recording_transcriptions.list
 puts(recording_transcriptions)
 ```
 
-Returns: `created_at` (string), `duration_millis` (int32), `id` (string), `record_type` (enum: recording_transcription), `recording_id` (string), `status` (enum: in-progress, completed), `transcription_text` (string), `updated_at` (string)
-
 ## Retrieve a recording transcription
 
 Retrieves the details of an existing recording transcription.
@@ -615,8 +563,6 @@ recording_transcription = client.recording_transcriptions.retrieve("6a09cdc3-894
 
 puts(recording_transcription)
 ```
-
-Returns: `created_at` (string), `duration_millis` (int32), `id` (string), `record_type` (enum: recording_transcription), `recording_id` (string), `status` (enum: in-progress, completed), `transcription_text` (string), `updated_at` (string)
 
 ## Delete a recording transcription
 
@@ -630,8 +576,6 @@ recording_transcription = client.recording_transcriptions.delete("6a09cdc3-8948-
 puts(recording_transcription)
 ```
 
-Returns: `created_at` (string), `duration_millis` (int32), `id` (string), `record_type` (enum: recording_transcription), `recording_id` (string), `status` (enum: in-progress, completed), `transcription_text` (string), `updated_at` (string)
-
 ## List all call recordings
 
 Returns a list of your call recordings.
@@ -643,8 +587,6 @@ page = client.recordings.list
 
 puts(page)
 ```
-
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
 
 ## Delete a list of call recordings
 
@@ -672,8 +614,6 @@ recording = client.recordings.retrieve("recording_id")
 puts(recording)
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
-
 ## Delete a call recording
 
 Permanently deletes a call recording.
@@ -685,8 +625,6 @@ recording = client.recordings.delete("recording_id")
 
 puts(recording)
 ```
-
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
 
 ## Create a SIPREC connector
 
@@ -700,8 +638,6 @@ siprec_connector = client.siprec_connectors.create(host: "siprec.client.com", na
 puts(siprec_connector)
 ```
 
-Returns: `app_subdomain` (string), `created_at` (string), `host` (string), `name` (string), `port` (integer), `record_type` (string), `updated_at` (string)
-
 ## Retrieve a SIPREC connector
 
 Returns details of a stored SIPREC connector.
@@ -713,8 +649,6 @@ siprec_connector = client.siprec_connectors.retrieve("connector_name")
 
 puts(siprec_connector)
 ```
-
-Returns: `app_subdomain` (string), `created_at` (string), `host` (string), `name` (string), `port` (integer), `record_type` (string), `updated_at` (string)
 
 ## Update a SIPREC connector
 
@@ -732,8 +666,6 @@ siprec_connector = client.siprec_connectors.update(
 
 puts(siprec_connector)
 ```
-
-Returns: `app_subdomain` (string), `created_at` (string), `host` (string), `name` (string), `port` (integer), `record_type` (string), `updated_at` (string)
 
 ## Delete a SIPREC connector
 

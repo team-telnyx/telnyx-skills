@@ -119,6 +119,56 @@ curl -X POST "https://api.telnyx.com/v2/messages" \
   -d '{"to":"+15559876543","from":"+15551234567","text":"Hello"}'
 ```
 
+```go
+// Go
+// Twilio
+import "github.com/twilio/twilio-go"
+import twilioApi "github.com/twilio/twilio-go/rest/api/v2010"
+
+client := twilio.NewRestClient()
+params := &twilioApi.CreateMessageParams{}
+params.SetTo("+15559876543")
+params.SetFrom("+15551234567")
+params.SetBody("Hello from Twilio")
+resp, _ := client.Api.CreateMessage(params)
+
+// Telnyx — use REST API
+import "github.com/telnyx/telnyx-go"
+// POST /v2/messages with JSON body
+```
+
+```ruby
+# Twilio
+require 'twilio-ruby'
+client = Twilio::REST::Client.new(account_sid, auth_token)
+message = client.messages.create(
+  to: '+15559876543', from: '+15551234567', body: 'Hello from Twilio'
+)
+
+# Telnyx
+require 'telnyx'
+Telnyx.api_key = 'YOUR_API_KEY'
+message = Telnyx::Message.create(
+  to: '+15559876543', from: '+15551234567', text: 'Hello from Telnyx'
+)
+```
+
+```java
+// Twilio
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+
+Message message = Message.creator(
+    new PhoneNumber("+15559876543"),
+    new PhoneNumber("+15551234567"),
+    "Hello from Twilio"
+).create();
+
+// Telnyx — use REST API with OkHttp or HttpClient
+// POST https://api.telnyx.com/v2/messages
+// Body: {"to":"+15559876543","from":"+15551234567","text":"Hello from Telnyx"}
+```
+
 ### Key Parameter Differences
 
 | Twilio | Telnyx | Notes |
@@ -251,6 +301,64 @@ curl -X POST https://api.telnyx.com/v2/messaging_profiles \
 ```
 
 Then assign numbers to the profile. All messages to/from those numbers use the profile's webhook configuration.
+
+## Messaging Service → Messaging Profile Migration
+
+If you're using Twilio Messaging Services, here's how to map them to Telnyx Messaging Profiles:
+
+| Twilio Messaging Service Feature | Telnyx Messaging Profile Feature |
+|---|---|
+| Friendly name | `name` |
+| Webhook URL (StatusCallback) | `webhook_url` |
+| Fallback URL | `webhook_failover_url` |
+| Sticky Sender | Not needed — Telnyx routes optimally per-message |
+| Validity Period | `v1_secret` (not a direct mapping — configure per-message) |
+| Smart Encoding | Automatic |
+| MMS Converter | Automatic |
+| Area Code Geomatch | Supported via number pool configuration |
+| Copilot Features | Configure on the Messaging Profile |
+
+**Steps to migrate:**
+
+1. Create a Messaging Profile for each Messaging Service:
+   ```bash
+   curl -X POST https://api.telnyx.com/v2/messaging_profiles \
+     -H "Authorization: Bearer $TELNYX_API_KEY" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "name": "My Messaging Service Replacement",
+       "webhook_url": "https://example.com/webhooks/messaging",
+       "webhook_failover_url": "https://example.com/webhooks/messaging-backup",
+       "number_pool_settings": {
+         "geomatch": true,
+         "sticky_sender": true
+       }
+     }'
+   ```
+2. Assign phone numbers to the profile
+3. Update your code to use `messaging_profile_id` instead of `MessagingServiceSid`
+
+## Alphanumeric Sender ID & Toll-Free Verification
+
+### Alphanumeric Sender ID
+
+Both Twilio and Telnyx support alphanumeric sender IDs in supported countries. On Telnyx:
+
+- Register your sender ID via the Mission Control Portal or API
+- Sender IDs must be 3-11 characters, alphanumeric
+- Country-specific registration may be required (e.g., UK, Germany)
+- Not available in the US or Canada (carrier restriction, not Telnyx-specific)
+
+### Toll-Free Verification
+
+US toll-free numbers require verification for SMS/MMS. Both carriers use the same TCR process:
+
+1. Submit your use case (marketing, 2FA, customer care, etc.)
+2. Provide sample messages
+3. Verification typically takes 1-5 business days
+4. Unverified toll-free numbers have reduced throughput
+
+On Telnyx, manage toll-free verification through the Mission Control Portal under **Messaging** → **Toll-Free Verification**.
 
 ## 10DLC Registration
 

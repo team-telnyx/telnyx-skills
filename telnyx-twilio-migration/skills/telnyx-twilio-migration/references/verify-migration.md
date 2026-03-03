@@ -117,6 +117,47 @@ curl -X POST https://api.telnyx.com/v2/verifications \
   }'
 ```
 
+```go
+// Go — Twilio
+import "github.com/twilio/twilio-go"
+import verify "github.com/twilio/twilio-go/rest/verify/v2"
+
+client := twilio.NewRestClient()
+params := &verify.CreateVerificationParams{}
+params.SetTo("+15559876543")
+params.SetChannel("sms")
+resp, _ := client.VerifyV2.CreateVerification("VA...", params)
+
+// Go — Telnyx (REST API)
+// POST https://api.telnyx.com/v2/verifications
+// {"phone_number":"+15559876543","verify_profile_id":"...","type":"sms"}
+```
+
+```ruby
+# Twilio
+verification = client.verify.v2
+  .services('VA...')
+  .verifications
+  .create(to: '+15559876543', channel: 'sms')
+
+# Telnyx
+verification = Telnyx::Verification.create(
+  phone_number: '+15559876543',
+  verify_profile_id: 'YOUR_PROFILE_ID',
+  type: 'sms'
+)
+```
+
+```java
+// Twilio
+import com.twilio.rest.verify.v2.service.Verification;
+
+Verification verification = Verification.creator("VA...", "+15559876543", "sms").create();
+
+// Telnyx — use REST API
+// POST https://api.telnyx.com/v2/verifications with JSON body
+```
+
 ### Voice Call Verification
 
 ```python
@@ -216,6 +257,60 @@ verification = telnyx.Verification.create(
 ```
 
 The user sees an incoming call that auto-disconnects. Your app reads the caller ID and extracts the code automatically (or prompts the user to enter it).
+
+**Flash Call Configuration on Verify Profile:**
+
+```bash
+curl -X PATCH https://api.telnyx.com/v2/verify_profiles/YOUR_PROFILE_ID \
+  -H "Authorization: Bearer $TELNYX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "flash_call_enabled": true,
+    "call_enabled": true
+  }'
+```
+
+**How it works:**
+1. Your app calls `POST /v2/verifications` with `type: "flash_call"`
+2. Telnyx places a call to the user's phone that auto-disconnects after 1 ring
+3. The caller ID of that call contains the verification digits
+4. Your mobile app detects the incoming call's caller ID and extracts the code automatically
+5. Call `POST /v2/verifications/by_phone_number` with the extracted code to verify
+
+**Benefits over SMS OTP:** No SMS charges, faster delivery, works even with SMS delivery issues, harder to intercept.
+
+## vSMS (Verified SMS Templates)
+
+Telnyx vSMS uses carrier-verified message templates for OTP delivery. This provides:
+- Higher deliverability (carrier-approved, bypasses some spam filters)
+- Branded sender experience on supported carriers
+- Template-based formatting
+
+```python
+verification = telnyx.Verification.create(
+    phone_number="+15559876543",
+    verify_profile_id="YOUR_PROFILE_ID",
+    type="sms",
+    template_id="YOUR_TEMPLATE_ID"  # Pre-approved template
+)
+```
+
+## PSD2 (Payment Services Directive 2)
+
+For payment authorization in the EU, Telnyx Verify supports PSD2-compliant verification with amount and payee in the message:
+
+```python
+# Telnyx PSD2 verification
+verification = telnyx.Verification.create(
+    phone_number="+353851234567",
+    verify_profile_id="YOUR_PROFILE_ID",
+    type="psd2",
+    amount="25.00",
+    payee="Acme Corp"
+)
+```
+
+The verification message includes the transaction amount and payee name, meeting Strong Customer Authentication (SCA) requirements.
 
 ## Concept Mapping
 

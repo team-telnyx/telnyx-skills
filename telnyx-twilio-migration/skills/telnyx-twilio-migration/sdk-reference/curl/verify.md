@@ -1,4 +1,21 @@
-<!-- SDK reference: telnyx-verify-curl -->
+<!-- Extracted from telnyx-verify-curl by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-curl/skills/telnyx-verify-curl/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-verify-curl
+description: >-
+  Look up phone number information (carrier, type, caller name) and verify users
+  via SMS/voice OTP. Use for phone verification and data enrichment. This skill
+  provides REST API (curl) examples.
+metadata:
+  author: telnyx
+  product: verify
+  language: curl
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Verify - curl
 
@@ -26,8 +43,6 @@ Returns information about the provided phone number.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/number_lookup/+18665552368"
 ```
 
-Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (['string', 'null']), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
-
 ## List verifications by phone number
 
 `GET /verifications/by_phone_number/{phone_number}`
@@ -35,8 +50,6 @@ Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `f
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/verifications/by_phone_number/+13035551234"
 ```
-
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by phone number
 
@@ -53,8 +66,6 @@ curl \
 }' \
   "https://api.telnyx.com/v2/verifications/by_phone_number/+13035551234/actions/verify"
 ```
-
-Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
 
 ## Trigger Call verification
 
@@ -77,8 +88,6 @@ curl \
   "https://api.telnyx.com/v2/verifications/call"
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
-
 ## Trigger Flash call verification
 
 `POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
@@ -97,8 +106,6 @@ curl \
 }' \
   "https://api.telnyx.com/v2/verifications/flashcall"
 ```
-
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger SMS verification
 
@@ -120,8 +127,6 @@ curl \
   "https://api.telnyx.com/v2/verifications/sms"
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
-
 ## Retrieve verification
 
 `GET /verifications/{verification_id}`
@@ -130,13 +135,11 @@ Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid),
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/verifications/12ade33a-21c0-473b-b055-b3c836e1c292"
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
-
 ## Verify verification code by ID
 
 `POST /verifications/{verification_id}/actions/verify`
 
-Optional: `code` (string), `status` (enum: accepted, rejected)
+Optional: `code` (string), `status` (enum)
 
 ```bash
 curl \
@@ -150,8 +153,6 @@ curl \
   "https://api.telnyx.com/v2/verifications/12ade33a-21c0-473b-b055-b3c836e1c292/actions/verify"
 ```
 
-Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
-
 ## List all Verify profiles
 
 Gets a paginated list of Verify profiles.
@@ -161,8 +162,6 @@ Gets a paginated list of Verify profiles.
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/verify_profiles"
 ```
-
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
 
 ## Create a Verify profile
 
@@ -186,8 +185,6 @@ curl \
   "https://api.telnyx.com/v2/verify_profiles"
 ```
 
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
-
 ## Retrieve Verify profile message templates
 
 List all Verify profile message templates.
@@ -197,8 +194,6 @@ List all Verify profile message templates.
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/verify_profiles/templates"
 ```
-
-Returns: `id` (uuid), `text` (string)
 
 ## Create message template
 
@@ -217,8 +212,6 @@ curl \
   "https://api.telnyx.com/v2/verify_profiles/templates"
 ```
 
-Returns: `id` (uuid), `text` (string)
-
 ## Update message template
 
 Update an existing Verify profile message template.
@@ -236,8 +229,6 @@ curl \
   "https://api.telnyx.com/v2/verify_profiles/templates/12ade33a-21c0-473b-b055-b3c836e1c292"
 ```
 
-Returns: `id` (uuid), `text` (string)
-
 ## Retrieve Verify profile
 
 Gets a single Verify profile.
@@ -247,8 +238,6 @@ Gets a single Verify profile.
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/verify_profiles/12ade33a-21c0-473b-b055-b3c836e1c292"
 ```
-
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
 
 ## Update Verify profile
 
@@ -270,8 +259,6 @@ curl \
   "https://api.telnyx.com/v2/verify_profiles/12ade33a-21c0-473b-b055-b3c836e1c292"
 ```
 
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
-
 ## Delete Verify profile
 
 `DELETE /verify_profiles/{verify_profile_id}`
@@ -282,5 +269,3 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   "https://api.telnyx.com/v2/verify_profiles/12ade33a-21c0-473b-b055-b3c836e1c292"
 ```
-
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)

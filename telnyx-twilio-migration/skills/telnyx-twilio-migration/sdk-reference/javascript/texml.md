@@ -1,4 +1,21 @@
-<!-- SDK reference: telnyx-texml-javascript -->
+<!-- Extracted from telnyx-texml-javascript by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-javascript/skills/telnyx-texml-javascript/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-texml-javascript
+description: >-
+  Build voice applications using TeXML markup language (TwiML-compatible).
+  Manage applications, calls, conferences, recordings, queues, and streams. This
+  skill provides JavaScript SDK examples.
+metadata:
+  author: telnyx
+  product: texml
+  language: javascript
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Texml - JavaScript
 
@@ -22,7 +39,7 @@ All examples below assume `client` is already initialized as shown above.
 
 ## Fetch multiple call resources
 
-Returns multiple call resources for an account. This endpoint is eventually consistent.
+Returns multiple call resources for an account.
 
 `GET /texml/Accounts/{account_sid}/Calls`
 
@@ -32,15 +49,13 @@ const response = await client.texml.accounts.calls.retrieveCalls('account_sid');
 console.log(response.calls);
 ```
 
-Returns: `calls` (array[object]), `end` (integer), `first_page_uri` (string), `next_page_uri` (string), `page` (integer), `page_size` (integer), `start` (integer), `uri` (string)
-
 ## Initiate an outbound call
 
-Initiate an outbound TeXML call. Telnyx will request TeXML from the XML Request URL configured for the connection in the Mission Control Portal.
+Initiate an outbound TeXML call.
 
 `POST /texml/Accounts/{account_sid}/Calls` — Required: `To`, `From`, `ApplicationSid`
 
-Optional: `AsyncAmd` (boolean), `AsyncAmdStatusCallback` (string), `AsyncAmdStatusCallbackMethod` (enum: GET, POST), `CallerId` (string), `CancelPlaybackOnDetectMessageEnd` (boolean), `CancelPlaybackOnMachineDetection` (boolean), `CustomHeaders` (array[object]), `DetectionMode` (enum: Premium, Regular), `FallbackUrl` (string), `MachineDetection` (enum: Enable, Disable, DetectMessageEnd), `MachineDetectionSilenceTimeout` (integer), `MachineDetectionSpeechEndThreshold` (integer), `MachineDetectionSpeechThreshold` (integer), `MachineDetectionTimeout` (integer), `PreferredCodecs` (string), `Record` (boolean), `RecordingChannels` (enum: mono, dual), `RecordingStatusCallback` (string), `RecordingStatusCallbackEvent` (string), `RecordingStatusCallbackMethod` (enum: GET, POST), `RecordingTimeout` (integer), `RecordingTrack` (enum: inbound, outbound, both), `SendRecordingUrl` (boolean), `SipAuthPassword` (string), `SipAuthUsername` (string), `SipRegion` (enum: US, Europe, Canada, Australia, Middle East), `StatusCallback` (string), `StatusCallbackEvent` (enum: initiated, ringing, answered, completed), `StatusCallbackMethod` (enum: GET, POST), `SuperviseCallSid` (string), `SupervisingRole` (enum: barge, whisper, monitor), `Texml` (string), `TimeLimit` (integer), `Timeout` (integer), `Trim` (enum: trim-silence, do-not-trim), `Url` (string), `UrlMethod` (enum: GET, POST)
+Optional: `AsyncAmd` (boolean), `AsyncAmdStatusCallback` (string), `AsyncAmdStatusCallbackMethod` (enum), `CallerId` (string), `CancelPlaybackOnDetectMessageEnd` (boolean), `CancelPlaybackOnMachineDetection` (boolean), `CustomHeaders` (array[object]), `DetectionMode` (enum), `FallbackUrl` (string), `MachineDetection` (enum), `MachineDetectionSilenceTimeout` (integer), `MachineDetectionSpeechEndThreshold` (integer), `MachineDetectionSpeechThreshold` (integer), `MachineDetectionTimeout` (integer), `PreferredCodecs` (string), `Record` (boolean), `RecordingChannels` (enum), `RecordingStatusCallback` (string), `RecordingStatusCallbackEvent` (string), `RecordingStatusCallbackMethod` (enum), `RecordingTimeout` (integer), `RecordingTrack` (enum), `SendRecordingUrl` (boolean), `SipAuthPassword` (string), `SipAuthUsername` (string), `SipRegion` (enum), `StatusCallback` (string), `StatusCallbackEvent` (enum), `StatusCallbackMethod` (enum), `SuperviseCallSid` (string), `SupervisingRole` (enum), `Texml` (string), `TimeLimit` (integer), `Timeout` (integer), `Trim` (enum), `Url` (string), `UrlMethod` (enum)
 
 ```javascript
 const response = await client.texml.accounts.calls.calls('account_sid', {
@@ -52,11 +67,9 @@ const response = await client.texml.accounts.calls.calls('account_sid', {
 console.log(response.from);
 ```
 
-Returns: `from` (string), `status` (string), `to` (string)
-
 ## Fetch a call
 
-Returns an individual call identified by its CallSid. This endpoint is eventually consistent.
+Returns an individual call identified by its CallSid.
 
 `GET /texml/Accounts/{account_sid}/Calls/{call_sid}`
 
@@ -66,11 +79,9 @@ const call = await client.texml.accounts.calls.retrieve('call_sid', { account_si
 console.log(call.account_sid);
 ```
 
-Returns: `account_sid` (string), `answered_by` (enum: human, machine, not_sure), `caller_name` (string), `date_created` (string), `date_updated` (string), `direction` (enum: inbound, outbound), `duration` (string), `end_time` (string), `from` (string), `from_formatted` (string), `price` (string), `price_unit` (string), `sid` (string), `start_time` (string), `status` (enum: ringing, in-progress, canceled, completed, failed, busy, no-answer), `to` (string), `to_formatted` (string), `uri` (string)
-
 ## Update call
 
-Update TeXML call. Please note that the keys present in the payload MUST BE formatted in CamelCase as specified in the example.
+Update TeXML call.
 
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}`
 
@@ -79,8 +90,6 @@ const call = await client.texml.accounts.calls.update('call_sid', { account_sid:
 
 console.log(call.account_sid);
 ```
-
-Returns: `account_sid` (string), `answered_by` (enum: human, machine, not_sure), `caller_name` (string), `date_created` (string), `date_updated` (string), `direction` (enum: inbound, outbound), `duration` (string), `end_time` (string), `from` (string), `from_formatted` (string), `price` (string), `price_unit` (string), `sid` (string), `start_time` (string), `status` (enum: ringing, in-progress, canceled, completed, failed, busy, no-answer), `to` (string), `to_formatted` (string), `uri` (string)
 
 ## Fetch recordings for a call
 
@@ -97,8 +106,6 @@ const response = await client.texml.accounts.calls.recordingsJson.retrieveRecord
 console.log(response.end);
 ```
 
-Returns: `end` (integer), `first_page_uri` (uri), `next_page_uri` (string), `page` (integer), `page_size` (integer), `previous_page_uri` (uri), `recordings` (array[object]), `start` (integer), `uri` (string)
-
 ## Request recording for a call
 
 Starts recording with specified parameters for call idientified by call_sid.
@@ -112,8 +119,6 @@ const response = await client.texml.accounts.calls.recordingsJson.recordingsJson
 
 console.log(response.account_sid);
 ```
-
-Returns: `account_sid` (string), `call_sid` (string), `channels` (enum: 1, 2), `conference_sid` (uuid), `date_created` (date-time), `date_updated` (date-time), `duration` (['string', 'null']), `error_code` (['string', 'null']), `price` (['string', 'null']), `price_unit` (['string', 'null']), `sid` (string), `source` (enum: StartCallRecordingAPI, StartConferenceRecordingAPI, OutboundAPI, DialVerb, Conference, RecordVerb, Trunking), `start_time` (date-time), `track` (enum: inbound, outbound, both), `uri` (string)
 
 ## Update recording on a call
 
@@ -130,8 +135,6 @@ const response = await client.texml.accounts.calls.recordings.recordingSidJson(
 console.log(response.account_sid);
 ```
 
-Returns: `account_sid` (string), `call_sid` (string), `channels` (enum: 1, 2), `conference_sid` (uuid), `date_created` (date-time), `date_updated` (date-time), `duration` (['string', 'null']), `error_code` (['string', 'null']), `price` (['string', 'null']), `price_unit` (['string', 'null']), `sid` (string), `source` (enum: StartCallRecordingAPI, StartConferenceRecordingAPI, OutboundAPI, DialVerb, Conference, RecordVerb, Trunking), `start_time` (date-time), `track` (enum: inbound, outbound, both), `uri` (string)
-
 ## Request siprec session for a call
 
 Starts siprec session with specified parameters for call idientified by call_sid.
@@ -145,8 +148,6 @@ const response = await client.texml.accounts.calls.siprecJson('call_sid', {
 
 console.log(response.account_sid);
 ```
-
-Returns: `account_sid` (string), `call_sid` (string), `date_created` (string), `date_updated` (string), `error_code` (string), `sid` (string), `start_time` (string), `status` (enum: in-progress, stopped), `track` (enum: both_tracks, inbound_track, outbound_track), `uri` (string)
 
 ## Updates siprec session for a call
 
@@ -163,8 +164,6 @@ const response = await client.texml.accounts.calls.siprec.siprecSidJson('siprec_
 console.log(response.account_sid);
 ```
 
-Returns: `account_sid` (string), `call_sid` (string), `date_updated` (string), `error_code` (string), `sid` (string), `status` (enum: in-progress, stopped), `uri` (string)
-
 ## Start streaming media from a call.
 
 Starts streaming media from a call to a specific WebSocket address.
@@ -178,8 +177,6 @@ const response = await client.texml.accounts.calls.streamsJson('call_sid', {
 
 console.log(response.account_sid);
 ```
-
-Returns: `account_sid` (string), `call_sid` (string), `date_updated` (date-time), `name` (string), `sid` (string), `status` (enum: in-progress), `uri` (string)
 
 ## Update streaming on a call
 
@@ -196,8 +193,6 @@ const response = await client.texml.accounts.calls.streams.streamingSidJson(
 console.log(response.account_sid);
 ```
 
-Returns: `account_sid` (string), `call_sid` (string), `date_updated` (date-time), `sid` (string), `status` (enum: stopped), `uri` (string)
-
 ## List conference resources
 
 Lists conference resources.
@@ -209,8 +204,6 @@ const response = await client.texml.accounts.conferences.retrieveConferences('ac
 
 console.log(response.conferences);
 ```
-
-Returns: `conferences` (array[object]), `end` (integer), `first_page_uri` (string), `next_page_uri` (string), `page` (integer), `page_size` (integer), `start` (integer), `uri` (string)
 
 ## Fetch a conference resource
 
@@ -226,8 +219,6 @@ const conference = await client.texml.accounts.conferences.retrieve('conference_
 console.log(conference.account_sid);
 ```
 
-Returns: `account_sid` (string), `api_version` (string), `call_sid_ending_conference` (string), `date_created` (string), `date_updated` (string), `friendly_name` (string), `reason_conference_ended` (enum: participant-with-end-conference-on-exit-left, last-participant-left, conference-ended-via-api, time-exceeded), `region` (string), `sid` (string), `status` (enum: init, in-progress, completed), `subresource_uris` (object), `uri` (string)
-
 ## Update a conference resource
 
 Updates a conference resource.
@@ -241,8 +232,6 @@ const conference = await client.texml.accounts.conferences.update('conference_si
 
 console.log(conference.account_sid);
 ```
-
-Returns: `account_sid` (string), `api_version` (string), `call_sid_ending_conference` (string), `date_created` (string), `date_updated` (string), `friendly_name` (string), `reason_conference_ended` (enum: participant-with-end-conference-on-exit-left, last-participant-left, conference-ended-via-api, time-exceeded), `region` (string), `sid` (string), `status` (enum: init, in-progress, completed), `subresource_uris` (object), `uri` (string)
 
 ## List conference participants
 
@@ -259,8 +248,6 @@ const response = await client.texml.accounts.conferences.participants.retrievePa
 console.log(response.end);
 ```
 
-Returns: `end` (integer), `first_page_uri` (string), `next_page_uri` (string), `page` (integer), `page_size` (integer), `participants` (array[object]), `start` (integer), `uri` (string)
-
 ## Dial a new conference participant
 
 Dials a new conference participant
@@ -275,8 +262,6 @@ const response = await client.texml.accounts.conferences.participants.participan
 
 console.log(response.account_sid);
 ```
-
-Returns: `account_sid` (string), `call_sid` (string), `coaching` (boolean), `coaching_call_sid` (string), `conference_sid` (uuid), `end_conference_on_exit` (boolean), `hold` (boolean), `muted` (boolean), `status` (enum: connecting, connected, completed), `uri` (string)
 
 ## Get conference participant resource
 
@@ -293,8 +278,6 @@ const participant = await client.texml.accounts.conferences.participants.retriev
 console.log(participant.account_sid);
 ```
 
-Returns: `account_sid` (string), `api_version` (string), `call_sid` (string), `call_sid_legacy` (string), `coaching` (boolean), `coaching_call_sid` (string), `coaching_call_sid_legacy` (string), `conference_sid` (uuid), `date_created` (string), `date_updated` (string), `end_conference_on_exit` (boolean), `hold` (boolean), `muted` (boolean), `status` (enum: connecting, connected, completed), `uri` (string)
-
 ## Update a conference participant
 
 Updates a conference participant
@@ -309,8 +292,6 @@ const participant = await client.texml.accounts.conferences.participants.update(
 
 console.log(participant.account_sid);
 ```
-
-Returns: `account_sid` (string), `api_version` (string), `call_sid` (string), `call_sid_legacy` (string), `coaching` (boolean), `coaching_call_sid` (string), `coaching_call_sid_legacy` (string), `conference_sid` (uuid), `date_created` (string), `date_updated` (string), `end_conference_on_exit` (boolean), `hold` (boolean), `muted` (boolean), `status` (enum: connecting, connected, completed), `uri` (string)
 
 ## Delete a conference participant
 
@@ -339,8 +320,6 @@ const response = await client.texml.accounts.conferences.retrieveRecordings('con
 console.log(response.end);
 ```
 
-Returns: `end` (integer), `first_page_uri` (string), `next_page_uri` (string), `page` (integer), `page_size` (integer), `participants` (array[object]), `recordings` (array[object]), `start` (integer), `uri` (string)
-
 ## Fetch recordings for a conference
 
 Returns recordings for a conference identified by conference_sid.
@@ -355,8 +334,6 @@ const response = await client.texml.accounts.conferences.retrieveRecordingsJson(
 console.log(response.end);
 ```
 
-Returns: `end` (integer), `first_page_uri` (uri), `next_page_uri` (string), `page` (integer), `page_size` (integer), `previous_page_uri` (uri), `recordings` (array[object]), `start` (integer), `uri` (string)
-
 ## List queue resources
 
 Lists queue resources.
@@ -370,8 +347,6 @@ for await (const queueListResponse of client.texml.accounts.queues.list('account
 }
 ```
 
-Returns: `end` (integer), `first_page_uri` (string), `next_page_uri` (string), `page` (integer), `page_size` (integer), `queues` (array[object]), `start` (integer), `uri` (string)
-
 ## Create a new queue
 
 Creates a new queue resource.
@@ -383,8 +358,6 @@ const queue = await client.texml.accounts.queues.create('account_sid');
 
 console.log(queue.account_sid);
 ```
-
-Returns: `account_sid` (string), `average_wait_time` (integer), `current_size` (integer), `date_created` (string), `date_updated` (string), `max_size` (integer), `sid` (string), `subresource_uris` (object), `uri` (string)
 
 ## Fetch a queue resource
 
@@ -400,8 +373,6 @@ const queue = await client.texml.accounts.queues.retrieve('queue_sid', {
 console.log(queue.account_sid);
 ```
 
-Returns: `account_sid` (string), `average_wait_time` (integer), `current_size` (integer), `date_created` (string), `date_updated` (string), `max_size` (integer), `sid` (string), `subresource_uris` (object), `uri` (string)
-
 ## Update a queue resource
 
 Updates a queue resource.
@@ -415,8 +386,6 @@ const queue = await client.texml.accounts.queues.update('queue_sid', {
 
 console.log(queue.account_sid);
 ```
-
-Returns: `account_sid` (string), `average_wait_time` (integer), `current_size` (integer), `date_created` (string), `date_updated` (string), `max_size` (integer), `sid` (string), `subresource_uris` (object), `uri` (string)
 
 ## Delete a queue resource
 
@@ -440,8 +409,6 @@ const response = await client.texml.accounts.retrieveRecordingsJson('account_sid
 console.log(response.end);
 ```
 
-Returns: `end` (integer), `first_page_uri` (uri), `next_page_uri` (string), `page` (integer), `page_size` (integer), `previous_page_uri` (uri), `recordings` (array[object]), `start` (integer), `uri` (string)
-
 ## Fetch recording resource
 
 Returns recording resource identified by recording id.
@@ -457,8 +424,6 @@ const texmlGetCallRecordingResponseBody =
 
 console.log(texmlGetCallRecordingResponseBody.account_sid);
 ```
-
-Returns: `account_sid` (string), `call_sid` (string), `channels` (enum: 1, 2), `conference_sid` (uuid), `date_created` (date-time), `date_updated` (date-time), `duration` (['string', 'null']), `error_code` (['string', 'null']), `media_url` (uri), `sid` (string), `source` (enum: StartCallRecordingAPI, StartConferenceRecordingAPI, OutboundAPI, DialVerb, Conference, RecordVerb, Trunking), `start_time` (date-time), `status` (enum: in-progress, completed, paused, stopped), `subresources_uris` (object), `uri` (string)
 
 ## Delete recording resource
 
@@ -485,8 +450,6 @@ const response = await client.texml.accounts.retrieveTranscriptionsJson('account
 console.log(response.end);
 ```
 
-Returns: `end` (integer), `first_page_uri` (uri), `next_page_uri` (string), `page` (integer), `page_size` (integer), `previous_page_uri` (uri), `start` (integer), `transcriptions` (array[object]), `uri` (string)
-
 ## Fetch a recording transcription resource
 
 Returns the recording transcription resource identified by its ID.
@@ -503,8 +466,6 @@ const response =
 console.log(response.account_sid);
 ```
 
-Returns: `account_sid` (string), `api_version` (string), `call_sid` (string), `date_created` (date-time), `date_updated` (date-time), `duration` (['string', 'null']), `recording_sid` (string), `sid` (string), `status` (enum: in-progress, completed), `transcription_text` (string), `uri` (string)
-
 ## Delete a recording transcription
 
 Permanently deletes a recording transcription.
@@ -520,7 +481,7 @@ await client.texml.accounts.transcriptions.json.deleteRecordingTranscriptionSidJ
 
 ## Create a TeXML secret
 
-Create a TeXML secret which can be later used as a Dynamic Parameter for TeXML when using Mustache Templates in your TeXML. In your TeXML you will be able to use your secret name, and this name will be replaced by the actual secret value when processing the TeXML on Telnyx side. The secrets are not visible in any logs.
+Create a TeXML secret which can be later used as a Dynamic Parameter for TeXML when using Mustache Templates in your TeXML.
 
 `POST /texml/secrets` — Required: `name`, `value`
 
@@ -529,8 +490,6 @@ const response = await client.texml.secrets({ name: 'My Secret Name', value: 'My
 
 console.log(response.data);
 ```
-
-Returns: `name` (string), `value` (enum: REDACTED)
 
 ## List all TeXML Applications
 
@@ -545,15 +504,13 @@ for await (const texmlApplication of client.texmlApplications.list()) {
 }
 ```
 
-Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `call_cost_in_webhooks` (boolean), `created_at` (string), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `first_command_timeout` (boolean), `first_command_timeout_secs` (integer), `friendly_name` (string), `id` (string), `inbound` (object), `outbound` (object), `record_type` (string), `status_callback` (uri), `status_callback_method` (enum: get, post), `tags` (array[string]), `updated_at` (string), `voice_fallback_url` (uri), `voice_method` (enum: get, post), `voice_url` (uri)
-
 ## Creates a TeXML Application
 
 Creates a TeXML Application.
 
 `POST /texml_applications` — Required: `friendly_name`, `voice_url`
 
-Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `call_cost_in_webhooks` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `first_command_timeout` (boolean), `first_command_timeout_secs` (integer), `inbound` (object), `outbound` (object), `status_callback` (uri), `status_callback_method` (enum: get, post), `tags` (array[string]), `voice_fallback_url` (uri), `voice_method` (enum: get, post)
+Optional: `active` (boolean), `anchorsite_override` (enum), `call_cost_in_webhooks` (boolean), `dtmf_type` (enum), `first_command_timeout` (boolean), `first_command_timeout_secs` (integer), `inbound` (object), `outbound` (object), `status_callback` (uri), `status_callback_method` (enum), `tags` (array[string]), `voice_fallback_url` (uri), `voice_method` (enum)
 
 ```javascript
 const texmlApplication = await client.texmlApplications.create({
@@ -563,8 +520,6 @@ const texmlApplication = await client.texmlApplications.create({
 
 console.log(texmlApplication.data);
 ```
-
-Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `call_cost_in_webhooks` (boolean), `created_at` (string), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `first_command_timeout` (boolean), `first_command_timeout_secs` (integer), `friendly_name` (string), `id` (string), `inbound` (object), `outbound` (object), `record_type` (string), `status_callback` (uri), `status_callback_method` (enum: get, post), `tags` (array[string]), `updated_at` (string), `voice_fallback_url` (uri), `voice_method` (enum: get, post), `voice_url` (uri)
 
 ## Retrieve a TeXML Application
 
@@ -578,15 +533,13 @@ const texmlApplication = await client.texmlApplications.retrieve('12933842610757
 console.log(texmlApplication.data);
 ```
 
-Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `call_cost_in_webhooks` (boolean), `created_at` (string), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `first_command_timeout` (boolean), `first_command_timeout_secs` (integer), `friendly_name` (string), `id` (string), `inbound` (object), `outbound` (object), `record_type` (string), `status_callback` (uri), `status_callback_method` (enum: get, post), `tags` (array[string]), `updated_at` (string), `voice_fallback_url` (uri), `voice_method` (enum: get, post), `voice_url` (uri)
-
 ## Update a TeXML Application
 
 Updates settings of an existing TeXML Application.
 
 `PATCH /texml_applications/{id}` — Required: `friendly_name`, `voice_url`
 
-Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `call_cost_in_webhooks` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `first_command_timeout` (boolean), `first_command_timeout_secs` (integer), `inbound` (object), `outbound` (object), `status_callback` (uri), `status_callback_method` (enum: get, post), `tags` (array[string]), `voice_fallback_url` (uri), `voice_method` (enum: get, post)
+Optional: `active` (boolean), `anchorsite_override` (enum), `call_cost_in_webhooks` (boolean), `dtmf_type` (enum), `first_command_timeout` (boolean), `first_command_timeout_secs` (integer), `inbound` (object), `outbound` (object), `status_callback` (uri), `status_callback_method` (enum), `tags` (array[string]), `voice_fallback_url` (uri), `voice_method` (enum)
 
 ```javascript
 const texmlApplication = await client.texmlApplications.update('1293384261075731499', {
@@ -596,8 +549,6 @@ const texmlApplication = await client.texmlApplications.update('1293384261075731
 
 console.log(texmlApplication.data);
 ```
-
-Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `call_cost_in_webhooks` (boolean), `created_at` (string), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `first_command_timeout` (boolean), `first_command_timeout_secs` (integer), `friendly_name` (string), `id` (string), `inbound` (object), `outbound` (object), `record_type` (string), `status_callback` (uri), `status_callback_method` (enum: get, post), `tags` (array[string]), `updated_at` (string), `voice_fallback_url` (uri), `voice_method` (enum: get, post), `voice_url` (uri)
 
 ## Deletes a TeXML Application
 
@@ -610,5 +561,3 @@ const texmlApplication = await client.texmlApplications.delete('1293384261075731
 
 console.log(texmlApplication.data);
 ```
-
-Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `call_cost_in_webhooks` (boolean), `created_at` (string), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `first_command_timeout` (boolean), `first_command_timeout_secs` (integer), `friendly_name` (string), `id` (string), `inbound` (object), `outbound` (object), `record_type` (string), `status_callback` (uri), `status_callback_method` (enum: get, post), `tags` (array[string]), `updated_at` (string), `voice_fallback_url` (uri), `voice_method` (enum: get, post), `voice_url` (uri)

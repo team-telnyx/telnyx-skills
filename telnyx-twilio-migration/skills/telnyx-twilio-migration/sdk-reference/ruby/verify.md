@@ -1,4 +1,21 @@
-<!-- SDK reference: telnyx-verify-ruby -->
+<!-- Extracted from telnyx-verify-ruby by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-ruby/skills/telnyx-verify-ruby/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-verify-ruby
+description: >-
+  Look up phone number information (carrier, type, caller name) and verify users
+  via SMS/voice OTP. Use for phone verification and data enrichment. This skill
+  provides Ruby SDK examples.
+metadata:
+  author: telnyx
+  product: verify
+  language: ruby
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Verify - Ruby
 
@@ -32,8 +49,6 @@ number_lookup = client.number_lookup.retrieve("+18665552368")
 puts(number_lookup)
 ```
 
-Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (['string', 'null']), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
-
 ## List verifications by phone number
 
 `GET /verifications/by_phone_number/{phone_number}`
@@ -43,8 +58,6 @@ by_phone_numbers = client.verifications.by_phone_number.list("+13035551234")
 
 puts(by_phone_numbers)
 ```
-
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by phone number
 
@@ -59,8 +72,6 @@ verify_verification_code_response = client.verifications.by_phone_number.actions
 
 puts(verify_verification_code_response)
 ```
-
-Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
 
 ## Trigger Call verification
 
@@ -77,8 +88,6 @@ create_verification_response = client.verifications.trigger_call(
 puts(create_verification_response)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
-
 ## Trigger Flash call verification
 
 `POST /verifications/flashcall` — Required: `phone_number`, `verify_profile_id`
@@ -93,8 +102,6 @@ create_verification_response = client.verifications.trigger_flashcall(
 
 puts(create_verification_response)
 ```
-
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger SMS verification
 
@@ -111,8 +118,6 @@ create_verification_response = client.verifications.trigger_sms(
 puts(create_verification_response)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
-
 ## Retrieve verification
 
 `GET /verifications/{verification_id}`
@@ -123,21 +128,17 @@ verification = client.verifications.retrieve("12ade33a-21c0-473b-b055-b3c836e1c2
 puts(verification)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
-
 ## Verify verification code by ID
 
 `POST /verifications/{verification_id}/actions/verify`
 
-Optional: `code` (string), `status` (enum: accepted, rejected)
+Optional: `code` (string), `status` (enum)
 
 ```ruby
 verify_verification_code_response = client.verifications.actions.verify("12ade33a-21c0-473b-b055-b3c836e1c292")
 
 puts(verify_verification_code_response)
 ```
-
-Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
 
 ## List all Verify profiles
 
@@ -150,8 +151,6 @@ page = client.verify_profiles.list
 
 puts(page)
 ```
-
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
 
 ## Create a Verify profile
 
@@ -167,8 +166,6 @@ verify_profile_data = client.verify_profiles.create(name: "Test Profile")
 puts(verify_profile_data)
 ```
 
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
-
 ## Retrieve Verify profile message templates
 
 List all Verify profile message templates.
@@ -181,8 +178,6 @@ response = client.verify_profiles.retrieve_templates
 puts(response)
 ```
 
-Returns: `id` (uuid), `text` (string)
-
 ## Create message template
 
 Create a new Verify profile message template.
@@ -194,8 +189,6 @@ message_template = client.verify_profiles.create_template(text: "Your {{app_name
 
 puts(message_template)
 ```
-
-Returns: `id` (uuid), `text` (string)
 
 ## Update message template
 
@@ -212,8 +205,6 @@ message_template = client.verify_profiles.update_template(
 puts(message_template)
 ```
 
-Returns: `id` (uuid), `text` (string)
-
 ## Retrieve Verify profile
 
 Gets a single Verify profile.
@@ -225,8 +216,6 @@ verify_profile_data = client.verify_profiles.retrieve("12ade33a-21c0-473b-b055-b
 
 puts(verify_profile_data)
 ```
-
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
 
 ## Update Verify profile
 
@@ -240,8 +229,6 @@ verify_profile_data = client.verify_profiles.update("12ade33a-21c0-473b-b055-b3c
 puts(verify_profile_data)
 ```
 
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
-
 ## Delete Verify profile
 
 `DELETE /verify_profiles/{verify_profile_id}`
@@ -251,5 +238,3 @@ verify_profile_data = client.verify_profiles.delete("12ade33a-21c0-473b-b055-b3c
 
 puts(verify_profile_data)
 ```
-
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)

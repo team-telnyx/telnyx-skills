@@ -1,4 +1,21 @@
-<!-- SDK reference: telnyx-webrtc-curl -->
+<!-- Extracted from telnyx-webrtc-curl by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-curl/skills/telnyx-webrtc-curl/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-webrtc-curl
+description: >-
+  Manage WebRTC credentials and mobile push notification settings. Use when
+  building browser-based or mobile softphone applications. This skill provides
+  REST API (curl) examples.
+metadata:
+  author: telnyx
+  product: webrtc
+  language: curl
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Webrtc - curl
 
@@ -24,8 +41,6 @@ All examples below use `$TELNYX_API_KEY` for authentication.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/mobile_push_credentials"
 ```
 
-Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id` (string), `private_key` (string), `project_account_json_file` (object), `record_type` (string), `type` (string), `updated_at` (date-time)
-
 ## Creates a new mobile push credential
 
 `POST /mobile_push_credentials`
@@ -38,8 +53,6 @@ curl \
   "https://api.telnyx.com/v2/mobile_push_credentials"
 ```
 
-Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id` (string), `private_key` (string), `project_account_json_file` (object), `record_type` (string), `type` (string), `updated_at` (date-time)
-
 ## Retrieves a mobile push credential
 
 Retrieves mobile push credential based on the given `push_credential_id`
@@ -49,8 +62,6 @@ Retrieves mobile push credential based on the given `push_credential_id`
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/mobile_push_credentials/0ccc7b76-4df3-4bca-a05a-3da1ecc389f0"
 ```
-
-Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id` (string), `private_key` (string), `project_account_json_file` (object), `record_type` (string), `type` (string), `updated_at` (date-time)
 
 ## Deletes a mobile push credential
 
@@ -75,8 +86,6 @@ List all On-demand Credentials.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/telephony_credentials"
 ```
 
-Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
-
 ## Create a credential
 
 Create a credential.
@@ -98,8 +107,6 @@ curl \
   "https://api.telnyx.com/v2/telephony_credentials"
 ```
 
-Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
-
 ## Get a credential
 
 Get the details of an existing On-demand Credential.
@@ -109,8 +116,6 @@ Get the details of an existing On-demand Credential.
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/telephony_credentials/{id}"
 ```
-
-Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
 
 ## Update a credential
 
@@ -133,8 +138,6 @@ curl \
   "https://api.telnyx.com/v2/telephony_credentials/{id}"
 ```
 
-Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
-
 ## Delete a credential
 
 Delete an existing credential.
@@ -147,5 +150,3 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   "https://api.telnyx.com/v2/telephony_credentials/{id}"
 ```
-
-Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)

@@ -1,4 +1,20 @@
-<!-- SDK reference: telnyx-ai-assistants-go -->
+<!-- Extracted from telnyx-ai-assistants-go by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-go/skills/telnyx-ai-assistants-go/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-ai-assistants-go
+description: >-
+  Create and manage AI voice assistants with custom personalities, knowledge
+  bases, and tool integrations. This skill provides Go SDK examples.
+metadata:
+  author: telnyx
+  product: ai-assistants
+  language: go
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Ai Assistants - Go
 
@@ -41,8 +57,6 @@ Retrieve a list of all AI Assistants configured by the user.
 	fmt.Printf("%+v\n", assistantsList.Data)
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## Create an assistant
 
 Create a new AI Assistant.
@@ -63,11 +77,9 @@ Optional: `description` (string), `dynamic_variables` (object), `dynamic_variabl
 	fmt.Printf("%+v\n", assistant.ID)
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## Import assistants from external provider
 
-Import assistants from external providers. Any assistant that has already been imported will be overwritten with its latest version from the importing provider.
+Import assistants from external providers.
 
 `POST /ai/assistants/import` — Required: `provider`, `api_key_ref`
 
@@ -84,8 +96,6 @@ Optional: `import_ids` (array[string])
 	fmt.Printf("%+v\n", assistantsList.Data)
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## List assistant tests with pagination
 
 Retrieves a paginated list of assistant tests with optional filtering capabilities
@@ -99,8 +109,6 @@ Retrieves a paginated list of assistant tests with optional filtering capabiliti
 	}
 	fmt.Printf("%+v\n", page)
 ```
-
-Returns: `created_at` (date-time), `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (object), `test_id` (uuid), `test_suite` (string)
 
 ## Create a new assistant test
 
@@ -129,8 +137,6 @@ Optional: `description` (string), `max_duration_seconds` (integer), `telnyx_conv
 	fmt.Printf("%+v\n", assistantTest.TestID)
 ```
 
-Returns: `created_at` (date-time), `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (object), `test_id` (uuid), `test_suite` (string)
-
 ## Get all test suite names
 
 Retrieves a list of all distinct test suite names available to the current user
@@ -144,8 +150,6 @@ Retrieves a list of all distinct test suite names available to the current user
 	}
 	fmt.Printf("%+v\n", testSuites.Data)
 ```
-
-Returns: `data` (array[string])
 
 ## Get test suite run history
 
@@ -164,8 +168,6 @@ Retrieves paginated history of test runs for a specific test suite with filterin
 	}
 	fmt.Printf("%+v\n", page)
 ```
-
-Returns: `completed_at` (date-time), `conversation_id` (string), `conversation_insights_id` (string), `created_at` (date-time), `detail_status` (array[object]), `logs` (string), `run_id` (uuid), `status` (enum: pending, starting, running, passed, failed, error), `test_id` (uuid), `test_suite_run_id` (uuid), `triggered_by` (string), `updated_at` (date-time)
 
 ## Trigger test suite execution
 
@@ -201,15 +203,13 @@ Retrieves detailed information about a specific assistant test
 	fmt.Printf("%+v\n", assistantTest.TestID)
 ```
 
-Returns: `created_at` (date-time), `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (object), `test_id` (uuid), `test_suite` (string)
-
 ## Update an assistant test
 
 Updates an existing assistant test configuration with new settings
 
 `PUT /ai/assistants/tests/{test_id}`
 
-Optional: `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (enum: phone_call, web_call, sms_chat, web_chat), `test_suite` (string)
+Optional: `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (enum), `test_suite` (string)
 
 ```go
 	assistantTest, err := client.AI.Assistants.Tests.Update(
@@ -222,8 +222,6 @@ Optional: `description` (string), `destination` (string), `instructions` (string
 	}
 	fmt.Printf("%+v\n", assistantTest.TestID)
 ```
-
-Returns: `created_at` (date-time), `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (object), `test_id` (uuid), `test_suite` (string)
 
 ## Delete an assistant test
 
@@ -256,8 +254,6 @@ Retrieves paginated execution history for a specific assistant test with filteri
 	fmt.Printf("%+v\n", page)
 ```
 
-Returns: `completed_at` (date-time), `conversation_id` (string), `conversation_insights_id` (string), `created_at` (date-time), `detail_status` (array[object]), `logs` (string), `run_id` (uuid), `status` (enum: pending, starting, running, passed, failed, error), `test_id` (uuid), `test_suite_run_id` (uuid), `triggered_by` (string), `updated_at` (date-time)
-
 ## Trigger a manual test run
 
 Initiates immediate execution of a specific assistant test
@@ -277,8 +273,6 @@ Optional: `destination_version_id` (string)
 	}
 	fmt.Printf("%+v\n", testRunResponse.RunID)
 ```
-
-Returns: `completed_at` (date-time), `conversation_id` (string), `conversation_insights_id` (string), `created_at` (date-time), `detail_status` (array[object]), `logs` (string), `run_id` (uuid), `status` (enum: pending, starting, running, passed, failed, error), `test_id` (uuid), `test_suite_run_id` (uuid), `triggered_by` (string), `updated_at` (date-time)
 
 ## Get specific test run details
 
@@ -300,8 +294,6 @@ Retrieves detailed information about a specific test run execution
 	fmt.Printf("%+v\n", testRunResponse.RunID)
 ```
 
-Returns: `completed_at` (date-time), `conversation_id` (string), `conversation_insights_id` (string), `created_at` (date-time), `detail_status` (array[object]), `logs` (string), `run_id` (uuid), `status` (enum: pending, starting, running, passed, failed, error), `test_id` (uuid), `test_suite_run_id` (uuid), `triggered_by` (string), `updated_at` (date-time)
-
 ## Get an assistant
 
 Retrieve an AI Assistant configuration by `assistant_id`.
@@ -319,8 +311,6 @@ Retrieve an AI Assistant configuration by `assistant_id`.
 	}
 	fmt.Printf("%+v\n", assistant.ID)
 ```
-
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
 ## Update an assistant
 
@@ -340,8 +330,6 @@ Update an AI Assistant's attributes.
 	fmt.Printf("%+v\n", assistant.ID)
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## Delete an assistant
 
 Delete an AI Assistant by `assistant_id`.
@@ -356,12 +344,9 @@ Delete an AI Assistant by `assistant_id`.
 	fmt.Printf("%+v\n", assistant.ID)
 ```
 
-Returns: `deleted` (boolean), `id` (string), `object` (string)
-
 ## Get Canary Deploy
 
-Endpoint to get a canary deploy configuration for an assistant. Retrieves the current canary deploy configuration with all version IDs and their
-traffic percentages for the specified assistant.
+Endpoint to get a canary deploy configuration for an assistant.
 
 `GET /ai/assistants/{assistant_id}/canary-deploys`
 
@@ -373,12 +358,9 @@ traffic percentages for the specified assistant.
 	fmt.Printf("%+v\n", canaryDeployResponse.AssistantID)
 ```
 
-Returns: `assistant_id` (string), `created_at` (date-time), `updated_at` (date-time), `versions` (array[object])
-
 ## Create Canary Deploy
 
-Endpoint to create a canary deploy configuration for an assistant. Creates a new canary deploy configuration with multiple version IDs and their traffic
-percentages for A/B testing or gradual rollouts of assistant versions.
+Endpoint to create a canary deploy configuration for an assistant.
 
 `POST /ai/assistants/{assistant_id}/canary-deploys` — Required: `versions`
 
@@ -401,11 +383,9 @@ percentages for A/B testing or gradual rollouts of assistant versions.
 	fmt.Printf("%+v\n", canaryDeployResponse.AssistantID)
 ```
 
-Returns: `assistant_id` (string), `created_at` (date-time), `updated_at` (date-time), `versions` (array[object])
-
 ## Update Canary Deploy
 
-Endpoint to update a canary deploy configuration for an assistant. Updates the existing canary deploy configuration with new version IDs and percentages. All old versions and percentages are replaces by new ones from this request.
+Endpoint to update a canary deploy configuration for an assistant.
 
 `PUT /ai/assistants/{assistant_id}/canary-deploys` — Required: `versions`
 
@@ -428,11 +408,9 @@ Endpoint to update a canary deploy configuration for an assistant. Updates the e
 	fmt.Printf("%+v\n", canaryDeployResponse.AssistantID)
 ```
 
-Returns: `assistant_id` (string), `created_at` (date-time), `updated_at` (date-time), `versions` (array[object])
-
 ## Delete Canary Deploy
 
-Endpoint to delete a canary deploy configuration for an assistant. Removes all canary deploy configurations for the specified assistant.
+Endpoint to delete a canary deploy configuration for an assistant.
 
 `DELETE /ai/assistants/{assistant_id}/canary-deploys`
 
@@ -445,7 +423,7 @@ Endpoint to delete a canary deploy configuration for an assistant. Removes all c
 
 ## Assistant Chat (BETA)
 
-This endpoint allows a client to send a chat message to a specific AI Assistant. The assistant processes the message and returns a relevant reply based on the current conversation context.
+This endpoint allows a client to send a chat message to a specific AI Assistant.
 
 `POST /ai/assistants/{assistant_id}/chat` — Required: `content`, `conversation_id`
 
@@ -466,13 +444,9 @@ Optional: `name` (string)
 	fmt.Printf("%+v\n", response.Content)
 ```
 
-Returns: `content` (string)
-
 ## Assistant Sms Chat
 
-Send an SMS message for an assistant. This endpoint: 
-1. Validates the assistant exists and has messaging profile configured 
-2.
+Send an SMS message for an assistant.
 
 `POST /ai/assistants/{assistant_id}/chat/sms` — Required: `from`, `to`
 
@@ -493,8 +467,6 @@ Optional: `conversation_metadata` (object), `should_create_conversation` (boolea
 	fmt.Printf("%+v\n", response.ConversationID)
 ```
 
-Returns: `conversation_id` (string)
-
 ## Clone Assistant
 
 Clone an existing assistant, excluding telephony and messaging settings.
@@ -508,8 +480,6 @@ Clone an existing assistant, excluding telephony and messaging settings.
 	}
 	fmt.Printf("%+v\n", assistant.ID)
 ```
-
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
 ## List scheduled events
 
@@ -528,8 +498,6 @@ Get scheduled events for an assistant with pagination and filtering
 	}
 	fmt.Printf("%+v\n", page)
 ```
-
-Returns: `data` (array[object]), `meta` (object)
 
 ## Create a scheduled event
 
@@ -578,7 +546,7 @@ Retrieve a scheduled event by event ID
 
 ## Delete a scheduled event
 
-If the event is pending, this will cancel the event. Otherwise, this will simply remove the record of the event.
+If the event is pending, this will cancel the event.
 
 `DELETE /ai/assistants/{assistant_id}/scheduled_events/{event_id}`
 
@@ -631,8 +599,6 @@ Optional: `arguments` (object), `dynamic_variables` (object)
 	fmt.Printf("%+v\n", response.Data)
 ```
 
-Returns: `content_type` (string), `request` (object), `response` (string), `status_code` (integer), `success` (boolean)
-
 ## Get all versions of an assistant
 
 Retrieves all versions of a specific assistant with complete configuration and metadata
@@ -646,8 +612,6 @@ Retrieves all versions of a specific assistant with complete configuration and m
 	}
 	fmt.Printf("%+v\n", assistantsList.Data)
 ```
-
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
 ## Get a specific assistant version
 
@@ -669,11 +633,9 @@ Retrieves a specific version of an assistant by assistant_id and version_id
 	fmt.Printf("%+v\n", assistant.ID)
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## Update a specific assistant version
 
-Updates the configuration of a specific assistant version. Can not update main version
+Updates the configuration of a specific assistant version.
 
 `POST /ai/assistants/{assistant_id}/versions/{version_id}`
 
@@ -694,11 +656,9 @@ Optional: `description` (string), `dynamic_variables` (object), `dynamic_variabl
 	fmt.Printf("%+v\n", assistant.ID)
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## Delete a specific assistant version
 
-Permanently removes a specific version of an assistant. Can not delete main version
+Permanently removes a specific version of an assistant.
 
 `DELETE /ai/assistants/{assistant_id}/versions/{version_id}`
 
@@ -717,7 +677,7 @@ Permanently removes a specific version of an assistant. Can not delete main vers
 
 ## Promote an assistant version to main
 
-Promotes a specific version to be the main/current version of the assistant. This will delete any existing canary deploy configuration and send all live production traffic to this version.
+Promotes a specific version to be the main/current version of the assistant.
 
 `POST /ai/assistants/{assistant_id}/versions/{version_id}/promote`
 
@@ -734,8 +694,6 @@ Promotes a specific version to be the main/current version of the assistant. Thi
 	}
 	fmt.Printf("%+v\n", assistant.ID)
 ```
-
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
 ## List MCP Servers
 
@@ -771,8 +729,6 @@ Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']
 	fmt.Printf("%+v\n", mcpServer.ID)
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
-
 ## Get MCP Server
 
 Retrieve details for a specific MCP server.
@@ -786,8 +742,6 @@ Retrieve details for a specific MCP server.
 	}
 	fmt.Printf("%+v\n", mcpServer.ID)
 ```
-
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Update MCP Server
 
@@ -808,8 +762,6 @@ Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']
 	}
 	fmt.Printf("%+v\n", mcpServer.ID)
 ```
-
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Delete MCP Server
 

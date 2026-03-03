@@ -528,3 +528,34 @@ const { data: call } = await telnyx.calls.create({
 ```
 
 > **Enhanced coverage**: The `telnyx-voice-conferencing-*` skills document `leave()` (returns to parked state), `join()` (with `supervisor_role`, `whisper_call_control_ids`), and all conference actions with optional params and webhook payload schemas. The `telnyx-voice-*` skills cover dial (with `bridge_on_answer`, `link_to`, `park_after_unbridge`, `supervisor_role`, `sip_headers`, `custom_headers`) and bridge operations — all with complete optional parameter lists and webhook field tables.
+
+## SDK Reference Cross-Links
+
+For complete API reference with all parameters, response schemas, and advanced patterns, install the relevant SDK plugins:
+
+| Resource | Plugin | Key Skills |
+|---|---|---|
+| Browser/JS WebRTC | `telnyx-webrtc-client` | `telnyx-webrtc-client-js` — Full API, media handling, codecs, debugging |
+| iOS WebRTC | `telnyx-webrtc-client` | `telnyx-webrtc-client-ios` — CallKit, APNs, background audio |
+| Android WebRTC | `telnyx-webrtc-client` | `telnyx-webrtc-client-android` — FCM, Telecom framework, custom SIP headers |
+| Flutter WebRTC | `telnyx-webrtc-client` | `telnyx-webrtc-client-flutter` — Cross-platform, platform channels |
+| React Native WebRTC | `telnyx-webrtc-client` | `telnyx-webrtc-client-react-native` — Unified JS API |
+| Server-side credentials | Language plugins | `telnyx-webrtc-{language}` — Credential CRUD, JWT generation |
+| Voice API (Call Control) | Language plugins | `telnyx-voice-{language}` — Server-side call management |
+| SIP Connections | Language plugins | `telnyx-sip-{language}` — Connection configuration |
+
+### Push Notification Credential Migration
+
+When migrating push notifications from Twilio to Telnyx:
+
+**iOS (APNs):**
+- Twilio: Configured per-credential via API, certificate uploaded programmatically
+- Telnyx: Upload APNs certificate in Mission Control Portal → **SIP** → **Connections** → your connection → **Push Credentials**
+- Requires: APNs certificate (.p12 or .p8), bundle ID, team ID
+
+**Android (FCM):**
+- Twilio: Configured per-credential via API with FCM server key
+- Telnyx: Configure FCM in Mission Control Portal → **SIP** → **Connections** → your connection → **Push Credentials**
+- Requires: FCM server key or service account JSON
+
+**Key difference**: Twilio requires a new push credential for each instance. Telnyx configures push at the connection level, applying to all credentials on that connection.

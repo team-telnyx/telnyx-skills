@@ -1,4 +1,21 @@
-<!-- SDK reference: telnyx-messaging-hosted-python -->
+<!-- Extracted from telnyx-messaging-hosted-python by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-python/skills/telnyx-messaging-hosted-python/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-messaging-hosted-python
+description: >-
+  Set up hosted SMS numbers, toll-free verification, and RCS messaging. Use when
+  migrating numbers or enabling rich messaging features. This skill provides
+  Python SDK examples.
+metadata:
+  author: telnyx
+  product: messaging-hosted
+  language: python
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Messaging Hosted - Python
 
@@ -25,7 +42,7 @@ All examples below assume `client` is already initialized as shown above.
 
 `POST /messages/rcs` — Required: `agent_id`, `to`, `messaging_profile_id`, `agent_message`
 
-Optional: `mms_fallback` (object), `sms_fallback` (object), `type` (enum: RCS), `webhook_url` (url)
+Optional: `mms_fallback` (object), `sms_fallback` (object), `type` (enum), `webhook_url` (url)
 
 ```python
 response = client.messages.rcs.send(
@@ -36,8 +53,6 @@ response = client.messages.rcs.send(
 )
 print(response.data)
 ```
-
-Returns: `body` (object), `direction` (string), `encoding` (string), `from` (object), `id` (string), `messaging_profile_id` (string), `organization_id` (string), `received_at` (date-time), `record_type` (string), `to` (array[object]), `type` (string)
 
 ## Generate RCS deeplink
 
@@ -52,8 +67,6 @@ response = client.messages.rcs.generate_deeplink(
 print(response.data)
 ```
 
-Returns: `url` (string)
-
 ## List all RCS agents
 
 `GET /messaging/rcs/agents`
@@ -63,8 +76,6 @@ page = client.messaging.rcs.agents.list()
 page = page.data[0]
 print(page.agent_id)
 ```
-
-Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `enabled` (boolean), `profile_id` (uuid), `updated_at` (date-time), `user_id` (string), `webhook_failover_url` (url), `webhook_url` (url)
 
 ## Retrieve an RCS agent
 
@@ -76,8 +87,6 @@ rcs_agent_response = client.messaging.rcs.agents.retrieve(
 )
 print(rcs_agent_response.data)
 ```
-
-Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `enabled` (boolean), `profile_id` (uuid), `updated_at` (date-time), `user_id` (string), `webhook_failover_url` (url), `webhook_url` (url)
 
 ## Modify an RCS agent
 
@@ -92,8 +101,6 @@ rcs_agent_response = client.messaging.rcs.agents.update(
 print(rcs_agent_response.data)
 ```
 
-Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `enabled` (boolean), `profile_id` (uuid), `updated_at` (date-time), `user_id` (string), `webhook_failover_url` (url), `webhook_url` (url)
-
 ## Check RCS capabilities (batch)
 
 `POST /messaging/rcs/bulk_capabilities` — Required: `agent_id`, `phone_numbers`
@@ -106,8 +113,6 @@ response = client.messaging.rcs.list_bulk_capabilities(
 print(response.data)
 ```
 
-Returns: `agent_id` (string), `agent_name` (string), `features` (array[string]), `phone_number` (string), `record_type` (enum: rcs.capabilities)
-
 ## Check RCS capabilities
 
 `GET /messaging/rcs/capabilities/{agent_id}/{phone_number}`
@@ -119,8 +124,6 @@ response = client.messaging.rcs.retrieve_capabilities(
 )
 print(response.data)
 ```
-
-Returns: `agent_id` (string), `agent_name` (string), `features` (array[string]), `phone_number` (string), `record_type` (enum: rcs.capabilities)
 
 ## Add RCS test number
 
@@ -136,8 +139,6 @@ response = client.messaging.rcs.invite_test_number(
 print(response.data)
 ```
 
-Returns: `agent_id` (string), `phone_number` (string), `record_type` (enum: rcs.test_number_invite), `status` (string)
-
 ## List messaging hosted number orders
 
 `GET /messaging_hosted_number_orders`
@@ -147,8 +148,6 @@ page = client.messaging_hosted_number_orders.list()
 page = page.data[0]
 print(page.id)
 ```
-
-Returns: `id` (uuid), `messaging_profile_id` (['string', 'null']), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
 
 ## Create a messaging hosted number order
 
@@ -161,8 +160,6 @@ messaging_hosted_number_order = client.messaging_hosted_number_orders.create()
 print(messaging_hosted_number_order.data)
 ```
 
-Returns: `id` (uuid), `messaging_profile_id` (['string', 'null']), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
-
 ## Check hosted messaging eligibility
 
 `POST /messaging_hosted_number_orders/eligibility_numbers_check` — Required: `phone_numbers`
@@ -174,8 +171,6 @@ response = client.messaging_hosted_number_orders.check_eligibility(
 print(response.phone_numbers)
 ```
 
-Returns: `phone_numbers` (array[object])
-
 ## Retrieve a messaging hosted number order
 
 `GET /messaging_hosted_number_orders/{id}`
@@ -186,8 +181,6 @@ messaging_hosted_number_order = client.messaging_hosted_number_orders.retrieve(
 )
 print(messaging_hosted_number_order.data)
 ```
-
-Returns: `id` (uuid), `messaging_profile_id` (['string', 'null']), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
 
 ## Delete a messaging hosted number order
 
@@ -202,8 +195,6 @@ messaging_hosted_number_order = client.messaging_hosted_number_orders.delete(
 print(messaging_hosted_number_order.data)
 ```
 
-Returns: `id` (uuid), `messaging_profile_id` (['string', 'null']), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
-
 ## Upload hosted number document
 
 `POST /messaging_hosted_number_orders/{id}/actions/file_upload`
@@ -215,11 +206,9 @@ response = client.messaging_hosted_number_orders.actions.upload_file(
 print(response.data)
 ```
 
-Returns: `id` (uuid), `messaging_profile_id` (['string', 'null']), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
-
 ## Validate hosted number codes
 
-Validate the verification codes sent to the numbers of the hosted order. The verification codes must be created in the verification codes endpoint.
+Validate the verification codes sent to the numbers of the hosted order.
 
 `POST /messaging_hosted_number_orders/{id}/validation_codes` — Required: `verification_codes`
 
@@ -234,11 +223,9 @@ response = client.messaging_hosted_number_orders.validate_codes(
 print(response.data)
 ```
 
-Returns: `order_id` (uuid), `phone_numbers` (array[object])
-
 ## Create hosted number verification codes
 
-Create verification codes to validate numbers of the hosted order. The verification codes will be sent to the numbers of the hosted order.
+Create verification codes to validate numbers of the hosted order.
 
 `POST /messaging_hosted_number_orders/{id}/verification_codes` — Required: `phone_numbers`, `verification_method`
 
@@ -251,8 +238,6 @@ response = client.messaging_hosted_number_orders.create_verification_codes(
 print(response.data)
 ```
 
-Returns: `error` (string), `phone_number` (string), `type` (enum: sms, call, flashcall), `verification_code_id` (uuid)
-
 ## Delete a messaging hosted number
 
 `DELETE /messaging_hosted_numbers/{id}`
@@ -263,8 +248,6 @@ messaging_hosted_number = client.messaging_hosted_numbers.delete(
 )
 print(messaging_hosted_number.data)
 ```
-
-Returns: `id` (uuid), `messaging_profile_id` (['string', 'null']), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
 
 ## List Verification Requests
 
@@ -280,8 +263,6 @@ page = client.messaging_tollfree.verification.requests.list(
 page = page.records[0]
 print(page.id)
 ```
-
-Returns: `records` (array[object]), `total_records` (integer)
 
 ## Submit Verification Request
 
@@ -323,8 +304,6 @@ verification_request_egress = client.messaging_tollfree.verification.requests.cr
 print(verification_request_egress.id)
 ```
 
-Returns: `additionalInformation` (string), `ageGatedContent` (boolean), `businessAddr1` (string), `businessAddr2` (string), `businessCity` (string), `businessContactEmail` (string), `businessContactFirstName` (string), `businessContactLastName` (string), `businessContactPhone` (string), `businessName` (string), `businessRegistrationCountry` (string), `businessRegistrationNumber` (string), `businessRegistrationType` (string), `businessState` (string), `businessZip` (string), `campaignVerifyAuthorizationToken` (['string', 'null']), `corporateWebsite` (string), `doingBusinessAs` (string), `entityType` (object), `helpMessageResponse` (string), `id` (uuid), `isvReseller` (string), `messageVolume` (object), `optInConfirmationResponse` (string), `optInKeywords` (string), `optInWorkflow` (string), `optInWorkflowImageURLs` (array[object]), `phoneNumbers` (array[object]), `privacyPolicyURL` (string), `productionMessageContent` (string), `termsAndConditionURL` (string), `useCase` (object), `useCaseSummary` (string), `verificationRequestId` (string), `verificationStatus` (object), `webhookUrl` (string)
-
 ## Get Verification Request
 
 Get a single verification request by its ID.
@@ -338,11 +317,9 @@ verification_request_status = client.messaging_tollfree.verification.requests.re
 print(verification_request_status.id)
 ```
 
-Returns: `additionalInformation` (string), `ageGatedContent` (boolean), `businessAddr1` (string), `businessAddr2` (string), `businessCity` (string), `businessContactEmail` (string), `businessContactFirstName` (string), `businessContactLastName` (string), `businessContactPhone` (string), `businessName` (string), `businessRegistrationCountry` (string), `businessRegistrationNumber` (string), `businessRegistrationType` (string), `businessState` (string), `businessZip` (string), `campaignVerifyAuthorizationToken` (['string', 'null']), `corporateWebsite` (string), `createdAt` (date-time), `doingBusinessAs` (string), `entityType` (object), `helpMessageResponse` (string), `id` (uuid), `isvReseller` (string), `messageVolume` (object), `optInConfirmationResponse` (string), `optInKeywords` (string), `optInWorkflow` (string), `optInWorkflowImageURLs` (array[object]), `phoneNumbers` (array[object]), `privacyPolicyURL` (string), `productionMessageContent` (string), `reason` (string), `termsAndConditionURL` (string), `updatedAt` (date-time), `useCase` (object), `useCaseSummary` (string), `verificationStatus` (object), `webhookUrl` (string)
-
 ## Update Verification Request
 
-Update an existing tollfree verification request. This is particularly useful when there are pending customer actions to be taken.
+Update an existing tollfree verification request.
 
 `PATCH /messaging_tollfree/verification/requests/{id}` — Required: `businessName`, `corporateWebsite`, `businessAddr1`, `businessCity`, `businessState`, `businessZip`, `businessContactFirstName`, `businessContactLastName`, `businessContactEmail`, `businessContactPhone`, `messageVolume`, `phoneNumbers`, `useCase`, `useCaseSummary`, `productionMessageContent`, `optInWorkflow`, `optInWorkflowImageURLs`, `additionalInformation`
 
@@ -381,15 +358,11 @@ verification_request_egress = client.messaging_tollfree.verification.requests.up
 print(verification_request_egress.id)
 ```
 
-Returns: `additionalInformation` (string), `ageGatedContent` (boolean), `businessAddr1` (string), `businessAddr2` (string), `businessCity` (string), `businessContactEmail` (string), `businessContactFirstName` (string), `businessContactLastName` (string), `businessContactPhone` (string), `businessName` (string), `businessRegistrationCountry` (string), `businessRegistrationNumber` (string), `businessRegistrationType` (string), `businessState` (string), `businessZip` (string), `campaignVerifyAuthorizationToken` (['string', 'null']), `corporateWebsite` (string), `doingBusinessAs` (string), `entityType` (object), `helpMessageResponse` (string), `id` (uuid), `isvReseller` (string), `messageVolume` (object), `optInConfirmationResponse` (string), `optInKeywords` (string), `optInWorkflow` (string), `optInWorkflowImageURLs` (array[object]), `phoneNumbers` (array[object]), `privacyPolicyURL` (string), `productionMessageContent` (string), `termsAndConditionURL` (string), `useCase` (object), `useCaseSummary` (string), `verificationRequestId` (string), `verificationStatus` (object), `webhookUrl` (string)
-
 ## Delete Verification Request
 
 Delete a verification request
 
-A request may only be deleted when when the request is in the "rejected" state. * `HTTP 200`: request successfully deleted
-* `HTTP 400`: request exists but can't be deleted (i.e. not rejected)
-* `HTTP 404`: request unknown or already deleted
+A request may only be deleted when when the request is in the "rejected" state.
 
 `DELETE /messaging_tollfree/verification/requests/{id}`
 
@@ -401,7 +374,7 @@ client.messaging_tollfree.verification.requests.delete(
 
 ## Get Verification Request Status History
 
-Get the history of status changes for a verification request. Returns a paginated list of historical status changes including the reason for each change and when it occurred.
+Get the history of status changes for a verification request.
 
 `GET /messaging_tollfree/verification/requests/{id}/status_history`
 
@@ -414,8 +387,6 @@ response = client.messaging_tollfree.verification.requests.retrieve_status_histo
 print(response.records)
 ```
 
-Returns: `records` (array[object]), `total_records` (integer)
-
 ## List messaging URL domains
 
 `GET /messaging_url_domains`
@@ -425,5 +396,3 @@ page = client.messaging_url_domains.list()
 page = page.data[0]
 print(page.id)
 ```
-
-Returns: `id` (string), `record_type` (string), `url_domain` (string), `use_case` (string)

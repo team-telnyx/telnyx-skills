@@ -1,0 +1,289 @@
+#!/usr/bin/env bash
+#
+# test-verify.sh — Send and verify a real OTP via Telnyx Verify API
+#
+# Usage: bash test-verify.sh --confirm [--dry-run]
+#
+# Arguments:
+#   --confirm    Required to actually send the OTP
+#   --dry-run    Validate setup without sending
+#   --help       Show this help and exit
+#
+# Environment variables (required):
+#   TELNYX_API_KEY             Your Telnyx API key
+#   TELNYX_VERIFY_PROFILE_ID   Verify profile ID (from Telnyx portal)
+#   TELNYX_TO_NUMBER           Destination number (E.164 format)
+#
+# Exit codes:
+#   0 — Verification completed successfully
+#   1 — Verification failed or setup error
+
+set -euo pipefail
+
+# --- Colors (disabled if not a terminal) ---
+if [ -t 1 ]; then
+  RED='\033[0;31m'
+  YELLOW='\033[0;33m'
+  GREEN='\033[0;32m'
+  BLUE='\033[0;34m'
+  BOLD='\033[1m'
+  NC='\033[0m'
+else
+  RED='' YELLOW='' GREEN='' BLUE='' BOLD='' NC=''
+fi
+
+# --- Parse arguments ---
+CONFIRMED=false
+DRY_RUN=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --confirm) CONFIRMED=true ;;
+    --dry-run) DRY_RUN=true ;;
+    --help|-h)
+      echo "Usage: bash test-verify.sh --confirm [--dry-run]"
+      echo ""
+      echo "Sends a real OTP via Telnyx Verify API and prompts for verification."
+      echo ""
+      echo "Flags:"
+      echo "  --confirm    Required to actually send the OTP"
+      echo "  --dry-run    Validate setup without sending"
+      echo ""
+      echo "Environment variables:"
+      echo "  TELNYX_API_KEY             (required) Your Telnyx API key"
+      echo "  TELNYX_VERIFY_PROFILE_ID   (required) Verify profile ID"
+      echo "  TELNYX_TO_NUMBER           (required) Destination number, E.164 format"
+      exit 0
+      ;;
+    *)
+      echo "Unknown argument: $arg" >&2
+      echo "Run with --help for usage." >&2
+      exit 2
+      ;;
+  esac
+done
+
+echo -e "${BOLD}Telnyx Verify Test${NC}"
+echo "==================="
+echo ""
+echo -e "${YELLOW}${BOLD}COST WARNING: This test sends a real OTP (~\$0.05)${NC}"
+echo ""
+
+# --- Validate prerequisites ---
+ERRORS=0
+
+if [ -z "${TELNYX_API_KEY:-}" ]; then
+  echo -e "  ${RED}FAIL${NC}  TELNYX_API_KEY is not set"
+  ERRORS=$((ERRORS + 1))
+else
+  echo -e "  ${GREEN}PASS${NC}  TELNYX_API_KEY is set (${TELNYX_API_KEY:0:8}...)"
+fi
+
+if [ -z "${TELNYX_VERIFY_PROFILE_ID:-}" ]; then
+  echo -e "  ${RED}FAIL${NC}  TELNYX_VERIFY_PROFILE_ID is not set"
+  echo -e "         Create one at: https://portal.telnyx.com/#/app/verify/profiles"
+  ERRORS=$((ERRORS + 1))
+else
+  echo -e "  ${GREEN}PASS${NC}  TELNYX_VERIFY_PROFILE_ID: ${TELNYX_VERIFY_PROFILE_ID}"
+fi
+
+if [ -z "${TELNYX_TO_NUMBER:-}" ]; then
+  echo -e "  ${RED}FAIL${NC}  TELNYX_TO_NUMBER is not set"
+  ERRORS=$((ERRORS + 1))
+else
+  echo -e "  ${GREEN}PASS${NC}  TELNYX_TO_NUMBER: ${TELNYX_TO_NUMBER}"
+fi
+
+if ! command -v curl &>/dev/null; then
+  echo -e "  ${RED}FAIL${NC}  curl is not installed"
+  ERRORS=$((ERRORS + 1))
+fi
+
+HAS_JQ=false
+if command -v jq &>/dev/null; then
+  HAS_JQ=true
+  echo -e "  ${GREEN}PASS${NC}  jq is available"
+else
+  echo -e "  ${YELLOW}WARN${NC}  jq not installed (output will be limited)"
+fi
+
+# Check stdin is a terminal (needed for code input)
+if [ ! -t 0 ]; then
+  echo -e "  ${YELLOW}WARN${NC}  stdin is not a terminal — code entry may not work"
+fi
+
+if [ "$ERRORS" -gt 0 ]; then
+  echo ""
+  echo -e "${RED}${BOLD}Setup validation failed. Fix the errors above.${NC}"
+  exit 1
+fi
+
+# --- Validate API key ---
+echo ""
+echo -e "${BOLD}Validating API key...${NC}"
+
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+  -H "Authorization: Bearer ${TELNYX_API_KEY}" \
+  "https://api.telnyx.com/v2/balance" 2>/dev/null || echo "000")
+
+if [ "$HTTP_CODE" != "200" ]; then
+  echo -e "  ${RED}FAIL${NC}  API key validation failed (HTTP $HTTP_CODE)"
+  exit 1
+fi
+echo -e "  ${GREEN}PASS${NC}  API key is valid"
+
+# --- Dry run exits here ---
+if [ "$DRY_RUN" = true ]; then
+  echo ""
+  echo -e "${BOLD}Dry run complete.${NC} Setup looks good."
+  echo "  Would send OTP to: ${TELNYX_TO_NUMBER}"
+  echo "  Verify profile: ${TELNYX_VERIFY_PROFILE_ID}"
+  echo "  Estimated cost: ~\$0.05"
+  echo ""
+  echo "Run with --confirm to send the OTP."
+  exit 0
+fi
+
+# --- Require --confirm ---
+if [ "$CONFIRMED" = false ]; then
+  echo ""
+  echo -e "${BOLD}What this test will do:${NC}"
+  echo "  1. Send a verification code to ${TELNYX_TO_NUMBER} via SMS"
+  echo "  2. Prompt you to enter the code you receive"
+  echo "  3. Verify the code via the Telnyx API"
+  echo "  4. Report verification status"
+  echo ""
+  echo "  Estimated cost: ~\$0.05"
+  echo ""
+  echo "Run with --confirm to proceed."
+  exit 0
+fi
+
+# --- Send verification ---
+echo ""
+echo -e "${BOLD}Sending verification code...${NC}"
+echo "  To: ${TELNYX_TO_NUMBER}"
+echo "  Profile: ${TELNYX_VERIFY_PROFILE_ID}"
+echo ""
+
+VERIFY_RESPONSE=$(curl -s -X POST \
+  -H "Authorization: Bearer ${TELNYX_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"phone_number\": \"${TELNYX_TO_NUMBER}\",
+    \"verify_profile_id\": \"${TELNYX_VERIFY_PROFILE_ID}\",
+    \"type\": \"sms\"
+  }" \
+  "https://api.telnyx.com/v2/verifications" 2>/dev/null || echo "")
+
+if [ -z "$VERIFY_RESPONSE" ]; then
+  echo -e "  ${RED}FAIL${NC}  No response from API"
+  exit 1
+fi
+
+# Extract verification ID
+VERIFICATION_ID=""
+if [ "$HAS_JQ" = true ]; then
+  VERIFICATION_ID=$(echo "$VERIFY_RESPONSE" | jq -r '.data.id // empty' 2>/dev/null)
+  VERIFY_STATUS=$(echo "$VERIFY_RESPONSE" | jq -r '.data.status // empty' 2>/dev/null)
+  API_ERROR=$(echo "$VERIFY_RESPONSE" | jq -r '.errors[0].detail // empty' 2>/dev/null)
+
+  if [ -n "$API_ERROR" ]; then
+    echo -e "  ${RED}FAIL${NC}  API error: $API_ERROR"
+    ERROR_CODE=$(echo "$VERIFY_RESPONSE" | jq -r '.errors[0].code // empty' 2>/dev/null)
+    if [ -n "$ERROR_CODE" ]; then
+      echo -e "  ${BLUE}INFO${NC}  Error code: $ERROR_CODE"
+    fi
+    exit 1
+  fi
+fi
+
+if [ -z "$VERIFICATION_ID" ]; then
+  echo -e "  ${RED}FAIL${NC}  Could not extract verification ID from response"
+  if [ "$HAS_JQ" = true ]; then
+    echo "  Response: $(echo "$VERIFY_RESPONSE" | jq -c . 2>/dev/null || echo "$VERIFY_RESPONSE")"
+  fi
+  exit 1
+fi
+
+echo -e "  ${GREEN}PASS${NC}  Verification sent"
+echo "  Verification ID: ${VERIFICATION_ID}"
+echo "  Status:          ${VERIFY_STATUS:-pending}"
+
+# --- Prompt for code ---
+echo ""
+echo -e "${BOLD}Enter the verification code you received:${NC}"
+
+# URL-encode the phone number for the API path
+# Replace + with %2B
+ENCODED_PHONE=$(echo "${TELNYX_TO_NUMBER}" | sed 's/+/%2B/g')
+
+# Read code from stdin
+read -r -p "  Code: " VERIFY_CODE
+
+if [ -z "$VERIFY_CODE" ]; then
+  echo -e "  ${RED}FAIL${NC}  No code entered"
+  exit 1
+fi
+
+# Trim whitespace
+VERIFY_CODE=$(echo "$VERIFY_CODE" | tr -d '[:space:]')
+
+echo ""
+echo -e "${BOLD}Verifying code...${NC}"
+
+# --- Verify the code ---
+VERIFY_CHECK_RESPONSE=$(curl -s -X POST \
+  -H "Authorization: Bearer ${TELNYX_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"code\": \"${VERIFY_CODE}\"
+  }" \
+  "https://api.telnyx.com/v2/verifications/by_phone_number/${ENCODED_PHONE}/actions/verify" 2>/dev/null || echo "")
+
+if [ -z "$VERIFY_CHECK_RESPONSE" ]; then
+  echo -e "  ${RED}FAIL${NC}  No response from verification API"
+  exit 1
+fi
+
+# Parse result
+VERIFY_RESULT=""
+if [ "$HAS_JQ" = true ]; then
+  VERIFY_RESULT=$(echo "$VERIFY_CHECK_RESPONSE" | jq -r '.data.response_code // empty' 2>/dev/null)
+  VERIFY_FINAL_STATUS=$(echo "$VERIFY_CHECK_RESPONSE" | jq -r '.data.status // empty' 2>/dev/null)
+  CHECK_ERROR=$(echo "$VERIFY_CHECK_RESPONSE" | jq -r '.errors[0].detail // empty' 2>/dev/null)
+
+  if [ -n "$CHECK_ERROR" ]; then
+    echo -e "  ${RED}FAIL${NC}  Verification error: $CHECK_ERROR"
+    exit 1
+  fi
+fi
+
+# --- Report ---
+echo ""
+echo "==================="
+echo -e "${BOLD}Results${NC}"
+echo "  Verification ID: ${VERIFICATION_ID}"
+echo "  Phone Number:    ${TELNYX_TO_NUMBER}"
+echo "  Code Entered:    ${VERIFY_CODE}"
+echo "  Response Code:   ${VERIFY_RESULT:-unknown}"
+echo "  Status:          ${VERIFY_FINAL_STATUS:-unknown}"
+
+if [ "$VERIFY_RESULT" = "accepted" ] || [ "$VERIFY_FINAL_STATUS" = "accepted" ]; then
+  echo ""
+  echo -e "  ${GREEN}${BOLD}PASS${NC}  Verification successful"
+  exit 0
+elif [ "$VERIFY_RESULT" = "rejected" ] || [ "$VERIFY_FINAL_STATUS" = "rejected" ]; then
+  echo ""
+  echo -e "  ${RED}${BOLD}FAIL${NC}  Verification code was rejected (wrong code)"
+  exit 1
+elif [ "$VERIFY_RESULT" = "expired" ] || [ "$VERIFY_FINAL_STATUS" = "expired" ]; then
+  echo ""
+  echo -e "  ${RED}${BOLD}FAIL${NC}  Verification code has expired"
+  exit 1
+else
+  echo ""
+  echo -e "  ${YELLOW}${BOLD}WARN${NC}  Unexpected verification result: ${VERIFY_RESULT:-${VERIFY_FINAL_STATUS:-unknown}}"
+  echo "  Check the Telnyx portal for details."
+  exit 1
+fi

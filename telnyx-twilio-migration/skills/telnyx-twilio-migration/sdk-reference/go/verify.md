@@ -1,4 +1,21 @@
-<!-- SDK reference: telnyx-verify-go -->
+<!-- Extracted from telnyx-verify-go by extract-sdk-reference.sh -->
+<!-- Source: ../../telnyx-go/skills/telnyx-verify-go/SKILL.md -->
+<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+
+---
+name: telnyx-verify-go
+description: >-
+  Look up phone number information (carrier, type, caller name) and verify users
+  via SMS/voice OTP. Use for phone verification and data enrichment. This skill
+  provides Go SDK examples.
+metadata:
+  author: telnyx
+  product: verify
+  language: go
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Verify - Go
 
@@ -45,8 +62,6 @@ Returns information about the provided phone number.
 	fmt.Printf("%+v\n", numberLookup.Data)
 ```
 
-Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (['string', 'null']), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
-
 ## List verifications by phone number
 
 `GET /verifications/by_phone_number/{phone_number}`
@@ -58,8 +73,6 @@ Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `f
 	}
 	fmt.Printf("%+v\n", byPhoneNumbers.Data)
 ```
-
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by phone number
 
@@ -80,8 +93,6 @@ Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid),
 	fmt.Printf("%+v\n", verifyVerificationCodeResponse.Data)
 ```
 
-Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
-
 ## Trigger Call verification
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
@@ -98,8 +109,6 @@ Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), 
 	}
 	fmt.Printf("%+v\n", createVerificationResponse.Data)
 ```
-
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger Flash call verification
 
@@ -118,8 +127,6 @@ Optional: `timeout_secs` (integer)
 	fmt.Printf("%+v\n", createVerificationResponse.Data)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
-
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
@@ -137,8 +144,6 @@ Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
 	fmt.Printf("%+v\n", createVerificationResponse.Data)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
-
 ## Retrieve verification
 
 `GET /verifications/{verification_id}`
@@ -151,13 +156,11 @@ Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid),
 	fmt.Printf("%+v\n", verification.Data)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
-
 ## Verify verification code by ID
 
 `POST /verifications/{verification_id}/actions/verify`
 
-Optional: `code` (string), `status` (enum: accepted, rejected)
+Optional: `code` (string), `status` (enum)
 
 ```go
 	verifyVerificationCodeResponse, err := client.Verifications.Actions.Verify(
@@ -170,8 +173,6 @@ Optional: `code` (string), `status` (enum: accepted, rejected)
 	}
 	fmt.Printf("%+v\n", verifyVerificationCodeResponse.Data)
 ```
-
-Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
 
 ## List all Verify profiles
 
@@ -186,8 +187,6 @@ Gets a paginated list of Verify profiles.
 	}
 	fmt.Printf("%+v\n", page)
 ```
-
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
 
 ## Create a Verify profile
 
@@ -207,8 +206,6 @@ Optional: `call` (object), `flashcall` (object), `language` (string), `rcs` (obj
 	fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
 
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
-
 ## Retrieve Verify profile message templates
 
 List all Verify profile message templates.
@@ -222,8 +219,6 @@ List all Verify profile message templates.
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
-
-Returns: `id` (uuid), `text` (string)
 
 ## Create message template
 
@@ -240,8 +235,6 @@ Create a new Verify profile message template.
 	}
 	fmt.Printf("%+v\n", messageTemplate.Data)
 ```
-
-Returns: `id` (uuid), `text` (string)
 
 ## Update message template
 
@@ -263,8 +256,6 @@ Update an existing Verify profile message template.
 	fmt.Printf("%+v\n", messageTemplate.Data)
 ```
 
-Returns: `id` (uuid), `text` (string)
-
 ## Retrieve Verify profile
 
 Gets a single Verify profile.
@@ -278,8 +269,6 @@ Gets a single Verify profile.
 	}
 	fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
-
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
 
 ## Update Verify profile
 
@@ -299,8 +288,6 @@ Optional: `call` (object), `flashcall` (object), `language` (string), `name` (st
 	fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
 
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
-
 ## Delete Verify profile
 
 `DELETE /verify_profiles/{verify_profile_id}`
@@ -312,5 +299,3 @@ Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uui
 	}
 	fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
-
-Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
