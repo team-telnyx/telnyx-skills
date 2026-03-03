@@ -23,6 +23,7 @@ Replace `telnyx-python` with the plugin for your stack:
 <!-- BEGIN GENERATED PLUGIN_TABLE -->
 | Plugin | Language |
 |--------|----------|
+| `telnyx-curl` | curl (REST API) |
 | `telnyx-go` | Go |
 | `telnyx-java` | Java |
 | `telnyx-javascript` | JavaScript / Node.js |
@@ -30,6 +31,7 @@ Replace `telnyx-python` with the plugin for your stack:
 | `telnyx-ruby` | Ruby |
 | `telnyx-webrtc-client` | WebRTC client SDKs (JS, iOS, Android, Flutter, React Native) |
 | `telnyx-twilio-migration` | Migrate from Twilio to Telnyx |
+| `telnyx-cli` | Telnyx CLI |
 <!-- END GENERATED PLUGIN_TABLE -->
 
 Each language plugin includes all <!-- PRODUCT_COUNT -->36<!-- /PRODUCT_COUNT --> Telnyx products (messaging, voice, numbers, IoT, AI, and more).

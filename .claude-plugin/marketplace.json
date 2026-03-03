@@ -10,6 +10,49 @@
   },
   "plugins": [
     {
+      "name": "telnyx-curl",
+      "description": "Official Telnyx REST API (curl) skills \u2014 messaging, voice, numbers, IoT, AI, and more. Language-agnostic HTTP examples for any language or framework.",
+      "source": "./telnyx-curl",
+      "skills": [
+        "./telnyx-curl/skills/telnyx-10dlc-curl",
+        "./telnyx-curl/skills/telnyx-account-access-curl",
+        "./telnyx-curl/skills/telnyx-account-curl",
+        "./telnyx-curl/skills/telnyx-account-management-curl",
+        "./telnyx-curl/skills/telnyx-account-notifications-curl",
+        "./telnyx-curl/skills/telnyx-account-reports-curl",
+        "./telnyx-curl/skills/telnyx-ai-assistants-curl",
+        "./telnyx-curl/skills/telnyx-ai-inference-curl",
+        "./telnyx-curl/skills/telnyx-fax-curl",
+        "./telnyx-curl/skills/telnyx-iot-curl",
+        "./telnyx-curl/skills/telnyx-messaging-curl",
+        "./telnyx-curl/skills/telnyx-messaging-hosted-curl",
+        "./telnyx-curl/skills/telnyx-messaging-profiles-curl",
+        "./telnyx-curl/skills/telnyx-missions-curl",
+        "./telnyx-curl/skills/telnyx-networking-curl",
+        "./telnyx-curl/skills/telnyx-numbers-compliance-curl",
+        "./telnyx-curl/skills/telnyx-numbers-config-curl",
+        "./telnyx-curl/skills/telnyx-numbers-curl",
+        "./telnyx-curl/skills/telnyx-numbers-services-curl",
+        "./telnyx-curl/skills/telnyx-oauth-curl",
+        "./telnyx-curl/skills/telnyx-porting-in-curl",
+        "./telnyx-curl/skills/telnyx-porting-out-curl",
+        "./telnyx-curl/skills/telnyx-seti-curl",
+        "./telnyx-curl/skills/telnyx-sip-curl",
+        "./telnyx-curl/skills/telnyx-sip-integrations-curl",
+        "./telnyx-curl/skills/telnyx-storage-curl",
+        "./telnyx-curl/skills/telnyx-texml-curl",
+        "./telnyx-curl/skills/telnyx-verify-curl",
+        "./telnyx-curl/skills/telnyx-video-curl",
+        "./telnyx-curl/skills/telnyx-voice-advanced-curl",
+        "./telnyx-curl/skills/telnyx-voice-conferencing-curl",
+        "./telnyx-curl/skills/telnyx-voice-curl",
+        "./telnyx-curl/skills/telnyx-voice-gather-curl",
+        "./telnyx-curl/skills/telnyx-voice-media-curl",
+        "./telnyx-curl/skills/telnyx-voice-streaming-curl",
+        "./telnyx-curl/skills/telnyx-webrtc-curl"
+      ]
+    },
+    {
       "name": "telnyx-go",
       "description": "Official Telnyx Go SDK skills \u2014 messaging, voice, numbers, IoT, AI, and more. Install this plugin to give your agent Telnyx API expertise in Go.",
       "source": "./telnyx-go",
@@ -243,6 +286,14 @@
       "source": "./telnyx-twilio-migration",
       "skills": [
         "./telnyx-twilio-migration/skills/telnyx-twilio-migration"
+      ]
+    },
+    {
+      "name": "telnyx-cli",
+      "description": "Telnyx CLI \u2014 manage phone numbers, send messages, make calls, and access all Telnyx APIs from the terminal. 946 commands auto-generated from the OpenAPI spec.",
+      "source": "./telnyx-cli",
+      "skills": [
+        "./telnyx-cli/skills/telnyx-cli"
       ]
     }
   ]
