@@ -122,7 +122,13 @@ Present the triaged results to the user. Confirm:
 - Which files will be modified (exclude string-only references)
 - Any products that are **out of scope** — see `{baseDir}/references/unsupported-products.md`
 
-**Out-of-scope products** (no Telnyx equivalent): Flex, Studio, TaskRouter, Conversations, Sync, Notify, Proxy, Pay, Autopilot. If detected, present alternatives from `unsupported-products.md` and ask the user to decide: keep on Twilio, replace with alternative, or remove.
+**Out-of-scope products** (no Telnyx equivalent): Flex, Studio, TaskRouter, Conversations, Sync, Notify, Proxy, Pay, Autopilot. If detected, present alternatives from `unsupported-products.md` and ask the user to decide: keep on Twilio, replace with alternative, or remove. **Record each "keep on Twilio" decision in migration state** so Phase 6 knows whether the Twilio SDK can be safely removed:
+
+```bash
+# For each product the user decides to keep on Twilio:
+bash {baseDir}/scripts/migration-state.sh set <project-root> kept_on_twilio.<product> true
+# Example: bash {baseDir}/scripts/migration-state.sh set <project-root> kept_on_twilio.flex true
+```
 
 **Mobile platforms** (detected and guided): iOS native, Android native, React Native, Flutter. These require client-side SDK migration — see `{baseDir}/references/mobile-sdk-migration.md` for complete migration guides.
 
@@ -401,15 +407,31 @@ If the migration is interrupted:
 ## Phase 6: Cleanup & Handoff
 
 > **Prerequisites**: Phase 5 validation passes (exit code 0).
-> **Exit criteria**: Twilio SDK removed, migration report generated, post-migration checklist presented.
+> **Exit criteria**: Twilio SDK removed (or retained for hybrid deployment), migration report generated, post-migration checklist presented.
 
-### Step 6.0: Remove Twilio SDK
+### Step 6.0: Remove Twilio SDK (Conditional)
 
-Now that all code is migrated and validated, remove Twilio:
+Check whether any products were kept on Twilio during Phase 1 triage:
+
+```bash
+bash {baseDir}/scripts/migration-state.sh show <project-root> | grep kept_on_twilio
+```
+
+**If no products kept on Twilio** — remove the Twilio SDK:
+
 Python: `pip uninstall twilio -y` | Node: `npm uninstall twilio` | Ruby: remove `twilio-ruby` from Gemfile + `bundle install` | Go: `go get -u github.com/twilio/twilio-go@none && go mod tidy` | PHP: `composer remove twilio/sdk`
 
 ```bash
 git add <changed-files> && git commit -m "chore: remove Twilio SDK — migration complete"
+```
+
+**If products were kept on Twilio** — do NOT remove the Twilio SDK. This is a hybrid deployment (Telnyx + Twilio). Instead:
+1. Keep the Twilio SDK in the dependency manifest
+2. Note in the migration report which products remain on Twilio and why
+3. Recommend revisiting when Telnyx alternatives become available
+
+```bash
+git add <changed-files> && git commit -m "chore: migration complete — hybrid deployment, Twilio SDK retained for kept products"
 ```
 
 ### Step 6.1: Generate Migration Report
@@ -428,7 +450,8 @@ Present to user:
 - [ ] Update secrets manager + CI/CD env vars for production
 - [ ] Update monitoring alerts for Telnyx error codes/webhook formats
 - [ ] Deploy to staging → run e2e tests → deploy to production
-- [ ] Cancel Twilio account after validation period
+- [ ] If hybrid deployment: maintain both Twilio and Telnyx API keys, monitor usage on both platforms, revisit kept products periodically
+- [ ] Cancel Twilio account after validation period (skip if hybrid — only cancel when all products are fully migrated)
 
 ### Step 6.3: Explore Telnyx-Only Features
 
