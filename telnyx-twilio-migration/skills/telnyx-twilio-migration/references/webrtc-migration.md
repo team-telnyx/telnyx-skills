@@ -384,7 +384,7 @@ app.post('/api/telnyx/credential', async (req, res) => {
 
 ## Platform-Specific Guides
 
-Platform-specific client SDK implementation (iOS CallKit, Android FCM, Flutter, React Native) requires the native Telnyx WebRTC SDKs. See Telnyx developer docs for platform-specific guides. The server-side credential management is covered in `sdk-reference/{language}/webrtc.md`.
+For native mobile platform migration (iOS, Android, React Native, Flutter), including push notification setup, CallKit/ConnectionService integration, and per-platform code examples, see `{baseDir}/references/mobile-sdk-migration.md`. The server-side credential management is covered in `sdk-reference/{language}/webrtc.md`.
 
 ## Contact Center / PBX Patterns
 
@@ -527,7 +527,7 @@ For complete API reference with all parameters and response schemas, see the bun
 | Voice API (Call Control) | `sdk-reference/{language}/voice.md` |
 | SIP Connections | `sdk-reference/{language}/sip.md` |
 
-Platform-specific client SDKs (iOS, Android, Flutter, React Native) are out of scope for automated migration — see `unsupported-products.md` for guidance.
+Platform-specific client SDKs (iOS, Android, Flutter, React Native) are covered in `{baseDir}/references/mobile-sdk-migration.md`.
 
 ### Push Notification Credential Migration
 

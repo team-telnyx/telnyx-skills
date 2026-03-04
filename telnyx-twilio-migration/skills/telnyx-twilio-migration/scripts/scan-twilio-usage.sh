@@ -136,6 +136,9 @@ detect_language() {
     *.toml)                   echo "toml" ;;
     *.cfg)                    echo "config" ;;
     *.txt)                    echo "text" ;;
+    *.swift)                  echo "swift" ;;
+    *.kt|*.kts)               echo "kotlin" ;;
+    *.dart)                   echo "dart" ;;
     *.gradle)                 echo "groovy" ;;
     *.csproj)                 echo "xml" ;;
     *)                        echo "unknown" ;;
@@ -146,6 +149,10 @@ detect_language() {
 pattern_to_products() {
   local pat="$1"
   local products=""
+  # WebRTC (mobile SDKs) — check before voice to avoid false categorization
+  if echo "$pat" | grep -qiE 'TwilioVoiceSDK|TwilioVoice|TVOCall|TVOCallInvite|TVOCallDelegate|com\.twilio\.voice|com\.twilio:voice-android|@twilio/voice-react-native|twilio_voice'; then
+    products="$products webrtc"
+  fi
   # Voice
   if echo "$pat" | grep -qiE 'twiml|VoiceResponse|CallResource|voice'; then
     products="$products voice"
@@ -280,6 +287,17 @@ SDK_PATTERNS=(
   'Twilio.'
   # curl
   'api.twilio.com'
+  # iOS (Swift)
+  'TwilioVoiceSDK'
+  'TwilioVoice'
+  'import TwilioVoice'
+  # Android (Kotlin/Java)
+  'com.twilio.voice'
+  'com.twilio:voice-android'
+  # React Native
+  '@twilio/voice-react-native'
+  # Flutter (Dart)
+  'twilio_voice'
 )
 
 # Also catch JS/TS `import ... twilio` via regex
@@ -344,6 +362,12 @@ PRODUCT_PATTERNS_FIXED=(
   'FaxResource:fax'
   'RequestValidator:webhook-validation'
   'validateRequest:webhook-validation'
+  # Mobile WebRTC SDKs
+  'TwilioVoiceSDK:webrtc'
+  'TwilioVoice:webrtc'
+  'TVOCall:webrtc'
+  'TVOCallInvite:webrtc'
+  'TVOCallDelegate:webrtc'
   # SIP trunking
   'TrunkingGrant:sip'
   'SipGrant:sip'
@@ -430,6 +454,12 @@ PRODUCT_PATTERNS_REGEX=(
   'twilio\.rest\.studio:studio'
   'studio\.v2:studio'
   'flow\.create:studio'
+  # Mobile WebRTC SDKs
+  'com\.twilio\.voice\.:webrtc'
+  'com\.twilio:voice-android:webrtc'
+  '@twilio/voice-react-native:webrtc'
+  'twilio_voice:webrtc'
+  'import TwilioVoice:webrtc'
 )
 
 for entry in "${PRODUCT_PATTERNS_REGEX[@]}"; do

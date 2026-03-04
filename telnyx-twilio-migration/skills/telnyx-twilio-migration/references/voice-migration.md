@@ -379,7 +379,63 @@ Status callback events match Twilio's: `initiated`, `ringing`, `answered`, `comp
 
 3. **Status callback event names match but payloads differ** — Event names (initiated, ringing, answered, completed) are the same, but the webhook payload structure for Call Control API differs from TeXML callbacks. TeXML callbacks are form-encoded like Twilio; Call Control uses JSON.
 
-4. **RecordingUrl is temporary** — Telnyx recording URLs expire 10 minutes after the call ends. Download recordings promptly or configure a storage destination.
+4. **RecordingUrl is temporary** — Telnyx recording URLs are AWS S3 signed URLs that expire after 10 minutes (`X-Amz-Expires=600`). Any code that stores the URL for later playback will silently fail. Download the recording immediately in your webhook handler and persist it to your own storage.
+
+```python
+# Twilio (URL never expires — store it directly)
+@app.route('/recording-callback', methods=['POST'])
+def handle_recording():
+    recording_url = request.form['RecordingUrl']
+    call_sid = request.form['CallSid']
+    # Safe to store URL and download days later
+    db.save_recording(call_sid=call_sid, url=recording_url)
+    return '', 204
+
+# Telnyx (URL expires in 10 minutes — download immediately)
+@app.route('/recording-callback', methods=['POST'])
+def handle_recording():
+    payload = request.json['data']['payload']
+    recording_url = payload['recording_urls']['mp3']
+    call_control_id = payload['call_control_id']
+
+    # Download NOW — URL expires in 10 minutes
+    response = requests.get(recording_url)
+    filename = f"recordings/{call_control_id}.mp3"
+    # Save to local filesystem (or upload to S3/GCS)
+    with open(filename, 'wb') as f:
+        f.write(response.content)
+    db.save_recording(call_id=call_control_id, path=filename)
+    return '', 200
+```
+
+```javascript
+// Twilio (URL never expires — store it directly)
+app.post('/recording-callback', (req, res) => {
+  const recordingUrl = req.body.RecordingUrl;
+  const callSid = req.body.CallSid;
+  // Safe to store URL and download days later
+  db.saveRecording({ callSid, url: recordingUrl });
+  res.sendStatus(204);
+});
+
+// Telnyx (URL expires in 10 minutes — download immediately)
+const fs = require('fs');
+const { pipeline } = require('stream/promises');
+
+app.post('/recording-callback', async (req, res) => {
+  const payload = req.body.data.payload;
+  const recordingUrl = payload.recording_urls.mp3;
+  const callControlId = payload.call_control_id;
+
+  // Download NOW — URL expires in 10 minutes
+  const response = await fetch(recordingUrl);
+  const filename = `recordings/${callControlId}.mp3`;
+  // Save to local filesystem (or upload to S3/GCS)
+  await pipeline(response.body, fs.createWriteStream(filename));
+  await db.saveRecording({ callId: callControlId, path: filename });
+  res.sendStatus(200);
+});
+```
 
 5. **AMD (Answering Machine Detection)** — Telnyx supports `Regular` and `Premium` detection modes. Twilio's `machineDetection` param maps to Telnyx's `answering_machine_detection`. The `Premium` mode provides async detection with separate webhook events (`call.machine.detection.ended`).
 

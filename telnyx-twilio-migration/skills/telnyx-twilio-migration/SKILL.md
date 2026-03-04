@@ -124,7 +124,7 @@ Present the triaged results to the user. Confirm:
 
 **Out-of-scope products** (no Telnyx equivalent): Flex, Studio, TaskRouter, Conversations, Sync, Notify, Proxy, Pay, Autopilot. If detected, present alternatives from `unsupported-products.md` and ask the user to decide: keep on Twilio, replace with alternative, or remove.
 
-**Unsupported platforms** (detected but not auto-migrated): iOS native, Android native, React Native, Flutter. These require manual SDK migration — see `unsupported-products.md` for docs links.
+**Mobile platforms** (detected and guided): iOS native, Android native, React Native, Flutter. These require client-side SDK migration — see `{baseDir}/references/mobile-sdk-migration.md` for complete migration guides.
 
 **Phase 1 exit**: `bash {baseDir}/scripts/migration-state.sh set-phase <project-root> 1 && bash {baseDir}/scripts/migration-state.sh set <project-root> scan_file "twilio-scan.json"`
 
@@ -143,7 +143,7 @@ For each product detected in the scan, read the corresponding reference file:
 |---|---|
 | `voice`, `texml` | `{baseDir}/references/voice-migration.md` and `{baseDir}/references/texml-verbs.md` |
 | `messaging` | `{baseDir}/references/messaging-migration.md` |
-| `webrtc` | `{baseDir}/references/webrtc-migration.md` |
+| `webrtc` | `{baseDir}/references/webrtc-migration.md` and `{baseDir}/references/mobile-sdk-migration.md` |
 | `verify` | `{baseDir}/references/verify-migration.md` |
 | `sip`, `sip-integrations` | `{baseDir}/references/sip-trunking-migration.md` |
 | `fax` | `{baseDir}/references/fax-migration.md` |
@@ -229,6 +229,7 @@ bash {baseDir}/scripts/migration-state.sh set-commit <project-root> 3
 
 **Full SDK**: Python (`telnyx` pip), JavaScript/TypeScript (`telnyx` npm), Go (`telnyx-go`), Ruby (`telnyx` gem) — all v2 Stainless clients with sdk-reference docs in `{baseDir}/sdk-reference/{lang}/`
 **REST/curl only**: Java, PHP, C#/.NET — no official SDK. Use `{baseDir}/sdk-reference/curl/{product}.md` for complete REST API examples with all parameters.
+**Client-side WebRTC SDKs**: Swift (iOS), Kotlin (Android), React Native (TypeScript), Flutter (Dart) — these cover client-side WebRTC SDK migration from Twilio. See `{baseDir}/references/mobile-sdk-migration.md`.
 
 > **JavaScript module warning**: The `sdk-reference/javascript/` files use ESM syntax (`import Telnyx from 'telnyx'`). If the project uses CommonJS (`require`), translate to: `const Telnyx = require('telnyx'); const client = new Telnyx({ apiKey: process.env.TELNYX_API_KEY });`. Do NOT copy ESM imports into CJS files — it will break unless `"type": "module"` is in `package.json`.
 
@@ -302,6 +303,7 @@ If validation fails and you cannot fix the issue, document it and continue to th
 - Convert complex TwiML endpoints to TeXML
 - Replace Access Token generation with SIP credentials
 - Update client SDK: `@twilio/voice-sdk` → `@telnyx/webrtc`
+- For native mobile clients (iOS/Android/React Native/Flutter), see `{baseDir}/references/mobile-sdk-migration.md`
 - See `{baseDir}/references/webrtc-migration.md` → "TwiML Endpoint Analysis"
 
 **Verify:**

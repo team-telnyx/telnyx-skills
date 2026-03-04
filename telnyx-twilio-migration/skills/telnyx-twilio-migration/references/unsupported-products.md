@@ -20,17 +20,6 @@ These Twilio products have no direct Telnyx replacement. When the scanner detect
 | **Proxy** (Phone Masking) | No equivalent | Build custom number masking with Telnyx Messaging API + number pool |
 | **Segment** (CDP) | No equivalent | Consider Segment independently, or alternatives (Rudderstack, mParticle) |
 
-## Unsupported Platforms
-
-These platforms are detected but not migrated by this skill. Each requires manual migration.
-
-| Platform | Why | What to Do |
-|---|---|---|
-| **iOS native** (Swift/ObjC) | Different SDK, requires Xcode/CocoaPods changes | See [Telnyx iOS Voice SDK docs](https://developers.telnyx.com/docs/voice/webrtc/ios-sdk). Manual migration recommended. |
-| **Android native** (Kotlin/Java) | Different SDK, requires Gradle changes | See [Telnyx Android Voice SDK docs](https://developers.telnyx.com/docs/voice/webrtc/android-sdk). Manual migration recommended. |
-| **React Native** | Client SDK swap + native bridge changes | See [Telnyx React Native SDK docs](https://developers.telnyx.com/docs/voice/webrtc/react-native). Manual migration recommended. |
-| **Flutter** | Client SDK swap + platform channel changes | See Telnyx Flutter SDK docs. Manual migration recommended. |
-
 ## Multi-Service Architecture
 
 If the scanner detects Twilio usage across multiple independent services (microservices, separate repos):
