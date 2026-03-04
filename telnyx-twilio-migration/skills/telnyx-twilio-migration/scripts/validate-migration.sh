@@ -36,9 +36,11 @@ WARN_COUNT=0
 JSON_MODE=false
 PRODUCT_FILTER="all"
 PROJECT_ROOT=""
+STATE_FILE=""
+KEPT_ON_TWILIO=""
 
 EXCLUDE_DIRS="node_modules .git vendor __pycache__ venv .venv dist build"
-EXCLUDE_FILES="MIGRATION-PLAN.md MIGRATION-REPORT.md"
+EXCLUDE_FILES="MIGRATION-PLAN.md MIGRATION-REPORT.md twilio-scan.json twilio-deep-scan.json migration-state.json"
 EXCLUDE_LOCK_FILES="--exclude=package-lock.json --exclude=yarn.lock --exclude=pnpm-lock.yaml --exclude=Gemfile.lock --exclude=Pipfile.lock --exclude=poetry.lock --exclude=go.sum"
 
 # JSON accumulator
@@ -47,9 +49,12 @@ JSON_CHECKS="[]"
 # --- Helpers ---
 
 usage() {
-  echo "Usage: $(basename "$0") <project-root> [--product <name>] [--json]"
+  echo "Usage: $(basename "$0") <project-root> [--product <name>] [--json] [--state-file <path>]"
   echo ""
   echo "Products: voice, messaging, verify, webrtc, sip, fax, video, iot, lookup"
+  echo ""
+  echo "Options:"
+  echo "  --state-file <path>  Path to migration-state.json for hybrid deployment awareness"
   exit 2
 }
 
@@ -111,6 +116,17 @@ check_warn() {
   fi
 }
 
+# Downgrade FAIL to WARN when hybrid deployment keeps some products on Twilio.
+# Use this instead of check_fail for checks that flag residual Twilio references
+# (imports, env vars, dependencies) which are expected in hybrid mode.
+check_fail_or_hybrid_warn() {
+  if [ -n "$KEPT_ON_TWILIO" ]; then
+    check_warn "$1" "$2 (hybrid deployment — $KEPT_ON_TWILIO kept on Twilio)" "${3:-}"
+  else
+    check_fail "$1" "$2" "${3:-}"
+  fi
+}
+
 section_header() {
   if [ "$JSON_MODE" = false ]; then
     echo ""
@@ -126,6 +142,10 @@ build_exclude_args() {
   done
   # Exclude lock files (contain dependency version strings, not source code)
   args="$args $EXCLUDE_LOCK_FILES"
+  # Exclude migration artifacts (contain Twilio references by design)
+  for f in $EXCLUDE_FILES; do
+    args="$args --exclude=$f"
+  done
   echo "$args"
 }
 
@@ -226,6 +246,14 @@ while [ $# -gt 0 ]; do
       JSON_MODE=true
       shift
       ;;
+    --state-file)
+      if [ $# -lt 2 ]; then
+        echo "Error: --state-file requires a value" >&2
+        usage
+      fi
+      STATE_FILE="$2"
+      shift 2
+      ;;
     -h|--help)
       usage
       ;;
@@ -264,6 +292,15 @@ fi
 # Resolve to absolute path
 PROJECT_ROOT="$(cd "$PROJECT_ROOT" && pwd)"
 
+# Load hybrid deployment state if state file provided
+if [ -n "$STATE_FILE" ] && [ -f "$STATE_FILE" ]; then
+  if command -v jq >/dev/null 2>&1; then
+    KEPT_ON_TWILIO=$(jq -r '.kept_on_twilio // {} | keys | join(",")' "$STATE_FILE" 2>/dev/null || true)
+  fi
+elif [ -n "$STATE_FILE" ] && [ ! -f "$STATE_FILE" ]; then
+  echo "Warning: --state-file '$STATE_FILE' not found, ignoring" >&2
+fi
+
 # Build grep exclude args
 GREP_EXCLUDES=$(build_exclude_args)
 
@@ -288,7 +325,7 @@ if product_applies "all"; then
   matches=$(search_files "(from twilio|import twilio)" "*.py")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
-    check_fail "twilio_python_imports" "Twilio Python imports found in $count file(s):" "$(matches_to_json "$matches")"
+    check_fail_or_hybrid_warn "twilio_python_imports" "Twilio Python imports found in $count file(s):" "$(matches_to_json "$matches")"
   else
     check_pass "twilio_python_imports" "No Twilio Python imports found"
   fi
@@ -299,7 +336,7 @@ if product_applies "all"; then
   matches=$(search_files "(require\(['\"]twilio['\"]|from ['\"]twilio['\"])" "*.js" "*.ts" "*.jsx" "*.tsx" "*.mjs" "*.cjs")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
-    check_fail "twilio_js_imports" "Twilio JS/TS imports found in $count file(s):" "$(matches_to_json "$matches")"
+    check_fail_or_hybrid_warn "twilio_js_imports" "Twilio JS/TS imports found in $count file(s):" "$(matches_to_json "$matches")"
   else
     check_pass "twilio_js_imports" "No Twilio JS/TS imports found"
   fi
@@ -310,7 +347,7 @@ if product_applies "all"; then
   matches=$(search_files "github\.com/twilio/twilio-go" "*.go" "go.mod" "go.sum")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
-    check_fail "twilio_go_imports" "Twilio Go imports found in $count file(s):" "$(matches_to_json "$matches")"
+    check_fail_or_hybrid_warn "twilio_go_imports" "Twilio Go imports found in $count file(s):" "$(matches_to_json "$matches")"
   else
     check_pass "twilio_go_imports" "No Twilio Go imports found"
   fi
@@ -321,7 +358,7 @@ if product_applies "all"; then
   matches=$(search_files "(require ['\"]twilio-ruby['\"]|require ['\"]twilio['\"])" "*.rb")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
-    check_fail "twilio_ruby_imports" "Twilio Ruby imports found in $count file(s):" "$(matches_to_json "$matches")"
+    check_fail_or_hybrid_warn "twilio_ruby_imports" "Twilio Ruby imports found in $count file(s):" "$(matches_to_json "$matches")"
   else
     check_pass "twilio_ruby_imports" "No Twilio Ruby imports found"
   fi
@@ -332,7 +369,7 @@ if product_applies "all"; then
   matches=$(search_files "import com\.twilio\." "*.java" "*.kt" "*.scala")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
-    check_fail "twilio_java_imports" "Twilio Java imports found in $count file(s):" "$(matches_to_json "$matches")"
+    check_fail_or_hybrid_warn "twilio_java_imports" "Twilio Java imports found in $count file(s):" "$(matches_to_json "$matches")"
   else
     check_pass "twilio_java_imports" "No Twilio Java imports found"
   fi
@@ -343,7 +380,7 @@ if product_applies "all"; then
   matches=$(search_files "(use Twilio|require.*twilio.php)" "*.php")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
-    check_fail "twilio_php_imports" "Twilio PHP imports found in $count file(s):" "$(matches_to_json "$matches")"
+    check_fail_or_hybrid_warn "twilio_php_imports" "Twilio PHP imports found in $count file(s):" "$(matches_to_json "$matches")"
   else
     check_pass "twilio_php_imports" "No Twilio PHP imports found"
   fi
@@ -354,7 +391,7 @@ if product_applies "all"; then
   matches=$(search_files "using Twilio" "*.cs")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
-    check_fail "twilio_csharp_imports" "Twilio C# imports found in $count file(s):" "$(matches_to_json "$matches")"
+    check_fail_or_hybrid_warn "twilio_csharp_imports" "Twilio C# imports found in $count file(s):" "$(matches_to_json "$matches")"
   else
     check_pass "twilio_csharp_imports" "No Twilio C# imports found"
   fi
@@ -376,7 +413,7 @@ if product_applies "all"; then
   matches=$(search_source_files "(TWILIO_ACCOUNT_SID|TWILIO_AUTH_TOKEN|TWILIO_API_KEY|TWILIO_API_SECRET|TWILIO_SID)")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
-    check_fail "twilio_env_vars" "Twilio environment variables found in $count file(s):" "$(matches_to_json "$matches")"
+    check_fail_or_hybrid_warn "twilio_env_vars" "Twilio environment variables found in $count file(s):" "$(matches_to_json "$matches")"
   else
     check_pass "twilio_env_vars" "No Twilio environment variables found"
   fi
@@ -433,6 +470,34 @@ if product_applies "all"; then
     check_pass "telnyx_sdk_dependency" "Telnyx SDK found in dependency file(s)"
   else
     check_fail "telnyx_sdk_dependency" "Telnyx SDK not found in any dependency file (requirements.txt, package.json, Gemfile, etc.)"
+  fi
+fi
+
+# --- Check 6b: Telnyx mobile SDK in dependency files ---
+if product_applies "webrtc"; then
+  mobile_dep_matches=""
+  # iOS (Swift/CocoaPods)
+  mobile_dep_matches+=$(grep -rn "TelnyxRTC\|TelnyxVideo\|telnyx" "$PROJECT_ROOT"/Podfile 2>/dev/null || true)
+  # iOS (Swift Package Manager)
+  mobile_dep_matches+=$(grep -rn "telnyx" "$PROJECT_ROOT"/Package.swift 2>/dev/null || true)
+  # Android (Kotlin/Java)
+  mobile_dep_matches+=$(grep -rn "com\.telnyx\.\|telnyx" "$PROJECT_ROOT"/{build.gradle,build.gradle.kts,app/build.gradle,app/build.gradle.kts} 2>/dev/null || true)
+  # React Native
+  mobile_dep_matches+=$(grep -rn "@telnyx/react-native\|@telnyx/webrtc" "$PROJECT_ROOT"/package.json 2>/dev/null || true)
+  # Flutter (Dart)
+  mobile_dep_matches+=$(grep -rn "telnyx_webrtc\|telnyx" "$PROJECT_ROOT"/pubspec.yaml 2>/dev/null || true)
+
+  mobile_dep_matches=$(echo "$mobile_dep_matches" | sed '/^$/d')
+  count=$(count_matches "$mobile_dep_matches")
+  if [ "$count" -gt 0 ]; then
+    check_pass "telnyx_mobile_sdk_dependency" "Telnyx mobile SDK found in dependency file(s)"
+  else
+    # Only warn if we detected Twilio mobile SDKs
+    twilio_mobile=$(search_files "(TwilioVoiceSDK|import TwilioVoice|com\.twilio\.voice|com\.twilio:voice-android|@twilio/voice-react-native|twilio_voice)" "*.swift" "*.kt" "*.java" "*.dart" "*.tsx" "*.ts" "*.js")
+    twilio_mobile_count=$(count_matches "$twilio_mobile")
+    if [ "$twilio_mobile_count" -gt 0 ]; then
+      check_warn "telnyx_mobile_sdk_dependency" "Twilio mobile SDK detected but no Telnyx mobile SDK found in dependencies (Podfile, pubspec.yaml, build.gradle)"
+    fi
   fi
 fi
 
@@ -520,7 +585,7 @@ if product_applies "all"; then
   twilio_dep_matches=$(echo "$twilio_dep_matches" | sed '/^$/d')
   count=$(count_matches "$twilio_dep_matches")
   if [ "$count" -gt 0 ]; then
-    check_fail "twilio_in_dependencies" "Twilio still in dependency files ($count reference(s)):" "$(matches_to_json "$twilio_dep_matches")"
+    check_fail_or_hybrid_warn "twilio_in_dependencies" "Twilio still in dependency files ($count reference(s)):" "$(matches_to_json "$twilio_dep_matches")"
   else
     check_pass "twilio_in_dependencies" "No Twilio references in dependency files"
   fi
@@ -552,6 +617,10 @@ else
 fi
 
 if [ "$JSON_MODE" = true ]; then
+  HYBRID_JSON="null"
+  if [ -n "$KEPT_ON_TWILIO" ]; then
+    HYBRID_JSON=$(echo "$KEPT_ON_TWILIO" | tr ',' '\n' | jq -R -s 'split("\n") | map(select(length > 0))')
+  fi
   jq -n \
     --arg root "$PROJECT_ROOT" \
     --arg product "$PRODUCT_FILTER" \
@@ -560,12 +629,14 @@ if [ "$JSON_MODE" = true ]; then
     --argjson fail "$FAIL_COUNT" \
     --argjson warn "$WARN_COUNT" \
     --arg result "$RESULT" \
+    --argjson hybrid "$HYBRID_JSON" \
     '{
       project_root: $root,
       product_filter: $product,
       checks: $checks,
       summary: { pass: $pass, fail: $fail, warn: $warn },
-      result: $result
+      result: $result,
+      hybrid_products_on_twilio: $hybrid
     }'
 else
   echo ""
@@ -579,6 +650,11 @@ else
     echo -e "${RED}${BOLD}MIGRATION INCOMPLETE${NC} — $FAIL_COUNT issue(s) require attention"
   else
     echo -e "${GREEN}${BOLD}MIGRATION COMPLETE${NC} — all checks passed"
+  fi
+  if [ -n "$KEPT_ON_TWILIO" ]; then
+    echo ""
+    echo -e "${YELLOW}${BOLD}HYBRID DEPLOYMENT${NC} — products kept on Twilio: $KEPT_ON_TWILIO"
+    echo -e "  Twilio SDK and env vars are expected for these products."
   fi
 fi
 

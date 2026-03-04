@@ -76,6 +76,8 @@ If this fails, the user must: create account (https://telnyx.com/sign-up), compl
 | Integration test — SMS | ~$0.004 | Phase 5 (opt-in) | Recommended |
 | Integration test — Voice | ~$0.01 | Phase 5 (opt-in) | Recommended |
 | Integration test — Verify OTP | ~$0.05 | Phase 5 (opt-in) | Recommended |
+| Integration test — Number Lookup | ~$0.01 | Phase 5 (opt-in) | If lookup migrated |
+| Integration test — Fax | ~$0.07 | Phase 5 (opt-in) | If fax migrated |
 | 10DLC brand registration (US A2P messaging only) | ~$4.00 one-time | Phase 3 setup | Only for US messaging |
 | 10DLC campaign (US A2P messaging only) | ~$15.00/quarter | Phase 3 setup | Only for US messaging |
 | Number porting (if porting from Twilio) | Free | Post-migration | Optional |
@@ -289,6 +291,8 @@ If validation fails and you cannot fix the issue, document it and continue to th
 - API calls: Change base URL from `api.twilio.com/2010-04-01/Accounts/{SID}` to `api.telnyx.com/v2/texml`
 - Auth: Basic Auth → Bearer Token
 - Recording: Set `channels="single"` if expecting mono
+- **`speechModel` does NOT exist in TeXML** — remove it or replace with `transcriptionEngine` (e.g., `transcriptionEngine="Google"`). Using `speechModel` will be silently ignored.
+- **Outbound calls**: Use the Telnyx SDK (`client.texml.accounts.calls.calls(connectionId, {...})`) — do NOT use raw `fetch()` to the TeXML API. The SDK handles auth, retries, and response parsing. See `{baseDir}/sdk-reference/{language}/texml.md` for the exact method signature.
 
 **Voice (Call Control path):**
 - Replace TwiML response generation with Call Control API commands
@@ -309,7 +313,7 @@ If validation fails and you cannot fix the issue, document it and continue to th
 - Convert complex TwiML endpoints to TeXML
 - Replace Access Token generation with SIP credentials
 - Update client SDK: `@twilio/voice-sdk` → `@telnyx/webrtc`
-- For native mobile clients (iOS/Android/React Native/Flutter), see `{baseDir}/references/mobile-sdk-migration.md`
+- **Mobile platforms**: Migrate `.swift`, `.kt`, `.java`, `.dart`, `.tsx` files that import Twilio mobile SDKs. Update `Podfile` (iOS), `build.gradle` (Android), `pubspec.yaml` (Flutter) dependencies. See `{baseDir}/references/mobile-sdk-migration.md`
 - See `{baseDir}/references/webrtc-migration.md` → "TwiML Endpoint Analysis"
 
 **Verify:**
@@ -323,7 +327,25 @@ If validation fails and you cannot fix the issue, document it and continue to th
 - Parse JSON body instead of form data: `request.json['data']['payload']` not `request.form`
 - Access fields via `data.payload.*` — `from` is an object (`from.phone_number`), `to` is an array
 - Replace HMAC-SHA1 (`RequestValidator`) with Ed25519 signature verification using `telnyx-signature-ed25519` + `telnyx-timestamp` headers
-- **Use the exact signature verification pattern from `webhook-migration.md`** — do NOT use patterns from your own training data. The correct Node.js pattern is `client.webhooks.signature.verifySignature(rawBody, signatureHeader, timestampHeader, publicKey)`, NOT `new TelnyxWebhook()`.
+- **Use the exact signature verification pattern from `webhook-migration.md`** — do NOT use patterns from your own training data. Do NOT use `new TelnyxWebhook()`.
+
+> **CRITICAL (Express/Node.js only):** Webhook signature verification requires the **raw request body** (original bytes), NOT `JSON.stringify(req.body)`. You MUST add the `verify` callback to `express.json()` in your main app file AND use `req.rawBody` in your verification middleware:
+>
+> ```javascript
+> // In index.js / app.js — capture raw body:
+> app.use(express.json({
+>   verify: (req, res, buf) => { req.rawBody = buf.toString('utf-8'); }
+> }));
+>
+> // In webhook handler — verify with raw body:
+> client.webhooks.signature.verifySignature(
+>   req.rawBody,  // NOT JSON.stringify(req.body)
+>   req.headers['telnyx-signature-ed25519'],
+>   req.headers['telnyx-timestamp'],
+>   process.env.TELNYX_PUBLIC_KEY
+> );
+> ```
+> Failing to use raw body means signatures will fail in production when JSON key order or whitespace differs from the original payload.
 
 **Error Handling (all products):**
 When transforming API calls, always wrap in try/catch with proper error handling. Telnyx errors return `{ "errors": [{ "code": "...", "title": "...", "detail": "..." }] }`. Handle these HTTP status codes:
@@ -372,6 +394,8 @@ export TELNYX_TO_NUMBER="+1XXXXXXXXXX"  # Ask user for this number
 bash {baseDir}/scripts/test-migration/test-messaging.sh --confirm  # ~$0.004
 bash {baseDir}/scripts/test-migration/test-voice.sh --confirm      # ~$0.01
 bash {baseDir}/scripts/test-migration/test-verify.sh --confirm     # ~$0.05
+bash {baseDir}/scripts/test-migration/test-lookup.sh --confirm     # ~$0.01
+bash {baseDir}/scripts/test-migration/test-fax.sh --confirm        # ~$0.07 (requires fax-capable destination)
 ```
 
 Only `TELNYX_API_KEY` and `TELNYX_TO_NUMBER` are required. All other resources (from number, profiles, connections) are auto-detected or auto-created by the scripts. If the account has no phone numbers, the scripts will purchase one (with `--confirm` gate — cost already approved in Phase 0).
@@ -464,4 +488,4 @@ All scripts are in `{baseDir}/scripts/`. Run them — do not substitute your own
 **Scanners (free)**: `preflight-check.sh [--quick]`, `scan-twilio-usage.sh <root>`, `scan-twilio-deep.py <root>`
 **Validators (free)**: `validate-migration.sh <root> [--product X] [--json]`, `validate-texml.sh <file>`
 **Tests (free)**: `test-migration/smoke-test.sh`, `test-migration/webhook-receiver.py`, `test-migration/test-webhooks-local.py`
-**Tests (paid, --confirm)**: `test-migration/test-voice.sh` (~$0.01), `test-migration/test-messaging.sh` (~$0.004), `test-migration/test-verify.sh` (~$0.05)
+**Tests (paid, --confirm)**: `test-migration/test-voice.sh` (~$0.01), `test-migration/test-messaging.sh` (~$0.004), `test-migration/test-verify.sh` (~$0.05), `test-migration/test-lookup.sh` (~$0.01), `test-migration/test-fax.sh` (~$0.07)

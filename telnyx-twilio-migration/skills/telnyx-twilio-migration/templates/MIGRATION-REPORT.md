@@ -70,6 +70,20 @@
 | `twilio` | Removed | [was X.Y.Z] |
 | `telnyx` | Added | [X.Y.Z] |
 
+## Hybrid Deployment (if applicable)
+
+> Remove this section if no products were kept on Twilio.
+
+| Product Kept on Twilio | Reason | Telnyx Alternative |
+|------------------------|--------|--------------------|
+| [e.g., Flex] | [No Telnyx equivalent] | [Custom contact center / third-party] |
+| [e.g., Studio] | [No Telnyx equivalent] | [Custom workflow engine] |
+
+**Notes:**
+- Twilio SDK is retained in dependencies for the products listed above
+- Both `TWILIO_ACCOUNT_SID`/`TWILIO_AUTH_TOKEN` and `TELNYX_API_KEY` must be maintained
+- Revisit when Telnyx alternatives become available
+
 ## Remaining Manual Steps
 
 - [ ] **Number porting**: Submit porting order for [N] numbers via Telnyx Portal or API

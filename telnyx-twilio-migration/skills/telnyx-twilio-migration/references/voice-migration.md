@@ -400,7 +400,9 @@ def handle_recording():
 
     # Download NOW — URL expires in 10 minutes
     response = requests.get(recording_url)
+    response.raise_for_status()  # Fail loudly if download fails (e.g., URL expired)
     filename = f"recordings/{call_control_id}.mp3"
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
     # Save to local filesystem (or upload to S3/GCS)
     with open(filename, 'wb') as f:
         f.write(response.content)
@@ -429,7 +431,9 @@ app.post('/recording-callback', async (req, res) => {
 
   // Download NOW — URL expires in 10 minutes
   const response = await fetch(recordingUrl);
+  if (!response.ok) throw new Error(`Recording download failed: ${response.status} (URL may have expired)`);
   const filename = `recordings/${callControlId}.mp3`;
+  fs.mkdirSync('recordings', { recursive: true });
   // Save to local filesystem (or upload to S3/GCS)
   await pipeline(response.body, fs.createWriteStream(filename));
   await db.saveRecording({ callId: callControlId, path: filename });

@@ -150,12 +150,15 @@ pattern_to_products() {
   local pat="$1"
   local products=""
   # WebRTC (mobile SDKs) — check before voice to avoid false categorization
-  if echo "$pat" | grep -qiE 'TwilioVoiceSDK|TwilioVoice|TVOCall|TVOCallInvite|TVOCallDelegate|com\.twilio\.voice|com\.twilio:voice-android|@twilio/voice-react-native|twilio_voice'; then
+  if echo "$pat" | grep -qiE 'TwilioVoiceSDK|import TwilioVoice|TVOCall|TVOCallInvite|TVOCallDelegate|com\.twilio\.voice|com\.twilio:voice-android|@twilio/voice-react-native|twilio_voice'; then
     products="$products webrtc"
   fi
-  # Voice
-  if echo "$pat" | grep -qiE 'twiml|VoiceResponse|CallResource|voice'; then
-    products="$products voice"
+  # Voice (server-side API/SDK — excludes mobile SDK patterns to avoid double-tagging)
+  if echo "$pat" | grep -qiE 'twiml|VoiceResponse|CallResource|VoiceGrant|\.calls\.create|\.calls\.list'; then
+    # Skip if already tagged as webrtc (mobile SDK patterns)
+    if ! echo "$products" | grep -q 'webrtc'; then
+      products="$products voice"
+    fi
   fi
   # Messaging
   if echo "$pat" | grep -qiE 'Messages\.create|MessageResource|messaging'; then
@@ -216,6 +219,14 @@ pattern_to_products() {
   # Studio
   if echo "$pat" | grep -qiE 'studio\.v2|studio\.v1|flow\.create'; then
     products="$products studio"
+  fi
+  # Flex
+  if echo "$pat" | grep -qiE 'flex\.v1|FlexFlow|@twilio/flex-ui|@twilio/flex-plugin|twilio-flex'; then
+    products="$products flex"
+  fi
+  # Pay
+  if echo "$pat" | grep -qiE '\.pay\b|PayResource|payments\.create|<Pay>'; then
+    products="$products pay"
   fi
   echo "$products"
 }
@@ -289,7 +300,6 @@ SDK_PATTERNS=(
   'api.twilio.com'
   # iOS (Swift)
   'TwilioVoiceSDK'
-  'TwilioVoice'
   'import TwilioVoice'
   # Android (Kotlin/Java)
   'com.twilio.voice'
@@ -364,7 +374,6 @@ PRODUCT_PATTERNS_FIXED=(
   'validateRequest:webhook-validation'
   # Mobile WebRTC SDKs
   'TwilioVoiceSDK:webrtc'
-  'TwilioVoice:webrtc'
   'TVOCall:webrtc'
   'TVOCallInvite:webrtc'
   'TVOCallDelegate:webrtc'
@@ -454,6 +463,15 @@ PRODUCT_PATTERNS_REGEX=(
   'twilio\.rest\.studio:studio'
   'studio\.v2:studio'
   'flow\.create:studio'
+  # Flex
+  'twilio\.rest\.flex:flex'
+  'flex\.v1:flex'
+  'FlexFlow:flex'
+  '@twilio/flex-ui:flex'
+  '@twilio/flex-plugin:flex'
+  # Pay
+  'twilio\.rest\.pay:pay'
+  'payments\.create:pay'
   # Mobile WebRTC SDKs
   'com\.twilio\.voice\.:webrtc'
   'com\.twilio:voice-android:webrtc'
@@ -565,6 +583,8 @@ CONFIG_FILES=(
   "setup.py:setuptools"
   "setup.cfg:setuptools"
   "pyproject.toml:pyproject"
+  "Podfile:cocoapods"
+  "pubspec.yaml:pub"
 )
 
 CSPROJ_PATTERN="*.csproj:nuget"
