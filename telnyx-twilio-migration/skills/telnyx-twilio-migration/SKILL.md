@@ -229,6 +229,8 @@ bash {baseDir}/scripts/migration-state.sh set-commit <project-root> 3
 **Full SDK**: Python (`telnyx` pip), JavaScript/TypeScript (`telnyx` npm), Go (`telnyx-go`), Ruby (`telnyx` gem) — all v2 Stainless clients with sdk-reference docs in `{baseDir}/sdk-reference/{lang}/`
 **REST/curl only**: Java, PHP, C#/.NET — no official SDK. Use `{baseDir}/sdk-reference/curl/{product}.md` for complete REST API examples with all parameters.
 
+> **JavaScript module warning**: The `sdk-reference/javascript/` files use ESM syntax (`import Telnyx from 'telnyx'`). If the project uses CommonJS (`require`), translate to: `const Telnyx = require('telnyx'); const client = new Telnyx({ apiKey: process.env.TELNYX_API_KEY });`. Do NOT copy ESM imports into CJS files — it will break unless `"type": "module"` is in `package.json`.
+
 ---
 
 ## Phase 4: Migration
