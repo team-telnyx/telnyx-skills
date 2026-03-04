@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-messaging-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-messaging-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-messaging-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-messaging-ruby/SKILL.md -->
 
 ---
 name: telnyx-messaging-ruby

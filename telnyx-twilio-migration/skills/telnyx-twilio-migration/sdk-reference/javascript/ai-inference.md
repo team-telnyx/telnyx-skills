@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-ai-inference-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-ai-inference-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-ai-inference-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-ai-inference-javascript/SKILL.md -->
 
 ---
 name: telnyx-ai-inference-javascript

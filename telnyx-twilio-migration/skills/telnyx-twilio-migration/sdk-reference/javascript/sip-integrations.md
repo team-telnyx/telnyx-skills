@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-sip-integrations-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-sip-integrations-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-sip-integrations-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-sip-integrations-javascript/SKILL.md -->
 
 ---
 name: telnyx-sip-integrations-javascript

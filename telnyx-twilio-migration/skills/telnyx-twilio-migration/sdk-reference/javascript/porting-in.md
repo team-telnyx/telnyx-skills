@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-porting-in-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-porting-in-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-porting-in-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-porting-in-javascript/SKILL.md -->
 
 ---
 name: telnyx-porting-in-javascript

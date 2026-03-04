@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-voice-gather-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-voice-gather-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-voice-gather-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-voice-gather-go/SKILL.md -->
 
 ---
 name: telnyx-voice-gather-go

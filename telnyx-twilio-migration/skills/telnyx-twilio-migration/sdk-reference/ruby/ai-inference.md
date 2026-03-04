@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-ai-inference-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-ai-inference-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-ai-inference-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-ai-inference-ruby/SKILL.md -->
 
 ---
 name: telnyx-ai-inference-ruby

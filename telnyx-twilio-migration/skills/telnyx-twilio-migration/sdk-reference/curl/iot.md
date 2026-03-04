@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-iot-curl by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-curl/skills/telnyx-iot-curl/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-iot-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-iot-curl/SKILL.md -->
 
 ---
 name: telnyx-iot-curl

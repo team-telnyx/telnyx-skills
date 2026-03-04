@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-porting-out-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-porting-out-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-porting-out-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-porting-out-go/SKILL.md -->
 
 ---
 name: telnyx-porting-out-go

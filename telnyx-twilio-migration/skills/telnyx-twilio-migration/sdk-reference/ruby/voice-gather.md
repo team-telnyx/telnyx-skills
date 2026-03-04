@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-voice-gather-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-voice-gather-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-voice-gather-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-voice-gather-ruby/SKILL.md -->
 
 ---
 name: telnyx-voice-gather-ruby

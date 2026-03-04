@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-porting-out-java by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-java/skills/telnyx-porting-out-java/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-porting-out-java — do not edit manually -->
+<!-- Source: telnyx-java/skills/telnyx-porting-out-java/SKILL.md -->
 
 ---
 name: telnyx-porting-out-java

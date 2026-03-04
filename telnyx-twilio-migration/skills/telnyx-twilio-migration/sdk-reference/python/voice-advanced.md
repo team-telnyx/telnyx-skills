@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-voice-advanced-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-voice-advanced-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-voice-advanced-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-voice-advanced-python/SKILL.md -->
 
 ---
 name: telnyx-voice-advanced-python

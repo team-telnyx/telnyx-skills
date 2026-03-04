@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-video-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-video-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-video-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-video-go/SKILL.md -->
 
 ---
 name: telnyx-video-go

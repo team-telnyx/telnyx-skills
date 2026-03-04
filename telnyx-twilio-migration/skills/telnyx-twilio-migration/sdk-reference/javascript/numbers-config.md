@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-numbers-config-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-numbers-config-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-numbers-config-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-numbers-config-javascript/SKILL.md -->
 
 ---
 name: telnyx-numbers-config-javascript

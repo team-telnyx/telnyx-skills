@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-texml-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-texml-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-texml-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-texml-ruby/SKILL.md -->
 
 ---
 name: telnyx-texml-ruby

@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-ai-assistants-curl by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-curl/skills/telnyx-ai-assistants-curl/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-ai-assistants-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-ai-assistants-curl/SKILL.md -->
 
 ---
 name: telnyx-ai-assistants-curl

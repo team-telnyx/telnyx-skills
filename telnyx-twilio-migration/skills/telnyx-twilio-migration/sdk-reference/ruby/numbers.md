@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-numbers-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-numbers-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-numbers-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-numbers-ruby/SKILL.md -->
 
 ---
 name: telnyx-numbers-ruby

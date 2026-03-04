@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-10dlc-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-10dlc-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-10dlc-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-10dlc-go/SKILL.md -->
 
 ---
 name: telnyx-10dlc-go

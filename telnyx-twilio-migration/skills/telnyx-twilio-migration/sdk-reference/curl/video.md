@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-video-curl by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-curl/skills/telnyx-video-curl/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-video-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-video-curl/SKILL.md -->
 
 ---
 name: telnyx-video-curl

@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-numbers-compliance-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-numbers-compliance-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-numbers-compliance-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-numbers-compliance-python/SKILL.md -->
 
 ---
 name: telnyx-numbers-compliance-python

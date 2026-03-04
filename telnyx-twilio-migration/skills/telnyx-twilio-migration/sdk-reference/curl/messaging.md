@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-messaging-curl by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-curl/skills/telnyx-messaging-curl/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-messaging-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-messaging-curl/SKILL.md -->
 
 ---
 name: telnyx-messaging-curl

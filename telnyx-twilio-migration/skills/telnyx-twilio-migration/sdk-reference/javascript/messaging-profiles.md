@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-messaging-profiles-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-messaging-profiles-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-messaging-profiles-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-messaging-profiles-javascript/SKILL.md -->
 
 ---
 name: telnyx-messaging-profiles-javascript

@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-numbers-compliance-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-numbers-compliance-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-numbers-compliance-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-numbers-compliance-go/SKILL.md -->
 
 ---
 name: telnyx-numbers-compliance-go

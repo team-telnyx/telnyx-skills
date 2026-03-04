@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-texml-curl by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-curl/skills/telnyx-texml-curl/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-texml-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-texml-curl/SKILL.md -->
 
 ---
 name: telnyx-texml-curl

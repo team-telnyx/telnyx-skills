@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-video-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-video-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-video-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-video-python/SKILL.md -->
 
 ---
 name: telnyx-video-python

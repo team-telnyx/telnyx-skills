@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-fax-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-fax-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-fax-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-fax-javascript/SKILL.md -->
 
 ---
 name: telnyx-fax-javascript

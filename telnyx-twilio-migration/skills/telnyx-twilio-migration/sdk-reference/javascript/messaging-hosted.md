@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-messaging-hosted-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-messaging-hosted-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-messaging-hosted-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-messaging-hosted-javascript/SKILL.md -->
 
 ---
 name: telnyx-messaging-hosted-javascript

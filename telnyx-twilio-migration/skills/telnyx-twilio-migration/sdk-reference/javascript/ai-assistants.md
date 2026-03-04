@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-ai-assistants-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-ai-assistants-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-ai-assistants-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-ai-assistants-javascript/SKILL.md -->
 
 ---
 name: telnyx-ai-assistants-javascript

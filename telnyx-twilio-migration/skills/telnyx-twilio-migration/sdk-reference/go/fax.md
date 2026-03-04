@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-fax-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-fax-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-fax-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-fax-go/SKILL.md -->
 
 ---
 name: telnyx-fax-go

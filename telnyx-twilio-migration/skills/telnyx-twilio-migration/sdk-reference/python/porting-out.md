@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-porting-out-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-porting-out-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-porting-out-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-porting-out-python/SKILL.md -->
 
 ---
 name: telnyx-porting-out-python

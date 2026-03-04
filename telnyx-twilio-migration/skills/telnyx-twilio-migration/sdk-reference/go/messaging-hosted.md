@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-messaging-hosted-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-messaging-hosted-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-messaging-hosted-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-messaging-hosted-go/SKILL.md -->
 
 ---
 name: telnyx-messaging-hosted-go

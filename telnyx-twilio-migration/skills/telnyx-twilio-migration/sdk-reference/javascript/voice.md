@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-voice-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-voice-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-voice-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-voice-javascript/SKILL.md -->
 
 ---
 name: telnyx-voice-javascript

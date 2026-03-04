@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-voice-conferencing-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-voice-conferencing-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-voice-conferencing-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-voice-conferencing-python/SKILL.md -->
 
 ---
 name: telnyx-voice-conferencing-python

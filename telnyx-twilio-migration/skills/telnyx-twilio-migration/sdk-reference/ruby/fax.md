@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-fax-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-fax-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-fax-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-fax-ruby/SKILL.md -->
 
 ---
 name: telnyx-fax-ruby

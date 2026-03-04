@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-sip-integrations-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-sip-integrations-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-sip-integrations-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-sip-integrations-ruby/SKILL.md -->
 
 ---
 name: telnyx-sip-integrations-ruby

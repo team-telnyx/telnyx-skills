@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-numbers-java by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-java/skills/telnyx-numbers-java/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-numbers-java — do not edit manually -->
+<!-- Source: telnyx-java/skills/telnyx-numbers-java/SKILL.md -->
 
 ---
 name: telnyx-numbers-java

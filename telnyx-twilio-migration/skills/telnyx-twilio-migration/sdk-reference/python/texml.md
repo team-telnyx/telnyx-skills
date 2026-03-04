@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-texml-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-texml-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-texml-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-texml-python/SKILL.md -->
 
 ---
 name: telnyx-texml-python

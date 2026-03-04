@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-ai-inference-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-ai-inference-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-ai-inference-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-ai-inference-go/SKILL.md -->
 
 ---
 name: telnyx-ai-inference-go

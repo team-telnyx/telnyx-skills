@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-webrtc-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-webrtc-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-webrtc-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-webrtc-go/SKILL.md -->
 
 ---
 name: telnyx-webrtc-go

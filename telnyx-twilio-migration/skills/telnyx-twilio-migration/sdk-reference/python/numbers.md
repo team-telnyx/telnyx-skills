@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-numbers-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-numbers-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-numbers-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-numbers-python/SKILL.md -->
 
 ---
 name: telnyx-numbers-python

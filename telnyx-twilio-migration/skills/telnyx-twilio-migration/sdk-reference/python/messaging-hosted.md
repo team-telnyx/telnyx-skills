@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-messaging-hosted-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-messaging-hosted-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-messaging-hosted-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-messaging-hosted-python/SKILL.md -->
 
 ---
 name: telnyx-messaging-hosted-python

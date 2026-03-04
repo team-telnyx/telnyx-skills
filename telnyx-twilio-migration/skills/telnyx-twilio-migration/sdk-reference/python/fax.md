@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-fax-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-fax-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-fax-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-fax-python/SKILL.md -->
 
 ---
 name: telnyx-fax-python

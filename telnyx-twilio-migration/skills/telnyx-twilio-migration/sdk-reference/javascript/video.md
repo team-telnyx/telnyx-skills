@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-video-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-video-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-video-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-video-javascript/SKILL.md -->
 
 ---
 name: telnyx-video-javascript

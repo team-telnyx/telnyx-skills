@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-sip-integrations-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-sip-integrations-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-sip-integrations-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-sip-integrations-python/SKILL.md -->
 
 ---
 name: telnyx-sip-integrations-python

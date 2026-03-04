@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-voice-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-voice-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-voice-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-voice-ruby/SKILL.md -->
 
 ---
 name: telnyx-voice-ruby

@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-numbers-services-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-numbers-services-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-numbers-services-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-numbers-services-go/SKILL.md -->
 
 ---
 name: telnyx-numbers-services-go

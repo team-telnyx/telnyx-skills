@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-voice-conferencing-java by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-java/skills/telnyx-voice-conferencing-java/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-voice-conferencing-java — do not edit manually -->
+<!-- Source: telnyx-java/skills/telnyx-voice-conferencing-java/SKILL.md -->
 
 ---
 name: telnyx-voice-conferencing-java

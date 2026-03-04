@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-verify-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-verify-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-verify-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-verify-ruby/SKILL.md -->
 
 ---
 name: telnyx-verify-ruby

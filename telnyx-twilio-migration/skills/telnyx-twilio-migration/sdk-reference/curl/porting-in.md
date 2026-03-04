@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-porting-in-curl by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-curl/skills/telnyx-porting-in-curl/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-porting-in-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-porting-in-curl/SKILL.md -->
 
 ---
 name: telnyx-porting-in-curl

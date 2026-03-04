@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-numbers-config-curl by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-curl/skills/telnyx-numbers-config-curl/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-numbers-config-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-numbers-config-curl/SKILL.md -->
 
 ---
 name: telnyx-numbers-config-curl

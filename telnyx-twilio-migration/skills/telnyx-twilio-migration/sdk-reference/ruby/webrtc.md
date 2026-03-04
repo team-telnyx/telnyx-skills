@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-webrtc-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-webrtc-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-webrtc-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-webrtc-ruby/SKILL.md -->
 
 ---
 name: telnyx-webrtc-ruby

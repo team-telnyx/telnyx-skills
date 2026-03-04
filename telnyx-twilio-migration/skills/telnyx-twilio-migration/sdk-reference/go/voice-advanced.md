@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-voice-advanced-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-voice-advanced-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-voice-advanced-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-voice-advanced-go/SKILL.md -->
 
 ---
 name: telnyx-voice-advanced-go

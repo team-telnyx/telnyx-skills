@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-voice-media-curl by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-curl/skills/telnyx-voice-media-curl/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-voice-media-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-voice-media-curl/SKILL.md -->
 
 ---
 name: telnyx-voice-media-curl

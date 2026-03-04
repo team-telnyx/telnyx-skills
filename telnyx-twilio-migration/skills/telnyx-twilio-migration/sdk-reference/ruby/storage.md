@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-storage-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-storage-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-storage-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-storage-ruby/SKILL.md -->
 
 ---
 name: telnyx-storage-ruby

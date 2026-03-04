@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-verify-java by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-java/skills/telnyx-verify-java/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-verify-java — do not edit manually -->
+<!-- Source: telnyx-java/skills/telnyx-verify-java/SKILL.md -->
 
 ---
 name: telnyx-verify-java

@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-storage-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-storage-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-storage-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-storage-go/SKILL.md -->
 
 ---
 name: telnyx-storage-go

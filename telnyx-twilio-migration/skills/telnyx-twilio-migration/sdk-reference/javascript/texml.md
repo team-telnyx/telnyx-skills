@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-texml-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-texml-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-texml-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-texml-javascript/SKILL.md -->
 
 ---
 name: telnyx-texml-javascript

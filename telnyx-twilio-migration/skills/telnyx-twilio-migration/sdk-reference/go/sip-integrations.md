@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-sip-integrations-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-sip-integrations-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-sip-integrations-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-sip-integrations-go/SKILL.md -->
 
 ---
 name: telnyx-sip-integrations-go

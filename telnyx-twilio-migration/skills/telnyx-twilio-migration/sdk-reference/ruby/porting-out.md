@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-porting-out-ruby by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-ruby/skills/telnyx-porting-out-ruby/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-porting-out-ruby — do not edit manually -->
+<!-- Source: telnyx-ruby/skills/telnyx-porting-out-ruby/SKILL.md -->
 
 ---
 name: telnyx-porting-out-ruby

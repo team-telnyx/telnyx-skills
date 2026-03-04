@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-sip-curl by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-curl/skills/telnyx-sip-curl/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-sip-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-sip-curl/SKILL.md -->
 
 ---
 name: telnyx-sip-curl

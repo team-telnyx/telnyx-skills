@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-fax-curl by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-curl/skills/telnyx-fax-curl/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-fax-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-fax-curl/SKILL.md -->
 
 ---
 name: telnyx-fax-curl

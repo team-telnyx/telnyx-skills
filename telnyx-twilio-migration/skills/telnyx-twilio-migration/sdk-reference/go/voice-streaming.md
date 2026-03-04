@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-voice-streaming-go by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-go/skills/telnyx-voice-streaming-go/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-voice-streaming-go — do not edit manually -->
+<!-- Source: telnyx-go/skills/telnyx-voice-streaming-go/SKILL.md -->
 
 ---
 name: telnyx-voice-streaming-go

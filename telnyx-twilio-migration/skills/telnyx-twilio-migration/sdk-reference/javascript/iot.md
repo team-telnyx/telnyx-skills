@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-iot-javascript by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-javascript/skills/telnyx-iot-javascript/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-iot-javascript — do not edit manually -->
+<!-- Source: telnyx-javascript/skills/telnyx-iot-javascript/SKILL.md -->
 
 ---
 name: telnyx-iot-javascript

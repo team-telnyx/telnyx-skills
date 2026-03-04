@@ -1,6 +1,5 @@
-<!-- Extracted from telnyx-webrtc-python by extract-sdk-reference.sh -->
-<!-- Source: ../../telnyx-python/skills/telnyx-webrtc-python/SKILL.md -->
-<!-- Do not edit manually — regenerate with: bash scripts/extract-sdk-reference.sh -->
+<!-- Auto-generated from telnyx-webrtc-python — do not edit manually -->
+<!-- Source: telnyx-python/skills/telnyx-webrtc-python/SKILL.md -->
 
 ---
 name: telnyx-webrtc-python
