@@ -199,7 +199,8 @@ check = client.verify.v2 \
 # Telnyx
 result = client.verifications.by_phone_number.actions.verify(
     phone_number="+15559876543",
-    code="123456"
+    code="123456",
+    verify_profile_id="YOUR_PROFILE_ID"
 )
 # result.response_code == 'accepted' or 'rejected'
 ```
@@ -230,7 +231,7 @@ curl -X POST "https://verify.twilio.com/v2/Services/$SERVICE_SID/VerificationChe
 curl -X POST "https://api.telnyx.com/v2/verifications/by_phone_number/+15559876543/actions/verify" \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"code": "123456"}'
+  -d '{"code": "123456", "verify_profile_id": "YOUR_PROFILE_ID"}'
 ```
 
 ### Status Mapping

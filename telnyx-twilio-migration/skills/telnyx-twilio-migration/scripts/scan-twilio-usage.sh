@@ -7,6 +7,14 @@
 
 set -euo pipefail
 
+# Requires bash 4+ for associative arrays (declare -A)
+if [ "${BASH_VERSINFO[0]}" -lt 4 ]; then
+  echo "Error: This script requires bash 4+. You have bash ${BASH_VERSION}." >&2
+  echo "  macOS: brew install bash (then use /opt/homebrew/bin/bash or /usr/local/bin/bash)" >&2
+  echo "  Linux: bash 4+ is standard" >&2
+  exit 1
+fi
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------

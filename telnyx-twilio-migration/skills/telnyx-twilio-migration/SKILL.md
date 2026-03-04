@@ -332,6 +332,8 @@ Run the validation pipeline — this executes migration validation, TeXML valida
 
 ```bash
 bash {baseDir}/scripts/run-validation.sh <project-root>
+# If the migration includes voice/TeXML with XML files, also run:
+bash {baseDir}/scripts/run-validation.sh <project-root> --include-texml
 ```
 
 **You must run this script.** It checks for: residual Twilio imports, API URLs, env vars, signature patterns, Telnyx SDK presence, Bearer auth, Ed25519 validation code.

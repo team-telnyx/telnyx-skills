@@ -189,11 +189,40 @@ Message message = Message.creator(
 | Twilio | Telnyx | Notes |
 |---|---|---|
 | `body` | `text` | Message content |
-| `from_` / `From` | `from` | Sender number (E.164) |
+| `from_` / `From` | `from_` (Python), `from` (other SDKs/REST) | Sender number (E.164). Python SDK uses `from_` to avoid reserved keyword — same as Twilio |
 | `to` / `To` | `to` | Recipient number (E.164) |
-| `StatusCallback` | Configured on Messaging Profile | Per-message callbacks not supported; set on the profile |
+| `StatusCallback` | `webhook_url` (per-message) or Messaging Profile | Per-message: pass `webhook_url` in send request. Profile-wide: configure on Messaging Profile |
 | `MessagingServiceSid` | `messaging_profile_id` | Message routing profile |
 | `MediaUrl` | `media_urls` | Array of media URLs (for MMS) |
+
+### Listing Messages (Pagination)
+
+Twilio uses auto-paging iterators; Telnyx returns paginated responses with `data` array and `meta` for pagination.
+
+```python
+# Twilio — auto-paging
+for msg in client.messages.list(from_="+15551234567", limit=100):
+    print(msg.sid, msg.body)
+
+# Telnyx — paginated response
+# Note: Telnyx messaging does not have a list-all-messages endpoint.
+# Use the messaging_profile_metrics or webhook events to track messages.
+# For other resources (numbers, profiles), pagination works like this:
+page = client.messaging_profiles.list(page_size=25)
+for profile in page.data:
+    print(profile.id, profile.name)
+# Check page.meta for pagination: page.meta.total_pages, page.meta.page_number
+```
+
+```javascript
+// Twilio
+const messages = await client.messages.list({ from: '+15551234567', limit: 100 });
+messages.forEach(msg => console.log(msg.sid, msg.body));
+
+// Telnyx — paginated
+const { data: profiles } = await telnyx.messagingProfiles.list({ page: { size: 25 } });
+profiles.forEach(p => console.log(p.id, p.name));
+```
 
 ## Receiving Messages (Webhooks)
 

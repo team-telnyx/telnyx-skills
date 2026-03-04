@@ -250,6 +250,12 @@ if [ -z "$PROJECT_ROOT" ]; then
   usage
 fi
 
+# Verify jq is available when JSON mode is requested
+if [ "$JSON_MODE" = true ] && ! command -v jq >/dev/null 2>&1; then
+  echo "Error: --json requires jq. Install: brew install jq / apt-get install jq" >&2
+  exit 2
+fi
+
 if [ ! -d "$PROJECT_ROOT" ]; then
   echo "Error: '$PROJECT_ROOT' is not a directory" >&2
   exit 2
