@@ -97,10 +97,10 @@ room = client.video.rooms.create(
 )
 
 # Telnyx
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 
-room = telnyx.Room.create(
+room = client.rooms.create(
     unique_name="my-meeting",
     max_participants=10,
     enable_recording=True,
@@ -125,9 +125,9 @@ const room = await client.video.rooms.create({
 
 // Telnyx
 const Telnyx = require('telnyx');
-const telnyx = Telnyx('YOUR_TELNYX_API_KEY');
+const client = new Telnyx({ apiKey: 'YOUR_TELNYX_API_KEY' });
 
-const room = await telnyx.rooms.create({
+const room = await client.rooms.create({
   unique_name: 'my-meeting',
   max_participants: 10,
   enable_recording: true,
@@ -190,10 +190,10 @@ token.add_grant(VideoGrant(room="my-meeting"))
 jwt_token = token.to_jwt()
 
 # Telnyx
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 
-token_response = telnyx.Room.generate_join_client_token(
+token_response = client.rooms.actions.generate_join_client_token(
     room_id,
     refresh_token_ttl_secs=3600,
     token_ttl_secs=600
@@ -214,9 +214,9 @@ const jwtToken = token.toJwt();
 
 // Telnyx
 const Telnyx = require('telnyx');
-const telnyx = Telnyx('YOUR_TELNYX_API_KEY');
+const client = new Telnyx({ apiKey: 'YOUR_TELNYX_API_KEY' });
 
-const tokenResponse = await telnyx.rooms.generateJoinClientToken(roomId, {
+const tokenResponse = await client.rooms.actions.generateJoinClientToken(roomId, {
   refresh_token_ttl_secs: 3600,
   token_ttl_secs: 600
 });

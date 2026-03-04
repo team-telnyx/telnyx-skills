@@ -30,6 +30,48 @@ TeXML is Telnyx's TwiML-compatible markup language. Most TwiML documents work wi
 
 Your XML voice documents (`<Response>`, `<Say>`, `<Gather>`, etc.) generally require **no changes**.
 
+**TwiML builder classes → raw XML strings**: Twilio provides helper classes (`VoiceResponse` in Python, `twiml.VoiceResponse` in Node) that generate XML programmatically. Telnyx has no equivalent builder — return raw XML strings from your webhook endpoint instead:
+
+```python
+# Twilio (builder class)
+from twilio.twiml.voice_response import VoiceResponse
+resp = VoiceResponse()
+resp.say('Hello')
+gather = resp.gather(num_digits=1, action='/handle-key')
+gather.say('Press 1 for sales')
+return str(resp)
+
+# Telnyx (raw XML string — same XML, just no builder)
+return '''<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Say>Hello</Say>
+  <Gather numDigits="1" action="/handle-key">
+    <Say>Press 1 for sales</Say>
+  </Gather>
+</Response>'''
+```
+
+```javascript
+// Twilio (builder)
+const VoiceResponse = require('twilio').twiml.VoiceResponse;
+const resp = new VoiceResponse();
+resp.say('Hello');
+const gather = resp.gather({ numDigits: 1, action: '/handle-key' });
+gather.say('Press 1 for sales');
+res.type('text/xml').send(resp.toString());
+
+// Telnyx (raw XML — same output)
+res.type('text/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Say>Hello</Say>
+  <Gather numDigits="1" action="/handle-key">
+    <Say>Press 1 for sales</Say>
+  </Gather>
+</Response>`);
+```
+
+The XML content is identical — only the generation method changes. For a complete verb reference, see `{baseDir}/references/texml-verbs.md`.
+
 ## Step 1: Create a Telnyx Account
 
 1. Sign up at https://telnyx.com/sign-up
@@ -133,8 +175,8 @@ from twilio.rest import Client
 client = Client("ACCOUNT_SID", "AUTH_TOKEN")
 
 # Telnyx — using native SDK
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 ```
 
 ```javascript
@@ -144,7 +186,7 @@ const client = twilio('ACCOUNT_SID', 'AUTH_TOKEN');
 
 // Telnyx — using native SDK
 const Telnyx = require('telnyx');
-const telnyx = Telnyx('YOUR_TELNYX_API_KEY');
+const client = new Telnyx({ apiKey: 'YOUR_TELNYX_API_KEY' });
 ```
 
 ```bash
@@ -164,8 +206,11 @@ client := twilio.NewRestClientWithParams(twilio.ClientParams{
 })
 
 // Telnyx
-import "github.com/telnyx/telnyx-go"
-client := telnyx.NewClient("YOUR_TELNYX_API_KEY")
+import (
+    "github.com/team-telnyx/telnyx-go"
+    "github.com/team-telnyx/telnyx-go/option"
+)
+client := telnyx.NewClient(option.WithAPIKey("YOUR_TELNYX_API_KEY"))
 ```
 
 ```ruby
@@ -175,7 +220,7 @@ client = Twilio::REST::Client.new(account_sid, auth_token)
 
 # Telnyx
 require 'telnyx'
-Telnyx.api_key = 'YOUR_TELNYX_API_KEY'
+client = Telnyx::Client.new(api_key: 'YOUR_TELNYX_API_KEY')
 ```
 
 ```java
@@ -199,15 +244,17 @@ validator = RequestValidator(auth_token)
 is_valid = validator.validate(url, params, request.headers.get('X-Twilio-Signature'))
 
 # Telnyx (add this)
-import telnyx
-telnyx.public_key = "YOUR_PUBLIC_KEY"  # from portal.telnyx.com
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 
-from telnyx.webhook import WebhookSignatureVerifier
+# Verify webhook signature using Ed25519
+from telnyx.webhooks import verify_signature
 try:
-    WebhookSignatureVerifier.verify(
+    verify_signature(
         payload=request.data.decode("utf-8"),
         signature=request.headers.get("telnyx-signature-ed25519"),
-        timestamp=request.headers.get("telnyx-timestamp")
+        timestamp=request.headers.get("telnyx-timestamp"),
+        public_key="YOUR_PUBLIC_KEY"  # from portal.telnyx.com
     )
     # Signature valid
 except Exception:
@@ -222,11 +269,12 @@ const twilio = require('twilio');
 const isValid = twilio.validateRequest(authToken, signature, url, params);
 
 // Telnyx (add this)
-const telnyx = require('telnyx')('YOUR_API_KEY');
+const Telnyx = require('telnyx');
+const client = new Telnyx({ apiKey: 'YOUR_API_KEY' });
 const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
 
 try {
-  telnyx.webhooks.signature.verifySignature(
+  client.webhooks.signature.verifySignature(
     JSON.stringify(req.body),
     req.headers['telnyx-signature-ed25519'],
     req.headers['telnyx-timestamp'],
@@ -246,17 +294,18 @@ try {
 import (
     "crypto/ed25519"
     "encoding/base64"
+    "io"
     "net/http"
 )
 
 func verifyWebhook(r *http.Request, publicKeyBase64 string) bool {
-    payload := r.Body // read body bytes
+    bodyBytes, _ := io.ReadAll(r.Body)
     signature := r.Header.Get("telnyx-signature-ed25519")
     timestamp := r.Header.Get("telnyx-timestamp")
     // Concatenate timestamp + "|" + payload, verify with Ed25519 public key
     pubKeyBytes, _ := base64.StdEncoding.DecodeString(publicKeyBase64)
     sigBytes, _ := base64.StdEncoding.DecodeString(signature)
-    message := []byte(timestamp + "|" + string(payload))
+    message := []byte(timestamp + "|" + string(bodyBytes))
     return ed25519.Verify(ed25519.PublicKey(pubKeyBytes), message, sigBytes)
 }
 ```
@@ -265,14 +314,14 @@ func verifyWebhook(r *http.Request, publicKeyBase64 string) bool {
 ```ruby
 # Telnyx webhook signature validation in Ruby
 require 'telnyx'
-Telnyx.public_key = 'YOUR_PUBLIC_KEY'
+client = Telnyx::Client.new(api_key: 'YOUR_API_KEY')
 
 post '/webhook' do
   payload = request.body.read
   signature = request.env['HTTP_TELNYX_SIGNATURE_ED25519']
   timestamp = request.env['HTTP_TELNYX_TIMESTAMP']
   begin
-    Telnyx::Webhook.construct_event(payload, signature, timestamp)
+    Telnyx::Webhook.construct_event(payload, signature, timestamp, public_key: 'YOUR_PUBLIC_KEY')
     # Signature valid
   rescue Telnyx::SignatureVerificationError
     halt 403, 'Forbidden'
@@ -340,7 +389,7 @@ Status callback events match Twilio's: `initiated`, `ringing`, `answered`, `comp
 
 For REST API operations (managing calls, conferences, recordings programmatically), the existing TeXML skills in this repo provide complete SDK examples:
 
-> **Enhanced coverage**: Install the language plugin for your stack (`telnyx-python`, `telnyx-javascript`, `telnyx-go`, `telnyx-java`, `telnyx-ruby`) and reference the `telnyx-texml-*` skill for complete REST API examples.
+> **Complete TeXML API examples** with all parameters are in the sdk-reference files: `sdk-reference/{language}/texml.md`.
 
 ## Call Control API (Alternative to TeXML)
 
@@ -378,27 +427,25 @@ app.post('/call-webhook', async (req, res) => {
 
   switch (event.event_type) {
     case 'call.initiated':
-      await telnyx.calls.answer(callControlId);
+      await client.calls.actions.answer(callControlId);
       break;
     case 'call.answered':
-      await telnyx.calls.gather(callControlId, {
-        minimum_digits: 1, maximum_digits: 1, timeout_millis: 10000
-      });
-      await telnyx.calls.speak(callControlId, {
+      await client.calls.actions.gatherUsingSpeak(callControlId, {
+        minimum_digits: 1, maximum_digits: 1, timeout_millis: 10000,
         payload: 'Press 1 for sales, 2 for support'
       });
       break;
     case 'call.gather.ended':
       const digit = event.payload.digits;
       const dest = digit === '1' ? '+15551111111' : '+15552222222';
-      await telnyx.calls.transfer(callControlId, { to: dest });
+      await client.calls.actions.transfer(callControlId, { to: dest });
       break;
   }
   res.sendStatus(200);
 });
 ```
 
-> **Enhanced coverage**: Install your language plugin and reference the `telnyx-voice-*` and `telnyx-voice-advanced-*` skills for complete Call Control API examples including bridge, gather, speak, transfer, streaming, and recording.
+> **Complete Call Control API examples** including bridge, gather, speak, transfer, streaming, and recording are in the sdk-reference files: `sdk-reference/{language}/voice.md` and `sdk-reference/{language}/voice-advanced.md`.
 
 ## Advanced Voice Patterns
 
@@ -416,7 +463,7 @@ const state = Buffer.from(JSON.stringify({
   retry_count: 0
 })).toString('base64');
 
-await telnyx.calls.answer(callControlId, {
+await client.calls.actions.answer(callControlId, {
   client_state: state
 });
 
@@ -432,7 +479,7 @@ app.post('/webhook', (req, res) => {
 
 Every Call Control command (`answer`, `speak`, `gather`, `bridge`, `transfer`, etc.) accepts `client_state`. The state is echoed back in the subsequent webhook event, giving you a stateless server architecture.
 
-> **Enhanced coverage**: The `telnyx-voice-advanced-*` skills cover `updateClientState()` for modifying state on active calls.
+> **`updateClientState()`** for modifying state on active calls is documented in `sdk-reference/{language}/voice-advanced.md`.
 
 ### Bridge, link_to, and bridge_on_answer
 
@@ -441,7 +488,7 @@ Telnyx Call Control provides fine-grained control over how calls are connected:
 **Bridge** — connect two active Call Control calls:
 ```javascript
 // Both calls must already be answered
-await telnyx.calls.bridge(callControlIdA, {
+await client.calls.actions.bridge(callControlIdA, {
   call_control_id: callControlIdB,
   client_state: state
 });
@@ -466,14 +513,18 @@ This eliminates the need to handle the `call.answered` webhook and then issue a 
 
 **link_to** — permanently associate two calls so they share lifecycle events:
 ```javascript
-await telnyx.calls.update(callControlId, {
+// link_to is set during dial or bridge commands
+await client.calls.dial({
+  connection_id: 'YOUR_CONNECTION_ID',
+  to: '+15559876543',
+  from: '+15551234567',
   link_to: otherCallControlId
 });
 ```
 
 Linked calls receive each other's events, useful for building agent dashboards or call monitoring.
 
-> **Enhanced coverage**: The `telnyx-voice-*` skills now list all optional parameters for `dial` (including `bridge_on_answer`, `bridge_intent`, `link_to`, `supervisor_role`, `park_after_unbridge`, `sip_headers`, `custom_headers`) and `bridge` (including `park_after_unbridge`, `mute_dtmf`), plus webhook payload field tables for every call event. The `telnyx-voice-advanced-*` skills cover `switchSupervisorRole()` and show `client_state` on all commands.
+> **All optional parameters** for `dial` (including `bridge_on_answer`, `bridge_intent`, `link_to`, `supervisor_role`, `park_after_unbridge`, `sip_headers`, `custom_headers`) and `bridge` (including `park_after_unbridge`, `mute_dtmf`) are documented in the sdk-reference files under `voice.md` and `voice-advanced.md`.
 
 ### Caller ID Policy
 
@@ -493,7 +544,7 @@ curl -X POST https://api.telnyx.com/v2/outbound_voice_profiles \
 
 Assign it to your connection in the Mission Control Portal under **SIP** → **Connections** → **Outbound**.
 
-> **Enhanced coverage**: The `telnyx-sip-*` skills provide complete CRUD examples for outbound voice profiles with all optional params (`whitelisted_destinations`, `traffic_type`, `calling_window`, `concurrent_call_limit`, `daily_spend_limit`, etc.) and credential connections with all config options (`sip_uri_calling_preference`, `encrypted_media`, `inbound`/`outbound` objects, `noise_suppression`, etc.).
+> **Complete SIP CRUD examples** for outbound voice profiles (with `whitelisted_destinations`, `traffic_type`, `calling_window`, `concurrent_call_limit`, `daily_spend_limit`, etc.) and credential connections (with `sip_uri_calling_preference`, `encrypted_media`, `inbound`/`outbound` objects, etc.) are in `sdk-reference/{language}/sip.md` and `sdk-reference/{language}/sip-integrations.md`.
 
 ### Subdomains
 

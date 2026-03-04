@@ -75,12 +75,11 @@ verification = client.verify.v2 \
     .create(to='+15559876543', channel='sms')
 
 # Telnyx
-import telnyx
-telnyx.api_key = "YOUR_API_KEY"
-verification = telnyx.Verification.create(
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_API_KEY")
+verification = client.verifications.trigger_sms(
     phone_number="+15559876543",
-    verify_profile_id="YOUR_PROFILE_ID",
-    type="sms"
+    verify_profile_id="YOUR_PROFILE_ID"
 )
 ```
 
@@ -92,11 +91,11 @@ const verification = await client.verify.v2
   .create({ to: '+15559876543', channel: 'sms' });
 
 // Telnyx
-const telnyx = require('telnyx')('YOUR_API_KEY');
-const verification = await telnyx.verifications.create({
+const Telnyx = require('telnyx');
+const client = new Telnyx({ apiKey: 'YOUR_API_KEY' });
+const verification = await client.verifications.triggerSMS({
   phone_number: '+15559876543',
-  verify_profile_id: 'YOUR_PROFILE_ID',
-  type: 'sms'
+  verify_profile_id: 'YOUR_PROFILE_ID'
 });
 ```
 
@@ -141,10 +140,10 @@ verification = client.verify.v2
   .create(to: '+15559876543', channel: 'sms')
 
 # Telnyx
-verification = Telnyx::Verification.create(
+client = Telnyx::Client.new(api_key: 'YOUR_API_KEY')
+verification = client.verifications.trigger_sms(
   phone_number: '+15559876543',
-  verify_profile_id: 'YOUR_PROFILE_ID',
-  type: 'sms'
+  verify_profile_id: 'YOUR_PROFILE_ID'
 )
 ```
 
@@ -168,10 +167,9 @@ verification = client.verify.v2 \
     .create(to='+15559876543', channel='call')
 
 # Telnyx
-verification = telnyx.Verification.create(
+verification = client.verifications.trigger_call(
     phone_number="+15559876543",
-    verify_profile_id="YOUR_PROFILE_ID",
-    type="call"
+    verify_profile_id="YOUR_PROFILE_ID"
 )
 ```
 
@@ -197,11 +195,11 @@ check = client.verify.v2 \
 # check.status == 'approved' or 'pending'
 
 # Telnyx
-verification = telnyx.Verification.verify_by_phone_number(
+result = client.verifications.by_phone_number.actions.verify(
     phone_number="+15559876543",
     code="123456"
 )
-# verification.response_code == 'accepted' or 'rejected'
+# result.response_code == 'accepted' or 'rejected'
 ```
 
 ```javascript
@@ -213,10 +211,10 @@ const check = await client.verify.v2
 // check.status === 'approved'
 
 // Telnyx
-const result = await telnyx.verifications.verify_by_phone_number({
-  phone_number: '+15559876543',
-  code: '123456'
-});
+const result = await client.verifications.byPhoneNumber.actions.verify(
+  '+15559876543',
+  { code: '123456', verify_profile_id: 'YOUR_PROFILE_ID' }
+);
 // result.data.response_code === 'accepted'
 ```
 
@@ -227,13 +225,10 @@ curl -X POST "https://verify.twilio.com/v2/Services/$SERVICE_SID/VerificationChe
   -d "To=+15559876543" -d "Code=123456"
 
 # Telnyx
-curl -X POST https://api.telnyx.com/v2/verifications/by_phone_number \
+curl -X POST "https://api.telnyx.com/v2/verifications/by_phone_number/+15559876543/actions/verify" \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-    "phone_number": "+15559876543",
-    "code": "123456"
-  }'
+  -d '{"code": "123456"}'
 ```
 
 ### Status Mapping
@@ -249,10 +244,9 @@ curl -X POST https://api.telnyx.com/v2/verifications/by_phone_number \
 Telnyx-only feature. Verification via a missed call — the user's phone displays a caller ID, and the last N digits of that number are the verification code. No SMS charges, faster in some markets.
 
 ```python
-verification = telnyx.Verification.create(
+verification = client.verifications.trigger_flashcall(
     phone_number="+15559876543",
-    verify_profile_id="YOUR_PROFILE_ID",
-    type="flash_call"
+    verify_profile_id="YOUR_PROFILE_ID"
 )
 ```
 
@@ -287,10 +281,9 @@ Telnyx vSMS uses carrier-verified message templates for OTP delivery. This provi
 - Template-based formatting
 
 ```python
-verification = telnyx.Verification.create(
+verification = client.verifications.trigger_sms(
     phone_number="+15559876543",
     verify_profile_id="YOUR_PROFILE_ID",
-    type="sms",
     template_id="YOUR_TEMPLATE_ID"  # Pre-approved template
 )
 ```
@@ -301,10 +294,9 @@ For payment authorization in the EU, Telnyx Verify supports PSD2-compliant verif
 
 ```python
 # Telnyx PSD2 verification
-verification = telnyx.Verification.create(
+verification = client.verifications.trigger_sms(
     phone_number="+353851234567",
     verify_profile_id="YOUR_PROFILE_ID",
-    type="psd2",
     amount="25.00",
     payee="Acme Corp"
 )

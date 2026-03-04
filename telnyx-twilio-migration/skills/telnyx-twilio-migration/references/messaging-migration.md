@@ -40,21 +40,21 @@ npm install telnyx
 gem install telnyx
 
 # Go
-go get github.com/telnyx/telnyx-go
+go get github.com/team-telnyx/telnyx-go
 ```
 
 ### Configure Authentication
 
 ```python
 # Python
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 ```
 
 ```javascript
 // Node.js
 const Telnyx = require('telnyx');
-const telnyx = Telnyx('YOUR_TELNYX_API_KEY');
+const client = new Telnyx({ apiKey: 'YOUR_TELNYX_API_KEY' });
 ```
 
 ```bash
@@ -78,12 +78,13 @@ message = client.messages.create(
 print(message.sid)
 
 # Telnyx
-import telnyx
-telnyx.api_key = "YOUR_API_KEY"
-message = telnyx.Message.create(
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_API_KEY")
+message = client.messages.send(
     to="+15559876543",
     from_="+15551234567",
-    text="Hello from Telnyx"
+    text="Hello from Telnyx",
+    messaging_profile_id="YOUR_MESSAGING_PROFILE_ID"
 )
 print(message.id)
 ```
@@ -98,11 +99,13 @@ const message = await client.messages.create({
 });
 
 // Telnyx
-const telnyx = require('telnyx')('YOUR_API_KEY');
-const message = await telnyx.messages.create({
+const Telnyx = require('telnyx');
+const client = new Telnyx({ apiKey: 'YOUR_API_KEY' });
+const message = await client.messages.send({
   to: '+15559876543',
   from: '+15551234567',
-  text: 'Hello from Telnyx'
+  text: 'Hello from Telnyx',
+  messaging_profile_id: 'YOUR_MESSAGING_PROFILE_ID'
 });
 ```
 
@@ -116,7 +119,7 @@ curl -X POST "https://api.twilio.com/2010-04-01/Accounts/$SID/Messages.json" \
 curl -X POST "https://api.telnyx.com/v2/messages" \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"to":"+15559876543","from":"+15551234567","text":"Hello"}'
+  -d '{"to":"+15559876543","from":"+15551234567","text":"Hello","messaging_profile_id":"YOUR_MESSAGING_PROFILE_ID"}'
 ```
 
 ```go
@@ -132,9 +135,20 @@ params.SetFrom("+15551234567")
 params.SetBody("Hello from Twilio")
 resp, _ := client.Api.CreateMessage(params)
 
-// Telnyx — use REST API
-import "github.com/telnyx/telnyx-go"
-// POST /v2/messages with JSON body
+// Telnyx
+import (
+	"context"
+	"os"
+	"github.com/team-telnyx/telnyx-go"
+	"github.com/team-telnyx/telnyx-go/option"
+)
+client := telnyx.NewClient(option.WithAPIKey(os.Getenv("TELNYX_API_KEY")))
+message, _ := client.Messages.Send(context.TODO(), telnyx.MessageSendParams{
+	To:                  telnyx.String("+15559876543"),
+	From:                telnyx.String("+15551234567"),
+	Text:                telnyx.String("Hello from Telnyx"),
+	MessagingProfileID:  telnyx.String("YOUR_MESSAGING_PROFILE_ID"),
+})
 ```
 
 ```ruby
@@ -147,9 +161,10 @@ message = client.messages.create(
 
 # Telnyx
 require 'telnyx'
-Telnyx.api_key = 'YOUR_API_KEY'
-message = Telnyx::Message.create(
-  to: '+15559876543', from: '+15551234567', text: 'Hello from Telnyx'
+client = Telnyx::Client.new(api_key: 'YOUR_API_KEY')
+message = client.messages.send_(
+  to: '+15559876543', from: '+15551234567', text: 'Hello from Telnyx',
+  messaging_profile_id: 'YOUR_MESSAGING_PROFILE_ID'
 )
 ```
 
@@ -166,7 +181,7 @@ Message message = Message.creator(
 
 // Telnyx — use REST API with OkHttp or HttpClient
 // POST https://api.telnyx.com/v2/messages
-// Body: {"to":"+15559876543","from":"+15551234567","text":"Hello from Telnyx"}
+// Body: {"to":"+15559876543","from":"+15551234567","text":"Hello from Telnyx","messaging_profile_id":"YOUR_PROFILE_ID"}
 ```
 
 ### Key Parameter Differences
@@ -273,11 +288,12 @@ message = client.messages.create(
 )
 
 # Telnyx MMS
-message = telnyx.Message.create(
+message = client.messages.send(
     to="+15559876543",
     from_="+15551234567",
     text="Check this out",
-    media_urls=["https://example.com/image.jpg"]
+    media_urls=["https://example.com/image.jpg"],
+    messaging_profile_id="YOUR_MESSAGING_PROFILE_ID"
 )
 ```
 
@@ -370,7 +386,7 @@ Both Twilio and Telnyx use The Campaign Registry (TCR) for 10DLC compliance. The
 
 Telnyx provides 10DLC registration via the Mission Control Portal (**Messaging** → **10DLC**) or via API.
 
-> **Enhanced coverage**: Install a language plugin and reference the `telnyx-10dlc-*` skill for complete API examples.
+> **Complete 10DLC API examples** with all parameters are in the sdk-reference files: `sdk-reference/{language}/10dlc.md`.
 
 ## Short Codes and Toll-Free
 

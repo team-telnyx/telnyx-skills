@@ -43,7 +43,7 @@ Use this table to find the detailed migration guide for each product:
 | Number Lookup | `lookup-migration.md` | `lookup` |
 | Number Porting | `number-porting.md` | `porting-in`, `porting-out` |
 | 10DLC | `messaging-migration.md` (section) | `10dlc` |
-| Numbers | *(SDK reference only)* | `numbers`, `numbers-config`, `numbers-services`, `numbers-compliance` |
+| Numbers | `numbers-migration.md` | `numbers`, `numbers-config`, `numbers-services`, `numbers-compliance` |
 
 ## Telnyx-Only Products
 

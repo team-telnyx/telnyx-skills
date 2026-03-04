@@ -356,21 +356,17 @@ class TelnyxSession {
 ```javascript
 // Express.js endpoint
 app.post('/api/telnyx/credential', async (req, res) => {
-  const telnyx = require('telnyx')(process.env.TELNYX_API_KEY);
+  const Telnyx = require('telnyx');
+  const client = new Telnyx({ apiKey: process.env.TELNYX_API_KEY });
 
   // Create a dynamic credential for this session
-  const credential = await telnyx.telephonyCredentials.create({
+  const credential = await client.telephonyCredentials.create({
     connection_id: process.env.TELNYX_CONNECTION_ID,
     name: `session-${req.user.id}-${Date.now()}`
   });
 
-  // Generate JWT token from the credential
-  const tokenResponse = await telnyx.telephonyCredentials.createToken(
-    credential.data.id
-  );
-
   // CRITICAL: return .data, not the raw response
-  res.json({ token: tokenResponse.data });
+  res.json({ credential: credential.data });
 });
 ```
 
@@ -384,19 +380,11 @@ app.post('/api/telnyx/credential', async (req, res) => {
 | `TWILIO_CALLER_ID` | `TELNYX_PHONE_NUMBER` | Must be in Outbound Voice Profile |
 | *(none)* | `TELNYX_CREDENTIAL_ID` | For SIP credential auth |
 
-> **Enhanced coverage**: The `telnyx-webrtc-*` skills (in language plugins) and `telnyx-oauth-*` skills provide complete credential CRUD examples.
+> **Complete credential CRUD examples** are in `sdk-reference/{language}/webrtc.md`.
 
 ## Platform-Specific Guides
 
-> **Enhanced coverage**: Install the `telnyx-webrtc-client` plugin for comprehensive platform-specific implementation guides:
->
-> - **JavaScript/Browser**: `telnyx-webrtc-client-js` — Full browser WebRTC with media handling, codec configuration, quality metrics, debugging
-> - **iOS/Swift**: `telnyx-webrtc-client-ios` — CallKit integration, APNs push notifications, background audio
-> - **Android/Kotlin**: `telnyx-webrtc-client-android` — FCM push notifications, Telecom framework, foreground services, custom SIP headers
-> - **Flutter/Dart**: `telnyx-webrtc-client-flutter` — Cross-platform with platform channel integration, custom headers
-> - **React Native/TypeScript**: `telnyx-webrtc-client-react-native` — Unified JS API with native modules
-
-These skills cover authentication options, event handling, call controls, quality metrics, and debugging patterns for each platform.
+Platform-specific client SDK implementation (iOS CallKit, Android FCM, Flutter, React Native) requires the native Telnyx WebRTC SDKs. See Telnyx developer docs for platform-specific guides. The server-side credential management is covered in `sdk-reference/{language}/webrtc.md`.
 
 ## Contact Center / PBX Patterns
 
@@ -428,7 +416,7 @@ await telnyx.calls.update(supervisorCallId, {
 - Two-party calls with supervisor monitoring
 - Warm transfers (bridge, then drop the transferring agent)
 
-> **Enhanced coverage**: The `telnyx-voice-conferencing-*` skills cover conference CRUD, participant management (with `supervisor_role`, `whisper_call_control_ids`, `mute`, `hold`), recording, and all webhook payload schemas. The `telnyx-voice-advanced-*` skills cover `switchSupervisorRole()` and `client_state` on all commands.
+> **Complete conference API examples** (CRUD, participant management with `supervisor_role`/`whisper_call_control_ids`/`mute`/`hold`, recording) are in `sdk-reference/{language}/voice-conferencing.md`. Supervisor role switching and `client_state` on all commands are in `sdk-reference/{language}/voice-advanced.md`.
 
 ### Passing Data from WebRTC Client to Voice API Backend
 
@@ -472,7 +460,7 @@ Custom headers prefixed with `X-` are passed through to Call Control webhooks. T
 - Department-based call routing
 - Custom metadata for analytics
 
-> **Enhanced coverage**: The `telnyx-webrtc-client-android` and `telnyx-webrtc-client-flutter` skills show custom header examples with template variable mapping (`{{variable_name}}`).
+> Android and Flutter SDKs support template variable mapping in custom headers (`{{variable_name}}`). See Telnyx developer docs for platform-specific examples.
 
 ### URI Dialing
 
@@ -527,22 +515,19 @@ const { data: call } = await telnyx.calls.create({
 // Use bridge_on_answer for automatic bridging (see voice-migration.md)
 ```
 
-> **Enhanced coverage**: The `telnyx-voice-conferencing-*` skills document `leave()` (returns to parked state), `join()` (with `supervisor_role`, `whisper_call_control_ids`), and all conference actions with optional params and webhook payload schemas. The `telnyx-voice-*` skills cover dial (with `bridge_on_answer`, `link_to`, `park_after_unbridge`, `supervisor_role`, `sip_headers`, `custom_headers`) and bridge operations — all with complete optional parameter lists and webhook field tables.
+> **Complete voice API reference** including dial (`bridge_on_answer`, `link_to`, `park_after_unbridge`, `supervisor_role`, `sip_headers`, `custom_headers`), bridge, conference actions, and all webhook payload schemas are in the sdk-reference files: `sdk-reference/{language}/voice.md`, `voice-advanced.md`, and `voice-conferencing.md`.
 
-## SDK Reference Cross-Links
+## SDK Reference
 
-For complete API reference with all parameters, response schemas, and advanced patterns, install the relevant SDK plugins:
+For complete API reference with all parameters and response schemas, see the bundled sdk-reference files:
 
-| Resource | Plugin | Key Skills |
-|---|---|---|
-| Browser/JS WebRTC | `telnyx-webrtc-client` | `telnyx-webrtc-client-js` — Full API, media handling, codecs, debugging |
-| iOS WebRTC | `telnyx-webrtc-client` | `telnyx-webrtc-client-ios` — CallKit, APNs, background audio |
-| Android WebRTC | `telnyx-webrtc-client` | `telnyx-webrtc-client-android` — FCM, Telecom framework, custom SIP headers |
-| Flutter WebRTC | `telnyx-webrtc-client` | `telnyx-webrtc-client-flutter` — Cross-platform, platform channels |
-| React Native WebRTC | `telnyx-webrtc-client` | `telnyx-webrtc-client-react-native` — Unified JS API |
-| Server-side credentials | Language plugins | `telnyx-webrtc-{language}` — Credential CRUD, JWT generation |
-| Voice API (Call Control) | Language plugins | `telnyx-voice-{language}` — Server-side call management |
-| SIP Connections | Language plugins | `telnyx-sip-{language}` — Connection configuration |
+| Resource | SDK Reference File |
+|---|---|
+| Server-side credentials | `sdk-reference/{language}/webrtc.md` |
+| Voice API (Call Control) | `sdk-reference/{language}/voice.md` |
+| SIP Connections | `sdk-reference/{language}/sip.md` |
+
+Platform-specific client SDKs (iOS, Android, Flutter, React Native) are out of scope for automated migration — see `unsupported-products.md` for guidance.
 
 ### Push Notification Credential Migration
 

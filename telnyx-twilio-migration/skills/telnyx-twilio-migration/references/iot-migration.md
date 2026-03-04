@@ -78,12 +78,12 @@ curl -X POST https://api.telnyx.com/v2/actions/purchase/esims \
 ```
 
 ```python
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 
 # Purchase eSIMs
-order = telnyx.ESim.purchase(
-    quantity=10,
+order = client.actions.purchase.create(
+    amount=10,
     sim_card_group_id="YOUR_SIM_GROUP_ID"
 )
 ```
@@ -105,10 +105,10 @@ curl -X POST https://api.telnyx.com/v2/actions/register/sim_cards \
 ```
 
 ```python
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 
-telnyx.SimCard.register(
+client.actions.register.create(
     registration_codes=["89011234567890123456", "89011234567890123457"],
     sim_card_group_id="YOUR_SIM_GROUP_ID"
 )
@@ -152,10 +152,10 @@ curl -X POST https://api.telnyx.com/v2/sim_card_groups \
 ```
 
 ```python
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 
-group = telnyx.SimCardGroup.create(
+group = client.sim_card_groups.create(
     name="fleet-north-america",
     data_limit={"amount": 5.0, "unit": "GB"}
 )
@@ -237,10 +237,10 @@ curl -X GET "https://api.telnyx.com/v2/sim_card_actions?filter[sim_card_id]=$SIM
 ```
 
 ```python
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 
-sim = telnyx.SimCard.retrieve("SIM_CARD_ID")
+sim = client.sim_cards.retrieve("SIM_CARD_ID")
 print(f"ICCID: {sim.iccid}")
 print(f"Status: {sim.status}")
 ```

@@ -116,10 +116,10 @@ fax = client.fax.faxes.create(
 )
 
 # Telnyx
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 
-fax = telnyx.Fax.create(
+fax = client.faxes.create(
     connection_id="YOUR_FAX_APP_ID",
     to="+15559876543",
     from_="+15551234567",
@@ -142,9 +142,9 @@ const fax = await client.fax.faxes.create({
 
 // Telnyx
 const Telnyx = require('telnyx');
-const telnyx = Telnyx('YOUR_TELNYX_API_KEY');
+const client = new Telnyx({ apiKey: 'YOUR_TELNYX_API_KEY' });
 
-const fax = await telnyx.faxes.create({
+const fax = await client.faxes.create({
   connection_id: 'YOUR_FAX_APP_ID',
   to: '+15559876543',
   from: '+15551234567',

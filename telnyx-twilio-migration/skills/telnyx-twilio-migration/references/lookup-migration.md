@@ -69,10 +69,10 @@ result = client.lookups.v2.phone_numbers("+15551234567").fetch()
 print(result.valid)
 
 # Telnyx
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 
-result = telnyx.NumberLookup.retrieve("+15551234567")
+result = client.number_lookup.retrieve(phone_number="+15551234567")
 print(result.country_code)
 print(result.national_format)
 print(result.phone_number)
@@ -89,9 +89,9 @@ console.log(result.valid);
 
 // Telnyx
 const Telnyx = require('telnyx');
-const telnyx = Telnyx('YOUR_TELNYX_API_KEY');
+const client = new Telnyx({ apiKey: 'YOUR_TELNYX_API_KEY' });
 
-const result = await telnyx.numberLookup.retrieve('+15551234567');
+const result = await client.numberLookup.retrieve('+15551234567');
 console.log(result.data.country_code);
 console.log(result.data.national_format);
 console.log(result.data.phone_number);
@@ -124,7 +124,7 @@ print(result.line_type_intelligence["carrier_name"])
 print(result.line_type_intelligence["type"])  # "mobile", "landline", "voip", etc.
 
 # Telnyx
-result = telnyx.NumberLookup.retrieve("+15551234567", type=["carrier"])
+result = client.number_lookup.retrieve(phone_number="+15551234567", type=["carrier"])
 print(result.carrier.name)           # e.g., "AT&T"
 print(result.carrier.type)           # e.g., "voip", "mobile"
 print(result.portability.line_type)  # e.g., "mobile", "fixed line", "voip"
@@ -140,7 +140,7 @@ console.log(result.lineTypeIntelligence.carrier_name);
 console.log(result.lineTypeIntelligence.type);
 
 // Telnyx
-const result = await telnyx.numberLookup.retrieve('+15551234567', {
+const result = await client.numberLookup.retrieve('+15551234567', {
   type: ['carrier']
 });
 console.log(result.data.carrier.name);
@@ -175,8 +175,8 @@ print(result.caller_name["caller_name"])
 print(result.caller_name["caller_type"])  # "CONSUMER" or "BUSINESS"
 
 # Telnyx
-result = telnyx.NumberLookup.retrieve(
-    "+15551234567",
+result = client.number_lookup.retrieve(
+    phone_number="+15551234567",
     type=["carrier", "caller-name"]
 )
 print(result.caller_name.caller_name)  # e.g., "ACME Corp"
@@ -192,7 +192,7 @@ console.log(result.callerName.caller_name);
 console.log(result.callerName.caller_type);
 
 // Telnyx
-const result = await telnyx.numberLookup.retrieve('+15551234567', {
+const result = await client.numberLookup.retrieve('+15551234567', {
   type: ['carrier', 'caller-name']
 });
 console.log(result.data.caller_name.caller_name);

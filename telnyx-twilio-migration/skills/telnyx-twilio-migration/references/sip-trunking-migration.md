@@ -113,10 +113,10 @@ curl -X POST https://api.telnyx.com/v2/credential_connections \
 ```
 
 ```python
-import telnyx
-telnyx.api_key = "YOUR_TELNYX_API_KEY"
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
 
-connection = telnyx.CredentialConnection.create(
+connection = client.credential_connections.create(
     connection_name="remote-office",
     active=True,
     user_name="my-pbx-user",
@@ -130,9 +130,9 @@ print(connection.id)
 
 ```javascript
 const Telnyx = require('telnyx');
-const telnyx = Telnyx('YOUR_TELNYX_API_KEY');
+const client = new Telnyx({ apiKey: 'YOUR_TELNYX_API_KEY' });
 
-const connection = await telnyx.credentialConnections.create({
+const connection = await client.credentialConnections.create({
   connection_name: 'remote-office',
   active: true,
   user_name: 'my-pbx-user',
