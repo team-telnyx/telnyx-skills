@@ -9,7 +9,7 @@ description: >-
 metadata:
   author: telnyx
   product: migration
-  compatibility: "Requires bash 4+, jq, curl"
+  compatibility: "Requires bash 4+, jq, curl. macOS ships bash 3.2 — scripts auto-upgrade via Homebrew bash if available (brew install bash)."
 ---
 
 # Twilio to Telnyx Migration
@@ -180,7 +180,7 @@ cd <project-root> && git checkout -b migrate/twilio-to-telnyx
 
 Install Telnyx SDK **alongside** Twilio — do NOT remove Twilio from the package manifest yet (removal is Phase 6). Keep `twilio` in `requirements.txt`/`package.json`/`Gemfile`/`go.mod` until Phase 6 so you can revert if validation fails.
 
-**Server SDKs**: Python: `pip install telnyx` | Node: `npm install telnyx` | Ruby: `gem 'telnyx'` in Gemfile + `bundle install` | Go: `go get github.com/team-telnyx/telnyx-go` | Java/PHP/C#: No official SDK — use REST API with `{baseDir}/sdk-reference/curl/` for API examples
+**Server SDKs**: Python: `pip install 'telnyx>=2.0,<3.0'` | Node: `npm install telnyx@^2` | Ruby: `gem 'telnyx', '~> 2.0'` in Gemfile + `bundle install` | Go: `go get github.com/team-telnyx/telnyx-go` | Java/PHP/C#: No official SDK — use REST API with `{baseDir}/sdk-reference/curl/` for API examples
 
 **Client-side WebRTC SDK** (if WebRTC detected): `npm install @telnyx/webrtc` — see `{baseDir}/sdk-reference/webrtc-client/javascript.md` for the full API reference
 
@@ -271,6 +271,7 @@ If validation fails and you cannot fix the issue, document it and continue to th
 - Auth: Basic Auth → Bearer Token
 - Recording: Set `channels="single"` if expecting mono
 - **`speechModel` does NOT exist in TeXML** — remove it or replace with `transcriptionEngine` (e.g., `transcriptionEngine="Google"`). Using `speechModel` will be silently ignored.
+- **Polly voices**: TeXML supports `voice="Polly.{VoiceId}"` and `voice="Polly.{VoiceId}-Neural"`. Always prefer Neural variants (e.g., `Polly.Amy-Neural` instead of `Polly.Amy`) — non-Neural voices may silently fall back to the default voice. If a specific Polly voice is unavailable, use `voice="woman"` with the appropriate `language` attribute.
 - **Outbound calls**: Use the Telnyx SDK (`client.texml.accounts.calls.calls(connectionId, {...})`) — do NOT use raw `fetch()` to the TeXML API. The SDK handles auth, retries, and response parsing. See `{baseDir}/sdk-reference/{language}/texml.md` for the exact method signature.
 
 **Voice (Call Control path):**
@@ -307,6 +308,7 @@ If validation fails and you cannot fix the issue, document it and continue to th
 - Parse JSON body instead of form data: `request.json['data']['payload']` not `request.form`
 - Access fields via `data.payload.*` — `from` is an object (`from.phone_number`), `to` is an array
 - Replace HMAC-SHA1 (`RequestValidator`) with Ed25519 signature verification using `telnyx-signature-ed25519` + `telnyx-timestamp` headers
+- **If the original code used `twilio.webhook()` middleware** (even with `{validate: false}`), you MUST replace it with Telnyx Ed25519 verification — do NOT just delete it. Removing webhook validation without replacement leaves endpoints unprotected in production.
 - **Use the exact signature verification pattern from `webhook-migration.md`** — do NOT use patterns from your own training data. Do NOT use `new TelnyxWebhook()`.
 
 > **CRITICAL (Express/Node.js only):** Webhook signature verification requires the **raw request body** (original bytes), NOT `JSON.stringify(req.body)`. You MUST add the `verify` callback to `express.json()` in your main app file AND use `req.rawBody` in your verification middleware:
@@ -381,6 +383,8 @@ bash {baseDir}/scripts/test-migration/test-voice.sh --confirm      # ~$0.01
 bash {baseDir}/scripts/test-migration/test-verify.sh --confirm --send-only  # ~$0.05
 bash {baseDir}/scripts/test-migration/test-lookup.sh --confirm     # ~$0.01
 bash {baseDir}/scripts/test-migration/test-fax.sh --confirm        # ~$0.07 (requires fax-capable destination)
+bash {baseDir}/scripts/test-migration/test-sip.sh --confirm        # free (validates SIP trunking setup)
+bash {baseDir}/scripts/test-migration/test-webrtc.sh --confirm     # free (validates WebRTC credentials/tokens)
 ```
 
 Only `TELNYX_API_KEY` and `TELNYX_TO_NUMBER` are required. All other resources (from number, profiles, connections) are auto-detected or auto-created by the scripts. If the account has no phone numbers, the scripts will purchase one (with `--confirm` gate — cost already approved in Phase 0).
@@ -467,3 +471,4 @@ All scripts are in `{baseDir}/scripts/`. Run them — do not substitute your own
 **Validators (free)**: `validate-migration.sh <root> [--product X] [--json] [--exclude-dir D] [--scan-json F]`, `validate-texml.sh <file>`, `lint-telnyx-correctness.sh <root> [--product X] [--json]`
 **Tests (free)**: `test-migration/smoke-test.sh`, `test-migration/webhook-receiver.py`, `test-migration/test-webhooks-local.py`
 **Tests (paid, --confirm)**: `test-migration/test-voice.sh` (~$0.01), `test-migration/test-messaging.sh` (~$0.004), `test-migration/test-verify.sh` (~$0.05), `test-migration/test-lookup.sh` (~$0.01), `test-migration/test-fax.sh` (~$0.07)
+**Tests (free, --confirm)**: `test-migration/test-sip.sh` (SIP trunking setup), `test-migration/test-webrtc.sh` (WebRTC credentials/tokens)

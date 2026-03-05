@@ -385,6 +385,69 @@ if product_applies "verify"; then
 fi
 
 # ============================================================
+# WEBHOOK SIGNATURE VALIDATION
+# ============================================================
+if product_applies "all"; then
+  section_header "Webhook Signature Validation"
+
+  # Check 12: Webhook handlers without Ed25519 signature verification
+  webhook_handlers=$(search_files "(app\.(post|put)|router\.(post|put)|@app\.route|@csrf_exempt|http\.HandleFunc|post.*do)" "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php")
+  webhook_count=$(count_matches "$webhook_handlers")
+  if [ "$webhook_count" -gt 0 ]; then
+    ed25519_refs=$(search_files "(telnyx-signature-ed25519|ed25519|verify_signature|verifySignature|construct_event|TELNYX_PUBLIC_KEY)" "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php")
+    ed25519_count=$(count_matches "$ed25519_refs")
+    telnyx_webhook_parse=$(search_files "(data\.payload|data\[.payload.\]|data\.event_type|data\[.event_type.\])" "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php")
+    telnyx_parse_count=$(count_matches "$telnyx_webhook_parse")
+    if [ "$telnyx_parse_count" -gt 0 ] && [ "$ed25519_count" -eq 0 ]; then
+      lint_issue "webhook_ed25519_missing" \
+        "Webhook handlers parse Telnyx payloads but no Ed25519 signature verification found" \
+        "Add Ed25519 verification using telnyx-signature-ed25519 + telnyx-timestamp headers. See webhook-migration.md" \
+        "$(matches_to_json "$telnyx_webhook_parse")"
+    elif [ "$ed25519_count" -gt 0 ]; then
+      lint_pass "webhook_ed25519_missing" "Ed25519 webhook signature verification found"
+    fi
+  fi
+
+  # Check 13: twilio.webhook() middleware still present (must be replaced, not just removed)
+  twilio_webhook_mw=$(search_files "(twilio\.webhook\(|@validate_twilio_request|RequestValidator|validateRequest)" "*.py" "*.js" "*.ts" "*.rb")
+  twilio_mw_count=$(count_matches "$twilio_webhook_mw")
+  if [ "$twilio_mw_count" -gt 0 ]; then
+    lint_issue "twilio_webhook_middleware" \
+      "Twilio webhook middleware/validator still present in $twilio_mw_count file(s)" \
+      "Replace twilio.webhook() with Telnyx Ed25519 verification. Do NOT just remove it — replace it." \
+      "$(matches_to_json "$twilio_webhook_mw")"
+  else
+    lint_pass "twilio_webhook_middleware" "No Twilio webhook middleware found"
+  fi
+fi
+
+# ============================================================
+# POLLY VOICE COMPATIBILITY
+# ============================================================
+if product_applies "voice"; then
+  section_header "Polly Voice Compatibility"
+
+  # Check 14: Non-Neural Polly voices (may fall back to default voice)
+  polly_refs=$(search_files "Polly\.[A-Z][a-z]+" "*.xml" "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php")
+  polly_count=$(count_matches "$polly_refs")
+  if [ "$polly_count" -gt 0 ]; then
+    neural_refs=$(echo "$polly_refs" | grep -c "\-Neural" || true)
+    non_neural=$(echo "$polly_refs" | grep -v "\-Neural" || true)
+    non_neural_count=$(count_matches "$non_neural")
+    if [ "$non_neural_count" -gt 0 ]; then
+      lint_warn "polly_non_neural" \
+        "Non-Neural Polly voice(s) found in $non_neural_count file(s) — may fall back to default voice" \
+        "Prefer Neural variants: Polly.Amy-Neural instead of Polly.Amy. Or use voice=\"woman\" with language attribute." \
+        "$(matches_to_json "$non_neural")"
+    else
+      lint_pass "polly_non_neural" "All Polly voices use Neural variants"
+    fi
+  else
+    lint_pass "polly_non_neural" "No Polly voice references found"
+  fi
+fi
+
+# ============================================================
 # RESIDUAL TWILIO CODE
 # ============================================================
 section_header "Residual Twilio Patterns"

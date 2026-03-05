@@ -25,6 +25,17 @@
 
 set -uo pipefail
 
+# --- bash 4+ auto-upgrade (macOS ships bash 3.2, sub-scripts need bash 4+) ---
+if [ "${BASH_VERSINFO[0]}" -lt 4 ]; then
+  for _alt_bash in /opt/homebrew/bin/bash /usr/local/bin/bash; do
+    if [ -x "$_alt_bash" ] && "$_alt_bash" -c 'exit $(( BASH_VERSINFO[0] < 4 ))' 2>/dev/null; then
+      exec "$_alt_bash" "$0" "$@"
+    fi
+  done
+  echo "Warning: bash 4+ recommended for full functionality. Install: brew install bash" >&2
+  echo "  Continuing with bash ${BASH_VERSION} — some sub-scripts may fail." >&2
+fi
+
 # --- Resolve script directory ---
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

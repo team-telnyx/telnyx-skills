@@ -275,7 +275,7 @@ const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
 
 try {
   client.webhooks.signature.verifySignature(
-    JSON.stringify(req.body),
+    req.rawBody,  // Must be original bytes — see SKILL.md Express raw body setup
     req.headers['telnyx-signature-ed25519'],
     req.headers['telnyx-timestamp'],
     PUBLIC_KEY

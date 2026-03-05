@@ -591,12 +591,24 @@ section_header "Webhook Validation"
 
 # --- Check 10: Ed25519 signature validation ---
 if product_applies "voice,messaging,verify,sip,fax"; then
-  matches=$(search_files "(ed25519|Ed25519|telnyx-signature-ed25519|verify_signature|webhook.*signature.*telnyx)")
+  matches=$(search_files "(ed25519|Ed25519|telnyx-signature-ed25519|verify_signature|construct_event|webhook.*signature.*telnyx)")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
     check_pass "ed25519_validation" "Ed25519 webhook signature validation found in $count file(s)"
   else
-    check_warn "ed25519_validation" "No Ed25519 webhook signature validation found (recommended for production)"
+    # Check if the project has webhook handlers — if so, missing validation is a FAIL
+    webhook_handlers=$(search_files "(app\.(post|put)|router\.(post|put)|@app\.route|@csrf_exempt|HandleFunc|post '/)" "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php")
+    webhook_count=$(count_matches "$webhook_handlers")
+    # Also check for Telnyx webhook payload parsing (data.payload, event_type)
+    telnyx_webhook_parse=$(search_files "(data\.payload|data\[.payload.\]|event_type|data\.event_type)" "*.py" "*.js" "*.ts" "*.rb" "*.go")
+    telnyx_parse_count=$(count_matches "$telnyx_webhook_parse")
+    if [ "$telnyx_parse_count" -gt 0 ]; then
+      check_fail "ed25519_validation" "Webhook handlers parse Telnyx payloads but NO Ed25519 signature validation found — production webhooks are vulnerable to spoofing. Add verification using the pattern in references/webhook-migration.md"
+    elif [ "$webhook_count" -gt 0 ]; then
+      check_warn "ed25519_validation" "No Ed25519 webhook signature validation found — add verification for production security (see references/webhook-migration.md)"
+    else
+      check_pass "ed25519_validation" "No webhook handlers detected — Ed25519 validation not applicable"
+    fi
   fi
 fi
 

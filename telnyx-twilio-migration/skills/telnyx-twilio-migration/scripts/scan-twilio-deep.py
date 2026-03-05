@@ -165,6 +165,9 @@ PY_EXTENSIONS = {".py"}
 JS_EXTENSIONS = {".js", ".ts", ".jsx", ".tsx", ".mjs", ".cjs"}
 GO_EXTENSIONS = {".go"}
 RUBY_EXTENSIONS = {".rb"}
+JAVA_EXTENSIONS = {".java", ".kt", ".scala"}
+PHP_EXTENSIONS = {".php"}
+CSHARP_EXTENSIONS = {".cs"}
 OTHER_TEXT_EXTENSIONS = {".xml", ".yaml", ".yml"}
 
 # Directories to skip
@@ -284,6 +287,16 @@ def language_for_ext(ext: str) -> str:
         return "python"
     if ext in JS_EXTENSIONS:
         return "javascript"
+    if ext in GO_EXTENSIONS:
+        return "go"
+    if ext in RUBY_EXTENSIONS:
+        return "ruby"
+    if ext in JAVA_EXTENSIONS:
+        return "java"
+    if ext in PHP_EXTENSIONS:
+        return "php"
+    if ext in CSHARP_EXTENSIONS:
+        return "csharp"
     return "unknown"
 
 
@@ -742,6 +755,38 @@ _RUBY_GEM_RE = re.compile(r"""gem\s+['"]twilio-ruby['"]""", re.IGNORECASE)
 _RUBY_ENV_RE = re.compile(r"""ENV\[['"]?(TWILIO_\w+)['"]?\]""", re.IGNORECASE)
 _RUBY_TWILIO_RE = re.compile(r"\btwilio\b", re.IGNORECASE)
 
+# Java / Kotlin / Scala patterns
+_JAVA_IMPORT_RE = re.compile(r"import\s+(com\.twilio\.[^\s;]+)", re.IGNORECASE)
+_JAVA_INIT_RE = re.compile(r"Twilio\.init\s*\(", re.IGNORECASE)
+_JAVA_CREATOR_RE = re.compile(
+    r"com\.twilio\.rest\.api\.v2010\.account\.(Call|Message|IncomingPhoneNumber)\.creator",
+    re.IGNORECASE,
+)
+_JAVA_TWIML_RE = re.compile(r"com\.twilio\.twiml\.(VoiceResponse|MessagingResponse)", re.IGNORECASE)
+_JAVA_ENV_RE = re.compile(r'System\.getenv\s*\(\s*"(TWILIO_\w+)"', re.IGNORECASE)
+_JAVA_WEBHOOK_RE = re.compile(r"X-Twilio-Signature|RequestValidator", re.IGNORECASE)
+_JAVA_TWILIO_RE = re.compile(r"\btwilio\b", re.IGNORECASE)
+
+# PHP patterns
+_PHP_USE_RE = re.compile(r"use\s+Twilio\\([^\s;]+)", re.IGNORECASE)
+_PHP_CLIENT_RE = re.compile(r"new\s+Client\s*\(\s*\$\w+\s*,\s*\$\w+", re.IGNORECASE)
+_PHP_METHOD_RE = re.compile(r"\$twilio->\s*(\w+)", re.IGNORECASE)
+_PHP_ENV_RE = re.compile(r"""(?:getenv\s*\(\s*['"]|\$_ENV\[['"])(TWILIO_\w+)""", re.IGNORECASE)
+_PHP_WEBHOOK_RE = re.compile(r"RequestValidator", re.IGNORECASE)
+_PHP_TWILIO_RE = re.compile(r"\btwilio\b", re.IGNORECASE)
+
+# C# patterns
+_CSHARP_USING_RE = re.compile(r"using\s+(Twilio[^\s;]*)", re.IGNORECASE)
+_CSHARP_INIT_RE = re.compile(r"TwilioClient\.Init\s*\(", re.IGNORECASE)
+_CSHARP_RESOURCE_RE = re.compile(
+    r"(MessageResource|CallResource|IncomingPhoneNumberResource|AccountResource)\.(Create|Read|Update|Fetch)",
+    re.IGNORECASE,
+)
+_CSHARP_ENV_RE = re.compile(
+    r'Environment\.GetEnvironmentVariable\s*\(\s*"(TWILIO_\w+)"', re.IGNORECASE
+)
+_CSHARP_TWILIO_RE = re.compile(r"\btwilio\b", re.IGNORECASE)
+
 
 def scan_go_file(filepath: Path, lines: List[str]) -> List[Detection]:
     """Regex-based scanning for Go files."""
@@ -863,6 +908,382 @@ def scan_ruby_file(filepath: Path, lines: List[str]) -> List[Detection]:
             )
             detected_lines.add(i)
         elif _RUBY_TWILIO_RE.search(stripped) and not stripped.startswith("#"):
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="heuristic",
+                    context=get_context_lines(lines, i), confidence="medium",
+                    product="general",
+                )
+            )
+
+    return detections
+
+
+def scan_java_file(filepath: Path, lines: List[str]) -> List[Detection]:
+    """Regex-based scanning for Java / Kotlin / Scala files."""
+    detections: List[Detection] = []
+    detected_lines: Set[int] = set()
+
+    for i, line in enumerate(lines, start=1):
+        stripped = line.strip()
+
+        # import com.twilio.*
+        m = _JAVA_IMPORT_RE.search(stripped)
+        if m:
+            pkg = m.group(1).lower()
+            product = "general"
+            if "messaging" in pkg or "message" in pkg:
+                product = "messaging"
+            elif "voice" in pkg or "call" in pkg:
+                product = "voice"
+            elif "verify" in pkg:
+                product = "verify"
+            elif "video" in pkg:
+                product = "video"
+            elif "chat" in pkg or "conversation" in pkg:
+                product = "conversations"
+            elif "lookup" in pkg:
+                product = "lookup"
+            elif "twiml.voice" in pkg:
+                product = "voice"
+            elif "twiml.messaging" in pkg:
+                product = "messaging"
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product=product,
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # Twilio.init(
+        if _JAVA_INIT_RE.search(stripped):
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product="general",
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # Creator patterns: Call.creator, Message.creator
+        m = _JAVA_CREATOR_RE.search(stripped)
+        if m:
+            resource = m.group(1).lower()
+            product = "general"
+            if resource == "call":
+                product = "voice"
+            elif resource == "message":
+                product = "messaging"
+            elif resource == "incomingphonenumber":
+                product = "phone-numbers"
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product=product,
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # TwiML responses
+        m = _JAVA_TWIML_RE.search(stripped)
+        if m:
+            twiml_class = m.group(1)
+            product = "voice" if "Voice" in twiml_class else "messaging"
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product=product,
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # Env vars: System.getenv("TWILIO_*")
+        m = _JAVA_ENV_RE.search(stripped)
+        if m:
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product="general",
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # Webhook patterns: X-Twilio-Signature, RequestValidator
+        if _JAVA_WEBHOOK_RE.search(stripped):
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product="webhook-validation",
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+    # Second pass: method calls and remaining twilio references
+    for i, line in enumerate(lines, start=1):
+        if i in detected_lines:
+            continue
+        stripped = line.strip()
+        if stripped.startswith("//") or stripped.startswith("/*") or stripped.startswith("*"):
+            continue
+        inferred = infer_product_from_text(stripped)
+        if inferred != "general":
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high",
+                    product=inferred,
+                )
+            )
+            detected_lines.add(i)
+        elif _JAVA_TWILIO_RE.search(stripped):
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="heuristic",
+                    context=get_context_lines(lines, i), confidence="medium",
+                    product="general",
+                )
+            )
+
+    return detections
+
+
+def scan_php_file(filepath: Path, lines: List[str]) -> List[Detection]:
+    """Regex-based scanning for PHP files."""
+    detections: List[Detection] = []
+    detected_lines: Set[int] = set()
+
+    for i, line in enumerate(lines, start=1):
+        stripped = line.strip()
+
+        # use Twilio\* namespace imports
+        m = _PHP_USE_RE.search(stripped)
+        if m:
+            ns = m.group(1).lower()
+            product = "general"
+            if "messaging" in ns or "message" in ns:
+                product = "messaging"
+            elif "voice" in ns or "call" in ns:
+                product = "voice"
+            elif "verify" in ns:
+                product = "verify"
+            elif "video" in ns:
+                product = "video"
+            elif "chat" in ns or "conversation" in ns:
+                product = "conversations"
+            elif "lookup" in ns:
+                product = "lookup"
+            elif "twiml" in ns:
+                if "voice" in ns:
+                    product = "voice"
+                elif "messaging" in ns:
+                    product = "messaging"
+                else:
+                    product = "twiml"
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product=product,
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # new Client($sid, $token)
+        if _PHP_CLIENT_RE.search(stripped):
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product="general",
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # $twilio-> method calls
+        m = _PHP_METHOD_RE.search(stripped)
+        if m:
+            method = m.group(1).lower()
+            product = "general"
+            if method in ("messages", "message"):
+                product = "messaging"
+            elif method in ("calls", "call"):
+                product = "voice"
+            elif method in ("verify", "verification"):
+                product = "verify"
+            elif method in ("video",):
+                product = "video"
+            elif method in ("lookups", "lookup"):
+                product = "lookup"
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product=product,
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # Env vars: getenv('TWILIO_*'), $_ENV['TWILIO_*']
+        m = _PHP_ENV_RE.search(stripped)
+        if m:
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product="general",
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # RequestValidator for webhooks
+        if _PHP_WEBHOOK_RE.search(stripped) and _PHP_TWILIO_RE.search(stripped):
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product="webhook-validation",
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+    # Second pass: method calls and remaining twilio references
+    for i, line in enumerate(lines, start=1):
+        if i in detected_lines:
+            continue
+        stripped = line.strip()
+        if stripped.startswith("//") or stripped.startswith("#") or stripped.startswith("/*") or stripped.startswith("*"):
+            continue
+        inferred = infer_product_from_text(stripped)
+        if inferred != "general":
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high",
+                    product=inferred,
+                )
+            )
+            detected_lines.add(i)
+        elif _PHP_TWILIO_RE.search(stripped):
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="heuristic",
+                    context=get_context_lines(lines, i), confidence="medium",
+                    product="general",
+                )
+            )
+
+    return detections
+
+
+def scan_csharp_file(filepath: Path, lines: List[str]) -> List[Detection]:
+    """Regex-based scanning for C# files."""
+    detections: List[Detection] = []
+    detected_lines: Set[int] = set()
+
+    for i, line in enumerate(lines, start=1):
+        stripped = line.strip()
+
+        # using Twilio* imports
+        m = _CSHARP_USING_RE.search(stripped)
+        if m:
+            ns = m.group(1).lower()
+            product = "general"
+            if "messaging" in ns or "message" in ns:
+                product = "messaging"
+            elif "voice" in ns or "call" in ns:
+                product = "voice"
+            elif "verify" in ns:
+                product = "verify"
+            elif "video" in ns:
+                product = "video"
+            elif "chat" in ns or "conversation" in ns:
+                product = "conversations"
+            elif "lookup" in ns:
+                product = "lookup"
+            elif "twiml" in ns:
+                if "voice" in ns:
+                    product = "voice"
+                elif "messaging" in ns:
+                    product = "messaging"
+                else:
+                    product = "twiml"
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product=product,
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # TwilioClient.Init(
+        if _CSHARP_INIT_RE.search(stripped):
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product="general",
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # Resource method calls: MessageResource.Create, CallResource.Create, etc.
+        m = _CSHARP_RESOURCE_RE.search(stripped)
+        if m:
+            resource = m.group(1).lower()
+            product = "general"
+            if "message" in resource:
+                product = "messaging"
+            elif "call" in resource:
+                product = "voice"
+            elif "incomingphonenumber" in resource:
+                product = "phone-numbers"
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product=product,
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+        # Env vars: Environment.GetEnvironmentVariable("TWILIO_*")
+        m = _CSHARP_ENV_RE.search(stripped)
+        if m:
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high", product="general",
+                )
+            )
+            detected_lines.add(i)
+            continue
+
+    # Second pass: method calls and remaining twilio references
+    for i, line in enumerate(lines, start=1):
+        if i in detected_lines:
+            continue
+        stripped = line.strip()
+        if stripped.startswith("//") or stripped.startswith("/*") or stripped.startswith("*"):
+            continue
+        inferred = infer_product_from_text(stripped)
+        if inferred != "general":
+            detections.append(
+                Detection(
+                    pattern=stripped, line=i, detection_method="regex",
+                    context=get_context_lines(lines, i), confidence="high",
+                    product=inferred,
+                )
+            )
+            detected_lines.add(i)
+        elif _CSHARP_TWILIO_RE.search(stripped):
             detections.append(
                 Detection(
                     pattern=stripped, line=i, detection_method="heuristic",
@@ -1085,6 +1506,109 @@ def run_scan(project_root: Path) -> Dict[str, Any]:
                     confidence_counts[d.confidence] = confidence_counts.get(d.confidence, 0) + 1
             # Ruby env vars
             for match in _RUBY_ENV_RE.finditer(text):
+                var = match.group(1).upper()
+                if var not in all_env_vars:
+                    all_env_vars.append(var)
+            continue
+
+        # --- Java / Kotlin / Scala files ---
+        if ext in JAVA_EXTENSIONS:
+            try:
+                text = filepath.read_text(errors="replace")
+            except (OSError, PermissionError):
+                continue
+            if "twilio" not in text.lower():
+                continue
+            lines = text.splitlines()
+            rel = str(filepath.relative_to(project_root))
+            java_detections = scan_java_file(filepath, lines)
+            if java_detections:
+                lang = "kotlin" if ext == ".kt" else "scala" if ext == ".scala" else "java"
+                fr = FileResult(rel, lang)
+                fr.detections = java_detections
+                file_results.append(fr)
+                languages_seen.add(lang)
+                for d in java_detections:
+                    all_products.add(d.product)
+                    method_counts[d.detection_method] = method_counts.get(d.detection_method, 0) + 1
+                    confidence_counts[d.confidence] = confidence_counts.get(d.confidence, 0) + 1
+                    if "route" in d.pattern.lower() or "webhook" in d.pattern.lower():
+                        webhook_handlers.append({
+                            "file": rel,
+                            "line": d.line,
+                            "pattern": d.pattern,
+                            "product": d.product,
+                        })
+            # Java env vars
+            for match in _JAVA_ENV_RE.finditer(text):
+                var = match.group(1).upper()
+                if var not in all_env_vars:
+                    all_env_vars.append(var)
+            continue
+
+        # --- PHP files ---
+        if ext in PHP_EXTENSIONS:
+            try:
+                text = filepath.read_text(errors="replace")
+            except (OSError, PermissionError):
+                continue
+            if "twilio" not in text.lower():
+                continue
+            lines = text.splitlines()
+            rel = str(filepath.relative_to(project_root))
+            php_detections = scan_php_file(filepath, lines)
+            if php_detections:
+                fr = FileResult(rel, "php")
+                fr.detections = php_detections
+                file_results.append(fr)
+                languages_seen.add("php")
+                for d in php_detections:
+                    all_products.add(d.product)
+                    method_counts[d.detection_method] = method_counts.get(d.detection_method, 0) + 1
+                    confidence_counts[d.confidence] = confidence_counts.get(d.confidence, 0) + 1
+                    if "route" in d.pattern.lower() or "webhook" in d.pattern.lower():
+                        webhook_handlers.append({
+                            "file": rel,
+                            "line": d.line,
+                            "pattern": d.pattern,
+                            "product": d.product,
+                        })
+            # PHP env vars
+            for match in _PHP_ENV_RE.finditer(text):
+                var = match.group(1).upper()
+                if var not in all_env_vars:
+                    all_env_vars.append(var)
+            continue
+
+        # --- C# files ---
+        if ext in CSHARP_EXTENSIONS:
+            try:
+                text = filepath.read_text(errors="replace")
+            except (OSError, PermissionError):
+                continue
+            if "twilio" not in text.lower():
+                continue
+            lines = text.splitlines()
+            rel = str(filepath.relative_to(project_root))
+            csharp_detections = scan_csharp_file(filepath, lines)
+            if csharp_detections:
+                fr = FileResult(rel, "csharp")
+                fr.detections = csharp_detections
+                file_results.append(fr)
+                languages_seen.add("csharp")
+                for d in csharp_detections:
+                    all_products.add(d.product)
+                    method_counts[d.detection_method] = method_counts.get(d.detection_method, 0) + 1
+                    confidence_counts[d.confidence] = confidence_counts.get(d.confidence, 0) + 1
+                    if "route" in d.pattern.lower() or "webhook" in d.pattern.lower():
+                        webhook_handlers.append({
+                            "file": rel,
+                            "line": d.line,
+                            "pattern": d.pattern,
+                            "product": d.product,
+                        })
+            # C# env vars
+            for match in _CSHARP_ENV_RE.finditer(text):
                 var = match.group(1).upper()
                 if var not in all_env_vars:
                     all_env_vars.append(var)

@@ -137,7 +137,7 @@ const Telnyx = require('telnyx');
 const client = new Telnyx({ apiKey: 'YOUR_API_KEY' });
 
 client.webhooks.signature.verifySignature(
-  JSON.stringify(req.body),
+  req.rawBody,  // Must be original bytes — see Express example below for rawBody setup
   req.headers['telnyx-signature-ed25519'],
   req.headers['telnyx-timestamp'],
   'YOUR_PUBLIC_KEY'
