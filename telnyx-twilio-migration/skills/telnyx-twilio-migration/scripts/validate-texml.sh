@@ -108,6 +108,15 @@ if grep -q '<Dial' "$FILE" && grep -q 'record=' "$FILE"; then
   fi
 fi
 
+# Polly voice compatibility — warn about non-Neural variants
+if grep -qE 'voice="Polly\.' "$FILE"; then
+  non_neural=$(grep -oE 'voice="Polly\.[^"]*"' "$FILE" | grep -v '\-Neural' || true)
+  if [ -n "$non_neural" ]; then
+    echo -e "${YELLOW}[WARN]${NC}  Non-Neural Polly voice(s) found: $non_neural — may fall back to default voice. Prefer Neural variants (e.g., Polly.Amy-Neural) or use voice=\"woman\" with language attribute."
+    WARNINGS=$((WARNINGS + 1))
+  fi
+fi
+
 # HMAC signature references in code-like content
 if grep -qi 'X-Twilio-Signature\|RequestValidator\|validateRequest' "$FILE"; then
   echo -e "${YELLOW}[WARN]${NC}  File references Twilio webhook signature validation. Telnyx uses Ed25519 (telnyx-signature-ed25519 header)."

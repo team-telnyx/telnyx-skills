@@ -75,6 +75,8 @@ Converts text to speech and plays it to the caller.
 | Attribute | Type | Default | Description |
 |---|---|---|---|
 | `voice` | string | `man` | Voice selection. Options: `man`, `woman`, `alice` (multi-language via Polly), `Polly.{VoiceId}`, `Polly.{VoiceId}-Neural`, `ElevenLabs.{ModelId}.{VoiceId}` |
+
+> **Polly voice compatibility:** TeXML supports Amazon Polly voices via `voice="Polly.{VoiceId}"` and `voice="Polly.{VoiceId}-Neural"`. Prefer Neural variants (e.g., `Polly.Amy-Neural` instead of `Polly.Amy`) — non-Neural voices may fall back to the default voice. If a specific Polly voice is unavailable, use `voice="woman"` with the appropriate `language` attribute, or switch to ElevenLabs for higher quality.
 | `language` | string | `en-US` | ISO language code. Only applies to `alice` voice. |
 | `loop` | integer | `1` | Repetitions (0-10). Set to `0` for infinite loop. |
 

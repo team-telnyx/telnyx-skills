@@ -1,4 +1,20 @@
-<!-- SDK reference: telnyx-voice-advanced-java -->
+<!-- Auto-generated from telnyx-voice-advanced-java — do not edit manually -->
+<!-- Source: telnyx-java/skills/telnyx-voice-advanced-java/SKILL.md -->
+
+---
+name: telnyx-voice-advanced-java
+description: >-
+  Advanced call control features including DTMF sending, SIPREC recording, noise
+  suppression, client state, and supervisor controls. This skill provides Java
+  SDK examples.
+metadata:
+  author: telnyx
+  product: voice-advanced
+  language: java
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Voice Advanced - Java
 
@@ -36,13 +52,9 @@ ActionUpdateClientStateParams params = ActionUpdateClientStateParams.builder()
 ActionUpdateClientStateResponse response = client.calls().actions().updateClientState(params);
 ```
 
-Returns: `result` (string)
-
 ## Send DTMF
 
-Sends DTMF tones from this leg. DTMF tones will be heard by the other end of the call. **Expected Webhooks:**
-
-There are no webhooks associated with this command.
+Sends DTMF tones from this leg.
 
 `POST /calls/{call_control_id}/actions/send_dtmf` — Required: `digits`
 
@@ -59,19 +71,13 @@ ActionSendDtmfParams params = ActionSendDtmfParams.builder()
 ActionSendDtmfResponse response = client.calls().actions().sendDtmf(params);
 ```
 
-Returns: `result` (string)
-
 ## SIPREC start
 
-Start siprec session to configured in SIPREC connector SRS. **Expected Webhooks:**
-
-- `siprec.started`
-- `siprec.stopped`
-- `siprec.failed`
+Start siprec session to configured in SIPREC connector SRS.
 
 `POST /calls/{call_control_id}/actions/siprec_start`
 
-Optional: `client_state` (string), `connector_name` (string), `include_metadata_custom_headers` (enum: True, False), `secure` (enum: True, False), `session_timeout_secs` (integer), `sip_transport` (enum: udp, tcp, tls), `siprec_track` (enum: inbound_track, outbound_track, both_tracks)
+Optional: `client_state` (string), `connector_name` (string), `include_metadata_custom_headers` (enum), `secure` (enum), `session_timeout_secs` (integer), `sip_transport` (enum), `siprec_track` (enum)
 
 ```java
 import com.telnyx.sdk.models.calls.actions.ActionStartSiprecParams;
@@ -80,13 +86,9 @@ import com.telnyx.sdk.models.calls.actions.ActionStartSiprecResponse;
 ActionStartSiprecResponse response = client.calls().actions().startSiprec("call_control_id");
 ```
 
-Returns: `result` (string)
-
 ## SIPREC stop
 
-Stop SIPREC session. **Expected Webhooks:**
-
-- `siprec.stopped`
+Stop SIPREC session.
 
 `POST /calls/{call_control_id}/actions/siprec_stop`
 
@@ -99,13 +101,11 @@ import com.telnyx.sdk.models.calls.actions.ActionStopSiprecResponse;
 ActionStopSiprecResponse response = client.calls().actions().stopSiprec("call_control_id");
 ```
 
-Returns: `result` (string)
-
 ## Noise Suppression Start (BETA)
 
 `POST /calls/{call_control_id}/actions/suppression_start`
 
-Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp), `noise_suppression_engine_config` (object)
+Optional: `client_state` (string), `command_id` (string), `direction` (enum), `noise_suppression_engine` (enum), `noise_suppression_engine_config` (object)
 
 ```java
 import com.telnyx.sdk.models.calls.actions.ActionStartNoiseSuppressionParams;
@@ -113,8 +113,6 @@ import com.telnyx.sdk.models.calls.actions.ActionStartNoiseSuppressionResponse;
 
 ActionStartNoiseSuppressionResponse response = client.calls().actions().startNoiseSuppression("call_control_id");
 ```
-
-Returns: `result` (string)
 
 ## Noise Suppression Stop (BETA)
 
@@ -129,11 +127,9 @@ import com.telnyx.sdk.models.calls.actions.ActionStopNoiseSuppressionResponse;
 ActionStopNoiseSuppressionResponse response = client.calls().actions().stopNoiseSuppression("call_control_id");
 ```
 
-Returns: `result` (string)
-
 ## Switch supervisor role
 
-Switch the supervisor role for a bridged call. This allows switching between different supervisor modes during an active call
+Switch the supervisor role for a bridged call.
 
 `POST /calls/{call_control_id}/actions/switch_supervisor_role` — Required: `role`
 
@@ -147,8 +143,6 @@ ActionSwitchSupervisorRoleParams params = ActionSwitchSupervisorRoleParams.build
     .build();
 ActionSwitchSupervisorRoleResponse response = client.calls().actions().switchSupervisorRole(params);
 ```
-
-Returns: `result` (string)
 
 ---
 
@@ -179,8 +173,8 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: call.conversation.ended | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Unique identifier for the event. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.created_at` | date-time | Timestamp when the event was created in the system. |
@@ -190,7 +184,7 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | `data.payload.call_leg_id` | string | ID that is unique to the call leg. |
 | `data.payload.call_session_id` | string | ID that is unique to the call session (group of related call legs). |
 | `data.payload.client_state` | string | Base64-encoded state received from a command. |
-| `data.payload.calling_party_type` | enum: pstn, sip | The type of calling party connection. |
+| `data.payload.calling_party_type` | enum | The type of calling party connection. |
 | `data.payload.conversation_id` | string | ID unique to the conversation or insight group generated for the call. |
 | `data.payload.duration_sec` | integer | Duration of the conversation in seconds. |
 | `data.payload.from` | string | The caller's number or identifier. |
@@ -205,8 +199,8 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: call.conversation_insights.generated | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
@@ -214,7 +208,7 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | `data.payload.call_leg_id` | string | ID that is unique to the call and can be used to correlate webhook events. |
 | `data.payload.call_session_id` | string | ID that is unique to the call session and can be used to correlate webhook events. |
 | `data.payload.client_state` | string | State received from a command. |
-| `data.payload.calling_party_type` | enum: pstn, sip | The type of calling party connection. |
+| `data.payload.calling_party_type` | enum | The type of calling party connection. |
 | `data.payload.insight_group_id` | string | ID that is unique to the insight group being generated for the call. |
 | `data.payload.results` | array[object] | Array of insight results being generated for the call. |
 
@@ -222,8 +216,8 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: call.dtmf.received | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
@@ -239,8 +233,8 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: call.machine.detection.ended | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
@@ -250,14 +244,14 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | `data.payload.client_state` | string | State received from a command. |
 | `data.payload.from` | string | Number or SIP URI placing the call. |
 | `data.payload.to` | string | Destination number or SIP URI of the call. |
-| `data.payload.result` | enum: human, machine, not_sure | Answering machine detection result. |
+| `data.payload.result` | enum | Answering machine detection result. |
 
 **`callMachineGreetingEnded`**
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: call.machine.greeting.ended | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
@@ -267,14 +261,14 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | `data.payload.client_state` | string | State received from a command. |
 | `data.payload.from` | string | Number or SIP URI placing the call. |
 | `data.payload.to` | string | Destination number or SIP URI of the call. |
-| `data.payload.result` | enum: beep_detected, ended, not_sure | Answering machine greeting ended result. |
+| `data.payload.result` | enum | Answering machine greeting ended result. |
 
 **`callMachinePremiumDetectionEnded`**
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: call.machine.premium.detection.ended | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
@@ -284,14 +278,14 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | `data.payload.client_state` | string | State received from a command. |
 | `data.payload.from` | string | Number or SIP URI placing the call. |
 | `data.payload.to` | string | Destination number or SIP URI of the call. |
-| `data.payload.result` | enum: human_residence, human_business, machine, silence, fax_detected, not_sure | Premium Answering Machine Detection result. |
+| `data.payload.result` | enum | Premium Answering Machine Detection result. |
 
 **`callMachinePremiumGreetingEnded`**
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: call.machine.premium.greeting.ended | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
@@ -301,14 +295,14 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 | `data.payload.client_state` | string | State received from a command. |
 | `data.payload.from` | string | Number or SIP URI placing the call. |
 | `data.payload.to` | string | Destination number or SIP URI of the call. |
-| `data.payload.result` | enum: beep_detected, no_beep_detected | Premium Answering Machine Greeting Ended result. |
+| `data.payload.result` | enum | Premium Answering Machine Greeting Ended result. |
 
 **`callReferCompleted`**
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: call.refer.completed | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Unique ID for controlling the call. |
@@ -324,8 +318,8 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: call.refer.failed | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Unique ID for controlling the call. |
@@ -341,8 +335,8 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: call.refer.started | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Unique ID for controlling the call. |
@@ -358,8 +352,8 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the resource. |
-| `data.event_type` | enum: siprec.failed | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
@@ -373,8 +367,8 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: siprec.started | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |
@@ -387,8 +381,8 @@ All webhooks include `telnyx-timestamp` and `telnyx-signature-ed25519` headers f
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.record_type` | enum: event | Identifies the type of the resource. |
-| `data.event_type` | enum: siprec.stopped | The type of event being delivered. |
+| `data.record_type` | enum | Identifies the type of the resource. |
+| `data.event_type` | enum | The type of event being delivered. |
 | `data.id` | uuid | Identifies the type of resource. |
 | `data.occurred_at` | date-time | ISO 8601 datetime of when the event occurred. |
 | `data.payload.call_control_id` | string | Call ID used to issue commands via Call Control API. |

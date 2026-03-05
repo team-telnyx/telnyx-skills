@@ -2,6 +2,8 @@
 
 Migrate from Twilio Verify to the Telnyx Verify API for phone number verification and 2FA.
 
+> **CRITICAL: `verify_profile_id` is REQUIRED on every Telnyx Verify API call.** Unlike Twilio where the Service SID is in the URL path, Telnyx requires `verify_profile_id` as a body parameter on both send and check requests. Omitting it will cause a 422 error. Create a profile first (see Setup below), then include it in every request.
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -75,12 +77,11 @@ verification = client.verify.v2 \
     .create(to='+15559876543', channel='sms')
 
 # Telnyx
-import telnyx
-telnyx.api_key = "YOUR_API_KEY"
-verification = telnyx.Verification.create(
+from telnyx import Telnyx
+client = Telnyx(api_key="YOUR_API_KEY")
+verification = client.verifications.trigger_sms(
     phone_number="+15559876543",
-    verify_profile_id="YOUR_PROFILE_ID",
-    type="sms"
+    verify_profile_id="YOUR_PROFILE_ID"
 )
 ```
 
@@ -92,11 +93,11 @@ const verification = await client.verify.v2
   .create({ to: '+15559876543', channel: 'sms' });
 
 // Telnyx
-const telnyx = require('telnyx')('YOUR_API_KEY');
-const verification = await telnyx.verifications.create({
+const Telnyx = require('telnyx');
+const client = new Telnyx({ apiKey: 'YOUR_API_KEY' });
+const verification = await client.verifications.triggerSMS({
   phone_number: '+15559876543',
-  verify_profile_id: 'YOUR_PROFILE_ID',
-  type: 'sms'
+  verify_profile_id: 'YOUR_PROFILE_ID'
 });
 ```
 
@@ -117,6 +118,47 @@ curl -X POST https://api.telnyx.com/v2/verifications \
   }'
 ```
 
+```go
+// Go — Twilio
+import "github.com/twilio/twilio-go"
+import verify "github.com/twilio/twilio-go/rest/verify/v2"
+
+client := twilio.NewRestClient()
+params := &verify.CreateVerificationParams{}
+params.SetTo("+15559876543")
+params.SetChannel("sms")
+resp, _ := client.VerifyV2.CreateVerification("VA...", params)
+
+// Go — Telnyx (REST API)
+// POST https://api.telnyx.com/v2/verifications
+// {"phone_number":"+15559876543","verify_profile_id":"...","type":"sms"}
+```
+
+```ruby
+# Twilio
+verification = client.verify.v2
+  .services('VA...')
+  .verifications
+  .create(to: '+15559876543', channel: 'sms')
+
+# Telnyx
+client = Telnyx::Client.new(api_key: 'YOUR_API_KEY')
+verification = client.verifications.trigger_sms(
+  phone_number: '+15559876543',
+  verify_profile_id: 'YOUR_PROFILE_ID'
+)
+```
+
+```java
+// Twilio
+import com.twilio.rest.verify.v2.service.Verification;
+
+Verification verification = Verification.creator("VA...", "+15559876543", "sms").create();
+
+// Telnyx — use REST API
+// POST https://api.telnyx.com/v2/verifications with JSON body
+```
+
 ### Voice Call Verification
 
 ```python
@@ -127,10 +169,9 @@ verification = client.verify.v2 \
     .create(to='+15559876543', channel='call')
 
 # Telnyx
-verification = telnyx.Verification.create(
+verification = client.verifications.trigger_call(
     phone_number="+15559876543",
-    verify_profile_id="YOUR_PROFILE_ID",
-    type="call"
+    verify_profile_id="YOUR_PROFILE_ID"
 )
 ```
 
@@ -156,11 +197,12 @@ check = client.verify.v2 \
 # check.status == 'approved' or 'pending'
 
 # Telnyx
-verification = telnyx.Verification.verify_by_phone_number(
+result = client.verifications.by_phone_number.actions.verify(
     phone_number="+15559876543",
-    code="123456"
+    code="123456",
+    verify_profile_id="YOUR_PROFILE_ID"
 )
-# verification.response_code == 'accepted' or 'rejected'
+# result.response_code == 'accepted' or 'rejected'
 ```
 
 ```javascript
@@ -172,10 +214,10 @@ const check = await client.verify.v2
 // check.status === 'approved'
 
 // Telnyx
-const result = await telnyx.verifications.verify_by_phone_number({
-  phone_number: '+15559876543',
-  code: '123456'
-});
+const result = await client.verifications.byPhoneNumber.actions.verify(
+  '+15559876543',
+  { code: '123456', verify_profile_id: 'YOUR_PROFILE_ID' }
+);
 // result.data.response_code === 'accepted'
 ```
 
@@ -186,13 +228,10 @@ curl -X POST "https://verify.twilio.com/v2/Services/$SERVICE_SID/VerificationChe
   -d "To=+15559876543" -d "Code=123456"
 
 # Telnyx
-curl -X POST https://api.telnyx.com/v2/verifications/by_phone_number \
+curl -X POST "https://api.telnyx.com/v2/verifications/by_phone_number/+15559876543/actions/verify" \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-    "phone_number": "+15559876543",
-    "code": "123456"
-  }'
+  -d '{"code": "123456", "verify_profile_id": "YOUR_PROFILE_ID"}'
 ```
 
 ### Status Mapping
@@ -208,14 +247,65 @@ curl -X POST https://api.telnyx.com/v2/verifications/by_phone_number \
 Telnyx-only feature. Verification via a missed call — the user's phone displays a caller ID, and the last N digits of that number are the verification code. No SMS charges, faster in some markets.
 
 ```python
-verification = telnyx.Verification.create(
+verification = client.verifications.trigger_flashcall(
     phone_number="+15559876543",
-    verify_profile_id="YOUR_PROFILE_ID",
-    type="flash_call"
+    verify_profile_id="YOUR_PROFILE_ID"
 )
 ```
 
 The user sees an incoming call that auto-disconnects. Your app reads the caller ID and extracts the code automatically (or prompts the user to enter it).
+
+**Flash Call Configuration on Verify Profile:**
+
+```bash
+curl -X PATCH https://api.telnyx.com/v2/verify_profiles/YOUR_PROFILE_ID \
+  -H "Authorization: Bearer $TELNYX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "flash_call_enabled": true,
+    "call_enabled": true
+  }'
+```
+
+**How it works:**
+1. Your app calls `POST /v2/verifications` with `type: "flash_call"`
+2. Telnyx places a call to the user's phone that auto-disconnects after 1 ring
+3. The caller ID of that call contains the verification digits
+4. Your mobile app detects the incoming call's caller ID and extracts the code automatically
+5. Call `POST /v2/verifications/by_phone_number` with the extracted code to verify
+
+**Benefits over SMS OTP:** No SMS charges, faster delivery, works even with SMS delivery issues, harder to intercept.
+
+## vSMS (Verified SMS Templates)
+
+Telnyx vSMS uses carrier-verified message templates for OTP delivery. This provides:
+- Higher deliverability (carrier-approved, bypasses some spam filters)
+- Branded sender experience on supported carriers
+- Template-based formatting
+
+```python
+verification = client.verifications.trigger_sms(
+    phone_number="+15559876543",
+    verify_profile_id="YOUR_PROFILE_ID",
+    template_id="YOUR_TEMPLATE_ID"  # Pre-approved template
+)
+```
+
+## PSD2 (Payment Services Directive 2)
+
+For payment authorization in the EU, Telnyx Verify supports PSD2-compliant verification with amount and payee in the message:
+
+```python
+# Telnyx PSD2 verification
+verification = client.verifications.trigger_sms(
+    phone_number="+353851234567",
+    verify_profile_id="YOUR_PROFILE_ID",
+    amount="25.00",
+    payee="Acme Corp"
+)
+```
+
+The verification message includes the transaction amount and payee name, meeting Strong Customer Authentication (SCA) requirements.
 
 ## Concept Mapping
 
@@ -238,3 +328,58 @@ Telnyx Verify also primarily uses a request/response pattern (create verificatio
 - `verification.accepted` — code was correctly verified
 - `verification.rejected` — incorrect code submitted
 - `verification.expired` — code expired without verification
+
+## Testing
+
+When migrating verify tests, the key change is the response field names.
+
+### Mock Patterns
+
+**Python (pytest/unittest):**
+```python
+# Twilio mock:
+# @patch('twilio.rest.Client')
+# def test_verify(mock_client):
+#     mock_client.return_value.verify.v2.services('VA...').verification_checks.create.return_value.status = 'approved'
+
+# Telnyx mock (v4 SDK — client.verifications.actions.verify):
+@patch('your_module.client.verifications.actions.verify')  # patch where client is used
+def test_verify_code(mock_submit):
+    mock_submit.return_value = type('obj', (object,), {
+        'data': type('obj', (object,), {
+            'phone_number': '+15559876543',
+            'verify_profile_id': 'uuid-here',
+            'response_code': 'accepted',  # NOT 'approved'
+        })()
+    })()
+    result = verify_code('+15559876543', '123456')
+    assert result.data.response_code == 'accepted'
+```
+
+**JavaScript (Jest):**
+```javascript
+jest.mock('telnyx', () => {
+  return jest.fn().mockImplementation(() => ({
+    verifications: {
+      byPhoneNumber: jest.fn().mockReturnValue({
+        submit: jest.fn().mockResolvedValue({
+          data: {
+            phone_number: '+15559876543',
+            verify_profile_id: 'uuid-here',
+            response_code: 'accepted',
+          }
+        })
+      })
+    }
+  }));
+});
+```
+
+### Assertion Changes
+
+| Twilio Assertion | Telnyx Assertion |
+|---|---|
+| `assert result.status == 'approved'` | `assert result.data.response_code == 'accepted'` |
+| `assert result.status == 'pending'` | `assert result.data.status == 'pending'` (on create) |
+| `assert result.sid.startswith('VE')` | `assert result.data.verify_profile_id is not None` |
+| `assert result.channel == 'sms'` | `assert result.data.type == 'sms'` |

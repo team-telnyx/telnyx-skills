@@ -1,4 +1,19 @@
-<!-- SDK reference: telnyx-ai-assistants-java -->
+<!-- Auto-generated from telnyx-ai-assistants-java — do not edit manually -->
+<!-- Source: telnyx-java/skills/telnyx-ai-assistants-java/SKILL.md -->
+
+---
+name: telnyx-ai-assistants-java
+description: >-
+  Create and manage AI voice assistants with custom personalities, knowledge
+  bases, and tool integrations. This skill provides Java SDK examples.
+metadata:
+  author: telnyx
+  product: ai-assistants
+  language: java
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Ai Assistants - Java
 
@@ -32,8 +47,6 @@ import com.telnyx.sdk.models.ai.assistants.AssistantsList;
 AssistantsList assistantsList = client.ai().assistants().list();
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## Create an assistant
 
 Create a new AI Assistant.
@@ -54,11 +67,9 @@ AssistantCreateParams params = AssistantCreateParams.builder()
 InferenceEmbedding assistant = client.ai().assistants().create(params);
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## Import assistants from external provider
 
-Import assistants from external providers. Any assistant that has already been imported will be overwritten with its latest version from the importing provider.
+Import assistants from external providers.
 
 `POST /ai/assistants/import` — Required: `provider`, `api_key_ref`
 
@@ -75,8 +86,6 @@ AssistantImportsParams params = AssistantImportsParams.builder()
 AssistantsList assistantsList = client.ai().assistants().imports(params);
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## List assistant tests with pagination
 
 Retrieves a paginated list of assistant tests with optional filtering capabilities
@@ -89,8 +98,6 @@ import com.telnyx.sdk.models.ai.assistants.tests.TestListParams;
 
 TestListPage page = client.ai().assistants().tests().list();
 ```
-
-Returns: `created_at` (date-time), `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (object), `test_id` (uuid), `test_suite` (string)
 
 ## Create a new assistant test
 
@@ -120,8 +127,6 @@ TestCreateParams params = TestCreateParams.builder()
 AssistantTest assistantTest = client.ai().assistants().tests().create(params);
 ```
 
-Returns: `created_at` (date-time), `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (object), `test_id` (uuid), `test_suite` (string)
-
 ## Get all test suite names
 
 Retrieves a list of all distinct test suite names available to the current user
@@ -135,8 +140,6 @@ import com.telnyx.sdk.models.ai.assistants.tests.testsuites.TestSuiteListRespons
 TestSuiteListResponse testSuites = client.ai().assistants().tests().testSuites().list();
 ```
 
-Returns: `data` (array[string])
-
 ## Get test suite run history
 
 Retrieves paginated history of test runs for a specific test suite with filtering options
@@ -149,8 +152,6 @@ import com.telnyx.sdk.models.ai.assistants.tests.testsuites.runs.RunListParams;
 
 RunListPage page = client.ai().assistants().tests().testSuites().runs().list("suite_name");
 ```
-
-Returns: `completed_at` (date-time), `conversation_id` (string), `conversation_insights_id` (string), `created_at` (date-time), `detail_status` (array[object]), `logs` (string), `run_id` (uuid), `status` (enum: pending, starting, running, passed, failed, error), `test_id` (uuid), `test_suite_run_id` (uuid), `triggered_by` (string), `updated_at` (date-time)
 
 ## Trigger test suite execution
 
@@ -180,15 +181,13 @@ import com.telnyx.sdk.models.ai.assistants.tests.TestRetrieveParams;
 AssistantTest assistantTest = client.ai().assistants().tests().retrieve("test_id");
 ```
 
-Returns: `created_at` (date-time), `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (object), `test_id` (uuid), `test_suite` (string)
-
 ## Update an assistant test
 
 Updates an existing assistant test configuration with new settings
 
 `PUT /ai/assistants/tests/{test_id}`
 
-Optional: `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (enum: phone_call, web_call, sms_chat, web_chat), `test_suite` (string)
+Optional: `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (enum), `test_suite` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.assistants.tests.AssistantTest;
@@ -196,8 +195,6 @@ import com.telnyx.sdk.models.ai.assistants.tests.TestUpdateParams;
 
 AssistantTest assistantTest = client.ai().assistants().tests().update("test_id");
 ```
-
-Returns: `created_at` (date-time), `description` (string), `destination` (string), `instructions` (string), `max_duration_seconds` (integer), `name` (string), `rubric` (array[object]), `telnyx_conversation_channel` (object), `test_id` (uuid), `test_suite` (string)
 
 ## Delete an assistant test
 
@@ -224,8 +221,6 @@ import com.telnyx.sdk.models.ai.assistants.tests.runs.RunListParams;
 RunListPage page = client.ai().assistants().tests().runs().list("test_id");
 ```
 
-Returns: `completed_at` (date-time), `conversation_id` (string), `conversation_insights_id` (string), `created_at` (date-time), `detail_status` (array[object]), `logs` (string), `run_id` (uuid), `status` (enum: pending, starting, running, passed, failed, error), `test_id` (uuid), `test_suite_run_id` (uuid), `triggered_by` (string), `updated_at` (date-time)
-
 ## Trigger a manual test run
 
 Initiates immediate execution of a specific assistant test
@@ -240,8 +235,6 @@ import com.telnyx.sdk.models.ai.assistants.tests.runs.TestRunResponse;
 
 TestRunResponse testRunResponse = client.ai().assistants().tests().runs().trigger("test_id");
 ```
-
-Returns: `completed_at` (date-time), `conversation_id` (string), `conversation_insights_id` (string), `created_at` (date-time), `detail_status` (array[object]), `logs` (string), `run_id` (uuid), `status` (enum: pending, starting, running, passed, failed, error), `test_id` (uuid), `test_suite_run_id` (uuid), `triggered_by` (string), `updated_at` (date-time)
 
 ## Get specific test run details
 
@@ -260,8 +253,6 @@ RunRetrieveParams params = RunRetrieveParams.builder()
 TestRunResponse testRunResponse = client.ai().assistants().tests().runs().retrieve(params);
 ```
 
-Returns: `completed_at` (date-time), `conversation_id` (string), `conversation_insights_id` (string), `created_at` (date-time), `detail_status` (array[object]), `logs` (string), `run_id` (uuid), `status` (enum: pending, starting, running, passed, failed, error), `test_id` (uuid), `test_suite_run_id` (uuid), `triggered_by` (string), `updated_at` (date-time)
-
 ## Get an assistant
 
 Retrieve an AI Assistant configuration by `assistant_id`.
@@ -274,8 +265,6 @@ import com.telnyx.sdk.models.ai.assistants.InferenceEmbedding;
 
 InferenceEmbedding assistant = client.ai().assistants().retrieve("assistant_id");
 ```
-
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
 ## Update an assistant
 
@@ -290,8 +279,6 @@ import com.telnyx.sdk.models.ai.assistants.InferenceEmbedding;
 InferenceEmbedding assistant = client.ai().assistants().update("assistant_id");
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## Delete an assistant
 
 Delete an AI Assistant by `assistant_id`.
@@ -305,12 +292,9 @@ import com.telnyx.sdk.models.ai.assistants.AssistantDeleteResponse;
 AssistantDeleteResponse assistant = client.ai().assistants().delete("assistant_id");
 ```
 
-Returns: `deleted` (boolean), `id` (string), `object` (string)
-
 ## Get Canary Deploy
 
-Endpoint to get a canary deploy configuration for an assistant. Retrieves the current canary deploy configuration with all version IDs and their
-traffic percentages for the specified assistant.
+Endpoint to get a canary deploy configuration for an assistant.
 
 `GET /ai/assistants/{assistant_id}/canary-deploys`
 
@@ -321,12 +305,9 @@ import com.telnyx.sdk.models.ai.assistants.canarydeploys.CanaryDeployRetrievePar
 CanaryDeployResponse canaryDeployResponse = client.ai().assistants().canaryDeploys().retrieve("assistant_id");
 ```
 
-Returns: `assistant_id` (string), `created_at` (date-time), `updated_at` (date-time), `versions` (array[object])
-
 ## Create Canary Deploy
 
-Endpoint to create a canary deploy configuration for an assistant. Creates a new canary deploy configuration with multiple version IDs and their traffic
-percentages for A/B testing or gradual rollouts of assistant versions.
+Endpoint to create a canary deploy configuration for an assistant.
 
 `POST /ai/assistants/{assistant_id}/canary-deploys` — Required: `versions`
 
@@ -348,11 +329,9 @@ CanaryDeployCreateParams params = CanaryDeployCreateParams.builder()
 CanaryDeployResponse canaryDeployResponse = client.ai().assistants().canaryDeploys().create(params);
 ```
 
-Returns: `assistant_id` (string), `created_at` (date-time), `updated_at` (date-time), `versions` (array[object])
-
 ## Update Canary Deploy
 
-Endpoint to update a canary deploy configuration for an assistant. Updates the existing canary deploy configuration with new version IDs and percentages. All old versions and percentages are replaces by new ones from this request.
+Endpoint to update a canary deploy configuration for an assistant.
 
 `PUT /ai/assistants/{assistant_id}/canary-deploys` — Required: `versions`
 
@@ -374,11 +353,9 @@ CanaryDeployUpdateParams params = CanaryDeployUpdateParams.builder()
 CanaryDeployResponse canaryDeployResponse = client.ai().assistants().canaryDeploys().update(params);
 ```
 
-Returns: `assistant_id` (string), `created_at` (date-time), `updated_at` (date-time), `versions` (array[object])
-
 ## Delete Canary Deploy
 
-Endpoint to delete a canary deploy configuration for an assistant. Removes all canary deploy configurations for the specified assistant.
+Endpoint to delete a canary deploy configuration for an assistant.
 
 `DELETE /ai/assistants/{assistant_id}/canary-deploys`
 
@@ -390,7 +367,7 @@ client.ai().assistants().canaryDeploys().delete("assistant_id");
 
 ## Assistant Chat (BETA)
 
-This endpoint allows a client to send a chat message to a specific AI Assistant. The assistant processes the message and returns a relevant reply based on the current conversation context.
+This endpoint allows a client to send a chat message to a specific AI Assistant.
 
 `POST /ai/assistants/{assistant_id}/chat` — Required: `content`, `conversation_id`
 
@@ -408,13 +385,9 @@ AssistantChatParams params = AssistantChatParams.builder()
 AssistantChatResponse response = client.ai().assistants().chat(params);
 ```
 
-Returns: `content` (string)
-
 ## Assistant Sms Chat
 
-Send an SMS message for an assistant. This endpoint: 
-1. Validates the assistant exists and has messaging profile configured 
-2.
+Send an SMS message for an assistant.
 
 `POST /ai/assistants/{assistant_id}/chat/sms` — Required: `from`, `to`
 
@@ -432,8 +405,6 @@ AssistantSendSmsParams params = AssistantSendSmsParams.builder()
 AssistantSendSmsResponse response = client.ai().assistants().sendSms(params);
 ```
 
-Returns: `conversation_id` (string)
-
 ## Clone Assistant
 
 Clone an existing assistant, excluding telephony and messaging settings.
@@ -447,8 +418,6 @@ import com.telnyx.sdk.models.ai.assistants.InferenceEmbedding;
 InferenceEmbedding assistant = client.ai().assistants().clone("assistant_id");
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## List scheduled events
 
 Get scheduled events for an assistant with pagination and filtering
@@ -461,8 +430,6 @@ import com.telnyx.sdk.models.ai.assistants.scheduledevents.ScheduledEventListPar
 
 ScheduledEventListPage page = client.ai().assistants().scheduledEvents().list("assistant_id");
 ```
-
-Returns: `data` (array[object]), `meta` (object)
 
 ## Create a scheduled event
 
@@ -507,7 +474,7 @@ ScheduledEventResponse scheduledEventResponse = client.ai().assistants().schedul
 
 ## Delete a scheduled event
 
-If the event is pending, this will cancel the event. Otherwise, this will simply remove the record of the event.
+If the event is pending, this will cancel the event.
 
 `DELETE /ai/assistants/{assistant_id}/scheduled_events/{event_id}`
 
@@ -552,8 +519,6 @@ ToolTestParams params = ToolTestParams.builder()
 ToolTestResponse response = client.ai().assistants().tools().test(params);
 ```
 
-Returns: `content_type` (string), `request` (object), `response` (string), `status_code` (integer), `success` (boolean)
-
 ## Get all versions of an assistant
 
 Retrieves all versions of a specific assistant with complete configuration and metadata
@@ -566,8 +531,6 @@ import com.telnyx.sdk.models.ai.assistants.versions.VersionListParams;
 
 AssistantsList assistantsList = client.ai().assistants().versions().list("assistant_id");
 ```
-
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
 ## Get a specific assistant version
 
@@ -586,11 +549,9 @@ VersionRetrieveParams params = VersionRetrieveParams.builder()
 InferenceEmbedding assistant = client.ai().assistants().versions().retrieve(params);
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## Update a specific assistant version
 
-Updates the configuration of a specific assistant version. Can not update main version
+Updates the configuration of a specific assistant version.
 
 `POST /ai/assistants/{assistant_id}/versions/{version_id}`
 
@@ -609,11 +570,9 @@ VersionUpdateParams params = VersionUpdateParams.builder()
 InferenceEmbedding assistant = client.ai().assistants().versions().update(params);
 ```
 
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
-
 ## Delete a specific assistant version
 
-Permanently removes a specific version of an assistant. Can not delete main version
+Permanently removes a specific version of an assistant.
 
 `DELETE /ai/assistants/{assistant_id}/versions/{version_id}`
 
@@ -629,7 +588,7 @@ client.ai().assistants().versions().delete(params);
 
 ## Promote an assistant version to main
 
-Promotes a specific version to be the main/current version of the assistant. This will delete any existing canary deploy configuration and send all live production traffic to this version.
+Promotes a specific version to be the main/current version of the assistant.
 
 `POST /ai/assistants/{assistant_id}/versions/{version_id}/promote`
 
@@ -643,8 +602,6 @@ VersionPromoteParams params = VersionPromoteParams.builder()
     .build();
 InferenceEmbedding assistant = client.ai().assistants().versions().promote(params);
 ```
-
-Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
 ## List MCP Servers
 
@@ -679,8 +636,6 @@ McpServerCreateParams params = McpServerCreateParams.builder()
 McpServerCreateResponse mcpServer = client.ai().mcpServers().create(params);
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
-
 ## Get MCP Server
 
 Retrieve details for a specific MCP server.
@@ -693,8 +648,6 @@ import com.telnyx.sdk.models.ai.mcpservers.McpServerRetrieveResponse;
 
 McpServerRetrieveResponse mcpServer = client.ai().mcpServers().retrieve("mcp_server_id");
 ```
-
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Update MCP Server
 
@@ -710,8 +663,6 @@ import com.telnyx.sdk.models.ai.mcpservers.McpServerUpdateResponse;
 
 McpServerUpdateResponse mcpServer = client.ai().mcpServers().update("mcp_server_id");
 ```
-
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Delete MCP Server
 

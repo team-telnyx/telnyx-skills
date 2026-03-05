@@ -25,6 +25,26 @@
 | **10DLC Registration** | **10DLC Campaign Registry** | Low | Same underlying TCR system. Register brands and campaigns via Telnyx portal or API. |
 | **Short Codes** | **Short Codes** | Low | Telnyx supports shared and dedicated short codes. |
 
+## Product-to-Reference File Mapping
+
+Use this table to find the detailed migration guide for each product:
+
+| Product Area | Reference File | Scanner Identifiers |
+|---|---|---|
+| Voice (TwiML/TeXML) | `voice-migration.md`, `texml-verbs.md` | `voice`, `texml` |
+| Voice (Call Control) | `voice-migration.md` | `voice` |
+| Messaging (SMS/MMS) | `messaging-migration.md` | `messaging` |
+| WebRTC | `webrtc-migration.md` | `webrtc` |
+| Verify (2FA/OTP) | `verify-migration.md` | `verify` |
+| SIP Trunking | `sip-trunking-migration.md` | `sip`, `sip-integrations` |
+| Fax | `fax-migration.md` | `fax` |
+| Video | `video-migration.md` | `video` |
+| IoT SIM | `iot-migration.md` | `iot` |
+| Number Lookup | `lookup-migration.md` | `lookup` |
+| Number Porting | `number-porting.md` | `porting-in`, `porting-out` |
+| 10DLC | `messaging-migration.md` (section) | `10dlc` |
+| Numbers | `numbers-migration.md` | `numbers`, `numbers-config`, `numbers-services`, `numbers-compliance` |
+
 ## Telnyx-Only Products
 
 These have no Twilio equivalent and represent capabilities you gain by migrating:
@@ -53,6 +73,7 @@ If you depend on these, you will need a third-party alternative or custom soluti
 | **TaskRouter** (Task Distribution) | No equivalent. Build custom routing with Call Control API queue management. |
 | **Frontline** (deprecated by Twilio) | N/A |
 | **Twilio Pay** | No equivalent. No `<Pay>` verb in TeXML. |
+| **Twilio Conversations** | No direct equivalent. Telnyx provides messaging primitives (SMS/MMS API) but no multi-channel conversation orchestration layer. Build custom or use a third-party conversation platform. |
 
 ## Deprecated Twilio Products Telnyx Still Supports
 

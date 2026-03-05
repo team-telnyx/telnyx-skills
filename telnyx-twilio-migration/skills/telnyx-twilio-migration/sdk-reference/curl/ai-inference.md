@@ -1,4 +1,19 @@
-<!-- SDK reference: telnyx-ai-inference-curl -->
+<!-- Auto-generated from telnyx-ai-inference-curl — do not edit manually -->
+<!-- Source: telnyx-curl/skills/telnyx-ai-inference-curl/SKILL.md -->
+
+---
+name: telnyx-ai-inference-curl
+description: >-
+  Access Telnyx LLM inference APIs, embeddings, and AI analytics for call
+  insights and summaries. This skill provides REST API (curl) examples.
+metadata:
+  author: telnyx
+  product: ai-inference
+  language: curl
+  generated_by: telnyx-ext-skills-generator
+---
+
+<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
 
 # Telnyx Ai Inference - curl
 
@@ -18,7 +33,7 @@ All examples below use `$TELNYX_API_KEY` for authentication.
 
 ## Transcribe speech to text
 
-Transcribe speech to text. This endpoint is consistent with the [OpenAI Transcription API](https://platform.openai.com/docs/api-reference/audio/createTranscription) and may be used with the OpenAI JS or Python SDK.
+Transcribe speech to text.
 
 `POST /ai/audio/transcriptions`
 
@@ -36,15 +51,13 @@ curl \
   "https://api.telnyx.com/v2/ai/audio/transcriptions"
 ```
 
-Returns: `duration` (number), `segments` (array[object]), `text` (string)
-
 ## Create a chat completion
 
-Chat with a language model. This endpoint is consistent with the [OpenAI Chat Completions API](https://platform.openai.com/docs/api-reference/chat) and may be used with the OpenAI JS or Python SDK.
+Chat with a language model.
 
 `POST /ai/chat/completions` — Required: `messages`
 
-Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
 
 ```bash
 curl \
@@ -68,15 +81,13 @@ curl \
 
 ## List conversations
 
-Retrieve a list of all AI conversations configured by the user. Supports [PostgREST-style query parameters](https://postgrest.org/en/stable/api.html#horizontal-filtering-rows) for filtering. Examples are included for the standard metadata fields, but you can filter on any field in the metadata JSON object.
+Retrieve a list of all AI conversations configured by the user.
 
 `GET /ai/conversations`
 
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations"
 ```
-
-Returns: `created_at` (date-time), `id` (uuid), `last_message_at` (date-time), `metadata` (object), `name` (string)
 
 ## Create a conversation
 
@@ -94,8 +105,6 @@ curl \
   "https://api.telnyx.com/v2/ai/conversations"
 ```
 
-Returns: `created_at` (date-time), `id` (uuid), `last_message_at` (date-time), `metadata` (object), `name` (string)
-
 ## Get Insight Template Groups
 
 Get all insight groups
@@ -105,8 +114,6 @@ Get all insight groups
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/insight-groups"
 ```
-
-Returns: `created_at` (date-time), `description` (string), `id` (uuid), `insights` (array[object]), `name` (string), `webhook` (string)
 
 ## Create Insight Template Group
 
@@ -127,8 +134,6 @@ curl \
   "https://api.telnyx.com/v2/ai/conversations/insight-groups"
 ```
 
-Returns: `created_at` (date-time), `description` (string), `id` (uuid), `insights` (array[object]), `name` (string), `webhook` (string)
-
 ## Get Insight Template Group
 
 Get insight group by ID
@@ -138,8 +143,6 @@ Get insight group by ID
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/insight-groups/{group_id}"
 ```
-
-Returns: `created_at` (date-time), `description` (string), `id` (uuid), `insights` (array[object]), `name` (string), `webhook` (string)
 
 ## Update Insight Template Group
 
@@ -156,8 +159,6 @@ curl \
   -H "Content-Type: application/json" \
   "https://api.telnyx.com/v2/ai/conversations/insight-groups/{group_id}"
 ```
-
-Returns: `created_at` (date-time), `description` (string), `id` (uuid), `insights` (array[object]), `name` (string), `webhook` (string)
 
 ## Delete Insight Template Group
 
@@ -209,8 +210,6 @@ Get all insights
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/insights"
 ```
 
-Returns: `created_at` (date-time), `id` (uuid), `insight_type` (enum: custom, default), `instructions` (string), `json_schema` (object), `name` (string), `webhook` (string)
-
 ## Create Insight Template
 
 Create a new insight
@@ -231,8 +230,6 @@ curl \
   "https://api.telnyx.com/v2/ai/conversations/insights"
 ```
 
-Returns: `created_at` (date-time), `id` (uuid), `insight_type` (enum: custom, default), `instructions` (string), `json_schema` (object), `name` (string), `webhook` (string)
-
 ## Get Insight Template
 
 Get insight by ID
@@ -242,8 +239,6 @@ Get insight by ID
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/insights/{insight_id}"
 ```
-
-Returns: `created_at` (date-time), `id` (uuid), `insight_type` (enum: custom, default), `instructions` (string), `json_schema` (object), `name` (string), `webhook` (string)
 
 ## Update Insight Template
 
@@ -260,8 +255,6 @@ curl \
   -H "Content-Type: application/json" \
   "https://api.telnyx.com/v2/ai/conversations/insights/{insight_id}"
 ```
-
-Returns: `created_at` (date-time), `id` (uuid), `insight_type` (enum: custom, default), `instructions` (string), `json_schema` (object), `name` (string), `webhook` (string)
 
 ## Delete Insight Template
 
@@ -286,8 +279,6 @@ Retrieve a specific AI conversation by its ID.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/{conversation_id}"
 ```
 
-Returns: `created_at` (date-time), `id` (uuid), `last_message_at` (date-time), `metadata` (object), `name` (string)
-
 ## Update conversation metadata
 
 Update metadata for a specific conversation.
@@ -303,8 +294,6 @@ curl \
   -H "Content-Type: application/json" \
   "https://api.telnyx.com/v2/ai/conversations/{conversation_id}"
 ```
-
-Returns: `created_at` (date-time), `id` (uuid), `last_message_at` (date-time), `metadata` (object), `name` (string)
 
 ## Delete a conversation
 
@@ -329,11 +318,9 @@ Retrieve insights for a specific conversation
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/{conversation_id}/conversations-insights"
 ```
 
-Returns: `conversation_insights` (array[object]), `created_at` (date-time), `id` (string), `status` (enum: pending, in_progress, completed, failed)
-
 ## Create Message
 
-Add a new message to the conversation. Used to insert a new messages to a conversation manually ( without using chat endpoint )
+Add a new message to the conversation.
 
 `POST /ai/conversations/{conversation_id}/message` — Required: `role`
 
@@ -360,11 +347,9 @@ Retrieve messages for a specific conversation, including tool calls made by the 
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/{conversation_id}/messages"
 ```
 
-Returns: `created_at` (date-time), `role` (enum: user, assistant, tool), `sent_at` (date-time), `text` (string), `tool_calls` (array[object])
-
 ## Get Tasks by Status
 
-Retrieve tasks for the user that are either `queued`, `processing`, `failed`, `success` or `partial_success` based on the query string. Defaults to `queued` and `processing`.
+Retrieve tasks for the user that are either `queued`, `processing`, `failed`, `success` or `partial_success` based on the query string.
 
 `GET /ai/embeddings`
 
@@ -372,17 +357,9 @@ Retrieve tasks for the user that are either `queued`, `processing`, `failed`, `s
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/embeddings"
 ```
 
-Returns: `bucket` (string), `created_at` (date-time), `finished_at` (date-time), `status` (enum: queued, processing, success, failure, partial_success), `task_id` (string), `task_name` (string), `user_id` (string)
-
 ## Embed documents
 
-Perform embedding on a Telnyx Storage Bucket using an embedding model. The current supported file types are:
-- PDF
-- HTML
-- txt/unstructured text files
-- json
-- csv
-- audio / video (mp3, mp4, mpeg, mpga, m4a, wav, or webm ) - Max of 100mb file size. Any files not matching the above types will be attempted to be embedded as unstructured text.
+Perform embedding on a Telnyx Storage Bucket using an embedding model.
 
 `POST /ai/embeddings` — Required: `bucket_name`
 
@@ -399,8 +376,6 @@ curl \
   "https://api.telnyx.com/v2/ai/embeddings"
 ```
 
-Returns: `created_at` (string), `finished_at` (['string', 'null']), `status` (string), `task_id` (uuid), `task_name` (string), `user_id` (uuid)
-
 ## List embedded buckets
 
 Get all embedding buckets for a user.
@@ -411,8 +386,6 @@ Get all embedding buckets for a user.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/embeddings/buckets"
 ```
 
-Returns: `buckets` (array[string])
-
 ## Get file-level embedding statuses for a bucket
 
 Get all embedded files for a given user bucket, including their processing status.
@@ -422,8 +395,6 @@ Get all embedded files for a given user bucket, including their processing statu
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/embeddings/buckets/{bucket_name}"
 ```
-
-Returns: `created_at` (date-time), `error_reason` (string), `filename` (string), `last_embedded_at` (date-time), `status` (string), `updated_at` (date-time)
 
 ## Disable AI for an Embedded Bucket
 
@@ -440,7 +411,7 @@ curl \
 
 ## Search for documents
 
-Perform a similarity search on a Telnyx Storage Bucket, returning the most similar `num_docs` document chunks to the query. Currently the only available distance metric is cosine similarity which will return a `distance` between 0 and 1. The lower the distance, the more similar the returned document chunks are to the query.
+Perform a similarity search on a Telnyx Storage Bucket, returning the most similar `num_docs` document chunks to the query.
 
 `POST /ai/embeddings/similarity-search` — Required: `bucket_name`, `query`
 
@@ -458,11 +429,9 @@ curl \
   "https://api.telnyx.com/v2/ai/embeddings/similarity-search"
 ```
 
-Returns: `distance` (number), `document_chunk` (string), `metadata` (object)
-
 ## Embed URL content
 
-Embed website content from a specified URL, including child pages up to 5 levels deep within the same domain. The process crawls and loads content from the main URL and its linked pages into a Telnyx Cloud Storage bucket.
+Embed website content from a specified URL, including child pages up to 5 levels deep within the same domain.
 
 `POST /ai/embeddings/url` — Required: `url`, `bucket_name`
 
@@ -478,24 +447,15 @@ curl \
   "https://api.telnyx.com/v2/ai/embeddings/url"
 ```
 
-Returns: `created_at` (string), `finished_at` (['string', 'null']), `status` (string), `task_id` (uuid), `task_name` (string), `user_id` (uuid)
-
 ## Get an embedding task's status
 
-Check the status of a current embedding task. Will be one of the following:
-- `queued` - Task is waiting to be picked up by a worker
-- `processing` - The embedding task is running
-- `success` - Task completed successfully and the bucket is embedded
-- `failure` - Task failed and no files were embedded successfully
-- `partial_success` - Some files were embedded successfully, but at least one failed
+Check the status of a current embedding task.
 
 `GET /ai/embeddings/{task_id}`
 
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/embeddings/{task_id}"
 ```
-
-Returns: `created_at` (string), `finished_at` (string), `status` (enum: queued, processing, success, failure, partial_success), `task_id` (uuid), `task_name` (string)
 
 ## List fine tuning jobs
 
@@ -506,8 +466,6 @@ Retrieve a list of all fine tuning jobs created by the user.
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/fine_tuning/jobs"
 ```
-
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
 
 ## Create a fine tuning job
 
@@ -529,8 +487,6 @@ curl \
   "https://api.telnyx.com/v2/ai/fine_tuning/jobs"
 ```
 
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
-
 ## Get a fine tuning job
 
 Retrieve a fine tuning job by `job_id`.
@@ -540,8 +496,6 @@ Retrieve a fine tuning job by `job_id`.
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/fine_tuning/jobs/{job_id}"
 ```
-
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
 
 ## Cancel a fine tuning job
 
@@ -557,11 +511,9 @@ curl \
   "https://api.telnyx.com/v2/ai/fine_tuning/jobs/{job_id}/cancel"
 ```
 
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
-
 ## Get available models
 
-This endpoint returns a list of Open Source and OpenAI models that are available for use. <br /><br /> **Note**: Model `id`'s will be in the form `{source}/{model_name}`. For example `openai/gpt-4` or `mistralai/Mistral-7B-Instruct-v0.1` consistent with HuggingFace naming conventions.
+This endpoint returns a list of Open Source and OpenAI models that are available for use.
 
 `GET /ai/models`
 
@@ -569,15 +521,13 @@ This endpoint returns a list of Open Source and OpenAI models that are available
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/models"
 ```
 
-Returns: `created` (integer), `id` (string), `object` (string), `owned_by` (string)
-
 ## Create embeddings
 
-Creates an embedding vector representing the input text. This endpoint is compatible with the [OpenAI Embeddings API](https://platform.openai.com/docs/api-reference/embeddings) and may be used with the OpenAI JS or Python SDK by setting the base URL to `https://api.telnyx.com/v2/ai/openai`.
+Creates an embedding vector representing the input text.
 
 `POST /ai/openai/embeddings` — Required: `input`, `model`
 
-Optional: `dimensions` (integer), `encoding_format` (enum: float, base64), `user` (string)
+Optional: `dimensions` (integer), `encoding_format` (enum), `user` (string)
 
 ```bash
 curl \
@@ -591,11 +541,9 @@ curl \
   "https://api.telnyx.com/v2/ai/openai/embeddings"
 ```
 
-Returns: `data` (array[object]), `model` (string), `object` (string), `usage` (object)
-
 ## List embedding models
 
-Returns a list of available embedding models. This endpoint is compatible with the OpenAI Models API format.
+Returns a list of available embedding models.
 
 `GET /ai/openai/embeddings/models`
 
@@ -603,16 +551,9 @@ Returns a list of available embedding models. This endpoint is compatible with t
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/openai/embeddings/models"
 ```
 
-Returns: `created` (integer), `id` (string), `object` (string), `owned_by` (string)
-
 ## Summarize file content
 
-Generate a summary of a file's contents. Supports the following text formats: 
-- PDF, HTML, txt, json, csv
-
- Supports the following media formats (billed for both the transcription and summary): 
-- flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm
-- Up to 100 MB
+Generate a summary of a file's contents.
 
 `POST /ai/summarize` — Required: `bucket`, `filename`
 
@@ -630,8 +571,6 @@ curl \
   "https://api.telnyx.com/v2/ai/summarize"
 ```
 
-Returns: `summary` (string)
-
 ## Get all Speech to Text batch report requests
 
 Retrieves all Speech to Text batch report requests for the authenticated user
@@ -641,8 +580,6 @@ Retrieves all Speech to Text batch report requests for the authenticated user
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/legacy/reporting/batch_detail_records/speech_to_text"
 ```
-
-Returns: `created_at` (date-time), `download_link` (string), `end_date` (date-time), `id` (string), `record_type` (string), `start_date` (date-time), `status` (enum: PENDING, COMPLETE, FAILED, EXPIRED)
 
 ## Create a new Speech to Text batch report request
 
@@ -662,8 +599,6 @@ curl \
   "https://api.telnyx.com/v2/legacy/reporting/batch_detail_records/speech_to_text"
 ```
 
-Returns: `created_at` (date-time), `download_link` (string), `end_date` (date-time), `id` (string), `record_type` (string), `start_date` (date-time), `status` (enum: PENDING, COMPLETE, FAILED, EXPIRED)
-
 ## Get a specific Speech to Text batch report request
 
 Retrieves a specific Speech to Text batch report request by ID
@@ -673,8 +608,6 @@ Retrieves a specific Speech to Text batch report request by ID
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/legacy/reporting/batch_detail_records/speech_to_text/{id}"
 ```
-
-Returns: `created_at` (date-time), `download_link` (string), `end_date` (date-time), `id` (string), `record_type` (string), `start_date` (date-time), `status` (enum: PENDING, COMPLETE, FAILED, EXPIRED)
 
 ## Delete a Speech to Text batch report request
 
@@ -689,11 +622,9 @@ curl \
   "https://api.telnyx.com/v2/legacy/reporting/batch_detail_records/speech_to_text/{id}"
 ```
 
-Returns: `created_at` (date-time), `download_link` (string), `end_date` (date-time), `id` (string), `record_type` (string), `start_date` (date-time), `status` (enum: PENDING, COMPLETE, FAILED, EXPIRED)
-
 ## Get speech to text usage report
 
-Generate and fetch speech to text usage report synchronously. This endpoint will both generate and fetch the speech to text report over a specified time period.
+Generate and fetch speech to text usage report synchronously.
 
 `GET /legacy/reporting/usage_reports/speech_to_text`
 
@@ -701,11 +632,9 @@ Generate and fetch speech to text usage report synchronously. This endpoint will
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/legacy/reporting/usage_reports/speech_to_text?start_date=2020-07-01T00:00:00-06:00&end_date=2020-07-01T00:00:00-06:00"
 ```
 
-Returns: `data` (object)
+## Speech to text over websocket
 
-## Speech to text over WebSocket
-
-Open a WebSocket connection to stream audio and receive transcriptions in real-time. Authentication is provided via the standard `Authorization: Bearer <API_KEY>` header. Supported engines: `Azure`, `Deepgram`, `Google`, `Telnyx`.
+Transcribe audio streams to text over WebSocket.
 
 `GET /speech-to-text/transcription`
 
@@ -715,7 +644,7 @@ curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/speec
 
 ## Stream text to speech over WebSocket
 
-Open a WebSocket connection to stream text and receive synthesized audio in real time. Authentication is provided via the standard `Authorization: Bearer <API_KEY>` header. Send JSON frames with text to synthesize; receive JSON frames containing base64-encoded audio chunks.
+Open a WebSocket connection to stream text and receive synthesized audio in real time.
 
 `GET /text-to-speech/speech`
 
@@ -725,11 +654,11 @@ curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/text-
 
 ## Generate speech from text
 
-Generate synthesized speech audio from text input. Returns audio in the requested format (binary audio stream, base64-encoded JSON, or an audio URL for later retrieval). Authentication is provided via the standard `Authorization: Bearer <API_KEY>` header.
+Generate synthesized speech audio from text input.
 
 `POST /text-to-speech/speech`
 
-Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
+Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `language` (string), `minimax` (object), `output_type` (enum), `provider` (enum), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum), `voice` (string), `voice_settings` (object)
 
 ```bash
 curl \
@@ -739,19 +668,15 @@ curl \
   "https://api.telnyx.com/v2/text-to-speech/speech"
 ```
 
-Returns: `base64_audio` (string)
-
 ## List available voices
 
-Retrieve a list of available voices from one or all TTS providers. When `provider` is specified, returns voices for that provider only. Otherwise, returns voices from all providers.
+Retrieve a list of available voices from one or all TTS providers.
 
 `GET /text-to-speech/voices`
 
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/text-to-speech/voices"
 ```
-
-Returns: `voices` (array[object])
 
 ## Get all Wireless Detail Records (WDRs) Reports
 
@@ -762,8 +687,6 @@ Returns the WDR Reports that match the given parameters.
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/wireless/detail_records_reports"
 ```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
 
 ## Create a Wireless Detail Records (WDRs) Report
 
@@ -785,8 +708,6 @@ curl \
   "https://api.telnyx.com/v2/wireless/detail_records_reports"
 ```
 
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
 ## Get a Wireless Detail Record (WDR) Report
 
 Returns one specific WDR report
@@ -796,8 +717,6 @@ Returns one specific WDR report
 ```bash
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/wireless/detail_records_reports/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
 
 ## Delete a Wireless Detail Record (WDR) Report
 
@@ -811,5 +730,3 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   "https://api.telnyx.com/v2/wireless/detail_records_reports/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
