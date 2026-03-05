@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block hero %}
+
+<div class="hero-text">
+    <h1>Lodging fit for a captain</h1>
+
+    <p>The Next Generation of vacation rentals.</p>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        {% for prop in vacation_properties %}
+        <div class="col-md-4">
+            <a href="{{ url_for('new_reservation', property_id=prop.id) }}" class="property">
+                <img src="{{ prop.image_url }}" alt="Vacation Property"/>
+                <h2>{{ prop.description }}"</h2>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

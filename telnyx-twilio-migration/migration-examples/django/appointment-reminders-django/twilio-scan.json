@@ -1,0 +1,2592 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/appointment-reminders-django",
+  "scan_time": "2026-03-05T06:26:55Z",
+  "languages_detected": ["json"],
+  "products_used": ["messaging"],
+  "files": [
+    {
+      "path": "twilio-deep-scan.json",
+      "language": "json",
+      "products": ["messaging"],
+      "patterns_matched": ["\"pattern\": \"from twilio.rest import Client\",", "\"from twilio.rest import Client\",", "\"pattern\": \"\\\"\\\"\\\"Send a reminder to a phone using Twilio SMS\\\"\\\"\\\"\",", "\"    \\\"\\\"\\\"Send a reminder to a phone using Twilio SMS\\\"\\\"\\\"\",", "\"pattern\": \"client.messages.create\",", "\"    client.messages.create(\","]
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "language": "unknown",
+      "products": ["messaging"],
+      "patterns_matched": ["- Changed from `client.messages.create()` pattern to `telnyx.Message.create()`"]
+    }
+  ],
+  "env_vars": [
+    {
+      "name": "TWILIO_ACCOUNT_SID",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md", "twilio-deep-scan.json"]
+    },
+    {
+      "name": "TWILIO_PHONE_NUMBER",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md", "twilio-deep-scan.json"]
+    },
+    {
+      "name": "TWILIO_AUTH_TOKEN",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md", "twilio-deep-scan.json"]
+    }
+  ],
+  "config_files": [
+    {
+      "path": "reminders/templates/base.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "pip",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pip",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pip",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "npm",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "npm",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "npm",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "npm",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "gem",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "gem",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "gem",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "gem",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "gomod",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "gomod",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "gomod",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "gomod",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "maven",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "maven",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "maven",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "maven",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "gradle",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "gradle",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "gradle",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "gradle",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "composer",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "composer",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "composer",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "composer",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "pipenv",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "pipenv",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pipenv",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pipenv",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "setuptools",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "setuptools",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "setuptools",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "setuptools",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "setuptools",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "setuptools",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "pyproject",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "pyproject",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pyproject",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pyproject",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "pip",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pip",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pip",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "cocoapods",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "cocoapods",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "cocoapods",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "cocoapods",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "pub",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "pub",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pub",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- Replaced `twilio` import with `telnyx` in `reminders/tasks.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- Updated test mocks from `twilio` to `telnyx` in `reminders/tests.py`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "| `twilio` | Removed | was 6.36.0 |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "1. **Code**: `git checkout migrate/twilio-to-telnyx~4` to restore pre-migration state"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "3. **Dependencies**: `pip install twilio==6.36.0`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/appointment-reminders-django` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "5. `requirements.txt` — Add telnyx, keep twilio for now"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pub",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/appointment-reminders-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"twilio==6.36.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"        with patch('twilio.rest.api.v2010.account.message.MessageList.create') as mock:\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)"
+    },
+    {
+      "path": "reminders/templates/base.html",
+      "type": "nuget",
+      "line": "<title>{% block title %}{% endblock title %} - Twilio Appointment Reminders</title>"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "nuget",
+      "line": "<p>This demo application will show you how to implement SMS appointment reminders with <a href=\"http://twilio.com\">Twilio</a> in Django."
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "> Generated by the Telnyx Twilio Migration Skill"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- **Approach**: Direct SDK migration (Twilio → Telnyx Python SDK)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| No residual Twilio imports | PASS | All Python files checked |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| No Twilio API URLs | PASS | No hardcoded URLs found |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| No Twilio env vars | PASS | All environment variables migrated |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| 6742ef1 | chore: add Telnyx SDK alongside Twilio, update env vars |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| 3cd34c2 | migrate: messaging - Twilio to Telnyx |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| 50f599f | chore: remove Twilio SDK |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- [ ] **Number porting**: Submit porting order if moving production number from Twilio to Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- [ ] **Cancel Twilio**: After validation period, cancel Twilio account"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| Phase 6 (Cleanup) | ✅ PASS - Twilio SDK removed, README updated |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "> Generated by the Telnyx Twilio Migration Skill"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Products in Use | Messaging |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Product | Telnyx Replacement | Files Affected | Complexity | Notes |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "- [x] **Migration strategy**: Big-bang — Only 1 file with Twilio code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "- [ ] **Phase 6: Cleanup** — Remove Twilio SDK, generate report"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Variable | Current (Twilio) | New (Telnyx) | Notes |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "1. `reminders/tasks.py` — Main Twilio messaging code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "2. Revert env vars to Twilio values"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "3. Twilio SDK remains in requirements.txt until Phase 6"
+    },
+    {
+      "path": "migration-state.json",
+      "type": "nuget",
+      "line": "\"Removed Twilio SDK from requirements.txt\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"# Your Twilio Account SID. Get a free account at twilio.com/try-twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"# Your Twilio Auth Token. You can get it at twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"# The Twilio phone number you want to use to send SMS. Get one in the Twilio Console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"# The Twilio phone number you want to use to send SMS. Get one in the Twilio Console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"\\\"\\\"\\\"Send a reminder to a phone using Twilio SMS\\\"\\\"\\\"\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"    \\\"\\\"\\\"Send a reminder to a phone using Twilio SMS\\\"\\\"\\\"\","
+    },
+    {
+      "path": "LICENSE",
+      "type": "nuget",
+      "line": "Copyright (c) 2020 Twilio Inc"
+    },
+    {
+      "path": "app.json",
+      "type": "nuget",
+      "line": "\"repository\": \"https://github.com/TwilioDevEd/appointment-reminders-django\","
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[![Actions Status](https://github.com/TwilioDevEd/appointment-reminders-django/workflows/Django%20CI/badge.svg)](https://github.com/TwilioDevEd/appointment-reminders-django/actions)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "| [Done](https://github.com/TwilioDevEd/appointment-reminders-csharp) | [Done](https://github.com/TwilioDevEd/appointment-reminders-java) | [Done](https://github.com/TwilioDevEd/appointment-reminders-rails) | [Done](https://github.com/TwilioDevEd/appointment-reminders-laravel) | [Done](https://github.com/twilio-labs/sample-appointment-reminders-node) |"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "git clone https://github.com/TwilioDevEd/appointment-reminders-django.git"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "| [Heroku](https://www.heroku.com/) | [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/TwilioDevEd/sample-template-django/tree/master) |"
+    }
+  ],
+  "twiml_files": [],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": "reminders/templates/base.html",
+      "type": "env"
+    },
+    {
+      "path": "reminders/templates/index.html",
+      "type": "env"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "env"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "env"
+    },
+    {
+      "path": "migration-state.json",
+      "type": "env"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "env"
+    },
+    {
+      "path": "LICENSE",
+      "type": "env"
+    },
+    {
+      "path": "app.json",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    }
+  ],
+  "test_mocks": ["MIGRATION-REPORT.md"],
+  "summary": {
+    "total_files": 2,
+    "total_products": 1,
+    "total_languages": 1,
+    "has_webhook_validation": false,
+    "has_twiml": false,
+    "has_env_vars": true,
+    "has_deploy_config": true,
+    "has_test_mocks": true
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

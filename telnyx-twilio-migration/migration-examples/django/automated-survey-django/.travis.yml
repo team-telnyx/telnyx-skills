@@ -1,0 +1,16 @@
+language: python
+python:
+- '2.7'
+- '3.3'
+- '3.4'
+install: pip install -r requirements.txt
+script:
+- py.test --cov=automated_survey
+env:
+  global:
+  - DATABASE_URL=postgres:///surveys_test
+  - SECRET_KEY=notSoSecretKLCyNUgnY1lrcCAPHQvrKRRjGeq9HylDGx48j1kzntgtl8to7kzEoXfjgW72eboc7X6ho
+  - DEBUG=True
+before_script:
+- psql -c 'create database surveys_test;' -U postgres
+- python manage.py migrate

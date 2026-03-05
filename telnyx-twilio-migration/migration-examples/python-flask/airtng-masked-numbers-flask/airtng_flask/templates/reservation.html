@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="property-detail">
+    <div class="overview">
+        <img src="{{vacation_property.image_url}}" alt="Vacation property image"/>
+    </div>
+    <div class="container">
+        <h1>{{vacation_property.description}}</h1><span></span>
+        <hr>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Make a Reservation</h3>
+            </div>
+            <div class="panel-body">
+                <form method="POST" role="form">
+                    {% from "_formhelpers.html" import render_errors, render_field %}
+
+                    {{ form.csrf_token }}
+                    {{ form.proper }}
+                    {{ render_field(form.property_id)}}
+                    {{ render_field(form.message,
+                    placeholder="Hello! I am hoping to stay in your intergalactic suite...") }}
+
+
+                    <button class="btn btn-primary">Reserve Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

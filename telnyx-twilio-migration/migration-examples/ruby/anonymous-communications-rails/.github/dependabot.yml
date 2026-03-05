@@ -1,0 +1,76 @@
+version: 2
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: twilio-ruby
+    versions:
+    - 5.46.1
+    - 5.47.0
+    - 5.48.0
+    - 5.49.0
+    - 5.50.0
+    - 5.51.0
+  - dependency-name: bootsnap
+    versions:
+    - 1.7.2
+    - 1.7.3
+  - dependency-name: listen
+    versions:
+    - 3.5.0
+  - dependency-name: rspec-rails
+    versions:
+    - 5.0.0
+  - dependency-name: rails
+    versions:
+    - 4.2.11.1
+    - 6.1.3
+  - dependency-name: webmock
+    versions:
+    - 3.11.1
+    - 3.11.2
+    - 3.11.3
+    - 3.12.0
+    - 3.12.1
+  - dependency-name: jquery-rails
+    versions:
+    - 4.3.4
+  - dependency-name: uglifier
+    versions:
+    - 2.7.2
+  - dependency-name: web-console
+    versions:
+    - 3.3.0
+  - dependency-name: loofah
+    versions:
+    - 2.9.0
+  - dependency-name: nokogiri
+    versions:
+    - 1.11.1
+  - dependency-name: sqlite3
+    versions:
+    - 1.4.2
+  - dependency-name: sprockets
+    versions:
+    - 3.7.2
+  - dependency-name: i18n
+    versions:
+    - 0.9.5
+  - dependency-name: rake
+    versions:
+    - 13.0.3
+  - dependency-name: sanitize
+    versions:
+    - 5.2.1
+  - dependency-name: byebug
+    versions:
+    - 11.1.3
+  - dependency-name: rails-html-sanitizer
+    versions:
+    - 1.3.0
+  - dependency-name: rack
+    versions:
+    - 1.6.13

@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet' href='/stylesheets/style.css')
+    link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+  body
+    nav.navbar.navbar-default
+      .navbar-header
+        a.navbar-brand(href='#') IVR Screening
+
+    .container
+      block content
+
+    footer
+      | Made with <i class="fa fa-heart"></i> by your pals <a href="http://www.twilio.com">@twilio</a>

@@ -1,0 +1,36 @@
+<% content_for :body_class, "property-page" %>
+<p id="notice"><%= notice %></p>
+<div class="property-detail">
+  <div class="overview">
+    <img src="<%= @vacation_property.image_url %>" />
+  </div>
+  <div class="container">
+    <h1 ><%= @vacation_property.description %></h1><span><%= link_to 'Edit', edit_vacation_property_path(@vacation_property) %></span>
+    <hr>
+    <% if @current_reservation %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Your upcoming reservation details.</h3>
+        </div>
+        <div class="panel-body">
+          <li><b>Status:</b> <%= @current_reservation.status %></li>
+          <li><b>Host Name:</b> <%= @current_reservation.host.name %></li>
+          
+          <% if @current_reservation.phone_number %>
+            <li><b>Contact Phone Number:</b> <a href="#"><%= @current_reservation.phone_number %></a></li>
+          <% end %>
+        </div>
+      </div>
+      <li><%= @current_reservation.message %></li>
+    <% else %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Make a Reservation</h3>
+        </div>
+        <div class="panel-body">
+          <%= render 'reservation_form' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

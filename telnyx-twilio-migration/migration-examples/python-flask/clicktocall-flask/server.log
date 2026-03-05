@@ -1,0 +1,7 @@
+ * Serving Flask app "clicktocall.app"
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5002/ (Press CTRL+C to quit)
+127.0.0.1 - - [05/Mar/2026 18:37:29] "[37mPOST /outbound HTTP/1.1[0m" 200 -

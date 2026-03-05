@@ -1,0 +1,88 @@
+// Place all the styles related to the main controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+/* Index page */
+body.cover {
+    footer {
+        text-align: center;
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+    }
+}
+.hero-text {
+    background: url(<%= asset_path('tngbg.jpg') %>);
+    margin: 0px;
+    top: 0px;
+    text-align: center;
+    padding: 130px;
+    color: white;
+    background-size: cover;
+    &.full-page {
+        height: 100%;
+        position: absolute;
+        width: 100%;
+    }
+    h1 {
+        font-size:60px;
+        text-transform: uppercase;
+    }
+    p {
+        font-size:30px;
+    }
+    .btn-transparent {
+        background:rgba(255,255,255,0.6);
+        margin: 30px;
+        color:white;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+}
+
+.navbar {
+    border-radius:0px !important;
+    &.navbar-transparent {
+        background:transparent;
+        position: absolute;
+        width: 100%;
+        top:0px;
+        z-index: 1020;
+        padding: 20px;
+    }
+    &.navbar-space {
+        background:url(<%= asset_path('tngbg.jpg') %>);
+        height:90px;
+    }
+    .navbar-brand {
+        background:url(<%= asset_path('airtng-logo.png') %>) no-repeat;
+        padding-left:40px;
+        color:white;
+        font-size:32px;
+    }
+    img {
+        width: 20px;
+    }
+    li {
+        list-style: none;
+        margin: 10px;
+        a { 
+            color: #337ab7 !important;
+            font-size:14px; 
+            &:hover {
+                background:transparent;
+                text-decoration: none;
+            }
+            &:visited {
+                color: #337ab7 !important;
+            }
+        }
+    }
+}
+
+#main.push-hero {
+    margin-top: 30px;
+}
+
+#main.push-nav {
+    margin-top: 60px;
+}

@@ -1,0 +1,35 @@
+name: Django CI
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, macos-13]
+        python: ["3.6", "3.7", "3.8"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Selenium Chrome Driver (OSX)
+        if: runner.os == 'macOs'
+        run: |
+          rm /usr/local/bin/chromedriver 
+          brew install --cask chromedriver
+      - name: Setup Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        env:
+          SECRET_KEY: fake-secret-key
+        run: |
+          cp .env.example .env
+          python manage.py migrate
+          python manage.py test

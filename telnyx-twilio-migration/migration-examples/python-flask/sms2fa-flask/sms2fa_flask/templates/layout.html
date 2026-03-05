@@ -1,0 +1,66 @@
+{% import "bootstrap/utils.html" as util %}
+{% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SMS 2 Factor Authentication</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.6/paper/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" >
+  </head>
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/"> Control <i class="fa fa-globe"></i> Kaos</a>
+          <button class="navbar-toggle">(type="button"){data: { toggle: "collapse", target: "#navbar-main" }}
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+            {% if current_user.is_authenticated %}
+              <li>
+                <a href='{{ url_for('logout') }}'>Log Out</a>
+              </li>
+            {% else %}
+              <li>
+                <a href='{{ url_for('sign_up') }}'>Sign Up</a>
+              </li>
+              <li>
+                <a href='{{ url_for('sign_in') }}'>Sign In</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% with messages = get_flashed_messages(category_filter=["success"]) %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button aria-label="Close" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {{ util.flashed_messages(dismissible=True) }}
+    <div class="container">
+      {% block content %}{% endblock content %}
+    </div>
+    <footer class="container">
+      Made with <i class="fa fa-heart"></i> by your pals <a href="http://www.twilio.com">@twilio</a>
+    </footer>
+    <script
+           src="https://code.jquery.com/jquery-2.2.3.min.js"
+           integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="
+           crossorigin="anonymous"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  </body>
+</html>

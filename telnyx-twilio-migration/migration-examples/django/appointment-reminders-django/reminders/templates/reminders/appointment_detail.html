@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{ appointment }}{% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-9">
+      <div class="page-header">
+        <h1>Appointment</h1>
+      </div>
+
+      <dl class="dl-horizontal">
+        <dt><strong>Name:</strong></dt>
+        <dd>{{ appointment.name }}</dd>
+        <dt><strong>Phone number:</strong></dt>
+        <dd>{{ appointment.phone_number }}</dd>
+        <dt><strong>Time:</strong></dt>
+        <dd>{{ appointment.time }}</dd>
+        <dt><strong>Time zone:</strong></dt>
+        <dd>{{ appointment.time_zone }}</dd>
+      </dl>
+
+      <a class="btn btn-default" href="{% url 'reminders:list_appointments' %}">Back</a>
+      <a class="btn btn-default" href="{% url 'reminders:edit_appointment' appointment.id %}">Edit</a>
+      <a class="btn btn-danger" data-method="delete" href="{% url 'reminders:delete_appointment' appointment.id %}">Delete</a>
+    </div>
+  </div>
+{% endblock %}

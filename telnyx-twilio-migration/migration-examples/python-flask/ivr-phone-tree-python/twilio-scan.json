@@ -1,0 +1,1324 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python",
+  "scan_time": "2026-03-05T06:22:07Z",
+  "languages_detected": [],
+  "products_used": ["voice"],
+  "files": [
+    {
+      "path": "MIGRATION-REPORT.md",
+      "language": "unknown",
+      "products": ["voice"],
+      "patterns_matched": ["- `ivr_phone_tree_python/views.py`: Replaced Twilio `VoiceResponse` builder with raw TeXML XML strings", "- No VoiceResponse builder"]
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "language": "unknown",
+      "products": ["voice"],
+      "patterns_matched": ["- [ ] **Phase 4: Voice** — Transform views.py from VoiceResponse builder to raw TeXML strings"]
+    }
+  ],
+  "env_vars": [
+    {
+      "name": "TWILIO_ACCOUNT_SID",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md"]
+    },
+    {
+      "name": "TWILIO_AUTH_TOKEN",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md"]
+    }
+  ],
+  "config_files": [
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "npm",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "gem",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "gomod",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "maven",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "gradle",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "composer",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "pipenv",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "pyproject",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "cocoapods",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- `requirements.txt`: Removed `twilio`, added `telnyx>=2.0.0`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "D  twilio-scan.json                       (deleted)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "D  twilio-deep-scan.json                  (deleted)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-python\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/python/flask)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "pub",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- `ivr_phone_tree_python/views.py`: Replaced Twilio `VoiceResponse` builder with raw TeXML XML strings"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- Minimized code changes — XML structure is identical between Twilio and Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- No Twilio imports found"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- No Twilio API URLs found"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- No Twilio environment variables found"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- No Twilio signature validation patterns found"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- No residual Twilio imports"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- No Twilio client instantiation"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- [ ] Cancel Twilio account after validation period"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "1. `git checkout master` — restore original Twilio code"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "2. Update environment variables back to Twilio values"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "> Generated by the Telnyx Twilio Migration Skill"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Products in Use | Voice |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Product | Telnyx Replacement | Files Affected | Complexity | Notes |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "- [ ] **Phase 3: Setup** — Migration branch, Telnyx SDK installed alongside Twilio, env vars updated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "- [ ] **Phase 6: Cleanup** — Twilio SDK removed, report generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Variable | Current (Twilio) | New (Telnyx) | Notes |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "2. Twilio SDK remains in requirements.txt until Phase 6"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "# IVR Phone Tree: IVR for beginners. Powered by Twilio - Python/Flask"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[![Build Status](https://travis-ci.org/TwilioDevEd/ivr-phone-tree-python.svg?branch=master)](https://travis-ci.org/TwilioDevEd/ivr-phone-tree-python)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "$ git clone git@github.com:TwilioDevEd/ivr-phone-tree-python.git"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "1. Configure Twilio to call your webhooks"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "You will also need to configure Twilio to call your application when calls are"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "received in your [*Twilio Number*](https://www.twilio.com/user/account/messaging/phone-numbers)."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "* Lovingly crafted by Twilio Developer Education."
+    }
+  ],
+  "twiml_files": ["MIGRATION-REPORT.md", "ivr_phone_tree_python/views.py"],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "env"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    },
+    {
+      "path": "ivr_phone_tree_python/templates/layout.html",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 2,
+    "total_products": 1,
+    "total_languages": 0,
+    "has_webhook_validation": false,
+    "has_twiml": true,
+    "has_env_vars": true,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

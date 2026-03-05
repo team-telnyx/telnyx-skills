@@ -1,0 +1,39 @@
+{
+  "name": "Call Tracking (Django) - Telnyx",
+  "description": "Call Tracking in Django with Telnyx",
+  "repository": "https://github.com/TwilioDevEd/call-tracking-django",
+  "keywords": [
+    "phone", "telnyx", "call tracking", "automation", "python", "django"
+  ],
+  "addons": [
+    "heroku-postgresql:hobby-dev"
+  ],
+  "env": {
+    "TELNYX_API_KEY": {
+      "description": "Your Telnyx API Key v2, you can find at: https://portal.telnyx.com/#/app/api-keys",
+      "value": "enter_your_api_key_here",
+      "required": true
+    },
+    "TELNYX_CONNECTION_ID": {
+      "description": "The Connection ID for your TeXML Application. Create one at: https://portal.telnyx.com/#/app/voice/texml",
+      "value": "enter_your_connection_id_here",
+      "required": true
+    },
+    "DJANGO_SETTINGS_MODULE": {
+      "description": "Instructs our app to use the production settings module",
+      "value": "twilio_sample_project.settings.production",
+      "required": true
+    },
+    "DJANGO_SECRET_KEY": {
+      "description": "A unique, unpredictable key for your Django app",
+      "generator": "secret"
+    }
+  },
+  "scripts": {
+    "postdeploy": "python manage.py migrate"
+  },
+  "website": "https://github.com/TwilioDevEd/call-tracking-django",
+  "repository": "https://github.com/TwilioDevEd/call-tracking-django",
+  "logo": "https://s3.amazonaws.com/howtodocs/twilio-logo.png",
+  "success_url": "/"
+}

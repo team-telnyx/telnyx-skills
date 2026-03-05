@@ -1,0 +1,201 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/ivr-recording-django",
+  "scan_time": "2026-03-05T06:47:44.207139+00:00",
+  "languages_detected": [
+    "python"
+  ],
+  "products_used": [
+    "voice"
+  ],
+  "files": [
+    {
+      "path": "requirements.txt",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "twilio==6.35.4",
+          "line": 38,
+          "detection_method": "regex",
+          "context": [
+            "toml==0.10.0",
+            "traitlets==4.3.3",
+            "twilio==6.35.4",
+            "typed-ast==1.5.1",
+            "urllib3==1.25.8"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "ivr/views.py",
+      "language": "python",
+      "products": [
+        "voice"
+      ],
+      "detections": [
+        {
+          "pattern": "from twilio.twiml.voice_response import VoiceResponse",
+          "line": 5,
+          "detection_method": "ast",
+          "context": [
+            "from django.urls import reverse",
+            "from django.views.decorators.csrf import csrf_exempt",
+            "from twilio.twiml.voice_response import VoiceResponse",
+            "",
+            "from .models import Agent, Recording"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 29,
+          "detection_method": "ast",
+          "context": [
+            "@csrf_exempt",
+            "def welcome(request):",
+            "    twiml_response = VoiceResponse()",
+            "    gather = twiml_response.gather(action=reverse('ivr:menu'), num_digits=1)",
+            "    gather.play('https://can-tasty-8188.twil.io/assets/et-phone.mp3', loop=3)"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 50,
+          "detection_method": "ast",
+          "context": [
+            "",
+            "def return_instructions():",
+            "    twiml_response = VoiceResponse()",
+            "    twiml_response.say(",
+            "        'To get to your extraction point, get on your bike and go down '"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 69,
+          "detection_method": "ast",
+          "context": [
+            "",
+            "def planets():",
+            "    twiml_response = VoiceResponse()",
+            "    gather = twiml_response.gather(action=reverse('ivr:agent_connect'), num_digits=1)",
+            "    gather.say("
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 84,
+          "detection_method": "ast",
+          "context": [
+            "",
+            "def redirect_welcome():",
+            "    twiml = VoiceResponse()",
+            "    twiml.redirect(reverse('ivr:welcome'))",
+            "    return twiml"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 111,
+          "detection_method": "ast",
+          "context": [
+            "        return TwiMLResponse(redirect_welcome())",
+            "",
+            "    twiml = VoiceResponse()",
+            "    twiml.say(",
+            "        'You\\'ll be connected shortly to your planet.',"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 129,
+          "detection_method": "ast",
+          "context": [
+            "    if request.POST['CallStatus'] == 'completed':",
+            "        return HttpResponse('')",
+            "    twiml = VoiceResponse()",
+            "    twiml.say(",
+            "        'It appears that no agent is available. Please leave a message after the beep',"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 145,
+          "detection_method": "ast",
+          "context": [
+            "@csrf_exempt",
+            "def hangup(request):",
+            "    twiml = VoiceResponse()",
+            "    twiml.say(",
+            "        'Thanks for your message. Goodbye', voice='Polly.Amy', language='en-GB',"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 155,
+          "detection_method": "ast",
+          "context": [
+            "@csrf_exempt",
+            "def screencall(request):",
+            "    twiml = VoiceResponse()",
+            "    gather = twiml.gather(action=reverse('ivr:agents_connect_message'))",
+            "    phone_number = request.POST['From']"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 168,
+          "detection_method": "ast",
+          "context": [
+            "@csrf_exempt",
+            "def connect_message(request):",
+            "    twiml = VoiceResponse()",
+            "    twiml.say('Connecting you to the extraterrestrial in distress')",
+            "    return HttpResponse(str(twiml))"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        }
+      ]
+    }
+  ],
+  "env_vars": [],
+  "config_files": [
+    "requirements.txt"
+  ],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 2,
+    "total_detections": 11,
+    "by_method": {
+      "ast": 10
+    },
+    "by_confidence": {
+      "high": 10
+    }
+  }
+}

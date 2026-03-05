@@ -1,0 +1,33 @@
+{
+  "project_root": "/home/telnyx-user/twilio-test-repos/ivr-recording-node",
+  "scan_date": "2026-03-05",
+  "products_detected": ["voice"],
+  "files_with_twilio": [
+    {
+      "file": "routes/ivr.js",
+      "product": "voice",
+      "patterns": ["twilio SDK import", "VoiceResponse", "twilio.webhook"]
+    },
+    {
+      "file": "routes/menu.js",
+      "product": "voice",
+      "patterns": ["twilio SDK import", "VoiceResponse", "twilio.webhook"]
+    },
+    {
+      "file": "routes/extension.js",
+      "product": "voice",
+      "patterns": ["twilio SDK import", "VoiceResponse", "twilio.webhook"]
+    },
+    {
+      "file": "routes/agents.js",
+      "product": "voice",
+      "patterns": ["twilio SDK import", "VoiceResponse", "twilio.webhook", "record"]
+    },
+    {
+      "file": "package.json",
+      "product": "voice",
+      "patterns": ["twilio dependency"]
+    }
+  ],
+  "unsupported_products": []
+}

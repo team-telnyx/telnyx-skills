@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: blah@blah.com
+  password_digest: secret
+  name: blah
+  country_code: +44
+  phone_number: 07712345678
+
+two:
+  email: hello@hello.com
+  password_digest: secret
+  name: blah
+  country_code: +44
+  phone_number: 07712345678

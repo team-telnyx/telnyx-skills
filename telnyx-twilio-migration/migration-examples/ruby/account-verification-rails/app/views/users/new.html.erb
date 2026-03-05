@@ -1,0 +1,36 @@
+<h1>We're going to be *BEST* friends</h1>
+<p> Thanks for your interest in signing up! Can you tell us a bit about yourself?</p>
+
+<% if @user.errors.any? %>
+  <h2>Oops, something went wrong!</h2>
+
+  <ul>
+    <% @user.errors.full_messages.each do |error| %>
+      <li><%= error %></li>
+    <% end -%>
+  </ul>
+<% end -%>
+
+<%= form_for @user do |f| %>
+  <div class="form-group">
+    <%= f.label :name, "Tell us your name:" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "Zingelbert Bembledack" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :email, "Enter Your E-mail Address:" %>
+    <%= f.email_field :email, class: "form-control", placeholder: "me@mydomain.com" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :password, "Enter a password:" %>
+    <%= f.password_field :password, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :country_code %>
+    <%= f.text_field :country_code, class: "form-control", id: "authy-countries" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :phone_number %>
+    <%= f.text_field :phone_number, class: "form-control", id: "authy-cellphone" %>
+  </div>
+  <button class="btn btn-primary">Sign up</button>
+<% end -%>

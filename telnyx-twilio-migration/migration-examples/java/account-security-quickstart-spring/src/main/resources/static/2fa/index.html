@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Twilio Two-Factor Authentication Quickstart</title>
+    <link rel="icon" type="image/png" href="/assets/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/favicon-16x16.png" sizes="16x16">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+    <script src="/app.js"></script>
+    <style>
+        .container {
+            padding-top: 20%;
+        }
+
+        .twofa .btn{
+            text-align: center;
+            font-size: 1.3rem;
+            width: 160%;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    </style>
+</head>
+<body ng-app="accountSecurityQuickstart">
+
+<div class="container twofa" ng-controller="AuthyController">
+    <div class="row centered-form">
+        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-1 col-md-offset-3">
+            <div class="panel panel-default" style="width: 150%">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Token Verification</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <input type="text" name="token" id="token" class="form-control input-sm"
+                                           ng-model="setup.token"
+                                           placeholder="Token via SMS, Voice or SoftToken">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-md-3">
+                                <input type="submit" value="SMS"  ng-click="sms()" class="btn btn-info btn-block">
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3">
+                                <input type="submit" value="Voice"  ng-click="voice()" class="btn btn-info btn-block">
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3">
+                                <input type="submit" value="Push Auth"  ng-click="onetouch()" class="btn btn-primary btn-block">
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3">
+                                <input type="submit" value="Verify"  ng-click="verify()" class="btn btn-success btn-block">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

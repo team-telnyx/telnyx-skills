@@ -1,0 +1,41 @@
+<% content_for :nav_bg do %>
+  <!-- Nav Bar -->
+  <nav class="navbar navbar-space">
+  </nav>
+<% end %>
+<div class="container">
+  <h1>Sign up for Airtng</h1>
+  <% if @user.errors.any? %>
+    <h2>Oops, something went wrong!</h2>
+
+    <ul>
+      <% @user.errors.full_messages.each do |error| %>
+        <li><%= error %></li>
+      <% end -%>
+    </ul>
+  <% end -%>
+
+  <%= form_for @user do |f| %>
+    <div class="form-group">
+      <%= f.label :name, "Tell us your name:" %>
+      <%= f.text_field :name, class: "form-control", placeholder: "Zingelbert Bembledack" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :email, "Enter Your E-mail Address:" %>
+      <%= f.email_field :email, class: "form-control", placeholder: "me@mydomain.com" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :password, "Enter a password:" %>
+      <%= f.password_field :password, class: "form-control" %>
+    </div>
+    <div class="form-inline form-group">
+      <div class="form-group">
+        <%= f.label :phone_number %>
+        <%= f.text_field :country_code, maxlength: "3", size: "3", value: "+1", class: "form-control fields" %>
+        <%= f.text_field :area_code, maxlength: "3", size: "3", placeholder: "555", class: "form-control fields" %>
+        <%= f.text_field :phone_number, maxlength: "7", size: "7", placeholder: "8675309", class: "form-control fields" %>
+      </div>
+    </div>
+    <button class="btn btn-primary">Sign up</button>
+  <% end -%>
+</div>

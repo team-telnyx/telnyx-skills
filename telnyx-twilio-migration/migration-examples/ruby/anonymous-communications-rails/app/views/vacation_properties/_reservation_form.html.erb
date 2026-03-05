@@ -1,0 +1,16 @@
+<%= form_for @reservation do |f| %>
+  <div class="form-group">
+  <%= f.label :message, "Would you like to say anything to the host?" %>
+  <%= f.text_area :message, size: "10x10", class: "form-control", placeholder: "Hello! I am hoping to stay in your intergalactic suite..." %>
+  </div>
+  <div class="hidden">
+  <%= f.text_field :name, value: @user.name %>
+  </div>
+  <div class="hidden">
+  <%= f.text_field :guest_phone, value: @user.phone_number %>
+  </div>
+  <div class="hidden">
+  <%= f.text_field :property_id, value: @vacation_property.id %>
+  </div>
+  <button class="btn btn-primary">Reserve Now</button>
+<% end -%>

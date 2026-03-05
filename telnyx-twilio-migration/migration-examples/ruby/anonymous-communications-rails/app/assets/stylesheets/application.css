@@ -1,0 +1,84 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,600,300);
+
+html {
+    box-sizing:border-box;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing:inherit;
+}
+
+a:visited {
+    color:white;
+}
+
+footer {
+    font-size:12px;
+    color:#787878;
+    margin-top:20px;
+    padding-top:20px;
+    text-align:center;
+}
+
+footer i {
+    color:#ff0000;
+}
+
+nav a:focus {
+    text-decoration:none;
+    color:#337ab7;
+}
+
+td {
+    padding:10px;
+}
+
+#main {
+    margin-top:10px;
+}
+
+#messages p {
+    padding:10px;
+    border:1px solid #eee;
+}
+
+#messages i {
+    float:right;
+    margin-left:5px;
+    cursor:pointer;
+}
+
+#countries-input-0{
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555;
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}

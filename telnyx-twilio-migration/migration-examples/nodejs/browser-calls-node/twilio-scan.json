@@ -1,0 +1,3907 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/browser-calls-node",
+  "scan_time": "2026-03-05T06:22:08Z",
+  "languages_detected": ["json"],
+  "products_used": ["voice", "webrtc"],
+  "files": [
+    {
+      "path": "MIGRATION-REPORT.md",
+      "language": "unknown",
+      "products": ["webrtc", "voice"],
+      "patterns_matched": ["const AccessToken = require('twilio').jwt.AccessToken;", "## ⚠️ CRITICAL WARNING: Twilio.Client (WebRTC) Architecture Change", "This repository uses **Twilio Voice SDK (`Twilio.Device`)** for browser-based WebRTC calling. Telnyx WebRTC is **fundamentally different** in architecture:", "| **Client SDK** | `Twilio.Device` | `TelnyxRTC` ", "|2. **Replaced** `Twilio.Device` with `TelnyxRTC` client SDK", "| WebRTC (Twilio.Device) | ⚠️ **ARCHITECTURAL CHANGE** | Full rewrite to TelnyxRTC ", "|**Before**: `Twilio.Device`", "device = new Twilio.Device(data.token, { codecPreferences: [...] });", "- Changed \"Connecting to Twilio...\" → \"Connecting to Telnyx...\"", "const VoiceGrant = AccessToken.VoiceGrant;"]
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "language": "json",
+      "products": ["webrtc", "voice"],
+      "patterns_matched": ["\"pattern\": \"const twilio = require('twilio');\",", "\"const twilio = require('twilio');\",", "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\",", "\"const AccessToken = require('twilio').jwt.AccessToken;\",", "\"pattern\": \"// Setup Twilio.Device\",", "\"      // Setup Twilio.Device\",", "\"      device = new Twilio.Device(data.token, {\",", "\"pattern\": \"device = new Twilio.Device(data.token, {\",", "\"pattern\": \"console.log(\\\"Twilio.Device Ready!\\\");\",", "\"        console.log(\\\"Twilio.Device Ready!\\\");\",", "\"pattern\": \"console.log(\\\"Twilio.Device Error: \\\" + error.message);\",", "\"        console.log(\\\"Twilio.Device Error: \\\" + error.message);\",", "\"const VoiceResponse = twilio.twiml.VoiceResponse;\",", "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\",", "\"pattern\": \"var twiml = new VoiceResponse();\",", "\"  var twiml = new VoiceResponse();\",", "\"const VoiceGrant = AccessToken.VoiceGrant;\",", "\"pattern\": \"const VoiceGrant = AccessToken.VoiceGrant;\",", "\"pattern\": \"const grant = new VoiceGrant({\",", "\"  const grant = new VoiceGrant({\","]
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "language": "unknown",
+      "products": ["webrtc"],
+      "patterns_matched": ["| WebRTC (Twilio.Device) | @telnyx/webrtc SDK | public/js/browser-calls.js | High | Full client SDK migration required ", "|⚠️ **CRITICAL: This repository uses Twilio.Client (Twilio Voice WebRTC SDK)**", "The Twilio Voice SDK (`Twilio.Device`) is a **browser-based WebRTC client**. Telnyx has a different approach:", "| **WebRTC client SDK is fundamentally different** | Certain | High | Twilio.Device vs TelnyxRTC - complete API rewrite required ", " Twilio.Client Access Tokens incompatible | Certain | High | Must replace with SIP credentials ", " No direct Telnyx equivalent for Twilio.Device features | Medium | Medium | Some event handling patterns differ |"]
+    }
+  ],
+  "env_vars": [
+    {
+      "name": "TWILIO_ACCOUNT_SID",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md", "twilio-deep-scan.json", "README.md"]
+    },
+    {
+      "name": "TWILIO_NUMBER",
+      "files": ["README.md"]
+    },
+    {
+      "name": "TWILIO_PHONE_NUMBER",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md", "twilio-deep-scan.json"]
+    },
+    {
+      "name": "TWILIO_API_KEY",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md", "twilio-deep-scan.json", "README.md"]
+    },
+    {
+      "name": "TWILIO_AUTH_TOKEN",
+      "files": ["MIGRATION-PLAN.md"]
+    }
+  ],
+  "config_files": [
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pip",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "npm",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "gem",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "gomod",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "maven",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "gradle",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "composer",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pipenv",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "setuptools",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "setuptools",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pyproject",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pip",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "cocoapods",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "> Repository: ~/twilio-test-repos/browser-calls-node"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "const AccessToken = require('twilio').jwt.AccessToken;"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- Changed: `accountSid`, `appSid`, `twilioPhoneNumber`, `apiKey`, `apiSecret` → `telnyxApiKey`, `telnyxPhoneNumber`, `telnyxConnectionId`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- Removed `twilio` dependency"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- Some residual references in scan files (twilio-scan.json, twilio-deep-scan.json) - these are expected as they are generated scan artifacts, not source code"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "| Project Root | `~/twilio-test-repos/browser-calls-node` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "- [x] **Phase 1: Discovery** — Scan completed, twilio-scan.json generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "- Migration branch: `migrate/twilio-to-telnyx` (to be created in Phase 3)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/browser-calls-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"  twilioPhoneNumber: process.env.TWILIO_PHONE_NUMBER,\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"# twilio api:core:applications:create --friendly-name=voice-client-javascript\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"const VoiceResponse = twilio.twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"  var callerId = config.twilioPhoneNumber;\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"const AccessToken = require('twilio').jwt.AccessToken;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"router.post('/connect', twilio.webhook({validate: false}), function(req, res, next) {\","
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "> Check out the [JavaScript SDK Quickstarts](https://www.twilio.com/docs/voice/sdks/javascript/get-started) to get started with browser-based calling."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| TWILIO_APP_SID | The TwiML application with a voice URL configured to access your server running this app - create one [in the console here](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid`. Also, you will need to configure the Voice \"REQUEST URL\" on the TwiML app once you've got your server up and running. |"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| TWILIO_API_KEY / TWILIO_API_SECRET | Your REST API Key information needed to create an [Access Token](https://www.twilio.com/docs/iam/access-tokens) - create [one here](https://www.twilio.com/console/project/api-keys). |"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[Create a new TwiML app](https://www.twilio.com/console/voice/twiml/apps) and use its `Sid` as the `TWILIO_APP_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "localhost. [Here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html), you could read more about why we recommend you to use ngrok."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pub",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "package.json",
+      "type": "nuget",
+      "line": "\"url\": \"https://github.com/TwilioDevEd/browser-calls-node\""
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "> **Twilio to Telnyx Migration**"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "## ⚠️ CRITICAL WARNING: Twilio.Client (WebRTC) Architecture Change"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "This repository uses **Twilio Voice SDK (`Twilio.Device`)** for browser-based WebRTC calling. Telnyx WebRTC is **fundamentally different** in architecture:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| Aspect | Twilio | Telnyx |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| **Client SDK** | `Twilio.Device` | `TelnyxRTC` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "1. **Replaced** Twilio Access Token generation with Telnyx SIP credential generation"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "2. **Replaced** `Twilio.Device` with `TelnyxRTC` client SDK"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "4. **Updated** all environment variables from Twilio to Telnyx equivalents"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| **Twilio SDK** | ✅ Removed |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| WebRTC (Twilio.Device) | ⚠️ **ARCHITECTURAL CHANGE** | Full rewrite to TelnyxRTC |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "**Before**: Generated Twilio Access Tokens"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "**Before**: `Twilio.Device`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "device = new Twilio.Device(data.token, { codecPreferences: [...] });"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- Updated script src from Twilio SDK to Telnyx WebRTC CDN"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- Changed \"Connecting to Twilio...\" → \"Connecting to Telnyx...\""
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| Old (Twilio) | New (Telnyx) | Required |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| No Twilio imports | ✅ PASS |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| No Twilio env vars | ✅ PASS |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- [x] Twilio SDK removed"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "This migration successfully transitioned a Twilio Voice WebRTC application to Telnyx WebRTC. The **most significant change** was the architectural shift from Twilio's mandatory backend token server to Telnyx's optional direct-SIP approach."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "> Generated by the Telnyx Twilio Migration Skill"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Products in Use | Voice, WebRTC (Browser Client) |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Product | Telnyx Replacement | Files Affected | Complexity | Notes |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| WebRTC (Twilio.Device) | @telnyx/webrtc SDK | public/js/browser-calls.js | High | Full client SDK migration required |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "⚠️ **CRITICAL: This repository uses Twilio.Client (Twilio Voice WebRTC SDK)**"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "The Twilio Voice SDK (`Twilio.Device`) is a **browser-based WebRTC client**. Telnyx has a different approach:"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "- Twilio requires a backend token server (routes/token.js generates AccessTokens)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Variable | Telnyx Replacement | Notes |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| **WebRTC client SDK is fundamentally different** | Certain | High | Twilio.Device vs TelnyxRTC - complete API rewrite required |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio.Client Access Tokens incompatible | Certain | High | Must replace with SIP credentials |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| No direct Telnyx equivalent for Twilio.Device features | Medium | Medium | Some event handling patterns differ |"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"\\\"description\\\": \\\"A sample application which shows you how to make and receive phone calls with a browser and Twilio Client\\\",\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"  \\\"description\\\": \\\"A sample application which shows you how to make and receive phone calls with a browser and Twilio Client\\\",\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"* Twilio Client configuration for the browser-calls-rails\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\" * Twilio Client configuration for the browser-calls-rails\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"// Setup Twilio.Device\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"      // Setup Twilio.Device\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"      device = new Twilio.Device(data.token, {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"device = new Twilio.Device(data.token, {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"      // Setup Twilio.Device\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"      device = new Twilio.Device(data.token, {\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"console.log(\\\"Twilio.Device Ready!\\\");\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"        console.log(\\\"Twilio.Device Ready!\\\");\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"console.log(\\\"Twilio.Device Error: \\\" + error.message);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"        console.log(\\\"Twilio.Device Error: \\\" + error.message);\","
+    },
+    {
+      "path": "LICENSE",
+      "type": "nuget",
+      "line": "Copyright (c) 2020 Twilio Inc."
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "type": "nuget",
+      "line": "# Contributing to Twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "Learn how to use [Twilio's JavaScript SDK](https://www.twilio.com/docs/voice/sdks/javascript) to make browser-to-phone and browser-to-browser calls with ease. The unsatisfied customers of the Birchwood Bicycle Polo Co. need your help!"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "### Twilio Account Settings"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).|"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "| TWILIO_NUMBER | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "This project is configured to use a **TwiML App**, which allows us to easily set the Voice URLs for all Twilio phone numbers we purchase in this app."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "Once you have created your TwiML app, [configure your Twilio phone number](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-). If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/console/phone-numbers/search)."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "git clone https://github.com/TwilioDevEd/browser-calls-node.git"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "4. Follow the steps in [Local Development](#local-development) on how to expose your port to Twilio using a tool like [ngrok](https://ngrok.com/) and configure the remaining parts of your application."
+    },
+    {
+      "path": "public/js/browser-calls.js",
+      "type": "nuget",
+      "line": "* Migrated from Twilio Client to Telnyx WebRTC SDK"
+    }
+  ],
+  "twiml_files": [],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": "package.json",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "env"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "env"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "env"
+    },
+    {
+      "path": "LICENSE",
+      "type": "env"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    },
+    {
+      "path": "public/js/browser-calls.js",
+      "type": "env"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 3,
+    "total_products": 2,
+    "total_languages": 1,
+    "has_webhook_validation": false,
+    "has_twiml": false,
+    "has_env_vars": true,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

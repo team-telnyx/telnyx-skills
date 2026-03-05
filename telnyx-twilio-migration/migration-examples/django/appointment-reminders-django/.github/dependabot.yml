@@ -1,0 +1,30 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: twilio
+    versions:
+    - 6.51.1
+    - 6.52.0
+    - 6.53.0
+    - 6.54.0
+    - 6.55.0
+    - 6.56.0
+  - dependency-name: arrow
+    versions:
+    - 0.17.0
+    - 1.0.2
+    - 1.0.3
+  - dependency-name: django-bootstrap3
+    versions:
+    - 14.2.0
+  - dependency-name: django
+    versions:
+    - 3.0.7
+  - dependency-name: django-dramatiq
+    versions:
+    - 0.9.1

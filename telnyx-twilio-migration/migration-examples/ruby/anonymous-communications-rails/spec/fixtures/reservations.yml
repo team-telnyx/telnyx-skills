@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  name: Jardo
+  status: 0
+  message: Is the universe safe there?
+  guest_phone: '+16195559091'
+  phone_number: '+100343233'
+  vacation_property_id: 1
+
+two:
+  id: 2
+  name: Kevin
+  status: 1
+  message: Looking forward to testing your space couch.
+  guest_phone: '+16195551234'
+  phone_number: '+100112233'
+  vacation_property_id: 2

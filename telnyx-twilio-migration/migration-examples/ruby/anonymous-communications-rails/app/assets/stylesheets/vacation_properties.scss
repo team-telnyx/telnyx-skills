@@ -1,0 +1,52 @@
+// Place all the styles related to the VacationProperties controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body.property-page {
+    footer {
+        position:relative;
+    }
+    #main {
+        min-height: 900px;
+    }
+}
+
+.property {
+    display: block;
+    position: relative;
+    border-radius:10px;
+    text-align: center;
+    padding-top: 88px;
+    height: 240px;
+    text-transform: uppercase;
+    overflow:hidden;
+    margin-bottom:20px;
+    img {
+        vertical-align: middle;
+        width: 100%;
+        position: absolute;
+        left:0px;
+        top:0px;
+        border-radius:10px;
+    }
+    h2 {
+        color:white;
+        z-index: 1000;
+        position: relative;
+    }
+}
+
+.property-detail {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    .overview {
+        height: 400px;
+        overflow: hidden;
+
+    }
+    img {
+        width:100%;
+
+    }
+}

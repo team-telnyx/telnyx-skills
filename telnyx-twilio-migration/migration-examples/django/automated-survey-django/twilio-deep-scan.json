@@ -1,0 +1,261 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/automated-survey-django",
+  "scan_time": "2026-03-05T18:01:27.264930+00:00",
+  "languages_detected": [
+    "python"
+  ],
+  "products_used": [
+    "messaging",
+    "voice"
+  ],
+  "files": [
+    {
+      "path": "requirements.txt",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "twilio==6.9.0",
+          "line": 15,
+          "detection_method": "regex",
+          "context": [
+            "six==1.9.0",
+            "stevedore==1.6.0",
+            "twilio==6.9.0",
+            "virtualenv==13.0.3",
+            "wheel==0.24.0"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "language": "python",
+      "products": [
+        "messaging",
+        "voice"
+      ],
+      "detections": [
+        {
+          "pattern": "from twilio.twiml.messaging_response import MessagingResponse",
+          "line": 2,
+          "detection_method": "ast",
+          "context": [
+            "from django.urls import reverse",
+            "from twilio.twiml.messaging_response import MessagingResponse",
+            "from twilio.twiml.voice_response import VoiceResponse",
+            "from django.http import HttpResponse"
+          ],
+          "confidence": "high",
+          "product": "messaging"
+        },
+        {
+          "pattern": "from twilio.twiml.voice_response import VoiceResponse",
+          "line": 3,
+          "detection_method": "ast",
+          "context": [
+            "from django.urls import reverse",
+            "from twilio.twiml.messaging_response import MessagingResponse",
+            "from twilio.twiml.voice_response import VoiceResponse",
+            "from django.http import HttpResponse",
+            ""
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "MessagingResponse",
+          "line": 23,
+          "detection_method": "ast",
+          "context": [
+            "",
+            "def sms_question(question):",
+            "    twiml_response = MessagingResponse()",
+            "",
+            "    twiml_response.message(question.body)"
+          ],
+          "confidence": "high",
+          "product": "messaging"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 38,
+          "detection_method": "ast",
+          "context": [
+            "",
+            "def voice_question(question):",
+            "    twiml_response = VoiceResponse()",
+            "",
+            "    twiml_response.say(question.body)"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        }
+      ]
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "language": "python",
+      "products": [
+        "messaging",
+        "voice"
+      ],
+      "detections": [
+        {
+          "pattern": "from twilio.twiml.messaging_response import MessagingResponse",
+          "line": 1,
+          "detection_method": "ast",
+          "context": [
+            "from twilio.twiml.messaging_response import MessagingResponse",
+            "from twilio.twiml.voice_response import VoiceResponse",
+            ""
+          ],
+          "confidence": "high",
+          "product": "messaging"
+        },
+        {
+          "pattern": "from twilio.twiml.voice_response import VoiceResponse",
+          "line": 2,
+          "detection_method": "ast",
+          "context": [
+            "from twilio.twiml.messaging_response import MessagingResponse",
+            "from twilio.twiml.voice_response import VoiceResponse",
+            "",
+            "from django.http import HttpResponse"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "MessagingResponse",
+          "line": 28,
+          "detection_method": "ast",
+          "context": [
+            "    question_url = reverse('question', kwargs=parameters)",
+            "",
+            "    twiml_response = MessagingResponse()",
+            "    twiml_response.redirect(url=question_url, method='GET')",
+            "    return HttpResponse(twiml_response)"
+          ],
+          "confidence": "high",
+          "product": "messaging"
+        },
+        {
+          "pattern": "MessagingResponse",
+          "line": 38,
+          "detection_method": "ast",
+          "context": [
+            "                        'Good-bye']",
+            "    if request.is_sms:",
+            "        response = MessagingResponse()",
+            "        [response.message(message) for message in goodbye_messages]",
+            "    else:"
+          ],
+          "confidence": "high",
+          "product": "messaging"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 41,
+          "detection_method": "ast",
+          "context": [
+            "        [response.message(message) for message in goodbye_messages]",
+            "    else:",
+            "        response = VoiceResponse()",
+            "        [response.say(message) for message in goodbye_messages]",
+            "        response.hangup()"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        }
+      ]
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "language": "python",
+      "products": [
+        "voice",
+        "messaging"
+      ],
+      "detections": [
+        {
+          "pattern": "from twilio.twiml.voice_response import VoiceResponse",
+          "line": 7,
+          "detection_method": "ast",
+          "context": [
+            "from django.views.decorators.http import require_POST, require_GET",
+            "from django.views.decorators.csrf import csrf_exempt",
+            "from twilio.twiml.voice_response import VoiceResponse",
+            "from twilio.twiml.messaging_response import MessagingResponse",
+            ""
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "from twilio.twiml.messaging_response import MessagingResponse",
+          "line": 8,
+          "detection_method": "ast",
+          "context": [
+            "from django.views.decorators.csrf import csrf_exempt",
+            "from twilio.twiml.voice_response import VoiceResponse",
+            "from twilio.twiml.messaging_response import MessagingResponse",
+            "",
+            ""
+          ],
+          "confidence": "high",
+          "product": "messaging"
+        },
+        {
+          "pattern": "MessagingResponse",
+          "line": 38,
+          "detection_method": "ast",
+          "context": [
+            "    welcome = 'Hello and thank you for taking the %s survey' % survey.title",
+            "    if request.is_sms:",
+            "        twiml_response = MessagingResponse()",
+            "        twiml_response.message(welcome)",
+            "        twiml_response.redirect(first_question_url, method='GET')"
+          ],
+          "confidence": "high",
+          "product": "messaging"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 42,
+          "detection_method": "ast",
+          "context": [
+            "        twiml_response.redirect(first_question_url, method='GET')",
+            "    else:",
+            "        twiml_response = VoiceResponse()",
+            "        twiml_response.say(welcome)",
+            "        twiml_response.redirect(first_question_url, method='GET')"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        }
+      ]
+    }
+  ],
+  "env_vars": [],
+  "config_files": [
+    "requirements.txt"
+  ],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 4,
+    "total_detections": 14,
+    "by_method": {
+      "ast": 13
+    },
+    "by_confidence": {
+      "high": 13
+    }
+  }
+}

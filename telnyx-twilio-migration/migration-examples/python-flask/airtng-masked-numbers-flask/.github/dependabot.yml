@@ -1,0 +1,51 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: pyjwt
+    versions:
+    - 2.0.1
+  - dependency-name: flake8
+    versions:
+    - 3.9.0
+  - dependency-name: pyflakes
+    versions:
+    - 2.3.0
+  - dependency-name: alembic
+    versions:
+    - 1.5.2
+    - 1.5.3
+    - 1.5.4
+    - 1.5.5
+  - dependency-name: httplib2
+    versions:
+    - 0.18.0
+    - 0.19.0
+  - dependency-name: wheel
+    versions:
+    - 0.36.2
+  - dependency-name: wtforms
+    versions:
+    - 2.3.3
+  - dependency-name: six
+    versions:
+    - 1.15.0
+  - dependency-name: pycparser
+    versions:
+    - "2.20"
+  - dependency-name: werkzeug
+    versions:
+    - 0.15.3
+  - dependency-name: jinja2
+    versions:
+    - 2.10.1
+  - dependency-name: flask
+    versions:
+    - "1.0"
+  - dependency-name: markupsafe
+    versions:
+    - 1.1.1

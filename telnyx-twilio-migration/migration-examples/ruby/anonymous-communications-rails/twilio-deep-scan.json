@@ -1,0 +1,502 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/anonymous-communications-rails",
+  "scan_time": "2026-03-05T06:27:09.872202+00:00",
+  "languages_detected": [],
+  "products_used": [
+    "general"
+  ],
+  "files": [
+    {
+      "path": "Gemfile",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "gem \"twilio-ruby\", \"~> 5.46\"",
+          "line": 55,
+          "detection_method": "regex",
+          "context": [
+            "# Windows does not include zoneinfo files, so bundle the tzinfo-data gem",
+            "gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]",
+            "gem \"twilio-ruby\", \"~> 5.46\"",
+            "gem 'telnyx', '~> 2.0'"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": ".env.example",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "TWILIO_ACCOUNT_SID=your_twilio_account_SID",
+          "line": 2,
+          "detection_method": "regex",
+          "context": [
+            "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio",
+            "TWILIO_ACCOUNT_SID=your_twilio_account_SID",
+            "# Your Twilio Auth Token. You can get it at twilio.com/console",
+            "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "TWILIO_ACCOUNT_SID=your_twilio_account_SID",
+          "line": 2,
+          "detection_method": "regex",
+          "context": [
+            "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio",
+            "TWILIO_ACCOUNT_SID=your_twilio_account_SID",
+            "# Your Twilio Auth Token. You can get it at twilio.com/console",
+            "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "TWILIO_AUTH_TOKEN=your_twilio_auth_token",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "TWILIO_ACCOUNT_SID=your_twilio_account_SID",
+            "# Your Twilio Auth Token. You can get it at twilio.com/console",
+            "TWILIO_AUTH_TOKEN=your_twilio_auth_token",
+            "# The Twilio phone number you want to use to send SMS. Get one in the Twilio Console",
+            "TWILIO_NUMBER=your_twilio_phone_number"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "TWILIO_AUTH_TOKEN=your_twilio_auth_token",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "TWILIO_ACCOUNT_SID=your_twilio_account_SID",
+            "# Your Twilio Auth Token. You can get it at twilio.com/console",
+            "TWILIO_AUTH_TOKEN=your_twilio_auth_token",
+            "# The Twilio phone number you want to use to send SMS. Get one in the Twilio Console",
+            "TWILIO_NUMBER=your_twilio_phone_number"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "TWILIO_NUMBER=your_twilio_phone_number",
+          "line": 6,
+          "detection_method": "regex",
+          "context": [
+            "TWILIO_AUTH_TOKEN=your_twilio_auth_token",
+            "# The Twilio phone number you want to use to send SMS. Get one in the Twilio Console",
+            "TWILIO_NUMBER=your_twilio_phone_number",
+            "# Application SID. Create a new one: https://www.twilio.com/console/voice/dev-tools/twiml-apps",
+            "ANONYMOUS_APPLICATION_SID=your_application_sid"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "TWILIO_NUMBER=your_twilio_phone_number",
+          "line": 6,
+          "detection_method": "regex",
+          "context": [
+            "TWILIO_AUTH_TOKEN=your_twilio_auth_token",
+            "# The Twilio phone number you want to use to send SMS. Get one in the Twilio Console",
+            "TWILIO_NUMBER=your_twilio_phone_number",
+            "# Application SID. Create a new one: https://www.twilio.com/console/voice/dev-tools/twiml-apps",
+            "ANONYMOUS_APPLICATION_SID=your_application_sid"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "spec/vcr_cassettes/accept_or_reject_reservation.yml",
+      "language": "yaml",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "uri: !ruby/regexp /^https:\\/\\/api\\.twilio\\.com\\/2010-04-01\\/Accounts\\/.*\\/AvailablePhoneNumbers\\/US\\/Local\\.json\\?AreaCode=619/",
+          "line": 5,
+          "detection_method": "heuristic",
+          "context": [
+            "- request:",
+            "    method: get",
+            "    uri: !ruby/regexp /^https:\\/\\/api\\.twilio\\.com\\/2010-04-01\\/Accounts\\/.*\\/AvailablePhoneNumbers\\/US\\/Local\\.json\\?AreaCode=619/",
+            "    body:",
+            "      encoding: US-ASCII"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "- twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)",
+          "line": 11,
+          "detection_method": "heuristic",
+          "context": [
+            "    headers:",
+            "      User-Agent:",
+            "      - twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)",
+            "      Accept-Charset:",
+            "      - utf-8"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "Twilio-Request-Duration:",
+          "line": 42,
+          "detection_method": "heuristic",
+          "context": [
+            "      Strict-Transport-Security:",
+            "      - max-age=15768000",
+            "      Twilio-Request-Duration:",
+            "      - '0.237'",
+            "      Twilio-Request-Id:"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "Twilio-Request-Id:",
+          "line": 44,
+          "detection_method": "heuristic",
+          "context": [
+            "      Twilio-Request-Duration:",
+            "      - '0.237'",
+            "      Twilio-Request-Id:",
+            "      - RQ45a4fd3bc28b448f86a372538e31caa2",
+            "      X-Powered-By:"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "\"SMS\": true, \"MMS\": true, \"fax\": true}}], \"uri\": \"/2010-04-01/Accounts/<TWILIO",
+          "line": 193,
+          "detection_method": "heuristic",
+          "context": [
+            "        \"Chula Vista\", \"region\": \"CA\", \"postal_code\": \"91909\", \"iso_country\": \"US\",",
+            "        \"address_requirements\": \"none\", \"beta\": false, \"capabilities\": {\"voice\": true,",
+            "        \"SMS\": true, \"MMS\": true, \"fax\": true}}], \"uri\": \"/2010-04-01/Accounts/<TWILIO",
+            "        ACCOUNT SID>/AvailablePhoneNumbers/US/Local.json?AreaCode=619\"}'",
+            "    http_version:"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "uri: !ruby/regexp /^https:\\/\\/api\\.twilio\\.com\\/2010-04-01\\/Accounts\\/.*\\/IncomingPhoneNumbers\\.json/",
+          "line": 199,
+          "detection_method": "heuristic",
+          "context": [
+            "- request:",
+            "    method: post",
+            "    uri: !ruby/regexp /^https:\\/\\/api\\.twilio\\.com\\/2010-04-01\\/Accounts\\/.*\\/IncomingPhoneNumbers\\.json/",
+            "    body:",
+            "      encoding: UTF-8"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "- twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)",
+          "line": 205,
+          "detection_method": "heuristic",
+          "context": [
+            "    headers:",
+            "      User-Agent:",
+            "      - twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)",
+            "      Accept-Charset:",
+            "      - utf-8"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "Twilio-Request-Duration:",
+          "line": 238,
+          "detection_method": "heuristic",
+          "context": [
+            "      Strict-Transport-Security:",
+            "      - max-age=15768000",
+            "      Twilio-Request-Duration:",
+            "      - '0.851'",
+            "      Twilio-Request-Id:"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "Twilio-Request-Id:",
+          "line": 240,
+          "detection_method": "heuristic",
+          "context": [
+            "      Twilio-Request-Duration:",
+            "      - '0.851'",
+            "      Twilio-Request-Id:",
+            "      - RQ06c12853216c4a97a40f095f53c12fc6",
+            "      X-Powered-By:"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "string: '{\"sid\": \"PN35e7de5f293f47c5bc3a622cdf19f13d\", \"account_sid\": \"<TWILIO",
+          "line": 252,
+          "detection_method": "heuristic",
+          "context": [
+            "    body:",
+            "      encoding: UTF-8",
+            "      string: '{\"sid\": \"PN35e7de5f293f47c5bc3a622cdf19f13d\", \"account_sid\": \"<TWILIO",
+            "        ACCOUNT SID>\", \"friendly_name\": \"(619) 632-4285\", \"phone_number\": \"+16196324285\",",
+            "        \"voice_url\": null, \"voice_method\": \"POST\", \"voice_fallback_url\": null, \"voice_fallback_method\":"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "null, \"sms_application_sid\": \"\", \"origin\": \"twilio\", \"trunk_sid\": null, \"emergency_status\":",
+          "line": 261,
+          "detection_method": "heuristic",
+          "context": [
+            "        \"sms\": true, \"mms\": true, \"fax\": true}, \"voice_receive_mode\": \"voice\", \"status_callback\":",
+            "        \"\", \"status_callback_method\": \"POST\", \"api_version\": \"2010-04-01\", \"voice_application_sid\":",
+            "        null, \"sms_application_sid\": \"\", \"origin\": \"twilio\", \"trunk_sid\": null, \"emergency_status\":",
+            "        \"Inactive\", \"emergency_address_sid\": null, \"uri\": \"/2010-04-01/Accounts/<TWILIO",
+            "        ACCOUNT SID>/IncomingPhoneNumbers/PN35e7de5f293f47c5bc3a622cdf19f13d.json\"}'"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "\"Inactive\", \"emergency_address_sid\": null, \"uri\": \"/2010-04-01/Accounts/<TWILIO",
+          "line": 262,
+          "detection_method": "heuristic",
+          "context": [
+            "        \"\", \"status_callback_method\": \"POST\", \"api_version\": \"2010-04-01\", \"voice_application_sid\":",
+            "        null, \"sms_application_sid\": \"\", \"origin\": \"twilio\", \"trunk_sid\": null, \"emergency_status\":",
+            "        \"Inactive\", \"emergency_address_sid\": null, \"uri\": \"/2010-04-01/Accounts/<TWILIO",
+            "        ACCOUNT SID>/IncomingPhoneNumbers/PN35e7de5f293f47c5bc3a622cdf19f13d.json\"}'",
+            "    http_version:"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "uri: !ruby/regexp /^https:\\/\\/api\\.twilio\\.com\\/2010-04-01\\/Accounts\\/.*\\/Messages.json/",
+          "line": 268,
+          "detection_method": "heuristic",
+          "context": [
+            "- request:",
+            "    method: post",
+            "    uri: !ruby/regexp /^https:\\/\\/api\\.twilio\\.com\\/2010-04-01\\/Accounts\\/.*\\/Messages.json/",
+            "    body:",
+            "      encoding: UTF-8"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "- twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)",
+          "line": 274,
+          "detection_method": "heuristic",
+          "context": [
+            "    headers:",
+            "      User-Agent:",
+            "      - twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)",
+            "      Accept-Charset:",
+            "      - utf-8"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "Twilio-Request-Duration:",
+          "line": 305,
+          "detection_method": "heuristic",
+          "context": [
+            "      Date:",
+            "      - Thu, 29 Jun 2017 16:52:14 GMT",
+            "      Twilio-Request-Duration:",
+            "      - '0.059'",
+            "      Twilio-Request-Id:"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "Twilio-Request-Id:",
+          "line": 307,
+          "detection_method": "heuristic",
+          "context": [
+            "      Twilio-Request-Duration:",
+            "      - '0.059'",
+            "      Twilio-Request-Id:",
+            "      - RQ5369c5215e13464f91abf582eb6040be",
+            "      X-Powered-By:"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "spec/vcr_cassettes/create_reservation.yml",
+      "language": "yaml",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "uri: !ruby/regexp /^https:\\/\\/api\\.twilio\\.com\\/2010-04-01\\/Accounts\\/.*\\/Messages\\.json/",
+          "line": 5,
+          "detection_method": "heuristic",
+          "context": [
+            "- request:",
+            "    method: post",
+            "    uri: !ruby/regexp /^https:\\/\\/api\\.twilio\\.com\\/2010-04-01\\/Accounts\\/.*\\/Messages\\.json/",
+            "    body:",
+            "      encoding: UTF-8"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "- twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)",
+          "line": 11,
+          "detection_method": "heuristic",
+          "context": [
+            "    headers:",
+            "      User-Agent:",
+            "      - twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)",
+            "      Accept-Charset:",
+            "      - utf-8"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "Twilio-Request-Duration:",
+          "line": 44,
+          "detection_method": "heuristic",
+          "context": [
+            "      Strict-Transport-Security:",
+            "      - max-age=15768000",
+            "      Twilio-Request-Duration:",
+            "      - '0.215'",
+            "      Twilio-Request-Id:"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "Twilio-Request-Id:",
+          "line": 46,
+          "detection_method": "heuristic",
+          "context": [
+            "      Twilio-Request-Duration:",
+            "      - '0.215'",
+            "      Twilio-Request-Id:",
+            "      - RQ338ab140d27d4072b3146ec4533834d4",
+            "      X-Powered-By:"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "\"date_sent\": null, \"account_sid\": \"<TWILIO ACCOUNT SID>\", \"to\": \"+16195551234\",",
+          "line": 60,
+          "detection_method": "heuristic",
+          "context": [
+            "      string: '{\"sid\": \"SM164c4dac645543518ce80cbebe4fe377\", \"date_created\": \"Thu,",
+            "        29 Jun 2017 17:43:38 +0000\", \"date_updated\": \"Thu, 29 Jun 2017 17:43:38 +0000\",",
+            "        \"date_sent\": null, \"account_sid\": \"<TWILIO ACCOUNT SID>\", \"to\": \"+16195551234\",",
+            "        \"from\": \"<TWILIO NUMBER>\", \"messaging_service_sid\": null, \"body\": \"You have",
+            "        a new reservation request from Jardo for Data''s Test Suite:\\n\\n      ''Is"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "\"from\": \"<TWILIO NUMBER>\", \"messaging_service_sid\": null, \"body\": \"You have",
+          "line": 61,
+          "detection_method": "heuristic",
+          "context": [
+            "        29 Jun 2017 17:43:38 +0000\", \"date_updated\": \"Thu, 29 Jun 2017 17:43:38 +0000\",",
+            "        \"date_sent\": null, \"account_sid\": \"<TWILIO ACCOUNT SID>\", \"to\": \"+16195551234\",",
+            "        \"from\": \"<TWILIO NUMBER>\", \"messaging_service_sid\": null, \"body\": \"You have",
+            "        a new reservation request from Jardo for Data''s Test Suite:\\n\\n      ''Is",
+            "        the universe safe there?''\\n\\n      Reply [accept] or [reject].\", \"status\":"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "null, \"error_message\": null, \"uri\": \"/2010-04-01/Accounts/<TWILIO ACCOUNT",
+          "line": 66,
+          "detection_method": "heuristic",
+          "context": [
+            "        \"queued\", \"num_segments\": \"1\", \"num_media\": \"0\", \"direction\": \"outbound-api\",",
+            "        \"api_version\": \"2010-04-01\", \"price\": null, \"price_unit\": \"USD\", \"error_code\":",
+            "        null, \"error_message\": null, \"uri\": \"/2010-04-01/Accounts/<TWILIO ACCOUNT",
+            "        SID>/Messages/SM164c4dac645543518ce80cbebe4fe377.json\", \"subresource_uris\":",
+            "        {\"media\": \"/2010-04-01/Accounts/<TWILIO ACCOUNT SID>/Messages/SM164c4dac645543518ce80cbebe4fe377/Media.json\"}}'"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "{\"media\": \"/2010-04-01/Accounts/<TWILIO ACCOUNT SID>/Messages/SM164c4dac645543518ce80cbebe4fe377/Media.json\"}}'",
+          "line": 68,
+          "detection_method": "heuristic",
+          "context": [
+            "        null, \"error_message\": null, \"uri\": \"/2010-04-01/Accounts/<TWILIO ACCOUNT",
+            "        SID>/Messages/SM164c4dac645543518ce80cbebe4fe377.json\", \"subresource_uris\":",
+            "        {\"media\": \"/2010-04-01/Accounts/<TWILIO ACCOUNT SID>/Messages/SM164c4dac645543518ce80cbebe4fe377/Media.json\"}}'",
+            "  recorded_at: Thu, 29 Jun 2017 17:43:38 GMT",
+            "recorded_with: VCR 6.0.0"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    }
+  ],
+  "env_vars": [
+    "TWILIO_ACCOUNT_SID",
+    "TWILIO_AUTH_TOKEN",
+    "TWILIO_NUMBER",
+    "TWILIO_PHONE_NUMBER"
+  ],
+  "config_files": [
+    "Gemfile",
+    ".env.example"
+  ],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 4,
+    "total_detections": 31,
+    "by_method": {
+      "regex": 6,
+      "heuristic": 24
+    },
+    "by_confidence": {
+      "high": 6,
+      "medium": 24
+    }
+  }
+}

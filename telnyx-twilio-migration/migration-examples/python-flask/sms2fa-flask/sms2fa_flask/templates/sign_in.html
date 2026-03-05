@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Welcome back</h1>
+<p>You never write. You never call. But we're glad you came, regardless! Be a pal and confirm your username and password, would you?</p>
+<div class="container">
+    <form method="POST" action="{{ url_for('sign_in') }}" class="form-horizontal">
+        {{ form.csrf_token }}
+        {{ wtf.form_field(form.email, form_type='horizontal') }}
+        {{ wtf.form_field(form.password, form_type='horizontal') }}
+        <div class='form-group'>
+            <div class='col-sm-offset-2 col-sm-10'>
+                <input type="submit" value="Sign In" class="btn btn-success">
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

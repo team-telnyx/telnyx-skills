@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block hero %}
+
+<div class="hero-text">
+    <h1>Lodging fit for a captain</h1>
+
+    <p>The Next Generation of vacation rentals.</p>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        {% from "_reservationlist.html" import render_reservation_list %}
+
+        {% if reservations_as_host|length > 0 %}
+        <h2> Your current reservations as a Host. </h2>
+        {{ render_reservation_list(reservations_as_host) }}
+        {% endif %}
+
+        </hr>
+
+        {% if reservations_as_guest|length > 0 %}
+        <h2> Your current reservations as a Guest. </h2>
+        {{ render_reservation_list(reservations_as_guest) }}
+        {% endif %}
+
+        {% if reservations_as_guest|length == 0 and reservations_as_host|length == 0 %}
+        <h2> You are not involved in any reservations. </h2>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

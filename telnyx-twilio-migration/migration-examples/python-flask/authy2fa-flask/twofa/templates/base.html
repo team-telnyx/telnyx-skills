@@ -1,0 +1,77 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Two Factor Authentication with Telnyx Verify (Flask){% endblock %}
+
+{% block styles %}
+{{ super() }}
+  <link rel="shortcut icon"
+      href="//telnyx.com/favicon.ico">
+  <link rel="apple-touch-icon"
+      href="//telnyx.com/favicon.ico">
+
+  <!-- CSS Dependencies -->
+  <link rel="stylesheet"
+      href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/flatly/bootstrap.min.css">
+  <link rel="stylesheet"
+      href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- Authy Form Helpers -->
+  <link href="//cdnjs.cloudflare.com/ajax/libs/authy-forms.css/2.2/form.authy.min.css"
+      media="screen" rel="stylesheet" type="text/css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/authy-forms.js/2.2/form.authy.min.js"
+      type="text/javascript"></script>
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+  <!-- App Layout -->
+  <section id="main" class="container">
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-default">
+        <a class="navbar-brand" href="{{ url_for('main.home') }}">2FA with Telnyx</a>
+        <p id="nav-links" class="navbar-text pull-right">
+          {% if session.user_id %}
+            Welcome back!
+            <a id="logout" href="{{ url_for('auth.log_out') }}">Log Out</a>
+          {% else %}
+            <a href="{{ url_for('auth.sign_up') }}">Sign Up</a> |
+            <a href="{{ url_for('auth.log_in') }}">Log In</a>
+          {% endif %}
+        </p>
+    </nav>
+
+    <!-- Any of the app's informational messages will go here -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        <section id="messages">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Main content block -->
+    {% block page_content %}{% endblock %}
+
+  </section>
+
+  <footer class="container">
+      Made with <i class="fa fa-heart"></i> by your pals
+      <a href="http://www.telnyx.com">@telnyx</a>
+  </footer>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+  {% block page_scripts %}{% endblock %}
+{% endblock %}

@@ -1,0 +1,1412 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/account-verification-rails",
+  "scan_time": "2026-03-05T17:56:39Z",
+  "languages_detected": ["ruby"],
+  "products_used": ["messaging"],
+  "files": [
+    {
+      "path": "app/controllers/users_controller.rb",
+      "language": "ruby",
+      "products": ["messaging"],
+      "patterns_matched": ["result = telnyx.messages.create("]
+    }
+  ],
+  "env_vars": [
+    {
+      "name": "TWILIO_ACCOUNT_SID",
+      "files": ["config/initializers/dotenv.rb", ".env", ".env.example", "README.md"]
+    },
+    {
+      "name": "TWILIO_NUMBER",
+      "files": ["config/initializers/dotenv.rb", ".env", ".env.example"]
+    },
+    {
+      "name": "TWILIO_AUTH_TOKEN",
+      "files": ["config/initializers/dotenv.rb", ".env", ".env.example", "README.md"]
+    }
+  ],
+  "config_files": [
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "pip",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pip",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pip",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pip",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pip",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "npm",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "npm",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "npm",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "npm",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "npm",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "npm",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "npm",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "npm",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "npm",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "npm",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "npm",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "npm",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "npm",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "gem",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "gem",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "gem",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "gem",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "gem",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "gem",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "gem",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "gem",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gem",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gem",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gem",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gem",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "gem",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "gomod",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "gomod",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "gomod",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "gomod",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "gomod",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "gomod",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "gomod",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "gomod",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gomod",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gomod",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gomod",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gomod",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "gomod",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "maven",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "maven",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "maven",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "maven",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "maven",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "maven",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "maven",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "maven",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "maven",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "maven",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "maven",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "maven",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "maven",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "gradle",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "gradle",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "gradle",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "gradle",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "gradle",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "gradle",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "gradle",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "gradle",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gradle",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gradle",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gradle",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "gradle",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "gradle",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "composer",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "composer",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "composer",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "composer",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "composer",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "composer",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "composer",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "composer",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "composer",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "composer",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "composer",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "composer",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "composer",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "pipenv",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "pipenv",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "pipenv",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "pipenv",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "pipenv",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "pipenv",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "pipenv",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "pipenv",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pipenv",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pipenv",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pipenv",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pipenv",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pipenv",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "setuptools",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "setuptools",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "setuptools",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "setuptools",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "setuptools",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "setuptools",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "setuptools",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "setuptools",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "setuptools",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "setuptools",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "pyproject",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "pyproject",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "pyproject",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "pyproject",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "pyproject",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "pyproject",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "pyproject",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "pyproject",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pyproject",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pyproject",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pyproject",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pyproject",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pyproject",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "pip",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pip",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pip",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pip",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pip",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "cocoapods",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "cocoapods",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "cocoapods",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "cocoapods",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "cocoapods",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "cocoapods",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "cocoapods",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "cocoapods",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "cocoapods",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "cocoapods",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "cocoapods",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "cocoapods",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "cocoapods",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "pub",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a></footer>"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "pub",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": ".env.example",
+      "type": "pub",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "pub",
+      "line": "TWILIO_ACCOUNT_SID=your_twilio_account_SID"
+    },
+    {
+      "path": ".env.example",
+      "type": "pub",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "pub",
+      "line": "TWILIO_AUTH_TOKEN=your_twilio_auth_token"
+    },
+    {
+      "path": ".env.example",
+      "type": "pub",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "pub",
+      "line": "TWILIO_NUMBER=your_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<a  href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "Please visit the [Verify Quickstarts Page](https://www.twilio.com/docs/verify/quickstarts) to get started with the Verify API. Thank you!"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/account-verification/ruby/rails)"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pub",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\""
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pub",
+      "line": "Tweet to us <a href=\"http://twitter.com/twilio\">@twilio</a> if you have"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pub",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/walkthrough/<%= slug %>/<%= language %>/<%= framework %>\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "pub",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pub",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "nuget",
+      "line": "<p>This demo application will show you how to implement user account verification with Twilio-powered <%= link_to \"Authy\", \"http://authy.com\" %> (powered by <%= link_to \"Twilio\", \"http://twilio.com\" %>) in Ruby on Rails."
+    },
+    {
+      "path": "LICENSE",
+      "type": "nuget",
+      "line": "Copyright (c) 2021 Twilio Inc"
+    },
+    {
+      "path": ".env.example",
+      "type": "nuget",
+      "line": "# Your Twilio Account SID. Get a free account at twilio.com/try-twilio"
+    },
+    {
+      "path": ".env.example",
+      "type": "nuget",
+      "line": "# Your Twilio Auth Token. You can get it at twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "nuget",
+      "line": "# Your Twilio Number. Get it at https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "type": "nuget",
+      "line": "# Contributing to Twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "<img  src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\"  alt=\"Twilio\"  width=\"250\"  />"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "![](https://github.com/TwilioDevEd/account-verification-rails/actions/workflows/build.yml/badge.svg)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "$ git clone git://github.com/TwilioDevEd/account-verification-rails.git"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console/account/settings)."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "* Lovingly crafted by Twilio Developer Education."
+    },
+    {
+      "path": "public/landing.html",
+      "type": "nuget",
+      "line": "'repo': 'TwilioDevEd/account-verification-rails',"
+    }
+  ],
+  "twiml_files": [],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": "app/views/layouts/application.html.erb",
+      "type": "env"
+    },
+    {
+      "path": "app/views/main/index.html.erb",
+      "type": "env"
+    },
+    {
+      "path": "config/initializers/dotenv.rb",
+      "type": "env"
+    },
+    {
+      "path": ".env",
+      "type": "env"
+    },
+    {
+      "path": "LICENSE",
+      "type": "env"
+    },
+    {
+      "path": ".env.example",
+      "type": "env"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    },
+    {
+      "path": "public/landing.html",
+      "type": "env"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 1,
+    "total_products": 1,
+    "total_languages": 1,
+    "has_webhook_validation": false,
+    "has_twiml": false,
+    "has_env_vars": true,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

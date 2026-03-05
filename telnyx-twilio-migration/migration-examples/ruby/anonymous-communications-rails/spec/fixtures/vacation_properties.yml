@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  description: Data's Test Suite
+  image_url: http://example.com/starship.png
+  user_id: 1
+
+two:
+  id: 2
+  description: Picard's Assertion
+  image_url: http://example.com/picard.jpg
+  user_id: 2

@@ -1,0 +1,866 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/authy2fa-flask",
+  "scan_time": "2026-03-05T06:26:55Z",
+  "languages_detected": [],
+  "products_used": [],
+  "files": [
+  ],
+  "env_vars": [
+  ],
+  "config_files": [
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pip",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pip",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "npm",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "npm",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "gem",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "gem",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "gomod",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "gomod",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "maven",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "maven",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "gradle",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "gradle",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "composer",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "composer",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pipenv",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pipenv",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "setuptools",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "setuptools",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "setuptools",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "setuptools",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pyproject",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pyproject",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pip",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pip",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "cocoapods",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "cocoapods",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/authy2fa-flask` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pub",
+      "line": "\"scan_file\": \"twilio-scan.json\","
+    },
+    {
+      "path": "migration-state.json",
+      "type": "pub",
+      "line": "\"kept_on_twilio\": {"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "> Generated by the Telnyx Twilio Migration Skill"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- Telnyx uses `response_code === 'accepted'` (not Twilio's `status === 'approved'`)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| No residual Twilio imports | PASS | |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| No Twilio API URLs | PASS | |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| No Twilio env vars | PASS | |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "> This section documents products kept on Twilio/Authy"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- Removed Twilio branding references"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "> Generated by the Telnyx Twilio Migration Skill"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Products in Use | Authy/Verify |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Product | Telnyx Replacement | Files Affected | Complexity | Notes |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "### Products Kept on Twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Variable | Current (Twilio) | New (Telnyx) | Notes |"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"authy_user_id, 'Request to log in to Twilio demo app', details=details\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"        authy_user_id, 'Request to log in to Twilio demo app', details=details\","
+    },
+    {
+      "path": "LICENSE",
+      "type": "nuget",
+      "line": "Copyright (c) 2021 Twilio Inc"
+    },
+    {
+      "path": "app.json",
+      "type": "nuget",
+      "line": "\"repository\": \"https://github.com/TwilioDevEd/authy2fa-flask\","
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[![Flask](https://github.com/TwilioDevEd/authy2fa-flask/workflows/Flask/badge.svg)](https://github.com/TwilioDevEd/authy2fa-flask)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "This app has been migrated from Twilio Authy to a hybrid deployment:"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "The migration used the [Telnyx Twilio Migration Skill](https://github.com/team-telnyx/telnyx-twilio-migration) - see `MIGRATION-PLAN.md` and `MIGRATION-REPORT.md` for details."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "* Originally crafted by Twilio Developer Education, migrated to Telnyx."
+    }
+  ],
+  "twiml_files": [],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "env"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "env"
+    },
+    {
+      "path": "migration-state.json",
+      "type": "env"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "env"
+    },
+    {
+      "path": "LICENSE",
+      "type": "env"
+    },
+    {
+      "path": "app.json",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 0,
+    "total_products": 0,
+    "total_languages": 0,
+    "has_webhook_validation": false,
+    "has_twiml": false,
+    "has_env_vars": false,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

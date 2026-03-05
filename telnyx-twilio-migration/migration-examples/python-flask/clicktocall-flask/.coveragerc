@@ -1,0 +1,5 @@
+[run]
+source = clicktocall 
+[report]
+omit =
+    */python?.?/*

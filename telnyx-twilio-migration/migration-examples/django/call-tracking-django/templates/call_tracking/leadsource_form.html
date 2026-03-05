@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load bootstrap_tags %}
+{% load static %}
+
+{% block title %}Edit lead source{% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-9">
+      <div class="page-header">
+        <h1>Edit lead source for {{ object.incoming_number.as_national }}</h1>
+      </div>
+
+      <form class="form-horizontal" method="post">
+        {% csrf_token %}
+        {{ form|as_bootstrap_horizontal }}
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <a href="{% url 'home' %}" class="btn btn-default">Cancel</a>
+            <button type="submit" class="btn btn-primary">Update lead source</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block nav_bg %}
+<!-- Nav Bar -->
+<nav class="navbar navbar-space"></nav>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Signup for Airtng</h1>
+    <form method="POST" role="form">
+        {% from "_formhelpers.html" import render_errors, render_field %}
+        {{ form.csrf_token }}
+        {{ render_errors(form) }}
+        <hr/>
+
+        {{ render_field(form.name, placeholder='Jean-Luc Picard') }}
+        {{ render_field(form.email, placeholder='picard@ncc1701.com') }}
+        {{ render_field(form.password) }}
+        {{ render_field(form.country_code, id="authy-countries" ) }}
+        {{ render_field(form.phone_number , type='number') }}
+
+        <button type="submit" class="btn btn-primary">Sign up</button>
+    </form>
+
+</div>
+
+{% endblock %}

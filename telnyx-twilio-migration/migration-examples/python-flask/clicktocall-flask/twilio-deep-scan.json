@@ -1,0 +1,352 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/clicktocall-flask",
+  "scan_time": "2026-03-05T06:56:48.222173+00:00",
+  "languages_detected": [
+    "python"
+  ],
+  "products_used": [
+    "general",
+    "voice"
+  ],
+  "files": [
+    {
+      "path": "requirements.txt",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "twilio==6.38.0",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "Flask==1.1.2",
+            "tox==3.14.6",
+            "twilio==6.38.0",
+            "python-dotenv==0.12.0"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": ".env.example",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "# Twilio API credentials",
+            "# Found at https://www.twilio.com/console",
+            "TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "TWILIO_AUTH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            ""
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "TWILIO_AUTH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "# Found at https://www.twilio.com/console",
+            "TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "TWILIO_AUTH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "",
+            "# Get your number at"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "TWILIO_CALLER_ID=you_twilio_number",
+          "line": 8,
+          "detection_method": "regex",
+          "context": [
+            "# Get your number at",
+            "# https://www.twilio.com/console/phone-numbers/incoming",
+            "TWILIO_CALLER_ID=you_twilio_number"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "TWILIO_CALLER_ID=you_twilio_number",
+          "line": 8,
+          "detection_method": "regex",
+          "context": [
+            "# Get your number at",
+            "# https://www.twilio.com/console/phone-numbers/incoming",
+            "TWILIO_CALLER_ID=you_twilio_number"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "setup.py",
+      "language": "python",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "author_email='deved@twilio.com',",
+          "line": 7,
+          "detection_method": "regex",
+          "context": [
+            "      version='1.0',",
+            "      author='Rob Spectre',",
+            "      author_email='deved@twilio.com',",
+            "      description='A sample Flask project that implements click to call '",
+            "                  'using Twilio.',"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "'using Twilio.',",
+          "line": 9,
+          "detection_method": "regex",
+          "context": [
+            "      author_email='deved@twilio.com',",
+            "      description='A sample Flask project that implements click to call '",
+            "                  'using Twilio.',",
+            "      include_package_data=True,",
+            "      zip_safe=False,"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "'twilio>=6.0.0rc12',",
+          "line": 16,
+          "detection_method": "regex",
+          "context": [
+            "      install_requires=[",
+            "          'flask>=0.10',",
+            "          'twilio>=6.0.0rc12',",
+            "          'tox>=1.7'",
+            "      ])"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "language": "python",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\",
+          "line": 10,
+          "detection_method": "regex",
+          "context": [
+            "app.config['TWILIO_CALLER_ID'] = '+15558675309'",
+            "",
+            "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\",
+            "           \"{0}\".format(app.config['TWILIO_ACCOUNT_SID'])",
+            "AUTH = (app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN'])"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501",
+          "line": 75,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "    def test_call(self):",
+            "        with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501",
+            "            response = self.app.post('/call',",
+            "                                     data={'phoneNumber': '+15556667777'})"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501",
+          "line": 89,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "    def test_failed_call(self):",
+            "        with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501",
+            "            mock.side_effect = Exception('test error')",
+            "            response = self.app.post('/call',"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "\"find error for Twilio client response: \"",
+          "line": 97,
+          "detection_method": "regex",
+          "context": [
+            "        self.assertEqual(\"400 BAD REQUEST\", response.status)",
+            "        self.assertTrue(b\"error\" in response.data, \"Could not \"",
+            "                        \"find error for Twilio client response: \"",
+            "                        \"{0}\".format(response.data))",
+            ""
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "\"find error for missing Twilio credentials: \"",
+          "line": 112,
+          "detection_method": "regex",
+          "context": [
+            "        self.assertEqual(\"400 BAD REQUEST\", response.status)",
+            "        self.assertTrue(b\"Missing\" in response.data, \"Could not \"",
+            "                        \"find error for missing Twilio credentials: \"",
+            "                        \"{0}\".format(response.data))"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "clicktocall/local_settings.py",
+      "language": "python",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "os.environ.get('TWILIO_ACCOUNT_SID', None)",
+          "line": 7,
+          "detection_method": "ast",
+          "context": [
+            "'''",
+            "",
+            "TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', None)",
+            "TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', None)",
+            "TWILIO_CALLER_ID = os.environ.get('TWILIO_CALLER_ID', None)"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "os.environ.get('TWILIO_AUTH_TOKEN', None)",
+          "line": 8,
+          "detection_method": "ast",
+          "context": [
+            "",
+            "TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', None)",
+            "TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', None)",
+            "TWILIO_CALLER_ID = os.environ.get('TWILIO_CALLER_ID', None)"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "clicktocall/app.py",
+      "language": "python",
+      "products": [
+        "voice",
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "from twilio.twiml.voice_response import VoiceResponse",
+          "line": 7,
+          "detection_method": "ast",
+          "context": [
+            "from flask import url_for",
+            "",
+            "from twilio.twiml.voice_response import VoiceResponse",
+            "from twilio.rest import Client",
+            ""
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "from twilio.rest import Client",
+          "line": 8,
+          "detection_method": "ast",
+          "context": [
+            "",
+            "from twilio.twiml.voice_response import VoiceResponse",
+            "from twilio.rest import Client",
+            "",
+            "# Declare and configure application"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "VoiceResponse",
+          "line": 54,
+          "detection_method": "ast",
+          "context": [
+            "@app.route('/outbound', methods=['POST'])",
+            "def outbound():",
+            "    response = VoiceResponse()",
+            "",
+            "    response.say(\"Thank you for contacting our sales department. If this \""
+          ],
+          "confidence": "high",
+          "product": "voice"
+        },
+        {
+          "pattern": "twilio_client.calls.create",
+          "line": 40,
+          "detection_method": "ast",
+          "context": [
+            "",
+            "    try:",
+            "        res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],",
+            "                                   to=phone_number,",
+            "                                   url=url_for('.outbound',"
+          ],
+          "confidence": "high",
+          "product": "voice"
+        }
+      ]
+    }
+  ],
+  "env_vars": [
+    "TWILIO_ACCOUNT_SID",
+    "TWILIO_AUTH_TOKEN",
+    "TWILIO_CALLER_ID",
+    "TWILIO_NUMBER"
+  ],
+  "config_files": [
+    "requirements.txt",
+    ".env.example"
+  ],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 6,
+    "total_detections": 19,
+    "by_method": {
+      "ast": 6,
+      "regex": 12
+    },
+    "by_confidence": {
+      "high": 10,
+      "medium": 8
+    }
+  }
+}

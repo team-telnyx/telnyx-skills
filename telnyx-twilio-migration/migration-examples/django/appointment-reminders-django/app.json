@@ -1,0 +1,41 @@
+{
+  "name": "Appointment Reminders (Django)",
+  "description": "Appointment Reminders in Django with Telnyx",
+  "repository": "https://github.com/TwilioDevEd/appointment-reminders-django",
+  "keywords": [
+    "sms", "phone", "telnyx", "appointment reminders", "automation", "django", "dramatiq"
+  ],
+  "addons": [
+    "redistogo:nano"
+  ],
+  "env": {
+    "TELNYX_API_KEY": {
+      "description": "Your Telnyx API Key, you can find at: https://portal.telnyx.com/#/app/api-keys",
+      "value": "enter_your_api_key_here",
+      "required": true
+    },
+    "TELNYX_PHONE_NUMBER": {
+      "description": "The Telnyx phone number you are using for this app. You can get one here: https://portal.telnyx.com/#/app/numbers",
+      "value": "+15005550006",
+      "required": true
+    },
+    "TELNYX_MESSAGING_PROFILE_ID": {
+      "description": "Your Telnyx Messaging Profile ID, you can create one at: https://portal.telnyx.com/#/app/messaging",
+      "value": "enter_your_messaging_profile_id_here",
+      "required": true
+    },
+    "DJANGO_SETTINGS_MODULE": {
+      "description": "Instructs our app to use the production settings module",
+      "value": "appointments.settings.production",
+      "required": true
+    },
+    "DJANGO_SECRET_KEY": {
+      "description": "A unique, unpredictable key for your Django app",
+      "generator": "secret"
+    }
+  },
+  "scripts": {
+    "postdeploy": "python manage.py migrate"
+  },
+  "success_url": "/"
+}

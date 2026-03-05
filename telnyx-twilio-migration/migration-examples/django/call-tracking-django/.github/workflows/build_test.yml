@@ -1,0 +1,56 @@
+name: Build and test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.6, 3.7]
+        platform: [ubuntu-latest]
+
+    services:
+      postgres:
+        image: postgres:12.7
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: call_tracking
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install coveralls
+    - name: Run Tests
+      run: |
+        coverage run manage.py test --settings=twilio_sample_project.settings.ci
+      env:
+        TELNYX_API_KEY: ${{ secrets.TELNYX_API_KEY }}
+        TELNYX_CONNECTION_ID: ${{ secrets.TELNYX_CONNECTION_ID }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+    - name: Coveralls
+      run: coveralls --service=github
+      env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

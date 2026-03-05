@@ -1,0 +1,23 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: phonenumbers
+    versions:
+    - 8.12.17
+    - 8.12.18
+    - 8.12.19
+    - 8.12.20
+  - dependency-name: coverage
+    versions:
+    - "5.4"
+  - dependency-name: django-bootstrap3
+    versions:
+    - 14.2.0
+  - dependency-name: django-phonenumber-field
+    versions:
+    - 5.0.0

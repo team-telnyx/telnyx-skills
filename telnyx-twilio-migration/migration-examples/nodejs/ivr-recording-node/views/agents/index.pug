@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  h1 Agents and Recordings
+  each agent in agents
+    h2= agent.extension
+    if agent.recordings.length !== 0
+      table.table
+        thead
+          tr
+            th Caller number
+            th Transcription
+            th Recording
+        tbody
+          each recording in agent.recordings
+            tr
+              td= recording.phoneNumber
+              td= recording.transcription
+              td
+                audio(controls='')
+                  source(src=recording.url)
+                  This browser doesn't support the audio element.
+
+    else
+      p No Recordings

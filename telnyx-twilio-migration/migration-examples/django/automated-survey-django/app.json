@@ -1,0 +1,30 @@
+{
+    "name": "Automated surveys with Django",
+    "description": "Perform automated phone surveys with Twilio, TwiML, Python and Django",
+    "keywords": [
+        "twilio",
+        "surveys",
+        "django",
+        "python"
+    ],
+    "scripts": {
+        "postdeploy": "python manage.py migrate"
+    },
+    "addons": ["heroku-postgresql:hobby-dev"]
+    ,
+    "env": {
+        "SECRET_KEY": {
+            "description": "App key for Django",
+            "generator": "secret"
+        },
+        "DJANGO_SETTINGS_MODULE": {
+            "description": "Instructs our app to use the production settings module",
+            "value": "twilio_sample_project.settings.production",
+            "required": true
+        }
+    },
+    "website": "https://github.com/TwilioDevEd/automated-survey-django",
+    "repository": "https://github.com/TwilioDevEd/automated-survey-django",
+    "logo": "https://s3.amazonaws.com/howtodocs/twilio-logo.png",
+    "success_url": "/"
+}

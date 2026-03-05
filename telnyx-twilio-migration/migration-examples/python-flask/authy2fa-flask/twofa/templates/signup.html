@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<h1>We're Going To Be *BEST* Friends</h1>
+<p>
+    Thanks for your interest in signing up! Can you tell us a bit about
+    yourself?
+</p>
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    {% from "_formhelpers.html" import render_errors, render_field %}
+
+    {{ render_errors(form) }}
+
+    {{ render_field(form.name, placeholder='Malcolm Reynolds') }}
+    {{ render_field(form.email, placeholder='you@example.com') }}
+    {{ render_field(form.password) }}
+    {{ render_field(form.country_code) }}
+    {{ render_field(form.phone_number) }}
+
+    <input type="submit" class="btn btn-primary btn-lg" value="Sign up">
+</form>
+{% endblock %}

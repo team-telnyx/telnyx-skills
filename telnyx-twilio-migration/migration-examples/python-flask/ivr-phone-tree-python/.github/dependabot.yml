@@ -1,0 +1,20 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: pytz
+    versions:
+    - "2020.5"
+  - dependency-name: pbr
+    versions:
+    - 5.5.1
+  - dependency-name: httplib2
+    versions:
+    - 0.18.0
+  - dependency-name: jinja2
+    versions:
+    - 2.10.1

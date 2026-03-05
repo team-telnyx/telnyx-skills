@@ -1,0 +1,70 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: !ruby/regexp /^https:\/\/api\.twilio\.com\/2010-04-01\/Accounts\/.*\/Messages\.json/
+    body:
+      encoding: UTF-8
+      string: Body=You+have+a+new+reservation+request+from+Jardo+for+Data%27s+Test+Suite%3A%0A%0A++++++%27Is+the+universe+safe+there%3F%27%0A%0A++++++Reply+%5Baccept%5D+or+%5Breject%5D.&From=%2B14049476065&To=%2B16195551234
+    headers:
+      User-Agent:
+      - twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)
+      Accept-Charset:
+      - utf-8
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept:
+      - application/json
+      Authorization:
+      - Basic QUM3NzE5NTg3ZGasdfsdfasdfdsxYzk5Y2YxNGQ0OTVkYTM0NTowOWVjZTRjafasdfasdfsdafM4MTU4ZA==
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 201
+      message: CREATED
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Accept, Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match,
+        If-Unmodified-Since
+      Access-Control-Allow-Methods:
+      - GET, POST, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - ETag
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 29 Jun 2017 17:43:38 GMT
+      Strict-Transport-Security:
+      - max-age=15768000
+      Twilio-Request-Duration:
+      - '0.215'
+      Twilio-Request-Id:
+      - RQ338ab140d27d4072b3146ec4533834d4
+      X-Powered-By:
+      - AT-5000
+      X-Shenanigans:
+      - none
+      Content-Length:
+      - '908'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"sid": "SM164c4dac645543518ce80cbebe4fe377", "date_created": "Thu,
+        29 Jun 2017 17:43:38 +0000", "date_updated": "Thu, 29 Jun 2017 17:43:38 +0000",
+        "date_sent": null, "account_sid": "<TWILIO ACCOUNT SID>", "to": "+16195551234",
+        "from": "<TWILIO NUMBER>", "messaging_service_sid": null, "body": "You have
+        a new reservation request from Jardo for Data''s Test Suite:\n\n      ''Is
+        the universe safe there?''\n\n      Reply [accept] or [reject].", "status":
+        "queued", "num_segments": "1", "num_media": "0", "direction": "outbound-api",
+        "api_version": "2010-04-01", "price": null, "price_unit": "USD", "error_code":
+        null, "error_message": null, "uri": "/2010-04-01/Accounts/<TWILIO ACCOUNT
+        SID>/Messages/SM164c4dac645543518ce80cbebe4fe377.json", "subresource_uris":
+        {"media": "/2010-04-01/Accounts/<TWILIO ACCOUNT SID>/Messages/SM164c4dac645543518ce80cbebe4fe377/Media.json"}}'
+  recorded_at: Thu, 29 Jun 2017 17:43:38 GMT
+recorded_with: VCR 6.0.0

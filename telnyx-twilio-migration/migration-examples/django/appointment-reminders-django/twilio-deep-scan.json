@@ -1,0 +1,18 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/appointment-reminders-django",
+  "scan_time": "2026-03-05T06:27:00.377766+00:00",
+  "languages_detected": [],
+  "products_used": [],
+  "files": [],
+  "env_vars": [],
+  "config_files": [],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 0,
+    "total_detections": 0,
+    "by_method": {},
+    "by_confidence": {}
+  }
+}

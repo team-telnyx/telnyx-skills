@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<h1>{{ user.full_name }}</h1>
+<table>
+    <tr>
+        <th>E-Mail</th>
+        <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+        <th>Phone</th>
+        <td>{{ user.phone }}</td>
+    </tr>
+</table>
+{% endblock %}

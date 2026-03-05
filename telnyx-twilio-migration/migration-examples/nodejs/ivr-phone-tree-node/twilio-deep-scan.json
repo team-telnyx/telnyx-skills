@@ -1,0 +1,44 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node",
+  "scan_time": "2026-03-05T06:22:12.593176+00:00",
+  "languages_detected": [],
+  "products_used": [],
+  "files": [
+    {
+      "path": "package.json",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "\"url\": \"https://github.com/TwilioDevEd/ivr-phone-tree-node\"",
+          "line": 16,
+          "detection_method": "regex",
+          "context": [
+            "  \"repository\": {",
+            "    \"type\": \"git\",",
+            "    \"url\": \"https://github.com/TwilioDevEd/ivr-phone-tree-node\"",
+            "  },",
+            "  \"keywords\": ["
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    }
+  ],
+  "env_vars": [],
+  "config_files": [
+    "package.json"
+  ],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 1,
+    "total_detections": 1,
+    "by_method": {},
+    "by_confidence": {}
+  }
+}

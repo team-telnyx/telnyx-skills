@@ -1,0 +1,2296 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/clicktocall-flask",
+  "scan_time": "2026-03-05T06:56:43Z",
+  "languages_detected": ["python"],
+  "products_used": ["voice"],
+  "files": [
+    {
+      "path": "clicktocall/app.py",
+      "language": "python",
+      "products": ["voice"],
+      "patterns_matched": ["from twilio.twiml.voice_response import VoiceResponse", "from twilio.rest import Client", "response = VoiceResponse()", "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"]
+    },
+    {
+      "path": "setup.py",
+      "language": "python",
+      "products": [],
+      "patterns_matched": ["'using Twilio.',"]
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "language": "python",
+      "products": [],
+      "patterns_matched": ["BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"]
+    }
+  ],
+  "env_vars": [
+    {
+      "name": "TWILIO_ACCOUNT_SID",
+      "files": [".github/workflows/flask.yml", "tests/test_twilio.py", "clicktocall/local_settings.py", "clicktocall/app.py", ".env.example", "README.md"]
+    },
+    {
+      "name": "TWILIO_AUTH_TOKEN",
+      "files": [".github/workflows/flask.yml", "tests/test_twilio.py", "clicktocall/local_settings.py", "clicktocall/app.py", ".env.example", "README.md"]
+    }
+  ],
+  "config_files": [
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "pip",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pip",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pip",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pip",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pip",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pip",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pip",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pip",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pip",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pip",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pip",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pip",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "pip",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "pip",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pip",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "npm",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "npm",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "npm",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "npm",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "npm",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "npm",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "npm",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "npm",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "npm",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "npm",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "npm",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "npm",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "npm",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "npm",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "npm",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "npm",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "npm",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "npm",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "npm",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "npm",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "gem",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gem",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gem",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gem",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gem",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "gem",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gem",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gem",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gem",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gem",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gem",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gem",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gem",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gem",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "gem",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "gem",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "gem",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "gem",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "gem",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "gem",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "gomod",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gomod",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gomod",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gomod",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gomod",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "gomod",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gomod",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gomod",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gomod",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gomod",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gomod",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gomod",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gomod",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gomod",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "gomod",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "gomod",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "gomod",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "gomod",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "gomod",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "gomod",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "maven",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "maven",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "maven",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "maven",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "maven",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "maven",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "maven",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "maven",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "maven",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "maven",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "maven",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "maven",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "maven",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "maven",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "maven",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "maven",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "maven",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "maven",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "maven",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "maven",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "gradle",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gradle",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gradle",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gradle",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "gradle",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "gradle",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gradle",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gradle",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gradle",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "gradle",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gradle",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gradle",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gradle",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "gradle",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "gradle",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "gradle",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "gradle",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "gradle",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "gradle",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "gradle",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "composer",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "composer",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "composer",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "composer",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "composer",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "composer",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "composer",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "composer",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "composer",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "composer",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "composer",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "composer",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "composer",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "composer",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "composer",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "composer",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "composer",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "composer",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "composer",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "composer",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "pipenv",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pipenv",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pipenv",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pipenv",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pipenv",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pipenv",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pipenv",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pipenv",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pipenv",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pipenv",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pipenv",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pipenv",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pipenv",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pipenv",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "pipenv",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "pipenv",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "pipenv",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "pipenv",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "pipenv",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pipenv",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "setuptools",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "setuptools",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "setuptools",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "setuptools",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "setuptools",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "setuptools",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "setuptools",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "setuptools",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "setuptools",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "setuptools",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "setuptools",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "setuptools",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "setuptools",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "setuptools",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "setuptools",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "setuptools",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "setuptools",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "setuptools",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "setuptools",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "setuptools",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "setuptools",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "setuptools",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "setuptools",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "setuptools",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "setuptools",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "setuptools",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "setuptools",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "setuptools",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "setuptools",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "setuptools",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "pyproject",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pyproject",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pyproject",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pyproject",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pyproject",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pyproject",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pyproject",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pyproject",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pyproject",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pyproject",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pyproject",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pyproject",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pyproject",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pyproject",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "pyproject",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "pyproject",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "pyproject",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "pyproject",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "pyproject",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pyproject",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "pip",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pip",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pip",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pip",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pip",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pip",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pip",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pip",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pip",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pip",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pip",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pip",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "pip",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "pip",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pip",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "cocoapods",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "cocoapods",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "cocoapods",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "cocoapods",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "cocoapods",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "cocoapods",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "cocoapods",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "cocoapods",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "cocoapods",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "cocoapods",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "cocoapods",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "cocoapods",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "cocoapods",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "cocoapods",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "cocoapods",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "cocoapods",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "cocoapods",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "cocoapods",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "cocoapods",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "cocoapods",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "pub",
+      "line": "TWILIO_CALLER_ID: twilio_number"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pub",
+      "line": "BASE_URI = \"https://api.twilio.com/2010-04-01/Accounts/\" \\"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pub",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pub",
+      "line": "with patch('twilio.rest.api.v2010.account.call.CallList.create') as mock:  # noqa: E501"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "pub",
+      "line": "def test_call_without_twilio_credentials(self):"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pub",
+      "line": "twilio==6.38.0"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pub",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pub",
+      "line": "from twilio.rest import Client"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pub",
+      "line": "twilio_client = Client(app.config['TWILIO_ACCOUNT_SID'],"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "pub",
+      "line": "res = twilio_client.calls.create(from_=app.config['TWILIO_CALLER_ID'],"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pub",
+      "line": "Congratulations! You've just deployed the <a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pub",
+      "line": "<a href=\"mailto:help@twilio.com\">Let us know</a> if you have"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pub",
+      "line": "<th><a href=\"http://www.twilio.com/docs/howto/click-to-call-walkthrough#python/flask/1\" target=\"_blank\">Back To Tutorial</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "pub",
+      "line": "<a href=\"http://www.twilio.com\" target=\"_blank\">"
+    },
+    {
+      "path": ".env.example",
+      "type": "pub",
+      "line": "# Found at https://www.twilio.com/console"
+    },
+    {
+      "path": ".env.example",
+      "type": "pub",
+      "line": "# https://www.twilio.com/console/phone-numbers/incoming"
+    },
+    {
+      "path": ".env.example",
+      "type": "pub",
+      "line": "TWILIO_CALLER_ID=you_twilio_number"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| TWILIO_AUTH_TOKEN   | Used to authenticate - just like the above, you'll find this [here](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[here](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html) for more details. This step"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "- The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[twilio]: https://www.twilio.com"
+    },
+    {
+      "path": "setup.py",
+      "type": "pub",
+      "line": "author_email='deved@twilio.com',"
+    },
+    {
+      "path": "setup.py",
+      "type": "pub",
+      "line": "'twilio>=6.0.0rc12',"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "pub",
+      "line": "reported by contacting the project team at open-source@twilio.com. All"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "nuget",
+      "line": "\"find error for Twilio client response: \""
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "nuget",
+      "line": "\"find error for missing Twilio credentials: \""
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "nuget",
+      "line": "<th><a href=\"https://github.com/TwilioDevEd/clicktocall-flask\" target=\"_blank\">Source Code</a></th>"
+    },
+    {
+      "path": "clicktocall/templates/index.html",
+      "type": "nuget",
+      "line": "<title>Twilio Click to Call using Flask</title>"
+    },
+    {
+      "path": "LICENSE",
+      "type": "nuget",
+      "line": "Copyright (c) 2020 Twilio Inc."
+    },
+    {
+      "path": ".env.example",
+      "type": "nuget",
+      "line": "# Twilio API credentials"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "type": "nuget",
+      "line": "# Contributing to Twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "### Twilio Account Settings"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "| TWILIO_ACCOUNT_SID  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console/project/settings).|"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "| TWILIO_CALLER_ID | A Twilio phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164) - you can [get one here](https://www.twilio.com/console/phone-numbers/incoming) |"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "git clone https://github.com/TwilioDevEd/clicktocall-flask.git"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "4. Follow the steps in [Local Development](#local-development) on how to expose your port to Twilio using a tool like [ngrok](https://ngrok.com/) and configure the remaining parts of your application."
+    },
+    {
+      "path": "setup.py",
+      "type": "nuget",
+      "line": "'using Twilio.',"
+    }
+  ],
+  "twiml_files": [],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+    {
+      "url": "api.twilio.com",
+      "files": ["tests/test_twilio.py"]
+    }
+  ],
+  "deploy_files": [
+    {
+      "path": ".github/workflows/flask.yml",
+      "type": "env"
+    },
+    {
+      "path": "tests/test_twilio.py",
+      "type": "env"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "env"
+    },
+    {
+      "path": "clicktocall/local_settings.py",
+      "type": "env"
+    },
+    {
+      "path": "clicktocall/app.py",
+      "type": "env"
+    },
+    {
+      "path": "clicktocall/templates/landing.html",
+      "type": "env"
+    },
+    {
+      "path": "clicktocall/templates/index.html",
+      "type": "env"
+    },
+    {
+      "path": "LICENSE",
+      "type": "env"
+    },
+    {
+      "path": ".env.example",
+      "type": "env"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    },
+    {
+      "path": "setup.py",
+      "type": "env"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 3,
+    "total_products": 1,
+    "total_languages": 1,
+    "has_webhook_validation": false,
+    "has_twiml": false,
+    "has_env_vars": true,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

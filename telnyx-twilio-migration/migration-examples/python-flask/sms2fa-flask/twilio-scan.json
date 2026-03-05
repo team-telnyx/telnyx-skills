@@ -1,0 +1,1365 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/sms2fa-flask",
+  "scan_time": "2026-03-05T06:22:47Z",
+  "languages_detected": [],
+  "products_used": [],
+  "files": [
+  ],
+  "env_vars": [
+    {
+      "name": "TWILIO_ACCOUNT_SID",
+      "files": ["MIGRATION-PLAN.md", "twilio-deep-scan.json", "README.md"]
+    },
+    {
+      "name": "TWILIO_NUMBER",
+      "files": ["MIGRATION-PLAN.md", "twilio-deep-scan.json", "README.md"]
+    },
+    {
+      "name": "TWILIO_AUTH_TOKEN",
+      "files": ["MIGRATION-PLAN.md", "twilio-deep-scan.json", "README.md"]
+    }
+  ],
+  "config_files": [
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pip",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "pip",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "pip",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "npm",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "npm",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "npm",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "gem",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "gem",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "gem",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "gomod",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "gomod",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "gomod",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "maven",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "maven",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "maven",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "gradle",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "gradle",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "gradle",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "composer",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "composer",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "composer",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pipenv",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "pipenv",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "pipenv",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "setuptools",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "setuptools",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "setuptools",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "setuptools",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "setuptools",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "setuptools",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pyproject",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "pyproject",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "pyproject",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pip",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "pip",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "pip",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "cocoapods",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "cocoapods",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "cocoapods",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pub",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "- `requirements.txt` - twilio==6.9.0 dependency"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "- Remove: `twilio==6.9.0`"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "pub",
+      "line": "Made with <i class=\"fa fa-heart\"></i> by your pals <a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "pub",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/sms2fa-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"twilio==6.9.0\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"twilio==6.9.0\","
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "You can grab the appropriate description from https://www.twilio.com/docs/tutorials."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "You will also need a `TWILIO_NUMBER`, which you may find [here](https://www.twilio.com/console/phone-numbers/incoming)."
+    },
+    {
+      "path": "requirements.txt",
+      "type": "nuget",
+      "line": "# Telnyx SDK (migrated from Twilio)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "# Migration Plan: Twilio to Telnyx"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "This project is a Flask-based SMS 2FA application. The migration involves moving from Twilio Programmable Messaging to Telnyx Messaging API for sending SMS verification codes."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "- **Files with Twilio patterns**:"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio | Telnyx | Status |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "- Remove Twilio from requirements.txt"
+    },
+    {
+      "path": "sms2fa_flask/config.py",
+      "type": "nuget",
+      "line": "# Telnyx Configuration (migrated from Twilio)"
+    },
+    {
+      "path": "sms2fa_flask/config.py",
+      "type": "nuget",
+      "line": "# Telnyx test config (migrated from Twilio)"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "nuget",
+      "line": "<h1>Two Factor Authentication with Twilio</h1>"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "nuget",
+      "line": "<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use the <a href=\"https://www.twilio.com/\">Twilio</a> API to make implementing 2FA a snap.</p>"
+    },
+    {
+      "path": ".travis.yml",
+      "type": "nuget",
+      "line": "# Telnyx Configuration (migrated from Twilio)"
+    },
+    {
+      "path": ".env.example",
+      "type": "nuget",
+      "line": "# Telnyx Configuration (migrated from Twilio)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[![Build Status](https://travis-ci.org/TwilioDevEd/sms2fa-flask.svg?branch=master)](https://travis-ci.org/TwilioDevEd/sms2fa-flask)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "$ git clone git@github.com:TwilioDevEd/sms2fa-flask.git"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[Twilio Account Settings](https://www.twilio.com/console)."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "* Lovingly crafted by Twilio Developer Education."
+    }
+  ],
+  "twiml_files": [],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": ".github/dependabot.yml",
+      "type": "env"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "env"
+    },
+    {
+      "path": "sms2fa_flask/config.py",
+      "type": "env"
+    },
+    {
+      "path": "sms2fa_flask/templates/layout.html",
+      "type": "env"
+    },
+    {
+      "path": "sms2fa_flask/templates/index.html",
+      "type": "env"
+    },
+    {
+      "path": ".travis.yml",
+      "type": "env"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "env"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "env"
+    },
+    {
+      "path": ".env.example",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 0,
+    "total_products": 0,
+    "total_languages": 0,
+    "has_webhook_validation": false,
+    "has_twiml": false,
+    "has_env_vars": true,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

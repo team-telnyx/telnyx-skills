@@ -1,0 +1,20 @@
+<% content_for :hero do %>
+  <div class="hero-text">
+    <h1>Lodging fit for a captain</h1>
+    <p>The Next Generation of vacation rentals.</p>
+  </div>
+<% end %>
+<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row">
+    <% @vacation_properties.each do |vacation_property| %>
+      <div class="col-md-4">
+        <a href="/properties/<%= vacation_property.id %>" class="property">
+
+          <img src="<%= vacation_property.image_url %>" />
+          <h2><%= vacation_property.description %></h2>
+        </a>
+      </div>
+    <% end %>
+  </div>
+</div>

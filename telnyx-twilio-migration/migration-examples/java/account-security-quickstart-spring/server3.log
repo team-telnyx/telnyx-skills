@@ -1,0 +1,43 @@
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.3.11)
+
+2026-03-05T07:59:51.152Z  INFO 4001869 --- [           main] c.t.a.AccountSecurityJavaApplication     : Starting AccountSecurityJavaApplication using Java 17.0.18 with PID 4001869 (/home/telnyx-user/twilio-test-repos/account-security-quickstart-spring/build/libs/account-security-quickstart-spring.jar started by telnyx-user in /home/telnyx-user/twilio-test-repos/account-security-quickstart-spring)
+2026-03-05T07:59:51.155Z  INFO 4001869 --- [           main] c.t.a.AccountSecurityJavaApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-03-05T07:59:52.485Z  INFO 4001869 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-05T07:59:52.541Z  INFO 4001869 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 49 ms. Found 1 JPA repository interface.
+2026-03-05T07:59:53.295Z  INFO 4001869 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2026-03-05T07:59:53.307Z  INFO 4001869 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-05T07:59:53.307Z  INFO 4001869 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2026-03-05T07:59:53.339Z  INFO 4001869 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-03-05T07:59:53.340Z  INFO 4001869 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2126 ms
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2026-03-05T07:59:53.602Z  INFO 4001869 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-05T07:59:53.645Z  INFO 4001869 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-03-05T07:59:53.671Z  INFO 4001869 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-05T07:59:53.952Z  INFO 4001869 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-05T07:59:53.977Z  INFO 4001869 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-05T07:59:54.078Z  INFO 4001869 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.sqlite.jdbc4.JDBC4Connection@42a05533
+2026-03-05T07:59:54.081Z  INFO 4001869 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-05T07:59:54.802Z  INFO 4001869 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-05T07:59:54.831Z  INFO 4001869 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-05T07:59:55.229Z  WARN 4001869 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-05T07:59:55.274Z  INFO 4001869 --- [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authProvider
+2026-03-05T07:59:55.274Z  WARN 4001869 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2026-03-05T07:59:55.362Z  INFO 4001869 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-03-05T07:59:55.618Z  INFO 4001869 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-03-05T07:59:56.129Z  INFO 4001869 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path '/'
+2026-03-05T07:59:56.149Z  INFO 4001869 --- [           main] c.t.a.AccountSecurityJavaApplication     : Started AccountSecurityJavaApplication in 5.675 seconds (process running for 6.305)
+2026-03-05T07:59:57.909Z  INFO 4001869 --- [nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-05T07:59:57.909Z  INFO 4001869 --- [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-05T07:59:57.910Z  INFO 4001869 --- [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-03-05T08:29:49.862Z  INFO 4001869 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-05T08:29:49.866Z  INFO 4001869 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-05T08:29:49.868Z  INFO 4001869 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

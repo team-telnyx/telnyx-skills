@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<h1>Let's Do The 2FA with Telnyx!</h1>
+
+<p>Doing two-factor authentication (2FA) at a level of excellence can be tricky. Let's demonstrate how to use <a href="https://telnyx.com/products/verify">Telnyx Verify</a> to make implementing 2FA a snap.</p>
+
+<p>This application now uses:</p>
+<ul>
+  <li><strong>Telnyx Verify</strong> for SMS verification</li>
+  <li><strong>Authy OneTouch</strong> for push notifications (optional)</li>
+</ul>
+
+<p><a href="{{ url_for('auth.sign_up') }}">Sign up</a> or <a href="{{ url_for('auth.log_in') }}">log in</a> to get started.</p>
+{% endblock %}

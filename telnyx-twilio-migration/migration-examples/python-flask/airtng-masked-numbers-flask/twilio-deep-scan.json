@@ -1,0 +1,82 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask",
+  "scan_time": "2026-03-05T06:27:55.402512+00:00",
+  "languages_detected": [
+    "python"
+  ],
+  "products_used": [
+    "general",
+    "messaging"
+  ],
+  "files": [
+    {
+      "path": "airtng_flask/models/reservation.py",
+      "language": "python",
+      "products": [
+        "messaging",
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "self._send_message",
+          "line": 49,
+          "detection_method": "ast",
+          "context": [
+            "",
+            "    def notify_host(self):",
+            "        self._send_message(",
+            "            self.vacation_property.host.phone_number,",
+            "            render_template("
+          ],
+          "confidence": "high",
+          "product": "messaging"
+        },
+        {
+          "pattern": "self._send_message",
+          "line": 60,
+          "detection_method": "ast",
+          "context": [
+            "",
+            "    def notify_guest(self):",
+            "        self._send_message(",
+            "            self.guest.phone_number,",
+            "            render_template("
+          ],
+          "confidence": "high",
+          "product": "messaging"
+        },
+        {
+          "pattern": "Uses Telnyx Number Pool API instead of Twilio available_phone_numbers.",
+          "line": 72,
+          "detection_method": "regex",
+          "context": [
+            "        \"\"\"",
+            "        Purchase a phone number for masked communication.",
+            "        Uses Telnyx Number Pool API instead of Twilio available_phone_numbers.",
+            "        \"\"\"",
+            "        client = self._get_telnyx_client()"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    }
+  ],
+  "env_vars": [],
+  "config_files": [],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 1,
+    "total_detections": 3,
+    "by_method": {
+      "ast": 2,
+      "regex": 1
+    },
+    "by_confidence": {
+      "high": 2,
+      "medium": 1
+    }
+  }
+}

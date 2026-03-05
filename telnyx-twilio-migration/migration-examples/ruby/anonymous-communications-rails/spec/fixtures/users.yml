@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  email: blah@blah.com
+  password_digest: secret
+  name: blah
+  country_code: +1
+  phone_number: '+16195551234'
+  area_code: 619
+
+two:
+  id: 2
+  email: hello@hello.com
+  password_digest: secret
+  name: blah
+  country_code: +1
+  phone_number: '+16195559091'
+  area_code: 619

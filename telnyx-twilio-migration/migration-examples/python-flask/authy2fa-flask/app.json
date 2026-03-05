@@ -1,0 +1,29 @@
+{
+    "name": "Authy 2FA with Flask",
+    "description": "A Flask app for 2FA with Authy",
+    "keywords": [
+        "python",
+        "flask",
+        "2 factor authentication",
+        "2fa"
+    ],
+    "website": "https://www.authy.com",
+    "repository": "https://github.com/TwilioDevEd/authy2fa-flask",
+    "env": {
+        "SECRET_KEY": {
+            "description": "A secret key for the Flask app",
+            "generator": "secret"
+        },
+        "AUTHY_API_KEY": {
+            "description": "Your Authy API key",
+            "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+    },
+    "addons" : [
+        "heroku-postgresql"
+    ],
+    "scripts": {
+        "postdeploy": "python manage.py db upgrade"
+    },
+    "success_url": "/"
+}

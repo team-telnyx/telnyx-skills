@@ -1,0 +1,43 @@
+extends ../layout
+
+block content
+  .container
+    h2 Support Tickets
+    p.lead
+      | This is the list of most recent support tickets. Click the "Call customer" button to start a phone call from your browser.
+    .row
+      .col-md-4.col-md-push-8
+        .panel.panel-primary.client-controls
+          .panel-heading
+            h3.panel-title Make a call
+          .panel-body
+            p
+              strong Status
+            #call-status.well.well-sm
+              | Connecting to Telnyx...
+            button.btn.btn-lg.btn-success.answer-button(disabled="") Answer call
+            button.btn.btn-lg.btn-danger.hangup-button(disabled="", onclick="hangUp()") Hang up
+      .col-md-8.col-md-pull-4
+        each ticket in tickets
+          .panel.panel-default
+            .panel-heading
+              h3.panel-title
+                | Ticket #!{ticket.id}
+                small.pull-right !{ticket.createdAt.toLocaleString('en-US', { hour12: false })}
+            .panel-body
+              .pull-right
+                button.btn.btn-primary.btn-lg.call-customer-button(onclick="callCustomer('"+ticket.phoneNumber+"')", type="button")
+                  span.glyphicon.glyphicon-earphone(aria-hidden="true")
+                  |  Call customer
+              p
+                strong Name:
+                |  !{ticket.name}
+              p
+                strong Phone number:
+                |  !{ticket.phoneNumber}
+              p
+                strong Description:
+              |  !{ticket.description}
+        
+
+    

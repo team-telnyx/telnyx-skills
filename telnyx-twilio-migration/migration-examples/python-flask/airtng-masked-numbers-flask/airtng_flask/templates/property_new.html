@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>New Vacation Property</h1>
+
+    <form method="POST" role="form">
+        {% from "_formhelpers.html" import render_errors, render_field %}
+        {{ form.csrf_token }}
+        {{ render_errors(form) }}
+        <hr/>
+
+        {{ render_field(form.description, placeholder="Captain's Palace") }}
+        {{ render_field(form.image_url }}
+
+        <div class="actions">
+            <button type="submit" class="btn btn-lg btn-primary">Create Property</button>
+        </div>
+    </form>
+
+    <a href="{{ url_for('properties') }}">Back</a>
+</div>
+
+{% endblock %}

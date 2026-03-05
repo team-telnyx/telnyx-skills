@@ -1,0 +1,56 @@
+{
+  "name": "ivr-recording-node",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "export NODE_ENV=test && ./node_modules/.bin/eslint . && mocha spec --exit"
+  },
+  "description": "IVR Call Recording and Agent Conference with Node.js and Express",
+  "author": {
+    "name": "Agustin Camino",
+    "email": "agustin.camino@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TwilioDevEd/ivr-recording-node"
+  },
+  "keywords": [
+    "node",
+    "ivr",
+    "call screening",
+    "telnyx",
+    "express",
+    "texml",
+    "webhooks"
+  ],
+  "engines": {
+    "node": ">=4.1.0 <5.5.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "brackets-eslint": "^3.0.6",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "^4.1.1",
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.17.0",
+    "express-session": "^1.16.1",
+    "kerberos": "~0.0.17",
+    "mongoose": "^5.5.10",
+    "mongoose-deep-populate": "^3.0.0",
+    "morgan": "^1.9.1",
+    "pug": "^2.0.3",
+    "serve-favicon": "^2.5.0",
+    "telnyx": "^2.1.1",
+    "twilio": "^3.31.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "cheerio": "^0.22.0",
+    "eslint": "^8.1.0",
+    "eslint-config-google": "^0.7.1",
+    "mocha": "^6.1.4",
+    "supertest": "^4.0.2"
+  }
+}

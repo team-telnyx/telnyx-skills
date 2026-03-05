@@ -1,0 +1,20 @@
+language: python
+python:
+  - '2.7'
+  - '3.4'
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+env:
+  global:
+  - DEBUG=False
+  - SECRET=SuperSecret
+  - SQLALCHEMY_DATABASE_URI=sqlite://survey.sqlite
+  # Telnyx Configuration (migrated from Twilio)
+  - TELNYX_API_KEY=KEY...REPLACE_WITH_YOUR_KEY
+  - TELNYX_PHONE_NUMBER=+15551230987
+  - TELNYX_MESSAGING_PROFILE_ID=profile_id_here
+script:
+  - coverage run --source=sms2fa_flask manage.py test
+after_script:
+  - coverage report

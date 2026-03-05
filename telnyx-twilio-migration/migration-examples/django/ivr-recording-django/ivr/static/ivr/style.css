@@ -1,0 +1,31 @@
+body {
+  padding-top: 0;
+  padding-bottom: 20px;
+}
+
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.dl-horizontal dt {
+  white-space: normal;
+}
+
+input,
+select,
+textarea {
+  max-width: 280px;
+}
+
+footer {
+  font-size:12px;
+  color:#787878;
+  margin-top:20px;
+  padding-top:20px;
+  text-align:center;
+}
+
+footer i {
+  color:#ff0000;
+}

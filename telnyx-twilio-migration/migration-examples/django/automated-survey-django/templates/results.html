@@ -1,0 +1,42 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+
+<h1>{{ survey_title }}</h1>
+
+{% if responses|length < 1 %}
+    <p>It appears there are no responses for this survey yet!</p>
+{% endif %}
+
+<div class="col-md-8">
+    <ul class="list-unstyled">
+    {% for response in responses %}
+        <li>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Response from: {{ response.call_sid }}
+                    with number {{ response.phone_number }}
+                </div>
+                <div class="panel-body">
+                    <ol class="list-group">
+                        <li class="list-group-item">Question: {{ response.body }} </li>
+                        <li class="list-group-item">Answer type: {{ response.kind }} </li>
+                        <li class="list-group-item">
+                            {% if response.kind == 'voice' %}
+                                <div class="voice-response">
+                                    <span class="voice-response-text">Response:</span>
+                                    <i class="fa fa-play-circle fa-2x play-icon"></i>
+                                    <audio class="voice-response" src="{{ response.response }}"></audio>
+                                </div>
+                            {% else %}
+                                {{ response.response }}
+                            {% endif %}
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

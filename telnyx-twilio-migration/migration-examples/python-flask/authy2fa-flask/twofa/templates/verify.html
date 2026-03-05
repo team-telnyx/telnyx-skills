@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<h1>Authy OneTouch not available</h1>
+<p>
+    We are sending you an SMS verification token. Please enter it below.
+</p>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    {% from "_formhelpers.html" import render_errors, render_field %}
+
+    {{ render_errors(form) }}
+
+    {{ render_field(form.verification_code) }}
+
+    <input type="submit" class="btn btn-primary" value="Verify code">
+</form>
+
+<br/>
+
+<form method="POST" action="{{ url_for('auth.resend') }}">
+    <button type="submit" class="btn">Resend my code</button>
+</form>
+{% endblock %}

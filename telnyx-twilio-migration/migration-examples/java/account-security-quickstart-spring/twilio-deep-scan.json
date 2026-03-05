@@ -1,0 +1,1473 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/account-security-quickstart-spring",
+  "scan_time": "2026-03-05T06:48:43.487111+00:00",
+  "languages_detected": [
+    "java"
+  ],
+  "products_used": [
+    "general",
+    "verify"
+  ],
+  "files": [
+    {
+      "path": ".env.example",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "export TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "line": 7,
+          "detection_method": "regex",
+          "context": [
+            "# Twilio API credentials",
+            "# (find here https://www.twilio.com/console)",
+            "export TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "export TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            ""
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "export TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "line": 8,
+          "detection_method": "regex",
+          "context": [
+            "# (find here https://www.twilio.com/console)",
+            "export TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "export TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "",
+            "# Verification Service SID"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "export TWILIO_VERIFICATION_SID=VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "line": 12,
+          "detection_method": "regex",
+          "context": [
+            "# Verification Service SID",
+            "# (create one here https://www.twilio.com/console/verify/services)",
+            "export TWILIO_VERIFICATION_SID=VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "docker-compose.yml",
+      "language": "yaml",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "- TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "line": 7,
+          "detection_method": "heuristic",
+          "context": [
+            "    tty: true",
+            "    environment:",
+            "      - TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "      - TWILIO_AUTH_TOKEN=your_account_token",
+            "      - TWILIO_VERIFICATION_SID=VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "- TWILIO_AUTH_TOKEN=your_account_token",
+          "line": 8,
+          "detection_method": "heuristic",
+          "context": [
+            "    environment:",
+            "      - TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "      - TWILIO_AUTH_TOKEN=your_account_token",
+            "      - TWILIO_VERIFICATION_SID=VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "      - ACCOUNT_SECURITY_API_KEY=ENTER_SECRET_HERE"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "- TWILIO_VERIFICATION_SID=VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "line": 9,
+          "detection_method": "heuristic",
+          "context": [
+            "      - TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "      - TWILIO_AUTH_TOKEN=your_account_token",
+            "      - TWILIO_VERIFICATION_SID=VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "      - ACCOUNT_SECURITY_API_KEY=ENTER_SECRET_HERE",
+            "    build: ."
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "build.gradle",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "implementation(group:'com.twilio.sdk', name:'twilio', version:'10.8.0')",
+          "line": 41,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "    implementation(group:'com.authy', name:'authy-java', version:'1.5.1')",
+            "    implementation(group:'com.twilio.sdk', name:'twilio', version:'10.8.0')",
+            "    implementation(group:'org.xerial', name:'sqlite-jdbc', version:'3.49.1.0')",
+            "    implementation 'org.springframework.boot:spring-boot-starter-actuator'"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/AccountSecurityJavaApplication.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity;",
+            "",
+            "import org.springframework.boot.CommandLineRunner;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/config/WebSecurityConfig.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.filters.TwoFAFilter;",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "package com.twilio.accountsecurity.config;",
+            "",
+            "import com.twilio.accountsecurity.filters.TwoFAFilter;",
+            "import com.twilio.accountsecurity.services.UserDetailsServiceImpl;",
+            "import org.springframework.beans.factory.annotation.Autowired;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.services.UserDetailsServiceImpl;",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "import com.twilio.accountsecurity.filters.TwoFAFilter;",
+            "import com.twilio.accountsecurity.services.UserDetailsServiceImpl;",
+            "import org.springframework.beans.factory.annotation.Autowired;",
+            "import org.springframework.context.annotation.Bean;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.config;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.config;",
+            "",
+            "import com.twilio.accountsecurity.filters.TwoFAFilter;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/config/SQLiteIdentityColumnSupport.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.config;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.config;",
+            "",
+            "import org.hibernate.MappingException;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/config/SpringConfiguration.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.services.Settings;",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "import com.authy.AuthyApiClient;",
+            "import com.twilio.accountsecurity.services.Settings;",
+            "import org.springframework.beans.factory.annotation.Autowired;",
+            "import org.springframework.boot.jdbc.DataSourceBuilder;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.config;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.config;",
+            "",
+            "import com.authy.AuthyApiClient;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/filters/TwoFAFilter.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.filters;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.filters;",
+            "",
+            "import org.springframework.security.web.util.matcher.AntPathRequestMatcher;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/services/UserDetailsServiceImpl.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.repositories.UserRepository;",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "package com.twilio.accountsecurity.services;",
+            "",
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.models.UserModel;",
+            "import com.twilio.accountsecurity.models.UserRoles;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.models.UserModel;",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.models.UserModel;",
+            "import com.twilio.accountsecurity.models.UserRoles;",
+            "import org.slf4j.Logger;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.models.UserRoles;",
+          "line": 5,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.models.UserModel;",
+            "import com.twilio.accountsecurity.models.UserRoles;",
+            "import org.slf4j.Logger;",
+            "import org.slf4j.LoggerFactory;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.services;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.services;",
+            "",
+            "import com.twilio.accountsecurity.repositories.UserRepository;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/services/TokenService.java",
+      "language": "java",
+      "products": [
+        "verify",
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.controllers.requests.VerifyTokenRequest;",
+          "line": 7,
+          "detection_method": "regex",
+          "context": [
+            "import com.authy.OneTouchException;",
+            "import com.authy.api.*;",
+            "import com.twilio.accountsecurity.controllers.requests.VerifyTokenRequest;",
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.exceptions.TokenVerificationException;"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.repositories.UserRepository;",
+          "line": 8,
+          "detection_method": "regex",
+          "context": [
+            "import com.authy.api.*;",
+            "import com.twilio.accountsecurity.controllers.requests.VerifyTokenRequest;",
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.exceptions.TokenVerificationException;",
+            "import com.twilio.accountsecurity.models.UserModel;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.exceptions.TokenVerificationException;",
+          "line": 9,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.controllers.requests.VerifyTokenRequest;",
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.exceptions.TokenVerificationException;",
+            "import com.twilio.accountsecurity.models.UserModel;",
+            "import org.slf4j.Logger;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.models.UserModel;",
+          "line": 10,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.exceptions.TokenVerificationException;",
+            "import com.twilio.accountsecurity.models.UserModel;",
+            "import org.slf4j.Logger;",
+            "import org.slf4j.LoggerFactory;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.services;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.services;",
+            "",
+            "import com.authy.AuthyApiClient;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "public void verify(String username, VerifyTokenRequest requestBody) throws AuthyException {",
+          "line": 76,
+          "detection_method": "regex",
+          "context": [
+            "    }",
+            "",
+            "    public void verify(String username, VerifyTokenRequest requestBody) throws AuthyException {",
+            "        Token token = authyClient",
+            "                .getTokens()"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": ".verify(getUserAuthyId(username), requestBody.getToken());",
+          "line": 79,
+          "detection_method": "regex",
+          "context": [
+            "        Token token = authyClient",
+            "                .getTokens()",
+            "                .verify(getUserAuthyId(username), requestBody.getToken());",
+            "",
+            "        if(!token.isOk()) {"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/services/Settings.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "return System.getenv(\"TWILIO_ACCOUNT_SID\");",
+          "line": 13,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "    public String getAccountSid() {",
+            "        return System.getenv(\"TWILIO_ACCOUNT_SID\");",
+            "    }",
+            ""
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "return System.getenv(\"TWILIO_AUTH_TOKEN\");",
+          "line": 17,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "    public String getAuthToken() {",
+            "        return System.getenv(\"TWILIO_AUTH_TOKEN\");",
+            "    }",
+            ""
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "return System.getenv(\"TWILIO_VERIFICATION_SID\");",
+          "line": 21,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "    public String getVerificationSid() {",
+            "        return System.getenv(\"TWILIO_VERIFICATION_SID\");",
+            "    }",
+            "}"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.services;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.services;",
+            "",
+            "import org.springframework.stereotype.Service;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/services/RegisterService.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.controllers.RegisterController;",
+          "line": 6,
+          "detection_method": "regex",
+          "context": [
+            "import com.authy.AuthyException;",
+            "import com.authy.api.User;",
+            "import com.twilio.accountsecurity.controllers.RegisterController;",
+            "import com.twilio.accountsecurity.controllers.requests.UserRegisterRequest;",
+            "import com.twilio.accountsecurity.exceptions.UserRegistrationException;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.controllers.requests.UserRegisterRequest;",
+          "line": 7,
+          "detection_method": "regex",
+          "context": [
+            "import com.authy.api.User;",
+            "import com.twilio.accountsecurity.controllers.RegisterController;",
+            "import com.twilio.accountsecurity.controllers.requests.UserRegisterRequest;",
+            "import com.twilio.accountsecurity.exceptions.UserRegistrationException;",
+            "import com.twilio.accountsecurity.repositories.UserRepository;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.exceptions.UserRegistrationException;",
+          "line": 8,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.controllers.RegisterController;",
+            "import com.twilio.accountsecurity.controllers.requests.UserRegisterRequest;",
+            "import com.twilio.accountsecurity.exceptions.UserRegistrationException;",
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.exceptions.UserExistsException;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.repositories.UserRepository;",
+          "line": 9,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.controllers.requests.UserRegisterRequest;",
+            "import com.twilio.accountsecurity.exceptions.UserRegistrationException;",
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.exceptions.UserExistsException;",
+            "import com.twilio.accountsecurity.models.UserModel;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.exceptions.UserExistsException;",
+          "line": 10,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.exceptions.UserRegistrationException;",
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.exceptions.UserExistsException;",
+            "import com.twilio.accountsecurity.models.UserModel;",
+            "import com.twilio.accountsecurity.models.UserRoles;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.models.UserModel;",
+          "line": 11,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.repositories.UserRepository;",
+            "import com.twilio.accountsecurity.exceptions.UserExistsException;",
+            "import com.twilio.accountsecurity.models.UserModel;",
+            "import com.twilio.accountsecurity.models.UserRoles;",
+            "import org.slf4j.Logger;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.models.UserRoles;",
+          "line": 12,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.exceptions.UserExistsException;",
+            "import com.twilio.accountsecurity.models.UserModel;",
+            "import com.twilio.accountsecurity.models.UserRoles;",
+            "import org.slf4j.Logger;",
+            "import org.slf4j.LoggerFactory;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.services;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.services;",
+            "",
+            "import com.authy.AuthyApiClient;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/services/PhoneVerificationService.java",
+      "language": "java",
+      "products": [
+        "general",
+        "verify"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.Twilio;",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "package com.twilio.accountsecurity.services;",
+            "",
+            "import com.twilio.Twilio;",
+            "import com.twilio.rest.verify.v2.service.Verification;",
+            "import com.twilio.rest.verify.v2.service.VerificationCreator;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.rest.verify.v2.service.Verification;",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "import com.twilio.Twilio;",
+            "import com.twilio.rest.verify.v2.service.Verification;",
+            "import com.twilio.rest.verify.v2.service.VerificationCreator;",
+            "import com.twilio.rest.verify.v2.service.VerificationCheck;"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "import com.twilio.rest.verify.v2.service.VerificationCreator;",
+          "line": 5,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.Twilio;",
+            "import com.twilio.rest.verify.v2.service.Verification;",
+            "import com.twilio.rest.verify.v2.service.VerificationCreator;",
+            "import com.twilio.rest.verify.v2.service.VerificationCheck;",
+            "import com.twilio.rest.verify.v2.service.VerificationCheckCreator;"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "import com.twilio.rest.verify.v2.service.VerificationCheck;",
+          "line": 6,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.rest.verify.v2.service.Verification;",
+            "import com.twilio.rest.verify.v2.service.VerificationCreator;",
+            "import com.twilio.rest.verify.v2.service.VerificationCheck;",
+            "import com.twilio.rest.verify.v2.service.VerificationCheckCreator;",
+            ""
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "import com.twilio.rest.verify.v2.service.VerificationCheckCreator;",
+          "line": 7,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.rest.verify.v2.service.VerificationCreator;",
+            "import com.twilio.rest.verify.v2.service.VerificationCheck;",
+            "import com.twilio.rest.verify.v2.service.VerificationCheckCreator;",
+            "",
+            "import org.slf4j.Logger;"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.exceptions.TokenVerificationException;",
+          "line": 14,
+          "detection_method": "regex",
+          "context": [
+            "import org.springframework.stereotype.Service;",
+            "",
+            "import com.twilio.accountsecurity.exceptions.TokenVerificationException;",
+            "",
+            "@Service"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "Twilio.init(settings.getAccountSid(), settings.getAuthToken());",
+          "line": 26,
+          "detection_method": "regex",
+          "context": [
+            "    public PhoneVerificationService(@Autowired Settings settings) {",
+            "        this.settings = settings;",
+            "        Twilio.init(settings.getAccountSid(), settings.getAuthToken());",
+            "    }",
+            ""
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.services;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.services;",
+            "",
+            "import com.twilio.Twilio;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "public void verify(String phoneNumber, String token) {",
+          "line": 41,
+          "detection_method": "regex",
+          "context": [
+            "    }",
+            "",
+            "    public void verify(String phoneNumber, String token) {",
+            "        VerificationCheck verificationCheck = this",
+            "                        .getVerificationCheckCreator(settings.getVerificationSid(), phoneNumber, token)"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "logAndThrow(\"Error verifying token. \");",
+          "line": 46,
+          "detection_method": "regex",
+          "context": [
+            "                        .create();",
+            "        if(verificationCheck.getStatus().compareTo(\"approved\") != 0) {",
+            "            logAndThrow(\"Error verifying token. \");",
+            "        }",
+            "    }"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/exceptions/PhoneVerificationException.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.exceptions;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.exceptions;",
+            "",
+            "public class PhoneVerificationException extends RuntimeException{"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/exceptions/UserExistsException.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.exceptions;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.exceptions;",
+            "",
+            "public class UserExistsException extends RuntimeException{"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/exceptions/UserRegistrationException.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.exceptions;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.exceptions;",
+            "",
+            "public class UserRegistrationException extends RuntimeException {"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/exceptions/TokenVerificationException.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.exceptions;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.exceptions;",
+            "",
+            "public class TokenVerificationException extends RuntimeException {"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/models/UserModel.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.models;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.models;",
+            "",
+            ""
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/models/UserRoles.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.models;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.models;",
+            "",
+            "public enum UserRoles {"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/utils/ThrowingRunnable.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.utils;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.utils;",
+            "",
+            "@FunctionalInterface"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/repositories/UserRepository.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.models.UserModel;",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "package com.twilio.accountsecurity.repositories;",
+            "",
+            "import com.twilio.accountsecurity.models.UserModel;",
+            "import org.springframework.data.repository.CrudRepository;",
+            ""
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.repositories;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.repositories;",
+            "",
+            "import com.twilio.accountsecurity.models.UserModel;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/TokenController.java",
+      "language": "java",
+      "products": [
+        "verify",
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.controllers.requests.VerifyTokenRequest;",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "package com.twilio.accountsecurity.controllers;",
+            "",
+            "import com.twilio.accountsecurity.controllers.requests.VerifyTokenRequest;",
+            "import com.twilio.accountsecurity.exceptions.TokenVerificationException;",
+            "import com.twilio.accountsecurity.services.TokenService;"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.exceptions.TokenVerificationException;",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "import com.twilio.accountsecurity.controllers.requests.VerifyTokenRequest;",
+            "import com.twilio.accountsecurity.exceptions.TokenVerificationException;",
+            "import com.twilio.accountsecurity.services.TokenService;",
+            "import org.springframework.beans.factory.annotation.Autowired;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.services.TokenService;",
+          "line": 5,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.controllers.requests.VerifyTokenRequest;",
+            "import com.twilio.accountsecurity.exceptions.TokenVerificationException;",
+            "import com.twilio.accountsecurity.services.TokenService;",
+            "import org.springframework.beans.factory.annotation.Autowired;",
+            "import org.springframework.http.HttpStatus;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers;",
+            "",
+            "import com.twilio.accountsecurity.controllers.requests.VerifyTokenRequest;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "@RequestMapping(value = \"verify\", method = RequestMethod.POST,",
+          "line": 66,
+          "detection_method": "regex",
+          "context": [
+            "    }",
+            "",
+            "    @RequestMapping(value = \"verify\", method = RequestMethod.POST,",
+            "            consumes = MediaType.APPLICATION_JSON_VALUE)",
+            "    public ResponseEntity<?> verify(@Valid @RequestBody VerifyTokenRequest requestBody,"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "public ResponseEntity<?> verify(@Valid @RequestBody VerifyTokenRequest requestBody,",
+          "line": 68,
+          "detection_method": "regex",
+          "context": [
+            "    @RequestMapping(value = \"verify\", method = RequestMethod.POST,",
+            "            consumes = MediaType.APPLICATION_JSON_VALUE)",
+            "    public ResponseEntity<?> verify(@Valid @RequestBody VerifyTokenRequest requestBody,",
+            "                                 HttpServletRequest request) {",
+            "        return runWithCatch(() -> {"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "tokenService.verify(request.getUserPrincipal().getName(), requestBody);",
+          "line": 71,
+          "detection_method": "regex",
+          "context": [
+            "                                 HttpServletRequest request) {",
+            "        return runWithCatch(() -> {",
+            "            tokenService.verify(request.getUserPrincipal().getName(), requestBody);",
+            "            request.getSession().setAttribute(\"authy\", true);",
+            "        }, HttpStatus.BAD_REQUEST);"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/RegisterController.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.controllers.requests.UserRegisterRequest;",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "import com.authy.AuthyException;",
+            "import com.twilio.accountsecurity.controllers.requests.UserRegisterRequest;",
+            "import com.twilio.accountsecurity.exceptions.UserExistsException;",
+            "import com.twilio.accountsecurity.services.RegisterService;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.exceptions.UserExistsException;",
+          "line": 5,
+          "detection_method": "regex",
+          "context": [
+            "import com.authy.AuthyException;",
+            "import com.twilio.accountsecurity.controllers.requests.UserRegisterRequest;",
+            "import com.twilio.accountsecurity.exceptions.UserExistsException;",
+            "import com.twilio.accountsecurity.services.RegisterService;",
+            "import org.slf4j.Logger;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.services.RegisterService;",
+          "line": 6,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.controllers.requests.UserRegisterRequest;",
+            "import com.twilio.accountsecurity.exceptions.UserExistsException;",
+            "import com.twilio.accountsecurity.services.RegisterService;",
+            "import org.slf4j.Logger;",
+            "import org.slf4j.LoggerFactory;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers;",
+            "",
+            "import com.authy.AuthyException;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/PingController.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers;",
+            "",
+            "import org.springframework.web.bind.annotation.RequestMapping;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/LoginController.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.controllers.requests.LoginRequest;",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "package com.twilio.accountsecurity.controllers;",
+            "",
+            "import com.twilio.accountsecurity.controllers.requests.LoginRequest;",
+            "import org.springframework.http.HttpStatus;",
+            "import org.springframework.http.ResponseEntity;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers;",
+            "",
+            "import com.twilio.accountsecurity.controllers.requests.LoginRequest;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/PhoneVerificationController.java",
+      "language": "java",
+      "products": [
+        "general",
+        "verify"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.controllers.requests.PhoneVerificationStartRequest;",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "package com.twilio.accountsecurity.controllers;",
+            "",
+            "import com.twilio.accountsecurity.controllers.requests.PhoneVerificationStartRequest;",
+            "import com.twilio.accountsecurity.controllers.requests.PhoneVerificationVerifyRequest;",
+            "import com.twilio.accountsecurity.services.PhoneVerificationService;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.controllers.requests.PhoneVerificationVerifyRequest;",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "import com.twilio.accountsecurity.controllers.requests.PhoneVerificationStartRequest;",
+            "import com.twilio.accountsecurity.controllers.requests.PhoneVerificationVerifyRequest;",
+            "import com.twilio.accountsecurity.services.PhoneVerificationService;",
+            "import org.springframework.beans.factory.annotation.Autowired;"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "import com.twilio.accountsecurity.services.PhoneVerificationService;",
+          "line": 5,
+          "detection_method": "regex",
+          "context": [
+            "import com.twilio.accountsecurity.controllers.requests.PhoneVerificationStartRequest;",
+            "import com.twilio.accountsecurity.controllers.requests.PhoneVerificationVerifyRequest;",
+            "import com.twilio.accountsecurity.services.PhoneVerificationService;",
+            "import org.springframework.beans.factory.annotation.Autowired;",
+            "import org.springframework.http.MediaType;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers;",
+            "",
+            "import com.twilio.accountsecurity.controllers.requests.PhoneVerificationStartRequest;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "@RequestMapping(path = \"verify\", method = RequestMethod.POST)",
+          "line": 38,
+          "detection_method": "regex",
+          "context": [
+            "    }",
+            "",
+            "    @RequestMapping(path = \"verify\", method = RequestMethod.POST)",
+            "    public ResponseEntity<?> verify(@Valid @RequestBody PhoneVerificationVerifyRequest requestBody,",
+            "                                 HttpSession session) {"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "public ResponseEntity<?> verify(@Valid @RequestBody PhoneVerificationVerifyRequest requestBody,",
+          "line": 39,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "    @RequestMapping(path = \"verify\", method = RequestMethod.POST)",
+            "    public ResponseEntity<?> verify(@Valid @RequestBody PhoneVerificationVerifyRequest requestBody,",
+            "                                 HttpSession session) {",
+            "        return runWithCatch(() -> {"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        },
+        {
+          "pattern": "phoneVerificationService.verify(",
+          "line": 42,
+          "detection_method": "regex",
+          "context": [
+            "                                 HttpSession session) {",
+            "        return runWithCatch(() -> {",
+            "            phoneVerificationService.verify(",
+            "                    requestBody.getPhoneNumber(),",
+            "                    requestBody.getToken());"
+          ],
+          "confidence": "high",
+          "product": "verify"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/BaseController.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.utils.ThrowingRunnable;",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "package com.twilio.accountsecurity.controllers;",
+            "",
+            "import com.twilio.accountsecurity.utils.ThrowingRunnable;",
+            "import org.springframework.http.HttpStatus;",
+            "import org.springframework.http.ResponseEntity;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers;",
+            "",
+            "import com.twilio.accountsecurity.utils.ThrowingRunnable;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/requests/VerifyTokenRequest.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers.requests;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers.requests;",
+            "",
+            "import jakarta.validation.constraints.NotNull;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/requests/UserRegisterRequest.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "import com.twilio.accountsecurity.models.UserModel;",
+          "line": 3,
+          "detection_method": "regex",
+          "context": [
+            "package com.twilio.accountsecurity.controllers.requests;",
+            "",
+            "import com.twilio.accountsecurity.models.UserModel;",
+            "",
+            "import jakarta.validation.constraints.NotNull;"
+          ],
+          "confidence": "high",
+          "product": "general"
+        },
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers.requests;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers.requests;",
+            "",
+            "import com.twilio.accountsecurity.models.UserModel;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/requests/PhoneVerificationVerifyRequest.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers.requests;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers.requests;",
+            "",
+            "import jakarta.validation.constraints.NotNull;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/requests/LoginRequest.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers.requests;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers.requests;",
+            "",
+            "import jakarta.validation.constraints.NotNull;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "src/main/java/com/twilio/accountsecurity/controllers/requests/PhoneVerificationStartRequest.java",
+      "language": "java",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "package com.twilio.accountsecurity.controllers.requests;",
+          "line": 1,
+          "detection_method": "heuristic",
+          "context": [
+            "package com.twilio.accountsecurity.controllers.requests;",
+            "",
+            "import jakarta.validation.constraints.NotNull;"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    }
+  ],
+  "env_vars": [
+    "TWILIO_ACCOUNT_SID",
+    "TWILIO_AUTH_TOKEN",
+    "TWILIO_VERIFICATION_SID"
+  ],
+  "config_files": [
+    ".env.example",
+    "build.gradle"
+  ],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 32,
+    "total_detections": 86,
+    "by_method": {
+      "regex": 53,
+      "heuristic": 32
+    },
+    "by_confidence": {
+      "high": 53,
+      "medium": 32
+    }
+  }
+}

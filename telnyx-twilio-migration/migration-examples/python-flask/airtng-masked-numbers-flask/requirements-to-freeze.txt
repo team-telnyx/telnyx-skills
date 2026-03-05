@@ -1,0 +1,18 @@
+Flask
+Flask-Bcrypt
+Flask-Login
+Flask-Migrate
+Flask-Script
+Flask-SQLAlchemy
+Flask-WTF
+email_validator
+twilio
+
+# testing
+Flask-Testing
+blinker
+coverage
+
+# development
+flake8
+black

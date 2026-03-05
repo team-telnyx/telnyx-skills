@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load phone_number_filter %}
+
+{% block title %}New phone number{% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-6">
+
+      <div class="page-header">
+        <h1>Purchase a new phone number</h1>
+      </div>
+
+      <p>
+        The number you choose will be used to create a Lead Source. On the next page, you will set a name and forwarding number for this lead source.
+      </p>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Phone number</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for number in available_numbers %}
+            <tr>
+              <td>{{ number.phone_number|national_format }}</td>
+              <td>
+                <form method="post" action="/call-tracking/purchase-number">
+                  {% csrf_token %}
+                  <input type="hidden" name="phone_number" value="{{ number.phone_number }}">
+                  <button type="submit" class="btn btn-primary btn-xs">Purchase</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+{% endblock %}

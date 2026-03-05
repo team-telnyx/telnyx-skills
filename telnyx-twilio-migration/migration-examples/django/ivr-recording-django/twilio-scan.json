@@ -1,0 +1,650 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/ivr-recording-django",
+  "scan_time": "2026-03-05T06:47:39Z",
+  "languages_detected": ["python"],
+  "products_used": ["voice"],
+  "files": [
+    {
+      "path": "ivr/views.py",
+      "language": "python",
+      "products": ["voice"],
+      "patterns_matched": ["from twilio.twiml.voice_response import VoiceResponse", "twiml_response = VoiceResponse()", "twiml = VoiceResponse()"]
+    }
+  ],
+  "env_vars": [
+  ],
+  "config_files": [
+    {
+      "path": "ivr/views.py",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pip",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "npm",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "npm",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "npm",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "gem",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "gem",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "gem",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "gomod",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "gomod",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "gomod",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "maven",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "maven",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "maven",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "gradle",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "gradle",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "gradle",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "composer",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "composer",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "composer",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "pipenv",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "pipenv",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pipenv",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "setuptools",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "setuptools",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "pyproject",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "pyproject",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pyproject",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pip",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "cocoapods",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "cocoapods",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "cocoapods",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "ivr/views.py",
+      "type": "pub",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "pub",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pub",
+      "line": "twilio==6.35.4"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/ivr-screening/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "1. Provision a number under the [Manage Numbers page](https://www.twilio.com/user/account/phone-numbers/incoming) on your account. Set the voice URL for the number to `http://<your-ngrok-subdomain>.ngrok.io/ivr/welcome`."
+    },
+    {
+      "path": "LICENSE",
+      "type": "nuget",
+      "line": "Copyright (c) 2020 Twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[![Build and test](https://github.com/TwilioDevEd/ivr-recording-django/actions/workflows/build_test.yml/badge.svg)](https://github.com/TwilioDevEd/ivr-recording-django/actions/workflows/build_test.yml)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "git clone git@github.com:TwilioDevEd/ivr-recording-django.git"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "To let our Twilio Phone number use the callback endpoint we exposed, our development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "* Lovingly crafted by Twilio Developer Education."
+    }
+  ],
+  "twiml_files": ["ivr/tests.py"],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": "ivr/views.py",
+      "type": "env"
+    },
+    {
+      "path": "ivr/templates/layout.html",
+      "type": "env"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "env"
+    },
+    {
+      "path": "LICENSE",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 1,
+    "total_products": 1,
+    "total_languages": 1,
+    "has_webhook_validation": false,
+    "has_twiml": true,
+    "has_env_vars": false,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

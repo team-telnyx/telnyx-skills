@@ -1,0 +1,343 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: !ruby/regexp /^https:\/\/api\.twilio\.com\/2010-04-01\/Accounts\/.*\/AvailablePhoneNumbers\/US\/Local\.json\?AreaCode=619/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)
+      Accept-Charset:
+      - utf-8
+      Accept:
+      - application/json
+      Authorization:
+      - Basic QUM3NzE5NTg3ZGasdfsdfasdfdsxYzk5Y2YxNGQ0OTVkYTM0NTowOWVjZTRjafasdfasdfsdafM4MTU4ZA==
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Accept, Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match,
+        If-Unmodified-Since
+      Access-Control-Allow-Methods:
+      - GET, POST, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - ETag
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 29 Jun 2017 12:41:44 GMT
+      Strict-Transport-Security:
+      - max-age=15768000
+      Twilio-Request-Duration:
+      - '0.237'
+      Twilio-Request-Id:
+      - RQ45a4fd3bc28b448f86a372538e31caa2
+      X-Powered-By:
+      - AT-5000
+      X-Shenanigans:
+      - none
+      Content-Length:
+      - '11227'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"available_phone_numbers": [{"friendly_name": "(619) 632-4285", "phone_number":
+        "+16196324285", "lata": "732", "rate_center": "CHULAVISTA", "latitude": "32.640100",
+        "longitude": "-117.084200", "locality": "Chula Vista", "region": "CA", "postal_code":
+        "91909", "iso_country": "US", "address_requirements": "none", "beta": false,
+        "capabilities": {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 361-7754", "phone_number": "+16193617754", "lata": "732", "rate_center":
+        "CHULAVISTA", "latitude": "32.640100", "longitude": "-117.084200", "locality":
+        "Chula Vista", "region": "CA", "postal_code": "91909", "iso_country": "US",
+        "address_requirements": "none", "beta": false, "capabilities": {"voice": true,
+        "SMS": true, "MMS": true, "fax": true}}, {"friendly_name": "(619) 361-7350",
+        "phone_number": "+16193617350", "lata": "732", "rate_center": "CHULAVISTA",
+        "latitude": "32.640100", "longitude": "-117.084200", "locality": "Chula Vista",
+        "region": "CA", "postal_code": "91909", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 900-6861", "phone_number": "+16199006861",
+        "lata": "732", "rate_center": "NATIONALCY", "latitude": "32.678100", "longitude":
+        "-117.099200", "locality": "National City", "region": "CA", "postal_code":
+        "91950", "iso_country": "US", "address_requirements": "none", "beta": false,
+        "capabilities": {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 319-9344", "phone_number": "+16193199344", "lata": "732", "rate_center":
+        "CORONADO", "latitude": "32.685900", "longitude": "-117.183100", "locality":
+        "Coronado", "region": "CA", "postal_code": "92118", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 319-9576", "phone_number": "+16193199576",
+        "lata": "732", "rate_center": "CORONADO", "latitude": "32.685900", "longitude":
+        "-117.183100", "locality": "Coronado", "region": "CA", "postal_code": "92118",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 319-9669", "phone_number": "+16193199669", "lata": "732", "rate_center":
+        "CORONADO", "latitude": "32.685900", "longitude": "-117.183100", "locality":
+        "Coronado", "region": "CA", "postal_code": "92118", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 361-7658", "phone_number": "+16193617658",
+        "lata": "732", "rate_center": "CHULAVISTA", "latitude": "32.640100", "longitude":
+        "-117.084200", "locality": "Chula Vista", "region": "CA", "postal_code": "91909",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 916-4821", "phone_number": "+16199164821", "lata": "732", "rate_center":
+        "LA MESA", "latitude": "32.767800", "longitude": "-117.023100", "locality":
+        "La Mesa", "region": "CA", "postal_code": "91941", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 568-2107", "phone_number": "+16195682107",
+        "lata": "732", "rate_center": "CORONADO", "latitude": "32.685900", "longitude":
+        "-117.183100", "locality": "Coronado", "region": "CA", "postal_code": "92118",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 319-9605", "phone_number": "+16193199605", "lata": "732", "rate_center":
+        "CORONADO", "latitude": "32.685900", "longitude": "-117.183100", "locality":
+        "Coronado", "region": "CA", "postal_code": "92118", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 345-5204", "phone_number": "+16193455204",
+        "lata": "732", "rate_center": "DULZURA", "latitude": "32.628300", "longitude":
+        "-116.675100", "locality": "Dulzura", "region": "CA", "postal_code": "91917",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 916-4560", "phone_number": "+16199164560", "lata": "732", "rate_center":
+        "LA MESA", "latitude": "32.767800", "longitude": "-117.023100", "locality":
+        "La Mesa", "region": "CA", "postal_code": "91941", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 319-9029", "phone_number": "+16193199029",
+        "lata": "732", "rate_center": "CORONADO", "latitude": "32.685900", "longitude":
+        "-117.183100", "locality": "Coronado", "region": "CA", "postal_code": "92118",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 789-6945", "phone_number": "+16197896945", "lata": "732", "rate_center":
+        "NATIONALCY", "latitude": "32.678100", "longitude": "-117.099200", "locality":
+        "National City", "region": "CA", "postal_code": "91950", "iso_country": "US",
+        "address_requirements": "none", "beta": false, "capabilities": {"voice": true,
+        "SMS": true, "MMS": true, "fax": true}}, {"friendly_name": "(619) 568-2054",
+        "phone_number": "+16195682054", "lata": "732", "rate_center": "CORONADO",
+        "latitude": "32.685900", "longitude": "-117.183100", "locality": "Coronado",
+        "region": "CA", "postal_code": "92118", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 345-5250", "phone_number": "+16193455250",
+        "lata": "732", "rate_center": "DULZURA", "latitude": "32.628300", "longitude":
+        "-116.675100", "locality": "Dulzura", "region": "CA", "postal_code": "91917",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 361-7434", "phone_number": "+16193617434", "lata": "732", "rate_center":
+        "CHULAVISTA", "latitude": "32.640100", "longitude": "-117.084200", "locality":
+        "Chula Vista", "region": "CA", "postal_code": "91909", "iso_country": "US",
+        "address_requirements": "none", "beta": false, "capabilities": {"voice": true,
+        "SMS": true, "MMS": true, "fax": true}}, {"friendly_name": "(619) 319-9870",
+        "phone_number": "+16193199870", "lata": "732", "rate_center": "CORONADO",
+        "latitude": "32.685900", "longitude": "-117.183100", "locality": "Coronado",
+        "region": "CA", "postal_code": "92118", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 345-5338", "phone_number": "+16193455338",
+        "lata": "732", "rate_center": "DULZURA", "latitude": "32.628300", "longitude":
+        "-116.675100", "locality": "Dulzura", "region": "CA", "postal_code": "91917",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 345-5196", "phone_number": "+16193455196", "lata": "732", "rate_center":
+        "DULZURA", "latitude": "32.628300", "longitude": "-116.675100", "locality":
+        "Dulzura", "region": "CA", "postal_code": "91917", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 319-9849", "phone_number": "+16193199849",
+        "lata": "732", "rate_center": "CORONADO", "latitude": "32.685900", "longitude":
+        "-117.183100", "locality": "Coronado", "region": "CA", "postal_code": "92118",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 825-2349", "phone_number": "+16198252349", "lata": "732", "rate_center":
+        "LA MESA", "latitude": "32.767800", "longitude": "-117.023100", "locality":
+        "La Mesa", "region": "CA", "postal_code": "91941", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 361-7681", "phone_number": "+16193617681",
+        "lata": "732", "rate_center": "CHULAVISTA", "latitude": "32.640100", "longitude":
+        "-117.084200", "locality": "Chula Vista", "region": "CA", "postal_code": "91909",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 319-9655", "phone_number": "+16193199655", "lata": "732", "rate_center":
+        "CORONADO", "latitude": "32.685900", "longitude": "-117.183100", "locality":
+        "Coronado", "region": "CA", "postal_code": "92118", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 568-2077", "phone_number": "+16195682077",
+        "lata": "732", "rate_center": "CORONADO", "latitude": "32.685900", "longitude":
+        "-117.183100", "locality": "Coronado", "region": "CA", "postal_code": "92118",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 632-4294", "phone_number": "+16196324294", "lata": "732", "rate_center":
+        "CHULAVISTA", "latitude": "32.640100", "longitude": "-117.084200", "locality":
+        "Chula Vista", "region": "CA", "postal_code": "91909", "iso_country": "US",
+        "address_requirements": "none", "beta": false, "capabilities": {"voice": true,
+        "SMS": true, "MMS": true, "fax": true}}, {"friendly_name": "(619) 361-7390",
+        "phone_number": "+16193617390", "lata": "732", "rate_center": "CHULAVISTA",
+        "latitude": "32.640100", "longitude": "-117.084200", "locality": "Chula Vista",
+        "region": "CA", "postal_code": "91909", "iso_country": "US", "address_requirements":
+        "none", "beta": false, "capabilities": {"voice": true, "SMS": true, "MMS":
+        true, "fax": true}}, {"friendly_name": "(619) 916-4970", "phone_number": "+16199164970",
+        "lata": "732", "rate_center": "LA MESA", "latitude": "32.767800", "longitude":
+        "-117.023100", "locality": "La Mesa", "region": "CA", "postal_code": "91941",
+        "iso_country": "US", "address_requirements": "none", "beta": false, "capabilities":
+        {"voice": true, "SMS": true, "MMS": true, "fax": true}}, {"friendly_name":
+        "(619) 361-7404", "phone_number": "+16193617404", "lata": "732", "rate_center":
+        "CHULAVISTA", "latitude": "32.640100", "longitude": "-117.084200", "locality":
+        "Chula Vista", "region": "CA", "postal_code": "91909", "iso_country": "US",
+        "address_requirements": "none", "beta": false, "capabilities": {"voice": true,
+        "SMS": true, "MMS": true, "fax": true}}], "uri": "/2010-04-01/Accounts/<TWILIO
+        ACCOUNT SID>/AvailablePhoneNumbers/US/Local.json?AreaCode=619"}'
+    http_version:
+  recorded_at: Thu, 29 Jun 2017 12:41:44 GMT
+- request:
+    method: post
+    uri: !ruby/regexp /^https:\/\/api\.twilio\.com\/2010-04-01\/Accounts\/.*\/IncomingPhoneNumbers\.json/
+    body:
+      encoding: UTF-8
+      string: PhoneNumber=%2B16196324285
+    headers:
+      User-Agent:
+      - twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)
+      Accept-Charset:
+      - utf-8
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept:
+      - application/json
+      Authorization:
+      - Basic QUM3NzE5NTg3ZGasdfsdfasdfdsxYzk5Y2YxNGQ0OTVkYTM0NTowOWVjZTRjafasdfasdfsdafM4MTU4ZA==
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 201
+      message: CREATED
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Accept, Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match,
+        If-Unmodified-Since
+      Access-Control-Allow-Methods:
+      - GET, POST, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - ETag
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 29 Jun 2017 12:41:45 GMT
+      Strict-Transport-Security:
+      - max-age=15768000
+      Twilio-Request-Duration:
+      - '0.851'
+      Twilio-Request-Id:
+      - RQ06c12853216c4a97a40f095f53c12fc6
+      X-Powered-By:
+      - AT-5000
+      X-Shenanigans:
+      - none
+      Content-Length:
+      - '1019'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"sid": "PN35e7de5f293f47c5bc3a622cdf19f13d", "account_sid": "<TWILIO
+        ACCOUNT SID>", "friendly_name": "(619) 632-4285", "phone_number": "+16196324285",
+        "voice_url": null, "voice_method": "POST", "voice_fallback_url": null, "voice_fallback_method":
+        "POST", "voice_caller_id_lookup": false, "date_created": "Thu, 29 Jun 2017
+        12:41:45 +0000", "date_updated": "Thu, 29 Jun 2017 12:41:45 +0000", "sms_url":
+        "", "sms_method": "POST", "sms_fallback_url": "", "sms_fallback_method": "POST",
+        "address_requirements": "none", "beta": false, "capabilities": {"voice": true,
+        "sms": true, "mms": true, "fax": true}, "voice_receive_mode": "voice", "status_callback":
+        "", "status_callback_method": "POST", "api_version": "2010-04-01", "voice_application_sid":
+        null, "sms_application_sid": "", "origin": "twilio", "trunk_sid": null, "emergency_status":
+        "Inactive", "emergency_address_sid": null, "uri": "/2010-04-01/Accounts/<TWILIO
+        ACCOUNT SID>/IncomingPhoneNumbers/PN35e7de5f293f47c5bc3a622cdf19f13d.json"}'
+    http_version:
+  recorded_at: Thu, 29 Jun 2017 12:41:45 GMT
+- request:
+    method: post
+    uri: !ruby/regexp /^https:\/\/api\.twilio\.com\/2010-04-01\/Accounts\/.*\/Messages.json/
+    body:
+      encoding: UTF-8
+      string: Body=You+have+a+new+reservation+request+from+Kevin+for+Data%27s+Test+Suite%3A%0A%0A++++++%27Looking+forward+to+testing+your+space+couch.%27%0A%0A++++++Reply+%5Baccept%5D+or+%5Breject%5D.&From=%2B14049476065&To=5551234
+    headers:
+      User-Agent:
+      - twilio-ruby/5.0.0.rc17 (ruby/x86_64-linux 2.2.1-p85)
+      Accept-Charset:
+      - utf-8
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept:
+      - application/json
+      Authorization:
+      - Basic QUM3NzE5NTg3ZGasdfsdfasdfdsxYzk5Y2YxNGQ0OTVkYTM0NTowOWVjZTRjafasdfasdfsdafM4MTU4ZA==
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 201
+      message: BAD REQUEST
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Accept, Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match,
+        If-Unmodified-Since
+      Access-Control-Allow-Methods:
+      - GET, POST, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - ETag
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 29 Jun 2017 16:52:14 GMT
+      Twilio-Request-Duration:
+      - '0.059'
+      Twilio-Request-Id:
+      - RQ5369c5215e13464f91abf582eb6040be
+      X-Powered-By:
+      - AT-5000
+      X-Shenanigans:
+      - none
+      Content-Length:
+      - '154'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{
+        "sid": "MMc781610ec0b3400c9e0cab8e757da937",
+        "date_created": "Mon, 19 Oct 2015 07:07:03 +0000",
+        "date_updated": "Mon, 19 Oct 2015 07:07:03 +0000",
+        "date_sent": null,
+        "account_sid": "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "to": "+15558675309",
+        "from": "+15017250604",
+        "body": "This is the ship that made the Kessel Run in fourteen parsecs?",
+        "status": "queued",
+        "num_segments": "1",
+        "num_media": "1",
+        "direction": "outbound-api",
+        "api_version": "2010-04-01",
+        "price": null,
+        "price_unit": "USD",
+        "error_code": null,
+        "error_message": null,
+        "uri": "/2010-04-01/Accounts/ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/MMc781610ec0b3400c9e0cab8e757da937.json",
+        "subresource_uris": {
+          "media": "/2010-04-01/Accounts/ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/MMc781610ec0b3400c9e0cab8e757da937/Media.json"
+        }}'
+    http_version:
+  recorded_at: Thu, 29 Jun 2017 16:52:14 GMT
+recorded_with: VCR 3.0.3

@@ -1,0 +1,10 @@
+pull_request_rules:
+  - name: automatic merge for Dependabot pull requests
+    conditions:
+      - author~=^dependabot(|-preview)\[bot\]$
+      - status-success=build (3.6)
+      - status-success=build (3.7)
+      - status-success=build (3.8)
+    actions:
+      merge:
+        method: squash

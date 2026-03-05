@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>We're going to be best friends</h1>
+<p>Thanks for your interest in signing up! Can you tell us a bit about yourself?</p>
+<form class="form-horizontal" id="new_user" action="{{ url_for('sign_up') }}" accept-charset="UTF-8" method="post">
+  {{ form.csrf_token }}
+  {{ wtf.form_field(form.first_name, form_type='horizontal') }}
+  {{ wtf.form_field(form.last_name, form_type='horizontal') }}
+  {{ wtf.form_field(form.email, form_type='horizontal') }}
+  {{ wtf.form_field(form.phone_number, form_type='horizontal') }}
+  {{ wtf.form_field(form.password, form_type='horizontal') }}
+  {{ wtf.form_field(form.confirm, form_type='horizontal') }}
+  <div class='form-group'>
+    <div class='col-sm-offset-2 col-sm-10'>
+      <input type="submit" name="commit" value="Sign Up" class="btn btn-success" />
+    </div>
+  </div>
+</form>
+{% endblock %}

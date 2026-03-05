@@ -1,0 +1,27 @@
+{% macro render_field(field) %}
+    <div class="form-group">
+        {% if field.errors %}
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {{ field.label }}
+        {{ field(class_="form-control", **kwargs) }}
+    </div>
+{% endmacro %}
+
+{% macro render_errors(form) %}
+    {% if form.errors %}
+        <div class="form-errors">
+            <p><strong>ERRORS:</strong></p>
+            <ul>
+                {% for field, error in form.errors.items() %}
+                    <li><strong>{{ field }}:</strong> {{ ', '.join(error) }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endmacro %}

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}Agents{% endblock %}
+
+{% block content %}
+  <h1>Agents and Recordings</h1>
+  {% for agent in agents %}
+    <h2>{{ agent.name }}</h2>
+    {% if agent.all_recordings %}
+      <table class="table">
+        <thead>
+          <th>Caller number</th>
+          <th>Transcription</th>
+          <th>Recording</th>
+        </thead>
+        <tbody>
+          {% for recording in agent.all_recordings %}
+            <tr>
+              <td>{{ recording.caller_number }}</td>
+              <td>{{ recording.transcription }}</td>
+              <td>
+                <audio controls="">
+                  <source src="{{ recording.url }}">
+                  Your browser does not support the audio element.
+                </audio>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No recordings.</p>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,39 @@
+name: Flask
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.8, 3.9, '3.10']
+        platform: [windows-latest, macos-latest, ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install nose2
+        pip install coveralls
+    - name: Run Tests
+      run: |
+        coverage run -m nose2
+        coveralls
+      env:
+        TELNYX_API_KEY: KEYXXXXX
+        TELNYX_CALLER_ID: +15551234567
+        TELNYX_CONNECTION_ID: conn_xxxxxx
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

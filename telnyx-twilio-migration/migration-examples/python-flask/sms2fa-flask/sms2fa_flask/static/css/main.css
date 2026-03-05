@@ -1,0 +1,24 @@
+.field_with_errors {
+  color: red;
+}
+
+body {
+  padding-top:62px;
+}
+
+footer {
+  font-size:12px;
+  color:#787878;
+  margin-top:20px;
+  padding-top:20px;
+  text-align:center;
+}
+
+footer i {
+  color:#ff0000;
+}
+
+nav a:focus {
+  text-decoration:none;
+  color:#337ab7;
+}

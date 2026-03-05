@@ -1,0 +1,11 @@
+
+{% if current_user.is_authenticated %}
+<form action="{{ url_for('logout') }}" method="POST" id="logoutForm" style="display:none;"></form>
+<li><img src="/static/images/spock.png" alt="Spock"/></li>
+<li><a href="{{ url_for('reservations') }}" id="reservationsLink">Reservations</a></li>
+<li><a href="{{ url_for('new_property') }}" id="newPropertyLink">New Vacation property</a></li>
+<li><a href="javascript:document.getElementById('logoutForm').submit()" id="logoutLink">Log out</a></li>
+{% else %}
+<li><a href="{{ url_for('register') }}" id="registerLink">Sign Up</a></li>
+<li><a href="{{ url_for('login') }}" id="loginLink">Log In</a></li>
+{% endif %}

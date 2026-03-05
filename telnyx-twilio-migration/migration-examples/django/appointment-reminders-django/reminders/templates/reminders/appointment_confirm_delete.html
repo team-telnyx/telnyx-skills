@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ appointment }}{% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-9">
+      <div class="page-header">
+        <h1>Confirm deletion</h1>
+      </div>
+
+      <form action="" method="post">
+          {% csrf_token %}
+          <p>Are you sure you want to delete <strong>{{ object }}</strong>?</p>
+          <a class="btn btn-default" href="javascript:history.back()">Back</a>
+          <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

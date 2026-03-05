@@ -1,0 +1,17 @@
+version: "3.6"
+services:
+  app:
+    stdin_open: true
+    tty: true
+    environment:
+      # Keep Twilio credentials for Authy
+      - TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - TWILIO_AUTH_TOKEN=your_account_token
+      - TWILIO_VERIFICATION_SID=VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - ACCOUNT_SECURITY_API_KEY=ENTER_SECRET_HERE
+      # Telnyx credentials for Verify API
+      - TELNYX_API_KEY=YOUR_TELNYX_API_KEY_HERE
+      - TELNYX_VERIFY_PROFILE_ID=YOUR_TELNYX_VERIFY_PROFILE_ID_HERE
+    build: .
+    ports: 
+      - "8080:8080"

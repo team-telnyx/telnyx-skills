@@ -1,0 +1,58 @@
+extends ../layout
+
+block content
+  // Main jumbotron
+  .jumbotron.bicycle-polo-background
+    .container.bicycle-polo-text
+      h1.text-center
+        strong Birchwood Bicycle Polo Co.
+      p
+        | We sell only the finest bicycle polo supplies for those seeking fame and glory in this 
+        a(href="https://www.youtube.com/watch?v=DaK9Zj3QHDY", target="_blank") sport of kings
+        | .
+      h3
+        strong Having trouble with one of our products?
+      p
+        | Talk to one of our support agents now &#8212; or fill out the support form below and someone will call you later.
+      p
+        a.btn.btn-primary.btn-lg.btn-block(href="#support", role="button") Get help
+        
+  .container
+    if(success.length > 0)
+      .alert.alert-success !{success}
+    if (errors.length > 0)
+      .alert.alert-danger !{errors}
+    h2#support Contact support
+    p.lead
+      | Talk with one of our support agents right now by clicking the "Call Support" button on the right. If you can"t talk now, fill out a support ticket and an agent will call you later.
+    .row
+      .col-md-6.col-md-push-6
+        .panel.panel-info.client-controls
+          .panel-heading
+            h3.panel-title Talk to support now
+          .panel-body
+            p
+              strong Status
+            #call-status.well.well-sm
+              | Connecting to Telnyx...
+            button.btn.btn-lg.btn-primary.call-support-button(onclick="callSupport()")
+              span.glyphicon.glyphicon-earphone(aria-hidden="true")
+              |  Call support
+            button.btn.btn-lg.btn-danger.hangup-button(disabled="", onclick="hangUp()") Hang up
+      
+      .col-md-6.col-md-pull-6
+        form(class="new-ticket")
+          .form-group
+            label Name
+            input.form-control(type='text', name="name", placeholder='Andry Zhukov')
+          .form-group
+            label Phone Number:
+            input.form-control(type='text', name="phone_number", placeholder='+16887665773')
+          .form-group
+            label Description:
+            textarea(rows=3, name="description", placeholder='Add some description').form-control
+          button.btn.btn-primary.btn-lg.btn-block(type='button') Submit ticket
+            
+      small.pull-right
+        | Header photo courtesy
+        a(href="https://www.flickr.com/photos/tink20seven/4654348885/") David Sachs via Flickr

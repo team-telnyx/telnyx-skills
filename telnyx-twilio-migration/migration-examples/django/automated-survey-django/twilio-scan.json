@@ -1,0 +1,1933 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/automated-survey-django",
+  "scan_time": "2026-03-05T18:01:22Z",
+  "languages_detected": ["python"],
+  "products_used": ["voice", "messaging"],
+  "files": [
+    {
+      "path": "automated_survey/views/questions.py",
+      "language": "python",
+      "products": ["voice", "messaging"],
+      "patterns_matched": ["from twilio.twiml.messaging_response import MessagingResponse", "from twilio.twiml.voice_response import VoiceResponse", "twiml_response = VoiceResponse()"]
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "language": "python",
+      "products": ["voice", "messaging"],
+      "patterns_matched": ["from twilio.twiml.messaging_response import MessagingResponse", "from twilio.twiml.voice_response import VoiceResponse", "response = VoiceResponse()"]
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "language": "python",
+      "products": ["voice", "messaging"],
+      "patterns_matched": ["from twilio.twiml.voice_response import VoiceResponse", "from twilio.twiml.messaging_response import MessagingResponse", "twiml_response = VoiceResponse()"]
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "language": "python",
+      "products": [],
+      "patterns_matched": ["from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"]
+    }
+  ],
+  "env_vars": [
+  ],
+  "config_files": [
+    {
+      "path": "requirements_updated.txt",
+      "type": "pip",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "pip",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pip",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "pip",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "pip",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "pip",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "pip",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pip",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pip",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pip",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pip",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "pip",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "pip",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pip",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "pip",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "pip",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "pip",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "pip",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "npm",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "npm",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "npm",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "npm",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "npm",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "npm",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "npm",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "npm",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "npm",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "npm",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "npm",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "npm",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "npm",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "npm",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "npm",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "npm",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "npm",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "npm",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "npm",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "npm",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "npm",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "npm",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "gem",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "gem",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "gem",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "gem",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "gem",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "gem",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "gem",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "gem",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "gem",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "gem",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "gem",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "gem",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gem",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gem",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "gem",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "gem",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "gem",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "gem",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "gem",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "gem",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "gem",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "gem",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "gomod",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "gomod",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "gomod",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "gomod",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "gomod",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "gomod",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "gomod",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "gomod",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "gomod",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "gomod",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "gomod",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "gomod",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gomod",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gomod",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "gomod",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "gomod",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "gomod",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "gomod",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "gomod",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "gomod",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "gomod",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "gomod",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "maven",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "maven",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "maven",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "maven",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "maven",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "maven",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "maven",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "maven",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "maven",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "maven",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "maven",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "maven",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "maven",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "maven",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "maven",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "maven",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "maven",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "maven",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "maven",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "maven",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "maven",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "maven",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "gradle",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "gradle",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "gradle",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "gradle",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "gradle",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "gradle",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "gradle",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "gradle",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "gradle",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "gradle",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "gradle",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "gradle",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gradle",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gradle",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "gradle",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "gradle",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "gradle",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "gradle",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "gradle",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "gradle",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "gradle",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "gradle",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "composer",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "composer",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "composer",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "composer",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "composer",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "composer",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "composer",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "composer",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "composer",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "composer",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "composer",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "composer",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "composer",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "composer",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "composer",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "composer",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "composer",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "composer",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "composer",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "composer",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "composer",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "composer",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "pipenv",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "pipenv",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pipenv",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "pipenv",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "pipenv",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "pipenv",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "pipenv",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "pipenv",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "pipenv",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pipenv",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pipenv",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pipenv",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pipenv",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pipenv",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "pipenv",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "pipenv",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pipenv",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "pipenv",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "pipenv",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "pipenv",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "pipenv",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "pipenv",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "setuptools",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "setuptools",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "setuptools",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "setuptools",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "setuptools",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "setuptools",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "setuptools",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "setuptools",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "setuptools",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "setuptools",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "setuptools",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "setuptools",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "setuptools",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "setuptools",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "setuptools",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "setuptools",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "setuptools",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "setuptools",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "setuptools",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "setuptools",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "setuptools",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "setuptools",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "setuptools",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "setuptools",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "setuptools",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "setuptools",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "setuptools",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "setuptools",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "setuptools",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "setuptools",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "setuptools",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "pyproject",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "pyproject",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pyproject",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "pyproject",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "pyproject",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "pyproject",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "pyproject",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "pyproject",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "pyproject",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pyproject",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pyproject",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pyproject",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pyproject",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pyproject",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "pyproject",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "pyproject",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pyproject",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "pyproject",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "pyproject",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "pyproject",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "pyproject",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "pyproject",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "pip",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "pip",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pip",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "pip",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "pip",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "pip",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "pip",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pip",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pip",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pip",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pip",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "pip",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "pip",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pip",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "pip",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "pip",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "pip",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "pip",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "cocoapods",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "cocoapods",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "cocoapods",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "cocoapods",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "cocoapods",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "cocoapods",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "cocoapods",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "cocoapods",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "cocoapods",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "cocoapods",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "cocoapods",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "cocoapods",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "cocoapods",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "cocoapods",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "cocoapods",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "cocoapods",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "cocoapods",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "cocoapods",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "cocoapods",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "cocoapods",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "cocoapods",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "cocoapods",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "requirements_updated.txt",
+      "type": "pub",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "Procfile",
+      "type": "pub",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "pub",
+      "line": "- dependency-name: twilio"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "pub",
+      "line": "from automated_survey.views.surveys import redirects_twilio_request_to_proper_endpoint"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "pub",
+      "line": "csrf_exempt(redirects_twilio_request_to_proper_endpoint),"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "pub",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "pub",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "pub",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "pub",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pub",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pub",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "pub",
+      "line": "def redirects_twilio_request_to_proper_endpoint(request):"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pub",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pub",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "pub",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "pub",
+      "line": "DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "pub",
+      "line": "twilio==6.9.0"
+    },
+    {
+      "path": "manage.py",
+      "type": "pub",
+      "line": "os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": "app.json",
+      "type": "pub",
+      "line": "\"twilio\","
+    },
+    {
+      "path": "app.json",
+      "type": "pub",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "pub",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[Read the full tutorial](https://www.twilio.com/docs/tutorials/walkthrough/automated-survey/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[right here](https://www.twilio.com/user/account/phone-numbers/search). Once"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[the number management page](https://www.twilio.com/user/account/phone-numbers/incoming)"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "pub",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "app.json",
+      "type": "nuget",
+      "line": "\"description\": \"Perform automated phone surveys with Twilio, TwiML, Python and Django\","
+    },
+    {
+      "path": "app.json",
+      "type": "nuget",
+      "line": "\"website\": \"https://github.com/TwilioDevEd/automated-survey-django\","
+    },
+    {
+      "path": "app.json",
+      "type": "nuget",
+      "line": "\"repository\": \"https://github.com/TwilioDevEd/automated-survey-django\","
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[![Build Status](https://travis-ci.org/TwilioDevEd/automated-survey-django.svg?branch=master)](https://travis-ci.org/TwilioDevEd/automated-survey-django)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "Use Twilio to conduct automated phone surveys."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "### Configure Twilio to call your webhooks"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "You will also need to configure Twilio to call your application when"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "to provision at least one Twilio number with voice"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "and open a number's configuration by clicking on it. ![Open a number's configuration](https://raw.github.com/TwilioDevEd/automated-survey-django/master/images/number-conf.png)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "in production somewhere, you need to point Twilio to"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "![Webhook Voice configuration](https://raw.github.com/TwilioDevEd/automated-survey-django/master/images/webhook-conf-voice.png)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "![Webhook SMS configuration](https://raw.github.com/TwilioDevEd/automated-survey-django/master/images/webhook-conf-sms.png)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "* Lovingly crafted by Twilio Developer Education."
+    }
+  ],
+  "twiml_files": [],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": "requirements_updated.txt",
+      "type": "env"
+    },
+    {
+      "path": "Procfile",
+      "type": "env"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "type": "env"
+    },
+    {
+      "path": "automated_survey/urls.py",
+      "type": "env"
+    },
+    {
+      "path": "automated_survey/views/questions.py",
+      "type": "env"
+    },
+    {
+      "path": "automated_survey/views/question_responses.py",
+      "type": "env"
+    },
+    {
+      "path": "automated_survey/views/surveys.py",
+      "type": "env"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "env"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "env"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "env"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "env"
+    },
+    {
+      "path": "manage.py",
+      "type": "env"
+    },
+    {
+      "path": "app.json",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    },
+    {
+      "path": "templates/base_template.html",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 4,
+    "total_products": 2,
+    "total_languages": 1,
+    "has_webhook_validation": false,
+    "has_twiml": false,
+    "has_env_vars": false,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

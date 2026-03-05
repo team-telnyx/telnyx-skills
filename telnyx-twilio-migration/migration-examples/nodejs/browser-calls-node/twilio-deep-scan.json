@@ -1,0 +1,75 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/browser-calls-node",
+  "scan_time": "2026-03-05T06:22:17.966002+00:00",
+  "languages_detected": [
+    "javascript"
+  ],
+  "products_used": [
+    "general"
+  ],
+  "files": [
+    {
+      "path": "package.json",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "\"url\": \"https://github.com/TwilioDevEd/browser-calls-node\"",
+          "line": 17,
+          "detection_method": "regex",
+          "context": [
+            "  \"repository\": {",
+            "    \"type\": \"git\",",
+            "    \"url\": \"https://github.com/TwilioDevEd/browser-calls-node\"",
+            "  },",
+            "  \"keywords\": ["
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "public/js/browser-calls.js",
+      "language": "javascript",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "* Migrated from Twilio Client to Telnyx WebRTC SDK",
+          "line": 3,
+          "detection_method": "heuristic",
+          "context": [
+            "/**",
+            " * Telnyx WebRTC Client configuration for the browser-calls-node",
+            " * Migrated from Twilio Client to Telnyx WebRTC SDK",
+            " */",
+            ""
+          ],
+          "confidence": "low",
+          "product": "general"
+        }
+      ]
+    }
+  ],
+  "env_vars": [],
+  "config_files": [
+    "package.json"
+  ],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 2,
+    "total_detections": 2,
+    "by_method": {
+      "heuristic": 1
+    },
+    "by_confidence": {
+      "low": 1
+    }
+  }
+}

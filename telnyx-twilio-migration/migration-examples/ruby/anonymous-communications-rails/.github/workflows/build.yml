@@ -1,0 +1,49 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install SQLite (Ubuntu)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -yqq libsqlite3-dev
+      - name: Install SQLite (OSX)
+        if: runner.os == 'macOs'
+        run: brew install sqlite3
+      - name: Install SQLite (Windows)
+        if: runner.os == 'Windows'
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install sqlite
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false
+          ruby-version: '3.0'
+      - name: Install SQLite gem (Windows)
+        if: runner.os == 'Windows'
+        run: gem install sqlite3 --platform=ruby -- --with-sqlite3-include=/c:/ProgramData/ProgramData/lib/SQLite/tools
+      - name: Install gems
+        run: |
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+      - name: Run tests
+        run: |
+          cp .env.example .env
+          bundle exec rails db:migrate
+          bundle exec rspec
+        env:
+          RAILS_ENV: test

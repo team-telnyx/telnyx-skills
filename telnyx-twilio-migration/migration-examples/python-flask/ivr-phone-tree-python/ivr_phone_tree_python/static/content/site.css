@@ -1,0 +1,25 @@
+﻿body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 90%;
+    background-image: url("http://365psd.com/images/previews/cee/woman-talking-on-the-phone-25962.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    width: 99%
+}
+
+footer i {
+    color:#ff0000;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+

@@ -1,0 +1,2048 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask",
+  "scan_time": "2026-03-05T06:27:51Z",
+  "languages_detected": ["json"],
+  "products_used": ["voice", "messaging"],
+  "files": [
+    {
+      "path": "MIGRATION-REPORT.md",
+      "language": "unknown",
+      "products": ["voice", "messaging"],
+      "patterns_matched": ["from twilio.twiml.voice_response import VoiceResponse", "from twilio.twiml.messaging_response import MessagingResponse", "response = VoiceResponse()"]
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "language": "json",
+      "products": ["voice", "messaging"],
+      "patterns_matched": ["\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\",", "\"from twilio.twiml.messaging_response import MessagingResponse\",", "\"from twilio.twiml.voice_response import VoiceResponse\",", "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\",", "\"pattern\": \"from twilio.rest import Client\",", "\"from twilio.rest import Client\",", "\"pattern\": \"VoiceResponse\",", "\"    response = VoiceResponse()\","]
+    }
+  ],
+  "env_vars": [
+    {
+      "name": "TWILIO_ACCOUNT_SID",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md", "twilio-deep-scan.json"]
+    },
+    {
+      "name": "TWILIO_NUMBER",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md", "twilio-deep-scan.json"]
+    },
+    {
+      "name": "TWILIO_API_KEY",
+      "files": ["MIGRATION-PLAN.md", "twilio-deep-scan.json"]
+    },
+    {
+      "name": "TWILIO_AUTH_TOKEN",
+      "files": ["MIGRATION-REPORT.md", "MIGRATION-PLAN.md"]
+    }
+  ],
+  "config_files": [
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "pip",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "npm",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "npm",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "gem",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "gem",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "gomod",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "gomod",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "maven",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "maven",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "gradle",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "gradle",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "composer",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "composer",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "pipenv",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "pipenv",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "setuptools",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "setuptools",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "setuptools",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "pyproject",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "pyproject",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "pip",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "pip",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "cocoapods",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "cocoapods",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "pub",
+      "line": "twilio"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "| `requirements.txt` | Removed `twilio==6.63.2`, kept `telnyx>=2.0,<3.0` |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "from twilio.twiml.voice_response import VoiceResponse"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "from twilio.twiml.messaging_response import MessagingResponse"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "pub",
+      "line": "<a href=\"http://www.twilio.com\">@twilio</a>"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "> Migration Agent: telnyx-twilio-migration"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "| Project Root | `/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask` |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "| Current Branch | `migrate/twilio-to-telnyx` |"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/airtng-masked-numbers-flask\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"twilio==6.63.2\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"# Found at https://www.twilio.com/console\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"# twilio api:core:keys:create --friendly-name=voice-client-javascript -o json\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"# Purchase one at https://www.twilio.com/user/account/phone-numbers\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"from twilio.twiml.messaging_response import MessagingResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"from twilio.twiml.voice_response import VoiceResponse\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"from twilio.rest import Client\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"from twilio.rest import Client\","
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "> **Twilio → Telnyx Migration**"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| Twilio Product | Status | Telnyx Replacement |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| `airtng_flask/views.py` | Replaced Twilio TwiML builder classes with TeXML XML strings |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "**Before (Twilio):**"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "| Old (Twilio) | New (Telnyx) |"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "This repository implements a **custom number masking solution** using DIY number pooling - NOT the official Twilio Proxy product. The SKILL correctly identified this as a **migratable feature**, not an unsupported product."
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "No warning about \"unsupported product\" was needed because the code doesn't use Twilio Proxy APIs."
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- [ ] Cancel Twilio account after validation period"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "All phases completed successfully. The application has been fully migrated from Twilio to Telnyx."
+    },
+    {
+      "path": "airtng_flask/models/reservation.py",
+      "type": "nuget",
+      "line": "Uses Telnyx Number Pool API instead of Twilio available_phone_numbers."
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "> Generated by the Telnyx Twilio Migration Skill"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Products in Use | Voice, Messaging, Numbers |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Twilio Product | Telnyx Replacement | Files Affected | Complexity | Notes |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Numbers (Custom) | Number Pool API | 1 (reservation.py) | Medium | NOT Twilio Proxy - custom implementation |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "This repository implements a **custom number masking solution** - NOT the official Twilio Proxy product. The code:"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "- [ ] **Phase 3: Setup** — Telnyx SDK installed alongside Twilio, env vars updated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "- [ ] **Phase 6: Cleanup** — Twilio SDK removed, report generated"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| Variable | Current (Twilio) | New (Telnyx) | Notes |"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "| `airtng_flask/models/reservation.py` | Replace Twilio client with Telnyx |"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"# Twilio API credentials\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"# Twilio phone number\""
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"# Twilio phone number\","
+    },
+    {
+      "path": "LICENSE",
+      "type": "nuget",
+      "line": "Copyright (c) 2012 Twilio, Inc."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "![](https://github.com/TwilioDevEd/airtng-masked-numbers-flask/workflows/Flask/badge.svg)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "git clone git@github.com:TwilioDevEd/airtng-flask.git"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "* Lovingly crafted by Twilio Developer Education."
+    }
+  ],
+  "twiml_files": ["MIGRATION-REPORT.md", "airtng_flask/views.py"],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": "requirements-to-freeze.txt",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "env"
+    },
+    {
+      "path": "airtng_flask/models/reservation.py",
+      "type": "env"
+    },
+    {
+      "path": "airtng_flask/templates/layout.html",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "env"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "env"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "env"
+    },
+    {
+      "path": "LICENSE",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 2,
+    "total_products": 2,
+    "total_languages": 1,
+    "has_webhook_validation": false,
+    "has_twiml": true,
+    "has_env_vars": true,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

@@ -1,0 +1,2199 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node",
+  "scan_time": "2026-03-05T06:22:07Z",
+  "languages_detected": ["json"],
+  "products_used": ["voice"],
+  "files": [
+    {
+      "path": "twilio-deep-scan.json",
+      "language": "json",
+      "products": ["voice"],
+      "patterns_matched": ["\"pattern\": \"const twilio = require('twilio');\",", "\"const twilio = require('twilio');\",", "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\",", "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\",", "\"pattern\": \"\\\"description\\\": \\\"Create an IVR phone tree with Node and Twilio.\\\",\",", "\"  \\\"description\\\": \\\"Create an IVR phone tree with Node and Twilio.\\\",\",", "\"pattern\": \"const voiceResponse = new VoiceResponse();\",", "\"  const voiceResponse = new VoiceResponse();\",", "\"pattern\": \"const twiml = new VoiceResponse();\",", "\"    const twiml = new VoiceResponse();\",", "\"  const twiml = new VoiceResponse();\","]
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "language": "unknown",
+      "products": ["voice"],
+      "patterns_matched": ["- **Before**: Used Twilio `VoiceResponse` builder class", "- Replaced `new VoiceResponse()` with template literal XML strings"]
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "language": "unknown",
+      "products": ["voice"],
+      "patterns_matched": ["1. `src/ivr/handler.js` - Core IVR logic using VoiceResponse", "1. **Voice Builder → Raw XML**: Replace `VoiceResponse` class with raw TeXML string generation", "- [ ] Migrate handler.js (VoiceResponse → raw XML)"]
+    }
+  ],
+  "env_vars": [
+  ],
+  "config_files": [
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "pip",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "npm",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "npm",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gem",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "gem",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gomod",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "gomod",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "maven",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "maven",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "gradle",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "gradle",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "composer",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "composer",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pipenv",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "pipenv",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "setuptools",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "setuptools",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "setuptools",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pyproject",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "pyproject",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pip",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "pip",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "cocoapods",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "cocoapods",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- ✅ Removed `twilio@^3.0.0-rc.17`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- **Before**: Used `twilio.webhook({validate: false})` middleware"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- Updated keywords: `twilio` → `telnyx`, `twiml` → `texml`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "The original code used `twilio.webhook({validate: false})` which disabled validation. We implemented proper Telnyx Ed25519 signature validation that:"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- Skill Documentation: `telnyx-twilio-migration/SKILL.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- Voice Migration Guide: `telnyx-twilio-migration/references/voice-migration.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- TeXML Verb Reference: `telnyx-twilio-migration/references/texml-verbs.md`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- Webhook Migration Guide: `telnyx-twilio-migration/references/webhook-migration.md`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "2. `src/router.js` - Webhook middleware using twilio.webhook()"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "2. **Webhook Middleware**: Replace `twilio.webhook()` with Telnyx Ed25519 signature validation"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "4. **Dependencies**: Add `telnyx` SDK alongside `twilio`"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "pub",
+      "line": "- [ ] Migrate router.js (remove twilio.webhook, add Telnyx signature validation)"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/ivr-phone-tree-node\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"const twilio = require('twilio');\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"const VoiceResponse = require('twilio').twiml.VoiceResponse;\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"router.use('/ivr', twilio.webhook({validate: false}), ivrRouter);\","
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "pub",
+      "line": "a(href='http://www.twilio.com') @twilio"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "﻿<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[Read the full tutorial here!](https://www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/node/express)"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "package.json",
+      "type": "nuget",
+      "line": "\"url\": \"https://github.com/TwilioDevEd/ivr-phone-tree-node\""
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "# Migration Report: IVR Phone Tree (Twilio → Telnyx)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- **Before**: Used Twilio `VoiceResponse` builder class"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "PASS: No residual Twilio patterns"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- [x] Migrate code from Twilio to Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- [x] Remove Twilio SDK"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "# Migration Plan: IVR Phone Tree (Twilio → Telnyx)"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "nuget",
+      "line": "- Only 2-3 files with Twilio code"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"\\\"description\\\": \\\"Create an IVR phone tree with Node and Twilio.\\\",\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"  \\\"description\\\": \\\"Create an IVR phone tree with Node and Twilio.\\\",\","
+    },
+    {
+      "path": "LICENSE",
+      "type": "nuget",
+      "line": "Copyright (c) 2017 Twilio Inc."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "# IVR Phone Tree: IVR for beginners. Powered by Twilio - Node.js/Express"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[![Node.js CI](https://github.com/TwilioDevEd/ivr-phone-tree-node/actions/workflows/node.js.yml/badge.svg)](https://github.com/TwilioDevEd/ivr-phone-tree-node/actions/workflows/node.js.yml)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "git clone git@github.com:TwilioDevEd/ivr-phone-tree-node.git \\"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "1. Provision a number under the [Twilio's Manage Numbers](https://www.twilio.com/console/phone-numbers/incoming)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "* Lovingly crafted by Twilio Developer Education."
+    }
+  ],
+  "twiml_files": ["src/ivr/handler.js", "MIGRATION-REPORT.md"],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": "package.json",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-PLAN.md",
+      "type": "env"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "env"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "env"
+    },
+    {
+      "path": "LICENSE",
+      "type": "env"
+    },
+    {
+      "path": "views/layout.jade",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 3,
+    "total_products": 1,
+    "total_languages": 1,
+    "has_webhook_validation": false,
+    "has_twiml": true,
+    "has_env_vars": false,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

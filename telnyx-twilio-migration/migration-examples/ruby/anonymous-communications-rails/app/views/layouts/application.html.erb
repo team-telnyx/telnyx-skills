@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Airtng - The Next Generation of Vacation rentals</title>
+  <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    '//cdnjs.cloudflare.com/ajax/libs/authy-forms.css/2.2/form.authy.min.css', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/authy-forms.js/2.2/form.authy.min.js', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="<%= yield (:body_class) %>">
+  <%= yield :nav_bg %>
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-transparent">
+      <a class="navbar-brand" href="/">airtng</a>
+      <ul class="navbar-nav navbar-right pull-right">
+        <% if signed_in? %>
+          <li><%= image_tag("spock.png") %></li>
+          <% if current_user.reservations.present? %>
+            <li><%= link_to 'Reservations', '/reservations' %></li>
+          <% end %>
+          <li><%= link_to 'New Vacation property', new_vacation_property_path %></li>
+          <li><%= link_to "Log Out", '/logout' %></li>
+        <% else %>
+          <li><%= link_to "Sign Up", new_user_path %></li>
+          <li><%= link_to "Log In", '/login' %></li>
+        <% end %>
+        
+      </ul>
+    </nav>
+
+  <%= yield :hero %>
+  <section id="main" class="push-nav">
+    <div class="flash-above"><%= flash_messages %></div>
+    <%= yield %>
+  </section>
+
+  <footer>
+    Made with <i class="fa fa-heart"></i> by your pals
+    <a href="http://www.twilio.com">@twilio</a>
+  </footer>
+
+</body>
+</html>

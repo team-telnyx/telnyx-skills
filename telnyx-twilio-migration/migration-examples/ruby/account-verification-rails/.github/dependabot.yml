@@ -1,0 +1,47 @@
+version: 2
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: bcrypt
+    versions:
+    - 3.1.16
+  - dependency-name: uglifier
+    versions:
+    - 4.2.0
+  - dependency-name: rails
+    versions:
+    - 4.2.11.1
+  - dependency-name: rails-html-sanitizer
+    versions:
+    - 1.3.0
+  - dependency-name: loofah
+    versions:
+    - 2.9.0
+  - dependency-name: nokogiri
+    versions:
+    - 1.11.1
+  - dependency-name: jquery-rails
+    versions:
+    - 4.3.4
+  - dependency-name: spring
+    versions:
+    - 2.1.1
+  - dependency-name: rake
+    versions:
+    - 13.0.1
+  - dependency-name: jbuilder
+    versions:
+    - 2.9.1
+  - dependency-name: rack
+    versions:
+    - 1.6.13
+  - dependency-name: sprockets
+    versions:
+    - 3.7.2
+  - dependency-name: coffee-rails
+    versions:
+    - 4.2.2

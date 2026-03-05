@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% load bootstrap_tags %}
+{% load phone_number_filter %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+  <h1>Call Tracking with Twilio</h1>
+
+  <p>This app shows you how to implement a sample call tracking application with Twilio. Add a new phone number below to get started.</p>
+
+  <div class="row">
+
+    <div class="col-md-5">
+
+      <h2>Add a new number</h2>
+      <p>Create a new lead source by purchasing a new phone number. Area code is optional.</p>
+
+      <form class="form-inline" method="post" action="/call-tracking/list-numbers">
+        {% csrf_token %}
+        {{ form|as_bootstrap_inline }}
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Search</button>
+          </div>
+        </div>
+      </form>
+
+      <br />
+
+      <h2>Lead sources</h2>
+      <p>These are the lead sources currently in the system. Call one and refresh the page to see the charts update.</p>
+
+      {% if lead_sources %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Incoming number</th>
+              <th>Forwarding number</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for lead_source in lead_sources %}
+              <tr>
+                <td>{{ lead_source.name }}</td>
+                <td>{{ lead_source.incoming_number.as_national }}</td>
+                <td>{{ lead_source.forwarding_number.as_national|default:"(not set)" }}</td>
+                <td>
+                  <a class="btn btn-default btn-xs" href="{% url 'edit_lead_source' lead_source.pk %}">Edit</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p><b>Add a new number to populate this list</b></p>
+      {% endif %}
+
+    </div>
+
+    <div class="col-md-7">
+      <h2>Charts</h2>
+      <p>The latest statistics about how the lead sources are performing.</p>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Calls by lead source</h3>
+          <p>The number of incoming calls each lead source has received.</p>
+          <canvas id="leadsBySource"></canvas>
+        </div>
+
+        <div class="col-md-6">
+          <h3>Calls by city</h3>
+          <p>The number of calls from different cities, based on Twilio call data</p>
+          <canvas id="leadsByCity"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div><!--/row-->
+{% endblock %}
+
+{% block page_js %}
+  <script src="{% static 'js/Chart.js' %}"></script>
+  <script src="{% static 'js/callTracking.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,306 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/call-tracking-django",
+  "scan_time": "2026-03-05T06:22:23.899988+00:00",
+  "languages_detected": [
+    "python"
+  ],
+  "products_used": [
+    "general"
+  ],
+  "files": [
+    {
+      "path": ".env.example",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local",
+          "line": 4,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "# Django settings to use in this environment",
+            "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local",
+            "",
+            "# Telnyx API credentials"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "language": "python",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "# Telnyx API configuration - migrated from Twilio",
+          "line": 27,
+          "detection_method": "heuristic",
+          "context": [
+            "ALLOWED_HOSTS = []",
+            "",
+            "# Telnyx API configuration - migrated from Twilio",
+            "TELNYX_API_KEY = os.environ.get('TELNYX_API_KEY', None)",
+            "if not TELNYX_API_KEY:"
+          ],
+          "confidence": "low",
+          "product": "general"
+        },
+        {
+          "pattern": "# Legacy Twilio credentials (removed - migration complete)",
+          "line": 49,
+          "detection_method": "heuristic",
+          "context": [
+            "    raise ImproperlyConfigured(missing_connection_id_message)",
+            "",
+            "# Legacy Twilio credentials (removed - migration complete)",
+            "",
+            "# Application definition"
+          ],
+          "confidence": "low",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "call_tracking/views.py",
+      "language": "python",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "\"\"\"Uses the Twilio API to generate a list of available phone numbers\"\"\"",
+          "line": 50,
+          "detection_method": "regex",
+          "context": [
+            "# Views for purchase number workflow",
+            "def list_numbers(request):",
+            "    \"\"\"Uses the Twilio API to generate a list of available phone numbers\"\"\"",
+            "    form = AreaCodeForm(request.POST)",
+            ""
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "# We received a valid area code - query the Twilio API",
+          "line": 54,
+          "detection_method": "heuristic",
+          "context": [
+            "",
+            "    if form.is_valid():",
+            "        # We received a valid area code - query the Twilio API",
+            "        area_code = form.cleaned_data['area_code']",
+            ""
+          ],
+          "confidence": "low",
+          "product": "general"
+        },
+        {
+          "pattern": "'There are no Twilio numbers available for area code {0}. Search for numbers in a different area code.'.format(area_code))",
+          "line": 63,
+          "detection_method": "regex",
+          "context": [
+            "            messages.error(",
+            "                request,",
+            "                'There are no Twilio numbers available for area code {0}. Search for numbers in a different area code.'.format(area_code))",
+            "            return redirect('home')",
+            ""
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "\"\"\"Purchases a new phone number using the Twilio API\"\"\"",
+          "line": 80,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "def purchase_number(request):",
+            "    \"\"\"Purchases a new phone number using the Twilio API\"\"\"",
+            "    form = PurchaseNumberForm(request.POST)",
+            ""
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "# Check if it's Telnyx (JSON) or legacy Twilio (form data)",
+          "line": 124,
+          "detection_method": "heuristic",
+          "context": [
+            "    # Telnyx sends nested JSON payloads - parse accordingly",
+            "    # Form data is used for TeXML callbacks: request.POST['To'], request.POST['From']",
+            "    # Check if it's Telnyx (JSON) or legacy Twilio (form data)",
+            "    if request.content_type == 'application/json':",
+            "        # Telnyx JSON payload"
+          ],
+          "confidence": "low",
+          "product": "general"
+        },
+        {
+          "pattern": "# Raw XML string (Telnyx doesn't have a builder class like Twilio)",
+          "line": 147,
+          "detection_method": "heuristic",
+          "context": [
+            "",
+            "    # Respond with TeXML that connects the caller to the forwarding_number",
+            "    # Raw XML string (Telnyx doesn't have a builder class like Twilio)",
+            "    texml_response = '''<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<Response>"
+          ],
+          "confidence": "low",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "call_tracking/models.py",
+      "language": "python",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "help_text='A phone number purchased through Twilio')",
+          "line": 28,
+          "detection_method": "regex",
+          "context": [
+            "    incoming_number = PhoneNumberField(",
+            "        unique=True,",
+            "        help_text='A phone number purchased through Twilio')",
+            "    forwarding_number = PhoneNumberField(",
+            "        blank=True,"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        },
+        {
+          "pattern": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more",
+          "line": 65,
+          "detection_method": "heuristic",
+          "context": [
+            "",
+            "    # A couple examples of fields you could track for each incoming call",
+            "    # See https://www.twilio.com/docs/api/twiml/twilio_request for more",
+            "    city = models.CharField(max_length=100)",
+            "    state = models.CharField(max_length=2)"
+          ],
+          "confidence": "low",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "call_tracking/urls.py",
+      "language": "python",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "# URLs for searching for and purchasing a new Twilio number",
+          "line": 13,
+          "detection_method": "heuristic",
+          "context": [
+            "",
+            "urlpatterns = [",
+            "    # URLs for searching for and purchasing a new Twilio number",
+            "    re_path(r'^list-numbers$', list_numbers, name='list_numbers'),",
+            "    re_path(r'^purchase-number$', purchase_number, name='purchase_number'),"
+          ],
+          "confidence": "low",
+          "product": "general"
+        },
+        {
+          "pattern": "# Endpoint Twilio will use for incoming calls",
+          "line": 16,
+          "detection_method": "heuristic",
+          "context": [
+            "    re_path(r'^list-numbers$', list_numbers, name='list_numbers'),",
+            "    re_path(r'^purchase-number$', purchase_number, name='purchase_number'),",
+            "    # Endpoint Twilio will use for incoming calls",
+            "    re_path(r'^forward-call$', forward_call, name='forward_call'),",
+            "    # Lead Source edit and delete views"
+          ],
+          "confidence": "low",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "call_tracking/forms.py",
+      "language": "python",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "\"\"\"Form for purchasing a number from the Twilio API\"\"\"",
+          "line": 11,
+          "detection_method": "regex",
+          "context": [
+            "",
+            "class PurchaseNumberForm(forms.Form):",
+            "    \"\"\"Form for purchasing a number from the Twilio API\"\"\"",
+            "    phone_number = PhoneNumberField()"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "call_tracking/migrations/0001_initial.py",
+      "language": "python",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "('incoming_number', phonenumber_field.modelfields.PhoneNumberField(help_text='A phone number purchased through Twilio', max_length=128, unique=True)),",
+          "line": 21,
+          "detection_method": "regex",
+          "context": [
+            "                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+            "                ('name', models.CharField(blank=True, help_text='E.g. \"Downtown billboard\"', max_length=100)),",
+            "                ('incoming_number', phonenumber_field.modelfields.PhoneNumberField(help_text='A phone number purchased through Twilio', max_length=128, unique=True)),",
+            "                ('forwarding_number', phonenumber_field.modelfields.PhoneNumberField(blank=True, help_text='People who call this lead source will be connected with this phone number. Must include international prefix - e.g. +1 555 555 55555', max_length=128)),",
+            "            ],"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    }
+  ],
+  "env_vars": [
+    "TWILIO_SAMPLE_PROJECT"
+  ],
+  "config_files": [
+    ".env.example"
+  ],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 7,
+    "total_detections": 15,
+    "by_method": {
+      "regex": 7,
+      "heuristic": 8
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 6,
+      "low": 8
+    }
+  }
+}

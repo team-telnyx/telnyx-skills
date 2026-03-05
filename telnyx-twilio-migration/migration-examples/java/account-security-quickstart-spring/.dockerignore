@@ -1,0 +1,5 @@
+bin/
+build/
+*.db
+*.sqlite
+.env

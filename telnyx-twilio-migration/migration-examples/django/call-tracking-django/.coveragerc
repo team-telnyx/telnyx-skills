@@ -1,0 +1,10 @@
+# Coverage configuration file
+
+[run]
+source = .
+
+omit = 
+  twilio_sample_project/settings/*
+  twilio_sample_project/wsgi.py
+  */migrations/*
+  */tests.py

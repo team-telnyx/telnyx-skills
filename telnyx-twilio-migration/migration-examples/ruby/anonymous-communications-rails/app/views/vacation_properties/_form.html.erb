@@ -1,0 +1,25 @@
+<%= form_for(@vacation_property) do |f| %>
+  <% if @vacation_property.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@vacation_property.errors.count, "error") %> prohibited this vacation_property from being saved:</h2>
+
+      <ul>
+      <% @vacation_property.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :description %><br>
+    <%= f.text_field :description, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :image_url %><br>
+    <%= f.text_field :image_url, class: "form-control" %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Create Property', class: 'btn btn-lg btn-primary' %>
+  </div>
+<% end %>

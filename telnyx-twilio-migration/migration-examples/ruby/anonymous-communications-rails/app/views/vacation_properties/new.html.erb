@@ -1,0 +1,12 @@
+<% content_for :nav_bg do %>
+  <!-- Nav Bar -->
+  <nav class="navbar navbar-space">
+  </nav>
+<% end %>
+<div class="container">
+  <h1>New Vacation Property</h1>
+
+  <%= render 'form' %>
+
+  <%= link_to 'Back', vacation_properties_path %>
+</div>

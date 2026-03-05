@@ -1,0 +1,78 @@
+plugins {
+    id 'java'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.3.11'
+    id 'idea'
+    id 'groovy'
+    id 'io.github.joselion.pretty-jupiter' version '3.5.0'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    providedRuntime
+}
+
+dependencies {
+    implementation(group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.2')
+    providedRuntime(group: 'jakarta.servlet', name:'jakarta.servlet-api', version:'6.1.0')
+
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation(group:'net.rakugakibox.spring.boot', name:'logback-access-spring-boot-starter', version:'2.11.0')
+
+    implementation group: 'org.hibernate.orm', name: 'hibernate-community-dialects', version: '6.6.13.Final'
+
+    implementation(group:'com.authy', name:'authy-java', version:'1.5.1')
+    implementation(group:'com.twilio.sdk', name:'twilio', version:'10.8.0')
+    implementation(group:'org.xerial', name:'sqlite-jdbc', version:'3.49.1.0')
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    testImplementation(group: 'junit', name:'junit', version:'4.13.2')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // Groovy
+    testImplementation (group: 'org.apache.groovy', name: 'groovy-all', version: '4.0.26', ext: 'pom')
+
+    // Constraints
+    constraints {
+        implementation('org.json:json:20231013') {
+          because("version defined in authy-java (transitive dependency) has vulnerabilities issues")
+        }
+    }
+
+    // Spock
+    testImplementation(group:'org.spockframework', name:'spock-core', version:'2.4-M6-groovy-4.0')
+    testImplementation(group:'org.spockframework', name:'spock-spring', version:'2.4-M6-groovy-4.0')
+    testRuntimeOnly(group:'cglib', name:'cglib-nodep', version:'3.3.0')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
+}
+
+test {
+    useJUnitPlatform()
+    reports {
+        junitXml.required = false
+        html.required = false
+    }
+    testLogging {
+        exceptionFormat = "full"
+        showStandardStreams = true
+    }
+    environment "TELNYX_API_KEY", System.getenv("TELNYX_API_KEY")
+    environment "TELNYX_VERIFY_PROFILE_ID", System.getenv("TELNYX_VERIFY_PROFILE_ID")
+}

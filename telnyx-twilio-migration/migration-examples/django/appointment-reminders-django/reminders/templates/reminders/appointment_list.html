@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Upcoming reminders{% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-9">
+
+      <div class="page-header">
+        <h1>Appointments</h1>
+      </div>
+
+      {% if not object_list %}
+        <p><strong>No upcoming appointments.</strong> Why not <a href="{% url 'reminders:new_appointment' %}">schedule one?</a>
+      {% endif %}
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Phone number</th>
+            <th>Time</th>
+            <th>Created at</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for appointment in object_list %}
+            <tr>
+              <td><a href="{{ appointment.get_absolute_url }}">{{ appointment.pk }}</a></td>
+              <td>{{ appointment.name }}</td>
+              <td>{{ appointment.phone_number }}</td>
+              <td>{{ appointment.time }}</td>
+              <td>{{ appointment.created }}</td>
+              <td>
+                <a class="btn btn-default btn-xs" href="{% url 'reminders:edit_appointment' appointment.pk %}">Edit</a>
+                <a class="btn btn-xs btn-danger" href="{% url 'reminders:delete_appointment' appointment.pk %}">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <a class="btn btn-primary" href="{% url 'reminders:new_appointment' %}">New</a>
+    </div>
+  </div>
+{% endblock %}

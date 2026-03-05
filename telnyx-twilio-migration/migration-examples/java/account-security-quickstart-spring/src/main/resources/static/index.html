@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Twilio Account Security Quickstart</title>
+    <!--Made by an engineer for engineers-->
+    <link rel="icon" type="image/png" href="/assets/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/favicon-16x16.png" sizes="16x16">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+    <script src="/app.js"></script>
+    <style>
+        .container {
+            padding-top: 15%;
+        }
+
+        .btn-info {
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body ng-app="accountSecurityQuickstart">
+<div class="container center-block">
+    <div class="row centered-form">
+        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Account Security Demos</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <p>
+                                Implementations of both Twilio Verify Phone Verification and Authy Two-Factor Authentication
+                            </p>
+                            <ul>
+                                <li><a href="https://www.twilio.com/authy">Account Security Info</a></li>
+                                <li><a href="https://github.com/AuthySE/Authy-API-Samples">Command Line Examples</a></li>
+                                <li><a href="https://github.com/AuthySE/Authy-API-Samples/tree/master/postman">Authy Postman Collection</a></li>
+                                <li><a href="https://github.com/Authy/authy-form-helpers">Authy Form Helpers</a></li>
+                                <li><a href="https://github.com/TwilioDevEd/account-security-quickstart-node">Quickstart Demo Repository</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <a href="verification/index.html">
+                                <input type="submit" value="Phone Verification" class="btn btn-info btn-block">
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <a href="register/index.html">
+                                <input type="submit" value="Two-factor" class="btn btn-info btn-block">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,3687 @@
+{
+  "scan_version": "1.0.0",
+  "project_root": "/home/telnyx-user/twilio-test-repos/call-tracking-django",
+  "scan_time": "2026-03-05T06:22:16Z",
+  "languages_detected": [],
+  "products_used": ["voice"],
+  "files": [
+    {
+      "path": "MIGRATION-REPORT.md",
+      "language": "unknown",
+      "products": ["voice"],
+      "patterns_matched": ["- **Before**: `from twilio.rest import Client`", "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"]
+    },
+    {
+      "path": "templates/index.html",
+      "language": "unknown",
+      "products": [],
+      "patterns_matched": ["<p>This app shows you how to implement a sample call tracking application with Twilio. Add a new phone number below to get started.</p>"]
+    }
+  ],
+  "env_vars": [
+    {
+      "name": "TWILIO_ACCOUNT_SID",
+      "files": ["MIGRATION-REPORT.md"]
+    },
+    {
+      "name": "TWILIO_AUTH_TOKEN",
+      "files": ["MIGRATION-REPORT.md"]
+    }
+  ],
+  "config_files": [
+    {
+      "path": ".env.prod.example",
+      "type": "pip",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "pip",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "pip",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pip",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pip",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "pip",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "pip",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "pip",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "pip",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pip",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pip",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pip",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "pip",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "pip",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "pip",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "pip",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "npm",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "npm",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "npm",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "npm",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "npm",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "npm",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "npm",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "npm",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "npm",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "npm",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "npm",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "npm",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "npm",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "npm",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "npm",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "npm",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "npm",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "npm",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "npm",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "npm",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "npm",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "gem",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "gem",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "gem",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gem",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gem",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "gem",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gem",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gem",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gem",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "gem",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "gem",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "gem",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "gem",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "gem",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "gem",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "gem",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "gem",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "gem",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "gem",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "gem",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "gem",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "gomod",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "gomod",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "gomod",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gomod",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gomod",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "gomod",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gomod",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gomod",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gomod",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "gomod",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "gomod",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "gomod",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "gomod",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "gomod",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "gomod",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "gomod",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "gomod",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "gomod",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "gomod",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "gomod",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "gomod",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "maven",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "maven",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "maven",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "maven",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "maven",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "maven",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "maven",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "maven",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "maven",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "maven",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "maven",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "maven",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "maven",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "maven",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "maven",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "maven",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "maven",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "maven",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "maven",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "maven",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "maven",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "gradle",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "gradle",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "gradle",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gradle",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "gradle",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "gradle",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "gradle",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "gradle",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "gradle",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "gradle",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "gradle",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "gradle",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "gradle",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "gradle",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "gradle",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "gradle",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "gradle",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "gradle",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "gradle",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "gradle",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "gradle",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "composer",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "composer",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "composer",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "composer",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "composer",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "composer",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "composer",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "composer",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "composer",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "composer",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "composer",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "composer",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "composer",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "composer",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "composer",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "composer",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "composer",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "composer",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "composer",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "composer",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "composer",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "pipenv",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "pipenv",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "pipenv",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pipenv",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pipenv",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "pipenv",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pipenv",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pipenv",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pipenv",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "pipenv",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "pipenv",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "pipenv",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pipenv",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pipenv",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pipenv",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "pipenv",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "pipenv",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "pipenv",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "pipenv",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "pipenv",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "pipenv",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "setuptools",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "setuptools",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "setuptools",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "setuptools",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "setuptools",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "setuptools",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "setuptools",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "setuptools",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "setuptools",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "setuptools",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "setuptools",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "setuptools",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "setuptools",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "setuptools",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "setuptools",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "setuptools",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "setuptools",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "setuptools",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "setuptools",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "setuptools",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "setuptools",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "setuptools",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "setuptools",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "setuptools",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "setuptools",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "setuptools",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "setuptools",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "setuptools",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "setuptools",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "setuptools",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "setuptools",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "setuptools",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "setuptools",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "setuptools",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "setuptools",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "setuptools",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "setuptools",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "pyproject",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "pyproject",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "pyproject",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pyproject",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pyproject",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "pyproject",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pyproject",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pyproject",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pyproject",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "pyproject",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "pyproject",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "pyproject",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pyproject",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pyproject",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pyproject",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "pyproject",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "pyproject",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "pyproject",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "pyproject",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "pyproject",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "pyproject",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "pip",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "pip",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "pip",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pip",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pip",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "pip",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pip",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pip",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pip",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "pip",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "pip",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "pip",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pip",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pip",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pip",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "pip",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "pip",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "pip",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "pip",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "pip",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "pip",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "cocoapods",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "cocoapods",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "cocoapods",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "cocoapods",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "cocoapods",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "cocoapods",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "cocoapods",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "cocoapods",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "cocoapods",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "cocoapods",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "cocoapods",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "cocoapods",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "cocoapods",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "cocoapods",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "cocoapods",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "cocoapods",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "cocoapods",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "cocoapods",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "cocoapods",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "cocoapods",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "cocoapods",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": ".env.prod.example",
+      "type": "pub",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.production"
+    },
+    {
+      "path": "Procfile",
+      "type": "pub",
+      "line": "web: gunicorn twilio_sample_project.wsgi:application --log-file -"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "pub",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.ci"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pub",
+      "line": "ROOT_URLCONF = 'twilio_sample_project.urls'"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "pub",
+      "line": "WSGI_APPLICATION = 'twilio_sample_project.wsgi.application'"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "pub",
+      "line": "\"twilio_sample_project.settings.production\")"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "5. `requirements.txt` - Removed twilio, added telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "8. `twilio_sample_project/settings/common.py` - Updated settings for Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- **Before**: `from twilio.rest import Client`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "- **Before**: `from twilio.twiml.voice_response import VoiceResponse; r = VoiceResponse(); r.dial(...); return HttpResponse(r)`"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "pub",
+      "line": "*Migration completed using telnyx-twilio-migration skill*"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"skill_dir\": \"/home/telnyx-user/repos/telnyx-skills-runner/telnyx-twilio-migration/skills/telnyx-twilio-migration\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"id\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "pub",
+      "line": "\"prereqs\": \"phase6_remove_twilio_sdk\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"project_root\": \"/home/telnyx-user/twilio-test-repos/call-tracking-django\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"path\": \"twilio_sample_project/settings/common.py\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"pattern\": \"# See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "pub",
+      "line": "\"    # See https://www.twilio.com/docs/api/twiml/twilio_request for more\","
+    },
+    {
+      "path": ".coveragerc",
+      "type": "pub",
+      "line": "twilio_sample_project/settings/*"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "pub",
+      "line": "twilio_sample_project/wsgi.py"
+    },
+    {
+      "path": ".gitignore",
+      "type": "pub",
+      "line": "twilio_sample_project/staticfiles"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pub",
+      "line": "twilio_number = purchase_phone_number(phone_number.as_e164)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pub",
+      "line": "lead_source = LeadSource(incoming_number=twilio_number.phone_number)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "pub",
+      "line": "twilio_number.friendly_name))"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "pub",
+      "line": "# See https://www.twilio.com/docs/api/twiml/twilio_request for more"
+    },
+    {
+      "path": "manage.py",
+      "type": "pub",
+      "line": "\"twilio_sample_project.settings.local\")"
+    },
+    {
+      "path": ".env.example",
+      "type": "pub",
+      "line": "export DJANGO_SETTINGS_MODULE=twilio_sample_project.settings.local"
+    },
+    {
+      "path": "app.json",
+      "type": "pub",
+      "line": "\"value\": \"twilio_sample_project.settings.production\","
+    },
+    {
+      "path": "app.json",
+      "type": "pub",
+      "line": "\"logo\": \"https://s3.amazonaws.com/howtodocs/twilio-logo.png\","
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<a href=\"https://www.twilio.com\">"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/call-tracking/python/django)!"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "Learn how to [create a TwiML app](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| Auth&nbsp;Token   | Used to authenticate - [just like the above, you'll find this here](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "| TwiML app&nbsp;Sid | TwiML app SID can be found by clicking on your [TwiML App in the console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) |"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "To actually forward incoming calls, your development server will need to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)."
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "pub",
+      "line": "$ coverage run manage.py test --settings=twilio_sample_project.settings.test"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "nuget",
+      "line": "# Telnyx API configuration - migrated from Twilio"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "nuget",
+      "line": "# Legacy Twilio credentials (removed - migration complete)"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "# Migration Report: Twilio to Telnyx"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "1. `call_tracking/utils.py` - Replaced Twilio SDK with Telnyx SDK"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- ✅ All Twilio imports removed"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- ✅ All Twilio environment variables migrated"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- ✅ All Twilio webhook validation patterns removed"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "- [x] Remove Twilio SDK"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "nuget",
+      "line": "4. **Port Numbers** (optional): If keeping existing phone numbers, use FastPort to port from Twilio"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"# Telnyx API configuration - migrated from Twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"# Telnyx API configuration - migrated from Twilio\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"# Legacy Twilio credentials (removed - migration complete)\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"# Legacy Twilio credentials (removed - migration complete)\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"\\\"\\\"\\\"Uses the Twilio API to generate a list of available phone numbers\\\"\\\"\\\"\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"    \\\"\\\"\\\"Uses the Twilio API to generate a list of available phone numbers\\\"\\\"\\\"\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"# We received a valid area code - query the Twilio API\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"        # We received a valid area code - query the Twilio API\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"'There are no Twilio numbers available for area code {0}. Search for numbers in a different area code.'.format(area_code))\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"                'There are no Twilio numbers available for area code {0}. Search for numbers in a different area code.'.format(area_code))\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"\\\"\\\"\\\"Purchases a new phone number using the Twilio API\\\"\\\"\\\"\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"    \\\"\\\"\\\"Purchases a new phone number using the Twilio API\\\"\\\"\\\"\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"# Check if it's Telnyx (JSON) or legacy Twilio (form data)\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"    # Check if it's Telnyx (JSON) or legacy Twilio (form data)\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"# Raw XML string (Telnyx doesn't have a builder class like Twilio)\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"    # Raw XML string (Telnyx doesn't have a builder class like Twilio)\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"help_text='A phone number purchased through Twilio')\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"        help_text='A phone number purchased through Twilio')\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"# URLs for searching for and purchasing a new Twilio number\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"    # URLs for searching for and purchasing a new Twilio number\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"# Endpoint Twilio will use for incoming calls\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"    # Endpoint Twilio will use for incoming calls\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"\\\"\\\"\\\"Form for purchasing a number from the Twilio API\\\"\\\"\\\"\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"    \\\"\\\"\\\"Form for purchasing a number from the Twilio API\\\"\\\"\\\"\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"pattern\": \"('incoming_number', phonenumber_field.modelfields.PhoneNumberField(help_text='A phone number purchased through Twilio', max_length=128, unique=True)),\","
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "nuget",
+      "line": "\"                ('incoming_number', phonenumber_field.modelfields.PhoneNumberField(help_text='A phone number purchased through Twilio', max_length=128, unique=True)),\","
+    },
+    {
+      "path": "LICENSE",
+      "type": "nuget",
+      "line": "Copyright (c) 2015 Twilio Inc."
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "nuget",
+      "line": "\"\"\"Uses the Twilio API to generate a list of available phone numbers\"\"\""
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "nuget",
+      "line": "# We received a valid area code - query the Twilio API"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "nuget",
+      "line": "'There are no Twilio numbers available for area code {0}. Search for numbers in a different area code.'.format(area_code))"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "nuget",
+      "line": "\"\"\"Purchases a new phone number using the Twilio API\"\"\""
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "nuget",
+      "line": "# Check if it's Telnyx (JSON) or legacy Twilio (form data)"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "nuget",
+      "line": "# Raw XML string (Telnyx doesn't have a builder class like Twilio)"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "nuget",
+      "line": "help_text='A phone number purchased through Twilio')"
+    },
+    {
+      "path": "call_tracking/urls.py",
+      "type": "nuget",
+      "line": "# URLs for searching for and purchasing a new Twilio number"
+    },
+    {
+      "path": "call_tracking/urls.py",
+      "type": "nuget",
+      "line": "# Endpoint Twilio will use for incoming calls"
+    },
+    {
+      "path": "call_tracking/migrations/0001_initial.py",
+      "type": "nuget",
+      "line": "('incoming_number', phonenumber_field.modelfields.PhoneNumberField(help_text='A phone number purchased through Twilio', max_length=128, unique=True)),"
+    },
+    {
+      "path": "call_tracking/forms.py",
+      "type": "nuget",
+      "line": "\"\"\"Form for purchasing a number from the Twilio API\"\"\""
+    },
+    {
+      "path": "app.json",
+      "type": "nuget",
+      "line": "\"repository\": \"https://github.com/TwilioDevEd/call-tracking-django\","
+    },
+    {
+      "path": "app.json",
+      "type": "nuget",
+      "line": "\"website\": \"https://github.com/TwilioDevEd/call-tracking-django\","
+    },
+    {
+      "path": "app.json",
+      "type": "nuget",
+      "line": "\"repository\": \"https://github.com/TwilioDevEd/call-tracking-django\","
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "<img src=\"https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg\" alt=\"Twilio\" width=\"250\" />"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[![Build and test](https://github.com/TwilioDevEd/call-tracking-django/actions/workflows/build_test.yml/badge.svg)](https://github.com/TwilioDevEd/call-tracking-django/actions/workflows/build_test.yml)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "[![Coverage Status](https://coveralls.io/repos/TwilioDevEd/call-tracking-django/badge.svg?branch=master&service=github)](https://coveralls.io/github/TwilioDevEd/call-tracking-django?branch=master)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "Use Twilio to track the effectiveness of your different marketing campaigns. Learn how call tracking helps organizations in [these Twilio customer stories](https://www.twilio.com/use-cases/call-tracking)."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "This project is configured to use a **TwiML App**, which allows us to easily set the voice URLs for all Twilio phone numbers we purchase in this app."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "Create a new TwiML app [in the Twilio Console](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TWIML_APPLICATION_SID` environment variable wherever you run this app."
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "### Twilio Account Settings"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "| Account&nbsp;Sid  | Your primary Twilio account identifier - find this [in the Console](https://www.twilio.com/console).                                                         |"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "1. Copy the `.env.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "1. Copy the `.env.prod.example` file to `.env`, and edit it to include your Twilio API credentials (found at https://www.twilio.com/user/account/voice)"
+    },
+    {
+      "path": "README.md",
+      "type": "nuget",
+      "line": "* Lovingly crafted by Twilio Developer Education."
+    },
+    {
+      "path": "templates/base.html",
+      "type": "nuget",
+      "line": "<title>{% block title %}{% endblock title %} - Twilio Call Tracking</title>"
+    },
+    {
+      "path": "templates/index.html",
+      "type": "nuget",
+      "line": "<h1>Call Tracking with Twilio</h1>"
+    },
+    {
+      "path": "templates/index.html",
+      "type": "nuget",
+      "line": "<p>This app shows you how to implement a sample call tracking application with Twilio. Add a new phone number below to get started.</p>"
+    },
+    {
+      "path": "templates/index.html",
+      "type": "nuget",
+      "line": "<p>The number of calls from different cities, based on Twilio call data</p>"
+    }
+  ],
+  "twiml_files": ["MIGRATION-REPORT.md", "call_tracking/views.py"],
+  "webhook_handlers": [
+  ],
+  "api_urls": [
+  ],
+  "deploy_files": [
+    {
+      "path": ".env.prod.example",
+      "type": "env"
+    },
+    {
+      "path": "Procfile",
+      "type": "env"
+    },
+    {
+      "path": ".github/workflows/build_test.yml",
+      "type": "env"
+    },
+    {
+      "path": "twilio_sample_project/settings/common.py",
+      "type": "env"
+    },
+    {
+      "path": "twilio_sample_project/wsgi.py",
+      "type": "env"
+    },
+    {
+      "path": "MIGRATION-REPORT.md",
+      "type": "env"
+    },
+    {
+      "path": ".migration-runner-state.json",
+      "type": "env"
+    },
+    {
+      "path": "twilio-deep-scan.json",
+      "type": "env"
+    },
+    {
+      "path": ".coveragerc",
+      "type": "env"
+    },
+    {
+      "path": ".gitignore",
+      "type": "env"
+    },
+    {
+      "path": "LICENSE",
+      "type": "env"
+    },
+    {
+      "path": "call_tracking/views.py",
+      "type": "env"
+    },
+    {
+      "path": "call_tracking/models.py",
+      "type": "env"
+    },
+    {
+      "path": "call_tracking/urls.py",
+      "type": "env"
+    },
+    {
+      "path": "call_tracking/migrations/0001_initial.py",
+      "type": "env"
+    },
+    {
+      "path": "call_tracking/forms.py",
+      "type": "env"
+    },
+    {
+      "path": "manage.py",
+      "type": "env"
+    },
+    {
+      "path": ".env.example",
+      "type": "env"
+    },
+    {
+      "path": "app.json",
+      "type": "env"
+    },
+    {
+      "path": "README.md",
+      "type": "env"
+    },
+    {
+      "path": "templates/base.html",
+      "type": "env"
+    },
+    {
+      "path": "templates/index.html",
+      "type": "env"
+    }
+  ],
+  "test_mocks": [],
+  "summary": {
+    "total_files": 2,
+    "total_products": 1,
+    "total_languages": 0,
+    "has_webhook_validation": false,
+    "has_twiml": true,
+    "has_env_vars": true,
+    "has_deploy_config": true,
+    "has_test_mocks": false
+  },
+  "notes": [
+    "Standard TWILIO_* env vars are scanned above. Also search for non-standard names that may contain Twilio SIDs or phone numbers (e.g., ACCOUNT_SID, SMS_FROM, PHONE_NUMBER)."
+  ]
+}

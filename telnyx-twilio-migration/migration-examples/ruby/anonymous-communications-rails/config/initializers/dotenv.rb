@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+Dotenv.require_keys(
+  'TWILIO_ACCOUNT_SID',
+  'TWILIO_AUTH_TOKEN',
+  'TWILIO_NUMBER',
+  'TELNYX_API_KEY',
+  'TELNYX_PHONE_NUMBER',
+  'TELNYX_CONNECTION_ID',
+  'TELNYX_MESSAGING_PROFILE_ID'
+)

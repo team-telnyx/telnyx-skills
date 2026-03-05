@@ -1,0 +1,30 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+fail_fast: true
+repos:
+  - repo: https://github.com/prettier/prettier
+    rev: "master"
+    hooks:
+      - id: prettier
+        exclude_types: [html]
+
+  - repo: https://github.com/timothycrosley/isort
+    rev: master
+    hooks:
+      - id: isort
+        types: [python]
+        exclude: .+/migrations((/.+)|(\.py))
+
+  - repo: https://github.com/ambv/black
+    rev: stable
+    hooks:
+      - id: black
+        args: [--config, black.toml, --skip-string-normalization]
+        types: [python]
+        exclude: .+/migrations((/.+)|(\.py))
+
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: master
+    hooks:
+      - id: flake8
+        exclude: .+/migrations((/.+)|(\.py))

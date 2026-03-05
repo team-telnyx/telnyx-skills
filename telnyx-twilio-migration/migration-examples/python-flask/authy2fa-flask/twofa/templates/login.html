@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<h1>Welcome Back!</h1>
+<p>
+    You never write. You never call. But we're glad you came, regardless!
+    Be a pal and confirm your username and password, would you?
+</p>
+
+<form method="POST" id="login-form">
+    {{ form.hidden_tag() }}
+
+    {% from "_formhelpers.html" import render_errors, render_field %}
+
+    {{ render_errors(form) }}
+
+    {{ render_field(form.email, placeholder='you@example.com') }}
+    {{ render_field(form.password) }}
+
+    <input type="submit" class="btn btn-primary btn-lg" value="Log in">
+</form>
+
+{% include "_authy_modal.html" %}
+
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{{ url_for('static', filename='js/sessions.js') }}"></script>
+{% endblock %}

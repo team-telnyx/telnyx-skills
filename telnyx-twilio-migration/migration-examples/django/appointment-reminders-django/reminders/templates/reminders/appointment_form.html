@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load bootstrap_tags %}
+
+{% block title %}New reminder{% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-9">
+      <div class="page-header">
+        <h1>
+          {% if not object.pk %}
+            New appointment
+          {% else %}
+            Edit appointment
+          {% endif %}
+          </h1>
+      </div>
+
+      <form class="form-horizontal" method="post">
+        {% csrf_token %}
+        {{ form|as_bootstrap_horizontal }}
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <a href="javascript:history.back()" class="btn btn-default">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+              {% if not object.pk %}
+                Create appointment
+              {% else %}
+                Update appointment
+              {% endif %}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block page_css %}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css" />
+{% endblock %}
+
+{% block page_js %}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+  <script type="text/javascript">
+      $(function() {
+          $('#id_time').datetimepicker({
+            format: 'MM/DD/YYYY HH:mm',
+            extraFormats: ['YYYY-MM-DD HH:mm:ss'],
+            sideBySide: true
+          });
+      });
+  </script>
+{% endblock %}

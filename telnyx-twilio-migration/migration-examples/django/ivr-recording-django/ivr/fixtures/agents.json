@@ -1,0 +1,29 @@
+[
+  {
+    "model": "ivr.agent",
+    "pk": 1,
+    "fields": {
+      "name": "Brodo",
+      "phone_number": "+15553185603",
+      "recordings": []
+    }
+  },
+  {
+    "model": "ivr.agent",
+    "pk": 2,
+    "fields": {
+      "name": "Dagobah",
+      "phone_number": "+15558675309",
+      "recordings": []
+    }
+  },
+  {
+    "model": "ivr.agent",
+    "pk": 3,
+    "fields": {
+      "name": "Oober",
+      "phone_number": "+15553185602",
+      "recordings": []
+    }
+  }
+]

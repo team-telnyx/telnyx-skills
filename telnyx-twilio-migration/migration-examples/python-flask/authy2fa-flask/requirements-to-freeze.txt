@@ -1,0 +1,20 @@
+# Requirements for authy2fa-flask
+
+# Flask + assorted extensions
+Flask
+Flask-Bootstrap
+Flask-Migrate
+Flask-SQLAlchemy
+Flask-WTF
+
+# Other libraries
+authy
+requests
+python-dotenv
+
+# Production server
+gunicorn
+
+# Testing && development
+flake8
+black

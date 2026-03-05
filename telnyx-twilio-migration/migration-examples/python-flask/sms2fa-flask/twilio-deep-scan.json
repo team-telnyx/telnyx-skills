@@ -1,0 +1,113 @@
+{
+  "scan_version": "1.0.0",
+  "scanner": "deep",
+  "project_root": "/home/telnyx-user/twilio-test-repos/sms2fa-flask",
+  "scan_time": "2026-03-05T06:22:51.095350+00:00",
+  "languages_detected": [
+    "python"
+  ],
+  "products_used": [
+    "general"
+  ],
+  "files": [
+    {
+      "path": "requirements.txt",
+      "language": "config",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "# Telnyx SDK (migrated from Twilio)",
+          "line": 17,
+          "detection_method": "regex",
+          "context": [
+            "SQLAlchemy==1.0.11",
+            "",
+            "# Telnyx SDK (migrated from Twilio)",
+            "telnyx>=2.0.0,<3.0",
+            "passlib==1.6.5"
+          ],
+          "confidence": "high",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": ".travis.yml",
+      "language": "yaml",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "# Telnyx Configuration (migrated from Twilio)",
+          "line": 13,
+          "detection_method": "heuristic",
+          "context": [
+            "  - SECRET=SuperSecret",
+            "  - SQLALCHEMY_DATABASE_URI=sqlite://survey.sqlite",
+            "  # Telnyx Configuration (migrated from Twilio)",
+            "  - TELNYX_API_KEY=KEY...REPLACE_WITH_YOUR_KEY",
+            "  - TELNYX_PHONE_NUMBER=+15551230987"
+          ],
+          "confidence": "medium",
+          "product": "general"
+        }
+      ]
+    },
+    {
+      "path": "sms2fa_flask/config.py",
+      "language": "python",
+      "products": [
+        "general"
+      ],
+      "detections": [
+        {
+          "pattern": "# Telnyx Configuration (migrated from Twilio)",
+          "line": 12,
+          "detection_method": "heuristic",
+          "context": [
+            "                               os.path.join(basedir, 'default.sqlite'))",
+            "    ",
+            "    # Telnyx Configuration (migrated from Twilio)",
+            "    TELNYX_API_KEY = os.environ.get('TELNYX_API_KEY', None)",
+            "    TELNYX_PHONE_NUMBER = os.environ.get('TELNYX_PHONE_NUMBER', None)"
+          ],
+          "confidence": "low",
+          "product": "general"
+        },
+        {
+          "pattern": "# Telnyx test config (migrated from Twilio)",
+          "line": 30,
+          "detection_method": "heuristic",
+          "context": [
+            "    PRESERVE_CONTEXT_ON_EXCEPTION = False",
+            "    DEBUG = True",
+            "    # Telnyx test config (migrated from Twilio)",
+            "    TELNYX_API_KEY = 'test_api_key'",
+            "    TELNYX_PHONE_NUMBER = '+15551230987'"
+          ],
+          "confidence": "low",
+          "product": "general"
+        }
+      ]
+    }
+  ],
+  "env_vars": [],
+  "config_files": [
+    "requirements.txt"
+  ],
+  "webhook_handlers": [],
+  "summary": {
+    "total_files": 3,
+    "total_detections": 4,
+    "by_method": {
+      "heuristic": 3
+    },
+    "by_confidence": {
+      "medium": 1,
+      "low": 2
+    }
+  }
+}

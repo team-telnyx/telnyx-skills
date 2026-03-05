@@ -1,0 +1,5 @@
+[run]
+omit=
+      automated_survey/settings/*
+      automated_survey/tests/*
+      automated_survey/wsgi.py

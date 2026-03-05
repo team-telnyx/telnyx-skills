@@ -1,0 +1,26 @@
+{% macro render_reservation_list(reservations) %}
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Guest Name</th>
+        <th>Phone Number</th>
+        <th>Message</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for res in reservations %}
+    <tr>
+        <th scope="row"> {{loop.index}}</th>
+        <td>{{res.guest.name}}</td>
+        <td>{{res.anonymous_phone_number}}</td>
+        <td>{{res.message}}</td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+
+
+{% endmacro %}
