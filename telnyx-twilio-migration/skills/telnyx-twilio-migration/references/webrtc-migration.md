@@ -478,7 +478,7 @@ def create_credential():
 
     # 2. Generate a JWT token for the credential
     #    POST /v2/telephony_credentials/{id}/token
-    token = client.telephony_credentials.create_telephony_credential_token(
+    token = client.telephony_credentials.create_token(
         credential.data.id
     )
 

@@ -344,7 +344,7 @@ If validation fails and you cannot fix the issue, document it and continue to th
 - **If the original code used `twilio.webhook()` middleware**, check the `validate` option:
   - If `validate: false` (or `enforce_https=False` in Python) was set, the middleware was a **no-op** — it performed no validation. Remove it entirely. Do NOT add Ed25519 verification (the original app intentionally skipped validation, so adding it would change behavior and risk breaking the app if misconfigured).
   - If `validate: true` (or no `validate` option, since `true` is the default), replace it with Telnyx Ed25519 verification. Do NOT just delete it — removing real webhook validation leaves endpoints unprotected in production.
-- **Rails `before_action`**: If the original code used a Twilio `before_action` filter (e.g., `before_action :validate_twilio_request`), replace it with a Telnyx Ed25519 `before_action` using `Telnyx::Webhook.construct_event()`. Also add `skip_before_action :verify_authenticity_token` since webhooks don't carry CSRF tokens. See `{baseDir}/references/webhook-migration.md` → "Rails" for the complete pattern.
+- **Rails `before_action`**: If the original code used a Twilio `before_action` filter (e.g., `before_action :validate_twilio_request`), replace it with a Telnyx Ed25519 `before_action`. Also add `skip_before_action :verify_authenticity_token` since webhooks don't carry CSRF tokens. See `{baseDir}/references/webhook-migration.md` → "Rails" for the complete pattern.
 - **Use the exact signature verification pattern from `webhook-migration.md`** — do NOT use patterns from your own training data. Do NOT use `new TelnyxWebhook()`.
 
 > **CRITICAL (Express/Node.js only):** Webhook signature verification requires the **raw request body** (original bytes), NOT `JSON.stringify(req.body)`. You MUST add the `verify` callback to `express.json()` in your main app file AND use `req.rawBody` in your verification middleware:
@@ -356,11 +356,9 @@ If validation fails and you cannot fix the issue, document it and continue to th
 > }));
 >
 > // In webhook handler — verify with raw body:
-> client.webhooks.signature.verifySignature(
+> const event = await client.webhooks.unwrap(
 >   req.rawBody,  // NOT JSON.stringify(req.body)
->   req.headers['telnyx-signature-ed25519'],
->   req.headers['telnyx-timestamp'],
->   process.env.TELNYX_PUBLIC_KEY
+>   { headers: req.headers, key: process.env.TELNYX_PUBLIC_KEY }
 > );
 > ```
 > Failing to use raw body means signatures will fail in production when JSON key order or whitespace differs from the original payload.

@@ -120,14 +120,12 @@ is_valid = validator.validate(url, params, request.headers.get('X-Twilio-Signatu
 **Python:**
 ```python
 from telnyx import Telnyx
-client = Telnyx(api_key="YOUR_API_KEY")
+client = Telnyx(api_key="YOUR_API_KEY", public_key="YOUR_PUBLIC_KEY")
 
-from telnyx.webhooks import verify_signature
-verify_signature(
-    payload=request.data.decode("utf-8"),
-    signature=request.headers.get("telnyx-signature-ed25519"),
-    timestamp=request.headers.get("telnyx-timestamp"),
-    public_key="YOUR_PUBLIC_KEY"
+# Verify + parse webhook in one step — raises TelnyxWebhookVerificationError on failure
+event = client.webhooks.unwrap(
+    request.data.decode("utf-8"),
+    headers=request.headers,  # must contain telnyx-signature-ed25519 and telnyx-timestamp
 )
 ```
 
@@ -136,11 +134,10 @@ verify_signature(
 const Telnyx = require('telnyx');
 const client = new Telnyx({ apiKey: 'YOUR_API_KEY' });
 
-client.webhooks.signature.verifySignature(
+// Verify + parse webhook — throws on invalid signature
+const event = await client.webhooks.unwrap(
   req.rawBody,  // Must be original bytes — see Express example below for rawBody setup
-  req.headers['telnyx-signature-ed25519'],
-  req.headers['telnyx-timestamp'],
-  'YOUR_PUBLIC_KEY'
+  { headers: req.headers, key: 'YOUR_PUBLIC_KEY' }
 );
 ```
 
@@ -173,28 +170,24 @@ Telnyx::Webhook.construct_event(payload, signature, timestamp, public_key: 'YOUR
 ```python
 from flask import Flask, request, jsonify
 from telnyx import Telnyx
-from telnyx.webhooks import verify_signature
 
 app = Flask(__name__)
-client = Telnyx(api_key="YOUR_API_KEY")
-PUBLIC_KEY = "YOUR_PUBLIC_KEY"
+client = Telnyx(api_key="YOUR_API_KEY", public_key="YOUR_PUBLIC_KEY")
 
 @app.route('/webhooks/messaging', methods=['POST'])
 def messaging_webhook():
-    # Verify signature
+    # Verify signature + parse event in one step
     try:
-        verify_signature(
-            payload=request.data.decode("utf-8"),
-            signature=request.headers.get("telnyx-signature-ed25519"),
-            timestamp=request.headers.get("telnyx-timestamp"),
-            public_key=PUBLIC_KEY
+        event = client.webhooks.unwrap(
+            request.data.decode("utf-8"),
+            headers=request.headers,
         )
     except Exception:
         return "Forbidden", 403
 
-    event = request.json['data']
-    event_type = event['event_type']
-    payload = event['payload']
+    event_data = request.json['data']
+    event_type = event_data['event_type']
+    payload = event_data['payload']
 
     if event_type == 'message.received':
         from_number = payload['from']['phone_number']
@@ -225,14 +218,12 @@ app.use(express.json({
   verify: (req, res, buf) => { req.rawBody = buf.toString('utf-8'); }
 }));
 
-app.post('/webhooks/messaging', (req, res) => {
-  // Verify signature using raw body (NOT JSON.stringify(req.body))
+app.post('/webhooks/messaging', async (req, res) => {
+  // Verify signature + parse event using raw body (NOT JSON.stringify(req.body))
   try {
-    client.webhooks.signature.verifySignature(
+    const event = await client.webhooks.unwrap(
       req.rawBody,  // Must be the original bytes, not re-serialized
-      req.headers['telnyx-signature-ed25519'],
-      req.headers['telnyx-timestamp'],
-      'YOUR_PUBLIC_KEY'
+      { headers: req.headers, key: 'YOUR_PUBLIC_KEY' }
     );
   } catch (e) {
     return res.status(403).send('Forbidden');
@@ -470,22 +461,25 @@ Django requires `@csrf_exempt` since Telnyx webhooks won't include CSRF tokens.
 ```python
 # views.py
 import json
-from telnyx.webhooks import verify_signature
+from telnyx import Telnyx
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.conf import settings
 
+client = Telnyx(api_key=settings.TELNYX_API_KEY, public_key=settings.TELNYX_PUBLIC_KEY)
+
 @csrf_exempt
 @require_POST
 def telnyx_webhook(request):
-    # Verify signature
+    # Verify signature + parse event
     try:
-        verify_signature(
-            payload=request.body.decode('utf-8'),  # raw body string
-            signature=request.META.get('HTTP_TELNYX_SIGNATURE_ED25519', ''),
-            timestamp=request.META.get('HTTP_TELNYX_TIMESTAMP', ''),
-            public_key=settings.TELNYX_PUBLIC_KEY
+        client.webhooks.unwrap(
+            request.body.decode('utf-8'),  # raw body string
+            headers={
+                'telnyx-signature-ed25519': request.META.get('HTTP_TELNYX_SIGNATURE_ED25519', ''),
+                'telnyx-timestamp': request.META.get('HTTP_TELNYX_TIMESTAMP', ''),
+            },
         )
     except Exception:
         return JsonResponse({'error': 'Invalid signature'}, status=403)

@@ -245,16 +245,13 @@ is_valid = validator.validate(url, params, request.headers.get('X-Twilio-Signatu
 
 # Telnyx (add this)
 from telnyx import Telnyx
-client = Telnyx(api_key="YOUR_TELNYX_API_KEY")
+client = Telnyx(api_key="YOUR_TELNYX_API_KEY", public_key="YOUR_PUBLIC_KEY")
 
 # Verify webhook signature using Ed25519
-from telnyx.webhooks import verify_signature
 try:
-    verify_signature(
-        payload=request.data.decode("utf-8"),
-        signature=request.headers.get("telnyx-signature-ed25519"),
-        timestamp=request.headers.get("telnyx-timestamp"),
-        public_key="YOUR_PUBLIC_KEY"  # from portal.telnyx.com
+    event = client.webhooks.unwrap(
+        request.data.decode("utf-8"),
+        headers=request.headers,  # must contain telnyx-signature-ed25519 and telnyx-timestamp
     )
     # Signature valid
 except Exception:
@@ -274,11 +271,9 @@ const client = new Telnyx({ apiKey: 'YOUR_API_KEY' });
 const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
 
 try {
-  client.webhooks.signature.verifySignature(
+  const event = await client.webhooks.unwrap(
     req.rawBody,  // Must be original bytes — see SKILL.md Express raw body setup
-    req.headers['telnyx-signature-ed25519'],
-    req.headers['telnyx-timestamp'],
-    PUBLIC_KEY
+    { headers: req.headers, key: PUBLIC_KEY }
   );
   // Signature valid
 } catch (e) {
