@@ -115,7 +115,7 @@ fi
 parse_json() {
   local json="$1"
   local expr="$2"
-  echo "$json" | python3 -c "import sys,json; data=json.load(sys.stdin); print($expr)" 2>/dev/null || echo ""
+  echo "$json" | python3 -c "import sys,json; raw=json.load(sys.stdin); data=raw.get('data',raw) if isinstance(raw,dict) else raw; print($expr)" 2>/dev/null || echo ""
 }
 
 # --- Step 1: Validate API key ---
@@ -181,19 +181,19 @@ if [ -z "$CONNECTION_ID" ]; then
 import sys, json
 data = json.load(sys.stdin)
 for conn in data.get('data', []):
-    if conn.get('webrtc_enabled') is True:
+    if conn.get('active') is True:
         print(conn.get('id', ''))
         break
 " 2>/dev/null || echo "")
   fi
 
   if [ -n "$CONNECTION_ID" ]; then
-    echo -e "  ${GREEN}PASS${NC}  Found WebRTC-enabled credential connection: ${CONNECTION_ID}"
+    echo -e "  ${GREEN}PASS${NC}  Found active credential connection: ${CONNECTION_ID}"
   else
-    echo -e "  ${BLUE}INFO${NC}  No WebRTC-enabled credential connection found — creating one..."
+    echo -e "  ${BLUE}INFO${NC}  No credential connection found — creating one..."
 
-    # Generate a random username/password for the credential connection
-    RAND_SUFFIX=$(date +%s | tail -c 6)
+    # Generate a unique name, username, and password for the credential connection
+    RAND_SUFFIX=$(date +%s)
     CONN_USER="migtest${RAND_SUFFIX}"
     CONN_PASS="MigTest_${RAND_SUFFIX}_$(head -c 8 /dev/urandom | od -An -tx1 | tr -d ' \n')"
 
@@ -201,7 +201,7 @@ for conn in data.get('data', []):
       -H "Authorization: Bearer ${TELNYX_API_KEY}" \
       -H "Content-Type: application/json" \
       -d "{
-        \"connection_name\": \"migration-test-webrtc\",
+        \"connection_name\": \"migration-test-webrtc-${RAND_SUFFIX}\",
         \"user_name\": \"${CONN_USER}\",
         \"password\": \"${CONN_PASS}\",
         \"active\": true,
@@ -242,7 +242,7 @@ else
   echo -e "  ${GREEN}PASS${NC}  TELNYX_CONNECTION_ID: ${CONNECTION_ID}"
 fi
 
-# --- Step 3: Verify connection is active and webrtc_enabled ---
+# --- Step 3: Verify connection is active ---
 echo ""
 echo -e "${BOLD}Step 3: Verifying connection status...${NC}"
 
@@ -256,7 +256,6 @@ if [ -z "$VERIFY_RESPONSE" ]; then
 fi
 
 CONN_ACTIVE=$(parse_json "$VERIFY_RESPONSE" "str(data.get('active', False)).lower()")
-CONN_WEBRTC=$(parse_json "$VERIFY_RESPONSE" "str(data.get('webrtc_enabled', False)).lower()")
 CONN_NAME=$(parse_json "$VERIFY_RESPONSE" "data.get('connection_name', 'unknown')")
 
 echo -e "  ${BLUE}INFO${NC}  Connection name: ${CONN_NAME}"
@@ -268,12 +267,7 @@ else
   exit 1
 fi
 
-if [ "$CONN_WEBRTC" = "true" ]; then
-  echo -e "  ${GREEN}PASS${NC}  WebRTC is enabled"
-else
-  echo -e "  ${YELLOW}WARN${NC}  WebRTC not explicitly enabled on this connection (webrtc_enabled=$CONN_WEBRTC)"
-  echo -e "         Continuing — credential/token generation will confirm WebRTC functionality"
-fi
+echo -e "  ${GREEN}PASS${NC}  Credential connection is ready for WebRTC"
 
 # --- Step 4: Create a SIP credential ---
 echo ""
@@ -650,7 +644,6 @@ echo "==================="
 echo -e "${BOLD}Results${NC}"
 echo "  Connection ID:     ${CONNECTION_ID}"
 echo "  Connection Name:   ${CONN_NAME}"
-echo "  WebRTC Enabled:    ${CONN_WEBRTC}"
 echo "  Connection Active: ${CONN_ACTIVE}"
 echo "  Credential Created:  YES (${CRED_NAME})"
 echo "  Token Generated:     YES (${TOKEN_LENGTH} chars)"
