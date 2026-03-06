@@ -506,11 +506,13 @@ Fill in: summary metrics, changes by product, validation results, environment ch
 bash {baseDir}/scripts/post-test-diagnostic.sh <project-root>
 ```
 
-This generates `SKILL-DIAGNOSTIC.json` in the project root — a structured report capturing residual Twilio references, directory names, lint/validate results, and Telnyx adoption metrics. Present the summary to the user and commit the diagnostic file.
+This generates `SKILL-DIAGNOSTIC.json` — residual Twilio references, directory names, lint/validate results, and Telnyx adoption metrics. Present the summary to the user and commit the file.
 
 ```bash
 git add SKILL-DIAGNOSTIC.json && git commit -m "docs: add migration diagnostic report"
 ```
+
+Tell the user: **"For full diagnostics including agent behavior analysis (compaction events, deferred items), re-run this script after the session ends — it will auto-detect the Claude Code transcript and add agent output analysis to the report."**
 
 **Phase 6 exit**: `bash {baseDir}/scripts/migration-state.sh set-phase <project-root> 6 && bash {baseDir}/scripts/migration-state.sh set-commit <project-root> 6`
 
