@@ -535,6 +535,21 @@ else
   lint_pass "twilio_client_instantiation" "No Twilio client instantiation found"
 fi
 
+# Check 12: Directory/path names containing "twilio"
+twilio_dirs=$(find "$PROJECT_ROOT" -mindepth 1 \
+  \( -name node_modules -o -name .git -o -name vendor -o -name __pycache__ \
+     -o -name venv -o -name .venv -o -name dist -o -name build \) -prune \
+  -o -type d -iname '*twilio*' -print 2>/dev/null || true)
+twilio_dir_count=$(echo "$twilio_dirs" | sed '/^$/d' | wc -l | tr -d ' ')
+if [ "$twilio_dir_count" -gt 0 ] && [ -n "$(echo "$twilio_dirs" | sed '/^$/d')" ]; then
+  lint_issue "twilio_directory_names" \
+    "Found $twilio_dir_count directory name(s) containing 'twilio'" \
+    "Rename directories: replace 'twilio' with 'telnyx' in directory names (e.g., feature/twilio/ → feature/telnyx/)" \
+    "$(echo "$twilio_dirs" | sed '/^$/d' | head -10 | jq -R -s '{directories: (split("\n") | map(select(length > 0)))}' 2>/dev/null || echo '{"directories":[]}')"
+else
+  lint_pass "twilio_directory_names" "No directory names containing 'twilio'"
+fi
+
 # ============================================================
 # OUTPUT
 # ============================================================
