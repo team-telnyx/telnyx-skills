@@ -45,7 +45,7 @@ number_lookup = client.number_lookup.retrieve("+18665552368")
 puts(number_lookup)
 ```
 
-Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (['string', 'null']), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
+Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (string | null), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
 
 ## List verifications by phone number
 
@@ -57,7 +57,7 @@ by_phone_numbers = client.verifications.by_phone_number.list("+13035551234")
 puts(by_phone_numbers)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by phone number
 
@@ -79,7 +79,7 @@ Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
-Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), `timeout_secs` (integer)
+Optional: `custom_code` (string | null), `extension` (string | null), `timeout_secs` (integer)
 
 ```ruby
 create_verification_response = client.verifications.trigger_call(
@@ -90,7 +90,7 @@ create_verification_response = client.verifications.trigger_call(
 puts(create_verification_response)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger Flash call verification
 
@@ -107,13 +107,13 @@ create_verification_response = client.verifications.trigger_flashcall(
 puts(create_verification_response)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
 
-Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
+Optional: `custom_code` (string | null), `timeout_secs` (integer)
 
 ```ruby
 create_verification_response = client.verifications.trigger_sms(
@@ -124,7 +124,7 @@ create_verification_response = client.verifications.trigger_sms(
 puts(create_verification_response)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Retrieve verification
 
@@ -136,7 +136,7 @@ verification = client.verifications.retrieve("12ade33a-21c0-473b-b055-b3c836e1c2
 puts(verification)
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by ID
 

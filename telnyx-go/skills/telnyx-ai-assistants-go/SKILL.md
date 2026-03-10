@@ -98,6 +98,20 @@ Optional: `import_ids` (array[string])
 
 Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
+## Get All Tags
+
+`GET /ai/assistants/tags`
+
+```go
+	tags, err := client.AI.Assistants.Tags.List(context.TODO())
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("%+v\n", tags.Tags)
+```
+
+Returns: `tags` (array[string])
+
 ## List assistant tests with pagination
 
 Retrieves a paginated list of assistant tests with optional filtering capabilities
@@ -607,6 +621,46 @@ If the event is pending, this will cancel the event. Otherwise, this will simply
 	}
 ```
 
+## Add Assistant Tag
+
+`POST /ai/assistants/{assistant_id}/tags` — Required: `tag`
+
+```go
+	response, err := client.AI.Assistants.Tags.Add(
+		context.TODO(),
+		"assistant_id",
+		telnyx.AIAssistantTagAddParams{
+			Tag: "tag",
+		},
+	)
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("%+v\n", response.Tags)
+```
+
+Returns: `tags` (array[string])
+
+## Remove Assistant Tag
+
+`DELETE /ai/assistants/{assistant_id}/tags/{tag}`
+
+```go
+	tag, err := client.AI.Assistants.Tags.Remove(
+		context.TODO(),
+		"tag",
+		telnyx.AIAssistantTagRemoveParams{
+			AssistantID: "assistant_id",
+		},
+	)
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("%+v\n", tag.Tags)
+```
+
+Returns: `tags` (array[string])
+
 ## Get assistant texml
 
 Get an assistant texml by `assistant_id`.
@@ -769,7 +823,7 @@ Create a new MCP server.
 
 `POST /ai/mcp_servers` — Required: `name`, `type`, `url`
 
-Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null'])
+Optional: `allowed_tools` (array | null), `api_key_ref` (string | null)
 
 ```go
 	mcpServer, err := client.AI.McpServers.New(context.TODO(), telnyx.AIMcpServerNewParams{
@@ -783,7 +837,7 @@ Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']
 	fmt.Printf("%+v\n", mcpServer.ID)
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Get MCP Server
 
@@ -799,7 +853,7 @@ Retrieve details for a specific MCP server.
 	fmt.Printf("%+v\n", mcpServer.ID)
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Update MCP Server
 
@@ -807,7 +861,7 @@ Update an existing MCP server.
 
 `PUT /ai/mcp_servers/{mcp_server_id}`
 
-Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Optional: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ```go
 	mcpServer, err := client.AI.McpServers.Update(
@@ -821,7 +875,7 @@ Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']
 	fmt.Printf("%+v\n", mcpServer.ID)
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Delete MCP Server
 

@@ -5,7 +5,15 @@
 ## Installation
 
 ```text
-// See https://github.com/team-telnyx/telnyx-java for Maven/Gradle setup
+<!-- Maven -->
+<dependency>
+    <groupId>com.telnyx.sdk</groupId>
+    <artifactId>telnyx-java</artifactId>
+    <version>6.26.0</version>
+</dependency>
+
+// Gradle
+implementation("com.telnyx.sdk:telnyx-java:6.26.0")
 ```
 
 ## Setup

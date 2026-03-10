@@ -85,6 +85,18 @@ console.log(assistantsList.data);
 
 Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
+## Get All Tags
+
+`GET /ai/assistants/tags`
+
+```javascript
+const tags = await client.ai.assistants.tags.list();
+
+console.log(tags.tags);
+```
+
+Returns: `tags` (array[string])
+
 ## List assistant tests with pagination
 
 Retrieves a paginated list of assistant tests with optional filtering capabilities
@@ -466,6 +478,30 @@ If the event is pending, this will cancel the event. Otherwise, this will simply
 await client.ai.assistants.scheduledEvents.delete('event_id', { assistant_id: 'assistant_id' });
 ```
 
+## Add Assistant Tag
+
+`POST /ai/assistants/{assistant_id}/tags` — Required: `tag`
+
+```javascript
+const response = await client.ai.assistants.tags.add('assistant_id', { tag: 'tag' });
+
+console.log(response.tags);
+```
+
+Returns: `tags` (array[string])
+
+## Remove Assistant Tag
+
+`DELETE /ai/assistants/{assistant_id}/tags/{tag}`
+
+```javascript
+const tag = await client.ai.assistants.tags.remove('tag', { assistant_id: 'assistant_id' });
+
+console.log(tag.tags);
+```
+
+Returns: `tags` (array[string])
+
 ## Get assistant texml
 
 Get an assistant texml by `assistant_id`.
@@ -587,7 +623,7 @@ Create a new MCP server.
 
 `POST /ai/mcp_servers` — Required: `name`, `type`, `url`
 
-Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null'])
+Optional: `allowed_tools` (array | null), `api_key_ref` (string | null)
 
 ```javascript
 const mcpServer = await client.ai.mcpServers.create({
@@ -599,7 +635,7 @@ const mcpServer = await client.ai.mcpServers.create({
 console.log(mcpServer.id);
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Get MCP Server
 
@@ -613,7 +649,7 @@ const mcpServer = await client.ai.mcpServers.retrieve('mcp_server_id');
 console.log(mcpServer.id);
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Update MCP Server
 
@@ -621,7 +657,7 @@ Update an existing MCP server.
 
 `PUT /ai/mcp_servers/{mcp_server_id}`
 
-Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Optional: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ```javascript
 const mcpServer = await client.ai.mcpServers.update('mcp_server_id');
@@ -629,7 +665,7 @@ const mcpServer = await client.ai.mcpServers.update('mcp_server_id');
 console.log(mcpServer.id);
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Delete MCP Server
 

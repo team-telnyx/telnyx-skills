@@ -17,7 +17,15 @@ metadata:
 ## Installation
 
 ```text
-// See https://github.com/team-telnyx/telnyx-java for Maven/Gradle setup
+<!-- Maven -->
+<dependency>
+    <groupId>com.telnyx.sdk</groupId>
+    <artifactId>telnyx-java</artifactId>
+    <version>6.26.0</version>
+</dependency>
+
+// Gradle
+implementation("com.telnyx.sdk:telnyx-java:6.26.0")
 ```
 
 ## Setup
@@ -173,7 +181,7 @@ import com.telnyx.sdk.models.organizations.users.UserListParams;
 UserListPage page = client.organizations().users().list();
 ```
 
-Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (['string', 'null']), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)
+Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (string | null), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)
 
 ## Get organization users groups report
 
@@ -188,7 +196,7 @@ import com.telnyx.sdk.models.organizations.users.UserGetGroupsReportResponse;
 UserGetGroupsReportResponse response = client.organizations().users().getGroupsReport();
 ```
 
-Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (['string', 'null']), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)
+Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (string | null), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)
 
 ## Get organization user
 
@@ -203,7 +211,7 @@ import com.telnyx.sdk.models.organizations.users.UserRetrieveResponse;
 UserRetrieveResponse user = client.organizations().users().retrieve("id");
 ```
 
-Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (['string', 'null']), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)
+Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (string | null), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)
 
 ## Delete organization user
 
@@ -218,4 +226,4 @@ import com.telnyx.sdk.models.organizations.users.actions.ActionRemoveResponse;
 ActionRemoveResponse action = client.organizations().users().actions().remove("id");
 ```
 
-Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (['string', 'null']), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)
+Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (string | null), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)

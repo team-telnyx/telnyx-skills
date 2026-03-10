@@ -18,7 +18,15 @@ metadata:
 ## Installation
 
 ```text
-// See https://github.com/team-telnyx/telnyx-java for Maven/Gradle setup
+<!-- Maven -->
+<dependency>
+    <groupId>com.telnyx.sdk</groupId>
+    <artifactId>telnyx-java</artifactId>
+    <version>6.26.0</version>
+</dependency>
+
+// Gradle
+implementation("com.telnyx.sdk:telnyx-java:6.26.0")
 ```
 
 ## Setup
@@ -84,7 +92,7 @@ Start siprec session to configured in SIPREC connector SRS. **Expected Webhooks:
 
 `POST /calls/{call_control_id}/actions/siprec_start`
 
-Optional: `client_state` (string), `connector_name` (string), `include_metadata_custom_headers` (enum: True, False), `secure` (enum: True, False), `session_timeout_secs` (integer), `sip_transport` (enum: udp, tcp, tls), `siprec_track` (enum: inbound_track, outbound_track, both_tracks)
+Optional: `client_state` (string), `connector_name` (string), `include_metadata_custom_headers` (boolean), `secure` (boolean), `session_timeout_secs` (integer), `sip_transport` (enum: udp, tcp, tls), `siprec_track` (enum: inbound_track, outbound_track, both_tracks)
 
 ```java
 import com.telnyx.sdk.models.calls.actions.ActionStartSiprecParams;

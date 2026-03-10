@@ -45,7 +45,7 @@ for await (const auditEventListResponse of client.auditEvents.list()) {
 }
 ```
 
-Returns: `alternate_resource_id` (['string', 'null']), `change_made_by` (enum: telnyx, account_manager, account_owner, organization_member), `change_type` (string), `changes` (['array', 'null']), `created_at` (date-time), `id` (uuid), `organization_id` (uuid), `record_type` (string), `resource_id` (string), `user_id` (uuid)
+Returns: `alternate_resource_id` (string | null), `change_made_by` (enum: telnyx, account_manager, account_owner, organization_member), `change_type` (string), `changes` (array | null), `created_at` (date-time), `id` (uuid), `organization_id` (uuid), `record_type` (string), `resource_id` (string), `user_id` (uuid)
 
 ## Get user balance details
 

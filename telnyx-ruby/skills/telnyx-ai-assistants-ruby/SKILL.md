@@ -78,6 +78,18 @@ puts(assistants_list)
 
 Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
+## Get All Tags
+
+`GET /ai/assistants/tags`
+
+```ruby
+tags = client.ai.assistants.tags.list
+
+puts(tags)
+```
+
+Returns: `tags` (array[string])
+
 ## List assistant tests with pagination
 
 Retrieves a paginated list of assistant tests with optional filtering capabilities
@@ -458,6 +470,30 @@ result = client.ai.assistants.scheduled_events.delete("event_id", assistant_id: 
 puts(result)
 ```
 
+## Add Assistant Tag
+
+`POST /ai/assistants/{assistant_id}/tags` — Required: `tag`
+
+```ruby
+response = client.ai.assistants.tags.add("assistant_id", tag: "tag")
+
+puts(response)
+```
+
+Returns: `tags` (array[string])
+
+## Remove Assistant Tag
+
+`DELETE /ai/assistants/{assistant_id}/tags/{tag}`
+
+```ruby
+tag = client.ai.assistants.tags.remove("tag", assistant_id: "assistant_id")
+
+puts(tag)
+```
+
+Returns: `tags` (array[string])
+
 ## Get assistant texml
 
 Get an assistant texml by `assistant_id`.
@@ -574,7 +610,7 @@ Create a new MCP server.
 
 `POST /ai/mcp_servers` — Required: `name`, `type`, `url`
 
-Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null'])
+Optional: `allowed_tools` (array | null), `api_key_ref` (string | null)
 
 ```ruby
 mcp_server = client.ai.mcp_servers.create(name: "name", type: "type", url: "url")
@@ -582,7 +618,7 @@ mcp_server = client.ai.mcp_servers.create(name: "name", type: "type", url: "url"
 puts(mcp_server)
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Get MCP Server
 
@@ -596,7 +632,7 @@ mcp_server = client.ai.mcp_servers.retrieve("mcp_server_id")
 puts(mcp_server)
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Update MCP Server
 
@@ -604,7 +640,7 @@ Update an existing MCP server.
 
 `PUT /ai/mcp_servers/{mcp_server_id}`
 
-Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Optional: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ```ruby
 mcp_server = client.ai.mcp_servers.update("mcp_server_id")
@@ -612,7 +648,7 @@ mcp_server = client.ai.mcp_servers.update("mcp_server_id")
 puts(mcp_server)
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Delete MCP Server
 

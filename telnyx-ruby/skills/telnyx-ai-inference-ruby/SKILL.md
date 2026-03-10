@@ -384,7 +384,7 @@ embedding_response = client.ai.embeddings.create(bucket_name: "bucket_name")
 puts(embedding_response)
 ```
 
-Returns: `created_at` (string), `finished_at` (['string', 'null']), `status` (string), `task_id` (uuid), `task_name` (string), `user_id` (uuid)
+Returns: `created_at` (string), `finished_at` (string | null), `status` (string), `task_id` (uuid), `task_name` (string), `user_id` (uuid)
 
 ## List embedded buckets
 
@@ -454,7 +454,7 @@ embedding_response = client.ai.embeddings.url(bucket_name: "bucket_name", url: "
 puts(embedding_response)
 ```
 
-Returns: `created_at` (string), `finished_at` (['string', 'null']), `status` (string), `task_id` (uuid), `task_name` (string), `user_id` (uuid)
+Returns: `created_at` (string), `finished_at` (string | null), `status` (string), `task_id` (uuid), `task_name` (string), `user_id` (uuid)
 
 ## Get an embedding task's status
 
@@ -487,7 +487,7 @@ jobs = client.ai.fine_tuning.jobs.list
 puts(jobs)
 ```
 
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
+Returns: `created_at` (integer), `finished_at` (integer | null), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (integer | null), `training_file` (string)
 
 ## Create a fine tuning job
 
@@ -503,7 +503,7 @@ fine_tuning_job = client.ai.fine_tuning.jobs.create(model: "model", training_fil
 puts(fine_tuning_job)
 ```
 
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
+Returns: `created_at` (integer), `finished_at` (integer | null), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (integer | null), `training_file` (string)
 
 ## Get a fine tuning job
 
@@ -517,7 +517,7 @@ fine_tuning_job = client.ai.fine_tuning.jobs.retrieve("job_id")
 puts(fine_tuning_job)
 ```
 
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
+Returns: `created_at` (integer), `finished_at` (integer | null), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (integer | null), `training_file` (string)
 
 ## Cancel a fine tuning job
 
@@ -531,11 +531,11 @@ fine_tuning_job = client.ai.fine_tuning.jobs.cancel("job_id")
 puts(fine_tuning_job)
 ```
 
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
+Returns: `created_at` (integer), `finished_at` (integer | null), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (integer | null), `training_file` (string)
 
 ## Get available models
 
-This endpoint returns a list of Open Source and OpenAI models that are available for use. <br /><br /> **Note**: Model `id`'s will be in the form `{source}/{model_name}`. For example `openai/gpt-4` or `mistralai/Mistral-7B-Instruct-v0.1` consistent with HuggingFace naming conventions.
+This endpoint returns a list of Open Source and OpenAI models that are available for use.    **Note**: Model `id`'s will be in the form `{source}/{model_name}`. For example `openai/gpt-4` or `mistralai/Mistral-7B-Instruct-v0.1` consistent with HuggingFace naming conventions.
 
 `GET /ai/models`
 
@@ -676,25 +676,13 @@ puts(response)
 
 Returns: `data` (object)
 
-## Speech to text over WebSocket
-
-Open a WebSocket connection to stream audio and receive transcriptions in real-time. Authentication is provided via the standard `Authorization: Bearer <API_KEY>` header. Supported engines: `Azure`, `Deepgram`, `Google`, `Telnyx`.
-
-`GET /speech-to-text/transcription`
-
-```ruby
-result = client.speech_to_text.transcribe(input_format: :mp3, transcription_engine: :Azure)
-
-puts(result)
-```
-
 ## Generate speech from text
 
-Generate synthesized speech audio from text input. Returns audio in the requested format (binary audio stream, base64-encoded JSON, or an audio URL for later retrieval). Authentication is provided via the standard `Authorization: Bearer <API_KEY>` header.
+Generate synthesized speech audio from text input. Returns audio in the requested format (binary audio stream, base64-encoded JSON, or an audio URL for later retrieval). Authentication is provided via the standard `Authorization: Bearer ` header.
 
 `POST /text-to-speech/speech`
 
-Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
+Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `inworld` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble, inworld), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
 
 ```ruby
 response = client.text_to_speech.generate

@@ -77,7 +77,7 @@ Start siprec session to configured in SIPREC connector SRS. **Expected Webhooks:
 
 `POST /calls/{call_control_id}/actions/siprec_start`
 
-Optional: `client_state` (string), `connector_name` (string), `include_metadata_custom_headers` (enum: True, False), `secure` (enum: True, False), `session_timeout_secs` (integer), `sip_transport` (enum: udp, tcp, tls), `siprec_track` (enum: inbound_track, outbound_track, both_tracks)
+Optional: `client_state` (string), `connector_name` (string), `include_metadata_custom_headers` (boolean), `secure` (boolean), `session_timeout_secs` (integer), `sip_transport` (enum: udp, tcp, tls), `siprec_track` (enum: inbound_track, outbound_track, both_tracks)
 
 ```javascript
 const response = await client.calls.actions.startSiprec('call_control_id');

@@ -39,7 +39,7 @@ Returns information about the provided phone number.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/number_lookup/+18665552368"
 ```
 
-Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (['string', 'null']), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
+Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (string | null), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
 
 ## List verifications by phone number
 
@@ -49,7 +49,7 @@ Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `f
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/verifications/by_phone_number/+13035551234"
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by phone number
 
@@ -73,7 +73,7 @@ Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
-Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), `timeout_secs` (integer)
+Optional: `custom_code` (string | null), `extension` (string | null), `timeout_secs` (integer)
 
 ```bash
 curl \
@@ -90,7 +90,7 @@ curl \
   "https://api.telnyx.com/v2/verifications/call"
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger Flash call verification
 
@@ -111,13 +111,13 @@ curl \
   "https://api.telnyx.com/v2/verifications/flashcall"
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
 
-Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
+Optional: `custom_code` (string | null), `timeout_secs` (integer)
 
 ```bash
 curl \
@@ -133,7 +133,7 @@ curl \
   "https://api.telnyx.com/v2/verifications/sms"
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Retrieve verification
 
@@ -143,7 +143,7 @@ Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid),
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/verifications/12ade33a-21c0-473b-b055-b3c836e1c292"
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by ID
 
