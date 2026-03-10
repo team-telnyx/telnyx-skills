@@ -411,7 +411,7 @@ curl \
   "https://api.telnyx.com/v2/ai/embeddings"
 ```
 
-Returns: `created_at` (string), `finished_at` (['string', 'null']), `status` (string), `task_id` (uuid), `task_name` (string), `user_id` (uuid)
+Returns: `created_at` (string), `finished_at` (string | null), `status` (string), `task_id` (uuid), `task_name` (string), `user_id` (uuid)
 
 ## List embedded buckets
 
@@ -490,7 +490,7 @@ curl \
   "https://api.telnyx.com/v2/ai/embeddings/url"
 ```
 
-Returns: `created_at` (string), `finished_at` (['string', 'null']), `status` (string), `task_id` (uuid), `task_name` (string), `user_id` (uuid)
+Returns: `created_at` (string), `finished_at` (string | null), `status` (string), `task_id` (uuid), `task_name` (string), `user_id` (uuid)
 
 ## Get an embedding task's status
 
@@ -519,7 +519,7 @@ Retrieve a list of all fine tuning jobs created by the user.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/fine_tuning/jobs"
 ```
 
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
+Returns: `created_at` (integer), `finished_at` (integer | null), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (integer | null), `training_file` (string)
 
 ## Create a fine tuning job
 
@@ -541,7 +541,7 @@ curl \
   "https://api.telnyx.com/v2/ai/fine_tuning/jobs"
 ```
 
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
+Returns: `created_at` (integer), `finished_at` (integer | null), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (integer | null), `training_file` (string)
 
 ## Get a fine tuning job
 
@@ -553,7 +553,7 @@ Retrieve a fine tuning job by `job_id`.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/fine_tuning/jobs/{job_id}"
 ```
 
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
+Returns: `created_at` (integer), `finished_at` (integer | null), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (integer | null), `training_file` (string)
 
 ## Cancel a fine tuning job
 
@@ -569,11 +569,11 @@ curl \
   "https://api.telnyx.com/v2/ai/fine_tuning/jobs/{job_id}/cancel"
 ```
 
-Returns: `created_at` (integer), `finished_at` (['integer', 'null']), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (['integer', 'null']), `training_file` (string)
+Returns: `created_at` (integer), `finished_at` (integer | null), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (integer | null), `training_file` (string)
 
 ## Get available models
 
-This endpoint returns a list of Open Source and OpenAI models that are available for use. <br /><br /> **Note**: Model `id`'s will be in the form `{source}/{model_name}`. For example `openai/gpt-4` or `mistralai/Mistral-7B-Instruct-v0.1` consistent with HuggingFace naming conventions.
+This endpoint returns a list of Open Source and OpenAI models that are available for use.    **Note**: Model `id`'s will be in the form `{source}/{model_name}`. For example `openai/gpt-4` or `mistralai/Mistral-7B-Instruct-v0.1` consistent with HuggingFace naming conventions.
 
 `GET /ai/models`
 
@@ -717,7 +717,7 @@ Returns: `data` (object)
 
 ## Speech to text over WebSocket
 
-Open a WebSocket connection to stream audio and receive transcriptions in real-time. Authentication is provided via the standard `Authorization: Bearer <API_KEY>` header. Supported engines: `Azure`, `Deepgram`, `Google`, `Telnyx`.
+Open a WebSocket connection to stream audio and receive transcriptions in real-time. Authentication is provided via the standard `Authorization: Bearer ` header. Supported engines: `Azure`, `Deepgram`, `Google`, `Telnyx`.
 
 `GET /speech-to-text/transcription`
 
@@ -727,7 +727,7 @@ curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/speec
 
 ## Stream text to speech over WebSocket
 
-Open a WebSocket connection to stream text and receive synthesized audio in real time. Authentication is provided via the standard `Authorization: Bearer <API_KEY>` header. Send JSON frames with text to synthesize; receive JSON frames containing base64-encoded audio chunks.
+Open a WebSocket connection to stream text and receive synthesized audio in real time. Authentication is provided via the standard `Authorization: Bearer ` header. Send JSON frames with text to synthesize; receive JSON frames containing base64-encoded audio chunks.
 
 `GET /text-to-speech/speech`
 
@@ -737,11 +737,11 @@ curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/text-
 
 ## Generate speech from text
 
-Generate synthesized speech audio from text input. Returns audio in the requested format (binary audio stream, base64-encoded JSON, or an audio URL for later retrieval). Authentication is provided via the standard `Authorization: Bearer <API_KEY>` header.
+Generate synthesized speech audio from text input. Returns audio in the requested format (binary audio stream, base64-encoded JSON, or an audio URL for later retrieval). Authentication is provided via the standard `Authorization: Bearer ` header.
 
 `POST /text-to-speech/speech`
 
-Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
+Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `inworld` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble, inworld), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
 
 ```bash
 curl \

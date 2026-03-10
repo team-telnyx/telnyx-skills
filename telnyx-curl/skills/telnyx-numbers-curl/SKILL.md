@@ -186,7 +186,7 @@ Returns: `data` (object)
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/country_coverage/countries/US"
 ```
 
-Returns: `code` (string), `features` (array[string]), `international_sms` (boolean), `inventory_coverage` (boolean), `local` (object), `mobile` (object), `national` (object), `numbers` (boolean), `p2p` (boolean), `phone_number_type` (array[string]), `quickship` (boolean), `region` (['string', 'null']), `reservable` (boolean), `shared_cost` (object), `toll_free` (object)
+Returns: `code` (string), `features` (array[string]), `international_sms` (boolean), `inventory_coverage` (boolean), `local` (object), `mobile` (object), `national` (object), `numbers` (boolean), `p2p` (boolean), `phone_number_type` (array[string]), `quickship` (boolean), `region` (string | null), `reservable` (boolean), `shared_cost` (object), `toll_free` (object)
 
 ## List customer service records
 
@@ -198,7 +198,7 @@ List customer service records.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/customer_service_records"
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
+Returns: `created_at` (date-time), `error_message` (string | null), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (object | null), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
 
 ## Create a customer service record
 
@@ -214,7 +214,7 @@ curl \
   "https://api.telnyx.com/v2/customer_service_records"
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
+Returns: `created_at` (date-time), `error_message` (string | null), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (object | null), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
 
 ## Verify CSR phone number coverage
 
@@ -242,7 +242,7 @@ Get a specific customer service record.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/customer_service_records/{customer_service_record_id}"
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
+Returns: `created_at` (date-time), `error_message` (string | null), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (object | null), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
 
 ## List inexplicit number orders
 

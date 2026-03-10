@@ -17,7 +17,15 @@ metadata:
 ## Installation
 
 ```text
-// See https://github.com/team-telnyx/telnyx-java for Maven/Gradle setup
+<!-- Maven -->
+<dependency>
+    <groupId>com.telnyx.sdk</groupId>
+    <artifactId>telnyx-java</artifactId>
+    <version>6.26.0</version>
+</dependency>
+
+// Gradle
+implementation("com.telnyx.sdk:telnyx-java:6.26.0")
 ```
 
 ## Setup
@@ -185,7 +193,7 @@ Returns: `data` (array[object]), `meta` (object)
 
 ## Upload a document
 
-Upload a document.<br /><br />Uploaded files must be linked to a service within 30 minutes or they will be automatically deleted.
+Upload a document.  Uploaded files must be linked to a service within 30 minutes or they will be automatically deleted.
 
 `POST /documents`
 
@@ -237,7 +245,7 @@ Returns: `data` (object)
 
 ## Delete a document
 
-Delete a document.<br /><br />A document can only be deleted if it's not linked to a service. If it is linked to a service, it must be unlinked prior to deleting.
+Delete a document.  A document can only be deleted if it's not linked to a service. If it is linked to a service, it must be unlinked prior to deleting.
 
 `DELETE /documents/{id}`
 

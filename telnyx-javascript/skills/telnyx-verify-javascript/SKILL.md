@@ -45,7 +45,7 @@ const numberLookup = await client.numberLookup.retrieve('+18665552368');
 console.log(numberLookup.data);
 ```
 
-Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (['string', 'null']), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
+Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (string | null), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
 
 ## List verifications by phone number
 
@@ -57,7 +57,7 @@ const byPhoneNumbers = await client.verifications.byPhoneNumber.list('+130355512
 console.log(byPhoneNumbers.data);
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by phone number
 
@@ -78,7 +78,7 @@ Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
-Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), `timeout_secs` (integer)
+Optional: `custom_code` (string | null), `extension` (string | null), `timeout_secs` (integer)
 
 ```javascript
 const createVerificationResponse = await client.verifications.triggerCall({
@@ -89,7 +89,7 @@ const createVerificationResponse = await client.verifications.triggerCall({
 console.log(createVerificationResponse.data);
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger Flash call verification
 
@@ -106,13 +106,13 @@ const createVerificationResponse = await client.verifications.triggerFlashcall({
 console.log(createVerificationResponse.data);
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
 
-Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
+Optional: `custom_code` (string | null), `timeout_secs` (integer)
 
 ```javascript
 const createVerificationResponse = await client.verifications.triggerSMS({
@@ -123,7 +123,7 @@ const createVerificationResponse = await client.verifications.triggerSMS({
 console.log(createVerificationResponse.data);
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Retrieve verification
 
@@ -135,7 +135,7 @@ const verification = await client.verifications.retrieve('12ade33a-21c0-473b-b05
 console.log(verification.data);
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by ID
 

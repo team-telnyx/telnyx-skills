@@ -183,7 +183,7 @@ const response = await client.countryCoverage.retrieveCountry('US');
 console.log(response.data);
 ```
 
-Returns: `code` (string), `features` (array[string]), `international_sms` (boolean), `inventory_coverage` (boolean), `local` (object), `mobile` (object), `national` (object), `numbers` (boolean), `p2p` (boolean), `phone_number_type` (array[string]), `quickship` (boolean), `region` (['string', 'null']), `reservable` (boolean), `shared_cost` (object), `toll_free` (object)
+Returns: `code` (string), `features` (array[string]), `international_sms` (boolean), `inventory_coverage` (boolean), `local` (object), `mobile` (object), `national` (object), `numbers` (boolean), `p2p` (boolean), `phone_number_type` (array[string]), `quickship` (boolean), `region` (string | null), `reservable` (boolean), `shared_cost` (object), `toll_free` (object)
 
 ## List customer service records
 
@@ -198,7 +198,7 @@ for await (const customerServiceRecord of client.customerServiceRecords.list()) 
 }
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
+Returns: `created_at` (date-time), `error_message` (string | null), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (object | null), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
 
 ## Create a customer service record
 
@@ -214,7 +214,7 @@ const customerServiceRecord = await client.customerServiceRecords.create({
 console.log(customerServiceRecord.data);
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
+Returns: `created_at` (date-time), `error_message` (string | null), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (object | null), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
 
 ## Verify CSR phone number coverage
 
@@ -246,7 +246,7 @@ const customerServiceRecord = await client.customerServiceRecords.retrieve(
 console.log(customerServiceRecord.data);
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
+Returns: `created_at` (date-time), `error_message` (string | null), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (object | null), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
 
 ## List inexplicit number orders
 

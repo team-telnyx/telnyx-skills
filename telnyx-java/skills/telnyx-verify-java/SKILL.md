@@ -18,7 +18,15 @@ metadata:
 ## Installation
 
 ```text
-// See https://github.com/team-telnyx/telnyx-java for Maven/Gradle setup
+<!-- Maven -->
+<dependency>
+    <groupId>com.telnyx.sdk</groupId>
+    <artifactId>telnyx-java</artifactId>
+    <version>6.26.0</version>
+</dependency>
+
+// Gradle
+implementation("com.telnyx.sdk:telnyx-java:6.26.0")
 ```
 
 ## Setup
@@ -45,7 +53,7 @@ import com.telnyx.sdk.models.numberlookup.NumberLookupRetrieveResponse;
 NumberLookupRetrieveResponse numberLookup = client.numberLookup().retrieve("+18665552368");
 ```
 
-Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (['string', 'null']), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
+Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (string | null), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
 
 ## List verifications by phone number
 
@@ -58,7 +66,7 @@ import com.telnyx.sdk.models.verifications.byphonenumber.ByPhoneNumberListRespon
 ByPhoneNumberListResponse byPhoneNumbers = client.verifications().byPhoneNumber().list("+13035551234");
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by phone number
 
@@ -82,7 +90,7 @@ Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
-Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), `timeout_secs` (integer)
+Optional: `custom_code` (string | null), `extension` (string | null), `timeout_secs` (integer)
 
 ```java
 import com.telnyx.sdk.models.verifications.CreateVerificationResponse;
@@ -95,7 +103,7 @@ VerificationTriggerCallParams params = VerificationTriggerCallParams.builder()
 CreateVerificationResponse createVerificationResponse = client.verifications().triggerCall(params);
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger Flash call verification
 
@@ -114,13 +122,13 @@ VerificationTriggerFlashcallParams params = VerificationTriggerFlashcallParams.b
 CreateVerificationResponse createVerificationResponse = client.verifications().triggerFlashcall(params);
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
 
-Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
+Optional: `custom_code` (string | null), `timeout_secs` (integer)
 
 ```java
 import com.telnyx.sdk.models.verifications.CreateVerificationResponse;
@@ -133,7 +141,7 @@ VerificationTriggerSmsParams params = VerificationTriggerSmsParams.builder()
 CreateVerificationResponse createVerificationResponse = client.verifications().triggerSms(params);
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Retrieve verification
 
@@ -146,7 +154,7 @@ import com.telnyx.sdk.models.verifications.VerificationRetrieveResponse;
 VerificationRetrieveResponse verification = client.verifications().retrieve("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
 
-Returns: `created_at` (string), `custom_code` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by ID
 

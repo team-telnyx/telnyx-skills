@@ -85,6 +85,16 @@ curl \
 
 Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
 
+## Get All Tags
+
+`GET /ai/assistants/tags`
+
+```bash
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/assistants/tags"
+```
+
+Returns: `tags` (array[string])
+
 ## List assistant tests with pagination
 
 Retrieves a paginated list of assistant tests with optional filtering capabilities
@@ -494,6 +504,36 @@ curl \
   "https://api.telnyx.com/v2/ai/assistants/{assistant_id}/scheduled_events/{event_id}"
 ```
 
+## Add Assistant Tag
+
+`POST /ai/assistants/{assistant_id}/tags` — Required: `tag`
+
+```bash
+curl \
+  -X POST \
+  -H "Authorization: Bearer $TELNYX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "tag": "string"
+}' \
+  "https://api.telnyx.com/v2/ai/assistants/{assistant_id}/tags"
+```
+
+Returns: `tags` (array[string])
+
+## Remove Assistant Tag
+
+`DELETE /ai/assistants/{assistant_id}/tags/{tag}`
+
+```bash
+curl \
+  -X DELETE \
+  -H "Authorization: Bearer $TELNYX_API_KEY" \
+  "https://api.telnyx.com/v2/ai/assistants/{assistant_id}/tags/{tag}"
+```
+
+Returns: `tags` (array[string])
+
 ## Get assistant texml
 
 Get an assistant texml by `assistant_id`.
@@ -609,7 +649,7 @@ Create a new MCP server.
 
 `POST /ai/mcp_servers` — Required: `name`, `type`, `url`
 
-Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null'])
+Optional: `allowed_tools` (array | null), `api_key_ref` (string | null)
 
 ```bash
 curl \
@@ -624,7 +664,7 @@ curl \
   "https://api.telnyx.com/v2/ai/mcp_servers"
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Get MCP Server
 
@@ -636,7 +676,7 @@ Retrieve details for a specific MCP server.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/mcp_servers/{mcp_server_id}"
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Update MCP Server
 
@@ -644,7 +684,7 @@ Update an existing MCP server.
 
 `PUT /ai/mcp_servers/{mcp_server_id}`
 
-Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Optional: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ```bash
 curl \
@@ -654,7 +694,7 @@ curl \
   "https://api.telnyx.com/v2/ai/mcp_servers/{mcp_server_id}"
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Delete MCP Server
 

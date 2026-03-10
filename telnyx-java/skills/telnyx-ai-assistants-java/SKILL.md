@@ -17,7 +17,15 @@ metadata:
 ## Installation
 
 ```text
-// See https://github.com/team-telnyx/telnyx-java for Maven/Gradle setup
+<!-- Maven -->
+<dependency>
+    <groupId>com.telnyx.sdk</groupId>
+    <artifactId>telnyx-java</artifactId>
+    <version>6.26.0</version>
+</dependency>
+
+// Gradle
+implementation("com.telnyx.sdk:telnyx-java:6.26.0")
 ```
 
 ## Setup
@@ -88,6 +96,19 @@ AssistantsList assistantsList = client.ai().assistants().imports(params);
 ```
 
 Returns: `created_at` (date-time), `description` (string), `dynamic_variables` (object), `dynamic_variables_webhook_url` (string), `enabled_features` (array[object]), `greeting` (string), `id` (string), `import_metadata` (object), `insight_settings` (object), `instructions` (string), `llm_api_key_ref` (string), `messaging_settings` (object), `model` (string), `name` (string), `privacy_settings` (object), `telephony_settings` (object), `tools` (array[object]), `transcription` (object), `voice_settings` (object), `widget_settings` (object)
+
+## Get All Tags
+
+`GET /ai/assistants/tags`
+
+```java
+import com.telnyx.sdk.models.ai.assistants.tags.TagListParams;
+import com.telnyx.sdk.models.ai.assistants.tags.TagListResponse;
+
+TagListResponse tags = client.ai().assistants().tags().list();
+```
+
+Returns: `tags` (array[string])
 
 ## List assistant tests with pagination
 
@@ -533,6 +554,40 @@ ScheduledEventDeleteParams params = ScheduledEventDeleteParams.builder()
 client.ai().assistants().scheduledEvents().delete(params);
 ```
 
+## Add Assistant Tag
+
+`POST /ai/assistants/{assistant_id}/tags` — Required: `tag`
+
+```java
+import com.telnyx.sdk.models.ai.assistants.tags.TagAddParams;
+import com.telnyx.sdk.models.ai.assistants.tags.TagAddResponse;
+
+TagAddParams params = TagAddParams.builder()
+    .assistantId("assistant_id")
+    .tag("tag")
+    .build();
+TagAddResponse response = client.ai().assistants().tags().add(params);
+```
+
+Returns: `tags` (array[string])
+
+## Remove Assistant Tag
+
+`DELETE /ai/assistants/{assistant_id}/tags/{tag}`
+
+```java
+import com.telnyx.sdk.models.ai.assistants.tags.TagRemoveParams;
+import com.telnyx.sdk.models.ai.assistants.tags.TagRemoveResponse;
+
+TagRemoveParams params = TagRemoveParams.builder()
+    .assistantId("assistant_id")
+    .tag("tag")
+    .build();
+TagRemoveResponse tag = client.ai().assistants().tags().remove(params);
+```
+
+Returns: `tags` (array[string])
+
 ## Get assistant texml
 
 Get an assistant texml by `assistant_id`.
@@ -677,7 +732,7 @@ Create a new MCP server.
 
 `POST /ai/mcp_servers` — Required: `name`, `type`, `url`
 
-Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null'])
+Optional: `allowed_tools` (array | null), `api_key_ref` (string | null)
 
 ```java
 import com.telnyx.sdk.models.ai.mcpservers.McpServerCreateParams;
@@ -691,7 +746,7 @@ McpServerCreateParams params = McpServerCreateParams.builder()
 McpServerCreateResponse mcpServer = client.ai().mcpServers().create(params);
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Get MCP Server
 
@@ -706,7 +761,7 @@ import com.telnyx.sdk.models.ai.mcpservers.McpServerRetrieveResponse;
 McpServerRetrieveResponse mcpServer = client.ai().mcpServers().retrieve("mcp_server_id");
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Update MCP Server
 
@@ -714,7 +769,7 @@ Update an existing MCP server.
 
 `PUT /ai/mcp_servers/{mcp_server_id}`
 
-Optional: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Optional: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ```java
 import com.telnyx.sdk.models.ai.mcpservers.McpServerUpdateParams;
@@ -723,7 +778,7 @@ import com.telnyx.sdk.models.ai.mcpservers.McpServerUpdateResponse;
 McpServerUpdateResponse mcpServer = client.ai().mcpServers().update("mcp_server_id");
 ```
 
-Returns: `allowed_tools` (['array', 'null']), `api_key_ref` (['string', 'null']), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
+Returns: `allowed_tools` (array | null), `api_key_ref` (string | null), `created_at` (date-time), `id` (string), `name` (string), `type` (string), `url` (string)
 
 ## Delete MCP Server
 

@@ -1,27 +1,19 @@
-<!-- Auto-generated from telnyx-verify-java — do not edit manually -->
-<!-- Source: telnyx-java/skills/telnyx-verify-java/SKILL.md -->
-
----
-name: telnyx-verify-java
-description: >-
-  Look up phone number information (carrier, type, caller name) and verify users
-  via SMS/voice OTP. Use for phone verification and data enrichment. This skill
-  provides Java SDK examples.
-metadata:
-  author: telnyx
-  product: verify
-  language: java
-  generated_by: telnyx-ext-skills-generator
----
-
-<!-- Auto-generated from Telnyx OpenAPI specs. Do not edit. -->
+<!-- SDK reference: telnyx-verify-java -->
 
 # Telnyx Verify - Java
 
 ## Installation
 
 ```text
-// See https://github.com/team-telnyx/telnyx-java for Maven/Gradle setup
+<!-- Maven -->
+<dependency>
+    <groupId>com.telnyx.sdk</groupId>
+    <artifactId>telnyx-java</artifactId>
+    <version>6.26.0</version>
+</dependency>
+
+// Gradle
+implementation("com.telnyx.sdk:telnyx-java:6.26.0")
 ```
 
 ## Setup
@@ -48,6 +40,8 @@ import com.telnyx.sdk.models.numberlookup.NumberLookupRetrieveResponse;
 NumberLookupRetrieveResponse numberLookup = client.numberLookup().retrieve("+18665552368");
 ```
 
+Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `fraud` (string | null), `national_format` (string), `phone_number` (string), `portability` (object), `record_type` (string)
+
 ## List verifications by phone number
 
 `GET /verifications/by_phone_number/{phone_number}`
@@ -58,6 +52,8 @@ import com.telnyx.sdk.models.verifications.byphonenumber.ByPhoneNumberListRespon
 
 ByPhoneNumberListResponse byPhoneNumbers = client.verifications().byPhoneNumber().list("+13035551234");
 ```
+
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Verify verification code by phone number
 
@@ -75,11 +71,13 @@ ActionVerifyParams params = ActionVerifyParams.builder()
 VerifyVerificationCodeResponse verifyVerificationCodeResponse = client.verifications().byPhoneNumber().actions().verify(params);
 ```
 
+Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
+
 ## Trigger Call verification
 
 `POST /verifications/call` — Required: `phone_number`, `verify_profile_id`
 
-Optional: `custom_code` (['string', 'null']), `extension` (['string', 'null']), `timeout_secs` (integer)
+Optional: `custom_code` (string | null), `extension` (string | null), `timeout_secs` (integer)
 
 ```java
 import com.telnyx.sdk.models.verifications.CreateVerificationResponse;
@@ -91,6 +89,8 @@ VerificationTriggerCallParams params = VerificationTriggerCallParams.builder()
     .build();
 CreateVerificationResponse createVerificationResponse = client.verifications().triggerCall(params);
 ```
+
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
 
 ## Trigger Flash call verification
 
@@ -109,11 +109,13 @@ VerificationTriggerFlashcallParams params = VerificationTriggerFlashcallParams.b
 CreateVerificationResponse createVerificationResponse = client.verifications().triggerFlashcall(params);
 ```
 
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+
 ## Trigger SMS verification
 
 `POST /verifications/sms` — Required: `phone_number`, `verify_profile_id`
 
-Optional: `custom_code` (['string', 'null']), `timeout_secs` (integer)
+Optional: `custom_code` (string | null), `timeout_secs` (integer)
 
 ```java
 import com.telnyx.sdk.models.verifications.CreateVerificationResponse;
@@ -126,6 +128,8 @@ VerificationTriggerSmsParams params = VerificationTriggerSmsParams.builder()
 CreateVerificationResponse createVerificationResponse = client.verifications().triggerSms(params);
 ```
 
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+
 ## Retrieve verification
 
 `GET /verifications/{verification_id}`
@@ -137,11 +141,13 @@ import com.telnyx.sdk.models.verifications.VerificationRetrieveResponse;
 VerificationRetrieveResponse verification = client.verifications().retrieve("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
 
+Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `phone_number` (string), `record_type` (enum: verification), `status` (enum: pending, accepted, invalid, expired, error), `timeout_secs` (integer), `type` (enum: sms, call, flashcall), `updated_at` (string), `verify_profile_id` (uuid)
+
 ## Verify verification code by ID
 
 `POST /verifications/{verification_id}/actions/verify`
 
-Optional: `code` (string), `status` (enum)
+Optional: `code` (string), `status` (enum: accepted, rejected)
 
 ```java
 import com.telnyx.sdk.models.verifications.actions.ActionVerifyParams;
@@ -149,6 +155,8 @@ import com.telnyx.sdk.models.verifications.byphonenumber.actions.VerifyVerificat
 
 VerifyVerificationCodeResponse verifyVerificationCodeResponse = client.verifications().actions().verify("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
+
+Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
 
 ## List all Verify profiles
 
@@ -162,6 +170,8 @@ import com.telnyx.sdk.models.verifyprofiles.VerifyProfileListParams;
 
 VerifyProfileListPage page = client.verifyProfiles().list();
 ```
+
+Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
 
 ## Create a Verify profile
 
@@ -181,6 +191,8 @@ VerifyProfileCreateParams params = VerifyProfileCreateParams.builder()
 VerifyProfileData verifyProfileData = client.verifyProfiles().create(params);
 ```
 
+Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
+
 ## Retrieve Verify profile message templates
 
 List all Verify profile message templates.
@@ -193,6 +205,8 @@ import com.telnyx.sdk.models.verifyprofiles.VerifyProfileRetrieveTemplatesRespon
 
 VerifyProfileRetrieveTemplatesResponse response = client.verifyProfiles().retrieveTemplates();
 ```
+
+Returns: `id` (uuid), `text` (string)
 
 ## Create message template
 
@@ -209,6 +223,8 @@ VerifyProfileCreateTemplateParams params = VerifyProfileCreateTemplateParams.bui
     .build();
 MessageTemplate messageTemplate = client.verifyProfiles().createTemplate(params);
 ```
+
+Returns: `id` (uuid), `text` (string)
 
 ## Update message template
 
@@ -227,6 +243,8 @@ VerifyProfileUpdateTemplateParams params = VerifyProfileUpdateTemplateParams.bui
 MessageTemplate messageTemplate = client.verifyProfiles().updateTemplate(params);
 ```
 
+Returns: `id` (uuid), `text` (string)
+
 ## Retrieve Verify profile
 
 Gets a single Verify profile.
@@ -239,6 +257,8 @@ import com.telnyx.sdk.models.verifyprofiles.VerifyProfileRetrieveParams;
 
 VerifyProfileData verifyProfileData = client.verifyProfiles().retrieve("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
+
+Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
 
 ## Update Verify profile
 
@@ -253,6 +273,8 @@ import com.telnyx.sdk.models.verifyprofiles.VerifyProfileUpdateParams;
 VerifyProfileData verifyProfileData = client.verifyProfiles().update("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
 
+Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)
+
 ## Delete Verify profile
 
 `DELETE /verify_profiles/{verify_profile_id}`
@@ -263,3 +285,5 @@ import com.telnyx.sdk.models.verifyprofiles.VerifyProfileDeleteParams;
 
 VerifyProfileData verifyProfileData = client.verifyProfiles().delete("12ade33a-21c0-473b-b055-b3c836e1c292");
 ```
+
+Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uuid), `language` (string), `name` (string), `rcs` (object), `record_type` (enum: verification_profile), `sms` (object), `updated_at` (string), `webhook_failover_url` (string), `webhook_url` (string)

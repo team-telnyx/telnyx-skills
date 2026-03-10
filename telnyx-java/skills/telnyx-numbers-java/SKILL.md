@@ -18,7 +18,15 @@ metadata:
 ## Installation
 
 ```text
-// See https://github.com/team-telnyx/telnyx-java for Maven/Gradle setup
+<!-- Maven -->
+<dependency>
+    <groupId>com.telnyx.sdk</groupId>
+    <artifactId>telnyx-java</artifactId>
+    <version>6.26.0</version>
+</dependency>
+
+// Gradle
+implementation("com.telnyx.sdk:telnyx-java:6.26.0")
 ```
 
 ## Setup
@@ -201,7 +209,7 @@ import com.telnyx.sdk.models.countrycoverage.CountryCoverageRetrieveCountryRespo
 CountryCoverageRetrieveCountryResponse response = client.countryCoverage().retrieveCountry("US");
 ```
 
-Returns: `code` (string), `features` (array[string]), `international_sms` (boolean), `inventory_coverage` (boolean), `local` (object), `mobile` (object), `national` (object), `numbers` (boolean), `p2p` (boolean), `phone_number_type` (array[string]), `quickship` (boolean), `region` (['string', 'null']), `reservable` (boolean), `shared_cost` (object), `toll_free` (object)
+Returns: `code` (string), `features` (array[string]), `international_sms` (boolean), `inventory_coverage` (boolean), `local` (object), `mobile` (object), `national` (object), `numbers` (boolean), `p2p` (boolean), `phone_number_type` (array[string]), `quickship` (boolean), `region` (string | null), `reservable` (boolean), `shared_cost` (object), `toll_free` (object)
 
 ## List customer service records
 
@@ -216,7 +224,7 @@ import com.telnyx.sdk.models.customerservicerecords.CustomerServiceRecordListPar
 CustomerServiceRecordListPage page = client.customerServiceRecords().list();
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
+Returns: `created_at` (date-time), `error_message` (string | null), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (object | null), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
 
 ## Create a customer service record
 
@@ -234,7 +242,7 @@ CustomerServiceRecordCreateParams params = CustomerServiceRecordCreateParams.bui
 CustomerServiceRecordCreateResponse customerServiceRecord = client.customerServiceRecords().create(params);
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
+Returns: `created_at` (date-time), `error_message` (string | null), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (object | null), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
 
 ## Verify CSR phone number coverage
 
@@ -267,7 +275,7 @@ import com.telnyx.sdk.models.customerservicerecords.CustomerServiceRecordRetriev
 CustomerServiceRecordRetrieveResponse customerServiceRecord = client.customerServiceRecords().retrieve("customer_service_record_id");
 ```
 
-Returns: `created_at` (date-time), `error_message` (['string', 'null']), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (['object', 'null']), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
+Returns: `created_at` (date-time), `error_message` (string | null), `id` (uuid), `phone_number` (string), `record_type` (string), `result` (object | null), `status` (enum: pending, completed, failed), `updated_at` (date-time), `webhook_url` (string)
 
 ## List inexplicit number orders
 

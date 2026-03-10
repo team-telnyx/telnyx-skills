@@ -179,7 +179,7 @@ Returns: `data` (array[object]), `meta` (object)
 
 ## Upload a document
 
-Upload a document.<br /><br />Uploaded files must be linked to a service within 30 minutes or they will be automatically deleted.
+Upload a document.  Uploaded files must be linked to a service within 30 minutes or they will be automatically deleted.
 
 `POST /documents`
 
@@ -226,7 +226,7 @@ Returns: `data` (object)
 
 ## Delete a document
 
-Delete a document.<br /><br />A document can only be deleted if it's not linked to a service. If it is linked to a service, it must be unlinked prior to deleting.
+Delete a document.  A document can only be deleted if it's not linked to a service. If it is linked to a service, it must be unlinked prior to deleting.
 
 `DELETE /documents/{id}`
 
