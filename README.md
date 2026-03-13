@@ -17,20 +17,7 @@ Install skills in any compatible agent that supports the `skills` installer, inc
 npx skills add team-telnyx/telnyx-skills
 ```
 
-This works, but this repository currently exposes a large catalog of skills. In practice, targeted installs are much easier to use than the full interactive picker.
-
-Examples:
-
-```bash
-# List available skills first
-npx skills add team-telnyx/telnyx-skills --list
-
-# Install one specific skill for Codex
-npx skills add team-telnyx/telnyx-skills --skill telnyx-messaging-python --agent codex -y
-
-# Install one specific skill for Cursor
-npx skills add team-telnyx/telnyx-skills --skill telnyx-voice-javascript --agent cursor -y
-```
+This opens an interactive picker to select the skills you need. Only selected skills are loaded into context.
 
 To update installed skills:
 
