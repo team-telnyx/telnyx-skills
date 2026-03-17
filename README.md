@@ -9,21 +9,19 @@ These skills follow the [Agent Skills specification](https://agentskills.io/spec
 
 ## Quick Start
 
-Start with an explicit repo-based install for your target agent:
+Install one skill to one target agent:
 
 ```bash
 npx skills add team-telnyx/telnyx-skills --skill telnyx-messaging-python --agent codex
 ```
 
-If you want the full repo selection flow for a single target agent, still keep the agent explicit:
+Install a full Telnyx bundle for one target agent:
 
 ```bash
 npx skills add team-telnyx/telnyx-skills --skill '*' --agent codex
 ```
 
-If your agent does not support repo installs directly, copy the specific skill folder into that agent's documented skills directory.
-
-For Codex, that looks like:
+If your agent does not support repo installs directly, copy one skill folder:
 
 ```bash
 git clone https://github.com/team-telnyx/telnyx-skills.git /tmp/telnyx-skills
@@ -31,37 +29,22 @@ mkdir -p .agents/skills
 cp -r /tmp/telnyx-skills/telnyx-python/skills/telnyx-messaging-python .agents/skills/
 ```
 
-For a native-feeling Codex install, use the generated `codex/` projection:
+Use the native Codex projection:
 
 ```bash
 git clone --depth 1 https://github.com/team-telnyx/telnyx-skills.git /tmp/telnyx-skills
 cp -r /tmp/telnyx-skills/codex .
 ```
 
-This gives you:
-
 - `codex/AGENTS.md` as a Telnyx router
 - `codex/skills/` as the generated Codex-ready skill tree
 
-For Cursor, copy the generated rules into your project:
+Use the native Cursor projection:
 
 ```bash
 git clone --depth 1 https://github.com/team-telnyx/telnyx-skills.git /tmp/telnyx-skills
 mkdir -p .cursor/rules
 cp -r /tmp/telnyx-skills/cursor/rules/. .cursor/rules/
-```
-
-#### Alternative (manual) installation - clone and copy specific skills
-
-```bash
-
-git clone https://github.com/team-telnyx/telnyx-skills.git
-
-# Copy the skill into your agent's skills directory
-mkdir -p .github/skills
-
-# Example:
-cp -r telnyx-skills/telnyx-python/skills/telnyx-messaging-python .github/skills/
 ```
 
 > [!IMPORTANT]
@@ -71,41 +54,35 @@ cp -r telnyx-skills/telnyx-python/skills/telnyx-messaging-python .github/skills/
 
 Recommended order:
 
-- Agents with direct repo-skill support: use `npx skills add ... --agent <agent>`
-- Everything else: copy the specific skill folder manually
-- Then use platform-specific native instructions where available
+- `npx skills add ... --agent <agent>` for direct repo installs
+- copy one skill folder manually when repo installs are not supported
+- use `codex/` and `cursor/` for native platform installs
 
 Do not recommend bare `npx skills add team-telnyx/telnyx-skills` as the default public path. The upstream CLI will often prompt across dozens of agents, which is noisy for customers installing a single Telnyx skill.
-
-For a detailed recommendation on long-term repository structure and distribution, see [Installation Strategy](docs/installation-strategy.md).
 
 ## Platform-Specific Installs
 
 ### Claude Code
 
-Install a Telnyx plugin from the marketplace:
+Install a Telnyx plugin:
 
 ```bash
 /plugin marketplace add team-telnyx/telnyx-skills
 /plugin install telnyx-python@telnyx-skills
 ```
 
-Use this when you want a full language bundle in Claude Code with the native plugin workflow.
-
 ### Codex
 
-Use the generated `codex/` projection for the cleanest Codex install:
+Install the generated `codex/` projection:
 
 ```bash
 git clone --depth 1 https://github.com/team-telnyx/telnyx-skills.git /tmp/telnyx-skills
 cp -r /tmp/telnyx-skills/codex .
 ```
 
-`codex/AGENTS.md` acts as the Telnyx router, and `codex/skills/` contains the generated Codex-ready skill tree.
-
 ### Cursor
 
-Use the generated `cursor/` projection for the cleanest Cursor install:
+Install the generated `cursor/` projection:
 
 ```bash
 git clone --depth 1 https://github.com/team-telnyx/telnyx-skills.git /tmp/telnyx-skills
@@ -113,10 +90,8 @@ mkdir -p .cursor/rules
 cp -r /tmp/telnyx-skills/cursor/rules/. .cursor/rules/
 ```
 
-`.cursor-plugin/plugin.json` is the root Cursor manifest for distribution surfaces that read plugin metadata, and `cursor/rules/` contains the generated Telnyx rule pack.
-
 ## Install Skills via Plugins
-Plugins are installable packages containing curated sets of skills. Install for with Claude Code marketplace and more.
+Plugins are curated Telnyx bundles.
 
 **Step 1.** Add the Telnyx skills marketplace (one-time setup):
 
