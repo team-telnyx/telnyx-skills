@@ -45,7 +45,7 @@ KEPT_ON_TWILIO=""
 EXTRA_EXCLUDE_DIRS=""
 
 EXCLUDE_DIRS="node_modules .git vendor __pycache__ venv .venv dist build"
-EXCLUDE_FILES="MIGRATION-PLAN.md MIGRATION-REPORT.md twilio-scan.json twilio-deep-scan.json migration-state.json"
+EXCLUDE_FILES="MIGRATION-PLAN.md MIGRATION-REPORT.md twilio-scan.json twilio-deep-scan.json migration-state.json SKILL-DIAGNOSTIC.json"
 EXCLUDE_LOCK_FILES="--exclude=package-lock.json --exclude=yarn.lock --exclude=pnpm-lock.yaml --exclude=Gemfile.lock --exclude=Pipfile.lock --exclude=poetry.lock --exclude=go.sum"
 
 # JSON accumulator
