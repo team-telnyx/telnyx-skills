@@ -22,11 +22,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -82,7 +82,13 @@ Optional: `phone_numbers` (array[string])
 import com.telnyx.sdk.models.portabilitychecks.PortabilityCheckRunParams;
 import com.telnyx.sdk.models.portabilitychecks.PortabilityCheckRunResponse;
 
-PortabilityCheckRunResponse response = client.portabilityChecks().run();
+PortabilityCheckRunParams params = PortabilityCheckRunParams.builder()
+
+    .phoneNumbers(java.util.List.of("+18005550101"))
+
+    .build();
+
+PortabilityCheckRunResponse response = client.portabilityChecks().run(params);
 ```
 
 Returns: `fast_portable` (boolean), `not_portable_reason` (string), `phone_number` (string), `portable` (boolean), `record_type` (string)
@@ -100,7 +106,7 @@ import com.telnyx.sdk.models.porting.events.EventListParams;
 EventListPage page = client.porting().events().list();
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_notification_methods` (array[string]), `event_type` (enum: porting_order.deleted), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `porting_order_id` (uuid)
 
 ## Show a porting event
 
@@ -115,7 +121,7 @@ import com.telnyx.sdk.models.porting.events.EventRetrieveResponse;
 EventRetrieveResponse event = client.porting().events().retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e");
 ```
 
-Returns: `data` (object)
+Returns: `available_notification_methods` (array[string]), `event_type` (enum: porting_order.deleted), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `porting_order_id` (uuid)
 
 ## Republish a porting event
 
@@ -127,37 +133,6 @@ Republish a specific porting event.
 import com.telnyx.sdk.models.porting.events.EventRepublishParams;
 
 client.porting().events().republish("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e");
-```
-
-## Preview the LOA configuration parameters
-
-Preview the LOA template that would be generated without need to create LOA configuration.
-
-`POST /porting/loa_configuration/preview`
-
-```java
-import com.telnyx.sdk.core.http.HttpResponse;
-import com.telnyx.sdk.models.porting.loaconfigurations.LoaConfigurationPreview0Params;
-
-LoaConfigurationPreview0Params params = LoaConfigurationPreview0Params.builder()
-    .address(LoaConfigurationPreview0Params.Address.builder()
-        .city("Austin")
-        .countryCode("US")
-        .state("TX")
-        .streetAddress("600 Congress Avenue")
-        .zipCode("78701")
-        .build())
-    .companyName("Telnyx")
-    .contact(LoaConfigurationPreview0Params.Contact.builder()
-        .email("testing@telnyx.com")
-        .phoneNumber("+12003270001")
-        .build())
-    .logo(LoaConfigurationPreview0Params.Logo.builder()
-        .documentId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        .build())
-    .name("My LOA Configuration")
-    .build();
-HttpResponse response = client.porting().loaConfigurations().preview0(params);
 ```
 
 ## List LOA configurations
@@ -207,6 +182,37 @@ LoaConfigurationCreateResponse loaConfiguration = client.porting().loaConfigurat
 ```
 
 Returns: `address` (object), `company_name` (string), `contact` (object), `created_at` (date-time), `id` (uuid), `logo` (object), `name` (string), `organization_id` (string), `record_type` (string), `updated_at` (date-time)
+
+## Preview the LOA configuration parameters
+
+Preview the LOA template that would be generated without need to create LOA configuration.
+
+`POST /porting/loa_configurations/preview`
+
+```java
+import com.telnyx.sdk.core.http.HttpResponse;
+import com.telnyx.sdk.models.porting.loaconfigurations.LoaConfigurationPreviewParams;
+
+LoaConfigurationPreviewParams params = LoaConfigurationPreviewParams.builder()
+    .address(LoaConfigurationPreviewParams.Address.builder()
+        .city("Austin")
+        .countryCode("US")
+        .state("TX")
+        .streetAddress("600 Congress Avenue")
+        .zipCode("78701")
+        .build())
+    .companyName("Telnyx")
+    .contact(LoaConfigurationPreviewParams.Contact.builder()
+        .email("testing@telnyx.com")
+        .phoneNumber("+12003270001")
+        .build())
+    .logo(LoaConfigurationPreviewParams.Logo.builder()
+        .documentId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        .build())
+    .name("My LOA Configuration")
+    .build();
+HttpResponse response = client.porting().loaConfigurations().preview(params);
+```
 
 ## Retrieve a LOA configuration
 
@@ -773,7 +779,7 @@ Returns a list of action requirements for a specific porting order.
 import com.telnyx.sdk.models.portingorders.actionrequirements.ActionRequirementListPage;
 import com.telnyx.sdk.models.portingorders.actionrequirements.ActionRequirementListParams;
 
-ActionRequirementListPage page = client.portingOrders().actionRequirements().list("porting_order_id");
+ActionRequirementListPage page = client.portingOrders().actionRequirements().list("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `action_type` (string), `action_url` (string | null), `cancel_reason` (string | null), `created_at` (date-time), `id` (string), `porting_order_id` (string), `record_type` (enum: porting_action_requirement), `requirement_type_id` (string), `status` (enum: created, pending, completed, cancelled, failed), `updated_at` (date-time)
@@ -789,8 +795,8 @@ import com.telnyx.sdk.models.portingorders.actionrequirements.ActionRequirementI
 import com.telnyx.sdk.models.portingorders.actionrequirements.ActionRequirementInitiateResponse;
 
 ActionRequirementInitiateParams params = ActionRequirementInitiateParams.builder()
-    .portingOrderId("porting_order_id")
-    .id("id")
+    .portingOrderId("550e8400-e29b-41d4-a716-446655440000")
+    .id("550e8400-e29b-41d4-a716-446655440000")
     .params(ActionRequirementInitiateParams.Params.builder()
         .firstName("John")
         .lastName("Doe")

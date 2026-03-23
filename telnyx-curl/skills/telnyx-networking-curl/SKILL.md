@@ -85,7 +85,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "bucket": "string"
+  "bucket": "my-bucket"
 }' \
   "https://api.telnyx.com/v2/ai/clusters"
 ```
@@ -190,7 +190,7 @@ Returns: `available_tools` (array[string]), `description` (string), `display_nam
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/global_ip_allowed_ports"
 ```
 
-Returns: `data` (array[object])
+Returns: `first_port` (integer), `id` (uuid), `last_port` (integer), `name` (string), `protocol_code` (string), `record_type` (string)
 
 ## Global IP Assignment Health Check Metrics
 
@@ -212,13 +212,15 @@ List all Global IP assignments.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/global_ip_assignments"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Create a Global IP assignment
 
 Create a Global IP assignment.
 
 `POST /global_ip_assignments`
+
+Optional: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ```bash
 curl \
@@ -228,7 +230,7 @@ curl \
   "https://api.telnyx.com/v2/global_ip_assignments"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Retrieve a Global IP
 
@@ -240,13 +242,15 @@ Retrieve a Global IP assignment.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/global_ip_assignments/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Update a Global IP assignment
 
 Update a Global IP assignment.
 
 `PATCH /global_ip_assignments/{id}`
+
+Optional: `created_at` (string), `global_ip_id` (string), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (string)
 
 ```bash
 curl \
@@ -256,7 +260,7 @@ curl \
   "https://api.telnyx.com/v2/global_ip_assignments/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Delete a Global IP assignment
 
@@ -271,7 +275,7 @@ curl \
   "https://api.telnyx.com/v2/global_ip_assignments/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Global IP Assignment Usage Metrics
 
@@ -293,7 +297,7 @@ List all Global IP Health check types.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/global_ip_health_check_types"
 ```
 
-Returns: `data` (array[object])
+Returns: `health_check_params` (object), `health_check_type` (string), `record_type` (string)
 
 ## List all Global IP health checks
 
@@ -305,13 +309,15 @@ List all Global IP health checks.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/global_ip_health_checks"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Create a Global IP health check
 
 Create a Global IP health check.
 
 `POST /global_ip_health_checks`
+
+Optional: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ```bash
 curl \
@@ -321,7 +327,7 @@ curl \
   "https://api.telnyx.com/v2/global_ip_health_checks"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Retrieve a Global IP health check
 
@@ -333,7 +339,7 @@ Retrieve a Global IP health check.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/global_ip_health_checks/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Delete a Global IP health check
 
@@ -348,7 +354,7 @@ curl \
   "https://api.telnyx.com/v2/global_ip_health_checks/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Global IP Latency Metrics
 
@@ -368,7 +374,7 @@ Returns: `global_ip` (object), `mean_latency` (object), `percentile_latency` (ob
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/global_ip_protocols"
 ```
 
-Returns: `data` (array[object])
+Returns: `code` (string), `name` (string), `record_type` (string)
 
 ## Global IP Usage Metrics
 
@@ -390,13 +396,15 @@ List all Global IPs.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/global_ips"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## Create a Global IP
 
 Create a Global IP.
 
 `POST /global_ips`
+
+Optional: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ```bash
 curl \
@@ -406,7 +414,7 @@ curl \
   "https://api.telnyx.com/v2/global_ips"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## Retrieve a Global IP
 
@@ -418,7 +426,7 @@ Retrieve a Global IP.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/global_ips/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## Delete a Global IP
 
@@ -433,7 +441,7 @@ curl \
   "https://api.telnyx.com/v2/global_ips/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## List all Networks
 
@@ -445,23 +453,28 @@ List all Networks.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/networks"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Create a Network
 
 Create a new Network.
 
-`POST /networks`
+`POST /networks` — Required: `name`
+
+Optional: `created_at` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ```bash
 curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
+  -d '{
+  "name": "test network"
+}' \
   "https://api.telnyx.com/v2/networks"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Retrieve a Network
 
@@ -473,23 +486,28 @@ Retrieve a Network.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/networks/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Update a Network
 
 Update a Network.
 
-`PATCH /networks/{id}`
+`PATCH /networks/{id}` — Required: `name`
+
+Optional: `created_at` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ```bash
 curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
+  -d '{
+  "name": "test network"
+}' \
   "https://api.telnyx.com/v2/networks/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Delete a Network
 
@@ -504,7 +522,7 @@ curl \
   "https://api.telnyx.com/v2/networks/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Get Default Gateway status.
 
@@ -514,11 +532,13 @@ Returns: `data` (object)
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/networks/6a09cdc3-8948-47f0-aa62-74ac943d6c58/default_gateway"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Create Default Gateway.
 
 `POST /networks/{id}/default_gateway`
+
+Optional: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ```bash
 curl \
@@ -528,7 +548,7 @@ curl \
   "https://api.telnyx.com/v2/networks/6a09cdc3-8948-47f0-aa62-74ac943d6c58/default_gateway"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Delete Default Gateway.
 
@@ -541,7 +561,7 @@ curl \
   "https://api.telnyx.com/v2/networks/6a09cdc3-8948-47f0-aa62-74ac943d6c58/default_gateway"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## List all Interfaces for a Network.
 
@@ -551,7 +571,7 @@ Returns: `data` (array[object]), `meta` (object)
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/networks/6a09cdc3-8948-47f0-aa62-74ac943d6c58/network_interfaces"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `type` (string), `updated_at` (string)
 
 ## Get all Private Wireless Gateways
 
@@ -580,8 +600,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "network_id": "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  "name": "My private wireless gateway",
-  "region_code": "dc2"
+  "name": "My private wireless gateway"
 }' \
   "https://api.telnyx.com/v2/private_wireless_gateways"
 ```
@@ -625,13 +644,15 @@ List all Public Internet Gateways.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/public_internet_gateways"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Create a Public Internet Gateway
 
 Create a new Public Internet Gateway.
 
 `POST /public_internet_gateways`
+
+Optional: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ```bash
 curl \
@@ -641,7 +662,7 @@ curl \
   "https://api.telnyx.com/v2/public_internet_gateways"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Retrieve a Public Internet Gateway
 
@@ -653,7 +674,7 @@ Retrieve a Public Internet Gateway.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/public_internet_gateways/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Delete a Public Internet Gateway
 
@@ -668,7 +689,7 @@ curl \
   "https://api.telnyx.com/v2/public_internet_gateways/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## List all Regions
 
@@ -692,23 +713,33 @@ List all Virtual Cross Connects.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/virtual_cross_connects"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Create a Virtual Cross Connect
 
 Create a new Virtual Cross Connect.  For AWS and GCE, you have the option of creating the primary connection first and the secondary connection later. You also have the option of disabling the primary and/or secondary connections at any time and later re-enabling them. With Azure, you do not have this option.
 
-`POST /virtual_cross_connects`
+`POST /virtual_cross_connects` — Required: `network_id`, `region_code`, `cloud_provider`, `cloud_provider_region`, `bgp_asn`, `primary_cloud_account_id`
+
+Optional: `bandwidth_mbps` (number), `created_at` (string), `id` (uuid), `name` (string), `primary_bgp_key` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ```bash
 curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
+  -d '{
+  "network_id": "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
+  "cloud_provider": "aws",
+  "cloud_provider_region": "us-east-1",
+  "bgp_asn": 1234,
+  "primary_cloud_account_id": "123456789012",
+  "region_code": "ashburn-va"
+}' \
   "https://api.telnyx.com/v2/virtual_cross_connects"
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Retrieve a Virtual Cross Connect
 
@@ -720,13 +751,15 @@ Retrieve a Virtual Cross Connect.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/virtual_cross_connects/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Update the Virtual Cross Connect
 
 Update the Virtual Cross Connect.  Cloud IPs can only be patched during the `created` state, as GCE will only inform you of your generated IP once the pending connection requested has been accepted.
 
 `PATCH /virtual_cross_connects/{id}`
+
+Optional: `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean)
 
 ```bash
 curl \
@@ -736,7 +769,7 @@ curl \
   "https://api.telnyx.com/v2/virtual_cross_connects/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Delete a Virtual Cross Connect
 
@@ -751,7 +784,7 @@ curl \
   "https://api.telnyx.com/v2/virtual_cross_connects/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## List Virtual Cross Connect Cloud Coverage
 
@@ -763,7 +796,7 @@ List Virtual Cross Connects Cloud Coverage.  This endpoint shows which cloud reg
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/virtual_cross_connects_coverage"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_bandwidth` (array[number]), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `location` (object), `record_type` (string)
 
 ## List all WireGuard Interfaces
 
@@ -775,23 +808,29 @@ List all WireGuard Interfaces.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/wireguard_interfaces"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Create a WireGuard Interface
 
 Create a new WireGuard Interface. Current limitation of 10 interfaces per user can be created.
 
-`POST /wireguard_interfaces`
+`POST /wireguard_interfaces` — Required: `network_id`, `region_code`
+
+Optional: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `public_key` (string), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ```bash
 curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
+  -d '{
+  "network_id": "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
+  "region_code": "ashburn-va"
+}' \
   "https://api.telnyx.com/v2/wireguard_interfaces"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Retrieve a WireGuard Interfaces
 
@@ -803,7 +842,7 @@ Retrieve a WireGuard Interfaces.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/wireguard_interfaces/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Delete a WireGuard Interface
 
@@ -818,7 +857,7 @@ curl \
   "https://api.telnyx.com/v2/wireguard_interfaces/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## List all WireGuard Peers
 
@@ -830,23 +869,28 @@ List all WireGuard peers.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/wireguard_peers"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Create a WireGuard Peer
 
 Create a new WireGuard Peer. Current limitation of 5 peers per interface can be created.
 
-`POST /wireguard_peers`
+`POST /wireguard_peers` — Required: `wireguard_interface_id`
+
+Optional: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string)
 
 ```bash
 curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
+  -d '{
+  "wireguard_interface_id": "6a09cdc3-8948-47f0-aa62-74ac943d6c58"
+}' \
   "https://api.telnyx.com/v2/wireguard_peers"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Retrieve the WireGuard Peer
 
@@ -858,7 +902,7 @@ Retrieve the WireGuard peer.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/wireguard_peers/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Update the WireGuard Peer
 
@@ -873,13 +917,10 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "public_key": "qF4EqlZq+5JL2IKYY8ij49daYyfKVhevJrcDxdqC8GU="
-}' \
   "https://api.telnyx.com/v2/wireguard_peers/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Delete the WireGuard Peer
 
@@ -894,7 +935,7 @@ curl \
   "https://api.telnyx.com/v2/wireguard_peers/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Retrieve Wireguard config template for Peer
 

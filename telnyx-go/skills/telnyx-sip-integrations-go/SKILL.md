@@ -81,9 +81,9 @@ Returns the information about custom storage credentials.
 `GET /custom_storage_credentials/{connection_id}`
 
 ```go
-	customStorageCredential, err := client.CustomStorageCredentials.Get(context.TODO(), "connection_id")
+	customStorageCredential, err := client.CustomStorageCredentials.Get(context.Background(), "connection_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", customStorageCredential.ConnectionID)
 ```
@@ -98,7 +98,7 @@ Creates a custom storage credentials configuration.
 
 ```go
 	customStorageCredential, err := client.CustomStorageCredentials.New(
-		context.TODO(),
+		context.Background(),
 		"connection_id",
 		telnyx.CustomStorageCredentialNewParams{
 			CustomStorageConfiguration: telnyx.CustomStorageConfigurationParam{
@@ -112,7 +112,7 @@ Creates a custom storage credentials configuration.
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", customStorageCredential.ConnectionID)
 ```
@@ -127,7 +127,7 @@ Updates a stored custom credentials configuration.
 
 ```go
 	customStorageCredential, err := client.CustomStorageCredentials.Update(
-		context.TODO(),
+		context.Background(),
 		"connection_id",
 		telnyx.CustomStorageCredentialUpdateParams{
 			CustomStorageConfiguration: telnyx.CustomStorageConfigurationParam{
@@ -141,7 +141,7 @@ Updates a stored custom credentials configuration.
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", customStorageCredential.ConnectionID)
 ```
@@ -155,9 +155,9 @@ Deletes a stored custom credentials configuration.
 `DELETE /custom_storage_credentials/{connection_id}`
 
 ```go
-	err := client.CustomStorageCredentials.Delete(context.TODO(), "connection_id")
+	err := client.CustomStorageCredentials.Delete(context.Background(), "connection_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -168,9 +168,9 @@ Return details of the Dialogflow connection associated with the given CallContro
 `GET /dialogflow_connections/{connection_id}`
 
 ```go
-	dialogflowConnection, err := client.DialogflowConnections.Get(context.TODO(), "connection_id")
+	dialogflowConnection, err := client.DialogflowConnections.Get(context.Background(), "connection_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", dialogflowConnection.Data)
 ```
@@ -185,7 +185,7 @@ Save Dialogflow Credentiails to Telnyx, so it can be used with other Telnyx serv
 
 ```go
 	dialogflowConnection, err := client.DialogflowConnections.New(
-		context.TODO(),
+		context.Background(),
 		"connection_id",
 		telnyx.DialogflowConnectionNewParams{
 			ServiceAccount: map[string]any{
@@ -203,7 +203,7 @@ Save Dialogflow Credentiails to Telnyx, so it can be used with other Telnyx serv
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", dialogflowConnection.Data)
 ```
@@ -218,7 +218,7 @@ Updates a stored Dialogflow Connection.
 
 ```go
 	dialogflowConnection, err := client.DialogflowConnections.Update(
-		context.TODO(),
+		context.Background(),
 		"connection_id",
 		telnyx.DialogflowConnectionUpdateParams{
 			ServiceAccount: map[string]any{
@@ -236,7 +236,7 @@ Updates a stored Dialogflow Connection.
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", dialogflowConnection.Data)
 ```
@@ -250,9 +250,9 @@ Deletes a stored Dialogflow Connection.
 `DELETE /dialogflow_connections/{connection_id}`
 
 ```go
-	err := client.DialogflowConnections.Delete(context.TODO(), "connection_id")
+	err := client.DialogflowConnections.Delete(context.Background(), "connection_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -263,9 +263,9 @@ This endpoint returns a list of your External Connections inside the 'data' attr
 `GET /external_connections`
 
 ```go
-	page, err := client.ExternalConnections.List(context.TODO(), telnyx.ExternalConnectionListParams{})
+	page, err := client.ExternalConnections.List(context.Background(), telnyx.ExternalConnectionListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -281,12 +281,12 @@ Creates a new External Connection based on the parameters sent in the request. T
 Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```go
-	externalConnection, err := client.ExternalConnections.New(context.TODO(), telnyx.ExternalConnectionNewParams{
+	externalConnection, err := client.ExternalConnections.New(context.Background(), telnyx.ExternalConnectionNewParams{
 		ExternalSipConnection: telnyx.ExternalConnectionNewParamsExternalSipConnectionZoom,
 		Outbound:              telnyx.ExternalConnectionNewParamsOutbound{},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", externalConnection.Data)
 ```
@@ -300,9 +300,9 @@ Retrieve a list of log messages for all external connections associated with you
 `GET /external_connections/log_messages`
 
 ```go
-	page, err := client.ExternalConnections.LogMessages.List(context.TODO(), telnyx.ExternalConnectionLogMessageListParams{})
+	page, err := client.ExternalConnections.LogMessages.List(context.Background(), telnyx.ExternalConnectionLogMessageListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -316,9 +316,9 @@ Retrieve a log message for an external connection associated with your account.
 `GET /external_connections/log_messages/{id}`
 
 ```go
-	logMessage, err := client.ExternalConnections.LogMessages.Get(context.TODO(), "1293384261075731499")
+	logMessage, err := client.ExternalConnections.LogMessages.Get(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", logMessage.LogMessages)
 ```
@@ -332,9 +332,9 @@ Dismiss a log message for an external connection associated with your account.
 `DELETE /external_connections/log_messages/{id}`
 
 ```go
-	response, err := client.ExternalConnections.LogMessages.Dismiss(context.TODO(), "1293384261075731499")
+	response, err := client.ExternalConnections.LogMessages.Dismiss(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Success)
 ```
@@ -348,9 +348,9 @@ Return the details of an existing External Connection inside the 'data' attribut
 `GET /external_connections/{id}`
 
 ```go
-	externalConnection, err := client.ExternalConnections.Get(context.TODO(), "1293384261075731499")
+	externalConnection, err := client.ExternalConnections.Get(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", externalConnection.Data)
 ```
@@ -367,7 +367,7 @@ Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webho
 
 ```go
 	externalConnection, err := client.ExternalConnections.Update(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.ExternalConnectionUpdateParams{
 			Outbound: telnyx.ExternalConnectionUpdateParamsOutbound{
@@ -376,7 +376,7 @@ Optional: `active` (boolean), `inbound` (object), `tags` (array[string]), `webho
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", externalConnection.Data)
 ```
@@ -390,9 +390,9 @@ Permanently deletes an External Connection. Deletion may be prevented if the app
 `DELETE /external_connections/{id}`
 
 ```go
-	externalConnection, err := client.ExternalConnections.Delete(context.TODO(), "1293384261075731499")
+	externalConnection, err := client.ExternalConnections.Delete(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", externalConnection.Data)
 ```
@@ -407,12 +407,12 @@ Returns the civic addresses and locations from Microsoft Teams.
 
 ```go
 	civicAddresses, err := client.ExternalConnections.CivicAddresses.List(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.ExternalConnectionCivicAddressListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", civicAddresses.Data)
 ```
@@ -427,14 +427,14 @@ Return the details of an existing Civic Address with its Locations inside the 'd
 
 ```go
 	civicAddress, err := client.ExternalConnections.CivicAddresses.Get(
-		context.TODO(),
+		context.Background(),
 		"318fb664-d341-44d2-8405-e6bfb9ced6d9",
 		telnyx.ExternalConnectionCivicAddressGetParams{
 			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", civicAddress.Data)
 ```
@@ -447,7 +447,7 @@ Returns: `city_or_town` (string), `city_or_town_alias` (string), `company_name` 
 
 ```go
 	response, err := client.ExternalConnections.UpdateLocation(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.ExternalConnectionUpdateLocationParams{
 			ID:                       "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -455,7 +455,7 @@ Returns: `city_or_town` (string), `city_or_town_alias` (string), `company_name` 
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -470,12 +470,12 @@ Returns a list of all active phone numbers associated with the given external co
 
 ```go
 	page, err := client.ExternalConnections.PhoneNumbers.List(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.ExternalConnectionPhoneNumberListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -490,14 +490,14 @@ Return the details of a phone number associated with the given external connecti
 
 ```go
 	phoneNumber, err := client.ExternalConnections.PhoneNumbers.Get(
-		context.TODO(),
+		context.Background(),
 		"1234567889",
 		telnyx.ExternalConnectionPhoneNumberGetParams{
 			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumber.Data)
 ```
@@ -514,14 +514,14 @@ Optional: `location_id` (uuid)
 
 ```go
 	phoneNumber, err := client.ExternalConnections.PhoneNumbers.Update(
-		context.TODO(),
+		context.Background(),
 		"1234567889",
 		telnyx.ExternalConnectionPhoneNumberUpdateParams{
 			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumber.Data)
 ```
@@ -536,12 +536,12 @@ Returns a list of your Releases for the given external connection. These are aut
 
 ```go
 	page, err := client.ExternalConnections.Releases.List(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.ExternalConnectionReleaseListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -556,14 +556,14 @@ Return the details of a Release request and its phone numbers.
 
 ```go
 	release, err := client.ExternalConnections.Releases.Get(
-		context.TODO(),
+		context.Background(),
 		"7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
 		telnyx.ExternalConnectionReleaseGetParams{
 			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", release.Data)
 ```
@@ -578,12 +578,12 @@ Returns a list of your Upload requests for the given external connection.
 
 ```go
 	page, err := client.ExternalConnections.Uploads.List(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.ExternalConnectionUploadListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -600,14 +600,14 @@ Optional: `additional_usages` (array[string]), `civic_address_id` (uuid), `locat
 
 ```go
 	upload, err := client.ExternalConnections.Uploads.New(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.ExternalConnectionUploadNewParams{
 			NumberIDs: []string{"3920457616934164700", "3920457616934164701", "3920457616934164702", "3920457616934164703"},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", upload.TicketID)
 ```
@@ -621,9 +621,9 @@ Forces a recheck of the status of all pending Upload requests for the given exte
 `POST /external_connections/{id}/uploads/refresh`
 
 ```go
-	response, err := client.ExternalConnections.Uploads.RefreshStatus(context.TODO(), "1293384261075731499")
+	response, err := client.ExternalConnections.Uploads.RefreshStatus(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Success)
 ```
@@ -637,9 +637,9 @@ Returns the count of all pending upload requests for the given external connecti
 `GET /external_connections/{id}/uploads/status`
 
 ```go
-	response, err := client.ExternalConnections.Uploads.PendingCount(context.TODO(), "1293384261075731499")
+	response, err := client.ExternalConnections.Uploads.PendingCount(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -654,14 +654,14 @@ Return the details of an Upload request and its phone numbers.
 
 ```go
 	upload, err := client.ExternalConnections.Uploads.Get(
-		context.TODO(),
+		context.Background(),
 		"7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
 		telnyx.ExternalConnectionUploadGetParams{
 			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", upload.Data)
 ```
@@ -676,14 +676,14 @@ If there were any errors during the upload process, this endpoint will retry the
 
 ```go
 	response, err := client.ExternalConnections.Uploads.Retry(
-		context.TODO(),
+		context.Background(),
 		"7b6a6449-b055-45a6-81f6-f6f0dffa4cc6",
 		telnyx.ExternalConnectionUploadRetryParams{
 			ID: "1293384261075731499",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -697,9 +697,9 @@ Returns a list of stored media files.
 `GET /media`
 
 ```go
-	media, err := client.Media.List(context.TODO(), telnyx.MediaListParams{})
+	media, err := client.Media.List(context.Background(), telnyx.MediaListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", media.Data)
 ```
@@ -715,11 +715,11 @@ Upload media file to Telnyx so it can be used with other Telnyx services
 Optional: `media_name` (string), `ttl_secs` (integer)
 
 ```go
-	response, err := client.Media.Upload(context.TODO(), telnyx.MediaUploadParams{
+	response, err := client.Media.Upload(context.Background(), telnyx.MediaUploadParams{
 		MediaURL: "http://www.example.com/audio.mp3",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -733,9 +733,9 @@ Returns the information about a stored media file.
 `GET /media/{media_name}`
 
 ```go
-	media, err := client.Media.Get(context.TODO(), "media_name")
+	media, err := client.Media.Get(context.Background(), "media_name")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", media.Data)
 ```
@@ -752,12 +752,12 @@ Optional: `media_url` (string), `ttl_secs` (integer)
 
 ```go
 	media, err := client.Media.Update(
-		context.TODO(),
+		context.Background(),
 		"media_name",
 		telnyx.MediaUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", media.Data)
 ```
@@ -771,9 +771,9 @@ Deletes a stored media file.
 `DELETE /media/{media_name}`
 
 ```go
-	err := client.Media.Delete(context.TODO(), "media_name")
+	err := client.Media.Delete(context.Background(), "media_name")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -784,9 +784,9 @@ Downloads a stored media file.
 `GET /media/{media_name}/download`
 
 ```go
-	response, err := client.Media.Download(context.TODO(), "media_name")
+	response, err := client.Media.Download(context.Background(), "media_name")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -798,9 +798,9 @@ This endpoint will make an asynchronous request to refresh the Operator Connect 
 `POST /operator_connect/actions/refresh`
 
 ```go
-	response, err := client.OperatorConnect.Actions.Refresh(context.TODO())
+	response, err := client.OperatorConnect.Actions.Refresh(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Message)
 ```
@@ -814,11 +814,11 @@ Returns a list of your recording transcriptions.
 `GET /recording_transcriptions`
 
 ```go
-	recordingTranscriptions, err := client.RecordingTranscriptions.List(context.TODO())
+	page, err := client.RecordingTranscriptions.List(context.Background(), telnyx.RecordingTranscriptionListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
-	fmt.Printf("%+v\n", recordingTranscriptions.Data)
+	fmt.Printf("%+v\n", page)
 ```
 
 Returns: `created_at` (string), `duration_millis` (int32), `id` (string), `record_type` (enum: recording_transcription), `recording_id` (string), `status` (enum: in-progress, completed), `transcription_text` (string), `updated_at` (string)
@@ -830,9 +830,9 @@ Retrieves the details of an existing recording transcription.
 `GET /recording_transcriptions/{recording_transcription_id}`
 
 ```go
-	recordingTranscription, err := client.RecordingTranscriptions.Get(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+	recordingTranscription, err := client.RecordingTranscriptions.Get(context.Background(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", recordingTranscription.Data)
 ```
@@ -846,9 +846,9 @@ Permanently deletes a recording transcription.
 `DELETE /recording_transcriptions/{recording_transcription_id}`
 
 ```go
-	recordingTranscription, err := client.RecordingTranscriptions.Delete(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+	recordingTranscription, err := client.RecordingTranscriptions.Delete(context.Background(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", recordingTranscription.Data)
 ```
@@ -862,14 +862,14 @@ Returns a list of your call recordings.
 `GET /recordings`
 
 ```go
-	page, err := client.Recordings.List(context.TODO(), telnyx.RecordingListParams{})
+	page, err := client.Recordings.List(context.Background(), telnyx.RecordingListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a list of call recordings
 
@@ -878,13 +878,16 @@ Permanently deletes a list of call recordings.
 `POST /recordings/actions/delete`
 
 ```go
-	err := client.Recordings.Actions.Delete(context.TODO(), telnyx.RecordingActionDeleteParams{
+	action, err := client.Recordings.Actions.Delete(context.Background(), telnyx.RecordingActionDeleteParams{
 		IDs: []string{"428c31b6-7af4-4bcb-b7f5-5013ef9657c1", "428c31b6-7af4-4bcb-b7f5-5013ef9657c2"},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
+	fmt.Printf("%+v\n", action.Status)
 ```
+
+Returns: `status` (enum: ok)
 
 ## Retrieve a call recording
 
@@ -893,14 +896,14 @@ Retrieves the details of an existing call recording.
 `GET /recordings/{recording_id}`
 
 ```go
-	recording, err := client.Recordings.Get(context.TODO(), "recording_id")
+	recording, err := client.Recordings.Get(context.Background(), "recording_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", recording.Data)
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a call recording
 
@@ -909,14 +912,14 @@ Permanently deletes a call recording.
 `DELETE /recordings/{recording_id}`
 
 ```go
-	recording, err := client.Recordings.Delete(context.TODO(), "recording_id")
+	recording, err := client.Recordings.Delete(context.Background(), "recording_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", recording.Data)
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Create a SIPREC connector
 
@@ -925,13 +928,13 @@ Creates a new SIPREC connector configuration.
 `POST /siprec_connectors`
 
 ```go
-	siprecConnector, err := client.SiprecConnectors.New(context.TODO(), telnyx.SiprecConnectorNewParams{
+	siprecConnector, err := client.SiprecConnectors.New(context.Background(), telnyx.SiprecConnectorNewParams{
 		Host: "siprec.telnyx.com",
 		Name: "my-siprec-connector",
 		Port: 5060,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", siprecConnector.Data)
 ```
@@ -945,9 +948,9 @@ Returns details of a stored SIPREC connector.
 `GET /siprec_connectors/{connector_name}`
 
 ```go
-	siprecConnector, err := client.SiprecConnectors.Get(context.TODO(), "connector_name")
+	siprecConnector, err := client.SiprecConnectors.Get(context.Background(), "connector_name")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", siprecConnector.Data)
 ```
@@ -962,7 +965,7 @@ Updates a stored SIPREC connector configuration.
 
 ```go
 	siprecConnector, err := client.SiprecConnectors.Update(
-		context.TODO(),
+		context.Background(),
 		"connector_name",
 		telnyx.SiprecConnectorUpdateParams{
 			Host: "siprec.telnyx.com",
@@ -971,7 +974,7 @@ Updates a stored SIPREC connector configuration.
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", siprecConnector.Data)
 ```
@@ -985,8 +988,8 @@ Deletes a stored SIPREC connector.
 `DELETE /siprec_connectors/{connector_name}`
 
 ```go
-	err := client.SiprecConnectors.Delete(context.TODO(), "connector_name")
+	err := client.SiprecConnectors.Delete(context.Background(), "connector_name")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```

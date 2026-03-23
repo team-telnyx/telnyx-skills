@@ -9,11 +9,11 @@
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -80,7 +80,7 @@ Chat with a language model. This endpoint is consistent with the [OpenAI Chat Co
 
 `POST /ai/chat/completions` — Required: `messages`
 
-Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `enable_thinking` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
 
 ```java
 import com.telnyx.sdk.models.ai.chat.ChatCreateCompletionParams;
@@ -159,7 +159,7 @@ import com.telnyx.sdk.models.ai.conversations.insightgroups.InsightGroupInsightG
 import com.telnyx.sdk.models.ai.conversations.insightgroups.InsightTemplateGroupDetail;
 
 InsightGroupInsightGroupsParams params = InsightGroupInsightGroupsParams.builder()
-    .name("name")
+    .name("my-resource")
     .build();
 InsightTemplateGroupDetail insightTemplateGroupDetail = client.ai().conversations().insightGroups().insightGroups(params);
 ```
@@ -270,8 +270,8 @@ import com.telnyx.sdk.models.ai.conversations.insights.InsightCreateParams;
 import com.telnyx.sdk.models.ai.conversations.insights.InsightTemplateDetail;
 
 InsightCreateParams params = InsightCreateParams.builder()
-    .instructions("instructions")
-    .name("name")
+    .instructions("You are a helpful assistant.")
+    .name("my-resource")
     .build();
 InsightTemplateDetail insightTemplateDetail = client.ai().conversations().insights().create(params);
 ```
@@ -332,7 +332,7 @@ Retrieve a specific AI conversation by its ID.
 import com.telnyx.sdk.models.ai.conversations.ConversationRetrieveParams;
 import com.telnyx.sdk.models.ai.conversations.ConversationRetrieveResponse;
 
-ConversationRetrieveResponse conversation = client.ai().conversations().retrieve("conversation_id");
+ConversationRetrieveResponse conversation = client.ai().conversations().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (date-time), `id` (uuid), `last_message_at` (date-time), `metadata` (object), `name` (string)
@@ -349,7 +349,7 @@ Optional: `metadata` (object)
 import com.telnyx.sdk.models.ai.conversations.ConversationUpdateParams;
 import com.telnyx.sdk.models.ai.conversations.ConversationUpdateResponse;
 
-ConversationUpdateResponse conversation = client.ai().conversations().update("conversation_id");
+ConversationUpdateResponse conversation = client.ai().conversations().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (date-time), `id` (uuid), `last_message_at` (date-time), `metadata` (object), `name` (string)
@@ -363,7 +363,7 @@ Delete a specific conversation by its ID.
 ```java
 import com.telnyx.sdk.models.ai.conversations.ConversationDeleteParams;
 
-client.ai().conversations().delete("conversation_id");
+client.ai().conversations().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## Get insights for a conversation
@@ -376,7 +376,7 @@ Retrieve insights for a specific conversation
 import com.telnyx.sdk.models.ai.conversations.ConversationRetrieveConversationsInsightsParams;
 import com.telnyx.sdk.models.ai.conversations.ConversationRetrieveConversationsInsightsResponse;
 
-ConversationRetrieveConversationsInsightsResponse response = client.ai().conversations().retrieveConversationsInsights("conversation_id");
+ConversationRetrieveConversationsInsightsResponse response = client.ai().conversations().retrieveConversationsInsights("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `conversation_insights` (array[object]), `created_at` (date-time), `id` (string), `status` (enum: pending, in_progress, completed, failed)
@@ -394,7 +394,7 @@ import com.telnyx.sdk.models.ai.conversations.ConversationAddMessageParams;
 
 ConversationAddMessageParams params = ConversationAddMessageParams.builder()
     .conversationId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-    .role("role")
+    .role("user")
     .build();
 client.ai().conversations().addMessage(params);
 ```
@@ -409,7 +409,7 @@ Retrieve messages for a specific conversation, including tool calls made by the 
 import com.telnyx.sdk.models.ai.conversations.messages.MessageListParams;
 import com.telnyx.sdk.models.ai.conversations.messages.MessageListResponse;
 
-MessageListResponse messages = client.ai().conversations().messages().list("conversation_id");
+MessageListResponse messages = client.ai().conversations().messages().list("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (date-time), `role` (enum: user, assistant, tool), `sent_at` (date-time), `text` (string), `tool_calls` (array[object])
@@ -448,7 +448,7 @@ import com.telnyx.sdk.models.ai.embeddings.EmbeddingCreateParams;
 import com.telnyx.sdk.models.ai.embeddings.EmbeddingResponse;
 
 EmbeddingCreateParams params = EmbeddingCreateParams.builder()
-    .bucketName("bucket_name")
+    .bucketName("my-bucket")
     .build();
 EmbeddingResponse embeddingResponse = client.ai().embeddings().create(params);
 ```
@@ -510,8 +510,8 @@ import com.telnyx.sdk.models.ai.embeddings.EmbeddingSimilaritySearchParams;
 import com.telnyx.sdk.models.ai.embeddings.EmbeddingSimilaritySearchResponse;
 
 EmbeddingSimilaritySearchParams params = EmbeddingSimilaritySearchParams.builder()
-    .bucketName("bucket_name")
-    .query("query")
+    .bucketName("my-bucket")
+    .query("What is Telnyx?")
     .build();
 EmbeddingSimilaritySearchResponse response = client.ai().embeddings().similaritySearch(params);
 ```
@@ -529,8 +529,8 @@ import com.telnyx.sdk.models.ai.embeddings.EmbeddingResponse;
 import com.telnyx.sdk.models.ai.embeddings.EmbeddingUrlParams;
 
 EmbeddingUrlParams params = EmbeddingUrlParams.builder()
-    .bucketName("bucket_name")
-    .url("url")
+    .bucketName("my-bucket")
+    .url("https://example.com/resource")
     .build();
 EmbeddingResponse embeddingResponse = client.ai().embeddings().url(params);
 ```
@@ -552,7 +552,7 @@ Check the status of a current embedding task. Will be one of the following:
 import com.telnyx.sdk.models.ai.embeddings.EmbeddingRetrieveParams;
 import com.telnyx.sdk.models.ai.embeddings.EmbeddingRetrieveResponse;
 
-EmbeddingRetrieveResponse embedding = client.ai().embeddings().retrieve("task_id");
+EmbeddingRetrieveResponse embedding = client.ai().embeddings().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (string), `finished_at` (string), `status` (enum: queued, processing, success, failure, partial_success), `task_id` (uuid), `task_name` (string)
@@ -585,8 +585,8 @@ import com.telnyx.sdk.models.ai.finetuning.jobs.FineTuningJob;
 import com.telnyx.sdk.models.ai.finetuning.jobs.JobCreateParams;
 
 JobCreateParams params = JobCreateParams.builder()
-    .model("model")
-    .trainingFile("training_file")
+    .model("meta-llama/Meta-Llama-3.1-8B-Instruct")
+    .trainingFile("training-data.jsonl")
     .build();
 FineTuningJob fineTuningJob = client.ai().fineTuning().jobs().create(params);
 ```
@@ -603,7 +603,7 @@ Retrieve a fine tuning job by `job_id`.
 import com.telnyx.sdk.models.ai.finetuning.jobs.FineTuningJob;
 import com.telnyx.sdk.models.ai.finetuning.jobs.JobRetrieveParams;
 
-FineTuningJob fineTuningJob = client.ai().fineTuning().jobs().retrieve("job_id");
+FineTuningJob fineTuningJob = client.ai().fineTuning().jobs().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (integer), `finished_at` (integer | null), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (integer | null), `training_file` (string)
@@ -618,7 +618,7 @@ Cancel a fine tuning job.
 import com.telnyx.sdk.models.ai.finetuning.jobs.FineTuningJob;
 import com.telnyx.sdk.models.ai.finetuning.jobs.JobCancelParams;
 
-FineTuningJob fineTuningJob = client.ai().fineTuning().jobs().cancel("job_id");
+FineTuningJob fineTuningJob = client.ai().fineTuning().jobs().cancel("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (integer), `finished_at` (integer | null), `hyperparameters` (object), `id` (string), `model` (string), `organization_id` (string), `status` (enum: queued, running, succeeded, failed, cancelled), `trained_tokens` (integer | null), `training_file` (string)
@@ -692,8 +692,8 @@ import com.telnyx.sdk.models.ai.AiSummarizeParams;
 import com.telnyx.sdk.models.ai.AiSummarizeResponse;
 
 AiSummarizeParams params = AiSummarizeParams.builder()
-    .bucket("bucket")
-    .filename("filename")
+    .bucket("my-bucket")
+    .filename("data.csv")
     .build();
 AiSummarizeResponse response = client.ai().summarize(params);
 ```
@@ -786,7 +786,7 @@ Generate synthesized speech audio from text input. Returns audio in the requeste
 
 `POST /text-to-speech/speech`
 
-Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `inworld` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble, inworld), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
+Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
 
 ```java
 import com.telnyx.sdk.models.texttospeech.TextToSpeechGenerateParams;
@@ -811,65 +811,3 @@ TextToSpeechListVoicesResponse response = client.textToSpeech().listVoices();
 ```
 
 Returns: `voices` (array[object])
-
-## Get all Wireless Detail Records (WDRs) Reports
-
-Returns the WDR Reports that match the given parameters.
-
-`GET /wireless/detail_records_reports`
-
-```java
-import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportListParams;
-import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportListResponse;
-
-DetailRecordsReportListResponse detailRecordsReports = client.wireless().detailRecordsReports().list();
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Create a Wireless Detail Records (WDRs) Report
-
-Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
-
-`POST /wireless/detail_records_reports`
-
-Optional: `end_time` (string), `start_time` (string)
-
-```java
-import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportCreateParams;
-import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportCreateResponse;
-
-DetailRecordsReportCreateResponse detailRecordsReport = client.wireless().detailRecordsReports().create();
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Get a Wireless Detail Record (WDR) Report
-
-Returns one specific WDR report
-
-`GET /wireless/detail_records_reports/{id}`
-
-```java
-import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportRetrieveParams;
-import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportRetrieveResponse;
-
-DetailRecordsReportRetrieveResponse detailRecordsReport = client.wireless().detailRecordsReports().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Delete a Wireless Detail Record (WDR) Report
-
-Deletes one specific WDR report.
-
-`DELETE /wireless/detail_records_reports/{id}`
-
-```java
-import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportDeleteParams;
-import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportDeleteResponse;
-
-DetailRecordsReportDeleteResponse detailRecordsReport = client.wireless().detailRecordsReports().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

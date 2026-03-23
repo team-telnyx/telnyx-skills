@@ -84,7 +84,7 @@ Returns: `cidr_block` (string), `created_at` (date-time), `description` (string)
 `DELETE /access_ip_ranges/{access_ip_range_id}`
 
 ```javascript
-const accessIPRange = await client.accessIPRanges.delete('access_ip_range_id');
+const accessIPRange = await client.accessIPRanges.delete('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(accessIPRange.id);
 ```
@@ -113,7 +113,7 @@ Retrieves the high-level details of an existing connection. To retrieve specific
 `GET /connections/{id}`
 
 ```javascript
-const connection = await client.connections.retrieve('id');
+const connection = await client.connections.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(connection.data);
 ```
@@ -162,7 +162,7 @@ Retrieves the details of an existing credential connection.
 `GET /credential_connections/{id}`
 
 ```javascript
-const credentialConnection = await client.credentialConnections.retrieve('id');
+const credentialConnection = await client.credentialConnections.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(credentialConnection.data);
 ```
@@ -178,7 +178,7 @@ Updates settings of an existing credential connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum: disabled, unrestricted, internal), `tags` (array[string]), `user_name` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```javascript
-const credentialConnection = await client.credentialConnections.update('id');
+const credentialConnection = await client.credentialConnections.update('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(credentialConnection.data);
 ```
@@ -192,7 +192,7 @@ Deletes an existing credential connection.
 `DELETE /credential_connections/{id}`
 
 ```javascript
-const credentialConnection = await client.credentialConnections.delete('id');
+const credentialConnection = await client.credentialConnections.delete('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(credentialConnection.data);
 ```
@@ -206,7 +206,7 @@ Checks the registration_status for a credential connection, (`registration_statu
 `POST /credential_connections/{id}/actions/check_registration_status`
 
 ```javascript
-const response = await client.credentialConnections.actions.checkRegistrationStatus('id');
+const response = await client.credentialConnections.actions.checkRegistrationStatus('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -237,7 +237,7 @@ Creates a FQDN connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `microsoft_teams_sbc` (boolean), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```javascript
-const fqdnConnection = await client.fqdnConnections.create({ connection_name: 'string' });
+const fqdnConnection = await client.fqdnConnections.create({ connection_name: 'my-resource' });
 
 console.log(fqdnConnection.data);
 ```
@@ -391,7 +391,9 @@ Creates an IP connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```javascript
-const ipConnection = await client.ipConnections.create();
+const ipConnection = await client.ipConnections.create({
+    connectionName: 'my-ip-connection',
+});
 
 console.log(ipConnection.data);
 ```
@@ -405,7 +407,7 @@ Retrieves the details of an existing ip connection.
 `GET /ip_connections/{id}`
 
 ```javascript
-const ipConnection = await client.ipConnections.retrieve('id');
+const ipConnection = await client.ipConnections.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(ipConnection.data);
 ```
@@ -421,7 +423,7 @@ Updates settings of an existing IP connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```javascript
-const ipConnection = await client.ipConnections.update('id');
+const ipConnection = await client.ipConnections.update('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(ipConnection.data);
 ```
@@ -435,7 +437,7 @@ Deletes an existing IP connection.
 `DELETE /ip_connections/{id}`
 
 ```javascript
-const ipConnection = await client.ipConnections.delete('id');
+const ipConnection = await client.ipConnections.delete('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(ipConnection.data);
 ```

@@ -85,14 +85,14 @@ Optional: `client_state` (string), `command_id` (string), `keep_after_hangup` (b
 
 ```go
 	response, err := client.Calls.Actions.Enqueue(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionEnqueueParams{
 			QueueName: "support",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -109,12 +109,12 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```go
 	response, err := client.Calls.Actions.LeaveQueue(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionLeaveQueueParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -128,9 +128,9 @@ Lists conferences. Conferences are created on demand, and will expire after all 
 `GET /conferences`
 
 ```go
-	page, err := client.Conferences.List(context.TODO(), telnyx.ConferenceListParams{})
+	page, err := client.Conferences.List(context.Background(), telnyx.ConferenceListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -146,12 +146,12 @@ Create a conference from an existing call leg using a `call_control_id` and a co
 Optional: `beep_enabled` (enum: always, never, on_enter, on_exit), `client_state` (string), `comfort_noise` (boolean), `command_id` (string), `duration_minutes` (integer), `hold_audio_url` (string), `hold_media_name` (string), `max_participants` (integer), `region` (enum: Australia, Europe, Middle East, US), `start_conference_on_create` (boolean)
 
 ```go
-	conference, err := client.Conferences.New(context.TODO(), telnyx.ConferenceNewParams{
+	conference, err := client.Conferences.New(context.Background(), telnyx.ConferenceNewParams{
 		CallControlID: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
 		Name:          "Business",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", conference.Data)
 ```
@@ -166,12 +166,12 @@ Lists conference participants
 
 ```go
 	page, err := client.Conferences.ListParticipants(
-		context.TODO(),
+		context.Background(),
 		"conference_id",
 		telnyx.ConferenceListParticipantsParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -186,12 +186,12 @@ Retrieve an existing conference
 
 ```go
 	conference, err := client.Conferences.Get(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceGetParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", conference.Data)
 ```
@@ -208,12 +208,12 @@ Optional: `command_id` (string)
 
 ```go
 	response, err := client.Conferences.Actions.EndConference(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.ConferenceActionEndConferenceParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -230,14 +230,14 @@ Optional: `audio_url` (string), `client_state` (string), `gather_id` (string), `
 
 ```go
 	response, err := client.Conferences.Actions.GatherDtmfAudio(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.ConferenceActionGatherDtmfAudioParams{
 			CallControlID: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -254,12 +254,12 @@ Optional: `audio_url` (string), `call_control_ids` (array[string]), `media_name`
 
 ```go
 	response, err := client.Conferences.Actions.Hold(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionHoldParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -276,14 +276,14 @@ Optional: `beep_enabled` (enum: always, never, on_enter, on_exit), `client_state
 
 ```go
 	response, err := client.Conferences.Actions.Join(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionJoinParams{
 			CallControlID: "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -302,14 +302,14 @@ Optional: `beep_enabled` (enum: always, never, on_enter, on_exit), `command_id` 
 
 ```go
 	response, err := client.Conferences.Actions.Leave(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionLeaveParams{
 			CallControlID: "c46e06d7-b78f-4b13-96b6-c576af9640ff",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -326,12 +326,12 @@ Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe,
 
 ```go
 	response, err := client.Conferences.Actions.Mute(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionMuteParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -344,16 +344,16 @@ Play audio to all or some participants on a conference call.
 
 `POST /conferences/{id}/actions/play`
 
-Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (object), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
+Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (string), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```go
 	response, err := client.Conferences.Actions.Play(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionPlayParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -370,12 +370,12 @@ Optional: `command_id` (string), `recording_id` (string), `region` (enum: Austra
 
 ```go
 	response, err := client.Conferences.Actions.RecordPause(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionRecordPauseParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -392,12 +392,12 @@ Optional: `command_id` (string), `recording_id` (string), `region` (enum: Austra
 
 ```go
 	response, err := client.Conferences.Actions.RecordResume(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionRecordResumeParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -416,14 +416,14 @@ Optional: `channels` (enum: single, dual), `command_id` (string), `custom_file_n
 
 ```go
 	response, err := client.Conferences.Actions.RecordStart(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionRecordStartParams{
 			Format: telnyx.ConferenceActionRecordStartParamsFormatWav,
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -442,12 +442,12 @@ Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid),
 
 ```go
 	response, err := client.Conferences.Actions.RecordStop(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionRecordStopParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -464,14 +464,14 @@ Optional: `call_control_ids` (array[string]), `client_state` (string), `duration
 
 ```go
 	response, err := client.Conferences.Actions.SendDtmf(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.ConferenceActionSendDtmfParams{
 			Digits: "1234#",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -488,7 +488,7 @@ Optional: `call_control_ids` (array[string]), `command_id` (string), `language` 
 
 ```go
 	response, err := client.Conferences.Actions.Speak(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionSpeakParams{
 			Payload: "Say this to participants",
@@ -496,7 +496,7 @@ Optional: `call_control_ids` (array[string]), `command_id` (string), `language` 
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -513,12 +513,12 @@ Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe,
 
 ```go
 	response, err := client.Conferences.Actions.Stop(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionStopParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -535,14 +535,14 @@ Optional: `region` (enum: Australia, Europe, Middle East, US)
 
 ```go
 	response, err := client.Conferences.Actions.Unhold(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionUnholdParams{
 			CallControlIDs: []string{"v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg"},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -559,12 +559,12 @@ Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe,
 
 ```go
 	response, err := client.Conferences.Actions.Unmute(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionUnmuteParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -581,7 +581,7 @@ Optional: `command_id` (string), `region` (enum: Australia, Europe, Middle East,
 
 ```go
 	action, err := client.Conferences.Actions.Update(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ConferenceActionUpdateParams{
 			UpdateConference: telnyx.UpdateConferenceParam{
@@ -591,7 +591,7 @@ Optional: `command_id` (string), `region` (enum: Australia, Europe, Middle East,
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", action.Data)
 ```
@@ -606,14 +606,14 @@ Retrieve details of a specific conference participant by their ID or label.
 
 ```go
 	response, err := client.Conferences.GetParticipant(
-		context.TODO(),
+		context.Background(),
 		"participant_id",
 		telnyx.ConferenceGetParticipantParams{
 			ID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -630,14 +630,14 @@ Optional: `beep_enabled` (enum: always, never, on_enter, on_exit), `end_conferen
 
 ```go
 	response, err := client.Conferences.UpdateParticipant(
-		context.TODO(),
+		context.Background(),
 		"participant_id",
 		telnyx.ConferenceUpdateParticipantParams{
 			ID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -651,9 +651,9 @@ List all queues for the authenticated user.
 `GET /queues`
 
 ```go
-	page, err := client.Queues.List(context.TODO(), telnyx.QueueListParams{})
+	page, err := client.Queues.List(context.Background(), telnyx.QueueListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -669,11 +669,11 @@ Create a new call queue.
 Optional: `max_size` (integer)
 
 ```go
-	queue, err := client.Queues.New(context.TODO(), telnyx.QueueNewParams{
+	queue, err := client.Queues.New(context.Background(), telnyx.QueueNewParams{
 		QueueName: "tier_1_support",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", queue.Data)
 ```
@@ -687,9 +687,9 @@ Retrieve an existing call queue
 `GET /queues/{queue_name}`
 
 ```go
-	queue, err := client.Queues.Get(context.TODO(), "queue_name")
+	queue, err := client.Queues.Get(context.Background(), "queue_name")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", queue.Data)
 ```
@@ -704,14 +704,14 @@ Update properties of an existing call queue.
 
 ```go
 	queue, err := client.Queues.Update(
-		context.TODO(),
+		context.Background(),
 		"queue_name",
 		telnyx.QueueUpdateParams{
 			MaxSize: 200,
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", queue.Data)
 ```
@@ -725,9 +725,9 @@ Delete an existing call queue.
 `DELETE /queues/{queue_name}`
 
 ```go
-	err := client.Queues.Delete(context.TODO(), "queue_name")
+	err := client.Queues.Delete(context.Background(), "queue_name")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -739,12 +739,12 @@ Retrieve the list of calls in an existing queue
 
 ```go
 	page, err := client.Queues.Calls.List(
-		context.TODO(),
+		context.Background(),
 		"queue_name",
 		telnyx.QueueCallListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -759,14 +759,14 @@ Retrieve an existing call from an existing queue
 
 ```go
 	call, err := client.Queues.Calls.Get(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.QueueCallGetParams{
-			QueueName: "queue_name",
+			QueueName: "my-queue",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", call.Data)
 ```
@@ -783,14 +783,14 @@ Optional: `keep_after_hangup` (boolean)
 
 ```go
 	err := client.Queues.Calls.Update(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.QueueCallUpdateParams{
-			QueueName: "queue_name",
+			QueueName: "my-queue",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -802,14 +802,14 @@ Removes an inactive call from a queue. If the call is no longer active, use this
 
 ```go
 	err := client.Queues.Calls.Remove(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.QueueCallRemoveParams{
-			QueueName: "queue_name",
+			QueueName: "my-queue",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 

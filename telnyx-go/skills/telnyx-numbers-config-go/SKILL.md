@@ -83,12 +83,12 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 Optional: `assign_only` (boolean)
 
 ```go
-	messagingNumbersBulkUpdate, err := client.MessagingNumbersBulkUpdates.New(context.TODO(), telnyx.MessagingNumbersBulkUpdateNewParams{
+	messagingNumbersBulkUpdate, err := client.MessagingNumbersBulkUpdates.New(context.Background(), telnyx.MessagingNumbersBulkUpdateNewParams{
 		MessagingProfileID: "00000000-0000-0000-0000-000000000000",
 		Numbers:            []string{"+18880000000", "+18880000001", "+18880000002"},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagingNumbersBulkUpdate.Data)
 ```
@@ -100,9 +100,9 @@ Returns: `failed` (array[string]), `order_id` (uuid), `pending` (array[string]),
 `GET /messaging_numbers_bulk_updates/{order_id}`
 
 ```go
-	messagingNumbersBulkUpdate, err := client.MessagingNumbersBulkUpdates.Get(context.TODO(), "order_id")
+	messagingNumbersBulkUpdate, err := client.MessagingNumbersBulkUpdates.Get(context.Background(), "order_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagingNumbersBulkUpdate.Data)
 ```
@@ -114,9 +114,9 @@ Returns: `failed` (array[string]), `order_id` (uuid), `pending` (array[string]),
 `GET /mobile_phone_numbers/messaging`
 
 ```go
-	page, err := client.MobilePhoneNumbers.Messaging.List(context.TODO(), telnyx.MobilePhoneNumberMessagingListParams{})
+	page, err := client.MobilePhoneNumbers.Messaging.List(context.Background(), telnyx.MobilePhoneNumberMessagingListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -128,9 +128,9 @@ Returns: `country_code` (string), `created_at` (date-time), `features` (object),
 `GET /mobile_phone_numbers/{id}/messaging`
 
 ```go
-	messaging, err := client.MobilePhoneNumbers.Messaging.Get(context.TODO(), "id")
+	messaging, err := client.MobilePhoneNumbers.Messaging.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messaging.Data)
 ```
@@ -142,9 +142,9 @@ Returns: `country_code` (string), `created_at` (date-time), `features` (object),
 `GET /phone_numbers`
 
 ```go
-	page, err := client.PhoneNumbers.List(context.TODO(), telnyx.PhoneNumberListParams{})
+	page, err := client.PhoneNumbers.List(context.Background(), telnyx.PhoneNumberListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -158,11 +158,11 @@ Verifies ownership of the provided phone numbers and returns a mapping of number
 `POST /phone_numbers/actions/verify_ownership` — Required: `phone_numbers`
 
 ```go
-	response, err := client.PhoneNumbers.Actions.VerifyOwnership(context.TODO(), telnyx.PhoneNumberActionVerifyOwnershipParams{
+	response, err := client.PhoneNumbers.Actions.VerifyOwnership(context.Background(), telnyx.PhoneNumberActionVerifyOwnershipParams{
 		PhoneNumbers: []string{"+15551234567"},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -174,9 +174,9 @@ Returns: `found` (array[object]), `not_found` (array[string]), `record_type` (st
 `GET /phone_numbers/jobs`
 
 ```go
-	page, err := client.PhoneNumbers.Jobs.List(context.TODO(), telnyx.PhoneNumberJobListParams{})
+	page, err := client.PhoneNumbers.Jobs.List(context.Background(), telnyx.PhoneNumberJobListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -190,11 +190,11 @@ Creates a new background job to delete a batch of numbers. At most one thousand 
 `POST /phone_numbers/jobs/delete_phone_numbers` — Required: `phone_numbers`
 
 ```go
-	response, err := client.PhoneNumbers.Jobs.DeleteBatch(context.TODO(), telnyx.PhoneNumberJobDeleteBatchParams{
+	response, err := client.PhoneNumbers.Jobs.DeleteBatch(context.Background(), telnyx.PhoneNumberJobDeleteBatchParams{
 		PhoneNumbers: []string{"+19705555098", "+19715555098", "32873127836"},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -210,12 +210,12 @@ Creates a background job to update the emergency settings of a collection of pho
 Optional: `emergency_address_id` (string | null)
 
 ```go
-	response, err := client.PhoneNumbers.Jobs.UpdateEmergencySettingsBatch(context.TODO(), telnyx.PhoneNumberJobUpdateEmergencySettingsBatchParams{
+	response, err := client.PhoneNumbers.Jobs.UpdateEmergencySettingsBatch(context.Background(), telnyx.PhoneNumberJobUpdateEmergencySettingsBatchParams{
 		EmergencyEnabled: true,
 		PhoneNumbers:     []string{"+19705555098", "+19715555098", "32873127836"},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -231,11 +231,11 @@ Creates a new background job to update a batch of numbers. At most one thousand 
 Optional: `billing_group_id` (string), `connection_id` (string), `customer_reference` (string), `deletion_lock_enabled` (boolean), `external_pin` (string), `hd_voice_enabled` (boolean), `tags` (array[string]), `voice` (object)
 
 ```go
-	response, err := client.PhoneNumbers.Jobs.UpdateBatch(context.TODO(), telnyx.PhoneNumberJobUpdateBatchParams{
+	response, err := client.PhoneNumbers.Jobs.UpdateBatch(context.Background(), telnyx.PhoneNumberJobUpdateBatchParams{
 		PhoneNumbers: []string{"1583466971586889004", "+13127367254"},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -247,9 +247,9 @@ Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[ob
 `GET /phone_numbers/jobs/{id}`
 
 ```go
-	job, err := client.PhoneNumbers.Jobs.Get(context.TODO(), "id")
+	job, err := client.PhoneNumbers.Jobs.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", job.Data)
 ```
@@ -261,9 +261,9 @@ Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[ob
 `GET /phone_numbers/messaging`
 
 ```go
-	page, err := client.PhoneNumbers.Messaging.List(context.TODO(), telnyx.PhoneNumberMessagingListParams{})
+	page, err := client.PhoneNumbers.Messaging.List(context.Background(), telnyx.PhoneNumberMessagingListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -277,9 +277,9 @@ List phone numbers, This endpoint is a lighter version of the /phone_numbers end
 `GET /phone_numbers/slim`
 
 ```go
-	page, err := client.PhoneNumbers.SlimList(context.TODO(), telnyx.PhoneNumberSlimListParams{})
+	page, err := client.PhoneNumbers.SlimList(context.Background(), telnyx.PhoneNumberSlimListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -291,9 +291,9 @@ Returns: `billing_group_id` (string), `call_forwarding_enabled` (boolean), `call
 `GET /phone_numbers/voice`
 
 ```go
-	page, err := client.PhoneNumbers.Voice.List(context.TODO(), telnyx.PhoneNumberVoiceListParams{})
+	page, err := client.PhoneNumbers.Voice.List(context.Background(), telnyx.PhoneNumberVoiceListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -305,9 +305,9 @@ Returns: `call_forwarding` (object), `call_recording` (object), `cnam_listing` (
 `GET /phone_numbers/{id}`
 
 ```go
-	phoneNumber, err := client.PhoneNumbers.Get(context.TODO(), "1293384261075731499")
+	phoneNumber, err := client.PhoneNumbers.Get(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumber.Data)
 ```
@@ -322,12 +322,12 @@ Optional: `address_id` (string), `billing_group_id` (string), `connection_id` (s
 
 ```go
 	phoneNumber, err := client.PhoneNumbers.Update(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.PhoneNumberUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumber.Data)
 ```
@@ -339,9 +339,9 @@ Returns: `billing_group_id` (string | null), `call_forwarding_enabled` (boolean)
 `DELETE /phone_numbers/{id}`
 
 ```go
-	phoneNumber, err := client.PhoneNumbers.Delete(context.TODO(), "1293384261075731499")
+	phoneNumber, err := client.PhoneNumbers.Delete(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumber.Data)
 ```
@@ -354,14 +354,14 @@ Returns: `billing_group_id` (string), `call_forwarding_enabled` (boolean), `call
 
 ```go
 	response, err := client.PhoneNumbers.Actions.ChangeBundleStatus(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.PhoneNumberActionChangeBundleStatusParams{
 			BundleID: "5194d8fc-87e6-4188-baa9-1c434bbe861b",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -374,7 +374,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `cnam_listing` (
 
 ```go
 	response, err := client.PhoneNumbers.Actions.EnableEmergency(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.PhoneNumberActionEnableEmergencyParams{
 			EmergencyAddressID: "53829456729313",
@@ -382,7 +382,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `cnam_listing` (
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -394,9 +394,9 @@ Returns: `call_forwarding` (object), `call_recording` (object), `cnam_listing` (
 `GET /phone_numbers/{id}/messaging`
 
 ```go
-	messaging, err := client.PhoneNumbers.Messaging.Get(context.TODO(), "id")
+	messaging, err := client.PhoneNumbers.Messaging.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messaging.Data)
 ```
@@ -411,12 +411,12 @@ Optional: `messaging_product` (string), `messaging_profile_id` (string), `tags` 
 
 ```go
 	messaging, err := client.PhoneNumbers.Messaging.Update(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.PhoneNumberMessagingUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messaging.Data)
 ```
@@ -428,9 +428,9 @@ Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_
 `GET /phone_numbers/{id}/voice`
 
 ```go
-	voice, err := client.PhoneNumbers.Voice.Get(context.TODO(), "1293384261075731499")
+	voice, err := client.PhoneNumbers.Voice.Get(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voice.Data)
 ```
@@ -445,14 +445,14 @@ Optional: `call_forwarding` (object), `call_recording` (object), `caller_id_name
 
 ```go
 	voice, err := client.PhoneNumbers.Voice.Update(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.PhoneNumberVoiceUpdateParams{
 			UpdateVoiceSettings: telnyx.UpdateVoiceSettingsParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voice.Data)
 ```
@@ -464,9 +464,9 @@ Returns: `call_forwarding` (object), `call_recording` (object), `cnam_listing` (
 `GET /v2/mobile_phone_numbers`
 
 ```go
-	page, err := client.MobilePhoneNumbers.List(context.TODO(), telnyx.MobilePhoneNumberListParams{})
+	page, err := client.MobilePhoneNumbers.List(context.Background(), telnyx.MobilePhoneNumberListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -478,9 +478,9 @@ Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_
 `GET /v2/mobile_phone_numbers/{id}`
 
 ```go
-	mobilePhoneNumber, err := client.MobilePhoneNumbers.Get(context.TODO(), "id")
+	mobilePhoneNumber, err := client.MobilePhoneNumbers.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", mobilePhoneNumber.Data)
 ```
@@ -495,12 +495,12 @@ Optional: `call_forwarding` (object), `call_recording` (object), `caller_id_name
 
 ```go
 	mobilePhoneNumber, err := client.MobilePhoneNumbers.Update(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.MobilePhoneNumberUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", mobilePhoneNumber.Data)
 ```

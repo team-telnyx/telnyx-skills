@@ -22,11 +22,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -102,7 +102,7 @@ Returns: `failed` (array[string]), `order_id` (uuid), `pending` (array[string]),
 import com.telnyx.sdk.models.messagingnumbersbulkupdates.MessagingNumbersBulkUpdateRetrieveParams;
 import com.telnyx.sdk.models.messagingnumbersbulkupdates.MessagingNumbersBulkUpdateRetrieveResponse;
 
-MessagingNumbersBulkUpdateRetrieveResponse messagingNumbersBulkUpdate = client.messagingNumbersBulkUpdates().retrieve("order_id");
+MessagingNumbersBulkUpdateRetrieveResponse messagingNumbersBulkUpdate = client.messagingNumbersBulkUpdates().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `failed` (array[string]), `order_id` (uuid), `pending` (array[string]), `record_type` (enum: messaging_numbers_bulk_update), `success` (array[string])
@@ -128,7 +128,7 @@ Returns: `country_code` (string), `created_at` (date-time), `features` (object),
 import com.telnyx.sdk.models.mobilephonenumbers.messaging.MessagingRetrieveParams;
 import com.telnyx.sdk.models.mobilephonenumbers.messaging.MessagingRetrieveResponse;
 
-MessagingRetrieveResponse messaging = client.mobilePhoneNumbers().messaging().retrieve("id");
+MessagingRetrieveResponse messaging = client.mobilePhoneNumbers().messaging().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `features` (object), `id` (string), `messaging_product` (string), `messaging_profile_id` (string | null), `organization_id` (string), `phone_number` (string), `record_type` (enum: messaging_phone_number, messaging_settings), `tags` (array[string]), `traffic_type` (string), `type` (enum: longcode), `updated_at` (date-time)
@@ -255,7 +255,7 @@ Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[ob
 import com.telnyx.sdk.models.phonenumbers.jobs.JobRetrieveParams;
 import com.telnyx.sdk.models.phonenumbers.jobs.JobRetrieveResponse;
 
-JobRetrieveResponse job = client.phoneNumbers().jobs().retrieve("id");
+JobRetrieveResponse job = client.phoneNumbers().jobs().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[object]), `id` (uuid), `pending_operations` (array[object]), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: pending, in_progress, completed, failed, expired), `successful_operations` (array[object]), `type` (enum: update_emergency_settings, delete_phone_numbers, update_phone_numbers), `updated_at` (string)
@@ -385,7 +385,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `cnam_listing` (
 import com.telnyx.sdk.models.phonenumbers.messaging.MessagingRetrieveParams;
 import com.telnyx.sdk.models.phonenumbers.messaging.MessagingRetrieveResponse;
 
-MessagingRetrieveResponse messaging = client.phoneNumbers().messaging().retrieve("id");
+MessagingRetrieveResponse messaging = client.phoneNumbers().messaging().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_products` (array[string]), `features` (object), `health` (object), `id` (string), `messaging_product` (string), `messaging_profile_id` (string | null), `organization_id` (string), `phone_number` (string), `record_type` (enum: messaging_phone_number, messaging_settings), `tags` (array[string]), `traffic_type` (string), `type` (enum: long-code, toll-free, short-code, longcode, tollfree, shortcode), `updated_at` (date-time)
@@ -400,7 +400,7 @@ Optional: `messaging_product` (string), `messaging_profile_id` (string), `tags` 
 import com.telnyx.sdk.models.phonenumbers.messaging.MessagingUpdateParams;
 import com.telnyx.sdk.models.phonenumbers.messaging.MessagingUpdateResponse;
 
-MessagingUpdateResponse messaging = client.phoneNumbers().messaging().update("id");
+MessagingUpdateResponse messaging = client.phoneNumbers().messaging().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_products` (array[string]), `features` (object), `health` (object), `id` (string), `messaging_product` (string), `messaging_profile_id` (string | null), `organization_id` (string), `phone_number` (string), `record_type` (enum: messaging_phone_number, messaging_settings), `tags` (array[string]), `traffic_type` (string), `type` (enum: long-code, toll-free, short-code, longcode, tollfree, shortcode), `updated_at` (date-time)
@@ -459,7 +459,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_
 import com.telnyx.sdk.models.mobilephonenumbers.MobilePhoneNumberRetrieveParams;
 import com.telnyx.sdk.models.mobilephonenumbers.MobilePhoneNumberRetrieveResponse;
 
-MobilePhoneNumberRetrieveResponse mobilePhoneNumber = client.mobilePhoneNumbers().retrieve("id");
+MobilePhoneNumberRetrieveResponse mobilePhoneNumber = client.mobilePhoneNumbers().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_enabled` (boolean), `cnam_listing` (object), `connection_id` (string | null), `connection_name` (string | null), `connection_type` (string | null), `country_iso_alpha2` (string), `created_at` (date-time), `customer_reference` (string | null), `id` (string), `inbound` (object), `inbound_call_screening` (enum: disabled, reject_calls, flag_calls), `mobile_voice_enabled` (boolean), `noise_suppression` (enum: inbound, outbound, both, disabled), `outbound` (object), `phone_number` (string), `record_type` (string), `sim_card_id` (uuid), `status` (string), `tags` (array[string]), `updated_at` (date-time)
@@ -474,7 +474,7 @@ Optional: `call_forwarding` (object), `call_recording` (object), `caller_id_name
 import com.telnyx.sdk.models.mobilephonenumbers.MobilePhoneNumberUpdateParams;
 import com.telnyx.sdk.models.mobilephonenumbers.MobilePhoneNumberUpdateResponse;
 
-MobilePhoneNumberUpdateResponse mobilePhoneNumber = client.mobilePhoneNumbers().update("id");
+MobilePhoneNumberUpdateResponse mobilePhoneNumber = client.mobilePhoneNumbers().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_enabled` (boolean), `cnam_listing` (object), `connection_id` (string | null), `connection_name` (string | null), `connection_type` (string | null), `country_iso_alpha2` (string), `created_at` (date-time), `customer_reference` (string | null), `id` (string), `inbound` (object), `inbound_call_screening` (enum: disabled, reject_calls, flag_calls), `mobile_voice_enabled` (boolean), `noise_suppression` (enum: inbound, outbound, both, disabled), `outbound` (object), `phone_number` (string), `record_type` (string), `sim_card_id` (uuid), `status` (string), `tags` (array[string]), `updated_at` (date-time)

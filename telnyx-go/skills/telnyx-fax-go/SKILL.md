@@ -82,9 +82,9 @@ This endpoint returns a list of your Fax Applications inside the 'data' attribut
 `GET /fax_applications`
 
 ```go
-	page, err := client.FaxApplications.List(context.TODO(), telnyx.FaxApplicationListParams{})
+	page, err := client.FaxApplications.List(context.Background(), telnyx.FaxApplicationListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -100,12 +100,12 @@ Creates a new Fax Application based on the parameters sent in the request. The a
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `inbound` (object), `outbound` (object), `tags` (array[string]), `webhook_event_failover_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```go
-	faxApplication, err := client.FaxApplications.New(context.TODO(), telnyx.FaxApplicationNewParams{
+	faxApplication, err := client.FaxApplications.New(context.Background(), telnyx.FaxApplicationNewParams{
 		ApplicationName: "fax-router",
 		WebhookEventURL: "https://example.com",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", faxApplication.Data)
 ```
@@ -119,9 +119,9 @@ Return the details of an existing Fax Application inside the 'data' attribute of
 `GET /fax_applications/{id}`
 
 ```go
-	faxApplication, err := client.FaxApplications.Get(context.TODO(), "1293384261075731499")
+	faxApplication, err := client.FaxApplications.Get(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", faxApplication.Data)
 ```
@@ -138,7 +138,7 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 
 ```go
 	faxApplication, err := client.FaxApplications.Update(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.FaxApplicationUpdateParams{
 			ApplicationName: "fax-router",
@@ -146,7 +146,7 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", faxApplication.Data)
 ```
@@ -160,9 +160,9 @@ Permanently deletes a Fax Application. Deletion may be prevented if the applicat
 `DELETE /fax_applications/{id}`
 
 ```go
-	faxApplication, err := client.FaxApplications.Delete(context.TODO(), "1293384261075731499")
+	faxApplication, err := client.FaxApplications.Delete(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", faxApplication.Data)
 ```
@@ -174,9 +174,9 @@ Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, 
 `GET /faxes`
 
 ```go
-	page, err := client.Faxes.List(context.TODO(), telnyx.FaxListParams{})
+	page, err := client.Faxes.List(context.Background(), telnyx.FaxListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -192,13 +192,14 @@ Send a fax. Files have size limits and page count limit validations. If a file i
 Optional: `black_threshold` (integer), `client_state` (string), `from_display_name` (string), `media_name` (string), `media_url` (string), `monochrome` (boolean), `preview_format` (enum: pdf, tiff), `quality` (enum: normal, high, very_high, ultra_light, ultra_dark), `store_media` (boolean), `store_preview` (boolean), `t38_enabled` (boolean), `webhook_url` (string)
 
 ```go
-	fax, err := client.Faxes.New(context.TODO(), telnyx.FaxNewParams{
+	fax, err := client.Faxes.New(context.Background(), telnyx.FaxNewParams{
 		ConnectionID: "234423",
 		From:         "+13125790015",
 		To:           "+13127367276",
+		MediaURL: "https://example.com/document.pdf",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fax.Data)
 ```
@@ -210,9 +211,9 @@ Returns: `client_state` (string), `connection_id` (string), `created_at` (date-t
 `GET /faxes/{id}`
 
 ```go
-	fax, err := client.Faxes.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	fax, err := client.Faxes.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fax.Data)
 ```
@@ -224,9 +225,9 @@ Returns: `client_state` (string), `connection_id` (string), `created_at` (date-t
 `DELETE /faxes/{id}`
 
 ```go
-	err := client.Faxes.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	err := client.Faxes.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -237,9 +238,9 @@ Cancel the outbound fax that is in one of the following states: `queued`, `media
 `POST /faxes/{id}/actions/cancel`
 
 ```go
-	response, err := client.Faxes.Actions.Cancel(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	response, err := client.Faxes.Actions.Cancel(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -253,9 +254,9 @@ Refreshes the inbound fax's media_url when it has expired
 `POST /faxes/{id}/actions/refresh`
 
 ```go
-	response, err := client.Faxes.Actions.Refresh(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	response, err := client.Faxes.Actions.Refresh(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```

@@ -76,7 +76,7 @@ Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id
 
 ## Creates a new mobile push credential
 
-`POST /mobile_push_credentials`
+`POST /mobile_push_credentials` — Required: `type`, `certificate`, `private_key`, `alias`
 
 ```ruby
 push_credential_response = client.mobile_push_credentials.create(
@@ -156,7 +156,7 @@ Get the details of an existing On-demand Credential.
 `GET /telephony_credentials/{id}`
 
 ```ruby
-telephony_credential = client.telephony_credentials.retrieve("id")
+telephony_credential = client.telephony_credentials.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(telephony_credential)
 ```
@@ -172,7 +172,7 @@ Update an existing credential.
 Optional: `connection_id` (string), `expires_at` (string), `name` (string), `tag` (string)
 
 ```ruby
-telephony_credential = client.telephony_credentials.update("id")
+telephony_credential = client.telephony_credentials.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(telephony_credential)
 ```
@@ -186,7 +186,7 @@ Delete an existing credential.
 `DELETE /telephony_credentials/{id}`
 
 ```ruby
-telephony_credential = client.telephony_credentials.delete("id")
+telephony_credential = client.telephony_credentials.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(telephony_credential)
 ```

@@ -100,7 +100,7 @@ Retrieves the details of a single managed account.
 `GET /managed_accounts/{id}`
 
 ```ruby
-managed_account = client.managed_accounts.retrieve("id")
+managed_account = client.managed_accounts.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(managed_account)
 ```
@@ -116,7 +116,7 @@ Update a single managed account.
 Optional: `managed_account_allow_custom_pricing` (boolean)
 
 ```ruby
-managed_account = client.managed_accounts.update("id")
+managed_account = client.managed_accounts.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(managed_account)
 ```
@@ -130,7 +130,7 @@ Disables a managed account, forbidding it to use Telnyx services, including send
 `POST /managed_accounts/{id}/actions/disable`
 
 ```ruby
-response = client.managed_accounts.actions.disable("id")
+response = client.managed_accounts.actions.disable("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -146,7 +146,7 @@ Enables a managed account and its sub-users to use Telnyx services.
 Optional: `reenable_all_connections` (boolean)
 
 ```ruby
-response = client.managed_accounts.actions.enable("id")
+response = client.managed_accounts.actions.enable("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -160,7 +160,7 @@ Returns: `api_key` (string), `api_token` (string), `api_user` (string), `balance
 Optional: `channel_limit` (integer)
 
 ```ruby
-response = client.managed_accounts.update_global_channel_limit("id")
+response = client.managed_accounts.update_global_channel_limit("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -202,7 +202,7 @@ Returns a user in your organization.
 `GET /organizations/users/{id}`
 
 ```ruby
-user = client.organizations.users.retrieve("id")
+user = client.organizations.users.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(user)
 ```
@@ -216,7 +216,7 @@ Deletes a user in your organization.
 `POST /organizations/users/{id}/actions/remove`
 
 ```ruby
-action = client.organizations.users.actions.remove("id")
+action = client.organizations.users.actions.remove("550e8400-e29b-41d4-a716-446655440000")
 
 puts(action)
 ```

@@ -75,7 +75,7 @@ page = client.portouts.events.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_notification_methods` (array[string]), `created_at` (date-time), `event_type` (enum: portout.status_changed, portout.foc_date_changed, portout.new_comment), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `portout_id` (uuid), `record_type` (string), `updated_at` (date-time)
 
 ## Show a port-out event
 
@@ -89,7 +89,7 @@ event = client.portouts.events.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 puts(event)
 ```
 
-Returns: `data` (object)
+Returns: `available_notification_methods` (array[string]), `created_at` (date-time), `event_type` (enum: portout.status_changed, portout.foc_date_changed, portout.new_comment), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `portout_id` (uuid), `record_type` (string), `updated_at` (date-time)
 
 ## Republish a port-out event
 

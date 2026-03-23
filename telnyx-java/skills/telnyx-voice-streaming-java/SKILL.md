@@ -22,11 +22,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -78,7 +78,7 @@ Optional: `client_state` (string), `command_id` (string), `rx` (string), `stream
 import com.telnyx.sdk.models.calls.actions.ActionStartForkingParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartForkingResponse;
 
-ActionStartForkingResponse response = client.calls().actions().startForking("call_control_id");
+ActionStartForkingResponse response = client.calls().actions().startForking("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -97,7 +97,7 @@ Optional: `client_state` (string), `command_id` (string), `stream_type` (enum: r
 import com.telnyx.sdk.models.calls.actions.ActionStopForkingParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopForkingResponse;
 
-ActionStopForkingResponse response = client.calls().actions().stopForking("call_control_id");
+ActionStopForkingResponse response = client.calls().actions().stopForking("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -114,7 +114,7 @@ Optional: `client_state` (string), `command_id` (string), `custom_parameters` (a
 import com.telnyx.sdk.models.calls.actions.ActionStartStreamingParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartStreamingResponse;
 
-ActionStartStreamingResponse response = client.calls().actions().startStreaming("call_control_id");
+ActionStartStreamingResponse response = client.calls().actions().startStreaming("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -133,7 +133,7 @@ Optional: `client_state` (string), `command_id` (string), `stream_id` (uuid)
 import com.telnyx.sdk.models.calls.actions.ActionStopStreamingParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopStreamingResponse;
 
-ActionStopStreamingResponse response = client.calls().actions().stopStreaming("call_control_id");
+ActionStopStreamingResponse response = client.calls().actions().stopStreaming("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -154,7 +154,7 @@ import com.telnyx.sdk.models.calls.actions.ActionStartTranscriptionResponse;
 import com.telnyx.sdk.models.calls.actions.TranscriptionStartRequest;
 
 ActionStartTranscriptionParams params = ActionStartTranscriptionParams.builder()
-    .callControlId("call_control_id")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .transcriptionStartRequest(TranscriptionStartRequest.builder().build())
     .build();
 ActionStartTranscriptionResponse response = client.calls().actions().startTranscription(params);
@@ -174,7 +174,7 @@ Optional: `client_state` (string), `command_id` (string)
 import com.telnyx.sdk.models.calls.actions.ActionStopTranscriptionParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopTranscriptionResponse;
 
-ActionStopTranscriptionResponse response = client.calls().actions().stopTranscription("call_control_id");
+ActionStopTranscriptionResponse response = client.calls().actions().stopTranscription("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)

@@ -103,10 +103,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "phone_number": "+13035551234",
-  "verify_profile_id": "12ade33a-21c0-473b-b055-b3c836e1c292",
-  "custom_code": "43612",
-  "timeout_secs": 300,
-  "extension": "1www2WABCDw9"
+  "verify_profile_id": "12ade33a-21c0-473b-b055-b3c836e1c292"
 }' \
   "https://api.telnyx.com/v2/verifications/call"
 ```
@@ -126,8 +123,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "phone_number": "+13035551234",
-  "verify_profile_id": "12ade33a-21c0-473b-b055-b3c836e1c292",
-  "timeout_secs": 300
+  "verify_profile_id": "12ade33a-21c0-473b-b055-b3c836e1c292"
 }' \
   "https://api.telnyx.com/v2/verifications/flashcall"
 ```
@@ -147,9 +143,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "phone_number": "+13035551234",
-  "verify_profile_id": "12ade33a-21c0-473b-b055-b3c836e1c292",
-  "custom_code": "43612",
-  "timeout_secs": 300
+  "verify_profile_id": "12ade33a-21c0-473b-b055-b3c836e1c292"
 }' \
   "https://api.telnyx.com/v2/verifications/sms"
 ```
@@ -178,9 +172,8 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "code": "17686",
-  "status": "accepted"
-}' \
+      "code": "12345"
+  }' \
   "https://api.telnyx.com/v2/verifications/12ade33a-21c0-473b-b055-b3c836e1c292/actions/verify"
 ```
 
@@ -212,10 +205,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "name": "Test Profile",
-  "webhook_url": "http://example.com/webhook",
-  "webhook_failover_url": "http://example.com/webhook/failover",
-  "language": "en-US"
+  "name": "Test Profile"
 }' \
   "https://api.telnyx.com/v2/verify_profiles"
 ```
@@ -295,12 +285,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "name": "Test Profile",
-  "webhook_url": "http://example.com/webhook",
-  "webhook_failover_url": "http://example.com/webhook/failover",
-  "language": "en-US"
-}' \
   "https://api.telnyx.com/v2/verify_profiles/12ade33a-21c0-473b-b055-b3c836e1c292"
 ```
 

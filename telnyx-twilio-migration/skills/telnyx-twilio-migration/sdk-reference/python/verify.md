@@ -165,6 +165,7 @@ Optional: `code` (string), `status` (enum: accepted, rejected)
 ```python
 verify_verification_code_response = client.verifications.actions.verify(
     verification_id="12ade33a-21c0-473b-b055-b3c836e1c292",
+    code="12345",
 )
 print(verify_verification_code_response.data)
 ```

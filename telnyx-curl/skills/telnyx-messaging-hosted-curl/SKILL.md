@@ -77,8 +77,7 @@ curl \
   -d '{
   "agent_id": "Agent007",
   "to": "+13125551234",
-  "messaging_profile_id": "string",
-  "type": "RCS",
+  "messaging_profile_id": "550e8400-e29b-41d4-a716-446655440000",
   "agent_message": {}
 }' \
   "https://api.telnyx.com/v2/messages/rcs"
@@ -113,7 +112,7 @@ Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `
 `GET /messaging/rcs/agents/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging/rcs/agents/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging/rcs/agents/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `enabled` (boolean), `profile_id` (uuid), `updated_at` (date-time), `user_id` (string), `webhook_failover_url` (url), `webhook_url` (url)
@@ -129,12 +128,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "profile_id": "4001932a-b8a3-42fc-9389-021be6388909",
-  "webhook_url": "http://example.com",
-  "webhook_failover_url": "http://example.com"
-}' \
-  "https://api.telnyx.com/v2/messaging/rcs/agents/{id}"
+  "https://api.telnyx.com/v2/messaging/rcs/agents/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `enabled` (boolean), `profile_id` (uuid), `updated_at` (date-time), `user_id` (string), `webhook_failover_url` (url), `webhook_url` (url)
@@ -164,7 +158,7 @@ Returns: `agent_id` (string), `agent_name` (string), `features` (array[string]),
 `GET /messaging/rcs/capabilities/{agent_id}/{phone_number}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging/rcs/capabilities/{agent_id}/{phone_number}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging/rcs/capabilities/{agent_id}/+13125550001"
 ```
 
 Returns: `agent_id` (string), `agent_name` (string), `features` (array[string]), `phone_number` (string), `record_type` (enum: rcs.capabilities)
@@ -180,7 +174,7 @@ curl \
   -X PUT \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/messaging/rcs/test_number_invite/{id}/{phone_number}"
+  "https://api.telnyx.com/v2/messaging/rcs/test_number_invite/550e8400-e29b-41d4-a716-446655440000/+13125550001"
 ```
 
 Returns: `agent_id` (string), `phone_number` (string), `record_type` (enum: rcs.test_number_invite), `status` (string)
@@ -222,7 +216,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "phone_numbers": [
-    "string"
+    "+13125550001"
   ]
 }' \
   "https://api.telnyx.com/v2/messaging_hosted_number_orders/eligibility_numbers_check"
@@ -235,7 +229,7 @@ Returns: `phone_numbers` (array[object])
 `GET /messaging_hosted_number_orders/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_hosted_number_orders/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_hosted_number_orders/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
@@ -250,7 +244,7 @@ Delete a messaging hosted number order and all associated phone numbers.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/messaging_hosted_number_orders/{id}"
+  "https://api.telnyx.com/v2/messaging_hosted_number_orders/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
@@ -265,7 +259,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -F "loa=@/path/to/file" \
   -F "bill=@/path/to/file" \
-  "https://api.telnyx.com/v2/messaging_hosted_number_orders/{id}/actions/file_upload"
+  "https://api.telnyx.com/v2/messaging_hosted_number_orders/550e8400-e29b-41d4-a716-446655440000/actions/file_upload"
 ```
 
 Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
@@ -286,7 +280,7 @@ curl \
     {}
   ]
 }' \
-  "https://api.telnyx.com/v2/messaging_hosted_number_orders/{id}/validation_codes"
+  "https://api.telnyx.com/v2/messaging_hosted_number_orders/550e8400-e29b-41d4-a716-446655440000/validation_codes"
 ```
 
 Returns: `order_id` (uuid), `phone_numbers` (array[object])
@@ -304,11 +298,11 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "phone_numbers": [
-    "string"
+    "+13125550001"
   ],
   "verification_method": "sms"
 }' \
-  "https://api.telnyx.com/v2/messaging_hosted_number_orders/{id}/verification_codes"
+  "https://api.telnyx.com/v2/messaging_hosted_number_orders/550e8400-e29b-41d4-a716-446655440000/verification_codes"
 ```
 
 Returns: `error` (string), `phone_number` (string), `type` (enum: sms, call), `verification_code_id` (uuid)
@@ -321,7 +315,7 @@ Returns: `error` (string), `phone_number` (string), `type` (enum: sms, call), `v
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/messaging_hosted_numbers/{id}"
+  "https://api.telnyx.com/v2/messaging_hosted_numbers/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
@@ -355,7 +349,6 @@ curl \
   "businessName": "Telnyx LLC",
   "corporateWebsite": "http://example.com",
   "businessAddr1": "600 Congress Avenue",
-  "businessAddr2": "14th Floor",
   "businessCity": "Austin",
   "businessState": "Texas",
   "businessZip": "78701",
@@ -384,18 +377,7 @@ curl \
       "url": "https://telnyx.com/company/data-privacy"
     }
   ],
-  "additionalInformation": "string",
-  "webhookUrl": "http://example-webhook.com",
-  "businessRegistrationNumber": "12-3456789",
-  "businessRegistrationType": "EIN",
-  "businessRegistrationCountry": "US",
-  "doingBusinessAs": "Acme Services",
-  "optInConfirmationResponse": "You have successfully opted in to receive messages from Acme Corp",
-  "helpMessageResponse": "Reply HELP for assistance or STOP to unsubscribe. Contact: support@example.com",
-  "privacyPolicyURL": "https://example.com/privacy",
-  "termsAndConditionURL": "https://example.com/terms",
-  "optInKeywords": "START, YES, SUBSCRIBE",
-  "campaignVerifyAuthorizationToken": "cv_token_abc123xyz"
+  "additionalInformation": "Additional context for this request."
 }' \
   "https://api.telnyx.com/v2/messaging_tollfree/verification/requests"
 ```
@@ -409,7 +391,7 @@ Get a single verification request by its ID.
 `GET /messaging_tollfree/verification/requests/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_tollfree/verification/requests/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_tollfree/verification/requests/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `additionalInformation` (string), `ageGatedContent` (boolean), `businessAddr1` (string), `businessAddr2` (string), `businessCity` (string), `businessContactEmail` (string), `businessContactFirstName` (string), `businessContactLastName` (string), `businessContactPhone` (string), `businessName` (string), `businessRegistrationCountry` (string), `businessRegistrationNumber` (string), `businessRegistrationType` (string), `businessState` (string), `businessZip` (string), `campaignVerifyAuthorizationToken` (string | null), `corporateWebsite` (string), `createdAt` (date-time), `doingBusinessAs` (string), `entityType` (object), `helpMessageResponse` (string), `id` (uuid), `isvReseller` (string), `messageVolume` (object), `optInConfirmationResponse` (string), `optInKeywords` (string), `optInWorkflow` (string), `optInWorkflowImageURLs` (array[object]), `phoneNumbers` (array[object]), `privacyPolicyURL` (string), `productionMessageContent` (string), `reason` (string), `termsAndConditionURL` (string), `updatedAt` (date-time), `useCase` (object), `useCaseSummary` (string), `verificationStatus` (object), `webhookUrl` (string)
@@ -431,7 +413,6 @@ curl \
   "businessName": "Telnyx LLC",
   "corporateWebsite": "http://example.com",
   "businessAddr1": "600 Congress Avenue",
-  "businessAddr2": "14th Floor",
   "businessCity": "Austin",
   "businessState": "Texas",
   "businessZip": "78701",
@@ -460,20 +441,9 @@ curl \
       "url": "https://telnyx.com/company/data-privacy"
     }
   ],
-  "additionalInformation": "string",
-  "webhookUrl": "http://example-webhook.com",
-  "businessRegistrationNumber": "12-3456789",
-  "businessRegistrationType": "EIN",
-  "businessRegistrationCountry": "US",
-  "doingBusinessAs": "Acme Services",
-  "optInConfirmationResponse": "You have successfully opted in to receive messages from Acme Corp",
-  "helpMessageResponse": "Reply HELP for assistance or STOP to unsubscribe. Contact: support@example.com",
-  "privacyPolicyURL": "https://example.com/privacy",
-  "termsAndConditionURL": "https://example.com/terms",
-  "optInKeywords": "START, YES, SUBSCRIBE",
-  "campaignVerifyAuthorizationToken": "cv_token_abc123xyz"
+  "additionalInformation": "Additional context for this request."
 }' \
-  "https://api.telnyx.com/v2/messaging_tollfree/verification/requests/{id}"
+  "https://api.telnyx.com/v2/messaging_tollfree/verification/requests/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `additionalInformation` (string), `ageGatedContent` (boolean), `businessAddr1` (string), `businessAddr2` (string), `businessCity` (string), `businessContactEmail` (string), `businessContactFirstName` (string), `businessContactLastName` (string), `businessContactPhone` (string), `businessName` (string), `businessRegistrationCountry` (string), `businessRegistrationNumber` (string), `businessRegistrationType` (string), `businessState` (string), `businessZip` (string), `campaignVerifyAuthorizationToken` (string | null), `corporateWebsite` (string), `doingBusinessAs` (string), `entityType` (object), `helpMessageResponse` (string), `id` (uuid), `isvReseller` (string), `messageVolume` (object), `optInConfirmationResponse` (string), `optInKeywords` (string), `optInWorkflow` (string), `optInWorkflowImageURLs` (array[object]), `phoneNumbers` (array[object]), `privacyPolicyURL` (string), `productionMessageContent` (string), `termsAndConditionURL` (string), `useCase` (object), `useCaseSummary` (string), `verificationRequestId` (string), `verificationStatus` (object), `webhookUrl` (string)
@@ -492,7 +462,7 @@ A request may only be deleted when when the request is in the "rejected" state. 
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/messaging_tollfree/verification/requests/{id}"
+  "https://api.telnyx.com/v2/messaging_tollfree/verification/requests/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 ## Get Verification Request Status History
@@ -502,7 +472,7 @@ Get the history of status changes for a verification request. Returns a paginate
 `GET /messaging_tollfree/verification/requests/{id}/status_history`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_tollfree/verification/requests/{id}/status_history"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_tollfree/verification/requests/550e8400-e29b-41d4-a716-446655440000/status_history"
 ```
 
 Returns: `records` (array[object]), `total_records` (integer)

@@ -83,12 +83,12 @@ Returns multiple call resources for an account. This endpoint is eventually cons
 
 ```go
 	response, err := client.Texml.Accounts.Calls.GetCalls(
-		context.TODO(),
+		context.Background(),
 		"account_sid",
 		telnyx.TexmlAccountCallGetCallsParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Calls)
 ```
@@ -105,7 +105,7 @@ Optional: `AsyncAmd` (boolean), `AsyncAmdStatusCallback` (string), `AsyncAmdStat
 
 ```go
 	response, err := client.Texml.Accounts.Calls.Calls(
-		context.TODO(),
+		context.Background(),
 		"account_sid",
 		telnyx.TexmlAccountCallCallsParams{
 			ApplicationSid: "example-app-sid",
@@ -114,7 +114,7 @@ Optional: `AsyncAmd` (boolean), `AsyncAmdStatusCallback` (string), `AsyncAmdStat
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.From)
 ```
@@ -129,14 +129,14 @@ Returns an individual call identified by its CallSid. This endpoint is eventuall
 
 ```go
 	call, err := client.Texml.Accounts.Calls.Get(
-		context.TODO(),
+		context.Background(),
 		"call_sid",
 		telnyx.TexmlAccountCallGetParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", call.AccountSid)
 ```
@@ -151,15 +151,15 @@ Update TeXML call. Please note that the keys present in the payload MUST BE form
 
 ```go
 	call, err := client.Texml.Accounts.Calls.Update(
-		context.TODO(),
+		context.Background(),
 		"call_sid",
 		telnyx.TexmlAccountCallUpdateParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 			UpdateCall: telnyx.UpdateCallParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", call.AccountSid)
 ```
@@ -174,14 +174,14 @@ Returns recordings for a call identified by call_sid.
 
 ```go
 	response, err := client.Texml.Accounts.Calls.RecordingsJson.GetRecordingsJson(
-		context.TODO(),
+		context.Background(),
 		"call_sid",
 		telnyx.TexmlAccountCallRecordingsJsonGetRecordingsJsonParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.End)
 ```
@@ -196,14 +196,14 @@ Starts recording with specified parameters for call identified by call_sid.
 
 ```go
 	response, err := client.Texml.Accounts.Calls.RecordingsJson.RecordingsJson(
-		context.TODO(),
+		context.Background(),
 		"call_sid",
 		telnyx.TexmlAccountCallRecordingsJsonRecordingsJsonParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AccountSid)
 ```
@@ -218,15 +218,15 @@ Updates recording resource for particular call.
 
 ```go
 	response, err := client.Texml.Accounts.Calls.Recordings.RecordingSidJson(
-		context.TODO(),
+		context.Background(),
 		"6a09cdc3-8948-47f0-aa62-74ac943d6c58",
 		telnyx.TexmlAccountCallRecordingRecordingSidJsonParams{
-			AccountSid: "account_sid",
-			CallSid:    "call_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
+			CallSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AccountSid)
 ```
@@ -241,14 +241,14 @@ Starts siprec session with specified parameters for call identified by call_sid.
 
 ```go
 	response, err := client.Texml.Accounts.Calls.SiprecJson(
-		context.TODO(),
+		context.Background(),
 		"call_sid",
 		telnyx.TexmlAccountCallSiprecJsonParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AccountSid)
 ```
@@ -263,15 +263,15 @@ Updates siprec session identified by siprec_sid.
 
 ```go
 	response, err := client.Texml.Accounts.Calls.Siprec.SiprecSidJson(
-		context.TODO(),
+		context.Background(),
 		"siprec_sid",
 		telnyx.TexmlAccountCallSiprecSiprecSidJsonParams{
-			AccountSid: "account_sid",
-			CallSid:    "call_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
+			CallSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AccountSid)
 ```
@@ -286,14 +286,14 @@ Starts streaming media from a call to a specific WebSocket address.
 
 ```go
 	response, err := client.Texml.Accounts.Calls.StreamsJson(
-		context.TODO(),
+		context.Background(),
 		"call_sid",
 		telnyx.TexmlAccountCallStreamsJsonParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AccountSid)
 ```
@@ -308,15 +308,15 @@ Updates streaming resource for particular call.
 
 ```go
 	response, err := client.Texml.Accounts.Calls.Streams.StreamingSidJson(
-		context.TODO(),
+		context.Background(),
 		"6a09cdc3-8948-47f0-aa62-74ac943d6c58",
 		telnyx.TexmlAccountCallStreamStreamingSidJsonParams{
-			AccountSid: "account_sid",
-			CallSid:    "call_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
+			CallSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AccountSid)
 ```
@@ -331,12 +331,12 @@ Lists conference resources.
 
 ```go
 	response, err := client.Texml.Accounts.Conferences.GetConferences(
-		context.TODO(),
+		context.Background(),
 		"account_sid",
 		telnyx.TexmlAccountConferenceGetConferencesParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Conferences)
 ```
@@ -351,14 +351,14 @@ Returns a conference resource.
 
 ```go
 	conference, err := client.Texml.Accounts.Conferences.Get(
-		context.TODO(),
+		context.Background(),
 		"conference_sid",
 		telnyx.TexmlAccountConferenceGetParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", conference.AccountSid)
 ```
@@ -373,14 +373,14 @@ Updates a conference resource.
 
 ```go
 	conference, err := client.Texml.Accounts.Conferences.Update(
-		context.TODO(),
+		context.Background(),
 		"conference_sid",
 		telnyx.TexmlAccountConferenceUpdateParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", conference.AccountSid)
 ```
@@ -395,14 +395,14 @@ Lists conference participants
 
 ```go
 	response, err := client.Texml.Accounts.Conferences.Participants.GetParticipants(
-		context.TODO(),
+		context.Background(),
 		"conference_sid",
 		telnyx.TexmlAccountConferenceParticipantGetParticipantsParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.End)
 ```
@@ -417,14 +417,14 @@ Dials a new conference participant
 
 ```go
 	response, err := client.Texml.Accounts.Conferences.Participants.Participants(
-		context.TODO(),
+		context.Background(),
 		"conference_sid",
 		telnyx.TexmlAccountConferenceParticipantParticipantsParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AccountSid)
 ```
@@ -439,15 +439,15 @@ Gets conference participant resource
 
 ```go
 	participant, err := client.Texml.Accounts.Conferences.Participants.Get(
-		context.TODO(),
+		context.Background(),
 		"call_sid_or_participant_label",
 		telnyx.TexmlAccountConferenceParticipantGetParams{
-			AccountSid:    "account_sid",
-			ConferenceSid: "conference_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
+			ConferenceSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", participant.AccountSid)
 ```
@@ -462,15 +462,15 @@ Updates a conference participant
 
 ```go
 	participant, err := client.Texml.Accounts.Conferences.Participants.Update(
-		context.TODO(),
+		context.Background(),
 		"call_sid_or_participant_label",
 		telnyx.TexmlAccountConferenceParticipantUpdateParams{
-			AccountSid:    "account_sid",
-			ConferenceSid: "conference_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
+			ConferenceSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", participant.AccountSid)
 ```
@@ -485,15 +485,15 @@ Deletes a conference participant
 
 ```go
 	err := client.Texml.Accounts.Conferences.Participants.Delete(
-		context.TODO(),
+		context.Background(),
 		"call_sid_or_participant_label",
 		telnyx.TexmlAccountConferenceParticipantDeleteParams{
-			AccountSid:    "account_sid",
-			ConferenceSid: "conference_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
+			ConferenceSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -505,14 +505,14 @@ Lists conference recordings
 
 ```go
 	response, err := client.Texml.Accounts.Conferences.GetRecordings(
-		context.TODO(),
+		context.Background(),
 		"conference_sid",
 		telnyx.TexmlAccountConferenceGetRecordingsParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.End)
 ```
@@ -527,14 +527,14 @@ Returns recordings for a conference identified by conference_sid.
 
 ```go
 	response, err := client.Texml.Accounts.Conferences.GetRecordingsJson(
-		context.TODO(),
+		context.Background(),
 		"conference_sid",
 		telnyx.TexmlAccountConferenceGetRecordingsJsonParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.End)
 ```
@@ -549,12 +549,12 @@ Lists queue resources.
 
 ```go
 	page, err := client.Texml.Accounts.Queues.List(
-		context.TODO(),
+		context.Background(),
 		"account_sid",
 		telnyx.TexmlAccountQueueListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -569,12 +569,12 @@ Creates a new queue resource.
 
 ```go
 	queue, err := client.Texml.Accounts.Queues.New(
-		context.TODO(),
+		context.Background(),
 		"account_sid",
 		telnyx.TexmlAccountQueueNewParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", queue.AccountSid)
 ```
@@ -589,14 +589,14 @@ Returns a queue resource.
 
 ```go
 	queue, err := client.Texml.Accounts.Queues.Get(
-		context.TODO(),
+		context.Background(),
 		"queue_sid",
 		telnyx.TexmlAccountQueueGetParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", queue.AccountSid)
 ```
@@ -611,14 +611,14 @@ Updates a queue resource.
 
 ```go
 	queue, err := client.Texml.Accounts.Queues.Update(
-		context.TODO(),
+		context.Background(),
 		"queue_sid",
 		telnyx.TexmlAccountQueueUpdateParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", queue.AccountSid)
 ```
@@ -633,14 +633,14 @@ Delete a queue resource.
 
 ```go
 	err := client.Texml.Accounts.Queues.Delete(
-		context.TODO(),
+		context.Background(),
 		"queue_sid",
 		telnyx.TexmlAccountQueueDeleteParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -652,12 +652,12 @@ Returns multiple recording resources for an account.
 
 ```go
 	response, err := client.Texml.Accounts.GetRecordingsJson(
-		context.TODO(),
+		context.Background(),
 		"account_sid",
 		telnyx.TexmlAccountGetRecordingsJsonParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.End)
 ```
@@ -672,14 +672,14 @@ Returns recording resource identified by recording id.
 
 ```go
 	texmlGetCallRecordingResponseBody, err := client.Texml.Accounts.Recordings.Json.GetRecordingSidJson(
-		context.TODO(),
+		context.Background(),
 		"6a09cdc3-8948-47f0-aa62-74ac943d6c58",
 		telnyx.TexmlAccountRecordingJsonGetRecordingSidJsonParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", texmlGetCallRecordingResponseBody.AccountSid)
 ```
@@ -694,14 +694,14 @@ Deletes recording resource identified by recording id.
 
 ```go
 	err := client.Texml.Accounts.Recordings.Json.DeleteRecordingSidJson(
-		context.TODO(),
+		context.Background(),
 		"6a09cdc3-8948-47f0-aa62-74ac943d6c58",
 		telnyx.TexmlAccountRecordingJsonDeleteRecordingSidJsonParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -713,12 +713,12 @@ Returns multiple recording transcription resources for an account.
 
 ```go
 	response, err := client.Texml.Accounts.GetTranscriptionsJson(
-		context.TODO(),
+		context.Background(),
 		"account_sid",
 		telnyx.TexmlAccountGetTranscriptionsJsonParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.End)
 ```
@@ -733,14 +733,14 @@ Returns the recording transcription resource identified by its ID.
 
 ```go
 	response, err := client.Texml.Accounts.Transcriptions.Json.GetRecordingTranscriptionSidJson(
-		context.TODO(),
+		context.Background(),
 		"6a09cdc3-8948-47f0-aa62-74ac943d6c58",
 		telnyx.TexmlAccountTranscriptionJsonGetRecordingTranscriptionSidJsonParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AccountSid)
 ```
@@ -755,14 +755,14 @@ Permanently deletes a recording transcription.
 
 ```go
 	err := client.Texml.Accounts.Transcriptions.Json.DeleteRecordingTranscriptionSidJson(
-		context.TODO(),
+		context.Background(),
 		"6a09cdc3-8948-47f0-aa62-74ac943d6c58",
 		telnyx.TexmlAccountTranscriptionJsonDeleteRecordingTranscriptionSidJsonParams{
-			AccountSid: "account_sid",
+			AccountSid: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -773,12 +773,12 @@ Create a TeXML secret which can be later used as a Dynamic Parameter for TeXML w
 `POST /texml/secrets` — Required: `name`, `value`
 
 ```go
-	response, err := client.Texml.Secrets(context.TODO(), telnyx.TexmlSecretsParams{
+	response, err := client.Texml.Secrets(context.Background(), telnyx.TexmlSecretsParams{
 		Name:  "My Secret Name",
 		Value: "My Secret Value",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -792,9 +792,9 @@ Returns a list of your TeXML Applications.
 `GET /texml_applications`
 
 ```go
-	page, err := client.TexmlApplications.List(context.TODO(), telnyx.TexmlApplicationListParams{})
+	page, err := client.TexmlApplications.List(context.Background(), telnyx.TexmlApplicationListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -810,12 +810,12 @@ Creates a TeXML Application.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `call_cost_in_webhooks` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `first_command_timeout` (boolean), `first_command_timeout_secs` (integer), `inbound` (object), `outbound` (object), `status_callback` (uri), `status_callback_method` (enum: get, post), `tags` (array[string]), `voice_fallback_url` (uri), `voice_method` (enum: get, post)
 
 ```go
-	texmlApplication, err := client.TexmlApplications.New(context.TODO(), telnyx.TexmlApplicationNewParams{
+	texmlApplication, err := client.TexmlApplications.New(context.Background(), telnyx.TexmlApplicationNewParams{
 		FriendlyName: "call-router",
 		VoiceURL:     "https://example.com",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", texmlApplication.Data)
 ```
@@ -829,9 +829,9 @@ Retrieves the details of an existing TeXML Application.
 `GET /texml_applications/{id}`
 
 ```go
-	texmlApplication, err := client.TexmlApplications.Get(context.TODO(), "1293384261075731499")
+	texmlApplication, err := client.TexmlApplications.Get(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", texmlApplication.Data)
 ```
@@ -848,7 +848,7 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 
 ```go
 	texmlApplication, err := client.TexmlApplications.Update(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.TexmlApplicationUpdateParams{
 			FriendlyName: "call-router",
@@ -856,7 +856,7 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", texmlApplication.Data)
 ```
@@ -870,9 +870,9 @@ Deletes a TeXML Application.
 `DELETE /texml_applications/{id}`
 
 ```go
-	texmlApplication, err := client.TexmlApplications.Delete(context.TODO(), "1293384261075731499")
+	texmlApplication, err := client.TexmlApplications.Delete(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", texmlApplication.Data)
 ```

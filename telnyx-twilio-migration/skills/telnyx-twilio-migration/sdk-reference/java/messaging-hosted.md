@@ -9,11 +9,11 @@
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -71,7 +71,7 @@ import com.telnyx.sdk.models.messages.rcs.RcSendResponse;
 RcSendParams params = RcSendParams.builder()
     .agentId("Agent007")
     .agentMessage(RcsAgentMessage.builder().build())
-    .messagingProfileId("messaging_profile_id")
+    .messagingProfileId("550e8400-e29b-41d4-a716-446655440000")
     .to("+13125551234")
     .build();
 RcSendResponse response = client.messages().rcs().send(params);
@@ -89,7 +89,7 @@ Generate a deeplink URL that can be used to start an RCS conversation with a spe
 import com.telnyx.sdk.models.messages.rcs.RcGenerateDeeplinkParams;
 import com.telnyx.sdk.models.messages.rcs.RcGenerateDeeplinkResponse;
 
-RcGenerateDeeplinkResponse response = client.messages().rcs().generateDeeplink("agent_id");
+RcGenerateDeeplinkResponse response = client.messages().rcs().generateDeeplink("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `url` (string)
@@ -115,7 +115,7 @@ Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `
 import com.telnyx.sdk.models.messaging.rcs.agents.AgentRetrieveParams;
 import com.telnyx.sdk.models.rcsagents.RcsAgentResponse;
 
-RcsAgentResponse rcsAgentResponse = client.messaging().rcs().agents().retrieve("id");
+RcsAgentResponse rcsAgentResponse = client.messaging().rcs().agents().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `enabled` (boolean), `profile_id` (uuid), `updated_at` (date-time), `user_id` (string), `webhook_failover_url` (url), `webhook_url` (url)
@@ -130,7 +130,7 @@ Optional: `profile_id` (uuid), `webhook_failover_url` (url), `webhook_url` (url)
 import com.telnyx.sdk.models.messaging.rcs.agents.AgentUpdateParams;
 import com.telnyx.sdk.models.rcsagents.RcsAgentResponse;
 
-RcsAgentResponse rcsAgentResponse = client.messaging().rcs().agents().update("id");
+RcsAgentResponse rcsAgentResponse = client.messaging().rcs().agents().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `enabled` (boolean), `profile_id` (uuid), `updated_at` (date-time), `user_id` (string), `webhook_failover_url` (url), `webhook_url` (url)
@@ -161,8 +161,8 @@ import com.telnyx.sdk.models.messaging.rcs.RcRetrieveCapabilitiesParams;
 import com.telnyx.sdk.models.messaging.rcs.RcRetrieveCapabilitiesResponse;
 
 RcRetrieveCapabilitiesParams params = RcRetrieveCapabilitiesParams.builder()
-    .agentId("agent_id")
-    .phoneNumber("phone_number")
+    .agentId("550e8400-e29b-41d4-a716-446655440000")
+    .phoneNumber("+13125550001")
     .build();
 RcRetrieveCapabilitiesResponse response = client.messaging().rcs().retrieveCapabilities(params);
 ```
@@ -180,8 +180,8 @@ import com.telnyx.sdk.models.messaging.rcs.RcInviteTestNumberParams;
 import com.telnyx.sdk.models.messaging.rcs.RcInviteTestNumberResponse;
 
 RcInviteTestNumberParams params = RcInviteTestNumberParams.builder()
-    .id("id")
-    .phoneNumber("phone_number")
+    .id("550e8400-e29b-41d4-a716-446655440000")
+    .phoneNumber("+13125550001")
     .build();
 RcInviteTestNumberResponse response = client.messaging().rcs().inviteTestNumber(params);
 ```
@@ -240,7 +240,7 @@ Returns: `phone_numbers` (array[object])
 import com.telnyx.sdk.models.messaginghostednumberorders.MessagingHostedNumberOrderRetrieveParams;
 import com.telnyx.sdk.models.messaginghostednumberorders.MessagingHostedNumberOrderRetrieveResponse;
 
-MessagingHostedNumberOrderRetrieveResponse messagingHostedNumberOrder = client.messagingHostedNumberOrders().retrieve("id");
+MessagingHostedNumberOrderRetrieveResponse messagingHostedNumberOrder = client.messagingHostedNumberOrders().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
@@ -255,7 +255,7 @@ Delete a messaging hosted number order and all associated phone numbers.
 import com.telnyx.sdk.models.messaginghostednumberorders.MessagingHostedNumberOrderDeleteParams;
 import com.telnyx.sdk.models.messaginghostednumberorders.MessagingHostedNumberOrderDeleteResponse;
 
-MessagingHostedNumberOrderDeleteResponse messagingHostedNumberOrder = client.messagingHostedNumberOrders().delete("id");
+MessagingHostedNumberOrderDeleteResponse messagingHostedNumberOrder = client.messagingHostedNumberOrders().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
@@ -268,7 +268,7 @@ Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (a
 import com.telnyx.sdk.models.messaginghostednumberorders.actions.ActionUploadFileParams;
 import com.telnyx.sdk.models.messaginghostednumberorders.actions.ActionUploadFileResponse;
 
-ActionUploadFileResponse response = client.messagingHostedNumberOrders().actions().uploadFile("id");
+ActionUploadFileResponse response = client.messagingHostedNumberOrders().actions().uploadFile("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
@@ -284,10 +284,10 @@ import com.telnyx.sdk.models.messaginghostednumberorders.MessagingHostedNumberOr
 import com.telnyx.sdk.models.messaginghostednumberorders.MessagingHostedNumberOrderValidateCodesResponse;
 
 MessagingHostedNumberOrderValidateCodesParams params = MessagingHostedNumberOrderValidateCodesParams.builder()
-    .id("id")
+    .id("550e8400-e29b-41d4-a716-446655440000")
     .addVerificationCode(MessagingHostedNumberOrderValidateCodesParams.VerificationCode.builder()
         .code("code")
-        .phoneNumber("phone_number")
+        .phoneNumber("+13125550001")
         .build())
     .build();
 MessagingHostedNumberOrderValidateCodesResponse response = client.messagingHostedNumberOrders().validateCodes(params);
@@ -306,7 +306,7 @@ import com.telnyx.sdk.models.messaginghostednumberorders.MessagingHostedNumberOr
 import com.telnyx.sdk.models.messaginghostednumberorders.MessagingHostedNumberOrderCreateVerificationCodesResponse;
 
 MessagingHostedNumberOrderCreateVerificationCodesParams params = MessagingHostedNumberOrderCreateVerificationCodesParams.builder()
-    .id("id")
+    .id("550e8400-e29b-41d4-a716-446655440000")
     .addPhoneNumber("string")
     .verificationMethod(MessagingHostedNumberOrderCreateVerificationCodesParams.VerificationMethod.SMS)
     .build();
@@ -323,7 +323,7 @@ Returns: `error` (string), `phone_number` (string), `type` (enum: sms, call), `v
 import com.telnyx.sdk.models.messaginghostednumbers.MessagingHostedNumberDeleteParams;
 import com.telnyx.sdk.models.messaginghostednumbers.MessagingHostedNumberDeleteResponse;
 
-MessagingHostedNumberDeleteResponse messagingHostedNumber = client.messagingHostedNumbers().delete("id");
+MessagingHostedNumberDeleteResponse messagingHostedNumber = client.messagingHostedNumbers().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: carrier_rejected, compliance_review_failed, deleted, failed, incomplete_documentation, incorrect_billing_information, ineligible_carrier, loa_file_invalid, loa_file_successful, pending, provisioning, successful)
@@ -365,7 +365,7 @@ import com.telnyx.sdk.models.messagingtollfree.verification.requests.Verificatio
 import com.telnyx.sdk.models.messagingtollfree.verification.requests.Volume;
 
 TfVerificationRequest params = TfVerificationRequest.builder()
-    .additionalInformation("additionalInformation")
+    .additionalInformation("Additional context for this request.")
     .businessAddr1("600 Congress Avenue")
     .businessCity("Austin")
     .businessContactEmail("email@example.com")
@@ -434,7 +434,7 @@ import com.telnyx.sdk.models.messagingtollfree.verification.requests.Volume;
 RequestUpdateParams params = RequestUpdateParams.builder()
     .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .tfVerificationRequest(TfVerificationRequest.builder()
-        .additionalInformation("additionalInformation")
+        .additionalInformation("Additional context for this request.")
         .businessAddr1("600 Congress Avenue")
         .businessCity("Austin")
         .businessContactEmail("email@example.com")

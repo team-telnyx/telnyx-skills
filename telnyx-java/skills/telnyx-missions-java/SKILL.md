@@ -22,11 +22,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -97,7 +97,7 @@ import com.telnyx.sdk.models.ai.missions.MissionCreateParams;
 import com.telnyx.sdk.models.ai.missions.MissionCreateResponse;
 
 MissionCreateParams params = MissionCreateParams.builder()
-    .name("name")
+    .name("my-resource")
     .build();
 MissionCreateResponse mission = client.ai().missions().create(params);
 ```
@@ -188,7 +188,7 @@ Clone an existing mission
 import com.telnyx.sdk.models.ai.missions.MissionCloneMissionParams;
 import com.telnyx.sdk.models.ai.missions.MissionCloneMissionResponse;
 
-MissionCloneMissionResponse response = client.ai().missions().cloneMission("mission_id");
+MissionCloneMissionResponse response = client.ai().missions().cloneMission("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## List knowledge bases
@@ -201,7 +201,7 @@ List all knowledge bases for a mission
 import com.telnyx.sdk.models.ai.missions.knowledgebases.KnowledgeBaseListKnowledgeBasesParams;
 import com.telnyx.sdk.models.ai.missions.knowledgebases.KnowledgeBaseListKnowledgeBasesResponse;
 
-KnowledgeBaseListKnowledgeBasesResponse response = client.ai().missions().knowledgeBases().listKnowledgeBases("mission_id");
+KnowledgeBaseListKnowledgeBasesResponse response = client.ai().missions().knowledgeBases().listKnowledgeBases("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## Create knowledge base
@@ -214,7 +214,7 @@ Create a new knowledge base for a mission
 import com.telnyx.sdk.models.ai.missions.knowledgebases.KnowledgeBaseCreateKnowledgeBaseParams;
 import com.telnyx.sdk.models.ai.missions.knowledgebases.KnowledgeBaseCreateKnowledgeBaseResponse;
 
-KnowledgeBaseCreateKnowledgeBaseResponse response = client.ai().missions().knowledgeBases().createKnowledgeBase("mission_id");
+KnowledgeBaseCreateKnowledgeBaseResponse response = client.ai().missions().knowledgeBases().createKnowledgeBase("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## Get knowledge base
@@ -228,8 +228,8 @@ import com.telnyx.sdk.models.ai.missions.knowledgebases.KnowledgeBaseGetKnowledg
 import com.telnyx.sdk.models.ai.missions.knowledgebases.KnowledgeBaseGetKnowledgeBaseResponse;
 
 KnowledgeBaseGetKnowledgeBaseParams params = KnowledgeBaseGetKnowledgeBaseParams.builder()
-    .missionId("mission_id")
-    .knowledgeBaseId("knowledge_base_id")
+    .missionId("550e8400-e29b-41d4-a716-446655440000")
+    .knowledgeBaseId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 KnowledgeBaseGetKnowledgeBaseResponse response = client.ai().missions().knowledgeBases().getKnowledgeBase(params);
 ```
@@ -245,8 +245,8 @@ import com.telnyx.sdk.models.ai.missions.knowledgebases.KnowledgeBaseUpdateKnowl
 import com.telnyx.sdk.models.ai.missions.knowledgebases.KnowledgeBaseUpdateKnowledgeBaseResponse;
 
 KnowledgeBaseUpdateKnowledgeBaseParams params = KnowledgeBaseUpdateKnowledgeBaseParams.builder()
-    .missionId("mission_id")
-    .knowledgeBaseId("knowledge_base_id")
+    .missionId("550e8400-e29b-41d4-a716-446655440000")
+    .knowledgeBaseId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 KnowledgeBaseUpdateKnowledgeBaseResponse response = client.ai().missions().knowledgeBases().updateKnowledgeBase(params);
 ```
@@ -261,8 +261,8 @@ Delete a knowledge base from a mission
 import com.telnyx.sdk.models.ai.missions.knowledgebases.KnowledgeBaseDeleteKnowledgeBaseParams;
 
 KnowledgeBaseDeleteKnowledgeBaseParams params = KnowledgeBaseDeleteKnowledgeBaseParams.builder()
-    .missionId("mission_id")
-    .knowledgeBaseId("knowledge_base_id")
+    .missionId("550e8400-e29b-41d4-a716-446655440000")
+    .knowledgeBaseId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 client.ai().missions().knowledgeBases().deleteKnowledgeBase(params);
 ```
@@ -277,7 +277,7 @@ List all MCP servers for a mission
 import com.telnyx.sdk.models.ai.missions.mcpservers.McpServerListMcpServersParams;
 import com.telnyx.sdk.models.ai.missions.mcpservers.McpServerListMcpServersResponse;
 
-McpServerListMcpServersResponse response = client.ai().missions().mcpServers().listMcpServers("mission_id");
+McpServerListMcpServersResponse response = client.ai().missions().mcpServers().listMcpServers("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## Create MCP server
@@ -290,7 +290,7 @@ Create a new MCP server for a mission
 import com.telnyx.sdk.models.ai.missions.mcpservers.McpServerCreateMcpServerParams;
 import com.telnyx.sdk.models.ai.missions.mcpservers.McpServerCreateMcpServerResponse;
 
-McpServerCreateMcpServerResponse response = client.ai().missions().mcpServers().createMcpServer("mission_id");
+McpServerCreateMcpServerResponse response = client.ai().missions().mcpServers().createMcpServer("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## Get MCP server
@@ -304,8 +304,8 @@ import com.telnyx.sdk.models.ai.missions.mcpservers.McpServerGetMcpServerParams;
 import com.telnyx.sdk.models.ai.missions.mcpservers.McpServerGetMcpServerResponse;
 
 McpServerGetMcpServerParams params = McpServerGetMcpServerParams.builder()
-    .missionId("mission_id")
-    .mcpServerId("mcp_server_id")
+    .missionId("550e8400-e29b-41d4-a716-446655440000")
+    .mcpServerId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 McpServerGetMcpServerResponse response = client.ai().missions().mcpServers().getMcpServer(params);
 ```
@@ -321,8 +321,8 @@ import com.telnyx.sdk.models.ai.missions.mcpservers.McpServerUpdateMcpServerPara
 import com.telnyx.sdk.models.ai.missions.mcpservers.McpServerUpdateMcpServerResponse;
 
 McpServerUpdateMcpServerParams params = McpServerUpdateMcpServerParams.builder()
-    .missionId("mission_id")
-    .mcpServerId("mcp_server_id")
+    .missionId("550e8400-e29b-41d4-a716-446655440000")
+    .mcpServerId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 McpServerUpdateMcpServerResponse response = client.ai().missions().mcpServers().updateMcpServer(params);
 ```
@@ -337,8 +337,8 @@ Delete an MCP server from a mission
 import com.telnyx.sdk.models.ai.missions.mcpservers.McpServerDeleteMcpServerParams;
 
 McpServerDeleteMcpServerParams params = McpServerDeleteMcpServerParams.builder()
-    .missionId("mission_id")
-    .mcpServerId("mcp_server_id")
+    .missionId("550e8400-e29b-41d4-a716-446655440000")
+    .mcpServerId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 client.ai().missions().mcpServers().deleteMcpServer(params);
 ```
@@ -468,7 +468,7 @@ import com.telnyx.sdk.models.ai.missions.runs.events.EventLogResponse;
 EventLogParams params = EventLogParams.builder()
     .missionId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .runId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-    .summary("summary")
+    .summary("Brief task summary")
     .type(EventLogParams.Type.STATUS_CHANGE)
     .build();
 EventLogResponse response = client.ai().missions().runs().events().log(params);
@@ -489,7 +489,7 @@ import com.telnyx.sdk.models.ai.missions.runs.events.EventGetEventDetailsRespons
 EventGetEventDetailsParams params = EventGetEventDetailsParams.builder()
     .missionId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .runId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-    .eventId("event_id")
+    .eventId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 EventGetEventDetailsResponse response = client.ai().missions().runs().events().getEventDetails(params);
 ```
@@ -550,7 +550,7 @@ PlanCreateParams params = PlanCreateParams.builder()
     .addStep(PlanCreateParams.Step.builder()
         .description("description")
         .sequence(0L)
-        .stepId("step_id")
+        .stepId("550e8400-e29b-41d4-a716-446655440000")
         .build())
     .build();
 PlanCreateResponse plan = client.ai().missions().runs().plan().create(params);
@@ -574,7 +574,7 @@ PlanAddStepsToPlanParams params = PlanAddStepsToPlanParams.builder()
     .addStep(PlanAddStepsToPlanParams.Step.builder()
         .description("description")
         .sequence(0L)
-        .stepId("step_id")
+        .stepId("550e8400-e29b-41d4-a716-446655440000")
         .build())
     .build();
 PlanAddStepsToPlanResponse response = client.ai().missions().runs().plan().addStepsToPlan(params);
@@ -595,7 +595,7 @@ import com.telnyx.sdk.models.ai.missions.runs.plan.PlanGetStepDetailsResponse;
 PlanGetStepDetailsParams params = PlanGetStepDetailsParams.builder()
     .missionId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .runId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-    .stepId("step_id")
+    .stepId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 PlanGetStepDetailsResponse response = client.ai().missions().runs().plan().getStepDetails(params);
 ```
@@ -617,7 +617,7 @@ import com.telnyx.sdk.models.ai.missions.runs.plan.PlanUpdateStepResponse;
 PlanUpdateStepParams params = PlanUpdateStepParams.builder()
     .missionId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .runId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-    .stepId("step_id")
+    .stepId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 PlanUpdateStepResponse response = client.ai().missions().runs().plan().updateStep(params);
 ```
@@ -675,7 +675,7 @@ import com.telnyx.sdk.models.ai.missions.runs.telnyxagents.TelnyxAgentLinkRespon
 TelnyxAgentLinkParams params = TelnyxAgentLinkParams.builder()
     .missionId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .runId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-    .telnyxAgentId("telnyx_agent_id")
+    .telnyxAgentId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 TelnyxAgentLinkResponse response = client.ai().missions().runs().telnyxAgents().link(params);
 ```
@@ -694,7 +694,7 @@ import com.telnyx.sdk.models.ai.missions.runs.telnyxagents.TelnyxAgentUnlinkPara
 TelnyxAgentUnlinkParams params = TelnyxAgentUnlinkParams.builder()
     .missionId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .runId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-    .telnyxAgentId("telnyx_agent_id")
+    .telnyxAgentId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 client.ai().missions().runs().telnyxAgents().unlink(params);
 ```
@@ -709,7 +709,7 @@ List all tools for a mission
 import com.telnyx.sdk.models.ai.missions.tools.ToolListToolsParams;
 import com.telnyx.sdk.models.ai.missions.tools.ToolListToolsResponse;
 
-ToolListToolsResponse response = client.ai().missions().tools().listTools("mission_id");
+ToolListToolsResponse response = client.ai().missions().tools().listTools("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## Create tool
@@ -722,7 +722,7 @@ Create a new tool for a mission
 import com.telnyx.sdk.models.ai.missions.tools.ToolCreateToolParams;
 import com.telnyx.sdk.models.ai.missions.tools.ToolCreateToolResponse;
 
-ToolCreateToolResponse response = client.ai().missions().tools().createTool("mission_id");
+ToolCreateToolResponse response = client.ai().missions().tools().createTool("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## Get tool
@@ -736,8 +736,8 @@ import com.telnyx.sdk.models.ai.missions.tools.ToolGetToolParams;
 import com.telnyx.sdk.models.ai.missions.tools.ToolGetToolResponse;
 
 ToolGetToolParams params = ToolGetToolParams.builder()
-    .missionId("mission_id")
-    .toolId("tool_id")
+    .missionId("550e8400-e29b-41d4-a716-446655440000")
+    .toolId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 ToolGetToolResponse response = client.ai().missions().tools().getTool(params);
 ```
@@ -753,8 +753,8 @@ import com.telnyx.sdk.models.ai.missions.tools.ToolUpdateToolParams;
 import com.telnyx.sdk.models.ai.missions.tools.ToolUpdateToolResponse;
 
 ToolUpdateToolParams params = ToolUpdateToolParams.builder()
-    .missionId("mission_id")
-    .toolId("tool_id")
+    .missionId("550e8400-e29b-41d4-a716-446655440000")
+    .toolId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 ToolUpdateToolResponse response = client.ai().missions().tools().updateTool(params);
 ```
@@ -769,8 +769,8 @@ Delete a tool from a mission
 import com.telnyx.sdk.models.ai.missions.tools.ToolDeleteToolParams;
 
 ToolDeleteToolParams params = ToolDeleteToolParams.builder()
-    .missionId("mission_id")
-    .toolId("tool_id")
+    .missionId("550e8400-e29b-41d4-a716-446655440000")
+    .toolId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 client.ai().missions().tools().deleteTool(params);
 ```

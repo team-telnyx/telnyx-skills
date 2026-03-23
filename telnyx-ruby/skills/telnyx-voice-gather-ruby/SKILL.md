@@ -67,7 +67,7 @@ Add messages to the conversation started by an AI assistant on the call.
 Optional: `client_state` (string), `command_id` (string), `messages` (array[object])
 
 ```ruby
-response = client.calls.actions.add_ai_assistant_messages("call_control_id")
+response = client.calls.actions.add_ai_assistant_messages("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -83,10 +83,10 @@ Start an AI assistant on the call. **Expected Webhooks:**
 
 `POST /calls/{call_control_id}/actions/ai_assistant_start`
 
-Optional: `assistant` (object), `client_state` (string), `command_id` (string), `greeting` (string), `interruption_settings` (object), `transcription` (object), `voice` (string), `voice_settings` (object)
+Optional: `assistant` (object), `client_state` (string), `command_id` (string), `greeting` (string), `interruption_settings` (object), `message_history` (array[object]), `participants` (array[object]), `send_message_history_updates` (boolean), `transcription` (object), `voice` (string), `voice_settings` (object)
 
 ```ruby
-response = client.calls.actions.start_ai_assistant("call_control_id")
+response = client.calls.actions.start_ai_assistant("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -102,7 +102,7 @@ Stop an AI assistant on the call.
 Optional: `client_state` (string), `command_id` (string)
 
 ```ruby
-response = client.calls.actions.stop_ai_assistant("call_control_id")
+response = client.calls.actions.stop_ai_assistant("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -118,7 +118,7 @@ Gather DTMF signals to build interactive menus. You can pass a list of valid dig
 Optional: `client_state` (string), `command_id` (string), `gather_id` (string), `initial_timeout_millis` (int32), `inter_digit_timeout_millis` (int32), `maximum_digits` (int32), `minimum_digits` (int32), `terminating_digit` (string), `timeout_millis` (int32), `valid_digits` (string)
 
 ```ruby
-response = client.calls.actions.gather("call_control_id")
+response = client.calls.actions.gather("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -136,7 +136,7 @@ Stop current gather. **Expected Webhooks:**
 Optional: `client_state` (string), `command_id` (string)
 
 ```ruby
-response = client.calls.actions.stop_gather("call_control_id")
+response = client.calls.actions.stop_gather("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -171,7 +171,7 @@ Play an audio file on the call until the required DTMF signals are gathered to b
 Optional: `audio_url` (string), `client_state` (string), `command_id` (string), `inter_digit_timeout_millis` (int32), `invalid_audio_url` (string), `invalid_media_name` (string), `maximum_digits` (int32), `maximum_tries` (int32), `media_name` (string), `minimum_digits` (int32), `terminating_digit` (string), `timeout_millis` (int32), `valid_digits` (string)
 
 ```ruby
-response = client.calls.actions.gather_using_audio("call_control_id")
+response = client.calls.actions.gather_using_audio("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```

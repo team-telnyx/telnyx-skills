@@ -81,9 +81,9 @@ Returns the non-US voice channels for your account. voice channels allow you to 
 `GET /channel_zones`
 
 ```go
-	page, err := client.ChannelZones.List(context.TODO(), telnyx.ChannelZoneListParams{})
+	page, err := client.ChannelZones.List(context.Background(), telnyx.ChannelZoneListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -98,14 +98,14 @@ Update the number of Voice Channels for the Non-US Zones. This allows your accou
 
 ```go
 	channelZone, err := client.ChannelZones.Update(
-		context.TODO(),
+		context.Background(),
 		"channel_zone_id",
 		telnyx.ChannelZoneUpdateParams{
 			Channels: 0,
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", channelZone.ID)
 ```
@@ -119,9 +119,9 @@ Returns the dynamic emergency addresses according to filters
 `GET /dynamic_emergency_addresses`
 
 ```go
-	page, err := client.DynamicEmergencyAddresses.List(context.TODO(), telnyx.DynamicEmergencyAddressListParams{})
+	page, err := client.DynamicEmergencyAddresses.List(context.Background(), telnyx.DynamicEmergencyAddressListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -137,7 +137,7 @@ Creates a dynamic emergency address.
 Optional: `created_at` (string), `extended_address` (string), `house_suffix` (string), `id` (string), `record_type` (string), `sip_geolocation_id` (string), `status` (enum: pending, activated, rejected), `street_post_directional` (string), `street_pre_directional` (string), `street_suffix` (string), `updated_at` (string)
 
 ```go
-	dynamicEmergencyAddress, err := client.DynamicEmergencyAddresses.New(context.TODO(), telnyx.DynamicEmergencyAddressNewParams{
+	dynamicEmergencyAddress, err := client.DynamicEmergencyAddresses.New(context.Background(), telnyx.DynamicEmergencyAddressNewParams{
 		DynamicEmergencyAddress: telnyx.DynamicEmergencyAddressParam{
 			AdministrativeArea: "TX",
 			CountryCode:        telnyx.DynamicEmergencyAddressCountryCodeUs,
@@ -148,7 +148,7 @@ Optional: `created_at` (string), `extended_address` (string), `house_suffix` (st
 		},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", dynamicEmergencyAddress.Data)
 ```
@@ -162,9 +162,9 @@ Returns the dynamic emergency address based on the ID provided
 `GET /dynamic_emergency_addresses/{id}`
 
 ```go
-	dynamicEmergencyAddress, err := client.DynamicEmergencyAddresses.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	dynamicEmergencyAddress, err := client.DynamicEmergencyAddresses.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", dynamicEmergencyAddress.Data)
 ```
@@ -178,9 +178,9 @@ Deletes the dynamic emergency address based on the ID provided
 `DELETE /dynamic_emergency_addresses/{id}`
 
 ```go
-	dynamicEmergencyAddress, err := client.DynamicEmergencyAddresses.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	dynamicEmergencyAddress, err := client.DynamicEmergencyAddresses.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", dynamicEmergencyAddress.Data)
 ```
@@ -194,9 +194,9 @@ Returns the dynamic emergency endpoints according to filters
 `GET /dynamic_emergency_endpoints`
 
 ```go
-	page, err := client.DynamicEmergencyEndpoints.List(context.TODO(), telnyx.DynamicEmergencyEndpointListParams{})
+	page, err := client.DynamicEmergencyEndpoints.List(context.Background(), telnyx.DynamicEmergencyEndpointListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -212,7 +212,7 @@ Creates a dynamic emergency endpoints.
 Optional: `created_at` (string), `id` (string), `record_type` (string), `sip_from_id` (string), `status` (enum: pending, activated, rejected), `updated_at` (string)
 
 ```go
-	dynamicEmergencyEndpoint, err := client.DynamicEmergencyEndpoints.New(context.TODO(), telnyx.DynamicEmergencyEndpointNewParams{
+	dynamicEmergencyEndpoint, err := client.DynamicEmergencyEndpoints.New(context.Background(), telnyx.DynamicEmergencyEndpointNewParams{
 		DynamicEmergencyEndpoint: telnyx.DynamicEmergencyEndpointParam{
 			CallbackNumber:            "+13125550000",
 			CallerName:                "Jane Doe Desk Phone",
@@ -220,7 +220,7 @@ Optional: `created_at` (string), `id` (string), `record_type` (string), `sip_fro
 		},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", dynamicEmergencyEndpoint.Data)
 ```
@@ -234,9 +234,9 @@ Returns the dynamic emergency endpoint based on the ID provided
 `GET /dynamic_emergency_endpoints/{id}`
 
 ```go
-	dynamicEmergencyEndpoint, err := client.DynamicEmergencyEndpoints.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	dynamicEmergencyEndpoint, err := client.DynamicEmergencyEndpoints.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", dynamicEmergencyEndpoint.Data)
 ```
@@ -250,9 +250,9 @@ Deletes the dynamic emergency endpoint based on the ID provided
 `DELETE /dynamic_emergency_endpoints/{id}`
 
 ```go
-	dynamicEmergencyEndpoint, err := client.DynamicEmergencyEndpoints.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	dynamicEmergencyEndpoint, err := client.DynamicEmergencyEndpoints.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", dynamicEmergencyEndpoint.Data)
 ```
@@ -266,9 +266,9 @@ Returns the US Zone voice channels for your account. voice channels allows you t
 `GET /inbound_channels`
 
 ```go
-	inboundChannels, err := client.InboundChannels.List(context.TODO())
+	inboundChannels, err := client.InboundChannels.List(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", inboundChannels.Data)
 ```
@@ -282,11 +282,11 @@ Update the number of Voice Channels for the US Zone. This allows your account to
 `PATCH /inbound_channels` — Required: `channels`
 
 ```go
-	inboundChannel, err := client.InboundChannels.Update(context.TODO(), telnyx.InboundChannelUpdateParams{
+	inboundChannel, err := client.InboundChannels.Update(context.Background(), telnyx.InboundChannelUpdateParams{
 		Channels: 7,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", inboundChannel.Data)
 ```
@@ -300,9 +300,9 @@ Retrieve a list of all phone numbers using Channel Billing, grouped by Zone.
 `GET /list`
 
 ```go
-	response, err := client.List.GetAll(context.TODO())
+	response, err := client.List.GetAll(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -316,9 +316,9 @@ Retrieve a list of phone numbers using Channel Billing for a specific Zone.
 `GET /list/{channel_zone_id}`
 
 ```go
-	response, err := client.List.GetByZone(context.TODO(), "channel_zone_id")
+	response, err := client.List.GetByZone(context.Background(), "channel_zone_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -332,9 +332,9 @@ Returns the voicemail settings for a phone number
 `GET /phone_numbers/{phone_number_id}/voicemail`
 
 ```go
-	voicemail, err := client.PhoneNumbers.Voicemail.Get(context.TODO(), "123455678900")
+	voicemail, err := client.PhoneNumbers.Voicemail.Get(context.Background(), "123455678900")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voicemail.Data)
 ```
@@ -351,14 +351,14 @@ Optional: `enabled` (boolean), `pin` (string)
 
 ```go
 	voicemail, err := client.PhoneNumbers.Voicemail.New(
-		context.TODO(),
+		context.Background(),
 		"123455678900",
 		telnyx.PhoneNumberVoicemailNewParams{
 			VoicemailRequest: telnyx.VoicemailRequestParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voicemail.Data)
 ```
@@ -375,14 +375,14 @@ Optional: `enabled` (boolean), `pin` (string)
 
 ```go
 	voicemail, err := client.PhoneNumbers.Voicemail.Update(
-		context.TODO(),
+		context.Background(),
 		"123455678900",
 		telnyx.PhoneNumberVoicemailUpdateParams{
 			VoicemailRequest: telnyx.VoicemailRequestParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voicemail.Data)
 ```

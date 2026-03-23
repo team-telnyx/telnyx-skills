@@ -21,11 +21,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -96,7 +96,7 @@ import com.telnyx.sdk.models.portouts.events.EventListParams;
 EventListPage page = client.portouts().events().list();
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_notification_methods` (array[string]), `created_at` (date-time), `event_type` (enum: portout.status_changed, portout.foc_date_changed, portout.new_comment), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `portout_id` (uuid), `record_type` (string), `updated_at` (date-time)
 
 ## Show a port-out event
 
@@ -111,7 +111,7 @@ import com.telnyx.sdk.models.portouts.events.EventRetrieveResponse;
 EventRetrieveResponse event = client.portouts().events().retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e");
 ```
 
-Returns: `data` (object)
+Returns: `available_notification_methods` (array[string]), `created_at` (date-time), `event_type` (enum: portout.status_changed, portout.foc_date_changed, portout.new_comment), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `portout_id` (uuid), `record_type` (string), `updated_at` (date-time)
 
 ## Republish a port-out event
 

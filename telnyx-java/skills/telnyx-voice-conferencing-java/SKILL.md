@@ -22,11 +22,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -82,7 +82,7 @@ import com.telnyx.sdk.models.calls.actions.ActionEnqueueParams;
 import com.telnyx.sdk.models.calls.actions.ActionEnqueueResponse;
 
 ActionEnqueueParams params = ActionEnqueueParams.builder()
-    .callControlId("call_control_id")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .queueName("support")
     .build();
 ActionEnqueueResponse response = client.calls().actions().enqueue(params);
@@ -102,7 +102,7 @@ Optional: `client_state` (string), `command_id` (string)
 import com.telnyx.sdk.models.calls.actions.ActionLeaveQueueParams;
 import com.telnyx.sdk.models.calls.actions.ActionLeaveQueueResponse;
 
-ActionLeaveQueueResponse response = client.calls().actions().leaveQueue("call_control_id");
+ActionLeaveQueueResponse response = client.calls().actions().leaveQueue("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -153,7 +153,7 @@ Lists conference participants
 import com.telnyx.sdk.models.conferences.ConferenceListParticipantsPage;
 import com.telnyx.sdk.models.conferences.ConferenceListParticipantsParams;
 
-ConferenceListParticipantsPage page = client.conferences().listParticipants("conference_id");
+ConferenceListParticipantsPage page = client.conferences().listParticipants("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `call_control_id` (string), `call_leg_id` (string), `conference` (object), `created_at` (string), `end_conference_on_exit` (boolean), `id` (string), `muted` (boolean), `on_hold` (boolean), `record_type` (enum: participant), `soft_end_conference_on_exit` (boolean), `status` (enum: joining, joined, left), `updated_at` (string), `whisper_call_control_ids` (array[string])
@@ -168,7 +168,7 @@ Retrieve an existing conference
 import com.telnyx.sdk.models.conferences.ConferenceRetrieveParams;
 import com.telnyx.sdk.models.conferences.ConferenceRetrieveResponse;
 
-ConferenceRetrieveResponse conference = client.conferences().retrieve("id");
+ConferenceRetrieveResponse conference = client.conferences().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `connection_id` (string), `created_at` (string), `end_reason` (enum: all_left, ended_via_api, host_left, time_exceeded), `ended_by` (object), `expires_at` (string), `id` (string), `name` (string), `record_type` (enum: conference), `region` (string), `status` (enum: init, in_progress, completed), `updated_at` (string)
@@ -223,7 +223,7 @@ Optional: `audio_url` (string), `call_control_ids` (array[string]), `media_name`
 import com.telnyx.sdk.models.conferences.actions.ActionHoldParams;
 import com.telnyx.sdk.models.conferences.actions.ActionHoldResponse;
 
-ActionHoldResponse response = client.conferences().actions().hold("id");
+ActionHoldResponse response = client.conferences().actions().hold("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `result` (string)
@@ -241,7 +241,7 @@ import com.telnyx.sdk.models.conferences.actions.ActionJoinParams;
 import com.telnyx.sdk.models.conferences.actions.ActionJoinResponse;
 
 ActionJoinParams params = ActionJoinParams.builder()
-    .id("id")
+    .id("550e8400-e29b-41d4-a716-446655440000")
     .callControlId("v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg")
     .build();
 ActionJoinResponse response = client.conferences().actions().join(params);
@@ -264,7 +264,7 @@ import com.telnyx.sdk.models.conferences.actions.ActionLeaveParams;
 import com.telnyx.sdk.models.conferences.actions.ActionLeaveResponse;
 
 ActionLeaveParams params = ActionLeaveParams.builder()
-    .id("id")
+    .id("550e8400-e29b-41d4-a716-446655440000")
     .callControlId("c46e06d7-b78f-4b13-96b6-c576af9640ff")
     .build();
 ActionLeaveResponse response = client.conferences().actions().leave(params);
@@ -284,7 +284,7 @@ Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe,
 import com.telnyx.sdk.models.conferences.actions.ActionMuteParams;
 import com.telnyx.sdk.models.conferences.actions.ActionMuteResponse;
 
-ActionMuteResponse response = client.conferences().actions().mute("id");
+ActionMuteResponse response = client.conferences().actions().mute("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `result` (string)
@@ -295,13 +295,13 @@ Play audio to all or some participants on a conference call.
 
 `POST /conferences/{id}/actions/play`
 
-Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (object), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
+Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (string), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```java
 import com.telnyx.sdk.models.conferences.actions.ActionPlayParams;
 import com.telnyx.sdk.models.conferences.actions.ActionPlayResponse;
 
-ActionPlayResponse response = client.conferences().actions().play("id");
+ActionPlayResponse response = client.conferences().actions().play("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `result` (string)
@@ -318,7 +318,7 @@ Optional: `command_id` (string), `recording_id` (string), `region` (enum: Austra
 import com.telnyx.sdk.models.conferences.actions.ActionRecordPauseParams;
 import com.telnyx.sdk.models.conferences.actions.ActionRecordPauseResponse;
 
-ActionRecordPauseResponse response = client.conferences().actions().recordPause("id");
+ActionRecordPauseResponse response = client.conferences().actions().recordPause("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `result` (string)
@@ -335,7 +335,7 @@ Optional: `command_id` (string), `recording_id` (string), `region` (enum: Austra
 import com.telnyx.sdk.models.conferences.actions.ActionRecordResumeParams;
 import com.telnyx.sdk.models.conferences.actions.ActionRecordResumeResponse;
 
-ActionRecordResumeResponse response = client.conferences().actions().recordResume("id");
+ActionRecordResumeResponse response = client.conferences().actions().recordResume("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `result` (string)
@@ -355,7 +355,7 @@ import com.telnyx.sdk.models.conferences.actions.ActionRecordStartParams;
 import com.telnyx.sdk.models.conferences.actions.ActionRecordStartResponse;
 
 ActionRecordStartParams params = ActionRecordStartParams.builder()
-    .id("id")
+    .id("550e8400-e29b-41d4-a716-446655440000")
     .format(ActionRecordStartParams.Format.WAV)
     .build();
 ActionRecordStartResponse response = client.conferences().actions().recordStart(params);
@@ -377,7 +377,7 @@ Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid),
 import com.telnyx.sdk.models.conferences.actions.ActionRecordStopParams;
 import com.telnyx.sdk.models.conferences.actions.ActionRecordStopResponse;
 
-ActionRecordStopResponse response = client.conferences().actions().recordStop("id");
+ActionRecordStopResponse response = client.conferences().actions().recordStop("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `result` (string)
@@ -416,7 +416,7 @@ import com.telnyx.sdk.models.conferences.actions.ActionSpeakParams;
 import com.telnyx.sdk.models.conferences.actions.ActionSpeakResponse;
 
 ActionSpeakParams params = ActionSpeakParams.builder()
-    .id("id")
+    .id("550e8400-e29b-41d4-a716-446655440000")
     .payload("Say this to participants")
     .voice("female")
     .build();
@@ -437,7 +437,7 @@ Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe,
 import com.telnyx.sdk.models.conferences.actions.ActionStopParams;
 import com.telnyx.sdk.models.conferences.actions.ActionStopResponse;
 
-ActionStopResponse response = client.conferences().actions().stop("id");
+ActionStopResponse response = client.conferences().actions().stop("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `result` (string)
@@ -455,7 +455,7 @@ import com.telnyx.sdk.models.conferences.actions.ActionUnholdParams;
 import com.telnyx.sdk.models.conferences.actions.ActionUnholdResponse;
 
 ActionUnholdParams params = ActionUnholdParams.builder()
-    .id("id")
+    .id("550e8400-e29b-41d4-a716-446655440000")
     .addCallControlId("v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg")
     .build();
 ActionUnholdResponse response = client.conferences().actions().unhold(params);
@@ -475,7 +475,7 @@ Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe,
 import com.telnyx.sdk.models.conferences.actions.ActionUnmuteParams;
 import com.telnyx.sdk.models.conferences.actions.ActionUnmuteResponse;
 
-ActionUnmuteResponse response = client.conferences().actions().unmute("id");
+ActionUnmuteResponse response = client.conferences().actions().unmute("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `result` (string)
@@ -494,7 +494,7 @@ import com.telnyx.sdk.models.conferences.actions.ActionUpdateResponse;
 import com.telnyx.sdk.models.conferences.actions.UpdateConference;
 
 ActionUpdateParams params = ActionUpdateParams.builder()
-    .id("id")
+    .id("550e8400-e29b-41d4-a716-446655440000")
     .updateConference(UpdateConference.builder()
         .callControlId("v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg")
         .supervisorRole(UpdateConference.SupervisorRole.WHISPER)
@@ -517,7 +517,7 @@ import com.telnyx.sdk.models.conferences.ConferenceRetrieveParticipantResponse;
 
 ConferenceRetrieveParticipantParams params = ConferenceRetrieveParticipantParams.builder()
     .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-    .participantId("participant_id")
+    .participantId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 ConferenceRetrieveParticipantResponse response = client.conferences().retrieveParticipant(params);
 ```
@@ -538,7 +538,7 @@ import com.telnyx.sdk.models.conferences.ConferenceUpdateParticipantResponse;
 
 ConferenceUpdateParticipantParams params = ConferenceUpdateParticipantParams.builder()
     .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-    .participantId("participant_id")
+    .participantId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 ConferenceUpdateParticipantResponse response = client.conferences().updateParticipant(params);
 ```
@@ -606,7 +606,7 @@ import com.telnyx.sdk.models.queues.QueueUpdateParams;
 import com.telnyx.sdk.models.queues.QueueUpdateResponse;
 
 QueueUpdateParams params = QueueUpdateParams.builder()
-    .queueName("queue_name")
+    .queueName("my-queue")
     .maxSize(200L)
     .build();
 QueueUpdateResponse queue = client.queues().update(params);
@@ -652,8 +652,8 @@ import com.telnyx.sdk.models.queues.calls.CallRetrieveParams;
 import com.telnyx.sdk.models.queues.calls.CallRetrieveResponse;
 
 CallRetrieveParams params = CallRetrieveParams.builder()
-    .queueName("queue_name")
-    .callControlId("call_control_id")
+    .queueName("my-queue")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .build();
 CallRetrieveResponse call = client.queues().calls().retrieve(params);
 ```
@@ -672,8 +672,8 @@ Optional: `keep_after_hangup` (boolean)
 import com.telnyx.sdk.models.queues.calls.CallUpdateParams;
 
 CallUpdateParams params = CallUpdateParams.builder()
-    .queueName("queue_name")
-    .callControlId("call_control_id")
+    .queueName("my-queue")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .build();
 client.queues().calls().update(params);
 ```
@@ -688,8 +688,8 @@ Removes an inactive call from a queue. If the call is no longer active, use this
 import com.telnyx.sdk.models.queues.calls.CallRemoveParams;
 
 CallRemoveParams params = CallRemoveParams.builder()
-    .queueName("queue_name")
-    .callControlId("call_control_id")
+    .queueName("my-queue")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .build();
 client.queues().calls().remove(params);
 ```

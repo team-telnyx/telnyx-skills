@@ -69,11 +69,11 @@ Transcribe speech to text. This endpoint is consistent with the [OpenAI Transcri
 `POST /ai/audio/transcriptions`
 
 ```go
-	response, err := client.AI.Audio.Transcribe(context.TODO(), telnyx.AIAudioTranscribeParams{
+	response, err := client.AI.Audio.Transcribe(context.Background(), telnyx.AIAudioTranscribeParams{
 		Model: telnyx.AIAudioTranscribeParamsModelDistilWhisperDistilLargeV2,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Text)
 ```
@@ -86,10 +86,10 @@ Chat with a language model. This endpoint is consistent with the [OpenAI Chat Co
 
 `POST /ai/chat/completions` — Required: `messages`
 
-Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `enable_thinking` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
 
 ```go
-	response, err := client.AI.Chat.NewCompletion(context.TODO(), telnyx.AIChatNewCompletionParams{
+	response, err := client.AI.Chat.NewCompletion(context.Background(), telnyx.AIChatNewCompletionParams{
 		Messages: []telnyx.AIChatNewCompletionParamsMessage{{
 			Role: "system",
 			Content: telnyx.AIChatNewCompletionParamsMessageContentUnion{
@@ -103,7 +103,7 @@ Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean
 		}},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -115,9 +115,9 @@ Retrieve a list of all AI conversations configured by the user. Supports [PostgR
 `GET /ai/conversations`
 
 ```go
-	conversations, err := client.AI.Conversations.List(context.TODO(), telnyx.AIConversationListParams{})
+	conversations, err := client.AI.Conversations.List(context.Background(), telnyx.AIConversationListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", conversations.Data)
 ```
@@ -133,9 +133,9 @@ Create a new AI Conversation.
 Optional: `metadata` (object), `name` (string)
 
 ```go
-	conversation, err := client.AI.Conversations.New(context.TODO(), telnyx.AIConversationNewParams{})
+	conversation, err := client.AI.Conversations.New(context.Background(), telnyx.AIConversationNewParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", conversation.ID)
 ```
@@ -149,9 +149,9 @@ Get all insight groups
 `GET /ai/conversations/insight-groups`
 
 ```go
-	page, err := client.AI.Conversations.InsightGroups.GetInsightGroups(context.TODO(), telnyx.AIConversationInsightGroupGetInsightGroupsParams{})
+	page, err := client.AI.Conversations.InsightGroups.GetInsightGroups(context.Background(), telnyx.AIConversationInsightGroupGetInsightGroupsParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -167,11 +167,11 @@ Create a new insight group
 Optional: `description` (string), `webhook` (string)
 
 ```go
-	insightTemplateGroupDetail, err := client.AI.Conversations.InsightGroups.InsightGroups(context.TODO(), telnyx.AIConversationInsightGroupInsightGroupsParams{
-		Name: "name",
+	insightTemplateGroupDetail, err := client.AI.Conversations.InsightGroups.InsightGroups(context.Background(), telnyx.AIConversationInsightGroupInsightGroupsParams{
+		Name: "my-resource",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", insightTemplateGroupDetail.Data)
 ```
@@ -185,9 +185,9 @@ Get insight group by ID
 `GET /ai/conversations/insight-groups/{group_id}`
 
 ```go
-	insightTemplateGroupDetail, err := client.AI.Conversations.InsightGroups.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	insightTemplateGroupDetail, err := client.AI.Conversations.InsightGroups.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", insightTemplateGroupDetail.Data)
 ```
@@ -204,12 +204,12 @@ Optional: `description` (string), `name` (string), `webhook` (string)
 
 ```go
 	insightTemplateGroupDetail, err := client.AI.Conversations.InsightGroups.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIConversationInsightGroupUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", insightTemplateGroupDetail.Data)
 ```
@@ -223,9 +223,9 @@ Delete insight group by ID
 `DELETE /ai/conversations/insight-groups/{group_id}`
 
 ```go
-	err := client.AI.Conversations.InsightGroups.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	err := client.AI.Conversations.InsightGroups.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -237,14 +237,14 @@ Assign an insight to a group
 
 ```go
 	err := client.AI.Conversations.InsightGroups.Insights.Assign(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIConversationInsightGroupInsightAssignParams{
 			GroupID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -256,14 +256,14 @@ Remove an insight from a group
 
 ```go
 	err := client.AI.Conversations.InsightGroups.Insights.DeleteUnassign(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIConversationInsightGroupInsightDeleteUnassignParams{
 			GroupID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -274,9 +274,9 @@ Get all insights
 `GET /ai/conversations/insights`
 
 ```go
-	page, err := client.AI.Conversations.Insights.List(context.TODO(), telnyx.AIConversationInsightListParams{})
+	page, err := client.AI.Conversations.Insights.List(context.Background(), telnyx.AIConversationInsightListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -292,12 +292,12 @@ Create a new insight
 Optional: `json_schema` (object), `webhook` (string)
 
 ```go
-	insightTemplateDetail, err := client.AI.Conversations.Insights.New(context.TODO(), telnyx.AIConversationInsightNewParams{
-		Instructions: "instructions",
-		Name:         "name",
+	insightTemplateDetail, err := client.AI.Conversations.Insights.New(context.Background(), telnyx.AIConversationInsightNewParams{
+		Instructions: "You are a helpful assistant.",
+		Name: "my-resource",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", insightTemplateDetail.Data)
 ```
@@ -311,9 +311,9 @@ Get insight by ID
 `GET /ai/conversations/insights/{insight_id}`
 
 ```go
-	insightTemplateDetail, err := client.AI.Conversations.Insights.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	insightTemplateDetail, err := client.AI.Conversations.Insights.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", insightTemplateDetail.Data)
 ```
@@ -330,12 +330,12 @@ Optional: `instructions` (string), `json_schema` (object), `name` (string), `web
 
 ```go
 	insightTemplateDetail, err := client.AI.Conversations.Insights.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIConversationInsightUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", insightTemplateDetail.Data)
 ```
@@ -349,9 +349,9 @@ Delete insight by ID
 `DELETE /ai/conversations/insights/{insight_id}`
 
 ```go
-	err := client.AI.Conversations.Insights.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	err := client.AI.Conversations.Insights.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -362,9 +362,9 @@ Retrieve a specific AI conversation by its ID.
 `GET /ai/conversations/{conversation_id}`
 
 ```go
-	conversation, err := client.AI.Conversations.Get(context.TODO(), "conversation_id")
+	conversation, err := client.AI.Conversations.Get(context.Background(), "conversation_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", conversation.Data)
 ```
@@ -381,12 +381,12 @@ Optional: `metadata` (object)
 
 ```go
 	conversation, err := client.AI.Conversations.Update(
-		context.TODO(),
+		context.Background(),
 		"conversation_id",
 		telnyx.AIConversationUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", conversation.Data)
 ```
@@ -400,9 +400,9 @@ Delete a specific conversation by its ID.
 `DELETE /ai/conversations/{conversation_id}`
 
 ```go
-	err := client.AI.Conversations.Delete(context.TODO(), "conversation_id")
+	err := client.AI.Conversations.Delete(context.Background(), "conversation_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -413,9 +413,9 @@ Retrieve insights for a specific conversation
 `GET /ai/conversations/{conversation_id}/conversations-insights`
 
 ```go
-	response, err := client.AI.Conversations.GetConversationsInsights(context.TODO(), "conversation_id")
+	response, err := client.AI.Conversations.GetConversationsInsights(context.Background(), "conversation_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -432,14 +432,14 @@ Optional: `content` (string), `metadata` (object), `name` (string), `sent_at` (d
 
 ```go
 	err := client.AI.Conversations.AddMessage(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIConversationAddMessageParams{
-			Role: "role",
+			Role: "user",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -450,9 +450,9 @@ Retrieve messages for a specific conversation, including tool calls made by the 
 `GET /ai/conversations/{conversation_id}/messages`
 
 ```go
-	messages, err := client.AI.Conversations.Messages.List(context.TODO(), "conversation_id")
+	messages, err := client.AI.Conversations.Messages.List(context.Background(), "conversation_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messages.Data)
 ```
@@ -466,9 +466,9 @@ Retrieve tasks for the user that are either `queued`, `processing`, `failed`, `s
 `GET /ai/embeddings`
 
 ```go
-	embeddings, err := client.AI.Embeddings.List(context.TODO(), telnyx.AIEmbeddingListParams{})
+	embeddings, err := client.AI.Embeddings.List(context.Background(), telnyx.AIEmbeddingListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", embeddings.Data)
 ```
@@ -490,11 +490,11 @@ Perform embedding on a Telnyx Storage Bucket using an embedding model. The curre
 Optional: `document_chunk_overlap_size` (integer), `document_chunk_size` (integer), `embedding_model` (object), `loader` (object)
 
 ```go
-	embeddingResponse, err := client.AI.Embeddings.New(context.TODO(), telnyx.AIEmbeddingNewParams{
-		BucketName: "bucket_name",
+	embeddingResponse, err := client.AI.Embeddings.New(context.Background(), telnyx.AIEmbeddingNewParams{
+		BucketName: "my-bucket",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", embeddingResponse.Data)
 ```
@@ -508,9 +508,9 @@ Get all embedding buckets for a user.
 `GET /ai/embeddings/buckets`
 
 ```go
-	buckets, err := client.AI.Embeddings.Buckets.List(context.TODO())
+	buckets, err := client.AI.Embeddings.Buckets.List(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", buckets.Data)
 ```
@@ -524,9 +524,9 @@ Get all embedded files for a given user bucket, including their processing statu
 `GET /ai/embeddings/buckets/{bucket_name}`
 
 ```go
-	bucket, err := client.AI.Embeddings.Buckets.Get(context.TODO(), "bucket_name")
+	bucket, err := client.AI.Embeddings.Buckets.Get(context.Background(), "bucket_name")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", bucket.Data)
 ```
@@ -540,9 +540,9 @@ Deletes an entire bucket's embeddings and disables the bucket for AI-use, return
 `DELETE /ai/embeddings/buckets/{bucket_name}`
 
 ```go
-	err := client.AI.Embeddings.Buckets.Delete(context.TODO(), "bucket_name")
+	err := client.AI.Embeddings.Buckets.Delete(context.Background(), "bucket_name")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -555,12 +555,12 @@ Perform a similarity search on a Telnyx Storage Bucket, returning the most simil
 Optional: `num_of_docs` (integer)
 
 ```go
-	response, err := client.AI.Embeddings.SimilaritySearch(context.TODO(), telnyx.AIEmbeddingSimilaritySearchParams{
-		BucketName: "bucket_name",
-		Query:      "query",
+	response, err := client.AI.Embeddings.SimilaritySearch(context.Background(), telnyx.AIEmbeddingSimilaritySearchParams{
+		BucketName: "my-bucket",
+		Query: "What is Telnyx?",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -574,12 +574,12 @@ Embed website content from a specified URL, including child pages up to 5 levels
 `POST /ai/embeddings/url` — Required: `url`, `bucket_name`
 
 ```go
-	embeddingResponse, err := client.AI.Embeddings.URL(context.TODO(), telnyx.AIEmbeddingURLParams{
-		BucketName: "bucket_name",
-		URL:        "url",
+	embeddingResponse, err := client.AI.Embeddings.URL(context.Background(), telnyx.AIEmbeddingURLParams{
+		BucketName: "my-bucket",
+		URL: "https://example.com/resource",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", embeddingResponse.Data)
 ```
@@ -598,9 +598,9 @@ Check the status of a current embedding task. Will be one of the following:
 `GET /ai/embeddings/{task_id}`
 
 ```go
-	embedding, err := client.AI.Embeddings.Get(context.TODO(), "task_id")
+	embedding, err := client.AI.Embeddings.Get(context.Background(), "task_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", embedding.Data)
 ```
@@ -614,9 +614,9 @@ Retrieve a list of all fine tuning jobs created by the user.
 `GET /ai/fine_tuning/jobs`
 
 ```go
-	jobs, err := client.AI.FineTuning.Jobs.List(context.TODO())
+	jobs, err := client.AI.FineTuning.Jobs.List(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", jobs.Data)
 ```
@@ -632,12 +632,12 @@ Create a new fine tuning job.
 Optional: `hyperparameters` (object), `suffix` (string)
 
 ```go
-	fineTuningJob, err := client.AI.FineTuning.Jobs.New(context.TODO(), telnyx.AIFineTuningJobNewParams{
-		Model:        "model",
-		TrainingFile: "training_file",
+	fineTuningJob, err := client.AI.FineTuning.Jobs.New(context.Background(), telnyx.AIFineTuningJobNewParams{
+		Model: "meta-llama/Meta-Llama-3.1-8B-Instruct",
+		TrainingFile: "training-data.jsonl",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fineTuningJob.ID)
 ```
@@ -651,9 +651,9 @@ Retrieve a fine tuning job by `job_id`.
 `GET /ai/fine_tuning/jobs/{job_id}`
 
 ```go
-	fineTuningJob, err := client.AI.FineTuning.Jobs.Get(context.TODO(), "job_id")
+	fineTuningJob, err := client.AI.FineTuning.Jobs.Get(context.Background(), "job_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fineTuningJob.ID)
 ```
@@ -667,9 +667,9 @@ Cancel a fine tuning job.
 `POST /ai/fine_tuning/jobs/{job_id}/cancel`
 
 ```go
-	fineTuningJob, err := client.AI.FineTuning.Jobs.Cancel(context.TODO(), "job_id")
+	fineTuningJob, err := client.AI.FineTuning.Jobs.Cancel(context.Background(), "job_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fineTuningJob.ID)
 ```
@@ -683,9 +683,9 @@ This endpoint returns a list of Open Source and OpenAI models that are available
 `GET /ai/models`
 
 ```go
-	response, err := client.AI.GetModels(context.TODO())
+	response, err := client.AI.GetModels(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -701,14 +701,14 @@ Creates an embedding vector representing the input text. This endpoint is compat
 Optional: `dimensions` (integer), `encoding_format` (enum: float, base64), `user` (string)
 
 ```go
-	response, err := client.AI.OpenAI.Embeddings.NewEmbeddings(context.TODO(), telnyx.AIOpenAIEmbeddingNewEmbeddingsParams{
+	response, err := client.AI.OpenAI.Embeddings.NewEmbeddings(context.Background(), telnyx.AIOpenAIEmbeddingNewEmbeddingsParams{
 		Input: telnyx.AIOpenAIEmbeddingNewEmbeddingsParamsInputUnion{
 			OfString: telnyx.String("The quick brown fox jumps over the lazy dog"),
 		},
 		Model: "thenlper/gte-large",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -722,9 +722,9 @@ Returns a list of available embedding models. This endpoint is compatible with t
 `GET /ai/openai/embeddings/models`
 
 ```go
-	response, err := client.AI.OpenAI.Embeddings.ListEmbeddingModels(context.TODO())
+	response, err := client.AI.OpenAI.Embeddings.ListEmbeddingModels(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -745,12 +745,12 @@ Generate a summary of a file's contents. Supports the following text formats:
 Optional: `system_prompt` (string)
 
 ```go
-	response, err := client.AI.Summarize(context.TODO(), telnyx.AISummarizeParams{
-		Bucket:   "bucket",
-		Filename: "filename",
+	response, err := client.AI.Summarize(context.Background(), telnyx.AISummarizeParams{
+		Bucket: "my-bucket",
+		Filename: "data.csv",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -764,9 +764,9 @@ Retrieves all Speech to Text batch report requests for the authenticated user
 `GET /legacy/reporting/batch_detail_records/speech_to_text`
 
 ```go
-	speechToTexts, err := client.Legacy.Reporting.BatchDetailRecords.SpeechToText.List(context.TODO())
+	speechToTexts, err := client.Legacy.Reporting.BatchDetailRecords.SpeechToText.List(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", speechToTexts.Data)
 ```
@@ -780,12 +780,12 @@ Creates a new Speech to Text batch report request with the specified filters
 `POST /legacy/reporting/batch_detail_records/speech_to_text` — Required: `start_date`, `end_date`
 
 ```go
-	speechToText, err := client.Legacy.Reporting.BatchDetailRecords.SpeechToText.New(context.TODO(), telnyx.LegacyReportingBatchDetailRecordSpeechToTextNewParams{
+	speechToText, err := client.Legacy.Reporting.BatchDetailRecords.SpeechToText.New(context.Background(), telnyx.LegacyReportingBatchDetailRecordSpeechToTextNewParams{
 		EndDate:   time.Now(),
 		StartDate: time.Now(),
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", speechToText.Data)
 ```
@@ -799,9 +799,9 @@ Retrieves a specific Speech to Text batch report request by ID
 `GET /legacy/reporting/batch_detail_records/speech_to_text/{id}`
 
 ```go
-	speechToText, err := client.Legacy.Reporting.BatchDetailRecords.SpeechToText.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	speechToText, err := client.Legacy.Reporting.BatchDetailRecords.SpeechToText.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", speechToText.Data)
 ```
@@ -815,9 +815,9 @@ Deletes a specific Speech to Text batch report request by ID
 `DELETE /legacy/reporting/batch_detail_records/speech_to_text/{id}`
 
 ```go
-	speechToText, err := client.Legacy.Reporting.BatchDetailRecords.SpeechToText.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	speechToText, err := client.Legacy.Reporting.BatchDetailRecords.SpeechToText.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", speechToText.Data)
 ```
@@ -831,9 +831,9 @@ Generate and fetch speech to text usage report synchronously. This endpoint will
 `GET /legacy/reporting/usage_reports/speech_to_text`
 
 ```go
-	response, err := client.Legacy.Reporting.UsageReports.GetSpeechToText(context.TODO(), telnyx.LegacyReportingUsageReportGetSpeechToTextParams{})
+	response, err := client.Legacy.Reporting.UsageReports.GetSpeechToText(context.Background(), telnyx.LegacyReportingUsageReportGetSpeechToTextParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -846,12 +846,12 @@ Generate synthesized speech audio from text input. Returns audio in the requeste
 
 `POST /text-to-speech/speech`
 
-Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `inworld` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble, inworld), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
+Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
 
 ```go
-	response, err := client.TextToSpeech.Generate(context.TODO(), telnyx.TextToSpeechGenerateParams{})
+	response, err := client.TextToSpeech.Generate(context.Background(), telnyx.TextToSpeechGenerateParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Base64Audio)
 ```
@@ -865,77 +865,11 @@ Retrieve a list of available voices from one or all TTS providers. When `provide
 `GET /text-to-speech/voices`
 
 ```go
-	response, err := client.TextToSpeech.ListVoices(context.TODO(), telnyx.TextToSpeechListVoicesParams{})
+	response, err := client.TextToSpeech.ListVoices(context.Background(), telnyx.TextToSpeechListVoicesParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Voices)
 ```
 
 Returns: `voices` (array[object])
-
-## Get all Wireless Detail Records (WDRs) Reports
-
-Returns the WDR Reports that match the given parameters.
-
-`GET /wireless/detail_records_reports`
-
-```go
-	detailRecordsReports, err := client.Wireless.DetailRecordsReports.List(context.TODO(), telnyx.WirelessDetailRecordsReportListParams{})
-	if err != nil {
-		panic(err.Error())
-	}
-	fmt.Printf("%+v\n", detailRecordsReports.Data)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Create a Wireless Detail Records (WDRs) Report
-
-Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
-
-`POST /wireless/detail_records_reports`
-
-Optional: `end_time` (string), `start_time` (string)
-
-```go
-	detailRecordsReport, err := client.Wireless.DetailRecordsReports.New(context.TODO(), telnyx.WirelessDetailRecordsReportNewParams{})
-	if err != nil {
-		panic(err.Error())
-	}
-	fmt.Printf("%+v\n", detailRecordsReport.Data)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Get a Wireless Detail Record (WDR) Report
-
-Returns one specific WDR report
-
-`GET /wireless/detail_records_reports/{id}`
-
-```go
-	detailRecordsReport, err := client.Wireless.DetailRecordsReports.Get(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-	if err != nil {
-		panic(err.Error())
-	}
-	fmt.Printf("%+v\n", detailRecordsReport.Data)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Delete a Wireless Detail Record (WDR) Report
-
-Deletes one specific WDR report.
-
-`DELETE /wireless/detail_records_reports/{id}`
-
-```go
-	detailRecordsReport, err := client.Wireless.DetailRecordsReports.Delete(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-	if err != nil {
-		panic(err.Error())
-	}
-	fmt.Printf("%+v\n", detailRecordsReport.Data)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

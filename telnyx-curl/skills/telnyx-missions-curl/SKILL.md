@@ -88,7 +88,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "name": "string"
+  "name": "my-resource"
 }' \
   "https://api.telnyx.com/v2/ai/missions"
 ```
@@ -401,7 +401,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "type": "status_change",
-  "summary": "string"
+  "summary": "Brief task summary"
 }' \
   "https://api.telnyx.com/v2/ai/missions/{mission_id}/runs/{run_id}/events"
 ```
@@ -461,7 +461,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "steps": [
-    "string"
+    "Initiate the task"
   ]
 }' \
   "https://api.telnyx.com/v2/ai/missions/{mission_id}/runs/{run_id}/plan"
@@ -482,7 +482,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "steps": [
-    "string"
+    "Initiate the task"
   ]
 }' \
   "https://api.telnyx.com/v2/ai/missions/{mission_id}/runs/{run_id}/plan/steps"
@@ -560,7 +560,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "telnyx_agent_id": "string"
+  "telnyx_agent_id": "550e8400-e29b-41d4-a716-446655440000"
 }' \
   "https://api.telnyx.com/v2/ai/missions/{mission_id}/runs/{run_id}/telnyx-agents"
 ```

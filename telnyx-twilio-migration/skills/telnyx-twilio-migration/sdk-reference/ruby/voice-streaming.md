@@ -55,7 +55,7 @@ variety of use cases, including fraud detection, or the creation of AI-generated
 Optional: `client_state` (string), `command_id` (string), `rx` (string), `stream_type` (enum: decrypted), `tx` (string)
 
 ```ruby
-response = client.calls.actions.start_forking("call_control_id")
+response = client.calls.actions.start_forking("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -73,7 +73,7 @@ Stop forking a call. **Expected Webhooks:**
 Optional: `client_state` (string), `command_id` (string), `stream_type` (enum: raw, decrypted)
 
 ```ruby
-response = client.calls.actions.stop_forking("call_control_id")
+response = client.calls.actions.stop_forking("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -89,7 +89,7 @@ Start streaming the media from a call to a specific WebSocket address or Dialogf
 Optional: `client_state` (string), `command_id` (string), `custom_parameters` (array[object]), `dialogflow_config` (object), `enable_dialogflow` (boolean), `stream_auth_token` (string), `stream_bidirectional_codec` (enum: PCMU, PCMA, G722, OPUS, AMR-WB, L16), `stream_bidirectional_mode` (enum: mp3, rtp), `stream_bidirectional_sampling_rate` (enum: 8000, 16000, 22050, 24000, 48000), `stream_bidirectional_target_legs` (enum: both, self, opposite), `stream_codec` (enum: PCMU, PCMA, G722, OPUS, AMR-WB, L16, default), `stream_track` (enum: inbound_track, outbound_track, both_tracks), `stream_url` (string)
 
 ```ruby
-response = client.calls.actions.start_streaming("call_control_id")
+response = client.calls.actions.start_streaming("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -107,7 +107,7 @@ Stop streaming a call to a WebSocket. **Expected Webhooks:**
 Optional: `client_state` (string), `command_id` (string), `stream_id` (uuid)
 
 ```ruby
-response = client.calls.actions.stop_streaming("call_control_id")
+response = client.calls.actions.stop_streaming("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -125,7 +125,7 @@ Start real-time transcription. Transcription will stop on call hang-up, or can b
 Optional: `client_state` (string), `command_id` (string), `transcription_engine` (enum: Google, Telnyx, Deepgram, Azure, A, B), `transcription_engine_config` (object), `transcription_tracks` (string)
 
 ```ruby
-response = client.calls.actions.start_transcription("call_control_id")
+response = client.calls.actions.start_transcription("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -141,7 +141,7 @@ Stop real-time transcription.
 Optional: `client_state` (string), `command_id` (string)
 
 ```ruby
-response = client.calls.actions.stop_transcription("call_control_id")
+response = client.calls.actions.stop_transcription("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```

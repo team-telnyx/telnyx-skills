@@ -74,7 +74,7 @@ Removes the call from a queue.
 Optional: `client_state` (string), `command_id` (string)
 
 ```ruby
-response = client.calls.actions.leave_queue("call_control_id")
+response = client.calls.actions.leave_queue("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -121,7 +121,7 @@ Lists conference participants
 `GET /conferences/{conference_id}/participants`
 
 ```ruby
-page = client.conferences.list_participants("conference_id")
+page = client.conferences.list_participants("550e8400-e29b-41d4-a716-446655440000")
 
 puts(page)
 ```
@@ -135,7 +135,7 @@ Retrieve an existing conference
 `GET /conferences/{id}`
 
 ```ruby
-conference = client.conferences.retrieve("id")
+conference = client.conferences.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(conference)
 ```
@@ -186,7 +186,7 @@ Hold a list of participants in a conference call
 Optional: `audio_url` (string), `call_control_ids` (array[string]), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```ruby
-response = client.conferences.actions.hold("id")
+response = client.conferences.actions.hold("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -239,7 +239,7 @@ Mute a list of participants in a conference call
 Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe, Middle East, US)
 
 ```ruby
-response = client.conferences.actions.mute("id")
+response = client.conferences.actions.mute("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -252,10 +252,10 @@ Play audio to all or some participants on a conference call.
 
 `POST /conferences/{id}/actions/play`
 
-Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (object), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
+Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (string), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```ruby
-response = client.conferences.actions.play("id")
+response = client.conferences.actions.play("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -271,7 +271,7 @@ Pause conference recording.
 Optional: `command_id` (string), `recording_id` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```ruby
-response = client.conferences.actions.record_pause("id")
+response = client.conferences.actions.record_pause("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -287,7 +287,7 @@ Resume conference recording.
 Optional: `command_id` (string), `recording_id` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```ruby
-response = client.conferences.actions.record_resume("id")
+response = client.conferences.actions.record_resume("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -323,7 +323,7 @@ Stop recording the conference. **Expected Webhooks:**
 Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid), `region` (enum: Australia, Europe, Middle East, US)
 
 ```ruby
-response = client.conferences.actions.record_stop("id")
+response = client.conferences.actions.record_stop("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -371,7 +371,7 @@ Stop audio being played to all or some participants on a conference call.
 Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe, Middle East, US)
 
 ```ruby
-response = client.conferences.actions.stop("id")
+response = client.conferences.actions.stop("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -406,7 +406,7 @@ Unmute a list of participants in a conference call
 Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe, Middle East, US)
 
 ```ruby
-response = client.conferences.actions.unmute("id")
+response = client.conferences.actions.unmute("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -554,7 +554,7 @@ Retrieve an existing call from an existing queue
 `GET /queues/{queue_name}/calls/{call_control_id}`
 
 ```ruby
-call = client.queues.calls.retrieve("call_control_id", queue_name: "queue_name")
+call = client.queues.calls.retrieve("call_control_id", queue_name: "my-queue")
 
 puts(call)
 ```
@@ -570,7 +570,7 @@ Update queued call's keep_after_hangup flag
 Optional: `keep_after_hangup` (boolean)
 
 ```ruby
-result = client.queues.calls.update("call_control_id", queue_name: "queue_name")
+result = client.queues.calls.update("call_control_id", queue_name: "my-queue")
 
 puts(result)
 ```
@@ -582,7 +582,7 @@ Removes an inactive call from a queue. If the call is no longer active, use this
 `DELETE /queues/{queue_name}/calls/{call_control_id}`
 
 ```ruby
-result = client.queues.calls.remove("call_control_id", queue_name: "queue_name")
+result = client.queues.calls.remove("call_control_id", queue_name: "my-queue")
 
 puts(result)
 ```

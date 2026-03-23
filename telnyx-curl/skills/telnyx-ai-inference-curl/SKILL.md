@@ -89,7 +89,7 @@ Chat with a language model. This endpoint is consistent with the [OpenAI Chat Co
 
 `POST /ai/chat/completions` — Required: `messages`
 
-Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `enable_thinking` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
 
 ```bash
 curl \
@@ -167,7 +167,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "name": "string"
+  "name": "my-resource"
 }' \
   "https://api.telnyx.com/v2/ai/conversations/insight-groups"
 ```
@@ -270,8 +270,8 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "instructions": "string",
-  "name": "string"
+  "instructions": "You are a helpful assistant.",
+  "name": "my-resource"
 }' \
   "https://api.telnyx.com/v2/ai/conversations/insights"
 ```
@@ -328,7 +328,7 @@ Retrieve a specific AI conversation by its ID.
 `GET /ai/conversations/{conversation_id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/{conversation_id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (date-time), `id` (uuid), `last_message_at` (date-time), `metadata` (object), `name` (string)
@@ -346,7 +346,7 @@ curl \
   -X PUT \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/ai/conversations/{conversation_id}"
+  "https://api.telnyx.com/v2/ai/conversations/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (date-time), `id` (uuid), `last_message_at` (date-time), `metadata` (object), `name` (string)
@@ -361,7 +361,7 @@ Delete a specific conversation by its ID.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/ai/conversations/{conversation_id}"
+  "https://api.telnyx.com/v2/ai/conversations/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 ## Get insights for a conversation
@@ -371,7 +371,7 @@ Retrieve insights for a specific conversation
 `GET /ai/conversations/{conversation_id}/conversations-insights`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/{conversation_id}/conversations-insights"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/550e8400-e29b-41d4-a716-446655440000/conversations-insights"
 ```
 
 Returns: `conversation_insights` (array[object]), `created_at` (date-time), `id` (string), `status` (enum: pending, in_progress, completed, failed)
@@ -390,9 +390,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "role": "string"
+  "role": "user"
 }' \
-  "https://api.telnyx.com/v2/ai/conversations/{conversation_id}/message"
+  "https://api.telnyx.com/v2/ai/conversations/550e8400-e29b-41d4-a716-446655440000/message"
 ```
 
 ## Get conversation messages
@@ -402,7 +402,7 @@ Retrieve messages for a specific conversation, including tool calls made by the 
 `GET /ai/conversations/{conversation_id}/messages`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/{conversation_id}/messages"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ai/conversations/550e8400-e29b-41d4-a716-446655440000/messages"
 ```
 
 Returns: `created_at` (date-time), `role` (enum: user, assistant, tool), `sent_at` (date-time), `text` (string), `tool_calls` (array[object])
@@ -439,7 +439,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "bucket_name": "string"
+  "bucket_name": "my-bucket"
 }' \
   "https://api.telnyx.com/v2/ai/embeddings"
 ```
@@ -497,8 +497,8 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "bucket_name": "string",
-  "query": "string"
+  "bucket_name": "my-bucket",
+  "query": "What is Telnyx?"
 }' \
   "https://api.telnyx.com/v2/ai/embeddings/similarity-search"
 ```
@@ -517,8 +517,8 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "url": "string",
-  "bucket_name": "string"
+  "url": "https://example.com/resource",
+  "bucket_name": "my-bucket"
 }' \
   "https://api.telnyx.com/v2/ai/embeddings/url"
 ```
@@ -568,8 +568,8 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "model": "string",
-  "training_file": "string"
+  "model": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+  "training_file": "training-data.jsonl"
 }' \
   "https://api.telnyx.com/v2/ai/fine_tuning/jobs"
 ```
@@ -669,8 +669,8 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "bucket": "string",
-  "filename": "string"
+  "bucket": "my-bucket",
+  "filename": "data.csv"
 }' \
   "https://api.telnyx.com/v2/ai/summarize"
 ```
@@ -716,7 +716,7 @@ Retrieves a specific Speech to Text batch report request by ID
 `GET /legacy/reporting/batch_detail_records/speech_to_text/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/legacy/reporting/batch_detail_records/speech_to_text/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/legacy/reporting/batch_detail_records/speech_to_text/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (date-time), `download_link` (string), `end_date` (date-time), `id` (string), `record_type` (string), `start_date` (date-time), `status` (enum: PENDING, COMPLETE, FAILED, EXPIRED)
@@ -731,7 +731,7 @@ Deletes a specific Speech to Text batch report request by ID
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/legacy/reporting/batch_detail_records/speech_to_text/{id}"
+  "https://api.telnyx.com/v2/legacy/reporting/batch_detail_records/speech_to_text/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (date-time), `download_link` (string), `end_date` (date-time), `id` (string), `record_type` (string), `start_date` (date-time), `status` (enum: PENDING, COMPLETE, FAILED, EXPIRED)
@@ -743,7 +743,7 @@ Generate and fetch speech to text usage report synchronously. This endpoint will
 `GET /legacy/reporting/usage_reports/speech_to_text`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/legacy/reporting/usage_reports/speech_to_text?start_date=2020-07-01T00:00:00-06:00&end_date=2020-07-01T00:00:00-06:00"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/legacy/reporting/usage_reports/speech_to_text?start_date=2020-07-02T00:00:00-06:00&end_date=2020-07-01T00:00:00-06:00"
 ```
 
 Returns: `data` (object)
@@ -755,7 +755,7 @@ Open a WebSocket connection to stream audio and receive transcriptions in real-t
 `GET /speech-to-text/transcription`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/speech-to-text/transcription?transcription_engine=Telnyx&input_format=mp3&language=en-US&interim_results=True"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/speech-to-text/transcription?transcription_engine=Telnyx&input_format=mp3&language=en-US&interim_results=True&endpointing=500&redact=pci&keyterm=Telnyx&keywords=Telnyx,SIP,WebRTC"
 ```
 
 ## Stream text to speech over WebSocket
@@ -774,7 +774,7 @@ Generate synthesized speech audio from text input. Returns audio in the requeste
 
 `POST /text-to-speech/speech`
 
-Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `inworld` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble, inworld), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
+Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
 
 ```bash
 curl \
@@ -797,64 +797,3 @@ curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/text-
 ```
 
 Returns: `voices` (array[object])
-
-## Get all Wireless Detail Records (WDRs) Reports
-
-Returns the WDR Reports that match the given parameters.
-
-`GET /wireless/detail_records_reports`
-
-```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/wireless/detail_records_reports"
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Create a Wireless Detail Records (WDRs) Report
-
-Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
-
-`POST /wireless/detail_records_reports`
-
-Optional: `end_time` (string), `start_time` (string)
-
-```bash
-curl \
-  -X POST \
-  -H "Authorization: Bearer $TELNYX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-  "start_time": "2018-02-02T22:25:27.521Z",
-  "end_time": "2018-02-02T22:25:27.521Z"
-}' \
-  "https://api.telnyx.com/v2/wireless/detail_records_reports"
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Get a Wireless Detail Record (WDR) Report
-
-Returns one specific WDR report
-
-`GET /wireless/detail_records_reports/{id}`
-
-```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/wireless/detail_records_reports/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Delete a Wireless Detail Record (WDR) Report
-
-Deletes one specific WDR report.
-
-`DELETE /wireless/detail_records_reports/{id}`
-
-```bash
-curl \
-  -X DELETE \
-  -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/wireless/detail_records_reports/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

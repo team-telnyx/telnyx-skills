@@ -21,11 +21,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -516,6 +516,7 @@ import com.telnyx.sdk.models.simcardorders.SimCardOrderCreateResponse;
 SimCardOrderCreateParams params = SimCardOrderCreateParams.builder()
     .addressId("1293384261075731499")
     .quantity(23L)
+    .simCardGroupId("550e8400-e29b-41d4-a716-446655440000")
     .build();
 SimCardOrderCreateResponse simCardOrder = client.simCardOrders().create(params);
 ```
@@ -555,7 +556,7 @@ Returns: `actions_in_progress` (boolean), `authorized_imeis` (array | null), `cr
 ## Request bulk disabling voice on SIM cards.
 
 This API triggers an asynchronous operation to disable voice on SIM cards belonging to a specified SIM Card Group. 
-For each SIM Card a SIM Card Action will be generated. The status of the SIM Card Actions can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+For each SIM Card a SIM Card Action will be generated.
 
 `POST /sim_cards/actions/bulk_disable_voice` — Required: `sim_card_group_id`
 
@@ -574,7 +575,7 @@ Returns: `action_type` (enum: bulk_disable_voice, bulk_enable_voice, bulk_set_pu
 ## Request bulk enabling voice on SIM cards.
 
 This API triggers an asynchronous operation to enable voice on SIM cards belonging to a specified SIM Card Group. 
-For each SIM Card a SIM Card Action will be generated. The status of the SIM Card Actions can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+For each SIM Card a SIM Card Action will be generated.
 
 `POST /sim_cards/actions/bulk_enable_voice` — Required: `sim_card_group_id`
 
@@ -731,7 +732,7 @@ Returns: `action_type` (enum: enable, enable_standby_sim_card, disable, set_stan
 ## Request setting a SIM card public IP
 
 This API makes a SIM card reachable on the public internet by mapping a random public IP to the SIM card.   
- The API will trigger an asynchronous operation called a SIM Card Action. The status of the SIM Card Action can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+ The API will trigger an asynchronous operation called a SIM Card Action.
 
 `POST /sim_cards/{id}/actions/set_public_ip`
 
@@ -862,7 +863,7 @@ import com.telnyx.sdk.models.storage.migrationsources.MigrationSourceCreateRespo
 import com.telnyx.sdk.models.storage.migrationsources.MigrationSourceParams;
 
 MigrationSourceParams params = MigrationSourceParams.builder()
-    .bucketName("bucket_name")
+    .bucketName("my-bucket")
     .provider(MigrationSourceParams.Provider.AWS)
     .providerAuth(MigrationSourceParams.ProviderAuth.builder().build())
     .build();
@@ -924,9 +925,9 @@ import com.telnyx.sdk.models.storage.migrations.MigrationCreateResponse;
 import com.telnyx.sdk.models.storage.migrations.MigrationParams;
 
 MigrationParams params = MigrationParams.builder()
-    .sourceId("source_id")
-    .targetBucketName("target_bucket_name")
-    .targetRegion("target_region")
+    .sourceId("550e8400-e29b-41d4-a716-446655440000")
+    .targetBucketName("my-target-bucket")
+    .targetRegion("us-central-1")
     .build();
 MigrationCreateResponse migration = client.storage().migrations().create(params);
 ```
@@ -995,7 +996,7 @@ Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionRetrieveParams;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionRetrieveResponse;
 
-MobileVoiceConnectionRetrieveResponse mobileVoiceConnection = client.mobileVoiceConnections().retrieve("id");
+MobileVoiceConnectionRetrieveResponse mobileVoiceConnection = client.mobileVoiceConnections().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time), `id` (string), `inbound` (object), `outbound` (object), `record_type` (enum: mobile_voice_connection), `tags` (array[string]), `updated_at` (date-time), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (string | null), `webhook_event_url` (string | null), `webhook_timeout_secs` (integer | null)
@@ -1010,7 +1011,7 @@ Optional: `active` (boolean), `connection_name` (string), `inbound` (object), `o
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionUpdateParams;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionUpdateResponse;
 
-MobileVoiceConnectionUpdateResponse mobileVoiceConnection = client.mobileVoiceConnections().update("id");
+MobileVoiceConnectionUpdateResponse mobileVoiceConnection = client.mobileVoiceConnections().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time), `id` (string), `inbound` (object), `outbound` (object), `record_type` (enum: mobile_voice_connection), `tags` (array[string]), `updated_at` (date-time), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (string | null), `webhook_event_url` (string | null), `webhook_timeout_secs` (integer | null)
@@ -1023,7 +1024,7 @@ Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionDeleteParams;
 import com.telnyx.sdk.models.mobilevoiceconnections.MobileVoiceConnectionDeleteResponse;
 
-MobileVoiceConnectionDeleteResponse mobileVoiceConnection = client.mobileVoiceConnections().delete("id");
+MobileVoiceConnectionDeleteResponse mobileVoiceConnection = client.mobileVoiceConnections().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time), `id` (string), `inbound` (object), `outbound` (object), `record_type` (enum: mobile_voice_connection), `tags` (array[string]), `updated_at` (date-time), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (string | null), `webhook_event_url` (string | null), `webhook_timeout_secs` (integer | null)

@@ -188,7 +188,7 @@ page = client.document_links.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `document_id` (uuid), `id` (uuid), `linked_record_type` (string), `linked_resource_id` (string), `record_type` (string), `updated_at` (string)
 
 ## List all documents
 
@@ -202,7 +202,7 @@ page = client.documents.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Upload a document
 
@@ -218,7 +218,7 @@ response = client.documents.upload_json(document: {})
 puts(response)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Retrieve a document
 
@@ -232,7 +232,7 @@ document = client.documents.retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 puts(document)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Update a document
 
@@ -240,13 +240,15 @@ Update a document.
 
 `PATCH /documents/{id}`
 
+Optional: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
+
 ```ruby
 document = client.documents.update("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 
 puts(document)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Delete a document
 
@@ -260,7 +262,7 @@ document = client.documents.delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 puts(document)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Download a document
 
@@ -356,7 +358,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 `GET /requirement_groups/{id}`
 
 ```ruby
-requirement_group = client.requirement_groups.retrieve("id")
+requirement_group = client.requirement_groups.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(requirement_group)
 ```
@@ -370,7 +372,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
 
 ```ruby
-requirement_group = client.requirement_groups.update("id")
+requirement_group = client.requirement_groups.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(requirement_group)
 ```
@@ -382,7 +384,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 `DELETE /requirement_groups/{id}`
 
 ```ruby
-requirement_group = client.requirement_groups.delete("id")
+requirement_group = client.requirement_groups.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(requirement_group)
 ```
@@ -394,7 +396,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 `POST /requirement_groups/{id}/submit_for_approval`
 
 ```ruby
-requirement_group = client.requirement_groups.submit_for_approval("id")
+requirement_group = client.requirement_groups.submit_for_approval("550e8400-e29b-41d4-a716-446655440000")
 
 puts(requirement_group)
 ```
@@ -516,7 +518,7 @@ Retrieves the details of an existing user address.
 `GET /user_addresses/{id}`
 
 ```ruby
-user_address = client.user_addresses.retrieve("id")
+user_address = client.user_addresses.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(user_address)
 ```

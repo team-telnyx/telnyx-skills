@@ -21,11 +21,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -94,7 +94,7 @@ import com.telnyx.sdk.models.channelzones.ChannelZoneUpdateParams;
 import com.telnyx.sdk.models.channelzones.ChannelZoneUpdateResponse;
 
 ChannelZoneUpdateParams params = ChannelZoneUpdateParams.builder()
-    .channelZoneId("channel_zone_id")
+    .channelZoneId("550e8400-e29b-41d4-a716-446655440000")
     .channels(0L)
     .build();
 ChannelZoneUpdateResponse channelZone = client.channelZones().update(params);
@@ -299,7 +299,7 @@ Retrieve a list of phone numbers using Channel Billing for a specific Zone.
 import com.telnyx.sdk.models.list.ListRetrieveByZoneParams;
 import com.telnyx.sdk.models.list.ListRetrieveByZoneResponse;
 
-ListRetrieveByZoneResponse response = client.list().retrieveByZone("channel_zone_id");
+ListRetrieveByZoneResponse response = client.list().retrieveByZone("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `number_of_channels` (integer), `numbers` (array[object]), `zone_id` (string), `zone_name` (string)

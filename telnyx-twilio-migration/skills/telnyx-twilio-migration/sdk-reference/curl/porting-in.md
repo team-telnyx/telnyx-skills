@@ -64,12 +64,10 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "phone_numbers": [
-    "+13035550000",
-    "+13035550001",
-    "+13035550002"
-  ]
-}' \
+      "phone_numbers": [
+          "+18005550101"
+      ]
+  }' \
   "https://api.telnyx.com/v2/portability_checks"
 ```
 
@@ -85,7 +83,7 @@ Returns a list of all porting events.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting/events"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_notification_methods` (array[string]), `event_type` (enum: porting_order.deleted), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `porting_order_id` (uuid)
 
 ## Show a porting event
 
@@ -94,10 +92,10 @@ Show a specific porting event.
 `GET /porting/events/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting/events/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting/events/550e8400-e29b-41d4-a716-446655440000"
 ```
 
-Returns: `data` (object)
+Returns: `available_notification_methods` (array[string]), `event_type` (enum: porting_order.deleted), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `porting_order_id` (uuid)
 
 ## Republish a porting event
 
@@ -110,21 +108,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting/events/{id}/republish"
-```
-
-## Preview the LOA configuration parameters
-
-Preview the LOA template that would be generated without need to create LOA configuration.
-
-`POST /porting/loa_configuration/preview`
-
-```bash
-curl \
-  -X POST \
-  -H "Authorization: Bearer $TELNYX_API_KEY" \
-  -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting/loa_configuration/preview"
+  "https://api.telnyx.com/v2/porting/events/550e8400-e29b-41d4-a716-446655440000/republish"
 ```
 
 ## List LOA configurations
@@ -155,6 +139,20 @@ curl \
 
 Returns: `address` (object), `company_name` (string), `contact` (object), `created_at` (date-time), `id` (uuid), `logo` (object), `name` (string), `organization_id` (string), `record_type` (string), `updated_at` (date-time)
 
+## Preview the LOA configuration parameters
+
+Preview the LOA template that would be generated without need to create LOA configuration.
+
+`POST /porting/loa_configurations/preview`
+
+```bash
+curl \
+  -X POST \
+  -H "Authorization: Bearer $TELNYX_API_KEY" \
+  -H "Content-Type: application/json" \
+  "https://api.telnyx.com/v2/porting/loa_configurations/preview"
+```
+
 ## Retrieve a LOA configuration
 
 Retrieve a specific LOA configuration.
@@ -162,7 +160,7 @@ Retrieve a specific LOA configuration.
 `GET /porting/loa_configurations/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting/loa_configurations/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting/loa_configurations/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `address` (object), `company_name` (string), `contact` (object), `created_at` (date-time), `id` (uuid), `logo` (object), `name` (string), `organization_id` (string), `record_type` (string), `updated_at` (date-time)
@@ -178,7 +176,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting/loa_configurations/{id}"
+  "https://api.telnyx.com/v2/porting/loa_configurations/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `address` (object), `company_name` (string), `contact` (object), `created_at` (date-time), `id` (uuid), `logo` (object), `name` (string), `organization_id` (string), `record_type` (string), `updated_at` (date-time)
@@ -193,7 +191,7 @@ Delete a specific LOA configuration.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/porting/loa_configurations/{id}"
+  "https://api.telnyx.com/v2/porting/loa_configurations/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 ## Preview a LOA configuration
@@ -203,7 +201,7 @@ Preview a specific LOA configuration.
 `GET /porting/loa_configurations/{id}/preview`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting/loa_configurations/{id}/preview"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting/loa_configurations/550e8400-e29b-41d4-a716-446655440000/preview"
 ```
 
 ## List porting related reports
@@ -241,7 +239,7 @@ Retrieve a specific report generated.
 `GET /porting/reports/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting/reports/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting/reports/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (date-time), `document_id` (uuid), `id` (uuid), `params` (object), `record_type` (string), `report_type` (enum: export_porting_orders_csv), `status` (enum: pending, completed), `updated_at` (date-time)
@@ -288,9 +286,7 @@ curl \
     "+13035550000",
     "+13035550001",
     "+13035550002"
-  ],
-  "customer_reference": "Acct 123abc",
-  "customer_group_reference": "Group-456"
+  ]
 }' \
   "https://api.telnyx.com/v2/porting_orders"
 ```
@@ -344,7 +340,7 @@ Retrieves the details of an existing porting order.
 `GET /porting_orders/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `activation_settings` (object), `additional_steps` (array[string]), `created_at` (date-time), `customer_group_reference` (string | null), `customer_reference` (string | null), `description` (string), `documents` (object), `end_user` (object), `id` (uuid), `messaging` (object), `misc` (object), `old_service_provider_ocn` (string), `parent_support_key` (string | null), `phone_number_configuration` (object), `phone_number_type` (enum: landline, local, mobile, national, shared_cost, toll_free), `phone_numbers` (array[object]), `porting_phone_numbers_count` (integer), `record_type` (string), `requirements` (array[object]), `requirements_met` (boolean), `status` (object), `support_key` (string | null), `updated_at` (date-time), `user_feedback` (object), `user_id` (uuid), `webhook_url` (uri)
@@ -362,10 +358,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "requirement_group_id": "DE748D99-06FA-4D90-9F9A-F4B62696BADA"
-}' \
-  "https://api.telnyx.com/v2/porting_orders/{id}"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `activation_settings` (object), `additional_steps` (array[string]), `created_at` (date-time), `customer_group_reference` (string | null), `customer_reference` (string | null), `description` (string), `documents` (object), `end_user` (object), `id` (uuid), `messaging` (object), `misc` (object), `old_service_provider_ocn` (string), `parent_support_key` (string | null), `phone_number_configuration` (object), `phone_number_type` (enum: landline, local, mobile, national, shared_cost, toll_free), `phone_numbers` (array[object]), `porting_phone_numbers_count` (integer), `record_type` (string), `requirements` (array[object]), `requirements_met` (boolean), `status` (object), `support_key` (string | null), `updated_at` (date-time), `user_feedback` (object), `user_id` (uuid), `webhook_url` (uri)
@@ -380,7 +373,7 @@ Deletes an existing porting order. This operation is restrict to porting orders 
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/porting_orders/{id}"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 ## Activate every number in a porting order asynchronously.
@@ -394,7 +387,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting_orders/{id}/actions/activate"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/actions/activate"
 ```
 
 Returns: `activate_at` (date-time), `activation_type` (enum: scheduled, on-demand), `activation_windows` (array[object]), `created_at` (date-time), `id` (uuid), `record_type` (string), `status` (enum: created, in-process, completed, failed), `updated_at` (date-time)
@@ -408,7 +401,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting_orders/{id}/actions/cancel"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/actions/cancel"
 ```
 
 Returns: `activation_settings` (object), `additional_steps` (array[string]), `created_at` (date-time), `customer_group_reference` (string | null), `customer_reference` (string | null), `description` (string), `documents` (object), `end_user` (object), `id` (uuid), `messaging` (object), `misc` (object), `old_service_provider_ocn` (string), `parent_support_key` (string | null), `phone_number_configuration` (object), `phone_number_type` (enum: landline, local, mobile, national, shared_cost, toll_free), `phone_numbers` (array[object]), `porting_phone_numbers_count` (integer), `record_type` (string), `requirements` (array[object]), `requirements_met` (boolean), `status` (object), `support_key` (string | null), `updated_at` (date-time), `user_feedback` (object), `user_id` (uuid), `webhook_url` (uri)
@@ -424,7 +417,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting_orders/{id}/actions/confirm"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/actions/confirm"
 ```
 
 Returns: `activation_settings` (object), `additional_steps` (array[string]), `created_at` (date-time), `customer_group_reference` (string | null), `customer_reference` (string | null), `description` (string), `documents` (object), `end_user` (object), `id` (uuid), `messaging` (object), `misc` (object), `old_service_provider_ocn` (string), `parent_support_key` (string | null), `phone_number_configuration` (object), `phone_number_type` (enum: landline, local, mobile, national, shared_cost, toll_free), `phone_numbers` (array[object]), `porting_phone_numbers_count` (integer), `record_type` (string), `requirements` (array[object]), `requirements_met` (boolean), `status` (object), `support_key` (string | null), `updated_at` (date-time), `user_feedback` (object), `user_id` (uuid), `webhook_url` (uri)
@@ -440,7 +433,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting_orders/{id}/actions/share"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/actions/share"
 ```
 
 Returns: `created_at` (date-time), `expires_at` (date-time), `expires_in_seconds` (integer), `id` (uuid), `permissions` (array[string]), `porting_order_id` (uuid), `record_type` (string), `token` (string)
@@ -452,7 +445,7 @@ Returns a list of your porting activation jobs.
 `GET /porting_orders/{id}/activation_jobs`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/{id}/activation_jobs"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/activation_jobs"
 ```
 
 Returns: `activate_at` (date-time), `activation_type` (enum: scheduled, on-demand), `activation_windows` (array[object]), `created_at` (date-time), `id` (uuid), `record_type` (string), `status` (enum: created, in-process, completed, failed), `updated_at` (date-time)
@@ -464,7 +457,7 @@ Returns a porting activation job.
 `GET /porting_orders/{id}/activation_jobs/{activationJobId}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/{id}/activation_jobs/{activationJobId}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/activation_jobs/{activationJobId}"
 ```
 
 Returns: `activate_at` (date-time), `activation_type` (enum: scheduled, on-demand), `activation_windows` (array[object]), `created_at` (date-time), `id` (uuid), `record_type` (string), `status` (enum: created, in-process, completed, failed), `updated_at` (date-time)
@@ -480,7 +473,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting_orders/{id}/activation_jobs/{activationJobId}"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/activation_jobs/{activationJobId}"
 ```
 
 Returns: `activate_at` (date-time), `activation_type` (enum: scheduled, on-demand), `activation_windows` (array[object]), `created_at` (date-time), `id` (uuid), `record_type` (string), `status` (enum: created, in-process, completed, failed), `updated_at` (date-time)
@@ -492,7 +485,7 @@ Returns a list of additional documents for a porting order.
 `GET /porting_orders/{id}/additional_documents`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/{id}/additional_documents"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/additional_documents"
 ```
 
 Returns: `content_type` (string), `created_at` (date-time), `document_id` (uuid), `document_type` (enum: loa, invoice, csr, other), `filename` (string), `id` (uuid), `porting_order_id` (uuid), `record_type` (string), `updated_at` (date-time)
@@ -508,7 +501,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting_orders/{id}/additional_documents"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/additional_documents"
 ```
 
 Returns: `content_type` (string), `created_at` (date-time), `document_id` (uuid), `document_type` (enum: loa, invoice, csr, other), `filename` (string), `id` (uuid), `porting_order_id` (uuid), `record_type` (string), `updated_at` (date-time)
@@ -523,7 +516,7 @@ Deletes an additional document for a porting order.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/porting_orders/{id}/additional_documents/{additional_document_id}"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/additional_documents/{additional_document_id}"
 ```
 
 ## List allowed FOC dates
@@ -533,7 +526,7 @@ Returns a list of allowed FOC dates for a porting order.
 `GET /porting_orders/{id}/allowed_foc_windows`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/{id}/allowed_foc_windows"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/allowed_foc_windows"
 ```
 
 Returns: `ended_at` (date-time), `record_type` (string), `started_at` (date-time)
@@ -545,7 +538,7 @@ Returns a list of all comments of a porting order.
 `GET /porting_orders/{id}/comments`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/{id}/comments"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/comments"
 ```
 
 Returns: `body` (string), `created_at` (date-time), `id` (uuid), `porting_order_id` (uuid), `record_type` (string), `user_type` (enum: admin, user, system)
@@ -563,10 +556,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "body": "Please, let me know when the port completes"
-}' \
-  "https://api.telnyx.com/v2/porting_orders/{id}/comments"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/comments"
 ```
 
 Returns: `body` (string), `created_at` (date-time), `id` (uuid), `porting_order_id` (uuid), `record_type` (string), `user_type` (enum: admin, user, system)
@@ -576,7 +566,7 @@ Returns: `body` (string), `created_at` (date-time), `id` (uuid), `porting_order_
 `GET /porting_orders/{id}/loa_template`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/{id}/loa_template?loa_configuration_id=a36c2277-446b-4d11-b4ea-322e02a5c08d"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/loa_template?loa_configuration_id=a36c2277-446b-4d11-b4ea-322e02a5c08d"
 ```
 
 ## List porting order requirements
@@ -586,7 +576,7 @@ Returns a list of all requirements based on country/number type for this porting
 `GET /porting_orders/{id}/requirements`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/{id}/requirements"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/requirements"
 ```
 
 Returns: `field_type` (enum: document, textual), `field_value` (string), `record_type` (string), `requirement_status` (string), `requirement_type` (object)
@@ -596,7 +586,7 @@ Returns: `field_type` (enum: document, textual), `field_value` (string), `record
 `GET /porting_orders/{id}/sub_request`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/{id}/sub_request"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/sub_request"
 ```
 
 Returns: `port_request_id` (string), `sub_request_id` (string)
@@ -608,7 +598,7 @@ Returns a list of verification codes for a porting order.
 `GET /porting_orders/{id}/verification_codes`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/{id}/verification_codes"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/verification_codes"
 ```
 
 Returns: `created_at` (date-time), `id` (uuid), `phone_number` (string), `porting_order_id` (uuid), `record_type` (string), `updated_at` (date-time), `verified` (boolean)
@@ -624,7 +614,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting_orders/{id}/verification_codes/send"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/verification_codes/send"
 ```
 
 ## Verify the verification code for a list of phone numbers
@@ -638,7 +628,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting_orders/{id}/verification_codes/verify"
+  "https://api.telnyx.com/v2/porting_orders/550e8400-e29b-41d4-a716-446655440000/verification_codes/verify"
 ```
 
 Returns: `created_at` (date-time), `id` (uuid), `phone_number` (string), `porting_order_id` (uuid), `record_type` (string), `updated_at` (date-time), `verified` (boolean)
@@ -666,7 +656,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/porting_orders/{porting_order_id}/action_requirements/{id}/initiate"
+  "https://api.telnyx.com/v2/porting_orders/{porting_order_id}/action_requirements/550e8400-e29b-41d4-a716-446655440000/initiate"
 ```
 
 Returns: `action_type` (string), `action_url` (string | null), `cancel_reason` (string | null), `created_at` (date-time), `id` (string), `porting_order_id` (string), `record_type` (enum: porting_action_requirement), `requirement_type_id` (string), `status` (enum: created, pending, completed, cancelled, failed), `updated_at` (date-time)
@@ -709,7 +699,7 @@ Deletes an associated phone number from a porting order.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/porting_orders/{porting_order_id}/associated_phone_numbers/{id}"
+  "https://api.telnyx.com/v2/porting_orders/{porting_order_id}/associated_phone_numbers/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `action` (enum: keep, disconnect), `country_code` (string), `created_at` (date-time), `id` (uuid), `phone_number_range` (object), `phone_number_type` (enum: landline, local, mobile, national, shared_cost, toll_free), `porting_order_id` (uuid), `record_type` (string), `updated_at` (date-time)
@@ -752,7 +742,7 @@ Deletes a phone number block.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/porting_orders/{porting_order_id}/phone_number_blocks/{id}"
+  "https://api.telnyx.com/v2/porting_orders/{porting_order_id}/phone_number_blocks/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `activation_ranges` (array[object]), `country_code` (string), `created_at` (date-time), `id` (uuid), `phone_number_range` (object), `phone_number_type` (enum: landline, local, mobile, national, shared_cost, toll_free), `record_type` (string), `updated_at` (date-time)
@@ -795,7 +785,7 @@ Deletes a phone number extension.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/porting_orders/{porting_order_id}/phone_number_extensions/{id}"
+  "https://api.telnyx.com/v2/porting_orders/{porting_order_id}/phone_number_extensions/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `activation_ranges` (array[object]), `created_at` (date-time), `extension_range` (object), `id` (uuid), `porting_phone_number_id` (uuid), `record_type` (string), `updated_at` (date-time)

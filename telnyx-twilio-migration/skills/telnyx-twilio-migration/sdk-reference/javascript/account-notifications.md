@@ -76,7 +76,10 @@ Create a notification channel.
 Optional: `channel_destination` (string), `channel_type_id` (enum: sms, voice, email, webhook), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
 
 ```javascript
-const notificationChannel = await client.notificationChannels.create();
+const notificationChannel = await client.notificationChannels.create({
+    channelTypeId: 'webhook',
+    channelDestination: 'https://example.com/webhooks',
+});
 
 console.log(notificationChannel.data);
 ```
@@ -187,7 +190,9 @@ Create a notification profile.
 Optional: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)
 
 ```javascript
-const notificationProfile = await client.notificationProfiles.create();
+const notificationProfile = await client.notificationProfiles.create({
+    name: 'My Notification Profile',
+});
 
 console.log(notificationProfile.data);
 ```

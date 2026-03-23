@@ -9,11 +9,11 @@
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -61,13 +61,13 @@ the audio files will be placed in a queue awaiting playback. *Notes:*
 
 `POST /calls/{call_control_id}/actions/playback_start`
 
-Optional: `audio_type` (enum: mp3, wav), `audio_url` (string), `cache_audio` (boolean), `client_state` (string), `command_id` (string), `loop` (object), `media_name` (string), `overlay` (boolean), `playback_content` (string), `stop` (string), `target_legs` (string)
+Optional: `audio_type` (enum: mp3, wav), `audio_url` (string), `cache_audio` (boolean), `client_state` (string), `command_id` (string), `loop` (string), `media_name` (string), `overlay` (boolean), `playback_content` (string), `stop` (string), `target_legs` (string)
 
 ```java
 import com.telnyx.sdk.models.calls.actions.ActionStartPlaybackParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartPlaybackResponse;
 
-ActionStartPlaybackResponse response = client.calls().actions().startPlayback("call_control_id");
+ActionStartPlaybackResponse response = client.calls().actions().startPlayback("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -86,7 +86,7 @@ Optional: `client_state` (string), `command_id` (string), `overlay` (boolean), `
 import com.telnyx.sdk.models.calls.actions.ActionStopPlaybackParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopPlaybackResponse;
 
-ActionStopPlaybackResponse response = client.calls().actions().stopPlayback("call_control_id");
+ActionStopPlaybackResponse response = client.calls().actions().stopPlayback("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -105,7 +105,7 @@ Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid)
 import com.telnyx.sdk.models.calls.actions.ActionPauseRecordingParams;
 import com.telnyx.sdk.models.calls.actions.ActionPauseRecordingResponse;
 
-ActionPauseRecordingResponse response = client.calls().actions().pauseRecording("call_control_id");
+ActionPauseRecordingResponse response = client.calls().actions().pauseRecording("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -124,7 +124,7 @@ Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid)
 import com.telnyx.sdk.models.calls.actions.ActionResumeRecordingParams;
 import com.telnyx.sdk.models.calls.actions.ActionResumeRecordingResponse;
 
-ActionResumeRecordingResponse response = client.calls().actions().resumeRecording("call_control_id");
+ActionResumeRecordingResponse response = client.calls().actions().resumeRecording("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -146,7 +146,7 @@ import com.telnyx.sdk.models.calls.actions.ActionStartRecordingParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartRecordingResponse;
 
 ActionStartRecordingParams params = ActionStartRecordingParams.builder()
-    .callControlId("call_control_id")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .channels(ActionStartRecordingParams.Channels.SINGLE)
     .format(ActionStartRecordingParams.Format.WAV)
     .build();
@@ -171,7 +171,7 @@ import com.telnyx.sdk.models.calls.actions.ActionStopRecordingResponse;
 import com.telnyx.sdk.models.calls.actions.StopRecordingRequest;
 
 ActionStopRecordingParams params = ActionStopRecordingParams.builder()
-    .callControlId("call_control_id")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .stopRecordingRequest(StopRecordingRequest.builder().build())
     .build();
 ActionStopRecordingResponse response = client.calls().actions().stopRecording(params);
@@ -188,16 +188,17 @@ Convert text to speech and play it back on the call. If multiple speak text comm
 
 `POST /calls/{call_control_id}/actions/speak` — Required: `payload`, `voice`
 
-Optional: `client_state` (string), `command_id` (string), `language` (enum: arb, cmn-CN, cy-GB, da-DK, de-DE, en-AU, en-GB, en-GB-WLS, en-IN, en-US, es-ES, es-MX, es-US, fr-CA, fr-FR, hi-IN, is-IS, it-IT, ja-JP, ko-KR, nb-NO, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sv-SE, tr-TR), `loop` (object), `payload_type` (enum: text, ssml), `service_level` (enum: basic, premium), `stop` (string), `target_legs` (enum: self, opposite, both), `voice_settings` (object)
+Optional: `client_state` (string), `command_id` (string), `language` (enum: arb, cmn-CN, cy-GB, da-DK, de-DE, en-AU, en-GB, en-GB-WLS, en-IN, en-US, es-ES, es-MX, es-US, fr-CA, fr-FR, hi-IN, is-IS, it-IT, ja-JP, ko-KR, nb-NO, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sv-SE, tr-TR), `loop` (string), `payload_type` (enum: text, ssml), `service_level` (enum: basic, premium), `stop` (string), `target_legs` (enum: self, opposite, both), `voice_settings` (object)
 
 ```java
 import com.telnyx.sdk.models.calls.actions.ActionSpeakParams;
 import com.telnyx.sdk.models.calls.actions.ActionSpeakResponse;
 
 ActionSpeakParams params = ActionSpeakParams.builder()
-    .callControlId("call_control_id")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .payload("Say this on the call")
     .voice("female")
+    .language("en-US")
     .build();
 ActionSpeakResponse response = client.calls().actions().speak(params);
 ```

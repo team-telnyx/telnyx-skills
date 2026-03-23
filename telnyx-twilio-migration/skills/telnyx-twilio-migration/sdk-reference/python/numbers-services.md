@@ -73,7 +73,7 @@ Update the number of Voice Channels for the Non-US Zones. This allows your accou
 
 ```python
 channel_zone = client.channel_zones.update(
-    channel_zone_id="channel_zone_id",
+    channel_zone_id="550e8400-e29b-41d4-a716-446655440000",
     channels=0,
 )
 print(channel_zone.id)

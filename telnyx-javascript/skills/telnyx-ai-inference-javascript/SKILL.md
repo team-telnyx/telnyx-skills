@@ -84,7 +84,7 @@ Chat with a language model. This endpoint is consistent with the [OpenAI Chat Co
 
 `POST /ai/chat/completions` — Required: `messages`
 
-Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `enable_thinking` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
 
 ```javascript
 const response = await client.ai.chat.createCompletion({
@@ -152,7 +152,7 @@ Optional: `description` (string), `webhook` (string)
 
 ```javascript
 const insightTemplateGroupDetail = await client.ai.conversations.insightGroups.insightGroups({
-  name: 'name',
+  name: 'my-resource',
 });
 
 console.log(insightTemplateGroupDetail.data);
@@ -255,8 +255,8 @@ Optional: `json_schema` (object), `webhook` (string)
 
 ```javascript
 const insightTemplateDetail = await client.ai.conversations.insights.create({
-  instructions: 'instructions',
-  name: 'name',
+  instructions: 'You are a helpful assistant.',
+  name: 'my-resource',
 });
 
 console.log(insightTemplateDetail.data);
@@ -315,7 +315,7 @@ Retrieve a specific AI conversation by its ID.
 `GET /ai/conversations/{conversation_id}`
 
 ```javascript
-const conversation = await client.ai.conversations.retrieve('conversation_id');
+const conversation = await client.ai.conversations.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(conversation.data);
 ```
@@ -331,7 +331,7 @@ Update metadata for a specific conversation.
 Optional: `metadata` (object)
 
 ```javascript
-const conversation = await client.ai.conversations.update('conversation_id');
+const conversation = await client.ai.conversations.update('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(conversation.data);
 ```
@@ -345,7 +345,7 @@ Delete a specific conversation by its ID.
 `DELETE /ai/conversations/{conversation_id}`
 
 ```javascript
-await client.ai.conversations.delete('conversation_id');
+await client.ai.conversations.delete('550e8400-e29b-41d4-a716-446655440000');
 ```
 
 ## Get insights for a conversation
@@ -355,7 +355,7 @@ Retrieve insights for a specific conversation
 `GET /ai/conversations/{conversation_id}/conversations-insights`
 
 ```javascript
-const response = await client.ai.conversations.retrieveConversationsInsights('conversation_id');
+const response = await client.ai.conversations.retrieveConversationsInsights('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -371,7 +371,7 @@ Add a new message to the conversation. Used to insert a new messages to a conver
 Optional: `content` (string), `metadata` (object), `name` (string), `sent_at` (date-time), `tool_call_id` (string), `tool_calls` (array[object]), `tool_choice` (object)
 
 ```javascript
-await client.ai.conversations.addMessage('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { role: 'role' });
+await client.ai.conversations.addMessage('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { role: 'user' });
 ```
 
 ## Get conversation messages
@@ -381,7 +381,7 @@ Retrieve messages for a specific conversation, including tool calls made by the 
 `GET /ai/conversations/{conversation_id}/messages`
 
 ```javascript
-const messages = await client.ai.conversations.messages.list('conversation_id');
+const messages = await client.ai.conversations.messages.list('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(messages.data);
 ```
@@ -473,7 +473,7 @@ Optional: `num_of_docs` (integer)
 ```javascript
 const response = await client.ai.embeddings.similaritySearch({
   bucket_name: 'bucket_name',
-  query: 'query',
+  query: 'What is Telnyx?',
 });
 
 console.log(response.data);
@@ -490,7 +490,7 @@ Embed website content from a specified URL, including child pages up to 5 levels
 ```javascript
 const embeddingResponse = await client.ai.embeddings.url({
   bucket_name: 'bucket_name',
-  url: 'url',
+  url: 'https://example.com/resource',
 });
 
 console.log(embeddingResponse.data);
@@ -541,7 +541,7 @@ Optional: `hyperparameters` (object), `suffix` (string)
 
 ```javascript
 const fineTuningJob = await client.ai.fineTuning.jobs.create({
-  model: 'model',
+  model: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
   training_file: 'training_file',
 });
 
@@ -639,7 +639,7 @@ Generate a summary of a file's contents. Supports the following text formats:
 Optional: `system_prompt` (string)
 
 ```javascript
-const response = await client.ai.summarize({ bucket: 'bucket', filename: 'filename' });
+const response = await client.ai.summarize({ bucket: 'my-bucket', filename: 'data.csv' });
 
 console.log(response.data);
 ```
@@ -729,7 +729,7 @@ Generate synthesized speech audio from text input. Returns audio in the requeste
 
 `POST /text-to-speech/speech`
 
-Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `inworld` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble, inworld), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
+Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
 
 ```javascript
 const response = await client.textToSpeech.generate();
@@ -752,65 +752,3 @@ console.log(response.voices);
 ```
 
 Returns: `voices` (array[object])
-
-## Get all Wireless Detail Records (WDRs) Reports
-
-Returns the WDR Reports that match the given parameters.
-
-`GET /wireless/detail_records_reports`
-
-```javascript
-const detailRecordsReports = await client.wireless.detailRecordsReports.list();
-
-console.log(detailRecordsReports.data);
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Create a Wireless Detail Records (WDRs) Report
-
-Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
-
-`POST /wireless/detail_records_reports`
-
-Optional: `end_time` (string), `start_time` (string)
-
-```javascript
-const detailRecordsReport = await client.wireless.detailRecordsReports.create();
-
-console.log(detailRecordsReport.data);
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Get a Wireless Detail Record (WDR) Report
-
-Returns one specific WDR report
-
-`GET /wireless/detail_records_reports/{id}`
-
-```javascript
-const detailRecordsReport = await client.wireless.detailRecordsReports.retrieve(
-  '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
-);
-
-console.log(detailRecordsReport.data);
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Delete a Wireless Detail Record (WDR) Report
-
-Deletes one specific WDR report.
-
-`DELETE /wireless/detail_records_reports/{id}`
-
-```javascript
-const detailRecordsReport = await client.wireless.detailRecordsReports.delete(
-  '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
-);
-
-console.log(detailRecordsReport.data);
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

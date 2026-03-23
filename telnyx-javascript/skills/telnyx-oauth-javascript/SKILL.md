@@ -100,7 +100,7 @@ OAuth 2.0 authorization endpoint for the authorization code flow
 
 ```javascript
 await client.oauth.retrieveAuthorize({
-  client_id: 'client_id',
+  client_id: '550e8400-e29b-41d4-a716-446655440000',
   redirect_uri: 'https://example.com',
   response_type: 'code',
 });
@@ -141,7 +141,7 @@ Introspect an OAuth access token to check its validity and metadata
 `POST /oauth/introspect` — Required: `token`
 
 ```javascript
-const response = await client.oauth.introspect({ token: 'token' });
+const response = await client.oauth.introspect({ token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example' });
 
 console.log(response.client_id);
 ```

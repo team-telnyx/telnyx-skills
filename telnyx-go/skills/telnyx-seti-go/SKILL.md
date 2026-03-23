@@ -75,9 +75,9 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `GET /10dlc/enum/{endpoint}`
 
 ```go
-	response, err := client.Messaging10dlc.GetEnum(context.TODO(), telnyx.Messaging10dlcGetEnumParamsEndpointMno)
+	response, err := client.Messaging10dlc.GetEnum(context.Background(), telnyx.Messaging10dlcGetEnumParamsEndpointMno)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -89,9 +89,9 @@ Returns the results of the various black box tests
 `GET /seti/black_box_test_results`
 
 ```go
-	response, err := client.Seti.GetBlackBoxTestResults(context.TODO(), telnyx.SetiGetBlackBoxTestResultsParams{})
+	response, err := client.Seti.GetBlackBoxTestResults(context.Background(), telnyx.SetiGetBlackBoxTestResultsParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```

@@ -106,19 +106,12 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "id": "0ccc7b54-4df3-4bca-a65a-3da1ecc777f1",
-  "record_type": "dynamic_emergency_address",
-  "sip_geolocation_id": "XYZ123",
-  "status": "pending",
   "house_number": "600",
   "street_name": "Congress",
-  "street_suffix": "St",
   "locality": "Austin",
   "administrative_area": "TX",
   "postal_code": "78701",
-  "country_code": "US",
-  "created_at": "2018-02-02T22:25:27.521Z",
-  "updated_at": "2018-02-02T22:25:27.521Z"
+  "country_code": "US"
 }' \
   "https://api.telnyx.com/v2/dynamic_emergency_addresses"
 ```
@@ -132,7 +125,7 @@ Returns the dynamic emergency address based on the ID provided
 `GET /dynamic_emergency_addresses/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/dynamic_emergency_addresses/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/dynamic_emergency_addresses/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `administrative_area` (string), `country_code` (enum: US, CA, PR), `created_at` (string), `extended_address` (string), `house_number` (string), `house_suffix` (string), `id` (string), `locality` (string), `postal_code` (string), `record_type` (string), `sip_geolocation_id` (string), `status` (enum: pending, activated, rejected), `street_name` (string), `street_post_directional` (string), `street_pre_directional` (string), `street_suffix` (string), `updated_at` (string)
@@ -147,7 +140,7 @@ Deletes the dynamic emergency address based on the ID provided
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/dynamic_emergency_addresses/{id}"
+  "https://api.telnyx.com/v2/dynamic_emergency_addresses/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `administrative_area` (string), `country_code` (enum: US, CA, PR), `created_at` (string), `extended_address` (string), `house_number` (string), `house_suffix` (string), `id` (string), `locality` (string), `postal_code` (string), `record_type` (string), `sip_geolocation_id` (string), `status` (enum: pending, activated, rejected), `street_name` (string), `street_post_directional` (string), `street_pre_directional` (string), `street_suffix` (string), `updated_at` (string)
@@ -178,15 +171,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "id": "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
-  "record_type": "dynamic_emergency_endpoint",
   "dynamic_emergency_address_id": "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
-  "status": "pending",
-  "sip_from_id": "FXDFWEDF",
   "callback_number": "+13125550000",
-  "caller_name": "Jane Doe Desk Phone",
-  "created_at": "2018-02-02T22:25:27.521Z",
-  "updated_at": "2018-02-02T22:25:27.521Z"
+  "caller_name": "Jane Doe Desk Phone"
 }' \
   "https://api.telnyx.com/v2/dynamic_emergency_endpoints"
 ```
@@ -200,7 +187,7 @@ Returns the dynamic emergency endpoint based on the ID provided
 `GET /dynamic_emergency_endpoints/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/dynamic_emergency_endpoints/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/dynamic_emergency_endpoints/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `callback_number` (string), `caller_name` (string), `created_at` (string), `dynamic_emergency_address_id` (string), `id` (string), `record_type` (string), `sip_from_id` (string), `status` (enum: pending, activated, rejected), `updated_at` (string)
@@ -215,7 +202,7 @@ Deletes the dynamic emergency endpoint based on the ID provided
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/dynamic_emergency_endpoints/{id}"
+  "https://api.telnyx.com/v2/dynamic_emergency_endpoints/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `callback_number` (string), `caller_name` (string), `created_at` (string), `dynamic_emergency_address_id` (string), `id` (string), `record_type` (string), `sip_from_id` (string), `status` (enum: pending, activated, rejected), `updated_at` (string)
@@ -300,10 +287,6 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "pin": "1234",
-  "enabled": true
-}' \
   "https://api.telnyx.com/v2/phone_numbers/{phone_number_id}/voicemail"
 ```
 
@@ -322,10 +305,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "pin": "1234",
-  "enabled": true
-}' \
   "https://api.telnyx.com/v2/phone_numbers/{phone_number_id}/voicemail"
 ```
 

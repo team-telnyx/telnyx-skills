@@ -62,7 +62,7 @@ Optional: `mms_fallback` (object), `sms_fallback` (object), `type` (enum: RCS), 
 response = client.messages.rcs.send(
     agent_id="Agent007",
     agent_message={},
-    messaging_profile_id="messaging_profile_id",
+    messaging_profile_id="550e8400-e29b-41d4-a716-446655440000",
     to="+13125551234",
 )
 print(response.data)
@@ -78,7 +78,7 @@ Generate a deeplink URL that can be used to start an RCS conversation with a spe
 
 ```python
 response = client.messages.rcs.generate_deeplink(
-    agent_id="agent_id",
+    agent_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -118,7 +118,7 @@ Optional: `profile_id` (uuid), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```python
 rcs_agent_response = client.messaging.rcs.agents.update(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(rcs_agent_response.data)
 ```
@@ -145,8 +145,8 @@ Returns: `agent_id` (string), `agent_name` (string), `features` (array[string]),
 
 ```python
 response = client.messaging.rcs.retrieve_capabilities(
-    phone_number="phone_number",
-    agent_id="agent_id",
+    phone_number="+13125550001",
+    agent_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -161,8 +161,8 @@ Adds a test phone number to an RCS agent for testing purposes.
 
 ```python
 response = client.messaging.rcs.invite_test_number(
-    phone_number="phone_number",
-    id="id",
+    phone_number="+13125550001",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -241,7 +241,7 @@ Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (a
 
 ```python
 response = client.messaging_hosted_number_orders.actions.upload_file(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -256,7 +256,7 @@ Validate the verification codes sent to the numbers of the hosted order. The ver
 
 ```python
 response = client.messaging_hosted_number_orders.validate_codes(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
     verification_codes=[{
         "code": "code",
         "phone_number": "phone_number",
@@ -275,7 +275,7 @@ Create verification codes to validate numbers of the hosted order. The verificat
 
 ```python
 response = client.messaging_hosted_number_orders.create_verification_codes(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
     phone_numbers=["string"],
     verification_method="sms",
 )

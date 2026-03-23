@@ -481,6 +481,7 @@ Creates a new order for SIM cards.
 const simCardOrder = await client.simCardOrders.create({
   address_id: '1293384261075731499',
   quantity: 23,
+    simCardGroupId: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(simCardOrder.data);
@@ -520,7 +521,7 @@ Returns: `actions_in_progress` (boolean), `authorized_imeis` (array | null), `cr
 ## Request bulk disabling voice on SIM cards.
 
 This API triggers an asynchronous operation to disable voice on SIM cards belonging to a specified SIM Card Group. 
-For each SIM Card a SIM Card Action will be generated. The status of the SIM Card Actions can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+For each SIM Card a SIM Card Action will be generated.
 
 `POST /sim_cards/actions/bulk_disable_voice` — Required: `sim_card_group_id`
 
@@ -537,7 +538,7 @@ Returns: `action_type` (enum: bulk_disable_voice, bulk_enable_voice, bulk_set_pu
 ## Request bulk enabling voice on SIM cards.
 
 This API triggers an asynchronous operation to enable voice on SIM cards belonging to a specified SIM Card Group. 
-For each SIM Card a SIM Card Action will be generated. The status of the SIM Card Actions can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+For each SIM Card a SIM Card Action will be generated.
 
 `POST /sim_cards/actions/bulk_enable_voice` — Required: `sim_card_group_id`
 
@@ -680,7 +681,7 @@ Returns: `action_type` (enum: enable, enable_standby_sim_card, disable, set_stan
 ## Request setting a SIM card public IP
 
 This API makes a SIM card reachable on the public internet by mapping a random public IP to the SIM card.   
- The API will trigger an asynchronous operation called a SIM Card Action. The status of the SIM Card Action can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+ The API will trigger an asynchronous operation called a SIM Card Action.
 
 `POST /sim_cards/{id}/actions/set_public_ip`
 
@@ -858,7 +859,7 @@ Optional: `bytes_migrated` (integer), `bytes_to_migrate` (integer), `created_at`
 
 ```javascript
 const migration = await client.storage.migrations.create({
-  source_id: 'source_id',
+  source_id: '550e8400-e29b-41d4-a716-446655440000',
   target_bucket_name: 'target_bucket_name',
   target_region: 'target_region',
 });
@@ -924,7 +925,7 @@ Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time
 `GET /v2/mobile_voice_connections/{id}`
 
 ```javascript
-const mobileVoiceConnection = await client.mobileVoiceConnections.retrieve('id');
+const mobileVoiceConnection = await client.mobileVoiceConnections.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(mobileVoiceConnection.data);
 ```
@@ -938,7 +939,7 @@ Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time
 Optional: `active` (boolean), `connection_name` (string), `inbound` (object), `outbound` (object), `tags` (array[string]), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (string | null), `webhook_event_url` (string | null), `webhook_timeout_secs` (integer)
 
 ```javascript
-const mobileVoiceConnection = await client.mobileVoiceConnections.update('id');
+const mobileVoiceConnection = await client.mobileVoiceConnections.update('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(mobileVoiceConnection.data);
 ```
@@ -950,7 +951,7 @@ Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time
 `DELETE /v2/mobile_voice_connections/{id}`
 
 ```javascript
-const mobileVoiceConnection = await client.mobileVoiceConnections.delete('id');
+const mobileVoiceConnection = await client.mobileVoiceConnections.delete('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(mobileVoiceConnection.data);
 ```
