@@ -82,9 +82,9 @@ List all missions for the organization
 `GET /ai/missions`
 
 ```go
-	page, err := client.AI.Missions.List(context.TODO(), telnyx.AIMissionListParams{})
+	page, err := client.AI.Missions.List(context.Background(), telnyx.AIMissionListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -100,11 +100,11 @@ Create a new mission definition
 Optional: `description` (string), `execution_mode` (enum: external, managed), `instructions` (string), `metadata` (object), `model` (string)
 
 ```go
-	mission, err := client.AI.Missions.New(context.TODO(), telnyx.AIMissionNewParams{
-		Name: "name",
+	mission, err := client.AI.Missions.New(context.Background(), telnyx.AIMissionNewParams{
+		Name: "my-resource",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", mission.Data)
 ```
@@ -118,9 +118,9 @@ List recent events across all missions
 `GET /ai/missions/events`
 
 ```go
-	page, err := client.AI.Missions.ListEvents(context.TODO(), telnyx.AIMissionListEventsParams{})
+	page, err := client.AI.Missions.ListEvents(context.Background(), telnyx.AIMissionListEventsParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -134,9 +134,9 @@ List recent runs across all missions
 `GET /ai/missions/runs`
 
 ```go
-	page, err := client.AI.Missions.Runs.ListRuns(context.TODO(), telnyx.AIMissionRunListRunsParams{})
+	page, err := client.AI.Missions.Runs.ListRuns(context.Background(), telnyx.AIMissionRunListRunsParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -150,9 +150,9 @@ Get a mission by ID (includes tools, knowledge_bases, mcp_servers)
 `GET /ai/missions/{mission_id}`
 
 ```go
-	mission, err := client.AI.Missions.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	mission, err := client.AI.Missions.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", mission.Data)
 ```
@@ -169,12 +169,12 @@ Optional: `description` (string), `execution_mode` (enum: external, managed), `i
 
 ```go
 	response, err := client.AI.Missions.UpdateMission(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionUpdateMissionParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -188,9 +188,9 @@ Delete a mission
 `DELETE /ai/missions/{mission_id}`
 
 ```go
-	err := client.AI.Missions.DeleteMission(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	err := client.AI.Missions.DeleteMission(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -201,9 +201,9 @@ Clone an existing mission
 `POST /ai/missions/{mission_id}/clone`
 
 ```go
-	response, err := client.AI.Missions.CloneMission(context.TODO(), "mission_id")
+	response, err := client.AI.Missions.CloneMission(context.Background(), "mission_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -215,9 +215,9 @@ List all knowledge bases for a mission
 `GET /ai/missions/{mission_id}/knowledge-bases`
 
 ```go
-	response, err := client.AI.Missions.KnowledgeBases.ListKnowledgeBases(context.TODO(), "mission_id")
+	response, err := client.AI.Missions.KnowledgeBases.ListKnowledgeBases(context.Background(), "mission_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -229,9 +229,9 @@ Create a new knowledge base for a mission
 `POST /ai/missions/{mission_id}/knowledge-bases`
 
 ```go
-	response, err := client.AI.Missions.KnowledgeBases.NewKnowledgeBase(context.TODO(), "mission_id")
+	response, err := client.AI.Missions.KnowledgeBases.NewKnowledgeBase(context.Background(), "mission_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -244,14 +244,14 @@ Get a specific knowledge base by ID
 
 ```go
 	response, err := client.AI.Missions.KnowledgeBases.GetKnowledgeBase(
-		context.TODO(),
+		context.Background(),
 		"knowledge_base_id",
 		telnyx.AIMissionKnowledgeBaseGetKnowledgeBaseParams{
-			MissionID: "mission_id",
+			MissionID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -264,14 +264,14 @@ Update a knowledge base definition
 
 ```go
 	response, err := client.AI.Missions.KnowledgeBases.UpdateKnowledgeBase(
-		context.TODO(),
+		context.Background(),
 		"knowledge_base_id",
 		telnyx.AIMissionKnowledgeBaseUpdateKnowledgeBaseParams{
-			MissionID: "mission_id",
+			MissionID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -284,14 +284,14 @@ Delete a knowledge base from a mission
 
 ```go
 	err := client.AI.Missions.KnowledgeBases.DeleteKnowledgeBase(
-		context.TODO(),
+		context.Background(),
 		"knowledge_base_id",
 		telnyx.AIMissionKnowledgeBaseDeleteKnowledgeBaseParams{
-			MissionID: "mission_id",
+			MissionID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -302,9 +302,9 @@ List all MCP servers for a mission
 `GET /ai/missions/{mission_id}/mcp-servers`
 
 ```go
-	response, err := client.AI.Missions.McpServers.ListMcpServers(context.TODO(), "mission_id")
+	response, err := client.AI.Missions.McpServers.ListMcpServers(context.Background(), "mission_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -316,9 +316,9 @@ Create a new MCP server for a mission
 `POST /ai/missions/{mission_id}/mcp-servers`
 
 ```go
-	response, err := client.AI.Missions.McpServers.NewMcpServer(context.TODO(), "mission_id")
+	response, err := client.AI.Missions.McpServers.NewMcpServer(context.Background(), "mission_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -331,14 +331,14 @@ Get a specific MCP server by ID
 
 ```go
 	response, err := client.AI.Missions.McpServers.GetMcpServer(
-		context.TODO(),
+		context.Background(),
 		"mcp_server_id",
 		telnyx.AIMissionMcpServerGetMcpServerParams{
-			MissionID: "mission_id",
+			MissionID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -351,14 +351,14 @@ Update an MCP server definition
 
 ```go
 	response, err := client.AI.Missions.McpServers.UpdateMcpServer(
-		context.TODO(),
+		context.Background(),
 		"mcp_server_id",
 		telnyx.AIMissionMcpServerUpdateMcpServerParams{
-			MissionID: "mission_id",
+			MissionID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -371,14 +371,14 @@ Delete an MCP server from a mission
 
 ```go
 	err := client.AI.Missions.McpServers.DeleteMcpServer(
-		context.TODO(),
+		context.Background(),
 		"mcp_server_id",
 		telnyx.AIMissionMcpServerDeleteMcpServerParams{
-			MissionID: "mission_id",
+			MissionID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -390,12 +390,12 @@ List all runs for a specific mission
 
 ```go
 	page, err := client.AI.Missions.Runs.List(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -412,12 +412,12 @@ Optional: `input` (object), `metadata` (object)
 
 ```go
 	run, err := client.AI.Missions.Runs.New(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunNewParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", run.Data)
 ```
@@ -432,14 +432,14 @@ Get details of a specific run
 
 ```go
 	run, err := client.AI.Missions.Runs.Get(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunGetParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", run.Data)
 ```
@@ -456,14 +456,14 @@ Optional: `error` (string), `metadata` (object), `result_payload` (object), `res
 
 ```go
 	run, err := client.AI.Missions.Runs.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunUpdateParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", run.Data)
 ```
@@ -478,14 +478,14 @@ Cancel a running or paused run
 
 ```go
 	response, err := client.AI.Missions.Runs.CancelRun(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunCancelRunParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -500,14 +500,14 @@ List events for a run (paginated)
 
 ```go
 	page, err := client.AI.Missions.Runs.Events.List(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunEventListParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -524,16 +524,16 @@ Optional: `agent_id` (string), `idempotency_key` (string), `payload` (object), `
 
 ```go
 	response, err := client.AI.Missions.Runs.Events.Log(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunEventLogParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-			Summary:   "summary",
+			Summary: "Brief task summary",
 			Type:      telnyx.AIMissionRunEventLogParamsTypeStatusChange,
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -548,7 +548,7 @@ Get details of a specific event
 
 ```go
 	response, err := client.AI.Missions.Runs.Events.GetEventDetails(
-		context.TODO(),
+		context.Background(),
 		"event_id",
 		telnyx.AIMissionRunEventGetEventDetailsParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -556,7 +556,7 @@ Get details of a specific event
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -571,14 +571,14 @@ Pause a running run
 
 ```go
 	response, err := client.AI.Missions.Runs.PauseRun(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunPauseRunParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -593,14 +593,14 @@ Get the plan (all steps) for a run
 
 ```go
 	plan, err := client.AI.Missions.Runs.Plan.Get(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunPlanGetParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", plan.Data)
 ```
@@ -615,19 +615,19 @@ Create the initial plan for a run
 
 ```go
 	plan, err := client.AI.Missions.Runs.Plan.New(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunPlanNewParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			Steps: []telnyx.AIMissionRunPlanNewParamsStep{{
 				Description: "description",
 				Sequence:    0,
-				StepID:      "step_id",
+				StepID: "550e8400-e29b-41d4-a716-446655440000",
 			}},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", plan.Data)
 ```
@@ -642,19 +642,19 @@ Add one or more steps to an existing plan
 
 ```go
 	response, err := client.AI.Missions.Runs.Plan.AddStepsToPlan(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunPlanAddStepsToPlanParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			Steps: []telnyx.AIMissionRunPlanAddStepsToPlanParamsStep{{
 				Description: "description",
 				Sequence:    0,
-				StepID:      "step_id",
+				StepID: "550e8400-e29b-41d4-a716-446655440000",
 			}},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -669,7 +669,7 @@ Get details of a specific plan step
 
 ```go
 	response, err := client.AI.Missions.Runs.Plan.GetStepDetails(
-		context.TODO(),
+		context.Background(),
 		"step_id",
 		telnyx.AIMissionRunPlanGetStepDetailsParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -677,7 +677,7 @@ Get details of a specific plan step
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -694,7 +694,7 @@ Optional: `metadata` (object), `status` (enum: pending, in_progress, completed, 
 
 ```go
 	response, err := client.AI.Missions.Runs.Plan.UpdateStep(
-		context.TODO(),
+		context.Background(),
 		"step_id",
 		telnyx.AIMissionRunPlanUpdateStepParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -702,7 +702,7 @@ Optional: `metadata` (object), `status` (enum: pending, in_progress, completed, 
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -717,14 +717,14 @@ Resume a paused run
 
 ```go
 	response, err := client.AI.Missions.Runs.ResumeRun(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunResumeRunParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -739,14 +739,14 @@ List all Telnyx agents linked to a run
 
 ```go
 	telnyxAgents, err := client.AI.Missions.Runs.TelnyxAgents.List(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunTelnyxAgentListParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", telnyxAgents.Data)
 ```
@@ -761,15 +761,15 @@ Link a Telnyx AI agent (voice/messaging) to a run
 
 ```go
 	response, err := client.AI.Missions.Runs.TelnyxAgents.Link(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AIMissionRunTelnyxAgentLinkParams{
 			MissionID:     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-			TelnyxAgentID: "telnyx_agent_id",
+			TelnyxAgentID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -784,7 +784,7 @@ Unlink a Telnyx agent from a run
 
 ```go
 	err := client.AI.Missions.Runs.TelnyxAgents.Unlink(
-		context.TODO(),
+		context.Background(),
 		"telnyx_agent_id",
 		telnyx.AIMissionRunTelnyxAgentUnlinkParams{
 			MissionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -792,7 +792,7 @@ Unlink a Telnyx agent from a run
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -803,9 +803,9 @@ List all tools for a mission
 `GET /ai/missions/{mission_id}/tools`
 
 ```go
-	response, err := client.AI.Missions.Tools.ListTools(context.TODO(), "mission_id")
+	response, err := client.AI.Missions.Tools.ListTools(context.Background(), "mission_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -817,9 +817,9 @@ Create a new tool for a mission
 `POST /ai/missions/{mission_id}/tools`
 
 ```go
-	response, err := client.AI.Missions.Tools.NewTool(context.TODO(), "mission_id")
+	response, err := client.AI.Missions.Tools.NewTool(context.Background(), "mission_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -832,14 +832,14 @@ Get a specific tool by ID
 
 ```go
 	response, err := client.AI.Missions.Tools.GetTool(
-		context.TODO(),
+		context.Background(),
 		"tool_id",
 		telnyx.AIMissionToolGetToolParams{
-			MissionID: "mission_id",
+			MissionID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -852,14 +852,14 @@ Update a tool definition
 
 ```go
 	response, err := client.AI.Missions.Tools.UpdateTool(
-		context.TODO(),
+		context.Background(),
 		"tool_id",
 		telnyx.AIMissionToolUpdateToolParams{
-			MissionID: "mission_id",
+			MissionID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -872,13 +872,13 @@ Delete a tool from a mission
 
 ```go
 	err := client.AI.Missions.Tools.DeleteTool(
-		context.TODO(),
+		context.Background(),
 		"tool_id",
 		telnyx.AIMissionToolDeleteToolParams{
-			MissionID: "mission_id",
+			MissionID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```

@@ -57,7 +57,7 @@ Optional: `client_state` (string), `command_id` (string), `messages` (array[obje
 
 ```python
 response = client.calls.actions.add_ai_assistant_messages(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -73,11 +73,11 @@ Start an AI assistant on the call. **Expected Webhooks:**
 
 `POST /calls/{call_control_id}/actions/ai_assistant_start`
 
-Optional: `assistant` (object), `client_state` (string), `command_id` (string), `greeting` (string), `interruption_settings` (object), `transcription` (object), `voice` (string), `voice_settings` (object)
+Optional: `assistant` (object), `client_state` (string), `command_id` (string), `greeting` (string), `interruption_settings` (object), `message_history` (array[object]), `participants` (array[object]), `send_message_history_updates` (boolean), `transcription` (object), `voice` (string), `voice_settings` (object)
 
 ```python
 response = client.calls.actions.start_ai_assistant(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -94,7 +94,7 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```python
 response = client.calls.actions.stop_ai_assistant(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -111,7 +111,9 @@ Optional: `client_state` (string), `command_id` (string), `gather_id` (string), 
 
 ```python
 response = client.calls.actions.gather(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
+    minimum_digits=1,
+    maximum_digits=4,
 )
 print(response.data)
 ```
@@ -130,7 +132,7 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```python
 response = client.calls.actions.stop_gather(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -147,7 +149,7 @@ Optional: `assistant` (object), `client_state` (string), `command_id` (string), 
 
 ```python
 response = client.calls.actions.gather_using_ai(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
     parameters={
         "properties": "bar",
         "required": "bar",
@@ -169,7 +171,7 @@ Optional: `audio_url` (string), `client_state` (string), `command_id` (string), 
 
 ```python
 response = client.calls.actions.gather_using_audio(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -186,7 +188,7 @@ Optional: `client_state` (string), `command_id` (string), `inter_digit_timeout_m
 
 ```python
 response = client.calls.actions.gather_using_speak(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
     payload="say this on call",
     voice="male",
 )

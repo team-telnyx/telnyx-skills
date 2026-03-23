@@ -74,7 +74,7 @@ Optional: `client_state` (string), `command_id` (string), `keep_after_hangup` (b
 
 ```python
 response = client.calls.actions.enqueue(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
     queue_name="support",
 )
 print(response.data)
@@ -92,7 +92,7 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```python
 response = client.calls.actions.leave_queue(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -139,7 +139,7 @@ Lists conference participants
 
 ```python
 page = client.conferences.list_participants(
-    conference_id="conference_id",
+    conference_id="550e8400-e29b-41d4-a716-446655440000",
 )
 page = page.data[0]
 print(page.id)
@@ -155,7 +155,7 @@ Retrieve an existing conference
 
 ```python
 conference = client.conferences.retrieve(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(conference.data)
 ```
@@ -207,7 +207,7 @@ Optional: `audio_url` (string), `call_control_ids` (array[string]), `media_name`
 
 ```python
 response = client.conferences.actions.hold(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -224,7 +224,7 @@ Optional: `beep_enabled` (enum: always, never, on_enter, on_exit), `client_state
 
 ```python
 response = client.conferences.actions.join(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
     call_control_id="v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
 )
 print(response.data)
@@ -244,7 +244,7 @@ Optional: `beep_enabled` (enum: always, never, on_enter, on_exit), `command_id` 
 
 ```python
 response = client.conferences.actions.leave(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
     call_control_id="c46e06d7-b78f-4b13-96b6-c576af9640ff",
 )
 print(response.data)
@@ -262,7 +262,7 @@ Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe,
 
 ```python
 response = client.conferences.actions.mute(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -275,11 +275,11 @@ Play audio to all or some participants on a conference call.
 
 `POST /conferences/{id}/actions/play`
 
-Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (object), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
+Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (string), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```python
 response = client.conferences.actions.play(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -296,7 +296,7 @@ Optional: `command_id` (string), `recording_id` (string), `region` (enum: Austra
 
 ```python
 response = client.conferences.actions.record_pause(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -313,7 +313,7 @@ Optional: `command_id` (string), `recording_id` (string), `region` (enum: Austra
 
 ```python
 response = client.conferences.actions.record_resume(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -332,7 +332,7 @@ Optional: `channels` (enum: single, dual), `command_id` (string), `custom_file_n
 
 ```python
 response = client.conferences.actions.record_start(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
     format="wav",
 )
 print(response.data)
@@ -352,7 +352,7 @@ Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid),
 
 ```python
 response = client.conferences.actions.record_stop(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -387,7 +387,7 @@ Optional: `call_control_ids` (array[string]), `command_id` (string), `language` 
 
 ```python
 response = client.conferences.actions.speak(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
     payload="Say this to participants",
     voice="female",
 )
@@ -406,7 +406,7 @@ Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe,
 
 ```python
 response = client.conferences.actions.stop(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -423,7 +423,7 @@ Optional: `region` (enum: Australia, Europe, Middle East, US)
 
 ```python
 response = client.conferences.actions.unhold(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
     call_control_ids=["v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg"],
 )
 print(response.data)
@@ -441,7 +441,7 @@ Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe,
 
 ```python
 response = client.conferences.actions.unmute(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -458,7 +458,7 @@ Optional: `command_id` (string), `region` (enum: Australia, Europe, Middle East,
 
 ```python
 action = client.conferences.actions.update(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
     call_control_id="v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
     supervisor_role="whisper",
 )
@@ -475,7 +475,7 @@ Retrieve details of a specific conference participant by their ID or label.
 
 ```python
 response = client.conferences.retrieve_participant(
-    participant_id="participant_id",
+    participant_id="550e8400-e29b-41d4-a716-446655440000",
     id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
 print(response.data)
@@ -493,7 +493,7 @@ Optional: `beep_enabled` (enum: always, never, on_enter, on_exit), `end_conferen
 
 ```python
 response = client.conferences.update_participant(
-    participant_id="participant_id",
+    participant_id="550e8400-e29b-41d4-a716-446655440000",
     id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
 print(response.data)
@@ -555,7 +555,7 @@ Update properties of an existing call queue.
 
 ```python
 queue = client.queues.update(
-    queue_name="queue_name",
+    queue_name="my-queue",
     max_size=200,
 )
 print(queue.data)
@@ -583,7 +583,7 @@ Retrieve the list of calls in an existing queue
 
 ```python
 page = client.queues.calls.list(
-    queue_name="queue_name",
+    queue_name="my-queue",
 )
 page = page.data[0]
 print(page.call_control_id)
@@ -599,8 +599,8 @@ Retrieve an existing call from an existing queue
 
 ```python
 call = client.queues.calls.retrieve(
-    call_control_id="call_control_id",
-    queue_name="queue_name",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
+    queue_name="my-queue",
 )
 print(call.data)
 ```
@@ -617,8 +617,8 @@ Optional: `keep_after_hangup` (boolean)
 
 ```python
 client.queues.calls.update(
-    call_control_id="call_control_id",
-    queue_name="queue_name",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
+    queue_name="my-queue",
 )
 ```
 
@@ -630,8 +630,8 @@ Removes an inactive call from a queue. If the call is no longer active, use this
 
 ```python
 client.queues.calls.remove(
-    call_control_id="call_control_id",
-    queue_name="queue_name",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
+    queue_name="my-queue",
 )
 ```
 

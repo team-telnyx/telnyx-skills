@@ -86,7 +86,7 @@ Creates a custom storage credentials configuration.
 
 ```python
 custom_storage_credential = client.custom_storage_credentials.create(
-    connection_id="connection_id",
+    connection_id="550e8400-e29b-41d4-a716-446655440000",
     backend="gcs",
     configuration={
         "backend": "gcs"
@@ -105,7 +105,7 @@ Updates a stored custom credentials configuration.
 
 ```python
 custom_storage_credential = client.custom_storage_credentials.update(
-    connection_id="connection_id",
+    connection_id="550e8400-e29b-41d4-a716-446655440000",
     backend="gcs",
     configuration={
         "backend": "gcs"
@@ -151,7 +151,7 @@ Save Dialogflow Credentiails to Telnyx, so it can be used with other Telnyx serv
 
 ```python
 dialogflow_connection = client.dialogflow_connections.create(
-    connection_id="connection_id",
+    connection_id="550e8400-e29b-41d4-a716-446655440000",
     service_account={
         "type": "bar",
         "project_id": "bar",
@@ -178,7 +178,7 @@ Updates a stored Dialogflow Connection.
 
 ```python
 dialogflow_connection = client.dialogflow_connections.update(
-    connection_id="connection_id",
+    connection_id="550e8400-e29b-41d4-a716-446655440000",
     service_account={
         "type": "bar",
         "project_id": "bar",
@@ -668,8 +668,9 @@ Returns a list of your recording transcriptions.
 `GET /recording_transcriptions`
 
 ```python
-recording_transcriptions = client.recording_transcriptions.list()
-print(recording_transcriptions.data)
+page = client.recording_transcriptions.list()
+page = page.data[0]
+print(page.id)
 ```
 
 Returns: `created_at` (string), `duration_millis` (int32), `id` (string), `record_type` (enum: recording_transcription), `recording_id` (string), `status` (enum: in-progress, completed), `transcription_text` (string), `updated_at` (string)
@@ -716,7 +717,7 @@ page = page.data[0]
 print(page.id)
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a list of call recordings
 
@@ -725,10 +726,13 @@ Permanently deletes a list of call recordings.
 `POST /recordings/actions/delete`
 
 ```python
-client.recordings.actions.delete(
+action = client.recordings.actions.delete(
     ids=["428c31b6-7af4-4bcb-b7f5-5013ef9657c1", "428c31b6-7af4-4bcb-b7f5-5013ef9657c2"],
 )
+print(action.status)
 ```
+
+Returns: `status` (enum: ok)
 
 ## Retrieve a call recording
 
@@ -743,7 +747,7 @@ recording = client.recordings.retrieve(
 print(recording.data)
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a call recording
 
@@ -758,7 +762,7 @@ recording = client.recordings.delete(
 print(recording.data)
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Create a SIPREC connector
 

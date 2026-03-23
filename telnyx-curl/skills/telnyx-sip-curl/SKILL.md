@@ -84,7 +84,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "cidr_block": "string"
+  "cidr_block": "203.0.113.0/24"
 }' \
   "https://api.telnyx.com/v2/access_ip_ranges"
 ```
@@ -99,7 +99,7 @@ Returns: `cidr_block` (string), `created_at` (date-time), `description` (string)
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/access_ip_ranges/{access_ip_range_id}"
+  "https://api.telnyx.com/v2/access_ip_ranges/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `cidr_block` (string), `created_at` (date-time), `description` (string), `id` (string), `status` (enum: pending, added), `updated_at` (date-time), `user_id` (string)
@@ -123,7 +123,7 @@ Retrieves the high-level details of an existing connection. To retrieve specific
 `GET /connections/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/connections/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/connections/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `connection_name` (string), `created_at` (string), `id` (string), `outbound_voice_profile_id` (string), `record_type` (string), `tags` (array[string]), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri)
@@ -156,53 +156,7 @@ curl \
   -d '{
   "user_name": "myusername123",
   "password": "my123secure456password789",
-  "anchorsite_override": "Amsterdam, Netherlands",
-  "connection_name": "office-connection",
-  "dtmf_type": "Inband",
-  "encrypted_media": "SRTP",
-  "ios_push_credential_id": "ec0c8e5d-439e-4620-a0c1-9d9c8d02a836",
-  "android_push_credential_id": "06b09dfd-7154-4980-8b75-cebf7a9d4f8e",
-  "webhook_event_url": "https://example.com",
-  "webhook_event_failover_url": "https://failover.example.com",
-  "webhook_api_version": "1",
-  "webhook_timeout_secs": 25,
-  "tags": [
-    "tag1",
-    "tag2"
-  ],
-  "rtcp_settings": {
-    "port": "rtcp-mux",
-    "capture_enabled": true,
-    "report_frequency_secs": 10
-  },
-  "inbound": {
-    "ani_number_format": "+E.164",
-    "dnis_number_format": "+e164",
-    "codecs": [
-      "G722"
-    ],
-    "default_routing_method": "sequential",
-    "channel_limit": 10,
-    "generate_ringback_tone": true,
-    "isup_headers_enabled": true,
-    "prack_enabled": true,
-    "sip_compact_headers_enabled": true,
-    "timeout_1xx_secs": 10,
-    "timeout_2xx_secs": 20,
-    "shaken_stir_enabled": true,
-    "simultaneous_ringing": "enabled"
-  },
-  "outbound": {
-    "call_parking_enabled": true,
-    "ani_override": "always",
-    "channel_limit": 10,
-    "instant_ringback_enabled": true,
-    "generate_ringback_tone": true,
-    "localization": "US",
-    "t38_reinvite_source": "customer",
-    "outbound_voice_profile_id": "1293384261075731499"
-  },
-  "noise_suppression": "both"
+  "connection_name": "office-connection"
 }' \
   "https://api.telnyx.com/v2/credential_connections"
 ```
@@ -216,7 +170,7 @@ Retrieves the details of an existing credential connection.
 `GET /credential_connections/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/credential_connections/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/credential_connections/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `record_type` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum: disabled, unrestricted, internal), `tags` (array[string]), `updated_at` (string), `user_name` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -234,58 +188,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "user_name": "myusername123",
-  "password": "my123secure456password789",
-  "anchorsite_override": "Amsterdam, Netherlands",
-  "connection_name": "office-connection",
-  "dtmf_type": "Inband",
-  "encrypted_media": "SRTP",
-  "ios_push_credential_id": "ec0c8e5d-439e-4620-a0c1-9d9c8d02a836",
-  "android_push_credential_id": "06b09dfd-7154-4980-8b75-cebf7a9d4f8e",
-  "webhook_event_url": "https://example.com",
-  "webhook_event_failover_url": "https://failover.example.com",
-  "webhook_api_version": "1",
-  "webhook_timeout_secs": 25,
-  "tags": [
-    "tag1",
-    "tag2"
-  ],
-  "rtcp_settings": {
-    "port": "rtcp-mux",
-    "capture_enabled": true,
-    "report_frequency_secs": 10
-  },
-  "inbound": {
-    "ani_number_format": "+E.164",
-    "dnis_number_format": "+e164",
-    "codecs": [
-      "G722"
-    ],
-    "default_routing_method": "sequential",
-    "channel_limit": 10,
-    "generate_ringback_tone": true,
-    "isup_headers_enabled": true,
-    "prack_enabled": true,
-    "sip_compact_headers_enabled": true,
-    "timeout_1xx_secs": 10,
-    "timeout_2xx_secs": 20,
-    "shaken_stir_enabled": true,
-    "simultaneous_ringing": "enabled"
-  },
-  "outbound": {
-    "call_parking_enabled": true,
-    "ani_override": "always",
-    "channel_limit": 10,
-    "instant_ringback_enabled": true,
-    "generate_ringback_tone": true,
-    "localization": "US",
-    "t38_reinvite_source": "customer",
-    "outbound_voice_profile_id": "1293384261075731499"
-  },
-  "noise_suppression": "both"
-}' \
-  "https://api.telnyx.com/v2/credential_connections/{id}"
+  "https://api.telnyx.com/v2/credential_connections/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `record_type` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum: disabled, unrestricted, internal), `tags` (array[string]), `updated_at` (string), `user_name` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -300,7 +203,7 @@ Deletes an existing credential connection.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/credential_connections/{id}"
+  "https://api.telnyx.com/v2/credential_connections/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `record_type` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum: disabled, unrestricted, internal), `tags` (array[string]), `updated_at` (string), `user_name` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -316,7 +219,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/credential_connections/{id}/actions/check_registration_status"
+  "https://api.telnyx.com/v2/credential_connections/550e8400-e29b-41d4-a716-446655440000/actions/check_registration_status"
 ```
 
 Returns: `ip_address` (string), `last_registration` (string), `port` (integer), `record_type` (string), `sip_username` (string), `status` (enum: Not Applicable, Not Registered, Failed, Expired, Registered, Unregistered), `transport` (string), `user_agent` (string)
@@ -347,48 +250,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "anchorsite_override": "Amsterdam, Netherlands",
-  "connection_name": "office-connection",
-  "dtmf_type": "Inband",
-  "encrypted_media": "SRTP",
-  "tags": [
-    "tag1",
-    "tag2"
-  ],
-  "ios_push_credential_id": "ec0c8e5d-439e-4620-a0c1-9d9c8d02a836",
-  "android_push_credential_id": "06b09dfd-7154-4980-8b75-cebf7a9d4f8e",
-  "webhook_event_url": "https://example.com",
-  "webhook_event_failover_url": "https://failover.example.com",
-  "webhook_api_version": "1",
-  "webhook_timeout_secs": 25,
-  "rtcp_settings": {
-    "port": "rtcp-mux",
-    "capture_enabled": true,
-    "report_frequency_secs": 10
-  },
-  "inbound": {
-    "ani_number_format": "+E.164",
-    "dnis_number_format": "+e164",
-    "codecs": [
-      "G722"
-    ],
-    "default_routing_method": "sequential",
-    "default_primary_fqdn_id": "1293384261075731497",
-    "default_secondary_fqdn_id": "1293384261075731498",
-    "default_tertiary_fqdn_id": "1293384261075731499",
-    "channel_limit": 10,
-    "generate_ringback_tone": true,
-    "isup_headers_enabled": true,
-    "prack_enabled": true,
-    "sip_compact_headers_enabled": true,
-    "sip_region": "US",
-    "sip_subdomain": "test",
-    "sip_subdomain_receive_settings": "only_my_connections",
-    "timeout_1xx_secs": 10,
-    "timeout_2xx_secs": 20,
-    "shaken_stir_enabled": true
-  },
-  "noise_suppression": "both"
+  "connection_name": "office-connection"
 }' \
   "https://api.telnyx.com/v2/fqdn_connections"
 ```
@@ -420,50 +282,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "anchorsite_override": "Amsterdam, Netherlands",
-  "connection_name": "office-connection",
-  "dtmf_type": "Inband",
-  "encrypted_media": "SRTP",
-  "tags": [
-    "tag1",
-    "tag2"
-  ],
-  "ios_push_credential_id": "ec0c8e5d-439e-4620-a0c1-9d9c8d02a836",
-  "android_push_credential_id": "06b09dfd-7154-4980-8b75-cebf7a9d4f8e",
-  "webhook_event_url": "https://example.com",
-  "webhook_event_failover_url": "https://failover.example.com",
-  "webhook_api_version": "1",
-  "webhook_timeout_secs": 25,
-  "rtcp_settings": {
-    "port": "rtcp-mux",
-    "capture_enabled": true,
-    "report_frequency_secs": 10
-  },
-  "inbound": {
-    "ani_number_format": "+E.164",
-    "dnis_number_format": "+e164",
-    "codecs": [
-      "G722"
-    ],
-    "default_routing_method": "sequential",
-    "default_primary_fqdn_id": "1293384261075731497",
-    "default_secondary_fqdn_id": "1293384261075731498",
-    "default_tertiary_fqdn_id": "1293384261075731499",
-    "channel_limit": 10,
-    "generate_ringback_tone": true,
-    "isup_headers_enabled": true,
-    "prack_enabled": true,
-    "sip_compact_headers_enabled": true,
-    "sip_region": "US",
-    "sip_subdomain": "test",
-    "sip_subdomain_receive_settings": "only_my_connections",
-    "timeout_1xx_secs": 10,
-    "timeout_2xx_secs": 20,
-    "shaken_stir_enabled": true
-  },
-  "noise_suppression": "both"
-}' \
   "https://api.telnyx.com/v2/fqdn_connections/1293384261075731499"
 ```
 
@@ -510,9 +328,8 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "connection_id": "string",
+  "connection_id": "550e8400-e29b-41d4-a716-446655440000",
   "fqdn": "example.com",
-  "port": 5060,
   "dns_record_type": "a"
 }' \
   "https://api.telnyx.com/v2/fqdns"
@@ -545,11 +362,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "fqdn": "example.com",
-  "port": 5060,
-  "dns_record_type": "a"
-}' \
   "https://api.telnyx.com/v2/fqdns/1517907029795014409"
 ```
 
@@ -596,65 +408,8 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "active": true,
-  "anchorsite_override": "Amsterdam, Netherlands",
-  "connection_name": "string",
-  "transport_protocol": "UDP",
-  "default_on_hold_comfort_noise_enabled": true,
-  "dtmf_type": "Inband",
-  "encode_contact_header_enabled": true,
-  "encrypted_media": "SRTP",
-  "onnet_t38_passthrough_enabled": false,
-  "ios_push_credential_id": "ec0c8e5d-439e-4620-a0c1-9d9c8d02a836",
-  "android_push_credential_id": "06b09dfd-7154-4980-8b75-cebf7a9d4f8e",
-  "webhook_event_url": "https://example.com",
-  "webhook_event_failover_url": "https://failover.example.com",
-  "webhook_api_version": "1",
-  "webhook_timeout_secs": 25,
-  "tags": [
-    "tag1",
-    "tag2"
-  ],
-  "rtcp_settings": {
-    "port": "rtcp-mux",
-    "capture_enabled": true,
-    "report_frequency_secs": 10
-  },
-  "inbound": {
-    "ani_number_format": "+E.164",
-    "dnis_number_format": "+e164",
-    "codecs": [
-      "G722"
-    ],
-    "default_routing_method": "sequential",
-    "channel_limit": 10,
-    "generate_ringback_tone": true,
-    "isup_headers_enabled": true,
-    "prack_enabled": true,
-    "sip_compact_headers_enabled": true,
-    "sip_region": "US",
-    "sip_subdomain": "test",
-    "sip_subdomain_receive_settings": "only_my_connections",
-    "timeout_1xx_secs": 10,
-    "timeout_2xx_secs": 20,
-    "shaken_stir_enabled": true
-  },
-  "outbound": {
-    "call_parking_enabled": true,
-    "ani_override": "string",
-    "ani_override_type": "always",
-    "channel_limit": 10,
-    "instant_ringback_enabled": true,
-    "generate_ringback_tone": true,
-    "localization": "string",
-    "t38_reinvite_source": "customer",
-    "tech_prefix": "string",
-    "ip_authentication_method": "token",
-    "ip_authentication_token": "string",
-    "outbound_voice_profile_id": "1293384261075731499"
-  },
-  "noise_suppression": "both"
-}' \
+      "connection_name": "my-ip-connection"
+  }' \
   "https://api.telnyx.com/v2/ip_connections"
 ```
 
@@ -667,7 +422,7 @@ Retrieves the details of an existing ip connection.
 `GET /ip_connections/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ip_connections/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/ip_connections/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `record_type` (string), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -685,64 +440,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "anchorsite_override": "Amsterdam, Netherlands",
-  "dtmf_type": "Inband",
-  "encrypted_media": "SRTP",
-  "ios_push_credential_id": "ec0c8e5d-439e-4620-a0c1-9d9c8d02a836",
-  "android_push_credential_id": "06b09dfd-7154-4980-8b75-cebf7a9d4f8e",
-  "webhook_event_url": "https://example.com",
-  "webhook_event_failover_url": "https://failover.example.com",
-  "webhook_api_version": "1",
-  "webhook_timeout_secs": 25,
-  "tags": [
-    "tag1",
-    "tag2"
-  ],
-  "rtcp_settings": {
-    "port": "rtcp-mux",
-    "capture_enabled": true,
-    "report_frequency_secs": 10
-  },
-  "inbound": {
-    "ani_number_format": "+E.164",
-    "dnis_number_format": "+e164",
-    "codecs": [
-      "G722"
-    ],
-    "default_primary_ip_id": "192.168.0.0",
-    "default_tertiary_ip_id": "192.168.0.0",
-    "default_secondary_ip_id": "192.168.0.0",
-    "default_routing_method": "sequential",
-    "channel_limit": 10,
-    "generate_ringback_tone": true,
-    "isup_headers_enabled": true,
-    "prack_enabled": true,
-    "sip_compact_headers_enabled": true,
-    "sip_region": "US",
-    "sip_subdomain": "test",
-    "sip_subdomain_receive_settings": "only_my_connections",
-    "timeout_1xx_secs": 10,
-    "timeout_2xx_secs": 20,
-    "shaken_stir_enabled": true
-  },
-  "outbound": {
-    "call_parking_enabled": true,
-    "ani_override": "string",
-    "ani_override_type": "always",
-    "channel_limit": 10,
-    "instant_ringback_enabled": true,
-    "generate_ringback_tone": true,
-    "localization": "string",
-    "t38_reinvite_source": "customer",
-    "tech_prefix": "string",
-    "ip_authentication_method": "token",
-    "ip_authentication_token": "string",
-    "outbound_voice_profile_id": "1293384261075731499"
-  },
-  "noise_suppression": "both"
-}' \
-  "https://api.telnyx.com/v2/ip_connections/{id}"
+  "https://api.telnyx.com/v2/ip_connections/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `record_type` (string), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -757,7 +455,7 @@ Deletes an existing IP connection.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/ip_connections/{id}"
+  "https://api.telnyx.com/v2/ip_connections/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `record_type` (string), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -788,8 +486,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "ip_address": "192.168.0.0",
-  "port": 5060
+  "ip_address": "192.168.0.0"
 }' \
   "https://api.telnyx.com/v2/ips"
 ```
@@ -822,8 +519,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "ip_address": "192.168.0.0",
-  "port": 5060
+  "ip_address": "192.168.0.0"
 }' \
   "https://api.telnyx.com/v2/ips/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
@@ -871,36 +567,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "name": "office",
-  "traffic_type": "conversational",
-  "service_plan": "global",
-  "concurrent_call_limit": 10,
-  "enabled": true,
-  "tags": [
-    "office-profile"
-  ],
-  "usage_payment_method": "rate-deck",
-  "whitelisted_destinations": [
-    "US",
-    "BR",
-    "AU"
-  ],
-  "daily_spend_limit": "100.00",
-  "daily_spend_limit_enabled": true,
-  "call_recording": {
-    "call_recording_type": "by_caller_phone_number",
-    "call_recording_caller_phone_numbers": [
-      "+19705555098"
-    ],
-    "call_recording_channels": "dual",
-    "call_recording_format": "mp3"
-  },
-  "billing_group_id": "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  "calling_window": {
-    "start_time": "08:00:00.00Z",
-    "end_time": "20:00:00.00Z",
-    "calls_per_cld": 5
-  }
+  "name": "office"
 }' \
   "https://api.telnyx.com/v2/outbound_voice_profiles"
 ```
@@ -931,36 +598,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "name": "office",
-  "traffic_type": "conversational",
-  "service_plan": "global",
-  "concurrent_call_limit": 10,
-  "enabled": true,
-  "tags": [
-    "office-profile"
-  ],
-  "usage_payment_method": "rate-deck",
-  "whitelisted_destinations": [
-    "US",
-    "BR",
-    "AU"
-  ],
-  "daily_spend_limit": "100.00",
-  "daily_spend_limit_enabled": true,
-  "call_recording": {
-    "call_recording_type": "by_caller_phone_number",
-    "call_recording_caller_phone_numbers": [
-      "+19705555098"
-    ],
-    "call_recording_channels": "dual",
-    "call_recording_format": "mp3"
-  },
-  "billing_group_id": "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  "calling_window": {
-    "start_time": "08:00:00.00Z",
-    "end_time": "20:00:00.00Z",
-    "calls_per_cld": 5
-  }
+  "name": "office"
 }' \
   "https://api.telnyx.com/v2/outbound_voice_profiles/1293384261075731499"
 ```

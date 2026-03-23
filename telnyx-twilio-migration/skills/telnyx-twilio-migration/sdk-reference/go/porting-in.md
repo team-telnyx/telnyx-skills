@@ -72,9 +72,11 @@ Runs a portability check, returning the results immediately.
 Optional: `phone_numbers` (array[string])
 
 ```go
-	response, err := client.PortabilityChecks.Run(context.TODO(), telnyx.PortabilityCheckRunParams{})
+	response, err := client.PortabilityChecks.Run(context.Background(), telnyx.PortabilityCheckRunParams{
+		PhoneNumbers: []string{"+18005550101"},
+	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -88,14 +90,14 @@ Returns a list of all porting events.
 `GET /porting/events`
 
 ```go
-	page, err := client.Porting.Events.List(context.TODO(), telnyx.PortingEventListParams{})
+	page, err := client.Porting.Events.List(context.Background(), telnyx.PortingEventListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_notification_methods` (array[string]), `event_type` (enum: porting_order.deleted), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `porting_order_id` (uuid)
 
 ## Show a porting event
 
@@ -104,14 +106,14 @@ Show a specific porting event.
 `GET /porting/events/{id}`
 
 ```go
-	event, err := client.Porting.Events.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	event, err := client.Porting.Events.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", event.Data)
 ```
 
-Returns: `data` (object)
+Returns: `available_notification_methods` (array[string]), `event_type` (enum: porting_order.deleted), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `porting_order_id` (uuid)
 
 ## Republish a porting event
 
@@ -120,41 +122,10 @@ Republish a specific porting event.
 `POST /porting/events/{id}/republish`
 
 ```go
-	err := client.Porting.Events.Republish(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	err := client.Porting.Events.Republish(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
-```
-
-## Preview the LOA configuration parameters
-
-Preview the LOA template that would be generated without need to create LOA configuration.
-
-`POST /porting/loa_configuration/preview`
-
-```go
-	response, err := client.Porting.LoaConfigurations.Preview0(context.TODO(), telnyx.PortingLoaConfigurationPreview0Params{
-		Address: telnyx.PortingLoaConfigurationPreview0ParamsAddress{
-			City:          "Austin",
-			CountryCode:   "US",
-			State:         "TX",
-			StreetAddress: "600 Congress Avenue",
-			ZipCode:       "78701",
-		},
-		CompanyName: "Telnyx",
-		Contact: telnyx.PortingLoaConfigurationPreview0ParamsContact{
-			Email:       "testing@telnyx.com",
-			PhoneNumber: "+12003270001",
-		},
-		Logo: telnyx.PortingLoaConfigurationPreview0ParamsLogo{
-			DocumentID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		},
-		Name: "My LOA Configuration",
-	})
-	if err != nil {
-		panic(err.Error())
-	}
-	fmt.Printf("%+v\n", response)
 ```
 
 ## List LOA configurations
@@ -164,9 +135,9 @@ List the LOA configurations.
 `GET /porting/loa_configurations`
 
 ```go
-	page, err := client.Porting.LoaConfigurations.List(context.TODO(), telnyx.PortingLoaConfigurationListParams{})
+	page, err := client.Porting.LoaConfigurations.List(context.Background(), telnyx.PortingLoaConfigurationListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -180,7 +151,7 @@ Create a LOA configuration.
 `POST /porting/loa_configurations`
 
 ```go
-	loaConfiguration, err := client.Porting.LoaConfigurations.New(context.TODO(), telnyx.PortingLoaConfigurationNewParams{
+	loaConfiguration, err := client.Porting.LoaConfigurations.New(context.Background(), telnyx.PortingLoaConfigurationNewParams{
 		Address: telnyx.PortingLoaConfigurationNewParamsAddress{
 			City:          "Austin",
 			CountryCode:   "US",
@@ -199,12 +170,43 @@ Create a LOA configuration.
 		Name: "My LOA Configuration",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", loaConfiguration.Data)
 ```
 
 Returns: `address` (object), `company_name` (string), `contact` (object), `created_at` (date-time), `id` (uuid), `logo` (object), `name` (string), `organization_id` (string), `record_type` (string), `updated_at` (date-time)
+
+## Preview the LOA configuration parameters
+
+Preview the LOA template that would be generated without need to create LOA configuration.
+
+`POST /porting/loa_configurations/preview`
+
+```go
+	response, err := client.Porting.LoaConfigurations.Preview(context.Background(), telnyx.PortingLoaConfigurationPreviewParams{
+		Address: telnyx.PortingLoaConfigurationPreviewParamsAddress{
+			City:          "Austin",
+			CountryCode:   "US",
+			State:         "TX",
+			StreetAddress: "600 Congress Avenue",
+			ZipCode:       "78701",
+		},
+		CompanyName: "Telnyx",
+		Contact: telnyx.PortingLoaConfigurationPreviewParamsContact{
+			Email:       "testing@telnyx.com",
+			PhoneNumber: "+12003270001",
+		},
+		Logo: telnyx.PortingLoaConfigurationPreviewParamsLogo{
+			DocumentID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		},
+		Name: "My LOA Configuration",
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%+v\n", response)
+```
 
 ## Retrieve a LOA configuration
 
@@ -213,9 +215,9 @@ Retrieve a specific LOA configuration.
 `GET /porting/loa_configurations/{id}`
 
 ```go
-	loaConfiguration, err := client.Porting.LoaConfigurations.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	loaConfiguration, err := client.Porting.LoaConfigurations.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", loaConfiguration.Data)
 ```
@@ -230,7 +232,7 @@ Update a specific LOA configuration.
 
 ```go
 	loaConfiguration, err := client.Porting.LoaConfigurations.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingLoaConfigurationUpdateParams{
 			Address: telnyx.PortingLoaConfigurationUpdateParamsAddress{
@@ -252,7 +254,7 @@ Update a specific LOA configuration.
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", loaConfiguration.Data)
 ```
@@ -266,9 +268,9 @@ Delete a specific LOA configuration.
 `DELETE /porting/loa_configurations/{id}`
 
 ```go
-	err := client.Porting.LoaConfigurations.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	err := client.Porting.LoaConfigurations.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -279,9 +281,9 @@ Preview a specific LOA configuration.
 `GET /porting/loa_configurations/{id}/preview`
 
 ```go
-	response, err := client.Porting.LoaConfigurations.Preview1(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	response, err := client.Porting.LoaConfigurations.Preview1(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -293,9 +295,9 @@ List the reports generated about porting operations.
 `GET /porting/reports`
 
 ```go
-	page, err := client.Porting.Reports.List(context.TODO(), telnyx.PortingReportListParams{})
+	page, err := client.Porting.Reports.List(context.Background(), telnyx.PortingReportListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -309,14 +311,14 @@ Generate reports about porting operations.
 `POST /porting/reports`
 
 ```go
-	report, err := client.Porting.Reports.New(context.TODO(), telnyx.PortingReportNewParams{
+	report, err := client.Porting.Reports.New(context.Background(), telnyx.PortingReportNewParams{
 		Params: telnyx.ExportPortingOrdersCsvReportParam{
 			Filters: telnyx.ExportPortingOrdersCsvReportFiltersParam{},
 		},
 		ReportType: telnyx.PortingReportNewParamsReportTypeExportPortingOrdersCsv,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", report.Data)
 ```
@@ -330,9 +332,9 @@ Retrieve a specific report generated.
 `GET /porting/reports/{id}`
 
 ```go
-	report, err := client.Porting.Reports.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	report, err := client.Porting.Reports.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", report.Data)
 ```
@@ -346,9 +348,9 @@ List available carriers in the UK.
 `GET /porting/uk_carriers`
 
 ```go
-	response, err := client.Porting.ListUkCarriers(context.TODO())
+	response, err := client.Porting.ListUkCarriers(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -362,9 +364,9 @@ Returns a list of your porting order.
 `GET /porting_orders`
 
 ```go
-	page, err := client.PortingOrders.List(context.TODO(), telnyx.PortingOrderListParams{})
+	page, err := client.PortingOrders.List(context.Background(), telnyx.PortingOrderListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -380,11 +382,11 @@ Creates a new porting order object.
 Optional: `customer_group_reference` (string), `customer_reference` (string | null)
 
 ```go
-	portingOrder, err := client.PortingOrders.New(context.TODO(), telnyx.PortingOrderNewParams{
+	portingOrder, err := client.PortingOrders.New(context.Background(), telnyx.PortingOrderNewParams{
 		PhoneNumbers: []string{"+13035550000", "+13035550001", "+13035550002"},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", portingOrder.Data)
 ```
@@ -398,9 +400,9 @@ Returns a list of all possible exception types for a porting order.
 `GET /porting_orders/exception_types`
 
 ```go
-	response, err := client.PortingOrders.GetExceptionTypes(context.TODO())
+	response, err := client.PortingOrders.GetExceptionTypes(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -414,9 +416,9 @@ Returns a list of phone number configurations paginated.
 `GET /porting_orders/phone_number_configurations`
 
 ```go
-	page, err := client.PortingOrders.PhoneNumberConfigurations.List(context.TODO(), telnyx.PortingOrderPhoneNumberConfigurationListParams{})
+	page, err := client.PortingOrders.PhoneNumberConfigurations.List(context.Background(), telnyx.PortingOrderPhoneNumberConfigurationListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -430,9 +432,9 @@ Creates a list of phone number configurations.
 `POST /porting_orders/phone_number_configurations`
 
 ```go
-	phoneNumberConfiguration, err := client.PortingOrders.PhoneNumberConfigurations.New(context.TODO(), telnyx.PortingOrderPhoneNumberConfigurationNewParams{})
+	phoneNumberConfiguration, err := client.PortingOrders.PhoneNumberConfigurations.New(context.Background(), telnyx.PortingOrderPhoneNumberConfigurationNewParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumberConfiguration.Data)
 ```
@@ -447,12 +449,12 @@ Retrieves the details of an existing porting order.
 
 ```go
 	portingOrder, err := client.PortingOrders.Get(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderGetParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", portingOrder.Data)
 ```
@@ -469,12 +471,12 @@ Optional: `activation_settings` (object), `customer_group_reference` (string), `
 
 ```go
 	portingOrder, err := client.PortingOrders.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", portingOrder.Data)
 ```
@@ -488,9 +490,9 @@ Deletes an existing porting order. This operation is restrict to porting orders 
 `DELETE /porting_orders/{id}`
 
 ```go
-	err := client.PortingOrders.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	err := client.PortingOrders.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -501,9 +503,9 @@ Activate each number in a porting order asynchronously. This operation is limite
 `POST /porting_orders/{id}/actions/activate`
 
 ```go
-	response, err := client.PortingOrders.Actions.Activate(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	response, err := client.PortingOrders.Actions.Activate(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -515,9 +517,9 @@ Returns: `activate_at` (date-time), `activation_type` (enum: scheduled, on-deman
 `POST /porting_orders/{id}/actions/cancel`
 
 ```go
-	response, err := client.PortingOrders.Actions.Cancel(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	response, err := client.PortingOrders.Actions.Cancel(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -531,9 +533,9 @@ Confirm and submit your porting order.
 `POST /porting_orders/{id}/actions/confirm`
 
 ```go
-	response, err := client.PortingOrders.Actions.Confirm(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	response, err := client.PortingOrders.Actions.Confirm(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -548,12 +550,12 @@ Creates a sharing token for a porting order. The token can be used to share the 
 
 ```go
 	response, err := client.PortingOrders.Actions.Share(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderActionShareParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -568,12 +570,12 @@ Returns a list of your porting activation jobs.
 
 ```go
 	page, err := client.PortingOrders.ActivationJobs.List(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderActivationJobListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -588,14 +590,14 @@ Returns a porting activation job.
 
 ```go
 	activationJob, err := client.PortingOrders.ActivationJobs.Get(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderActivationJobGetParams{
 			ID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", activationJob.Data)
 ```
@@ -610,14 +612,14 @@ Updates the activation time of a porting activation job.
 
 ```go
 	activationJob, err := client.PortingOrders.ActivationJobs.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderActivationJobUpdateParams{
 			ID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", activationJob.Data)
 ```
@@ -632,12 +634,12 @@ Returns a list of additional documents for a porting order.
 
 ```go
 	page, err := client.PortingOrders.AdditionalDocuments.List(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderAdditionalDocumentListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -652,12 +654,12 @@ Creates a list of additional documents for a porting order.
 
 ```go
 	additionalDocument, err := client.PortingOrders.AdditionalDocuments.New(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderAdditionalDocumentNewParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", additionalDocument.Data)
 ```
@@ -672,14 +674,14 @@ Deletes an additional document for a porting order.
 
 ```go
 	err := client.PortingOrders.AdditionalDocuments.Delete(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderAdditionalDocumentDeleteParams{
 			ID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -690,9 +692,9 @@ Returns a list of allowed FOC dates for a porting order.
 `GET /porting_orders/{id}/allowed_foc_windows`
 
 ```go
-	response, err := client.PortingOrders.GetAllowedFocWindows(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	response, err := client.PortingOrders.GetAllowedFocWindows(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -707,12 +709,12 @@ Returns a list of all comments of a porting order.
 
 ```go
 	page, err := client.PortingOrders.Comments.List(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderCommentListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -729,12 +731,12 @@ Optional: `body` (string)
 
 ```go
 	comment, err := client.PortingOrders.Comments.New(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderCommentNewParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", comment.Data)
 ```
@@ -747,12 +749,12 @@ Returns: `body` (string), `created_at` (date-time), `id` (uuid), `porting_order_
 
 ```go
 	response, err := client.PortingOrders.GetLoaTemplate(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderGetLoaTemplateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -765,12 +767,12 @@ Returns a list of all requirements based on country/number type for this porting
 
 ```go
 	page, err := client.PortingOrders.GetRequirements(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderGetRequirementsParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -782,9 +784,9 @@ Returns: `field_type` (enum: document, textual), `field_value` (string), `record
 `GET /porting_orders/{id}/sub_request`
 
 ```go
-	response, err := client.PortingOrders.GetSubRequest(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	response, err := client.PortingOrders.GetSubRequest(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -799,12 +801,12 @@ Returns a list of verification codes for a porting order.
 
 ```go
 	page, err := client.PortingOrders.VerificationCodes.List(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderVerificationCodeListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -819,12 +821,12 @@ Send the verification code for all porting phone numbers.
 
 ```go
 	err := client.PortingOrders.VerificationCodes.Send(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderVerificationCodeSendParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -836,12 +838,12 @@ Verifies the verification code for a list of phone numbers.
 
 ```go
 	response, err := client.PortingOrders.VerificationCodes.Verify(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderVerificationCodeVerifyParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -856,12 +858,12 @@ Returns a list of action requirements for a specific porting order.
 
 ```go
 	page, err := client.PortingOrders.ActionRequirements.List(
-		context.TODO(),
+		context.Background(),
 		"porting_order_id",
 		telnyx.PortingOrderActionRequirementListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -876,10 +878,10 @@ Initiates a specific action requirement for a porting order.
 
 ```go
 	response, err := client.PortingOrders.ActionRequirements.Initiate(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.PortingOrderActionRequirementInitiateParams{
-			PortingOrderID: "porting_order_id",
+			PortingOrderID: "550e8400-e29b-41d4-a716-446655440000",
 			Params: telnyx.PortingOrderActionRequirementInitiateParamsParams{
 				FirstName: "John",
 				LastName:  "Doe",
@@ -887,7 +889,7 @@ Initiates a specific action requirement for a porting order.
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -902,12 +904,12 @@ Returns a list of all associated phone numbers for a porting order. Associated p
 
 ```go
 	page, err := client.PortingOrders.AssociatedPhoneNumbers.List(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderAssociatedPhoneNumberListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -922,7 +924,7 @@ Creates a new associated phone number for a porting order. This is used for part
 
 ```go
 	associatedPhoneNumber, err := client.PortingOrders.AssociatedPhoneNumbers.New(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderAssociatedPhoneNumberNewParams{
 			Action:           telnyx.PortingOrderAssociatedPhoneNumberNewParamsActionKeep,
@@ -930,7 +932,7 @@ Creates a new associated phone number for a porting order. This is used for part
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", associatedPhoneNumber.Data)
 ```
@@ -945,14 +947,14 @@ Deletes an associated phone number from a porting order.
 
 ```go
 	associatedPhoneNumber, err := client.PortingOrders.AssociatedPhoneNumbers.Delete(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderAssociatedPhoneNumberDeleteParams{
 			PortingOrderID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", associatedPhoneNumber.Data)
 ```
@@ -967,12 +969,12 @@ Returns a list of all phone number blocks of a porting order.
 
 ```go
 	page, err := client.PortingOrders.PhoneNumberBlocks.List(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderPhoneNumberBlockListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -987,7 +989,7 @@ Creates a new phone number block.
 
 ```go
 	phoneNumberBlock, err := client.PortingOrders.PhoneNumberBlocks.New(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderPhoneNumberBlockNewParams{
 			ActivationRanges: []telnyx.PortingOrderPhoneNumberBlockNewParamsActivationRange{{
@@ -1001,7 +1003,7 @@ Creates a new phone number block.
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumberBlock.Data)
 ```
@@ -1016,14 +1018,14 @@ Deletes a phone number block.
 
 ```go
 	phoneNumberBlock, err := client.PortingOrders.PhoneNumberBlocks.Delete(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderPhoneNumberBlockDeleteParams{
 			PortingOrderID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumberBlock.Data)
 ```
@@ -1038,12 +1040,12 @@ Returns a list of all phone number extensions of a porting order.
 
 ```go
 	page, err := client.PortingOrders.PhoneNumberExtensions.List(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderPhoneNumberExtensionListParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -1058,7 +1060,7 @@ Creates a new phone number extension.
 
 ```go
 	phoneNumberExtension, err := client.PortingOrders.PhoneNumberExtensions.New(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderPhoneNumberExtensionNewParams{
 			ActivationRanges: []telnyx.PortingOrderPhoneNumberExtensionNewParamsActivationRange{{
@@ -1073,7 +1075,7 @@ Creates a new phone number extension.
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumberExtension.Data)
 ```
@@ -1088,14 +1090,14 @@ Deletes a phone number extension.
 
 ```go
 	phoneNumberExtension, err := client.PortingOrders.PhoneNumberExtensions.Delete(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortingOrderPhoneNumberExtensionDeleteParams{
 			PortingOrderID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumberExtension.Data)
 ```
@@ -1109,9 +1111,9 @@ Returns a list of your porting phone numbers.
 `GET /porting_phone_numbers`
 
 ```go
-	page, err := client.PortingPhoneNumbers.List(context.TODO(), telnyx.PortingPhoneNumberListParams{})
+	page, err := client.PortingPhoneNumbers.List(context.Background(), telnyx.PortingPhoneNumberListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```

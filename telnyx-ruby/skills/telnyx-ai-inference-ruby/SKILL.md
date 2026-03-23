@@ -81,7 +81,7 @@ Chat with a language model. This endpoint is consistent with the [OpenAI Chat Co
 
 `POST /ai/chat/completions` — Required: `messages`
 
-Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `enable_thinking` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
 
 ```ruby
 response = client.ai.chat.create_completion(
@@ -144,7 +144,7 @@ Create a new insight group
 Optional: `description` (string), `webhook` (string)
 
 ```ruby
-insight_template_group_detail = client.ai.conversations.insight_groups.insight_groups(name: "name")
+insight_template_group_detail = client.ai.conversations.insight_groups.insight_groups(name: "my-resource")
 
 puts(insight_template_group_detail)
 ```
@@ -246,7 +246,7 @@ Create a new insight
 Optional: `json_schema` (object), `webhook` (string)
 
 ```ruby
-insight_template_detail = client.ai.conversations.insights.create(instructions: "instructions", name: "name")
+insight_template_detail = client.ai.conversations.insights.create(instructions: "You are a helpful assistant.", name: "my-resource")
 
 puts(insight_template_detail)
 ```
@@ -302,7 +302,7 @@ Retrieve a specific AI conversation by its ID.
 `GET /ai/conversations/{conversation_id}`
 
 ```ruby
-conversation = client.ai.conversations.retrieve("conversation_id")
+conversation = client.ai.conversations.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(conversation)
 ```
@@ -318,7 +318,7 @@ Update metadata for a specific conversation.
 Optional: `metadata` (object)
 
 ```ruby
-conversation = client.ai.conversations.update("conversation_id")
+conversation = client.ai.conversations.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(conversation)
 ```
@@ -332,7 +332,7 @@ Delete a specific conversation by its ID.
 `DELETE /ai/conversations/{conversation_id}`
 
 ```ruby
-result = client.ai.conversations.delete("conversation_id")
+result = client.ai.conversations.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(result)
 ```
@@ -344,7 +344,7 @@ Retrieve insights for a specific conversation
 `GET /ai/conversations/{conversation_id}/conversations-insights`
 
 ```ruby
-response = client.ai.conversations.retrieve_conversations_insights("conversation_id")
+response = client.ai.conversations.retrieve_conversations_insights("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -360,7 +360,7 @@ Add a new message to the conversation. Used to insert a new messages to a conver
 Optional: `content` (string), `metadata` (object), `name` (string), `sent_at` (date-time), `tool_call_id` (string), `tool_calls` (array[object]), `tool_choice` (object)
 
 ```ruby
-result = client.ai.conversations.add_message("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", role: "role")
+result = client.ai.conversations.add_message("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", role: "user")
 
 puts(result)
 ```
@@ -372,7 +372,7 @@ Retrieve messages for a specific conversation, including tool calls made by the 
 `GET /ai/conversations/{conversation_id}/messages`
 
 ```ruby
-messages = client.ai.conversations.messages.list("conversation_id")
+messages = client.ai.conversations.messages.list("550e8400-e29b-41d4-a716-446655440000")
 
 puts(messages)
 ```
@@ -408,7 +408,7 @@ Perform embedding on a Telnyx Storage Bucket using an embedding model. The curre
 Optional: `document_chunk_overlap_size` (integer), `document_chunk_size` (integer), `embedding_model` (object), `loader` (object)
 
 ```ruby
-embedding_response = client.ai.embeddings.create(bucket_name: "bucket_name")
+embedding_response = client.ai.embeddings.create(bucket_name: "my-bucket")
 
 puts(embedding_response)
 ```
@@ -464,7 +464,7 @@ Perform a similarity search on a Telnyx Storage Bucket, returning the most simil
 Optional: `num_of_docs` (integer)
 
 ```ruby
-response = client.ai.embeddings.similarity_search(bucket_name: "bucket_name", query: "query")
+response = client.ai.embeddings.similarity_search(bucket_name: "my-bucket", query: "What is Telnyx?")
 
 puts(response)
 ```
@@ -478,7 +478,7 @@ Embed website content from a specified URL, including child pages up to 5 levels
 `POST /ai/embeddings/url` — Required: `url`, `bucket_name`
 
 ```ruby
-embedding_response = client.ai.embeddings.url(bucket_name: "bucket_name", url: "url")
+embedding_response = client.ai.embeddings.url(bucket_name: "my-bucket", url: "https://example.com/resource")
 
 puts(embedding_response)
 ```
@@ -527,7 +527,7 @@ Create a new fine tuning job.
 Optional: `hyperparameters` (object), `suffix` (string)
 
 ```ruby
-fine_tuning_job = client.ai.fine_tuning.jobs.create(model: "model", training_file: "training_file")
+fine_tuning_job = client.ai.fine_tuning.jobs.create(model: "meta-llama/Meta-Llama-3.1-8B-Instruct", training_file: "training-data.jsonl")
 
 puts(fine_tuning_job)
 ```
@@ -623,7 +623,7 @@ Generate a summary of a file's contents. Supports the following text formats:
 Optional: `system_prompt` (string)
 
 ```ruby
-response = client.ai.summarize(bucket: "bucket", filename: "filename")
+response = client.ai.summarize(bucket: "my-bucket", filename: "data.csv")
 
 puts(response)
 ```
@@ -711,7 +711,7 @@ Generate synthesized speech audio from text input. Returns audio in the requeste
 
 `POST /text-to-speech/speech`
 
-Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `inworld` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble, inworld), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
+Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
 
 ```ruby
 response = client.text_to_speech.generate
@@ -734,61 +734,3 @@ puts(response)
 ```
 
 Returns: `voices` (array[object])
-
-## Get all Wireless Detail Records (WDRs) Reports
-
-Returns the WDR Reports that match the given parameters.
-
-`GET /wireless/detail_records_reports`
-
-```ruby
-detail_records_reports = client.wireless.detail_records_reports.list
-
-puts(detail_records_reports)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Create a Wireless Detail Records (WDRs) Report
-
-Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
-
-`POST /wireless/detail_records_reports`
-
-Optional: `end_time` (string), `start_time` (string)
-
-```ruby
-detail_records_report = client.wireless.detail_records_reports.create
-
-puts(detail_records_report)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Get a Wireless Detail Record (WDR) Report
-
-Returns one specific WDR report
-
-`GET /wireless/detail_records_reports/{id}`
-
-```ruby
-detail_records_report = client.wireless.detail_records_reports.retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-
-puts(detail_records_report)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Delete a Wireless Detail Record (WDR) Report
-
-Deletes one specific WDR report.
-
-`DELETE /wireless/detail_records_reports/{id}`
-
-```ruby
-detail_records_report = client.wireless.detail_records_reports.delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
-
-puts(detail_records_report)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

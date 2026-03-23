@@ -168,7 +168,7 @@ Retrieves the details of an existing address.
 `GET /addresses/{id}`
 
 ```javascript
-const address = await client.addresses.retrieve('id');
+const address = await client.addresses.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(address.data);
 ```
@@ -182,7 +182,7 @@ Deletes an existing address.
 `DELETE /addresses/{id}`
 
 ```javascript
-const address = await client.addresses.delete('id');
+const address = await client.addresses.delete('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(address.data);
 ```
@@ -251,7 +251,7 @@ Retrieves the details of an existing authentication provider.
 `GET /authentication_providers/{id}`
 
 ```javascript
-const authenticationProvider = await client.authenticationProviders.retrieve('id');
+const authenticationProvider = await client.authenticationProviders.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(authenticationProvider.data);
 ```
@@ -291,7 +291,7 @@ Deletes an existing authentication provider.
 `DELETE /authentication_providers/{id}`
 
 ```javascript
-const authenticationProvider = await client.authenticationProviders.delete('id');
+const authenticationProvider = await client.authenticationProviders.delete('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(authenticationProvider.data);
 ```
@@ -318,7 +318,7 @@ Returns: `created_at` (date-time), `deleted_at` (date-time), `id` (uuid), `name`
 Optional: `name` (string)
 
 ```javascript
-const billingGroup = await client.billingGroups.create({ name: 'string' });
+const billingGroup = await client.billingGroups.create({ name: 'my-resource' });
 
 console.log(billingGroup.data);
 ```
@@ -345,7 +345,7 @@ Optional: `name` (string)
 
 ```javascript
 const billingGroup = await client.billingGroups.update('f5586561-8ff0-4291-a0ac-84fe544797bd', {
-  name: 'string',
+  name: 'my-resource',
 });
 
 console.log(billingGroup.data);
@@ -407,7 +407,7 @@ Delete an integration secret given its ID.
 `DELETE /integration_secrets/{id}`
 
 ```javascript
-await client.integrationSecrets.delete('id');
+await client.integrationSecrets.delete('550e8400-e29b-41d4-a716-446655440000');
 ```
 
 ## Create an Access Token.
@@ -417,7 +417,7 @@ Create an Access Token (JWT) for the credential.
 `POST /telephony_credentials/{id}/token`
 
 ```javascript
-const response = await client.telephonyCredentials.createToken('id');
+const response = await client.telephonyCredentials.createToken('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response);
 ```

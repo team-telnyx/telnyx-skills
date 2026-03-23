@@ -192,7 +192,7 @@ page = page.data[0]
 print(page.id)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `document_id` (uuid), `id` (uuid), `linked_record_type` (string), `linked_resource_id` (string), `record_type` (string), `updated_at` (string)
 
 ## List all documents
 
@@ -206,7 +206,7 @@ page = page.data[0]
 print(page.id)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Upload a document
 
@@ -223,7 +223,7 @@ response = client.documents.upload_json(
 print(response.data)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Retrieve a document
 
@@ -238,13 +238,15 @@ document = client.documents.retrieve(
 print(document.data)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Update a document
 
 Update a document.
 
 `PATCH /documents/{id}`
+
+Optional: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ```python
 document = client.documents.update(
@@ -253,7 +255,7 @@ document = client.documents.update(
 print(document.data)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Delete a document
 
@@ -268,7 +270,7 @@ document = client.documents.delete(
 print(document.data)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Download a document
 
@@ -383,7 +385,7 @@ Optional: `customer_reference` (string), `regulatory_requirements` (array[object
 
 ```python
 requirement_group = client.requirement_groups.update(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(requirement_group.id)
 ```

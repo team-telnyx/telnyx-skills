@@ -81,9 +81,9 @@ OAuth 2.0 Authorization Server Metadata (RFC 8414)
 `GET /.well-known/oauth-authorization-server`
 
 ```go
-	response, err := client.WellKnown.GetAuthorizationServerMetadata(context.TODO())
+	response, err := client.WellKnown.GetAuthorizationServerMetadata(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AuthorizationEndpoint)
 ```
@@ -97,9 +97,9 @@ OAuth 2.0 Protected Resource Metadata for resource discovery
 `GET /.well-known/oauth-protected-resource`
 
 ```go
-	response, err := client.WellKnown.GetProtectedResourceMetadata(context.TODO())
+	response, err := client.WellKnown.GetProtectedResourceMetadata(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AuthorizationServers)
 ```
@@ -113,13 +113,13 @@ OAuth 2.0 authorization endpoint for the authorization code flow
 `GET /oauth/authorize`
 
 ```go
-	err := client.OAuth.GetAuthorize(context.TODO(), telnyx.OAuthGetAuthorizeParams{
-		ClientID:     "client_id",
+	err := client.OAuth.GetAuthorize(context.Background(), telnyx.OAuthGetAuthorizeParams{
+		ClientID: "550e8400-e29b-41d4-a716-446655440000",
 		RedirectUri:  "https://example.com",
 		ResponseType: telnyx.OAuthGetAuthorizeParamsResponseTypeCode,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -130,9 +130,9 @@ Retrieve details about an OAuth consent token
 `GET /oauth/consent/{consent_token}`
 
 ```go
-	oauth, err := client.OAuth.Get(context.TODO(), "consent_token")
+	oauth, err := client.OAuth.Get(context.Background(), "consent_token")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", oauth.Data)
 ```
@@ -146,12 +146,12 @@ Create an OAuth authorization grant
 `POST /oauth/grants` — Required: `allowed`, `consent_token`
 
 ```go
-	response, err := client.OAuth.Grants(context.TODO(), telnyx.OAuthGrantsParams{
+	response, err := client.OAuth.Grants(context.Background(), telnyx.OAuthGrantsParams{
 		Allowed:      true,
-		ConsentToken: "consent_token",
+		ConsentToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.RedirectUri)
 ```
@@ -165,11 +165,11 @@ Introspect an OAuth access token to check its validity and metadata
 `POST /oauth/introspect` — Required: `token`
 
 ```go
-	response, err := client.OAuth.Introspect(context.TODO(), telnyx.OAuthIntrospectParams{
-		Token: "token",
+	response, err := client.OAuth.Introspect(context.Background(), telnyx.OAuthIntrospectParams{
+		Token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.ClientID)
 ```
@@ -183,9 +183,9 @@ Retrieve the JSON Web Key Set for token verification
 `GET /oauth/jwks`
 
 ```go
-	response, err := client.OAuth.GetJwks(context.TODO())
+	response, err := client.OAuth.GetJwks(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Keys)
 ```
@@ -201,9 +201,9 @@ Register a new OAuth client dynamically (RFC 7591)
 Optional: `client_name` (string), `grant_types` (array[string]), `logo_uri` (uri), `policy_uri` (uri), `redirect_uris` (array[string]), `response_types` (array[string]), `scope` (string), `token_endpoint_auth_method` (enum: none, client_secret_basic, client_secret_post), `tos_uri` (uri)
 
 ```go
-	response, err := client.OAuth.Register(context.TODO(), telnyx.OAuthRegisterParams{})
+	response, err := client.OAuth.Register(context.Background(), telnyx.OAuthRegisterParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.ClientID)
 ```
@@ -219,11 +219,11 @@ Exchange authorization code, client credentials, or refresh token for access tok
 Optional: `client_id` (string), `client_secret` (string), `code` (string), `code_verifier` (string), `redirect_uri` (uri), `refresh_token` (string), `scope` (string)
 
 ```go
-	response, err := client.OAuth.Token(context.TODO(), telnyx.OAuthTokenParams{
+	response, err := client.OAuth.Token(context.Background(), telnyx.OAuthTokenParams{
 		GrantType: telnyx.OAuthTokenParamsGrantTypeClientCredentials,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.AccessToken)
 ```
@@ -237,9 +237,9 @@ Retrieve a paginated list of OAuth clients for the authenticated user
 `GET /oauth_clients`
 
 ```go
-	page, err := client.OAuthClients.List(context.TODO(), telnyx.OAuthClientListParams{})
+	page, err := client.OAuthClients.List(context.Background(), telnyx.OAuthClientListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -255,14 +255,14 @@ Create a new OAuth client
 Optional: `logo_uri` (uri), `policy_uri` (uri), `redirect_uris` (array[string]), `require_pkce` (boolean), `tos_uri` (uri)
 
 ```go
-	oauthClient, err := client.OAuthClients.New(context.TODO(), telnyx.OAuthClientNewParams{
+	oauthClient, err := client.OAuthClients.New(context.Background(), telnyx.OAuthClientNewParams{
 		AllowedGrantTypes: []string{"client_credentials"},
 		AllowedScopes:     []string{"admin"},
 		ClientType:        telnyx.OAuthClientNewParamsClientTypePublic,
 		Name:              "My OAuth client",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", oauthClient.Data)
 ```
@@ -276,9 +276,9 @@ Retrieve a single OAuth client by ID
 `GET /oauth_clients/{id}`
 
 ```go
-	oauthClient, err := client.OAuthClients.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	oauthClient, err := client.OAuthClients.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", oauthClient.Data)
 ```
@@ -295,12 +295,12 @@ Optional: `allowed_grant_types` (array[string]), `allowed_scopes` (array[string]
 
 ```go
 	oauthClient, err := client.OAuthClients.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.OAuthClientUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", oauthClient.Data)
 ```
@@ -314,9 +314,9 @@ Delete an OAuth client
 `DELETE /oauth_clients/{id}`
 
 ```go
-	err := client.OAuthClients.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	err := client.OAuthClients.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -327,9 +327,9 @@ Retrieve a paginated list of OAuth grants for the authenticated user
 `GET /oauth_grants`
 
 ```go
-	page, err := client.OAuthGrants.List(context.TODO(), telnyx.OAuthGrantListParams{})
+	page, err := client.OAuthGrants.List(context.Background(), telnyx.OAuthGrantListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -343,9 +343,9 @@ Retrieve a single OAuth grant by ID
 `GET /oauth_grants/{id}`
 
 ```go
-	oauthGrant, err := client.OAuthGrants.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	oauthGrant, err := client.OAuthGrants.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", oauthGrant.Data)
 ```
@@ -359,9 +359,9 @@ Revoke an OAuth grant
 `DELETE /oauth_grants/{id}`
 
 ```go
-	oauthGrant, err := client.OAuthGrants.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	oauthGrant, err := client.OAuthGrants.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", oauthGrant.Data)
 ```

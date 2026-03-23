@@ -109,7 +109,7 @@ Returns: `country_code` (string), `created_at` (date-time), `features` (object),
 `GET /mobile_phone_numbers/{id}/messaging`
 
 ```ruby
-messaging = client.mobile_phone_numbers.messaging.retrieve("id")
+messaging = client.mobile_phone_numbers.messaging.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(messaging)
 ```
@@ -208,7 +208,7 @@ Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[ob
 `GET /phone_numbers/jobs/{id}`
 
 ```ruby
-job = client.phone_numbers.jobs.retrieve("id")
+job = client.phone_numbers.jobs.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(job)
 ```
@@ -327,7 +327,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `cnam_listing` (
 `GET /phone_numbers/{id}/messaging`
 
 ```ruby
-messaging = client.phone_numbers.messaging.retrieve("id")
+messaging = client.phone_numbers.messaging.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(messaging)
 ```
@@ -341,7 +341,7 @@ Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_
 Optional: `messaging_product` (string), `messaging_profile_id` (string), `tags` (array[string])
 
 ```ruby
-messaging = client.phone_numbers.messaging.update("id")
+messaging = client.phone_numbers.messaging.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(messaging)
 ```
@@ -391,7 +391,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_
 `GET /v2/mobile_phone_numbers/{id}`
 
 ```ruby
-mobile_phone_number = client.mobile_phone_numbers.retrieve("id")
+mobile_phone_number = client.mobile_phone_numbers.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(mobile_phone_number)
 ```
@@ -405,7 +405,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_
 Optional: `call_forwarding` (object), `call_recording` (object), `caller_id_name_enabled` (boolean), `cnam_listing` (object), `connection_id` (string | null), `customer_reference` (string | null), `inbound` (object), `inbound_call_screening` (enum: disabled, reject_calls, flag_calls), `noise_suppression` (boolean), `outbound` (object), `tags` (array[string])
 
 ```ruby
-mobile_phone_number = client.mobile_phone_numbers.update("id")
+mobile_phone_number = client.mobile_phone_numbers.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(mobile_phone_number)
 ```

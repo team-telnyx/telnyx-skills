@@ -82,7 +82,7 @@ Starts a background task to compute how the data in an [embedded storage bucket]
 Optional: `files` (array[string]), `min_cluster_size` (integer), `min_subcluster_size` (integer), `prefix` (string)
 
 ```ruby
-response = client.ai.clusters.compute(bucket: "bucket")
+response = client.ai.clusters.compute(bucket: "my-bucket")
 
 puts(response)
 ```
@@ -199,7 +199,7 @@ global_ip_allowed_ports = client.global_ip_allowed_ports.list
 puts(global_ip_allowed_ports)
 ```
 
-Returns: `data` (array[object])
+Returns: `first_port` (integer), `id` (uuid), `last_port` (integer), `name` (string), `protocol_code` (string), `record_type` (string)
 
 ## Global IP Assignment Health Check Metrics
 
@@ -225,7 +225,7 @@ page = client.global_ip_assignments.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Create a Global IP assignment
 
@@ -233,13 +233,15 @@ Create a Global IP assignment.
 
 `POST /global_ip_assignments`
 
+Optional: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
+
 ```ruby
 global_ip_assignment = client.global_ip_assignments.create
 
 puts(global_ip_assignment)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Retrieve a Global IP
 
@@ -253,13 +255,15 @@ global_ip_assignment = client.global_ip_assignments.retrieve("6a09cdc3-8948-47f0
 puts(global_ip_assignment)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Update a Global IP assignment
 
 Update a Global IP assignment.
 
 `PATCH /global_ip_assignments/{id}`
+
+Optional: `created_at` (string), `global_ip_id` (string), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (string)
 
 ```ruby
 global_ip_assignment = client.global_ip_assignments.update(
@@ -270,7 +274,7 @@ global_ip_assignment = client.global_ip_assignments.update(
 puts(global_ip_assignment)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Delete a Global IP assignment
 
@@ -284,7 +288,7 @@ global_ip_assignment = client.global_ip_assignments.delete("6a09cdc3-8948-47f0-a
 puts(global_ip_assignment)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Global IP Assignment Usage Metrics
 
@@ -310,7 +314,7 @@ global_ip_health_check_types = client.global_ip_health_check_types.list
 puts(global_ip_health_check_types)
 ```
 
-Returns: `data` (array[object])
+Returns: `health_check_params` (object), `health_check_type` (string), `record_type` (string)
 
 ## List all Global IP health checks
 
@@ -324,7 +328,7 @@ page = client.global_ip_health_checks.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Create a Global IP health check
 
@@ -332,13 +336,15 @@ Create a Global IP health check.
 
 `POST /global_ip_health_checks`
 
+Optional: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
+
 ```ruby
 global_ip_health_check = client.global_ip_health_checks.create
 
 puts(global_ip_health_check)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Retrieve a Global IP health check
 
@@ -352,7 +358,7 @@ global_ip_health_check = client.global_ip_health_checks.retrieve("6a09cdc3-8948-
 puts(global_ip_health_check)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Delete a Global IP health check
 
@@ -366,7 +372,7 @@ global_ip_health_check = client.global_ip_health_checks.delete("6a09cdc3-8948-47
 puts(global_ip_health_check)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Global IP Latency Metrics
 
@@ -390,7 +396,7 @@ global_ip_protocols = client.global_ip_protocols.list
 puts(global_ip_protocols)
 ```
 
-Returns: `data` (array[object])
+Returns: `code` (string), `name` (string), `record_type` (string)
 
 ## Global IP Usage Metrics
 
@@ -416,7 +422,7 @@ page = client.global_ips.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## Create a Global IP
 
@@ -424,13 +430,15 @@ Create a Global IP.
 
 `POST /global_ips`
 
+Optional: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
+
 ```ruby
 global_ip = client.global_ips.create
 
 puts(global_ip)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## Retrieve a Global IP
 
@@ -444,7 +452,7 @@ global_ip = client.global_ips.retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 puts(global_ip)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## Delete a Global IP
 
@@ -458,7 +466,7 @@ global_ip = client.global_ips.delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 puts(global_ip)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## List all Networks
 
@@ -472,13 +480,15 @@ page = client.networks.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Create a Network
 
 Create a new Network.
 
-`POST /networks`
+`POST /networks` — Required: `name`
+
+Optional: `created_at` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ```ruby
 network = client.networks.create(name: "test network")
@@ -486,7 +496,7 @@ network = client.networks.create(name: "test network")
 puts(network)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Retrieve a Network
 
@@ -500,13 +510,15 @@ network = client.networks.retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 puts(network)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Update a Network
 
 Update a Network.
 
-`PATCH /networks/{id}`
+`PATCH /networks/{id}` — Required: `name`
+
+Optional: `created_at` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ```ruby
 network = client.networks.update("6a09cdc3-8948-47f0-aa62-74ac943d6c58", name: "test network")
@@ -514,7 +526,7 @@ network = client.networks.update("6a09cdc3-8948-47f0-aa62-74ac943d6c58", name: "
 puts(network)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Delete a Network
 
@@ -528,7 +540,7 @@ network = client.networks.delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 puts(network)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Get Default Gateway status.
 
@@ -540,11 +552,13 @@ default_gateway = client.networks.default_gateway.retrieve("6a09cdc3-8948-47f0-a
 puts(default_gateway)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Create Default Gateway.
 
 `POST /networks/{id}/default_gateway`
+
+Optional: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ```ruby
 default_gateway = client.networks.default_gateway.create("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
@@ -552,7 +566,7 @@ default_gateway = client.networks.default_gateway.create("6a09cdc3-8948-47f0-aa6
 puts(default_gateway)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Delete Default Gateway.
 
@@ -564,7 +578,7 @@ default_gateway = client.networks.default_gateway.delete("6a09cdc3-8948-47f0-aa6
 puts(default_gateway)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## List all Interfaces for a Network.
 
@@ -576,7 +590,7 @@ page = client.networks.list_interfaces("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `type` (string), `updated_at` (string)
 
 ## Get all Private Wireless Gateways
 
@@ -651,7 +665,7 @@ page = client.public_internet_gateways.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Create a Public Internet Gateway
 
@@ -659,13 +673,15 @@ Create a new Public Internet Gateway.
 
 `POST /public_internet_gateways`
 
+Optional: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
+
 ```ruby
 public_internet_gateway = client.public_internet_gateways.create
 
 puts(public_internet_gateway)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Retrieve a Public Internet Gateway
 
@@ -679,7 +695,7 @@ public_internet_gateway = client.public_internet_gateways.retrieve("6a09cdc3-894
 puts(public_internet_gateway)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Delete a Public Internet Gateway
 
@@ -693,7 +709,7 @@ public_internet_gateway = client.public_internet_gateways.delete("6a09cdc3-8948-
 puts(public_internet_gateway)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## List all Regions
 
@@ -721,13 +737,15 @@ page = client.virtual_cross_connects.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Create a Virtual Cross Connect
 
 Create a new Virtual Cross Connect.  For AWS and GCE, you have the option of creating the primary connection first and the secondary connection later. You also have the option of disabling the primary and/or secondary connections at any time and later re-enabling them. With Azure, you do not have this option.
 
-`POST /virtual_cross_connects`
+`POST /virtual_cross_connects` — Required: `network_id`, `region_code`, `cloud_provider`, `cloud_provider_region`, `bgp_asn`, `primary_cloud_account_id`
+
+Optional: `bandwidth_mbps` (number), `created_at` (string), `id` (uuid), `name` (string), `primary_bgp_key` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ```ruby
 virtual_cross_connect = client.virtual_cross_connects.create(region_code: "ashburn-va")
@@ -735,7 +753,7 @@ virtual_cross_connect = client.virtual_cross_connects.create(region_code: "ashbu
 puts(virtual_cross_connect)
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Retrieve a Virtual Cross Connect
 
@@ -749,7 +767,7 @@ virtual_cross_connect = client.virtual_cross_connects.retrieve("6a09cdc3-8948-47
 puts(virtual_cross_connect)
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Update the Virtual Cross Connect
 
@@ -757,13 +775,15 @@ Update the Virtual Cross Connect.  Cloud IPs can only be patched during the `cre
 
 `PATCH /virtual_cross_connects/{id}`
 
+Optional: `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean)
+
 ```ruby
 virtual_cross_connect = client.virtual_cross_connects.update("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 
 puts(virtual_cross_connect)
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Delete a Virtual Cross Connect
 
@@ -777,7 +797,7 @@ virtual_cross_connect = client.virtual_cross_connects.delete("6a09cdc3-8948-47f0
 puts(virtual_cross_connect)
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## List Virtual Cross Connect Cloud Coverage
 
@@ -791,7 +811,7 @@ page = client.virtual_cross_connects_coverage.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_bandwidth` (array[number]), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `location` (object), `record_type` (string)
 
 ## List all WireGuard Interfaces
 
@@ -805,13 +825,15 @@ page = client.wireguard_interfaces.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Create a WireGuard Interface
 
 Create a new WireGuard Interface. Current limitation of 10 interfaces per user can be created.
 
-`POST /wireguard_interfaces`
+`POST /wireguard_interfaces` — Required: `network_id`, `region_code`
+
+Optional: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `public_key` (string), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ```ruby
 wireguard_interface = client.wireguard_interfaces.create(region_code: "ashburn-va")
@@ -819,7 +841,7 @@ wireguard_interface = client.wireguard_interfaces.create(region_code: "ashburn-v
 puts(wireguard_interface)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Retrieve a WireGuard Interfaces
 
@@ -833,7 +855,7 @@ wireguard_interface = client.wireguard_interfaces.retrieve("6a09cdc3-8948-47f0-a
 puts(wireguard_interface)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Delete a WireGuard Interface
 
@@ -847,7 +869,7 @@ wireguard_interface = client.wireguard_interfaces.delete("6a09cdc3-8948-47f0-aa6
 puts(wireguard_interface)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## List all WireGuard Peers
 
@@ -861,13 +883,15 @@ page = client.wireguard_peers.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Create a WireGuard Peer
 
 Create a new WireGuard Peer. Current limitation of 5 peers per interface can be created.
 
-`POST /wireguard_peers`
+`POST /wireguard_peers` — Required: `wireguard_interface_id`
+
+Optional: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string)
 
 ```ruby
 wireguard_peer = client.wireguard_peers.create(wireguard_interface_id: "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
@@ -875,7 +899,7 @@ wireguard_peer = client.wireguard_peers.create(wireguard_interface_id: "6a09cdc3
 puts(wireguard_peer)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Retrieve the WireGuard Peer
 
@@ -889,7 +913,7 @@ wireguard_peer = client.wireguard_peers.retrieve("6a09cdc3-8948-47f0-aa62-74ac94
 puts(wireguard_peer)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Update the WireGuard Peer
 
@@ -905,7 +929,7 @@ wireguard_peer = client.wireguard_peers.update("6a09cdc3-8948-47f0-aa62-74ac943d
 puts(wireguard_peer)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Delete the WireGuard Peer
 
@@ -919,7 +943,7 @@ wireguard_peer = client.wireguard_peers.delete("6a09cdc3-8948-47f0-aa62-74ac943d
 puts(wireguard_peer)
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Retrieve Wireguard config template for Peer
 

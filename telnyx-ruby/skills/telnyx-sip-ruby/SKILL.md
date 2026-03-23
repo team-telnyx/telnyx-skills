@@ -81,7 +81,7 @@ Returns: `cidr_block` (string), `created_at` (date-time), `description` (string)
 Optional: `description` (string)
 
 ```ruby
-access_ip_range = client.access_ip_ranges.create(cidr_block: "cidr_block")
+access_ip_range = client.access_ip_ranges.create(cidr_block: "203.0.113.0/24")
 
 puts(access_ip_range)
 ```
@@ -93,7 +93,7 @@ Returns: `cidr_block` (string), `created_at` (date-time), `description` (string)
 `DELETE /access_ip_ranges/{access_ip_range_id}`
 
 ```ruby
-access_ip_range = client.access_ip_ranges.delete("access_ip_range_id")
+access_ip_range = client.access_ip_ranges.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(access_ip_range)
 ```
@@ -121,7 +121,7 @@ Retrieves the high-level details of an existing connection. To retrieve specific
 `GET /connections/{id}`
 
 ```ruby
-connection = client.connections.retrieve("id")
+connection = client.connections.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(connection)
 ```
@@ -169,7 +169,7 @@ Retrieves the details of an existing credential connection.
 `GET /credential_connections/{id}`
 
 ```ruby
-credential_connection = client.credential_connections.retrieve("id")
+credential_connection = client.credential_connections.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(credential_connection)
 ```
@@ -185,7 +185,7 @@ Updates settings of an existing credential connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum: disabled, unrestricted, internal), `tags` (array[string]), `user_name` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```ruby
-credential_connection = client.credential_connections.update("id")
+credential_connection = client.credential_connections.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(credential_connection)
 ```
@@ -199,7 +199,7 @@ Deletes an existing credential connection.
 `DELETE /credential_connections/{id}`
 
 ```ruby
-credential_connection = client.credential_connections.delete("id")
+credential_connection = client.credential_connections.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(credential_connection)
 ```
@@ -213,7 +213,7 @@ Checks the registration_status for a credential connection, (`registration_statu
 `POST /credential_connections/{id}/actions/check_registration_status`
 
 ```ruby
-response = client.credential_connections.actions.check_registration_status("id")
+response = client.credential_connections.actions.check_registration_status("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -243,7 +243,7 @@ Creates a FQDN connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `microsoft_teams_sbc` (boolean), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```ruby
-fqdn_connection = client.fqdn_connections.create(connection_name: "string")
+fqdn_connection = client.fqdn_connections.create(connection_name: "my-resource")
 
 puts(fqdn_connection)
 ```
@@ -391,8 +391,7 @@ Creates an IP connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```ruby
-ip_connection = client.ip_connections.create
-
+ip_connection = client.ip_connections.create(connection_name: "my-ip-connection")
 puts(ip_connection)
 ```
 
@@ -405,7 +404,7 @@ Retrieves the details of an existing ip connection.
 `GET /ip_connections/{id}`
 
 ```ruby
-ip_connection = client.ip_connections.retrieve("id")
+ip_connection = client.ip_connections.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(ip_connection)
 ```
@@ -421,7 +420,7 @@ Updates settings of an existing IP connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```ruby
-ip_connection = client.ip_connections.update("id")
+ip_connection = client.ip_connections.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(ip_connection)
 ```
@@ -435,7 +434,7 @@ Deletes an existing IP connection.
 `DELETE /ip_connections/{id}`
 
 ```ruby
-ip_connection = client.ip_connections.delete("id")
+ip_connection = client.ip_connections.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(ip_connection)
 ```

@@ -89,7 +89,7 @@ Create a new mission definition
 Optional: `description` (string), `execution_mode` (enum: external, managed), `instructions` (string), `metadata` (object), `model` (string)
 
 ```javascript
-const mission = await client.ai.missions.create({ name: 'name' });
+const mission = await client.ai.missions.create({ name: 'my-resource' });
 
 console.log(mission.data);
 ```
@@ -210,7 +210,7 @@ Get a specific knowledge base by ID
 
 ```javascript
 const response = await client.ai.missions.knowledgeBases.getKnowledgeBase('knowledge_base_id', {
-  mission_id: 'mission_id',
+  mission_id: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response);
@@ -224,7 +224,7 @@ Update a knowledge base definition
 
 ```javascript
 const response = await client.ai.missions.knowledgeBases.updateKnowledgeBase('knowledge_base_id', {
-  mission_id: 'mission_id',
+  mission_id: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response);
@@ -238,7 +238,7 @@ Delete a knowledge base from a mission
 
 ```javascript
 await client.ai.missions.knowledgeBases.deleteKnowledgeBase('knowledge_base_id', {
-  mission_id: 'mission_id',
+  mission_id: '550e8400-e29b-41d4-a716-446655440000',
 });
 ```
 
@@ -274,7 +274,7 @@ Get a specific MCP server by ID
 
 ```javascript
 const response = await client.ai.missions.mcpServers.getMcpServer('mcp_server_id', {
-  mission_id: 'mission_id',
+  mission_id: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response);
@@ -288,7 +288,7 @@ Update an MCP server definition
 
 ```javascript
 const response = await client.ai.missions.mcpServers.updateMcpServer('mcp_server_id', {
-  mission_id: 'mission_id',
+  mission_id: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response);
@@ -301,7 +301,7 @@ Delete an MCP server from a mission
 `DELETE /ai/missions/{mission_id}/mcp-servers/{mcp_server_id}`
 
 ```javascript
-await client.ai.missions.mcpServers.deleteMcpServer('mcp_server_id', { mission_id: 'mission_id' });
+await client.ai.missions.mcpServers.deleteMcpServer('mcp_server_id', { mission_id: '550e8400-e29b-41d4-a716-446655440000' });
 ```
 
 ## List runs for mission
@@ -416,7 +416,7 @@ Optional: `agent_id` (string), `idempotency_key` (string), `payload` (object), `
 ```javascript
 const response = await client.ai.missions.runs.events.log('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
   mission_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-  summary: 'summary',
+  summary: 'Brief task summary',
   type: 'status_change',
 });
 
@@ -487,7 +487,7 @@ const plan = await client.ai.missions.runs.plan.create('182bd5e5-6e1a-4fe4-a799-
     {
       description: 'description',
       sequence: 0,
-      step_id: 'step_id',
+      step_id: '550e8400-e29b-41d4-a716-446655440000',
     },
   ],
 });
@@ -512,7 +512,7 @@ const response = await client.ai.missions.runs.plan.addStepsToPlan(
       {
         description: 'description',
         sequence: 0,
-        step_id: 'step_id',
+        step_id: '550e8400-e29b-41d4-a716-446655440000',
       },
     ],
   },
@@ -601,7 +601,7 @@ Link a Telnyx AI agent (voice/messaging) to a run
 ```javascript
 const response = await client.ai.missions.runs.telnyxAgents.link(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-  { mission_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', telnyx_agent_id: 'telnyx_agent_id' },
+  { mission_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', telnyx_agent_id: '550e8400-e29b-41d4-a716-446655440000' },
 );
 
 console.log(response.data);
@@ -653,7 +653,7 @@ Get a specific tool by ID
 `GET /ai/missions/{mission_id}/tools/{tool_id}`
 
 ```javascript
-const response = await client.ai.missions.tools.getTool('tool_id', { mission_id: 'mission_id' });
+const response = await client.ai.missions.tools.getTool('tool_id', { mission_id: '550e8400-e29b-41d4-a716-446655440000' });
 
 console.log(response);
 ```
@@ -665,7 +665,7 @@ Update a tool definition
 `PUT /ai/missions/{mission_id}/tools/{tool_id}`
 
 ```javascript
-const response = await client.ai.missions.tools.updateTool('tool_id', { mission_id: 'mission_id' });
+const response = await client.ai.missions.tools.updateTool('tool_id', { mission_id: '550e8400-e29b-41d4-a716-446655440000' });
 
 console.log(response);
 ```
@@ -677,5 +677,5 @@ Delete a tool from a mission
 `DELETE /ai/missions/{mission_id}/tools/{tool_id}`
 
 ```javascript
-await client.ai.missions.tools.deleteTool('tool_id', { mission_id: 'mission_id' });
+await client.ai.missions.tools.deleteTool('tool_id', { mission_id: '550e8400-e29b-41d4-a716-446655440000' });
 ```

@@ -105,7 +105,7 @@ Search for any detail record across the Telnyx Platform
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/detail_records"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `carrier` (string), `carrier_fee` (string), `cld` (string), `cli` (string), `completed_at` (date-time), `cost` (string), `country_code` (string), `created_at` (date-time), `currency` (string), `delivery_status` (string), `delivery_status_failover_url` (string), `delivery_status_webhook_url` (string), `direction` (enum: inbound, outbound), `errors` (array[string]), `fteu` (boolean), `mcc` (string), `message_type` (enum: SMS, MMS, RCS), `mnc` (string), `on_net` (boolean), `parts` (integer), `profile_id` (string), `profile_name` (string), `rate` (string), `record_type` (string), `sent_at` (date-time), `source_country_code` (string), `status` (enum: gw_timeout, delivered, dlr_unconfirmed, dlr_timeout, received, gw_reject, failed), `tags` (string), `updated_at` (date-time), `user_id` (string), `uuid` (string)
 
 ## List invoices
 
@@ -126,7 +126,7 @@ Retrieve a single invoice by its unique identifier.
 `GET /invoices/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/invoices/{id}?action=json"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/invoices/550e8400-e29b-41d4-a716-446655440000?action=json"
 ```
 
 Returns: `download_url` (uri), `file_id` (uuid), `invoice_id` (uuid), `paid` (boolean), `period_end` (date), `period_start` (date), `url` (uri)
@@ -156,13 +156,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "threshold_amount": "104.00",
-  "recharge_amount": "104.00",
-  "enabled": true,
-  "invoice_enabled": true,
-  "preference": "credit_paypal"
-}' \
   "https://api.telnyx.com/v2/payment/auto_recharge_prefs"
 ```
 

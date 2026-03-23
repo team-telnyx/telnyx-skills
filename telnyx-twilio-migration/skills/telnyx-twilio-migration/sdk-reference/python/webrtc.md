@@ -65,7 +65,7 @@ Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id
 
 ## Creates a new mobile push credential
 
-`POST /mobile_push_credentials`
+`POST /mobile_push_credentials` — Required: `type`, `certificate`, `private_key`, `alias`
 
 ```python
 push_credential_response = client.mobile_push_credentials.create(
@@ -164,7 +164,7 @@ Optional: `connection_id` (string), `expires_at` (string), `name` (string), `tag
 
 ```python
 telephony_credential = client.telephony_credentials.update(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(telephony_credential.data)
 ```

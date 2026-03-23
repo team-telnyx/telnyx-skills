@@ -337,7 +337,7 @@ Optional: `messaging_product` (string), `messaging_profile_id` (string), `tags` 
 
 ```python
 messaging = client.phone_numbers.messaging.update(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(messaging.data)
 ```
@@ -405,7 +405,7 @@ Optional: `call_forwarding` (object), `call_recording` (object), `caller_id_name
 
 ```python
 mobile_phone_number = client.mobile_phone_numbers.update(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(mobile_phone_number.data)
 ```

@@ -69,9 +69,9 @@ Filters call events by given filter parameters. Events are ordered by `occurred_
 `GET /call_events`
 
 ```go
-	page, err := client.CallEvents.List(context.TODO(), telnyx.CallEventListParams{})
+	page, err := client.CallEvents.List(context.Background(), telnyx.CallEventListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -85,12 +85,12 @@ Returns: `call_leg_id` (string), `call_session_id` (string), `event_timestamp` (
 Optional: `month` (integer), `year` (integer)
 
 ```go
-	ledgerBillingGroupReport, err := client.LedgerBillingGroupReports.New(context.TODO(), telnyx.LedgerBillingGroupReportNewParams{
+	ledgerBillingGroupReport, err := client.LedgerBillingGroupReports.New(context.Background(), telnyx.LedgerBillingGroupReportNewParams{
 		Month: telnyx.Int(10),
 		Year:  telnyx.Int(2019),
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", ledgerBillingGroupReport.Data)
 ```
@@ -102,9 +102,9 @@ Returns: `created_at` (date-time), `id` (uuid), `organization_id` (uuid), `recor
 `GET /ledger_billing_group_reports/{id}`
 
 ```go
-	ledgerBillingGroupReport, err := client.LedgerBillingGroupReports.Get(context.TODO(), "f5586561-8ff0-4291-a0ac-84fe544797bd")
+	ledgerBillingGroupReport, err := client.LedgerBillingGroupReports.Get(context.Background(), "f5586561-8ff0-4291-a0ac-84fe544797bd")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", ledgerBillingGroupReport.Data)
 ```
@@ -118,9 +118,9 @@ Retrieves all MDR detailed report requests for the authenticated user
 `GET /legacy/reporting/batch_detail_records/messaging`
 
 ```go
-	messagings, err := client.Legacy.Reporting.BatchDetailRecords.Messaging.List(context.TODO())
+	messagings, err := client.Legacy.Reporting.BatchDetailRecords.Messaging.List(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagings.Data)
 ```
@@ -136,12 +136,12 @@ Creates a new MDR detailed report request with the specified filters
 Optional: `connections` (array[integer]), `directions` (array[integer]), `filters` (array[object]), `include_message_body` (boolean), `managed_accounts` (array[string]), `profiles` (array[string]), `record_types` (array[integer]), `report_name` (string), `select_all_managed_accounts` (boolean), `timezone` (string)
 
 ```go
-	messaging, err := client.Legacy.Reporting.BatchDetailRecords.Messaging.New(context.TODO(), telnyx.LegacyReportingBatchDetailRecordMessagingNewParams{
+	messaging, err := client.Legacy.Reporting.BatchDetailRecords.Messaging.New(context.Background(), telnyx.LegacyReportingBatchDetailRecordMessagingNewParams{
 		EndTime:   time.Now(),
 		StartTime: time.Now(),
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messaging.Data)
 ```
@@ -155,9 +155,9 @@ Retrieves a specific MDR detailed report request by ID
 `GET /legacy/reporting/batch_detail_records/messaging/{id}`
 
 ```go
-	messaging, err := client.Legacy.Reporting.BatchDetailRecords.Messaging.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	messaging, err := client.Legacy.Reporting.BatchDetailRecords.Messaging.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messaging.Data)
 ```
@@ -171,9 +171,9 @@ Deletes a specific MDR detailed report request by ID
 `DELETE /legacy/reporting/batch_detail_records/messaging/{id}`
 
 ```go
-	messaging, err := client.Legacy.Reporting.BatchDetailRecords.Messaging.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	messaging, err := client.Legacy.Reporting.BatchDetailRecords.Messaging.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messaging.Data)
 ```
@@ -187,9 +187,9 @@ Retrieves all CDR report requests for the authenticated user
 `GET /legacy/reporting/batch_detail_records/voice`
 
 ```go
-	voices, err := client.Legacy.Reporting.BatchDetailRecords.Voice.List(context.TODO())
+	voices, err := client.Legacy.Reporting.BatchDetailRecords.Voice.List(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voices.Data)
 ```
@@ -205,12 +205,12 @@ Creates a new CDR report request with the specified filters
 Optional: `call_types` (array[integer]), `connections` (array[integer]), `fields` (array[string]), `filters` (array[object]), `include_all_metadata` (boolean), `managed_accounts` (array[string]), `record_types` (array[integer]), `report_name` (string), `select_all_managed_accounts` (boolean), `source` (string), `timezone` (string)
 
 ```go
-	voice, err := client.Legacy.Reporting.BatchDetailRecords.Voice.New(context.TODO(), telnyx.LegacyReportingBatchDetailRecordVoiceNewParams{
+	voice, err := client.Legacy.Reporting.BatchDetailRecords.Voice.New(context.Background(), telnyx.LegacyReportingBatchDetailRecordVoiceNewParams{
 		EndTime:   time.Now(),
 		StartTime: time.Now(),
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voice.Data)
 ```
@@ -224,9 +224,9 @@ Retrieves all available fields that can be used in CDR reports
 `GET /legacy/reporting/batch_detail_records/voice/fields`
 
 ```go
-	response, err := client.Legacy.Reporting.BatchDetailRecords.Voice.GetFields(context.TODO())
+	response, err := client.Legacy.Reporting.BatchDetailRecords.Voice.GetFields(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Billing)
 ```
@@ -240,9 +240,9 @@ Retrieves a specific CDR report request by ID
 `GET /legacy/reporting/batch_detail_records/voice/{id}`
 
 ```go
-	voice, err := client.Legacy.Reporting.BatchDetailRecords.Voice.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	voice, err := client.Legacy.Reporting.BatchDetailRecords.Voice.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voice.Data)
 ```
@@ -256,9 +256,9 @@ Deletes a specific CDR report request by ID
 `DELETE /legacy/reporting/batch_detail_records/voice/{id}`
 
 ```go
-	voice, err := client.Legacy.Reporting.BatchDetailRecords.Voice.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	voice, err := client.Legacy.Reporting.BatchDetailRecords.Voice.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voice.Data)
 ```
@@ -272,9 +272,9 @@ Fetch all previous requests for MDR usage reports.
 `GET /legacy/reporting/usage_reports/messaging`
 
 ```go
-	page, err := client.Legacy.Reporting.UsageReports.Messaging.List(context.TODO(), telnyx.LegacyReportingUsageReportMessagingListParams{})
+	page, err := client.Legacy.Reporting.UsageReports.Messaging.List(context.Background(), telnyx.LegacyReportingUsageReportMessagingListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -288,11 +288,11 @@ Creates a new legacy usage V2 MDR report request with the specified filters
 `POST /legacy/reporting/usage_reports/messaging`
 
 ```go
-	messaging, err := client.Legacy.Reporting.UsageReports.Messaging.New(context.TODO(), telnyx.LegacyReportingUsageReportMessagingNewParams{
+	messaging, err := client.Legacy.Reporting.UsageReports.Messaging.New(context.Background(), telnyx.LegacyReportingUsageReportMessagingNewParams{
 		AggregationType: 0,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messaging.Data)
 ```
@@ -306,9 +306,9 @@ Fetch single MDR usage report by id.
 `GET /legacy/reporting/usage_reports/messaging/{id}`
 
 ```go
-	messaging, err := client.Legacy.Reporting.UsageReports.Messaging.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	messaging, err := client.Legacy.Reporting.UsageReports.Messaging.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messaging.Data)
 ```
@@ -322,9 +322,9 @@ Deletes a specific V2 legacy usage MDR report request by ID
 `DELETE /legacy/reporting/usage_reports/messaging/{id}`
 
 ```go
-	messaging, err := client.Legacy.Reporting.UsageReports.Messaging.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	messaging, err := client.Legacy.Reporting.UsageReports.Messaging.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messaging.Data)
 ```
@@ -338,9 +338,9 @@ Retrieve a paginated list of telco data usage reports
 `GET /legacy/reporting/usage_reports/number_lookup`
 
 ```go
-	numberLookups, err := client.Legacy.Reporting.UsageReports.NumberLookup.List(context.TODO())
+	numberLookups, err := client.Legacy.Reporting.UsageReports.NumberLookup.List(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", numberLookups.Data)
 ```
@@ -354,9 +354,9 @@ Submit a new telco data usage report
 `POST /legacy/reporting/usage_reports/number_lookup`
 
 ```go
-	numberLookup, err := client.Legacy.Reporting.UsageReports.NumberLookup.New(context.TODO(), telnyx.LegacyReportingUsageReportNumberLookupNewParams{})
+	numberLookup, err := client.Legacy.Reporting.UsageReports.NumberLookup.New(context.Background(), telnyx.LegacyReportingUsageReportNumberLookupNewParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", numberLookup.Data)
 ```
@@ -370,9 +370,9 @@ Retrieve a specific telco data usage report by its ID
 `GET /legacy/reporting/usage_reports/number_lookup/{id}`
 
 ```go
-	numberLookup, err := client.Legacy.Reporting.UsageReports.NumberLookup.Get(context.TODO(), "id")
+	numberLookup, err := client.Legacy.Reporting.UsageReports.NumberLookup.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", numberLookup.Data)
 ```
@@ -386,9 +386,9 @@ Delete a specific telco data usage report by its ID
 `DELETE /legacy/reporting/usage_reports/number_lookup/{id}`
 
 ```go
-	err := client.Legacy.Reporting.UsageReports.NumberLookup.Delete(context.TODO(), "id")
+	err := client.Legacy.Reporting.UsageReports.NumberLookup.Delete(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -399,9 +399,9 @@ Fetch all previous requests for cdr usage reports.
 `GET /legacy/reporting/usage_reports/voice`
 
 ```go
-	page, err := client.Legacy.Reporting.UsageReports.Voice.List(context.TODO(), telnyx.LegacyReportingUsageReportVoiceListParams{})
+	page, err := client.Legacy.Reporting.UsageReports.Voice.List(context.Background(), telnyx.LegacyReportingUsageReportVoiceListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -415,12 +415,12 @@ Creates a new legacy usage V2 CDR report request with the specified filters
 `POST /legacy/reporting/usage_reports/voice`
 
 ```go
-	voice, err := client.Legacy.Reporting.UsageReports.Voice.New(context.TODO(), telnyx.LegacyReportingUsageReportVoiceNewParams{
+	voice, err := client.Legacy.Reporting.UsageReports.Voice.New(context.Background(), telnyx.LegacyReportingUsageReportVoiceNewParams{
 		EndTime:   time.Now(),
 		StartTime: time.Now(),
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voice.Data)
 ```
@@ -434,9 +434,9 @@ Fetch single cdr usage report by id.
 `GET /legacy/reporting/usage_reports/voice/{id}`
 
 ```go
-	voice, err := client.Legacy.Reporting.UsageReports.Voice.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	voice, err := client.Legacy.Reporting.UsageReports.Voice.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voice.Data)
 ```
@@ -450,9 +450,9 @@ Deletes a specific V2 legacy usage CDR report request by ID
 `DELETE /legacy/reporting/usage_reports/voice/{id}`
 
 ```go
-	voice, err := client.Legacy.Reporting.UsageReports.Voice.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	voice, err := client.Legacy.Reporting.UsageReports.Voice.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", voice.Data)
 ```
@@ -464,9 +464,9 @@ Returns: `aggregation_type` (int32), `connections` (array[string]), `created_at`
 `GET /phone_numbers/csv_downloads`
 
 ```go
-	page, err := client.PhoneNumbers.CsvDownloads.List(context.TODO(), telnyx.PhoneNumberCsvDownloadListParams{})
+	page, err := client.PhoneNumbers.CsvDownloads.List(context.Background(), telnyx.PhoneNumberCsvDownloadListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -478,9 +478,9 @@ Returns: `id` (string), `record_type` (string), `status` (enum: pending, complet
 `POST /phone_numbers/csv_downloads`
 
 ```go
-	csvDownload, err := client.PhoneNumbers.CsvDownloads.New(context.TODO(), telnyx.PhoneNumberCsvDownloadNewParams{})
+	csvDownload, err := client.PhoneNumbers.CsvDownloads.New(context.Background(), telnyx.PhoneNumberCsvDownloadNewParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", csvDownload.Data)
 ```
@@ -492,9 +492,9 @@ Returns: `id` (string), `record_type` (string), `status` (enum: pending, complet
 `GET /phone_numbers/csv_downloads/{id}`
 
 ```go
-	csvDownload, err := client.PhoneNumbers.CsvDownloads.Get(context.TODO(), "id")
+	csvDownload, err := client.PhoneNumbers.CsvDownloads.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", csvDownload.Data)
 ```
@@ -508,12 +508,12 @@ Generate and fetch voice usage report synchronously. This endpoint will both gen
 `GET /reports/cdr_usage_reports/sync`
 
 ```go
-	response, err := client.Reports.CdrUsageReports.FetchSync(context.TODO(), telnyx.ReportCdrUsageReportFetchSyncParams{
+	response, err := client.Reports.CdrUsageReports.FetchSync(context.Background(), telnyx.ReportCdrUsageReportFetchSyncParams{
 		AggregationType:  telnyx.ReportCdrUsageReportFetchSyncParamsAggregationTypeNoAggregation,
 		ProductBreakdown: telnyx.ReportCdrUsageReportFetchSyncParamsProductBreakdownNoBreakdown,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -527,9 +527,9 @@ Fetch all messaging usage reports. Usage reports are aggregated messaging data f
 `GET /reports/mdr_usage_reports`
 
 ```go
-	page, err := client.Reports.MdrUsageReports.List(context.TODO(), telnyx.ReportMdrUsageReportListParams{})
+	page, err := client.Reports.MdrUsageReports.List(context.Background(), telnyx.ReportMdrUsageReportListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -543,13 +543,13 @@ Submit request for new new messaging usage report. This endpoint will pull and a
 `POST /reports/mdr_usage_reports`
 
 ```go
-	mdrUsageReport, err := client.Reports.MdrUsageReports.New(context.TODO(), telnyx.ReportMdrUsageReportNewParams{
+	mdrUsageReport, err := client.Reports.MdrUsageReports.New(context.Background(), telnyx.ReportMdrUsageReportNewParams{
 		AggregationType: telnyx.ReportMdrUsageReportNewParamsAggregationTypeNoAggregation,
 		EndDate:         time.Now(),
 		StartDate:       time.Now(),
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", mdrUsageReport.Data)
 ```
@@ -563,11 +563,11 @@ Generate and fetch messaging usage report synchronously. This endpoint will both
 `GET /reports/mdr_usage_reports/sync`
 
 ```go
-	response, err := client.Reports.MdrUsageReports.FetchSync(context.TODO(), telnyx.ReportMdrUsageReportFetchSyncParams{
+	response, err := client.Reports.MdrUsageReports.FetchSync(context.Background(), telnyx.ReportMdrUsageReportFetchSyncParams{
 		AggregationType: telnyx.ReportMdrUsageReportFetchSyncParamsAggregationTypeProfile,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -581,9 +581,9 @@ Fetch a single messaging usage report by id
 `GET /reports/mdr_usage_reports/{id}`
 
 ```go
-	mdrUsageReport, err := client.Reports.MdrUsageReports.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	mdrUsageReport, err := client.Reports.MdrUsageReports.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", mdrUsageReport.Data)
 ```
@@ -597,9 +597,9 @@ Delete messaging usage report by id
 `DELETE /reports/mdr_usage_reports/{id}`
 
 ```go
-	mdrUsageReport, err := client.Reports.MdrUsageReports.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	mdrUsageReport, err := client.Reports.MdrUsageReports.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", mdrUsageReport.Data)
 ```
@@ -611,9 +611,9 @@ Returns: `aggregation_type` (enum: NO_AGGREGATION, PROFILE, TAGS), `connections`
 `GET /reports/mdrs`
 
 ```go
-	response, err := client.Reports.ListMdrs(context.TODO(), telnyx.ReportListMdrsParams{})
+	response, err := client.Reports.ListMdrs(context.Background(), telnyx.ReportListMdrsParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -627,9 +627,9 @@ Fetch all Wdr records
 `GET /reports/wdrs`
 
 ```go
-	page, err := client.Reports.ListWdrs(context.TODO(), telnyx.ReportListWdrsParams{})
+	page, err := client.Reports.ListWdrs(context.Background(), telnyx.ReportListWdrsParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -643,9 +643,9 @@ Returns all available record types and supported query parameters for session an
 `GET /session_analysis/metadata`
 
 ```go
-	metadata, err := client.SessionAnalysis.Metadata.Get(context.TODO())
+	metadata, err := client.SessionAnalysis.Metadata.Get(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", metadata.Meta)
 ```
@@ -659,9 +659,9 @@ Returns detailed metadata for a specific record type, including relationships an
 `GET /session_analysis/metadata/{record_type}`
 
 ```go
-	response, err := client.SessionAnalysis.Metadata.GetRecordType(context.TODO(), "record_type")
+	response, err := client.SessionAnalysis.Metadata.GetRecordType(context.Background(), "record_type")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Aliases)
 ```
@@ -676,14 +676,14 @@ Retrieves a full session analysis tree for a given event, including costs, child
 
 ```go
 	sessionAnalysis, err := client.SessionAnalysis.Get(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.SessionAnalysisGetParams{
 			RecordType: "record_type",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", sessionAnalysis.SessionID)
 ```
@@ -697,13 +697,13 @@ Get Telnyx usage data by product, broken out by the specified dimensions
 `GET /usage_reports`
 
 ```go
-	page, err := client.UsageReports.List(context.TODO(), telnyx.UsageReportListParams{
+	page, err := client.UsageReports.List(context.Background(), telnyx.UsageReportListParams{
 		Dimensions: []string{"string"},
 		Metrics:    []string{"string"},
-		Product:    "product",
+		Product: "wireless",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -717,11 +717,77 @@ Get the Usage Reports options for querying usage, including the products availab
 `GET /usage_reports/options`
 
 ```go
-	response, err := client.UsageReports.GetOptions(context.TODO(), telnyx.UsageReportGetOptionsParams{})
+	response, err := client.UsageReports.GetOptions(context.Background(), telnyx.UsageReportGetOptionsParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
 
 Returns: `product` (string), `product_dimensions` (array[string]), `product_metrics` (array[string]), `record_types` (array[object])
+
+## Get all Wireless Detail Records (WDRs) Reports
+
+Returns the WDR Reports that match the given parameters.
+
+`GET /wireless/detail_records_reports`
+
+```go
+	detailRecordsReports, err := client.Wireless.DetailRecordsReports.List(context.Background(), telnyx.WirelessDetailRecordsReportListParams{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%+v\n", detailRecordsReports.Data)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Create a Wireless Detail Records (WDRs) Report
+
+Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
+
+`POST /wireless/detail_records_reports`
+
+Optional: `end_time` (string), `start_time` (string)
+
+```go
+	detailRecordsReport, err := client.Wireless.DetailRecordsReports.New(context.Background(), telnyx.WirelessDetailRecordsReportNewParams{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%+v\n", detailRecordsReport.Data)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Get a Wireless Detail Record (WDR) Report
+
+Returns one specific WDR report
+
+`GET /wireless/detail_records_reports/{id}`
+
+```go
+	detailRecordsReport, err := client.Wireless.DetailRecordsReports.Get(context.Background(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%+v\n", detailRecordsReport.Data)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Delete a Wireless Detail Record (WDR) Report
+
+Deletes one specific WDR report.
+
+`DELETE /wireless/detail_records_reports/{id}`
+
+```go
+	detailRecordsReport, err := client.Wireless.DetailRecordsReports.Delete(context.Background(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%+v\n", detailRecordsReport.Data)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

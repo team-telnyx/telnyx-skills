@@ -45,6 +45,28 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `404` resource not found, `422` validation error (check field formats),
 `429` rate limited (retry with exponential backoff).
 
+## Join AI Assistant Conversation
+
+Add a participant to an existing AI assistant conversation. Use this command to bring an additional call leg into a running AI conversation.
+
+`POST /calls/{call_control_id}/actions/ai_assistant_join` — Required: `conversation_id`, `participant`
+
+Optional: `client_state` (string), `command_id` (string)
+
+```bash
+curl \
+  -X POST \
+  -H "Authorization: Bearer $TELNYX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "conversation_id": "v3:abc123",
+  "participant": {}
+}' \
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/ai_assistant_join"
+```
+
+Returns: `conversation_id` (uuid), `result` (string)
+
 ## Update client state
 
 Updates client state
@@ -59,7 +81,7 @@ curl \
   -d '{
   "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d"
 }' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/client_state_update"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/client_state_update"
 ```
 
 Returns: `result` (string)
@@ -80,19 +102,18 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "digits": "1www2WABCDw9",
-  "duration_millis": 500,
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
+  "digits": "1www2WABCDw9"
 }' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/send_dtmf"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/send_dtmf"
 ```
 
 Returns: `result` (string)
 
 ## SIPREC start
 
-Start siprec session to configured in SIPREC connector SRS. **Expected Webhooks:**
+Start siprec session to configured in SIPREC connector SRS. 
+
+**Expected Webhooks:**
 
 - `siprec.started`
 - `siprec.stopped`
@@ -107,16 +128,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "connector_name": "my-siprec-connector",
-  "sip_transport": "tcp",
-  "siprec_track": "outbound_track",
-  "include_metadata_custom_headers": true,
-  "secure": true,
-  "session_timeout_secs": 900,
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/siprec_start"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/siprec_start"
 ```
 
 Returns: `result` (string)
@@ -136,11 +148,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/siprec_stop"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/siprec_stop"
 ```
 
 Returns: `result` (string)
@@ -149,20 +157,14 @@ Returns: `result` (string)
 
 `POST /calls/{call_control_id}/actions/suppression_start`
 
-Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp), `noise_suppression_engine_config` (object)
+Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp, AiCoustics), `noise_suppression_engine_config` (object)
 
 ```bash
 curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "direction": "outbound",
-  "noise_suppression_engine": "Denoiser"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/suppression_start"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/suppression_start"
 ```
 
 Returns: `result` (string)
@@ -178,11 +180,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/suppression_stop"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/suppression_stop"
 ```
 
 Returns: `result` (string)
@@ -201,7 +199,7 @@ curl \
   -d '{
   "role": "barge"
 }' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/switch_supervisor_role"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/switch_supervisor_role"
 ```
 
 Returns: `result` (string)

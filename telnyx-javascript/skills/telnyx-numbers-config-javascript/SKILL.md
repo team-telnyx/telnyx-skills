@@ -113,7 +113,7 @@ Returns: `country_code` (string), `created_at` (date-time), `features` (object),
 `GET /mobile_phone_numbers/{id}/messaging`
 
 ```javascript
-const messaging = await client.mobilePhoneNumbers.messaging.retrieve('id');
+const messaging = await client.mobilePhoneNumbers.messaging.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(messaging.data);
 ```
@@ -220,7 +220,7 @@ Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[ob
 `GET /phone_numbers/jobs/{id}`
 
 ```javascript
-const job = await client.phoneNumbers.jobs.retrieve('id');
+const job = await client.phoneNumbers.jobs.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(job.data);
 ```
@@ -340,7 +340,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `cnam_listing` (
 `GET /phone_numbers/{id}/messaging`
 
 ```javascript
-const messaging = await client.phoneNumbers.messaging.retrieve('id');
+const messaging = await client.phoneNumbers.messaging.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(messaging.data);
 ```
@@ -354,7 +354,7 @@ Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_
 Optional: `messaging_product` (string), `messaging_profile_id` (string), `tags` (array[string])
 
 ```javascript
-const messaging = await client.phoneNumbers.messaging.update('id');
+const messaging = await client.phoneNumbers.messaging.update('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(messaging.data);
 ```
@@ -405,7 +405,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_
 `GET /v2/mobile_phone_numbers/{id}`
 
 ```javascript
-const mobilePhoneNumber = await client.mobilePhoneNumbers.retrieve('id');
+const mobilePhoneNumber = await client.mobilePhoneNumbers.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(mobilePhoneNumber.data);
 ```
@@ -419,7 +419,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_
 Optional: `call_forwarding` (object), `call_recording` (object), `caller_id_name_enabled` (boolean), `cnam_listing` (object), `connection_id` (string | null), `customer_reference` (string | null), `inbound` (object), `inbound_call_screening` (enum: disabled, reject_calls, flag_calls), `noise_suppression` (boolean), `outbound` (object), `tags` (array[string])
 
 ```javascript
-const mobilePhoneNumber = await client.mobilePhoneNumbers.update('id');
+const mobilePhoneNumber = await client.mobilePhoneNumbers.update('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(mobilePhoneNumber.data);
 ```

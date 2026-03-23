@@ -9,11 +9,11 @@
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -351,7 +351,7 @@ Retrieve a specific telco data usage report by its ID
 import com.telnyx.sdk.models.legacy.reporting.usagereports.numberlookup.NumberLookupRetrieveParams;
 import com.telnyx.sdk.models.legacy.reporting.usagereports.numberlookup.NumberLookupRetrieveResponse;
 
-NumberLookupRetrieveResponse numberLookup = client.legacy().reporting().usageReports().numberLookup().retrieve("id");
+NumberLookupRetrieveResponse numberLookup = client.legacy().reporting().usageReports().numberLookup().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `aggregation_type` (string), `created_at` (date-time), `end_date` (date), `id` (uuid), `managed_accounts` (array[string]), `record_type` (string), `report_url` (string), `result` (array[object]), `start_date` (date), `status` (string), `updated_at` (date-time)
@@ -365,7 +365,7 @@ Delete a specific telco data usage report by its ID
 ```java
 import com.telnyx.sdk.models.legacy.reporting.usagereports.numberlookup.NumberLookupDeleteParams;
 
-client.legacy().reporting().usageReports().numberLookup().delete("id");
+client.legacy().reporting().usageReports().numberLookup().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## List CDR usage reports
@@ -467,7 +467,7 @@ Returns: `id` (string), `record_type` (string), `status` (enum: pending, complet
 import com.telnyx.sdk.models.phonenumbers.csvdownloads.CsvDownloadRetrieveParams;
 import com.telnyx.sdk.models.phonenumbers.csvdownloads.CsvDownloadRetrieveResponse;
 
-CsvDownloadRetrieveResponse csvDownload = client.phoneNumbers().csvDownloads().retrieve("id");
+CsvDownloadRetrieveResponse csvDownload = client.phoneNumbers().csvDownloads().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `id` (string), `record_type` (string), `status` (enum: pending, complete, failed, expired), `url` (string)
@@ -665,7 +665,7 @@ import com.telnyx.sdk.models.usagereports.UsageReportListParams;
 UsageReportListParams params = UsageReportListParams.builder()
     .addDimension("string")
     .addMetric("string")
-    .product("product")
+    .product("wireless")
     .build();
 UsageReportListPage page = client.usageReports().list(params);
 ```
@@ -686,3 +686,65 @@ UsageReportGetOptionsResponse response = client.usageReports().getOptions();
 ```
 
 Returns: `product` (string), `product_dimensions` (array[string]), `product_metrics` (array[string]), `record_types` (array[object])
+
+## Get all Wireless Detail Records (WDRs) Reports
+
+Returns the WDR Reports that match the given parameters.
+
+`GET /wireless/detail_records_reports`
+
+```java
+import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportListParams;
+import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportListResponse;
+
+DetailRecordsReportListResponse detailRecordsReports = client.wireless().detailRecordsReports().list();
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Create a Wireless Detail Records (WDRs) Report
+
+Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
+
+`POST /wireless/detail_records_reports`
+
+Optional: `end_time` (string), `start_time` (string)
+
+```java
+import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportCreateParams;
+import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportCreateResponse;
+
+DetailRecordsReportCreateResponse detailRecordsReport = client.wireless().detailRecordsReports().create();
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Get a Wireless Detail Record (WDR) Report
+
+Returns one specific WDR report
+
+`GET /wireless/detail_records_reports/{id}`
+
+```java
+import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportRetrieveParams;
+import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportRetrieveResponse;
+
+DetailRecordsReportRetrieveResponse detailRecordsReport = client.wireless().detailRecordsReports().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Delete a Wireless Detail Record (WDR) Report
+
+Deletes one specific WDR report.
+
+`DELETE /wireless/detail_records_reports/{id}`
+
+```java
+import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportDeleteParams;
+import com.telnyx.sdk.models.wireless.detailrecordsreports.DetailRecordsReportDeleteResponse;
+
+DetailRecordsReportDeleteResponse detailRecordsReport = client.wireless().detailRecordsReports().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

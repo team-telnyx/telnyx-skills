@@ -72,7 +72,7 @@ Returns multiple call resources for an account. This endpoint is eventually cons
 
 ```python
 response = client.texml.accounts.calls.retrieve_calls(
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.calls)
 ```
@@ -89,7 +89,7 @@ Optional: `AsyncAmd` (boolean), `AsyncAmdStatusCallback` (string), `AsyncAmdStat
 
 ```python
 response = client.texml.accounts.calls.calls(
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
     application_sid="example-app-sid",
     from_="+13120001234",
     to="+13121230000",
@@ -107,8 +107,8 @@ Returns an individual call identified by its CallSid. This endpoint is eventuall
 
 ```python
 call = client.texml.accounts.calls.retrieve(
-    call_sid="call_sid",
-    account_sid="account_sid",
+    call_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(call.account_sid)
 ```
@@ -123,8 +123,8 @@ Update TeXML call. Please note that the keys present in the payload MUST BE form
 
 ```python
 call = client.texml.accounts.calls.update(
-    call_sid="call_sid",
-    account_sid="account_sid",
+    call_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(call.account_sid)
 ```
@@ -139,8 +139,8 @@ Returns recordings for a call identified by call_sid.
 
 ```python
 response = client.texml.accounts.calls.recordings_json.retrieve_recordings_json(
-    call_sid="call_sid",
-    account_sid="account_sid",
+    call_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.end)
 ```
@@ -155,8 +155,8 @@ Starts recording with specified parameters for call identified by call_sid.
 
 ```python
 response = client.texml.accounts.calls.recordings_json.recordings_json(
-    call_sid="call_sid",
-    account_sid="account_sid",
+    call_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.account_sid)
 ```
@@ -172,8 +172,8 @@ Updates recording resource for particular call.
 ```python
 response = client.texml.accounts.calls.recordings.recording_sid_json(
     recording_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-    account_sid="account_sid",
-    call_sid="call_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
+    call_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.account_sid)
 ```
@@ -188,8 +188,8 @@ Starts siprec session with specified parameters for call identified by call_sid.
 
 ```python
 response = client.texml.accounts.calls.siprec_json(
-    call_sid="call_sid",
-    account_sid="account_sid",
+    call_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.account_sid)
 ```
@@ -204,9 +204,9 @@ Updates siprec session identified by siprec_sid.
 
 ```python
 response = client.texml.accounts.calls.siprec.siprec_sid_json(
-    siprec_sid="siprec_sid",
-    account_sid="account_sid",
-    call_sid="call_sid",
+    siprec_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
+    call_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.account_sid)
 ```
@@ -221,8 +221,8 @@ Starts streaming media from a call to a specific WebSocket address.
 
 ```python
 response = client.texml.accounts.calls.streams_json(
-    call_sid="call_sid",
-    account_sid="account_sid",
+    call_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.account_sid)
 ```
@@ -238,8 +238,8 @@ Updates streaming resource for particular call.
 ```python
 response = client.texml.accounts.calls.streams.streaming_sid_json(
     streaming_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-    account_sid="account_sid",
-    call_sid="call_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
+    call_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.account_sid)
 ```
@@ -254,7 +254,7 @@ Lists conference resources.
 
 ```python
 response = client.texml.accounts.conferences.retrieve_conferences(
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.conferences)
 ```
@@ -269,8 +269,8 @@ Returns a conference resource.
 
 ```python
 conference = client.texml.accounts.conferences.retrieve(
-    conference_sid="conference_sid",
-    account_sid="account_sid",
+    conference_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(conference.account_sid)
 ```
@@ -285,8 +285,8 @@ Updates a conference resource.
 
 ```python
 conference = client.texml.accounts.conferences.update(
-    conference_sid="conference_sid",
-    account_sid="account_sid",
+    conference_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(conference.account_sid)
 ```
@@ -301,8 +301,8 @@ Lists conference participants
 
 ```python
 response = client.texml.accounts.conferences.participants.retrieve_participants(
-    conference_sid="conference_sid",
-    account_sid="account_sid",
+    conference_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.end)
 ```
@@ -317,8 +317,8 @@ Dials a new conference participant
 
 ```python
 response = client.texml.accounts.conferences.participants.participants(
-    conference_sid="conference_sid",
-    account_sid="account_sid",
+    conference_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.account_sid)
 ```
@@ -333,9 +333,9 @@ Gets conference participant resource
 
 ```python
 participant = client.texml.accounts.conferences.participants.retrieve(
-    call_sid_or_participant_label="call_sid_or_participant_label",
-    account_sid="account_sid",
-    conference_sid="conference_sid",
+    call_sid_or_participant_label="participant-1",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
+    conference_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(participant.account_sid)
 ```
@@ -350,9 +350,9 @@ Updates a conference participant
 
 ```python
 participant = client.texml.accounts.conferences.participants.update(
-    call_sid_or_participant_label="call_sid_or_participant_label",
-    account_sid="account_sid",
-    conference_sid="conference_sid",
+    call_sid_or_participant_label="participant-1",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
+    conference_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(participant.account_sid)
 ```
@@ -367,9 +367,9 @@ Deletes a conference participant
 
 ```python
 client.texml.accounts.conferences.participants.delete(
-    call_sid_or_participant_label="call_sid_or_participant_label",
-    account_sid="account_sid",
-    conference_sid="conference_sid",
+    call_sid_or_participant_label="participant-1",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
+    conference_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 ```
 
@@ -381,8 +381,8 @@ Lists conference recordings
 
 ```python
 response = client.texml.accounts.conferences.retrieve_recordings(
-    conference_sid="conference_sid",
-    account_sid="account_sid",
+    conference_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.end)
 ```
@@ -397,8 +397,8 @@ Returns recordings for a conference identified by conference_sid.
 
 ```python
 response = client.texml.accounts.conferences.retrieve_recordings_json(
-    conference_sid="conference_sid",
-    account_sid="account_sid",
+    conference_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.end)
 ```
@@ -413,7 +413,7 @@ Lists queue resources.
 
 ```python
 page = client.texml.accounts.queues.list(
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 page = page.queues[0]
 print(page.account_sid)
@@ -429,7 +429,7 @@ Creates a new queue resource.
 
 ```python
 queue = client.texml.accounts.queues.create(
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(queue.account_sid)
 ```
@@ -444,8 +444,8 @@ Returns a queue resource.
 
 ```python
 queue = client.texml.accounts.queues.retrieve(
-    queue_sid="queue_sid",
-    account_sid="account_sid",
+    queue_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(queue.account_sid)
 ```
@@ -460,8 +460,8 @@ Updates a queue resource.
 
 ```python
 queue = client.texml.accounts.queues.update(
-    queue_sid="queue_sid",
-    account_sid="account_sid",
+    queue_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(queue.account_sid)
 ```
@@ -476,8 +476,8 @@ Delete a queue resource.
 
 ```python
 client.texml.accounts.queues.delete(
-    queue_sid="queue_sid",
-    account_sid="account_sid",
+    queue_sid="550e8400-e29b-41d4-a716-446655440000",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 ```
 
@@ -489,7 +489,7 @@ Returns multiple recording resources for an account.
 
 ```python
 response = client.texml.accounts.retrieve_recordings_json(
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.end)
 ```
@@ -505,7 +505,7 @@ Returns recording resource identified by recording id.
 ```python
 texml_get_call_recording_response_body = client.texml.accounts.recordings.json.retrieve_recording_sid_json(
     recording_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(texml_get_call_recording_response_body.account_sid)
 ```
@@ -521,7 +521,7 @@ Deletes recording resource identified by recording id.
 ```python
 client.texml.accounts.recordings.json.delete_recording_sid_json(
     recording_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 ```
 
@@ -533,7 +533,7 @@ Returns multiple recording transcription resources for an account.
 
 ```python
 response = client.texml.accounts.retrieve_transcriptions_json(
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.end)
 ```
@@ -549,7 +549,7 @@ Returns the recording transcription resource identified by its ID.
 ```python
 response = client.texml.accounts.transcriptions.json.retrieve_recording_transcription_sid_json(
     recording_transcription_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.account_sid)
 ```
@@ -565,7 +565,7 @@ Permanently deletes a recording transcription.
 ```python
 client.texml.accounts.transcriptions.json.delete_recording_transcription_sid_json(
     recording_transcription_sid="6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-    account_sid="account_sid",
+    account_sid="550e8400-e29b-41d4-a716-446655440000",
 )
 ```
 

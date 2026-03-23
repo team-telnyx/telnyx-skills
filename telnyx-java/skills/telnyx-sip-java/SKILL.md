@@ -22,11 +22,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -93,7 +93,7 @@ import com.telnyx.sdk.models.accessipranges.AccessIpRange;
 import com.telnyx.sdk.models.accessipranges.AccessIpRangeCreateParams;
 
 AccessIpRangeCreateParams params = AccessIpRangeCreateParams.builder()
-    .cidrBlock("cidr_block")
+    .cidrBlock("203.0.113.0/24")
     .build();
 AccessIpRange accessIpRange = client.accessIpRanges().create(params);
 ```
@@ -108,7 +108,7 @@ Returns: `cidr_block` (string), `created_at` (date-time), `description` (string)
 import com.telnyx.sdk.models.accessipranges.AccessIpRange;
 import com.telnyx.sdk.models.accessipranges.AccessIpRangeDeleteParams;
 
-AccessIpRange accessIpRange = client.accessIpRanges().delete("access_ip_range_id");
+AccessIpRange accessIpRange = client.accessIpRanges().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `cidr_block` (string), `created_at` (date-time), `description` (string), `id` (string), `status` (enum: pending, added), `updated_at` (date-time), `user_id` (string)
@@ -138,7 +138,7 @@ Retrieves the high-level details of an existing connection. To retrieve specific
 import com.telnyx.sdk.models.connections.ConnectionRetrieveParams;
 import com.telnyx.sdk.models.connections.ConnectionRetrieveResponse;
 
-ConnectionRetrieveResponse connection = client.connections().retrieve("id");
+ConnectionRetrieveResponse connection = client.connections().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `connection_name` (string), `created_at` (string), `id` (string), `outbound_voice_profile_id` (string), `record_type` (string), `tags` (array[string]), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri)
@@ -190,7 +190,7 @@ Retrieves the details of an existing credential connection.
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionRetrieveParams;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionRetrieveResponse;
 
-CredentialConnectionRetrieveResponse credentialConnection = client.credentialConnections().retrieve("id");
+CredentialConnectionRetrieveResponse credentialConnection = client.credentialConnections().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `record_type` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum: disabled, unrestricted, internal), `tags` (array[string]), `updated_at` (string), `user_name` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -207,7 +207,7 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionUpdateParams;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionUpdateResponse;
 
-CredentialConnectionUpdateResponse credentialConnection = client.credentialConnections().update("id");
+CredentialConnectionUpdateResponse credentialConnection = client.credentialConnections().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `record_type` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum: disabled, unrestricted, internal), `tags` (array[string]), `updated_at` (string), `user_name` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -222,7 +222,7 @@ Deletes an existing credential connection.
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionDeleteParams;
 import com.telnyx.sdk.models.credentialconnections.CredentialConnectionDeleteResponse;
 
-CredentialConnectionDeleteResponse credentialConnection = client.credentialConnections().delete("id");
+CredentialConnectionDeleteResponse credentialConnection = client.credentialConnections().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `password` (string), `record_type` (string), `rtcp_settings` (object), `sip_uri_calling_preference` (enum: disabled, unrestricted, internal), `tags` (array[string]), `updated_at` (string), `user_name` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -237,7 +237,7 @@ Checks the registration_status for a credential connection, (`registration_statu
 import com.telnyx.sdk.models.credentialconnections.actions.ActionCheckRegistrationStatusParams;
 import com.telnyx.sdk.models.credentialconnections.actions.ActionCheckRegistrationStatusResponse;
 
-ActionCheckRegistrationStatusResponse response = client.credentialConnections().actions().checkRegistrationStatus("id");
+ActionCheckRegistrationStatusResponse response = client.credentialConnections().actions().checkRegistrationStatus("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `ip_address` (string), `last_registration` (string), `port` (integer), `record_type` (string), `sip_username` (string), `status` (enum: Not Applicable, Not Registered, Failed, Expired, Registered, Unregistered), `transport` (string), `user_agent` (string)
@@ -270,7 +270,7 @@ import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionCreateParams;
 import com.telnyx.sdk.models.fqdnconnections.FqdnConnectionCreateResponse;
 
 FqdnConnectionCreateParams params = FqdnConnectionCreateParams.builder()
-    .connectionName("string")
+    .connectionName("my-sip-connection")
     .build();
 FqdnConnectionCreateResponse fqdnConnection = client.fqdnConnections().create(params);
 ```
@@ -435,7 +435,13 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 import com.telnyx.sdk.models.ipconnections.IpConnectionCreateParams;
 import com.telnyx.sdk.models.ipconnections.IpConnectionCreateResponse;
 
-IpConnectionCreateResponse ipConnection = client.ipConnections().create();
+IpConnectionCreateParams params = IpConnectionCreateParams.builder()
+
+    .connectionName("my-ip-connection")
+
+    .build();
+
+IpConnectionCreateResponse ipConnection = client.ipConnections().create(params);
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `record_type` (string), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -450,7 +456,7 @@ Retrieves the details of an existing ip connection.
 import com.telnyx.sdk.models.ipconnections.IpConnectionRetrieveParams;
 import com.telnyx.sdk.models.ipconnections.IpConnectionRetrieveResponse;
 
-IpConnectionRetrieveResponse ipConnection = client.ipConnections().retrieve("id");
+IpConnectionRetrieveResponse ipConnection = client.ipConnections().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `record_type` (string), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -467,7 +473,7 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 import com.telnyx.sdk.models.ipconnections.IpConnectionUpdateParams;
 import com.telnyx.sdk.models.ipconnections.IpConnectionUpdateResponse;
 
-IpConnectionUpdateResponse ipConnection = client.ipConnections().update("id");
+IpConnectionUpdateResponse ipConnection = client.ipConnections().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `record_type` (string), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
@@ -482,7 +488,7 @@ Deletes an existing IP connection.
 import com.telnyx.sdk.models.ipconnections.IpConnectionDeleteParams;
 import com.telnyx.sdk.models.ipconnections.IpConnectionDeleteResponse;
 
-IpConnectionDeleteResponse ipConnection = client.ipConnections().delete("id");
+IpConnectionDeleteResponse ipConnection = client.ipConnections().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `created_at` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `id` (string), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `record_type` (string), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `updated_at` (string), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)

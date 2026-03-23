@@ -99,9 +99,6 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "idempotency_key": "12ade33a-21c0-473b-b055-b3c836e1c292"
-}' \
   "https://api.telnyx.com/v2/bundle_pricing/user_bundles/bulk"
 ```
 
@@ -168,7 +165,7 @@ List all documents links ordered by created_at descending.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/document_links"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `document_id` (uuid), `id` (uuid), `linked_record_type` (string), `linked_resource_id` (string), `record_type` (string), `updated_at` (string)
 
 ## List all documents
 
@@ -180,7 +177,7 @@ List all documents ordered by created_at descending.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/documents?filter={'filename': {'contains': 'invoice'}, 'customer_reference': {'in': ['REF001', 'REF002']}, 'created_at': {'gt': '2021-01-01T00:00:00Z'}}&sort=['filename']"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Upload a document
 
@@ -199,7 +196,7 @@ curl \
   "https://api.telnyx.com/v2/documents"
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Retrieve a document
 
@@ -211,13 +208,15 @@ Retrieve a document.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/documents/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Update a document
 
 Update a document.
 
 `PATCH /documents/{id}`
+
+Optional: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ```bash
 curl \
@@ -227,7 +226,7 @@ curl \
   "https://api.telnyx.com/v2/documents/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Delete a document
 
@@ -242,7 +241,7 @@ curl \
   "https://api.telnyx.com/v2/documents/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Download a document
 
@@ -278,7 +277,7 @@ curl \
   -d '{
   "requirement_group_id": "550e8400-e29b-41d4-a716-446655440000"
 }' \
-  "https://api.telnyx.com/v2/number_order_phone_numbers/{id}/requirement_group"
+  "https://api.telnyx.com/v2/number_order_phone_numbers/550e8400-e29b-41d4-a716-446655440000/requirement_group"
 ```
 
 Returns: `bundle_id` (uuid), `country_code` (string), `deadline` (date-time), `id` (uuid), `is_block_number` (boolean), `locality` (string), `order_request_id` (uuid), `phone_number` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `requirements_status` (string), `status` (string), `sub_number_order_id` (uuid)
@@ -325,8 +324,7 @@ curl \
   -d '{
   "country_code": "US",
   "phone_number_type": "local",
-  "action": "ordering",
-  "customer_reference": "My Requirement Group"
+  "action": "ordering"
 }' \
   "https://api.telnyx.com/v2/requirement_groups"
 ```
@@ -338,7 +336,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 `GET /requirement_groups/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/requirement_groups/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/requirement_groups/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
@@ -354,10 +352,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "customer_reference": "0002"
-}' \
-  "https://api.telnyx.com/v2/requirement_groups/{id}"
+  "https://api.telnyx.com/v2/requirement_groups/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
@@ -370,7 +365,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/requirement_groups/{id}"
+  "https://api.telnyx.com/v2/requirement_groups/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
@@ -384,7 +379,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/requirement_groups/{id}/submit_for_approval"
+  "https://api.telnyx.com/v2/requirement_groups/550e8400-e29b-41d4-a716-446655440000/submit_for_approval"
 ```
 
 Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
@@ -449,7 +444,7 @@ curl \
   -d '{
   "requirement_group_id": "a4b201f9-8646-4e54-a7d2-b2e403eeaf8c"
 }' \
-  "https://api.telnyx.com/v2/sub_number_orders/{id}/requirement_group"
+  "https://api.telnyx.com/v2/sub_number_orders/550e8400-e29b-41d4-a716-446655440000/requirement_group"
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (uuid), `is_block_sub_number_order` (boolean), `order_request_id` (uuid), `phone_number_type` (string), `phone_numbers` (array[object]), `phone_numbers_count` (integer), `record_type` (string), `regulatory_requirements` (array[object]), `requirements_met` (boolean), `status` (string), `updated_at` (date-time)
@@ -480,18 +475,11 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "customer_reference": "MY REF 001",
   "first_name": "Alfred",
   "last_name": "Foster",
   "business_name": "Toy-O'Kon",
-  "phone_number": "+12125559000",
   "street_address": "600 Congress Avenue",
-  "extended_address": "14th Floor",
   "locality": "Austin",
-  "administrative_area": "TX",
-  "neighborhood": "Ciudad de los deportes",
-  "borough": "Guadalajara",
-  "postal_code": "78701",
   "country_code": "US"
 }' \
   "https://api.telnyx.com/v2/user_addresses"
@@ -506,7 +494,7 @@ Retrieves the details of an existing user address.
 `GET /user_addresses/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/user_addresses/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/user_addresses/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `administrative_area` (string), `borough` (string), `business_name` (string), `country_code` (string), `created_at` (string), `customer_reference` (string), `extended_address` (string), `first_name` (string), `id` (uuid), `last_name` (string), `locality` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `record_type` (string), `street_address` (string), `updated_at` (string)
@@ -538,8 +526,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "phone_number": "+15551234567",
-  "verification_method": "sms",
-  "extension": "ww243w1"
+  "verification_method": "sms"
 }' \
   "https://api.telnyx.com/v2/verified_numbers"
 ```

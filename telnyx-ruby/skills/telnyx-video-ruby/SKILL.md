@@ -294,8 +294,7 @@ Synchronously create a Room.
 Optional: `enable_recording` (boolean), `max_participants` (integer), `unique_name` (string), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
 
 ```ruby
-room = client.rooms.create
-
+room = client.rooms.create(unique_name: "my-meeting-room", max_participants: 10)
 puts(room)
 ```
 

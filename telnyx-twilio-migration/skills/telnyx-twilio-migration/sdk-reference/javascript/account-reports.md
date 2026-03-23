@@ -340,7 +340,7 @@ Retrieve a specific telco data usage report by its ID
 `GET /legacy/reporting/usage_reports/number_lookup/{id}`
 
 ```javascript
-const numberLookup = await client.legacy.reporting.usageReports.numberLookup.retrieve('id');
+const numberLookup = await client.legacy.reporting.usageReports.numberLookup.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(numberLookup.data);
 ```
@@ -354,7 +354,7 @@ Delete a specific telco data usage report by its ID
 `DELETE /legacy/reporting/usage_reports/number_lookup/{id}`
 
 ```javascript
-await client.legacy.reporting.usageReports.numberLookup.delete('id');
+await client.legacy.reporting.usageReports.numberLookup.delete('550e8400-e29b-41d4-a716-446655440000');
 ```
 
 ## List CDR usage reports
@@ -451,7 +451,7 @@ Returns: `id` (string), `record_type` (string), `status` (enum: pending, complet
 `GET /phone_numbers/csv_downloads/{id}`
 
 ```javascript
-const csvDownload = await client.phoneNumbers.csvDownloads.retrieve('id');
+const csvDownload = await client.phoneNumbers.csvDownloads.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(csvDownload.data);
 ```
@@ -637,7 +637,7 @@ Get Telnyx usage data by product, broken out by the specified dimensions
 for await (const usageReportListResponse of client.usageReports.list({
   dimensions: ['string'],
   metrics: ['string'],
-  product: 'product',
+  product: 'wireless',
 })) {
   console.log(usageReportListResponse);
 }
@@ -658,3 +658,65 @@ console.log(response.data);
 ```
 
 Returns: `product` (string), `product_dimensions` (array[string]), `product_metrics` (array[string]), `record_types` (array[object])
+
+## Get all Wireless Detail Records (WDRs) Reports
+
+Returns the WDR Reports that match the given parameters.
+
+`GET /wireless/detail_records_reports`
+
+```javascript
+const detailRecordsReports = await client.wireless.detailRecordsReports.list();
+
+console.log(detailRecordsReports.data);
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Create a Wireless Detail Records (WDRs) Report
+
+Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
+
+`POST /wireless/detail_records_reports`
+
+Optional: `end_time` (string), `start_time` (string)
+
+```javascript
+const detailRecordsReport = await client.wireless.detailRecordsReports.create();
+
+console.log(detailRecordsReport.data);
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Get a Wireless Detail Record (WDR) Report
+
+Returns one specific WDR report
+
+`GET /wireless/detail_records_reports/{id}`
+
+```javascript
+const detailRecordsReport = await client.wireless.detailRecordsReports.retrieve(
+  '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
+);
+
+console.log(detailRecordsReport.data);
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Delete a Wireless Detail Record (WDR) Report
+
+Deletes one specific WDR report.
+
+`DELETE /wireless/detail_records_reports/{id}`
+
+```javascript
+const detailRecordsReport = await client.wireless.detailRecordsReports.delete(
+  '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
+);
+
+console.log(detailRecordsReport.data);
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

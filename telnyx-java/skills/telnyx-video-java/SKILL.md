@@ -21,11 +21,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -335,7 +335,15 @@ Optional: `enable_recording` (boolean), `max_participants` (integer), `unique_na
 import com.telnyx.sdk.models.rooms.RoomCreateParams;
 import com.telnyx.sdk.models.rooms.RoomCreateResponse;
 
-RoomCreateResponse room = client.rooms().create();
+RoomCreateParams params = RoomCreateParams.builder()
+
+    .uniqueName("my-meeting-room")
+
+    .maxParticipants(10)
+
+    .build();
+
+RoomCreateResponse room = client.rooms().create(params);
 ```
 
 Returns: `active_session_id` (uuid), `created_at` (date-time), `enable_recording` (boolean), `id` (uuid), `max_participants` (integer), `record_type` (string), `sessions` (array[object]), `unique_name` (string), `updated_at` (date-time), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)

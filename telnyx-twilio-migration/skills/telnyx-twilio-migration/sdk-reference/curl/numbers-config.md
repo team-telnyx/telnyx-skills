@@ -62,9 +62,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "messaging_profile_id": "string",
+  "messaging_profile_id": "550e8400-e29b-41d4-a716-446655440000",
   "numbers": [
-    "string"
+    "+13125550001"
   ]
 }' \
   "https://api.telnyx.com/v2/messaging_numbers_bulk_updates"
@@ -97,7 +97,7 @@ Returns: `country_code` (string), `created_at` (date-time), `features` (object),
 `GET /mobile_phone_numbers/{id}/messaging`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/mobile_phone_numbers/{id}/messaging"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/mobile_phone_numbers/550e8400-e29b-41d4-a716-446655440000/messaging"
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `features` (object), `id` (string), `messaging_product` (string), `messaging_profile_id` (string | null), `organization_id` (string), `phone_number` (string), `record_type` (enum: messaging_phone_number, messaging_settings), `tags` (array[string]), `traffic_type` (string), `type` (enum: longcode), `updated_at` (date-time)
@@ -156,7 +156,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "phone_numbers": [
-    "string"
+    "+13125550001"
   ]
 }' \
   "https://api.telnyx.com/v2/phone_numbers/jobs/delete_phone_numbers"
@@ -179,7 +179,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "phone_numbers": [
-    "string"
+    "+13125550001"
   ],
   "emergency_enabled": true
 }' \
@@ -203,35 +203,8 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "phone_numbers": [
-    "string"
-  ],
-  "customer_reference": "MY REF 001",
-  "voice": {
-    "tech_prefix_enabled": true,
-    "translated_number": "+13035559999",
-    "caller_id_name_enabled": true,
-    "call_forwarding": {
-      "call_forwarding_enabled": true,
-      "forwards_to": "+13035559123",
-      "forwarding_type": "always"
-    },
-    "cnam_listing": {
-      "cnam_listing_enabled": true,
-      "cnam_listing_details": "example"
-    },
-    "usage_payment_method": "pay-per-minute",
-    "media_features": {
-      "rtp_auto_adjust_enabled": true,
-      "accept_any_rtp_packets_enabled": true,
-      "t38_fax_gateway_enabled": true
-    },
-    "call_recording": {
-      "inbound_call_recording_enabled": true,
-      "inbound_call_recording_format": "wav",
-      "inbound_call_recording_channels": "single"
-    },
-    "inbound_call_screening": "disabled"
-  }
+    "+13125550001"
+  ]
 }' \
   "https://api.telnyx.com/v2/phone_numbers/jobs/update_phone_numbers"
 ```
@@ -243,7 +216,7 @@ Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[ob
 `GET /phone_numbers/jobs/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/phone_numbers/jobs/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/phone_numbers/jobs/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (string), `etc` (date-time), `failed_operations` (array[object]), `id` (uuid), `pending_operations` (array[object]), `phone_numbers` (array[object]), `record_type` (string), `status` (enum: pending, in_progress, completed, failed, expired), `successful_operations` (array[object]), `type` (enum: update_emergency_settings, delete_phone_numbers, update_phone_numbers), `updated_at` (string)
@@ -301,10 +274,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "hd_voice_enabled": true,
-  "customer_reference": "MY REF 001"
-}' \
   "https://api.telnyx.com/v2/phone_numbers/1293384261075731499"
 ```
 
@@ -333,7 +302,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "bundle_id": "string"
+  "bundle_id": "550e8400-e29b-41d4-a716-446655440000"
 }' \
   "https://api.telnyx.com/v2/phone_numbers/1293384261075731499/actions/bundle_status_change"
 ```
@@ -351,7 +320,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "emergency_enabled": true,
-  "emergency_address_id": "string"
+  "emergency_address_id": "550e8400-e29b-41d4-a716-446655440000"
 }' \
   "https://api.telnyx.com/v2/phone_numbers/1293384261075731499/actions/enable_emergency"
 ```
@@ -363,7 +332,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `cnam_listing` (
 `GET /phone_numbers/{id}/messaging`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/phone_numbers/{id}/messaging"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/phone_numbers/550e8400-e29b-41d4-a716-446655440000/messaging"
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_products` (array[string]), `features` (object), `health` (object), `id` (string), `messaging_product` (string), `messaging_profile_id` (string | null), `organization_id` (string), `phone_number` (string), `record_type` (enum: messaging_phone_number, messaging_settings), `tags` (array[string]), `traffic_type` (string), `type` (enum: long-code, toll-free, short-code, longcode, tollfree, shortcode), `updated_at` (date-time)
@@ -379,10 +348,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "messaging_product": "P2P"
-}' \
-  "https://api.telnyx.com/v2/phone_numbers/{id}/messaging"
+  "https://api.telnyx.com/v2/phone_numbers/550e8400-e29b-41d4-a716-446655440000/messaging"
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_products` (array[string]), `features` (object), `health` (object), `id` (string), `messaging_product` (string), `messaging_profile_id` (string | null), `organization_id` (string), `phone_number` (string), `record_type` (enum: messaging_phone_number, messaging_settings), `tags` (array[string]), `traffic_type` (string), `type` (enum: long-code, toll-free, short-code, longcode, tollfree, shortcode), `updated_at` (date-time)
@@ -408,27 +374,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "call_forwarding": {
-    "call_forwarding_enabled": true,
-    "forwards_to": "+13035559123",
-    "forwarding_type": "always"
-  },
-  "cnam_listing": {
-    "cnam_listing_enabled": true,
-    "cnam_listing_details": "example"
-  },
-  "media_features": {
-    "rtp_auto_adjust_enabled": true,
-    "accept_any_rtp_packets_enabled": true,
-    "t38_fax_gateway_enabled": true
-  },
-  "call_recording": {
-    "inbound_call_recording_enabled": true,
-    "inbound_call_recording_format": "wav",
-    "inbound_call_recording_channels": "single"
-  }
-}' \
   "https://api.telnyx.com/v2/phone_numbers/1293384261075731499/voice"
 ```
 
@@ -449,7 +394,7 @@ Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_
 `GET /v2/mobile_phone_numbers/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/v2/mobile_phone_numbers/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/v2/mobile_phone_numbers/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_enabled` (boolean), `cnam_listing` (object), `connection_id` (string | null), `connection_name` (string | null), `connection_type` (string | null), `country_iso_alpha2` (string), `created_at` (date-time), `customer_reference` (string | null), `id` (string), `inbound` (object), `inbound_call_screening` (enum: disabled, reject_calls, flag_calls), `mobile_voice_enabled` (boolean), `noise_suppression` (enum: inbound, outbound, both, disabled), `outbound` (object), `phone_number` (string), `record_type` (string), `sim_card_id` (uuid), `status` (string), `tags` (array[string]), `updated_at` (date-time)
@@ -465,7 +410,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/v2/mobile_phone_numbers/{id}"
+  "https://api.telnyx.com/v2/v2/mobile_phone_numbers/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `call_forwarding` (object), `call_recording` (object), `caller_id_name_enabled` (boolean), `cnam_listing` (object), `connection_id` (string | null), `connection_name` (string | null), `connection_type` (string | null), `country_iso_alpha2` (string), `created_at` (date-time), `customer_reference` (string | null), `id` (string), `inbound` (object), `inbound_call_screening` (enum: disabled, reject_calls, flag_calls), `mobile_voice_enabled` (boolean), `noise_suppression` (enum: inbound, outbound, both, disabled), `outbound` (object), `phone_number` (string), `record_type` (string), `sim_card_id` (uuid), `status` (string), `tags` (array[string]), `updated_at` (date-time)

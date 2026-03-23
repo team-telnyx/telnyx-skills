@@ -97,7 +97,7 @@ OAuth 2.0 authorization endpoint for the authorization code flow
 
 ```ruby
 result = client.oauth.retrieve_authorize(
-  client_id: "client_id",
+  client_id: "550e8400-e29b-41d4-a716-446655440000",
   redirect_uri: "https://example.com",
   response_type: :code
 )
@@ -126,7 +126,7 @@ Create an OAuth authorization grant
 `POST /oauth/grants` — Required: `allowed`, `consent_token`
 
 ```ruby
-response = client.oauth.grants(allowed: true, consent_token: "consent_token")
+response = client.oauth.grants(allowed: true, consent_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example")
 
 puts(response)
 ```
@@ -140,7 +140,7 @@ Introspect an OAuth access token to check its validity and metadata
 `POST /oauth/introspect` — Required: `token`
 
 ```ruby
-response = client.oauth.introspect(token: "token")
+response = client.oauth.introspect(token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example")
 
 puts(response)
 ```

@@ -56,11 +56,12 @@ the audio files will be placed in a queue awaiting playback. *Notes:*
 
 `POST /calls/{call_control_id}/actions/playback_start`
 
-Optional: `audio_type` (enum: mp3, wav), `audio_url` (string), `cache_audio` (boolean), `client_state` (string), `command_id` (string), `loop` (object), `media_name` (string), `overlay` (boolean), `playback_content` (string), `stop` (string), `target_legs` (string)
+Optional: `audio_type` (enum: mp3, wav), `audio_url` (string), `cache_audio` (boolean), `client_state` (string), `command_id` (string), `loop` (string), `media_name` (string), `overlay` (boolean), `playback_content` (string), `stop` (string), `target_legs` (string)
 
 ```python
 response = client.calls.actions.start_playback(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
+    audio_url="https://example.com/audio.mp3",
 )
 print(response.data)
 ```
@@ -79,7 +80,7 @@ Optional: `client_state` (string), `command_id` (string), `overlay` (boolean), `
 
 ```python
 response = client.calls.actions.stop_playback(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -98,7 +99,7 @@ Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid)
 
 ```python
 response = client.calls.actions.pause_recording(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -117,7 +118,7 @@ Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid)
 
 ```python
 response = client.calls.actions.resume_recording(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -138,7 +139,7 @@ Optional: `client_state` (string), `command_id` (string), `custom_file_name` (st
 
 ```python
 response = client.calls.actions.start_recording(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
     channels="single",
     format="wav",
 )
@@ -159,7 +160,7 @@ Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid)
 
 ```python
 response = client.calls.actions.stop_recording(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -175,13 +176,14 @@ Convert text to speech and play it back on the call. If multiple speak text comm
 
 `POST /calls/{call_control_id}/actions/speak` — Required: `payload`, `voice`
 
-Optional: `client_state` (string), `command_id` (string), `language` (enum: arb, cmn-CN, cy-GB, da-DK, de-DE, en-AU, en-GB, en-GB-WLS, en-IN, en-US, es-ES, es-MX, es-US, fr-CA, fr-FR, hi-IN, is-IS, it-IT, ja-JP, ko-KR, nb-NO, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sv-SE, tr-TR), `loop` (object), `payload_type` (enum: text, ssml), `service_level` (enum: basic, premium), `stop` (string), `target_legs` (enum: self, opposite, both), `voice_settings` (object)
+Optional: `client_state` (string), `command_id` (string), `language` (enum: arb, cmn-CN, cy-GB, da-DK, de-DE, en-AU, en-GB, en-GB-WLS, en-IN, en-US, es-ES, es-MX, es-US, fr-CA, fr-FR, hi-IN, is-IS, it-IT, ja-JP, ko-KR, nb-NO, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sv-SE, tr-TR), `loop` (string), `payload_type` (enum: text, ssml), `service_level` (enum: basic, premium), `stop` (string), `target_legs` (enum: self, opposite, both), `voice_settings` (object)
 
 ```python
 response = client.calls.actions.speak(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
     payload="Say this on the call",
     voice="female",
+    language="en-US",
 )
 print(response.data)
 ```

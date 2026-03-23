@@ -67,9 +67,9 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `GET /access_ip_address`
 
 ```go
-	page, err := client.AccessIPAddress.List(context.TODO(), telnyx.AccessIPAddressListParams{})
+	page, err := client.AccessIPAddress.List(context.Background(), telnyx.AccessIPAddressListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -83,11 +83,11 @@ Returns: `created_at` (date-time), `description` (string), `id` (string), `ip_ad
 Optional: `description` (string)
 
 ```go
-	accessIPAddressResponse, err := client.AccessIPAddress.New(context.TODO(), telnyx.AccessIPAddressNewParams{
-		IPAddress: "ip_address",
+	accessIPAddressResponse, err := client.AccessIPAddress.New(context.Background(), telnyx.AccessIPAddressNewParams{
+		IPAddress: "203.0.113.10",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", accessIPAddressResponse.ID)
 ```
@@ -99,9 +99,9 @@ Returns: `created_at` (date-time), `description` (string), `id` (string), `ip_ad
 `GET /access_ip_address/{access_ip_address_id}`
 
 ```go
-	accessIPAddressResponse, err := client.AccessIPAddress.Get(context.TODO(), "access_ip_address_id")
+	accessIPAddressResponse, err := client.AccessIPAddress.Get(context.Background(), "access_ip_address_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", accessIPAddressResponse.ID)
 ```
@@ -113,9 +113,9 @@ Returns: `created_at` (date-time), `description` (string), `id` (string), `ip_ad
 `DELETE /access_ip_address/{access_ip_address_id}`
 
 ```go
-	accessIPAddressResponse, err := client.AccessIPAddress.Delete(context.TODO(), "access_ip_address_id")
+	accessIPAddressResponse, err := client.AccessIPAddress.Delete(context.Background(), "access_ip_address_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", accessIPAddressResponse.ID)
 ```
@@ -129,9 +129,9 @@ Returns a list of your addresses.
 `GET /addresses`
 
 ```go
-	page, err := client.Addresses.List(context.TODO(), telnyx.AddressListParams{})
+	page, err := client.Addresses.List(context.Background(), telnyx.AddressListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -147,7 +147,7 @@ Creates an address.
 Optional: `address_book` (boolean), `administrative_area` (string), `borough` (string), `customer_reference` (string), `extended_address` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `validate_address` (boolean)
 
 ```go
-	address, err := client.Addresses.New(context.TODO(), telnyx.AddressNewParams{
+	address, err := client.Addresses.New(context.Background(), telnyx.AddressNewParams{
 		BusinessName:  "Toy-O'Kon",
 		CountryCode:   "US",
 		FirstName:     "Alfred",
@@ -156,7 +156,7 @@ Optional: `address_book` (boolean), `administrative_area` (string), `borough` (s
 		StreetAddress: "600 Congress Avenue",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", address.Data)
 ```
@@ -172,13 +172,13 @@ Validates an address for emergency services.
 Optional: `administrative_area` (string), `extended_address` (string), `locality` (string)
 
 ```go
-	response, err := client.Addresses.Actions.Validate(context.TODO(), telnyx.AddressActionValidateParams{
+	response, err := client.Addresses.Actions.Validate(context.Background(), telnyx.AddressActionValidateParams{
 		CountryCode:   "US",
 		PostalCode:    "78701",
 		StreetAddress: "600 Congress Avenue",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -192,9 +192,9 @@ Retrieves the details of an existing address.
 `GET /addresses/{id}`
 
 ```go
-	address, err := client.Addresses.Get(context.TODO(), "id")
+	address, err := client.Addresses.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", address.Data)
 ```
@@ -208,9 +208,9 @@ Deletes an existing address.
 `DELETE /addresses/{id}`
 
 ```go
-	address, err := client.Addresses.Delete(context.TODO(), "id")
+	address, err := client.Addresses.Delete(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", address.Data)
 ```
@@ -225,12 +225,12 @@ Optional: `id` (string)
 
 ```go
 	response, err := client.Addresses.Actions.AcceptSuggestions(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.AddressActionAcceptSuggestionsParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -244,9 +244,9 @@ Returns a list of your SSO authentication providers.
 `GET /authentication_providers`
 
 ```go
-	page, err := client.AuthenticationProviders.List(context.TODO(), telnyx.AuthenticationProviderListParams{})
+	page, err := client.AuthenticationProviders.List(context.Background(), telnyx.AuthenticationProviderListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -262,7 +262,7 @@ Creates an authentication provider.
 Optional: `active` (boolean), `settings_url` (uri)
 
 ```go
-	authenticationProvider, err := client.AuthenticationProviders.New(context.TODO(), telnyx.AuthenticationProviderNewParams{
+	authenticationProvider, err := client.AuthenticationProviders.New(context.Background(), telnyx.AuthenticationProviderNewParams{
 		Name: "Okta",
 		Settings: telnyx.SettingsParam{
 			IdpCertFingerprint: "13:38:C7:BB:C9:FF:4A:70:38:3A:E3:D9:5C:CD:DB:2E:50:1E:80:A7",
@@ -272,7 +272,7 @@ Optional: `active` (boolean), `settings_url` (uri)
 		ShortName: "myorg",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", authenticationProvider.Data)
 ```
@@ -286,9 +286,9 @@ Retrieves the details of an existing authentication provider.
 `GET /authentication_providers/{id}`
 
 ```go
-	authenticationProvider, err := client.AuthenticationProviders.Get(context.TODO(), "id")
+	authenticationProvider, err := client.AuthenticationProviders.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", authenticationProvider.Data)
 ```
@@ -305,7 +305,7 @@ Optional: `active` (boolean), `name` (string), `settings` (object), `settings_ur
 
 ```go
 	authenticationProvider, err := client.AuthenticationProviders.Update(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.AuthenticationProviderUpdateParams{
 			Active: telnyx.Bool(true),
@@ -320,7 +320,7 @@ Optional: `active` (boolean), `name` (string), `settings` (object), `settings_ur
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", authenticationProvider.Data)
 ```
@@ -334,9 +334,9 @@ Deletes an existing authentication provider.
 `DELETE /authentication_providers/{id}`
 
 ```go
-	authenticationProvider, err := client.AuthenticationProviders.Delete(context.TODO(), "id")
+	authenticationProvider, err := client.AuthenticationProviders.Delete(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", authenticationProvider.Data)
 ```
@@ -348,9 +348,9 @@ Returns: `activated_at` (date-time), `active` (boolean), `created_at` (date-time
 `GET /billing_groups`
 
 ```go
-	page, err := client.BillingGroups.List(context.TODO(), telnyx.BillingGroupListParams{})
+	page, err := client.BillingGroups.List(context.Background(), telnyx.BillingGroupListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -364,11 +364,11 @@ Returns: `created_at` (date-time), `deleted_at` (date-time), `id` (uuid), `name`
 Optional: `name` (string)
 
 ```go
-	billingGroup, err := client.BillingGroups.New(context.TODO(), telnyx.BillingGroupNewParams{
+	billingGroup, err := client.BillingGroups.New(context.Background(), telnyx.BillingGroupNewParams{
 		Name: telnyx.String("string"),
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", billingGroup.Data)
 ```
@@ -380,9 +380,9 @@ Returns: `created_at` (date-time), `deleted_at` (date-time), `id` (uuid), `name`
 `GET /billing_groups/{id}`
 
 ```go
-	billingGroup, err := client.BillingGroups.Get(context.TODO(), "f5586561-8ff0-4291-a0ac-84fe544797bd")
+	billingGroup, err := client.BillingGroups.Get(context.Background(), "f5586561-8ff0-4291-a0ac-84fe544797bd")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", billingGroup.Data)
 ```
@@ -397,14 +397,14 @@ Optional: `name` (string)
 
 ```go
 	billingGroup, err := client.BillingGroups.Update(
-		context.TODO(),
+		context.Background(),
 		"f5586561-8ff0-4291-a0ac-84fe544797bd",
 		telnyx.BillingGroupUpdateParams{
 			Name: telnyx.String("string"),
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", billingGroup.Data)
 ```
@@ -416,9 +416,9 @@ Returns: `created_at` (date-time), `deleted_at` (date-time), `id` (uuid), `name`
 `DELETE /billing_groups/{id}`
 
 ```go
-	billingGroup, err := client.BillingGroups.Delete(context.TODO(), "f5586561-8ff0-4291-a0ac-84fe544797bd")
+	billingGroup, err := client.BillingGroups.Delete(context.Background(), "f5586561-8ff0-4291-a0ac-84fe544797bd")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", billingGroup.Data)
 ```
@@ -432,9 +432,9 @@ Retrieve a list of all integration secrets configured by the user.
 `GET /integration_secrets`
 
 ```go
-	page, err := client.IntegrationSecrets.List(context.TODO(), telnyx.IntegrationSecretListParams{})
+	page, err := client.IntegrationSecrets.List(context.Background(), telnyx.IntegrationSecretListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -450,13 +450,13 @@ Create a new secret with an associated identifier that can be used to securely i
 Optional: `password` (string), `token` (string), `username` (string)
 
 ```go
-	integrationSecret, err := client.IntegrationSecrets.New(context.TODO(), telnyx.IntegrationSecretNewParams{
+	integrationSecret, err := client.IntegrationSecrets.New(context.Background(), telnyx.IntegrationSecretNewParams{
 		Identifier: "my_secret",
 		Type:       telnyx.IntegrationSecretNewParamsTypeBearer,
 		Token:      telnyx.String("my_secret_value"),
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", integrationSecret.Data)
 ```
@@ -470,9 +470,9 @@ Delete an integration secret given its ID.
 `DELETE /integration_secrets/{id}`
 
 ```go
-	err := client.IntegrationSecrets.Delete(context.TODO(), "id")
+	err := client.IntegrationSecrets.Delete(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -483,9 +483,9 @@ Create an Access Token (JWT) for the credential.
 `POST /telephony_credentials/{id}/token`
 
 ```go
-	response, err := client.TelephonyCredentials.NewToken(context.TODO(), "id")
+	response, err := client.TelephonyCredentials.NewToken(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```

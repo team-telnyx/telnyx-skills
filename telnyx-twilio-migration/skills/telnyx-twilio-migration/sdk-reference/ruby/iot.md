@@ -439,8 +439,7 @@ Creates a new order for SIM cards.
 `POST /sim_card_orders` — Required: `address_id`, `quantity`
 
 ```ruby
-sim_card_order = client.sim_card_orders.create(address_id: "1293384261075731499", quantity: 23)
-
+sim_card_order = client.sim_card_orders.create(address_id: "1293384261075731499", quantity: 23, sim_card_group_id: "550e8400-e29b-41d4-a716-446655440000")
 puts(sim_card_order)
 ```
 
@@ -477,7 +476,7 @@ Returns: `actions_in_progress` (boolean), `authorized_imeis` (array | null), `cr
 ## Request bulk disabling voice on SIM cards.
 
 This API triggers an asynchronous operation to disable voice on SIM cards belonging to a specified SIM Card Group. 
-For each SIM Card a SIM Card Action will be generated. The status of the SIM Card Actions can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+For each SIM Card a SIM Card Action will be generated.
 
 `POST /sim_cards/actions/bulk_disable_voice` — Required: `sim_card_group_id`
 
@@ -492,7 +491,7 @@ Returns: `action_type` (enum: bulk_disable_voice, bulk_enable_voice, bulk_set_pu
 ## Request bulk enabling voice on SIM cards.
 
 This API triggers an asynchronous operation to enable voice on SIM cards belonging to a specified SIM Card Group. 
-For each SIM Card a SIM Card Action will be generated. The status of the SIM Card Actions can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+For each SIM Card a SIM Card Action will be generated.
 
 `POST /sim_cards/actions/bulk_enable_voice` — Required: `sim_card_group_id`
 
@@ -629,7 +628,7 @@ Returns: `action_type` (enum: enable, enable_standby_sim_card, disable, set_stan
 ## Request setting a SIM card public IP
 
 This API makes a SIM card reachable on the public internet by mapping a random public IP to the SIM card.   
- The API will trigger an asynchronous operation called a SIM Card Action. The status of the SIM Card Action can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+ The API will trigger an asynchronous operation called a SIM Card Action.
 
 `POST /sim_cards/{id}/actions/set_public_ip`
 
@@ -747,7 +746,7 @@ Create a source from which data can be migrated from.
 Optional: `id` (string), `source_region` (string)
 
 ```ruby
-migration_source = client.storage.migration_sources.create(bucket_name: "bucket_name", provider: :aws, provider_auth: {})
+migration_source = client.storage.migration_sources.create(bucket_name: "my-bucket", provider: :aws, provider_auth: {})
 
 puts(migration_source)
 ```
@@ -800,9 +799,9 @@ Optional: `bytes_migrated` (integer), `bytes_to_migrate` (integer), `created_at`
 
 ```ruby
 migration = client.storage.migrations.create(
-  source_id: "source_id",
-  target_bucket_name: "target_bucket_name",
-  target_region: "target_region"
+  source_id: "550e8400-e29b-41d4-a716-446655440000",
+  target_bucket_name: "my-target-bucket",
+  target_region: "us-central-1"
 )
 
 puts(migration)
@@ -865,7 +864,7 @@ Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time
 `GET /v2/mobile_voice_connections/{id}`
 
 ```ruby
-mobile_voice_connection = client.mobile_voice_connections.retrieve("id")
+mobile_voice_connection = client.mobile_voice_connections.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(mobile_voice_connection)
 ```
@@ -879,7 +878,7 @@ Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time
 Optional: `active` (boolean), `connection_name` (string), `inbound` (object), `outbound` (object), `tags` (array[string]), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (string | null), `webhook_event_url` (string | null), `webhook_timeout_secs` (integer)
 
 ```ruby
-mobile_voice_connection = client.mobile_voice_connections.update("id")
+mobile_voice_connection = client.mobile_voice_connections.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(mobile_voice_connection)
 ```
@@ -891,7 +890,7 @@ Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time
 `DELETE /v2/mobile_voice_connections/{id}`
 
 ```ruby
-mobile_voice_connection = client.mobile_voice_connections.delete("id")
+mobile_voice_connection = client.mobile_voice_connections.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(mobile_voice_connection)
 ```

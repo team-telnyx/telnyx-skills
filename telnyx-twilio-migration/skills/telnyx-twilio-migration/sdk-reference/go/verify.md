@@ -71,12 +71,12 @@ Returns information about the provided phone number.
 
 ```go
 	numberLookup, err := client.NumberLookup.Get(
-		context.TODO(),
+		context.Background(),
 		"+18665552368",
 		telnyx.NumberLookupGetParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", numberLookup.Data)
 ```
@@ -88,9 +88,9 @@ Returns: `caller_name` (object), `carrier` (object), `country_code` (string), `f
 `GET /verifications/by_phone_number/{phone_number}`
 
 ```go
-	byPhoneNumbers, err := client.Verifications.ByPhoneNumber.List(context.TODO(), "+13035551234")
+	byPhoneNumbers, err := client.Verifications.ByPhoneNumber.List(context.Background(), "+13035551234")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", byPhoneNumbers.Data)
 ```
@@ -103,7 +103,7 @@ Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `pho
 
 ```go
 	verifyVerificationCodeResponse, err := client.Verifications.ByPhoneNumber.Actions.Verify(
-		context.TODO(),
+		context.Background(),
 		"+13035551234",
 		telnyx.VerificationByPhoneNumberActionVerifyParams{
 			Code:            "17686",
@@ -111,7 +111,7 @@ Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `pho
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verifyVerificationCodeResponse.Data)
 ```
@@ -125,12 +125,12 @@ Returns: `phone_number` (string), `response_code` (enum: accepted, rejected)
 Optional: `custom_code` (string | null), `extension` (string | null), `timeout_secs` (integer)
 
 ```go
-	createVerificationResponse, err := client.Verifications.TriggerCall(context.TODO(), telnyx.VerificationTriggerCallParams{
+	createVerificationResponse, err := client.Verifications.TriggerCall(context.Background(), telnyx.VerificationTriggerCallParams{
 		PhoneNumber:     "+13035551234",
 		VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", createVerificationResponse.Data)
 ```
@@ -144,12 +144,12 @@ Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `pho
 Optional: `timeout_secs` (integer)
 
 ```go
-	createVerificationResponse, err := client.Verifications.TriggerFlashcall(context.TODO(), telnyx.VerificationTriggerFlashcallParams{
+	createVerificationResponse, err := client.Verifications.TriggerFlashcall(context.Background(), telnyx.VerificationTriggerFlashcallParams{
 		PhoneNumber:     "+13035551234",
 		VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", createVerificationResponse.Data)
 ```
@@ -163,12 +163,12 @@ Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `pho
 Optional: `custom_code` (string | null), `timeout_secs` (integer)
 
 ```go
-	createVerificationResponse, err := client.Verifications.TriggerSMS(context.TODO(), telnyx.VerificationTriggerSMSParams{
+	createVerificationResponse, err := client.Verifications.TriggerSMS(context.Background(), telnyx.VerificationTriggerSMSParams{
 		PhoneNumber:     "+13035551234",
 		VerifyProfileID: "12ade33a-21c0-473b-b055-b3c836e1c292",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", createVerificationResponse.Data)
 ```
@@ -180,9 +180,9 @@ Returns: `created_at` (string), `custom_code` (string | null), `id` (uuid), `pho
 `GET /verifications/{verification_id}`
 
 ```go
-	verification, err := client.Verifications.Get(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c292")
+	verification, err := client.Verifications.Get(context.Background(), "12ade33a-21c0-473b-b055-b3c836e1c292")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verification.Data)
 ```
@@ -197,12 +197,14 @@ Optional: `code` (string), `status` (enum: accepted, rejected)
 
 ```go
 	verifyVerificationCodeResponse, err := client.Verifications.Actions.Verify(
-		context.TODO(),
+		context.Background(),
 		"12ade33a-21c0-473b-b055-b3c836e1c292",
-		telnyx.VerificationActionVerifyParams{},
+		telnyx.VerificationActionVerifyParams{
+		Code: "12345",
+	},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verifyVerificationCodeResponse.Data)
 ```
@@ -216,9 +218,9 @@ Gets a paginated list of Verify profiles.
 `GET /verify_profiles`
 
 ```go
-	page, err := client.VerifyProfiles.List(context.TODO(), telnyx.VerifyProfileListParams{})
+	page, err := client.VerifyProfiles.List(context.Background(), telnyx.VerifyProfileListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -234,11 +236,11 @@ Creates a new Verify profile to associate verifications with.
 Optional: `call` (object), `flashcall` (object), `language` (string), `rcs` (object), `sms` (object), `webhook_failover_url` (string), `webhook_url` (string)
 
 ```go
-	verifyProfileData, err := client.VerifyProfiles.New(context.TODO(), telnyx.VerifyProfileNewParams{
+	verifyProfileData, err := client.VerifyProfiles.New(context.Background(), telnyx.VerifyProfileNewParams{
 		Name: "Test Profile",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
@@ -252,9 +254,9 @@ List all Verify profile message templates.
 `GET /verify_profiles/templates`
 
 ```go
-	response, err := client.VerifyProfiles.GetTemplates(context.TODO())
+	response, err := client.VerifyProfiles.GetTemplates(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -268,11 +270,11 @@ Create a new Verify profile message template.
 `POST /verify_profiles/templates` — Required: `text`
 
 ```go
-	messageTemplate, err := client.VerifyProfiles.NewTemplate(context.TODO(), telnyx.VerifyProfileNewTemplateParams{
+	messageTemplate, err := client.VerifyProfiles.NewTemplate(context.Background(), telnyx.VerifyProfileNewTemplateParams{
 		Text: "Your {{app_name}} verification code is: {{code}}.",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messageTemplate.Data)
 ```
@@ -287,14 +289,14 @@ Update an existing Verify profile message template.
 
 ```go
 	messageTemplate, err := client.VerifyProfiles.UpdateTemplate(
-		context.TODO(),
+		context.Background(),
 		"12ade33a-21c0-473b-b055-b3c836e1c292",
 		telnyx.VerifyProfileUpdateTemplateParams{
 			Text: "Your {{app_name}} verification code is: {{code}}.",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messageTemplate.Data)
 ```
@@ -308,9 +310,9 @@ Gets a single Verify profile.
 `GET /verify_profiles/{verify_profile_id}`
 
 ```go
-	verifyProfileData, err := client.VerifyProfiles.Get(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c292")
+	verifyProfileData, err := client.VerifyProfiles.Get(context.Background(), "12ade33a-21c0-473b-b055-b3c836e1c292")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
@@ -325,12 +327,12 @@ Optional: `call` (object), `flashcall` (object), `language` (string), `name` (st
 
 ```go
 	verifyProfileData, err := client.VerifyProfiles.Update(
-		context.TODO(),
+		context.Background(),
 		"12ade33a-21c0-473b-b055-b3c836e1c292",
 		telnyx.VerifyProfileUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verifyProfileData.Data)
 ```
@@ -342,9 +344,9 @@ Returns: `call` (object), `created_at` (string), `flashcall` (object), `id` (uui
 `DELETE /verify_profiles/{verify_profile_id}`
 
 ```go
-	verifyProfileData, err := client.VerifyProfiles.Delete(context.TODO(), "12ade33a-21c0-473b-b055-b3c836e1c292")
+	verifyProfileData, err := client.VerifyProfiles.Delete(context.Background(), "12ade33a-21c0-473b-b055-b3c836e1c292")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verifyProfileData.Data)
 ```

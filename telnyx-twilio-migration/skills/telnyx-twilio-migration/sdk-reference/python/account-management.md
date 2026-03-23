@@ -120,7 +120,7 @@ Optional: `managed_account_allow_custom_pricing` (boolean)
 
 ```python
 managed_account = client.managed_accounts.update(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(managed_account.data)
 ```
@@ -152,7 +152,7 @@ Optional: `reenable_all_connections` (boolean)
 
 ```python
 response = client.managed_accounts.actions.enable(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -167,7 +167,7 @@ Optional: `channel_limit` (integer)
 
 ```python
 response = client.managed_accounts.update_global_channel_limit(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -209,7 +209,7 @@ Returns a user in your organization.
 
 ```python
 user = client.organizations.users.retrieve(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(user.data)
 ```

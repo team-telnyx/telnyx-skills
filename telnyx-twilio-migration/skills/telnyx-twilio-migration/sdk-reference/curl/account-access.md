@@ -71,7 +71,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "ip_address": "string"
+  "ip_address": "203.0.113.10"
 }' \
   "https://api.telnyx.com/v2/access_ip_address"
 ```
@@ -127,21 +127,12 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "customer_reference": "MY REF 001",
   "first_name": "Alfred",
   "last_name": "Foster",
   "business_name": "Toy-O'Kon",
-  "phone_number": "+12125559000",
   "street_address": "600 Congress Avenue",
-  "extended_address": "14th Floor",
   "locality": "Austin",
-  "administrative_area": "TX",
-  "neighborhood": "Ciudad de los deportes",
-  "borough": "Guadalajara",
-  "postal_code": "78701",
-  "country_code": "US",
-  "address_book": false,
-  "validate_address": true
+  "country_code": "US"
 }' \
   "https://api.telnyx.com/v2/addresses"
 ```
@@ -163,9 +154,6 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "street_address": "600 Congress Avenue",
-  "extended_address": "14th Floor",
-  "locality": "Austin",
-  "administrative_area": "TX",
   "postal_code": "78701",
   "country_code": "US"
 }' \
@@ -181,7 +169,7 @@ Retrieves the details of an existing address.
 `GET /addresses/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/addresses/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/addresses/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `address_book` (boolean), `administrative_area` (string), `borough` (string), `business_name` (string), `country_code` (string), `created_at` (string), `customer_reference` (string), `extended_address` (string), `first_name` (string), `id` (string), `last_name` (string), `locality` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `record_type` (string), `street_address` (string), `updated_at` (string), `validate_address` (boolean)
@@ -196,7 +184,7 @@ Deletes an existing address.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/addresses/{id}"
+  "https://api.telnyx.com/v2/addresses/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `address_book` (boolean), `administrative_area` (string), `borough` (string), `business_name` (string), `country_code` (string), `created_at` (string), `customer_reference` (string), `extended_address` (string), `first_name` (string), `id` (string), `last_name` (string), `locality` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `record_type` (string), `street_address` (string), `updated_at` (string), `validate_address` (boolean)
@@ -212,7 +200,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/addresses/{id}/actions/accept_suggestions"
+  "https://api.telnyx.com/v2/addresses/550e8400-e29b-41d4-a716-446655440000/actions/accept_suggestions"
 ```
 
 Returns: `accepted` (boolean), `id` (uuid), `record_type` (enum: address_suggestion)
@@ -245,9 +233,7 @@ curl \
   -d '{
   "name": "Okta",
   "short_name": "myorg",
-  "active": true,
-  "settings": {},
-  "settings_url": "https://myorg.myidp.com/saml/metadata"
+  "settings": {}
 }' \
   "https://api.telnyx.com/v2/authentication_providers"
 ```
@@ -261,7 +247,7 @@ Retrieves the details of an existing authentication provider.
 `GET /authentication_providers/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/authentication_providers/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/authentication_providers/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `activated_at` (date-time), `active` (boolean), `created_at` (date-time), `id` (uuid), `name` (string), `organization_id` (uuid), `record_type` (string), `settings` (object), `short_name` (string), `updated_at` (date-time)
@@ -290,7 +276,7 @@ curl \
     "idp_cert_fingerprint_algorithm": "sha1"
   }
 }' \
-  "https://api.telnyx.com/v2/authentication_providers/{id}"
+  "https://api.telnyx.com/v2/authentication_providers/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `activated_at` (date-time), `active` (boolean), `created_at` (date-time), `id` (uuid), `name` (string), `organization_id` (uuid), `record_type` (string), `settings` (object), `short_name` (string), `updated_at` (date-time)
@@ -305,7 +291,7 @@ Deletes an existing authentication provider.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/authentication_providers/{id}"
+  "https://api.telnyx.com/v2/authentication_providers/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `activated_at` (date-time), `active` (boolean), `created_at` (date-time), `id` (uuid), `name` (string), `organization_id` (uuid), `record_type` (string), `settings` (object), `short_name` (string), `updated_at` (date-time)
@@ -332,7 +318,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "name": "string"
+  "name": "my-resource"
 }' \
   "https://api.telnyx.com/v2/billing_groups"
 ```
@@ -361,7 +347,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "name": "string"
+  "name": "my-resource"
 }' \
   "https://api.telnyx.com/v2/billing_groups/f5586561-8ff0-4291-a0ac-84fe544797bd"
 ```
@@ -407,7 +393,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "identifier": "string",
+  "identifier": "user@example.com",
   "type": "bearer"
 }' \
   "https://api.telnyx.com/v2/integration_secrets"
@@ -425,7 +411,7 @@ Delete an integration secret given its ID.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/integration_secrets/{id}"
+  "https://api.telnyx.com/v2/integration_secrets/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 ## Create an Access Token.
@@ -439,5 +425,5 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/telephony_credentials/{id}/token"
+  "https://api.telnyx.com/v2/telephony_credentials/550e8400-e29b-41d4-a716-446655440000/token"
 ```

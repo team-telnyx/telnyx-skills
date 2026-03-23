@@ -316,7 +316,7 @@ Retrieve a specific telco data usage report by its ID
 `GET /legacy/reporting/usage_reports/number_lookup/{id}`
 
 ```ruby
-number_lookup = client.legacy.reporting.usage_reports.number_lookup.retrieve("id")
+number_lookup = client.legacy.reporting.usage_reports.number_lookup.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(number_lookup)
 ```
@@ -330,7 +330,7 @@ Delete a specific telco data usage report by its ID
 `DELETE /legacy/reporting/usage_reports/number_lookup/{id}`
 
 ```ruby
-result = client.legacy.reporting.usage_reports.number_lookup.delete("id")
+result = client.legacy.reporting.usage_reports.number_lookup.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(result)
 ```
@@ -423,7 +423,7 @@ Returns: `id` (string), `record_type` (string), `status` (enum: pending, complet
 `GET /phone_numbers/csv_downloads/{id}`
 
 ```ruby
-csv_download = client.phone_numbers.csv_downloads.retrieve("id")
+csv_download = client.phone_numbers.csv_downloads.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(csv_download)
 ```
@@ -596,7 +596,7 @@ Get Telnyx usage data by product, broken out by the specified dimensions
 `GET /usage_reports`
 
 ```ruby
-page = client.usage_reports.list(dimensions: ["string"], metrics: ["string"], product: "product")
+page = client.usage_reports.list(dimensions: ["string"], metrics: ["string"], product: "wireless")
 
 puts(page)
 ```
@@ -616,3 +616,61 @@ puts(response)
 ```
 
 Returns: `product` (string), `product_dimensions` (array[string]), `product_metrics` (array[string]), `record_types` (array[object])
+
+## Get all Wireless Detail Records (WDRs) Reports
+
+Returns the WDR Reports that match the given parameters.
+
+`GET /wireless/detail_records_reports`
+
+```ruby
+detail_records_reports = client.wireless.detail_records_reports.list
+
+puts(detail_records_reports)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Create a Wireless Detail Records (WDRs) Report
+
+Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
+
+`POST /wireless/detail_records_reports`
+
+Optional: `end_time` (string), `start_time` (string)
+
+```ruby
+detail_records_report = client.wireless.detail_records_reports.create
+
+puts(detail_records_report)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Get a Wireless Detail Record (WDR) Report
+
+Returns one specific WDR report
+
+`GET /wireless/detail_records_reports/{id}`
+
+```ruby
+detail_records_report = client.wireless.detail_records_reports.retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+
+puts(detail_records_report)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Delete a Wireless Detail Record (WDR) Report
+
+Deletes one specific WDR report.
+
+`DELETE /wireless/detail_records_reports/{id}`
+
+```ruby
+detail_records_report = client.wireless.detail_records_reports.delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+
+puts(detail_records_report)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

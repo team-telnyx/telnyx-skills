@@ -77,15 +77,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "application_name": "call-router",
-  "active": false,
-  "anchorsite_override": "Amsterdam, Netherlands",
-  "webhook_event_url": "https://example.com",
-  "webhook_event_failover_url": "https://failover.example.com",
-  "webhook_timeout_secs": 25,
-  "tags": [
-    "tag1",
-    "tag2"
-  ]
+  "webhook_event_url": "https://example.com"
 }' \
   "https://api.telnyx.com/v2/fax_applications"
 ```
@@ -119,16 +111,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "application_name": "call-router",
-  "active": false,
-  "anchorsite_override": "Amsterdam, Netherlands",
-  "webhook_event_url": "https://example.com",
-  "webhook_event_failover_url": "https://failover.example.com",
-  "webhook_timeout_secs": 25,
-  "fax_email_recipient": "user@example.com",
-  "tags": [
-    "tag1",
-    "tag2"
-  ]
+  "webhook_event_url": "https://example.com"
 }' \
   "https://api.telnyx.com/v2/fax_applications/1293384261075731499"
 ```
@@ -177,6 +160,9 @@ curl \
   -F "to=+13127367276" \
   -F "from=+13125790015" \
   -F "quality=high" \
+  -d '{
+      "media_url": "https://example.com/document.pdf"
+  }' \
   "https://api.telnyx.com/v2/faxes"
 ```
 
@@ -187,7 +173,7 @@ Returns: `client_state` (string), `connection_id` (string), `created_at` (date-t
 `GET /faxes/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/faxes/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/faxes/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `client_state` (string), `connection_id` (string), `created_at` (date-time), `direction` (enum: inbound, outbound), `from` (string), `from_display_name` (string), `id` (uuid), `media_name` (string), `media_url` (string), `preview_url` (string), `quality` (enum: normal, high, very_high, ultra_light, ultra_dark), `record_type` (enum: fax), `status` (enum: queued, media.processed, originated, sending, delivered, failed, initiated, receiving, media.processing, received), `store_media` (boolean), `stored_media_url` (string), `to` (string), `updated_at` (date-time), `webhook_failover_url` (string), `webhook_url` (string)
@@ -200,7 +186,7 @@ Returns: `client_state` (string), `connection_id` (string), `created_at` (date-t
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/faxes/{id}"
+  "https://api.telnyx.com/v2/faxes/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 ## Cancel a fax
@@ -214,7 +200,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/faxes/{id}/actions/cancel"
+  "https://api.telnyx.com/v2/faxes/550e8400-e29b-41d4-a716-446655440000/actions/cancel"
 ```
 
 Returns: `result` (string)
@@ -230,7 +216,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/faxes/{id}/actions/refresh"
+  "https://api.telnyx.com/v2/faxes/550e8400-e29b-41d4-a716-446655440000/actions/refresh"
 ```
 
 Returns: `result` (string)

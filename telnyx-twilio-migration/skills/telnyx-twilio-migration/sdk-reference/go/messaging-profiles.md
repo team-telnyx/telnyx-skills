@@ -67,9 +67,9 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `GET /messaging_profiles`
 
 ```go
-	page, err := client.MessagingProfiles.List(context.TODO(), telnyx.MessagingProfileListParams{})
+	page, err := client.MessagingProfiles.List(context.Background(), telnyx.MessagingProfileListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -83,12 +83,12 @@ Returns: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `cre
 Optional: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `health_webhook_url` (url), `mms_fall_back_to_sms` (boolean), `mms_transcoding` (boolean), `mobile_only` (boolean), `number_pool_settings` (object | null), `resource_group_id` (string | null), `smart_encoding` (boolean), `url_shortener_settings` (object | null), `webhook_api_version` (enum: 1, 2, 2010-04-01), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```go
-	messagingProfile, err := client.MessagingProfiles.New(context.TODO(), telnyx.MessagingProfileNewParams{
+	messagingProfile, err := client.MessagingProfiles.New(context.Background(), telnyx.MessagingProfileNewParams{
 		Name:                    "My name",
 		WhitelistedDestinations: []string{"US"},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagingProfile.Data)
 ```
@@ -100,9 +100,9 @@ Returns: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `cre
 `GET /messaging_profiles/{id}`
 
 ```go
-	messagingProfile, err := client.MessagingProfiles.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	messagingProfile, err := client.MessagingProfiles.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagingProfile.Data)
 ```
@@ -117,12 +117,12 @@ Optional: `alpha_sender` (string | null), `created_at` (date-time), `daily_spend
 
 ```go
 	messagingProfile, err := client.MessagingProfiles.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.MessagingProfileUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagingProfile.Data)
 ```
@@ -134,9 +134,9 @@ Returns: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `cre
 `DELETE /messaging_profiles/{id}`
 
 ```go
-	messagingProfile, err := client.MessagingProfiles.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	messagingProfile, err := client.MessagingProfiles.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagingProfile.Data)
 ```
@@ -149,12 +149,12 @@ Returns: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `cre
 
 ```go
 	page, err := client.MessagingProfiles.ListPhoneNumbers(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.MessagingProfileListPhoneNumbersParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -167,12 +167,12 @@ Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_
 
 ```go
 	page, err := client.MessagingProfiles.ListShortCodes(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.MessagingProfileListShortCodesParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -184,9 +184,9 @@ Returns: `country_code` (string), `created_at` (date-time), `id` (uuid), `messag
 `GET /short_codes`
 
 ```go
-	page, err := client.ShortCodes.List(context.TODO(), telnyx.ShortCodeListParams{})
+	page, err := client.ShortCodes.List(context.Background(), telnyx.ShortCodeListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -198,9 +198,9 @@ Returns: `country_code` (string), `created_at` (date-time), `id` (uuid), `messag
 `GET /short_codes/{id}`
 
 ```go
-	shortCode, err := client.ShortCodes.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	shortCode, err := client.ShortCodes.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", shortCode.Data)
 ```
@@ -217,14 +217,14 @@ Optional: `tags` (array)
 
 ```go
 	shortCode, err := client.ShortCodes.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.ShortCodeUpdateParams{
 			MessagingProfileID: "abc85f64-5717-4562-b3fc-2c9600000000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", shortCode.Data)
 ```

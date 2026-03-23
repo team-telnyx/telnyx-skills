@@ -84,7 +84,7 @@ Chat with a language model. This endpoint is consistent with the [OpenAI Chat Co
 
 `POST /ai/chat/completions` — Required: `messages`
 
-Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
+Optional: `api_key_ref` (string), `best_of` (integer), `early_stopping` (boolean), `enable_thinking` (boolean), `frequency_penalty` (number), `guided_choice` (array[string]), `guided_json` (object), `guided_regex` (string), `length_penalty` (number), `logprobs` (boolean), `max_tokens` (integer), `min_p` (number), `model` (string), `n` (number), `presence_penalty` (number), `response_format` (object), `stream` (boolean), `temperature` (number), `tool_choice` (enum: none, auto, required), `tools` (array[object]), `top_logprobs` (integer), `top_p` (number), `use_beam_search` (boolean)
 
 ```python
 response = client.ai.chat.create_completion(
@@ -151,7 +151,7 @@ Optional: `description` (string), `webhook` (string)
 
 ```python
 insight_template_group_detail = client.ai.conversations.insight_groups.insight_groups(
-    name="name",
+    name="my-resource",
 )
 print(insight_template_group_detail.data)
 ```
@@ -252,8 +252,8 @@ Optional: `json_schema` (object), `webhook` (string)
 
 ```python
 insight_template_detail = client.ai.conversations.insights.create(
-    instructions="instructions",
-    name="name",
+    instructions="You are a helpful assistant.",
+    name="my-resource",
 )
 print(insight_template_detail.data)
 ```
@@ -329,7 +329,7 @@ Optional: `metadata` (object)
 
 ```python
 conversation = client.ai.conversations.update(
-    conversation_id="conversation_id",
+    conversation_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(conversation.data)
 ```
@@ -374,7 +374,7 @@ Optional: `content` (string), `metadata` (object), `name` (string), `sent_at` (d
 ```python
 client.ai.conversations.add_message(
     conversation_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    role="role",
+    role="user",
 )
 ```
 
@@ -422,7 +422,7 @@ Optional: `document_chunk_overlap_size` (integer), `document_chunk_size` (intege
 
 ```python
 embedding_response = client.ai.embeddings.create(
-    bucket_name="bucket_name",
+    bucket_name="my-bucket",
 )
 print(embedding_response.data)
 ```
@@ -479,8 +479,8 @@ Optional: `num_of_docs` (integer)
 
 ```python
 response = client.ai.embeddings.similarity_search(
-    bucket_name="bucket_name",
-    query="query",
+    bucket_name="my-bucket",
+    query="What is Telnyx?",
 )
 print(response.data)
 ```
@@ -495,8 +495,8 @@ Embed website content from a specified URL, including child pages up to 5 levels
 
 ```python
 embedding_response = client.ai.embeddings.url(
-    bucket_name="bucket_name",
-    url="url",
+    bucket_name="my-bucket",
+    url="https://example.com/resource",
 )
 print(embedding_response.data)
 ```
@@ -546,8 +546,8 @@ Optional: `hyperparameters` (object), `suffix` (string)
 
 ```python
 fine_tuning_job = client.ai.fine_tuning.jobs.create(
-    model="model",
-    training_file="training_file",
+    model="meta-llama/Meta-Llama-3.1-8B-Instruct",
+    training_file="training-data.jsonl",
 )
 print(fine_tuning_job.id)
 ```
@@ -643,8 +643,8 @@ Optional: `system_prompt` (string)
 
 ```python
 response = client.ai.summarize(
-    bucket="bucket",
-    filename="filename",
+    bucket="my-bucket",
+    filename="data.csv",
 )
 print(response.data)
 ```
@@ -731,7 +731,7 @@ Generate synthesized speech audio from text input. Returns audio in the requeste
 
 `POST /text-to-speech/speech`
 
-Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `inworld` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble, inworld), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
+Optional: `aws` (object), `azure` (object), `disable_cache` (boolean), `elevenlabs` (object), `language` (string), `minimax` (object), `output_type` (enum: binary_output, base64_output), `provider` (enum: aws, telnyx, azure, elevenlabs, minimax, rime, resemble), `resemble` (object), `rime` (object), `telnyx` (object), `text` (string), `text_type` (enum: text, ssml), `voice` (string), `voice_settings` (object)
 
 ```python
 response = client.text_to_speech.generate()
@@ -752,61 +752,3 @@ print(response.voices)
 ```
 
 Returns: `voices` (array[object])
-
-## Get all Wireless Detail Records (WDRs) Reports
-
-Returns the WDR Reports that match the given parameters.
-
-`GET /wireless/detail_records_reports`
-
-```python
-detail_records_reports = client.wireless.detail_records_reports.list()
-print(detail_records_reports.data)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Create a Wireless Detail Records (WDRs) Report
-
-Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
-
-`POST /wireless/detail_records_reports`
-
-Optional: `end_time` (string), `start_time` (string)
-
-```python
-detail_records_report = client.wireless.detail_records_reports.create()
-print(detail_records_report.data)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Get a Wireless Detail Record (WDR) Report
-
-Returns one specific WDR report
-
-`GET /wireless/detail_records_reports/{id}`
-
-```python
-detail_records_report = client.wireless.detail_records_reports.retrieve(
-    "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-)
-print(detail_records_report.data)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
-
-## Delete a Wireless Detail Record (WDR) Report
-
-Deletes one specific WDR report.
-
-`DELETE /wireless/detail_records_reports/{id}`
-
-```python
-detail_records_report = client.wireless.detail_records_reports.delete(
-    "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-)
-print(detail_records_report.data)
-```
-
-Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

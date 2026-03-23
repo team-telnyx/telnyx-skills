@@ -71,23 +71,10 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "name": "string",
+  "name": "my-resource",
   "whitelisted_destinations": [
-    "string"
-  ],
-  "number_pool_settings": {
-    "toll_free_weight": 10,
-    "long_code_weight": 1,
-    "skip_unhealthy": true,
-    "sticky_sender": false,
-    "geomatch": false
-  },
-  "url_shortener_settings": {
-    "domain": "example.ex",
-    "prefix": "",
-    "replace_blacklist_only": true,
-    "send_webhooks": false
-  }
+    "US"
+  ]
 }' \
   "https://api.telnyx.com/v2/messaging_profiles"
 ```
@@ -99,7 +86,7 @@ Returns: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `cre
 `GET /messaging_profiles/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_profiles/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_profiles/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `created_at` (date-time), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `health_webhook_url` (url), `id` (uuid), `mms_fall_back_to_sms` (boolean), `mms_transcoding` (boolean), `mobile_only` (boolean), `name` (string), `number_pool_settings` (object | null), `organization_id` (string), `record_type` (enum: messaging_profile), `redaction_enabled` (boolean), `redaction_level` (integer), `resource_group_id` (string | null), `smart_encoding` (boolean), `updated_at` (date-time), `url_shortener_settings` (object | null), `v1_secret` (string), `webhook_api_version` (enum: 1, 2, 2010-04-01), `webhook_failover_url` (url), `webhook_url` (url), `whitelisted_destinations` (array[string])
@@ -115,22 +102,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "number_pool_settings": {
-    "toll_free_weight": 10,
-    "long_code_weight": 1,
-    "skip_unhealthy": true,
-    "sticky_sender": false,
-    "geomatch": false
-  },
-  "url_shortener_settings": {
-    "domain": "example.ex",
-    "prefix": "",
-    "replace_blacklist_only": true,
-    "send_webhooks": false
-  }
-}' \
-  "https://api.telnyx.com/v2/messaging_profiles/{id}"
+  "https://api.telnyx.com/v2/messaging_profiles/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `created_at` (date-time), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `health_webhook_url` (url), `id` (uuid), `mms_fall_back_to_sms` (boolean), `mms_transcoding` (boolean), `mobile_only` (boolean), `name` (string), `number_pool_settings` (object | null), `organization_id` (string), `record_type` (enum: messaging_profile), `redaction_enabled` (boolean), `redaction_level` (integer), `resource_group_id` (string | null), `smart_encoding` (boolean), `updated_at` (date-time), `url_shortener_settings` (object | null), `v1_secret` (string), `webhook_api_version` (enum: 1, 2, 2010-04-01), `webhook_failover_url` (url), `webhook_url` (url), `whitelisted_destinations` (array[string])
@@ -143,7 +115,7 @@ Returns: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `cre
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/messaging_profiles/{id}"
+  "https://api.telnyx.com/v2/messaging_profiles/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `created_at` (date-time), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `health_webhook_url` (url), `id` (uuid), `mms_fall_back_to_sms` (boolean), `mms_transcoding` (boolean), `mobile_only` (boolean), `name` (string), `number_pool_settings` (object | null), `organization_id` (string), `record_type` (enum: messaging_profile), `redaction_enabled` (boolean), `redaction_level` (integer), `resource_group_id` (string | null), `smart_encoding` (boolean), `updated_at` (date-time), `url_shortener_settings` (object | null), `v1_secret` (string), `webhook_api_version` (enum: 1, 2, 2010-04-01), `webhook_failover_url` (url), `webhook_url` (url), `whitelisted_destinations` (array[string])
@@ -153,7 +125,7 @@ Returns: `ai_assistant_id` (string | null), `alpha_sender` (string | null), `cre
 `GET /messaging_profiles/{id}/phone_numbers`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_profiles/{id}/phone_numbers"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_profiles/550e8400-e29b-41d4-a716-446655440000/phone_numbers"
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_products` (array[string]), `features` (object), `health` (object), `id` (string), `messaging_product` (string), `messaging_profile_id` (string | null), `organization_id` (string), `phone_number` (string), `record_type` (enum: messaging_phone_number, messaging_settings), `tags` (array[string]), `traffic_type` (string), `type` (enum: long-code, toll-free, short-code, longcode, tollfree, shortcode), `updated_at` (date-time)
@@ -163,7 +135,7 @@ Returns: `country_code` (string), `created_at` (date-time), `eligible_messaging_
 `GET /messaging_profiles/{id}/short_codes`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_profiles/{id}/short_codes"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/messaging_profiles/550e8400-e29b-41d4-a716-446655440000/short_codes"
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `id` (uuid), `messaging_profile_id` (string | null), `record_type` (enum: short_code), `short_code` (string), `tags` (array), `updated_at` (date-time)
@@ -183,7 +155,7 @@ Returns: `country_code` (string), `created_at` (date-time), `id` (uuid), `messag
 `GET /short_codes/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/short_codes/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/short_codes/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `id` (uuid), `messaging_profile_id` (string | null), `record_type` (enum: short_code), `short_code` (string), `tags` (array), `updated_at` (date-time)
@@ -202,9 +174,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "messaging_profile_id": "string"
+  "messaging_profile_id": "550e8400-e29b-41d4-a716-446655440000"
 }' \
-  "https://api.telnyx.com/v2/short_codes/{id}"
+  "https://api.telnyx.com/v2/short_codes/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `country_code` (string), `created_at` (date-time), `id` (uuid), `messaging_profile_id` (string | null), `record_type` (enum: short_code), `short_code` (string), `tags` (array), `updated_at` (date-time)

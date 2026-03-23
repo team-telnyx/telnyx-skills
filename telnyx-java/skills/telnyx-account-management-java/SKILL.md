@@ -21,11 +21,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -128,7 +128,7 @@ Retrieves the details of a single managed account.
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountRetrieveParams;
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountRetrieveResponse;
 
-ManagedAccountRetrieveResponse managedAccount = client.managedAccounts().retrieve("id");
+ManagedAccountRetrieveResponse managedAccount = client.managedAccounts().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `api_key` (string), `api_token` (string), `api_user` (string), `balance` (object), `created_at` (string), `email` (email), `id` (uuid), `managed_account_allow_custom_pricing` (boolean), `manager_account_id` (string), `organization_name` (string), `record_type` (enum: managed_account), `rollup_billing` (boolean), `updated_at` (string)
@@ -145,7 +145,7 @@ Optional: `managed_account_allow_custom_pricing` (boolean)
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountUpdateParams;
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountUpdateResponse;
 
-ManagedAccountUpdateResponse managedAccount = client.managedAccounts().update("id");
+ManagedAccountUpdateResponse managedAccount = client.managedAccounts().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `api_key` (string), `api_token` (string), `api_user` (string), `balance` (object), `created_at` (string), `email` (email), `id` (uuid), `managed_account_allow_custom_pricing` (boolean), `manager_account_id` (string), `organization_name` (string), `record_type` (enum: managed_account), `rollup_billing` (boolean), `updated_at` (string)
@@ -160,7 +160,7 @@ Disables a managed account, forbidding it to use Telnyx services, including send
 import com.telnyx.sdk.models.managedaccounts.actions.ActionDisableParams;
 import com.telnyx.sdk.models.managedaccounts.actions.ActionDisableResponse;
 
-ActionDisableResponse response = client.managedAccounts().actions().disable("id");
+ActionDisableResponse response = client.managedAccounts().actions().disable("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `api_key` (string), `api_token` (string), `api_user` (string), `balance` (object), `created_at` (string), `email` (email), `id` (uuid), `managed_account_allow_custom_pricing` (boolean), `manager_account_id` (string), `organization_name` (string), `record_type` (enum: managed_account), `rollup_billing` (boolean), `updated_at` (string)
@@ -177,7 +177,7 @@ Optional: `reenable_all_connections` (boolean)
 import com.telnyx.sdk.models.managedaccounts.actions.ActionEnableParams;
 import com.telnyx.sdk.models.managedaccounts.actions.ActionEnableResponse;
 
-ActionEnableResponse response = client.managedAccounts().actions().enable("id");
+ActionEnableResponse response = client.managedAccounts().actions().enable("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `api_key` (string), `api_token` (string), `api_user` (string), `balance` (object), `created_at` (string), `email` (email), `id` (uuid), `managed_account_allow_custom_pricing` (boolean), `manager_account_id` (string), `organization_name` (string), `record_type` (enum: managed_account), `rollup_billing` (boolean), `updated_at` (string)
@@ -192,7 +192,7 @@ Optional: `channel_limit` (integer)
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountUpdateGlobalChannelLimitParams;
 import com.telnyx.sdk.models.managedaccounts.ManagedAccountUpdateGlobalChannelLimitResponse;
 
-ManagedAccountUpdateGlobalChannelLimitResponse response = client.managedAccounts().updateGlobalChannelLimit("id");
+ManagedAccountUpdateGlobalChannelLimitResponse response = client.managedAccounts().updateGlobalChannelLimit("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `channel_limit` (integer), `email` (string), `id` (string), `manager_account_id` (string), `record_type` (string)
@@ -237,7 +237,7 @@ Returns a user in your organization.
 import com.telnyx.sdk.models.organizations.users.UserRetrieveParams;
 import com.telnyx.sdk.models.organizations.users.UserRetrieveResponse;
 
-UserRetrieveResponse user = client.organizations().users().retrieve("id");
+UserRetrieveResponse user = client.organizations().users().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (string | null), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)
@@ -252,7 +252,7 @@ Deletes a user in your organization.
 import com.telnyx.sdk.models.organizations.users.actions.ActionRemoveParams;
 import com.telnyx.sdk.models.organizations.users.actions.ActionRemoveResponse;
 
-ActionRemoveResponse action = client.organizations().users().actions().remove("id");
+ActionRemoveResponse action = client.organizations().users().actions().remove("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (string | null), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)

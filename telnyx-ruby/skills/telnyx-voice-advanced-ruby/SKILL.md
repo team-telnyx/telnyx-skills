@@ -58,6 +58,26 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `404` resource not found, `422` validation error (check field formats),
 `429` rate limited (retry with exponential backoff).
 
+## Join AI Assistant Conversation
+
+Add a participant to an existing AI assistant conversation. Use this command to bring an additional call leg into a running AI conversation.
+
+`POST /calls/{call_control_id}/actions/ai_assistant_join` — Required: `conversation_id`, `participant`
+
+Optional: `client_state` (string), `command_id` (string)
+
+```ruby
+response = client.calls.actions.join_ai_assistant(
+  "call_control_id",
+  conversation_id: "v3:abc123",
+  participant: {id: "v3:abc123def456", role: :user}
+)
+
+puts(response)
+```
+
+Returns: `conversation_id` (uuid), `result` (string)
+
 ## Update client state
 
 Updates client state
@@ -92,7 +112,9 @@ Returns: `result` (string)
 
 ## SIPREC start
 
-Start siprec session to configured in SIPREC connector SRS. **Expected Webhooks:**
+Start siprec session to configured in SIPREC connector SRS. 
+
+**Expected Webhooks:**
 
 - `siprec.started`
 - `siprec.stopped`
@@ -103,7 +125,7 @@ Start siprec session to configured in SIPREC connector SRS. **Expected Webhooks:
 Optional: `client_state` (string), `connector_name` (string), `include_metadata_custom_headers` (boolean), `secure` (boolean), `session_timeout_secs` (integer), `sip_transport` (enum: udp, tcp, tls), `siprec_track` (enum: inbound_track, outbound_track, both_tracks)
 
 ```ruby
-response = client.calls.actions.start_siprec("call_control_id")
+response = client.calls.actions.start_siprec("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -121,7 +143,7 @@ Stop SIPREC session. **Expected Webhooks:**
 Optional: `client_state` (string), `command_id` (string)
 
 ```ruby
-response = client.calls.actions.stop_siprec("call_control_id")
+response = client.calls.actions.stop_siprec("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -132,10 +154,10 @@ Returns: `result` (string)
 
 `POST /calls/{call_control_id}/actions/suppression_start`
 
-Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp), `noise_suppression_engine_config` (object)
+Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp, AiCoustics), `noise_suppression_engine_config` (object)
 
 ```ruby
-response = client.calls.actions.start_noise_suppression("call_control_id")
+response = client.calls.actions.start_noise_suppression("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```
@@ -149,7 +171,7 @@ Returns: `result` (string)
 Optional: `client_state` (string), `command_id` (string)
 
 ```ruby
-response = client.calls.actions.stop_noise_suppression("call_control_id")
+response = client.calls.actions.stop_noise_suppression("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
 
 puts(response)
 ```

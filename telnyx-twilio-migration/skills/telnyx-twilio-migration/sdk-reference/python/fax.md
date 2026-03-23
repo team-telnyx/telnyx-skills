@@ -158,6 +158,7 @@ fax = client.faxes.create(
     connection_id="234423",
     from_="+13125790015",
     to="+13127367276",
+    media_url="https://example.com/document.pdf",
 )
 print(fax.data)
 ```

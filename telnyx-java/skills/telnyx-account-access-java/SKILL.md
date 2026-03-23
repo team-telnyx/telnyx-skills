@@ -22,11 +22,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -93,7 +93,7 @@ import com.telnyx.sdk.models.accessipaddress.AccessIpAddressCreateParams;
 import com.telnyx.sdk.models.accessipaddress.AccessIpAddressResponse;
 
 AccessIpAddressCreateParams params = AccessIpAddressCreateParams.builder()
-    .ipAddress("ip_address")
+    .ipAddress("203.0.113.10")
     .build();
 AccessIpAddressResponse accessIpAddressResponse = client.accessIpAddress().create(params);
 ```
@@ -108,7 +108,7 @@ Returns: `created_at` (date-time), `description` (string), `id` (string), `ip_ad
 import com.telnyx.sdk.models.accessipaddress.AccessIpAddressResponse;
 import com.telnyx.sdk.models.accessipaddress.AccessIpAddressRetrieveParams;
 
-AccessIpAddressResponse accessIpAddressResponse = client.accessIpAddress().retrieve("access_ip_address_id");
+AccessIpAddressResponse accessIpAddressResponse = client.accessIpAddress().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (date-time), `description` (string), `id` (string), `ip_address` (string), `source` (string), `status` (enum: pending, added), `updated_at` (date-time), `user_id` (string)
@@ -121,7 +121,7 @@ Returns: `created_at` (date-time), `description` (string), `id` (string), `ip_ad
 import com.telnyx.sdk.models.accessipaddress.AccessIpAddressDeleteParams;
 import com.telnyx.sdk.models.accessipaddress.AccessIpAddressResponse;
 
-AccessIpAddressResponse accessIpAddressResponse = client.accessIpAddress().delete("access_ip_address_id");
+AccessIpAddressResponse accessIpAddressResponse = client.accessIpAddress().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (date-time), `description` (string), `id` (string), `ip_address` (string), `source` (string), `status` (enum: pending, added), `updated_at` (date-time), `user_id` (string)
@@ -198,7 +198,7 @@ Retrieves the details of an existing address.
 import com.telnyx.sdk.models.addresses.AddressRetrieveParams;
 import com.telnyx.sdk.models.addresses.AddressRetrieveResponse;
 
-AddressRetrieveResponse address = client.addresses().retrieve("id");
+AddressRetrieveResponse address = client.addresses().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `address_book` (boolean), `administrative_area` (string), `borough` (string), `business_name` (string), `country_code` (string), `created_at` (string), `customer_reference` (string), `extended_address` (string), `first_name` (string), `id` (string), `last_name` (string), `locality` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `record_type` (string), `street_address` (string), `updated_at` (string), `validate_address` (boolean)
@@ -213,7 +213,7 @@ Deletes an existing address.
 import com.telnyx.sdk.models.addresses.AddressDeleteParams;
 import com.telnyx.sdk.models.addresses.AddressDeleteResponse;
 
-AddressDeleteResponse address = client.addresses().delete("id");
+AddressDeleteResponse address = client.addresses().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `address_book` (boolean), `administrative_area` (string), `borough` (string), `business_name` (string), `country_code` (string), `created_at` (string), `customer_reference` (string), `extended_address` (string), `first_name` (string), `id` (string), `last_name` (string), `locality` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `record_type` (string), `street_address` (string), `updated_at` (string), `validate_address` (boolean)
@@ -285,7 +285,7 @@ Retrieves the details of an existing authentication provider.
 import com.telnyx.sdk.models.authenticationproviders.AuthenticationProviderRetrieveParams;
 import com.telnyx.sdk.models.authenticationproviders.AuthenticationProviderRetrieveResponse;
 
-AuthenticationProviderRetrieveResponse authenticationProvider = client.authenticationProviders().retrieve("id");
+AuthenticationProviderRetrieveResponse authenticationProvider = client.authenticationProviders().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `activated_at` (date-time), `active` (boolean), `created_at` (date-time), `id` (uuid), `name` (string), `organization_id` (uuid), `record_type` (string), `settings` (object), `short_name` (string), `updated_at` (date-time)
@@ -302,7 +302,7 @@ Optional: `active` (boolean), `name` (string), `settings` (object), `settings_ur
 import com.telnyx.sdk.models.authenticationproviders.AuthenticationProviderUpdateParams;
 import com.telnyx.sdk.models.authenticationproviders.AuthenticationProviderUpdateResponse;
 
-AuthenticationProviderUpdateResponse authenticationProvider = client.authenticationProviders().update("id");
+AuthenticationProviderUpdateResponse authenticationProvider = client.authenticationProviders().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `activated_at` (date-time), `active` (boolean), `created_at` (date-time), `id` (uuid), `name` (string), `organization_id` (uuid), `record_type` (string), `settings` (object), `short_name` (string), `updated_at` (date-time)
@@ -317,7 +317,7 @@ Deletes an existing authentication provider.
 import com.telnyx.sdk.models.authenticationproviders.AuthenticationProviderDeleteParams;
 import com.telnyx.sdk.models.authenticationproviders.AuthenticationProviderDeleteResponse;
 
-AuthenticationProviderDeleteResponse authenticationProvider = client.authenticationProviders().delete("id");
+AuthenticationProviderDeleteResponse authenticationProvider = client.authenticationProviders().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `activated_at` (date-time), `active` (boolean), `created_at` (date-time), `id` (uuid), `name` (string), `organization_id` (uuid), `record_type` (string), `settings` (object), `short_name` (string), `updated_at` (date-time)
@@ -436,7 +436,7 @@ Delete an integration secret given its ID.
 ```java
 import com.telnyx.sdk.models.integrationsecrets.IntegrationSecretDeleteParams;
 
-client.integrationSecrets().delete("id");
+client.integrationSecrets().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## Create an Access Token.
@@ -448,5 +448,5 @@ Create an Access Token (JWT) for the credential.
 ```java
 import com.telnyx.sdk.models.telephonycredentials.TelephonyCredentialCreateTokenParams;
 
-String response = client.telephonyCredentials().createToken("id");
+String response = client.telephonyCredentials().createToken("550e8400-e29b-41d4-a716-446655440000");
 ```

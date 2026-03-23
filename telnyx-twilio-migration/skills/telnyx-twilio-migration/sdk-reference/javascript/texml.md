@@ -93,7 +93,7 @@ Returns an individual call identified by its CallSid. This endpoint is eventuall
 `GET /texml/Accounts/{account_sid}/Calls/{call_sid}`
 
 ```javascript
-const call = await client.texml.accounts.calls.retrieve('call_sid', { account_sid: 'account_sid' });
+const call = await client.texml.accounts.calls.retrieve('call_sid', { account_sid: '550e8400-e29b-41d4-a716-446655440000' });
 
 console.log(call.account_sid);
 ```
@@ -107,7 +107,7 @@ Update TeXML call. Please note that the keys present in the payload MUST BE form
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}`
 
 ```javascript
-const call = await client.texml.accounts.calls.update('call_sid', { account_sid: 'account_sid' });
+const call = await client.texml.accounts.calls.update('call_sid', { account_sid: '550e8400-e29b-41d4-a716-446655440000' });
 
 console.log(call.account_sid);
 ```
@@ -123,7 +123,7 @@ Returns recordings for a call identified by call_sid.
 ```javascript
 const response = await client.texml.accounts.calls.recordingsJson.retrieveRecordingsJson(
   'call_sid',
-  { account_sid: 'account_sid' },
+  { account_sid: '550e8400-e29b-41d4-a716-446655440000' },
 );
 
 console.log(response.end);
@@ -139,7 +139,7 @@ Starts recording with specified parameters for call identified by call_sid.
 
 ```javascript
 const response = await client.texml.accounts.calls.recordingsJson.recordingsJson('call_sid', {
-  account_sid: 'account_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response.account_sid);
@@ -156,7 +156,7 @@ Updates recording resource for particular call.
 ```javascript
 const response = await client.texml.accounts.calls.recordings.recordingSidJson(
   '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
-  { account_sid: 'account_sid', call_sid: 'call_sid' },
+  { account_sid: '550e8400-e29b-41d4-a716-446655440000', call_sid: '550e8400-e29b-41d4-a716-446655440000' },
 );
 
 console.log(response.account_sid);
@@ -172,7 +172,7 @@ Starts siprec session with specified parameters for call identified by call_sid.
 
 ```javascript
 const response = await client.texml.accounts.calls.siprecJson('call_sid', {
-  account_sid: 'account_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response.account_sid);
@@ -188,8 +188,8 @@ Updates siprec session identified by siprec_sid.
 
 ```javascript
 const response = await client.texml.accounts.calls.siprec.siprecSidJson('siprec_sid', {
-  account_sid: 'account_sid',
-  call_sid: 'call_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
+  call_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response.account_sid);
@@ -205,7 +205,7 @@ Starts streaming media from a call to a specific WebSocket address.
 
 ```javascript
 const response = await client.texml.accounts.calls.streamsJson('call_sid', {
-  account_sid: 'account_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response.account_sid);
@@ -222,7 +222,7 @@ Updates streaming resource for particular call.
 ```javascript
 const response = await client.texml.accounts.calls.streams.streamingSidJson(
   '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
-  { account_sid: 'account_sid', call_sid: 'call_sid' },
+  { account_sid: '550e8400-e29b-41d4-a716-446655440000', call_sid: '550e8400-e29b-41d4-a716-446655440000' },
 );
 
 console.log(response.account_sid);
@@ -252,7 +252,7 @@ Returns a conference resource.
 
 ```javascript
 const conference = await client.texml.accounts.conferences.retrieve('conference_sid', {
-  account_sid: 'account_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(conference.account_sid);
@@ -268,7 +268,7 @@ Updates a conference resource.
 
 ```javascript
 const conference = await client.texml.accounts.conferences.update('conference_sid', {
-  account_sid: 'account_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(conference.account_sid);
@@ -285,7 +285,7 @@ Lists conference participants
 ```javascript
 const response = await client.texml.accounts.conferences.participants.retrieveParticipants(
   'conference_sid',
-  { account_sid: 'account_sid' },
+  { account_sid: '550e8400-e29b-41d4-a716-446655440000' },
 );
 
 console.log(response.end);
@@ -302,7 +302,7 @@ Dials a new conference participant
 ```javascript
 const response = await client.texml.accounts.conferences.participants.participants(
   'conference_sid',
-  { account_sid: 'account_sid' },
+  { account_sid: '550e8400-e29b-41d4-a716-446655440000' },
 );
 
 console.log(response.account_sid);
@@ -319,7 +319,7 @@ Gets conference participant resource
 ```javascript
 const participant = await client.texml.accounts.conferences.participants.retrieve(
   'call_sid_or_participant_label',
-  { account_sid: 'account_sid', conference_sid: 'conference_sid' },
+  { account_sid: '550e8400-e29b-41d4-a716-446655440000', conference_sid: '550e8400-e29b-41d4-a716-446655440000' },
 );
 
 console.log(participant.account_sid);
@@ -336,7 +336,7 @@ Updates a conference participant
 ```javascript
 const participant = await client.texml.accounts.conferences.participants.update(
   'call_sid_or_participant_label',
-  { account_sid: 'account_sid', conference_sid: 'conference_sid' },
+  { account_sid: '550e8400-e29b-41d4-a716-446655440000', conference_sid: '550e8400-e29b-41d4-a716-446655440000' },
 );
 
 console.log(participant.account_sid);
@@ -352,8 +352,8 @@ Deletes a conference participant
 
 ```javascript
 await client.texml.accounts.conferences.participants.delete('call_sid_or_participant_label', {
-  account_sid: 'account_sid',
-  conference_sid: 'conference_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
+  conference_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 ```
 
@@ -365,7 +365,7 @@ Lists conference recordings
 
 ```javascript
 const response = await client.texml.accounts.conferences.retrieveRecordings('conference_sid', {
-  account_sid: 'account_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response.end);
@@ -381,7 +381,7 @@ Returns recordings for a conference identified by conference_sid.
 
 ```javascript
 const response = await client.texml.accounts.conferences.retrieveRecordingsJson('conference_sid', {
-  account_sid: 'account_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response.end);
@@ -426,7 +426,7 @@ Returns a queue resource.
 
 ```javascript
 const queue = await client.texml.accounts.queues.retrieve('queue_sid', {
-  account_sid: 'account_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(queue.account_sid);
@@ -442,7 +442,7 @@ Updates a queue resource.
 
 ```javascript
 const queue = await client.texml.accounts.queues.update('queue_sid', {
-  account_sid: 'account_sid',
+  account_sid: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(queue.account_sid);
@@ -457,7 +457,7 @@ Delete a queue resource.
 `DELETE /texml/Accounts/{account_sid}/Queues/{queue_sid}`
 
 ```javascript
-await client.texml.accounts.queues.delete('queue_sid', { account_sid: 'account_sid' });
+await client.texml.accounts.queues.delete('queue_sid', { account_sid: '550e8400-e29b-41d4-a716-446655440000' });
 ```
 
 ## Fetch multiple recording resources
@@ -484,7 +484,7 @@ Returns recording resource identified by recording id.
 const texmlGetCallRecordingResponseBody =
   await client.texml.accounts.recordings.json.retrieveRecordingSidJson(
     '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
-    { account_sid: 'account_sid' },
+    { account_sid: '550e8400-e29b-41d4-a716-446655440000' },
   );
 
 console.log(texmlGetCallRecordingResponseBody.account_sid);
@@ -501,7 +501,7 @@ Deletes recording resource identified by recording id.
 ```javascript
 await client.texml.accounts.recordings.json.deleteRecordingSidJson(
   '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
-  { account_sid: 'account_sid' },
+  { account_sid: '550e8400-e29b-41d4-a716-446655440000' },
 );
 ```
 
@@ -529,7 +529,7 @@ Returns the recording transcription resource identified by its ID.
 const response =
   await client.texml.accounts.transcriptions.json.retrieveRecordingTranscriptionSidJson(
     '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
-    { account_sid: 'account_sid' },
+    { account_sid: '550e8400-e29b-41d4-a716-446655440000' },
   );
 
 console.log(response.account_sid);
@@ -546,7 +546,7 @@ Permanently deletes a recording transcription.
 ```javascript
 await client.texml.accounts.transcriptions.json.deleteRecordingTranscriptionSidJson(
   '6a09cdc3-8948-47f0-aa62-74ac943d6c58',
-  { account_sid: 'account_sid' },
+  { account_sid: '550e8400-e29b-41d4-a716-446655440000' },
 );
 ```
 

@@ -72,8 +72,7 @@ Runs a portability check, returning the results immediately.
 Optional: `phone_numbers` (array[string])
 
 ```ruby
-response = client.portability_checks.run
-
+response = client.portability_checks.run(phone_numbers: ["+18005550101"])
 puts(response)
 ```
 
@@ -91,7 +90,7 @@ page = client.porting.events.list
 puts(page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_notification_methods` (array[string]), `event_type` (enum: porting_order.deleted), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `porting_order_id` (uuid)
 
 ## Show a porting event
 
@@ -105,7 +104,7 @@ event = client.porting.events.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 puts(event)
 ```
 
-Returns: `data` (object)
+Returns: `available_notification_methods` (array[string]), `event_type` (enum: porting_order.deleted), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `porting_order_id` (uuid)
 
 ## Republish a porting event
 
@@ -117,24 +116,6 @@ Republish a specific porting event.
 result = client.porting.events.republish("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
 puts(result)
-```
-
-## Preview the LOA configuration parameters
-
-Preview the LOA template that would be generated without need to create LOA configuration.
-
-`POST /porting/loa_configuration/preview`
-
-```ruby
-response = client.porting.loa_configurations.preview_0(
-  address: {city: "Austin", country_code: "US", state: "TX", street_address: "600 Congress Avenue", zip_code: "78701"},
-  company_name: "Telnyx",
-  contact: {email: "testing@client.com", phone_number: "+12003270001"},
-  logo: {document_id: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
-  name: "My LOA Configuration"
-)
-
-puts(response)
 ```
 
 ## List LOA configurations
@@ -170,6 +151,24 @@ puts(loa_configuration)
 ```
 
 Returns: `address` (object), `company_name` (string), `contact` (object), `created_at` (date-time), `id` (uuid), `logo` (object), `name` (string), `organization_id` (string), `record_type` (string), `updated_at` (date-time)
+
+## Preview the LOA configuration parameters
+
+Preview the LOA template that would be generated without need to create LOA configuration.
+
+`POST /porting/loa_configurations/preview`
+
+```ruby
+response = client.porting.loa_configurations.preview(
+  address: {city: "Austin", country_code: "US", state: "TX", street_address: "600 Congress Avenue", zip_code: "78701"},
+  company_name: "Telnyx",
+  contact: {email: "testing@client.com", phone_number: "+12003270001"},
+  logo: {document_id: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"},
+  name: "My LOA Configuration"
+)
+
+puts(response)
+```
 
 ## Retrieve a LOA configuration
 
@@ -688,7 +687,7 @@ Initiates a specific action requirement for a porting order.
 ```ruby
 response = client.porting_orders.action_requirements.initiate(
   "id",
-  porting_order_id: "porting_order_id",
+  porting_order_id: "550e8400-e29b-41d4-a716-446655440000",
   params: {first_name: "John", last_name: "Doe"}
 )
 

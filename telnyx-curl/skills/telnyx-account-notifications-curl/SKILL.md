@@ -87,12 +87,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "id": "12455643-3cf1-4683-ad23-1cd32f7d5e0a",
-  "notification_profile_id": "12455643-3cf1-4683-ad23-1cd32f7d5e0a",
-  "channel_destination": "+13125550000",
-  "created_at": "2019-10-15T10:07:15.527Z",
-  "updated_at": "2019-10-15T10:07:15.527Z"
-}' \
+      "channel_type_id": "webhook",
+      "channel_destination": "https://example.com/webhooks"
+  }' \
   "https://api.telnyx.com/v2/notification_channels"
 ```
 
@@ -105,7 +102,7 @@ Get a notification channel.
 `GET /notification_channels/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/notification_channels/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/notification_channels/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `channel_destination` (string), `channel_type_id` (enum: sms, voice, email, webhook), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
@@ -123,14 +120,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "id": "12455643-3cf1-4683-ad23-1cd32f7d5e0a",
-  "notification_profile_id": "12455643-3cf1-4683-ad23-1cd32f7d5e0a",
-  "channel_destination": "+13125550000",
-  "created_at": "2019-10-15T10:07:15.527Z",
-  "updated_at": "2019-10-15T10:07:15.527Z"
-}' \
-  "https://api.telnyx.com/v2/notification_channels/{id}"
+  "https://api.telnyx.com/v2/notification_channels/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `channel_destination` (string), `channel_type_id` (enum: sms, voice, email, webhook), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
@@ -145,7 +135,7 @@ Delete a notification channel.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/notification_channels/{id}"
+  "https://api.telnyx.com/v2/notification_channels/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `channel_destination` (string), `channel_type_id` (enum: sms, voice, email, webhook), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
@@ -200,10 +190,8 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "id": "12455643-3cf1-4683-ad23-1cd32f7d5e0a",
-  "created_at": "2019-10-15T10:07:15.527Z",
-  "updated_at": "2019-10-15T10:07:15.527Z"
-}' \
+      "name": "My Notification Profile"
+  }' \
   "https://api.telnyx.com/v2/notification_profiles"
 ```
 
@@ -216,7 +204,7 @@ Get a notification profile.
 `GET /notification_profiles/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/notification_profiles/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/notification_profiles/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)
@@ -234,12 +222,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "id": "12455643-3cf1-4683-ad23-1cd32f7d5e0a",
-  "created_at": "2019-10-15T10:07:15.527Z",
-  "updated_at": "2019-10-15T10:07:15.527Z"
-}' \
-  "https://api.telnyx.com/v2/notification_profiles/{id}"
+  "https://api.telnyx.com/v2/notification_profiles/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)
@@ -254,7 +237,7 @@ Delete a notification profile.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/notification_profiles/{id}"
+  "https://api.telnyx.com/v2/notification_profiles/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)
@@ -284,17 +267,6 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "id": "8eb5b5f9-5893-423c-9f15-b487713d44d4",
-  "notification_event_condition_id": "70c7c5cb-dce2-4124-accb-870d39dbe852",
-  "notification_profile_id": "12455643-3cf1-4683-ad23-1cd32f7d5e0a",
-  "associated_record_type": "phone_number",
-  "associated_record_type_value": "+13125550000",
-  "status": "enable-received",
-  "notification_channel_id": "12455643-3cf1-4683-ad23-1cd32f7d5e0a",
-  "created_at": "2019-10-15T10:07:15.527Z",
-  "updated_at": "2019-10-15T10:07:15.527Z"
-}' \
   "https://api.telnyx.com/v2/notification_settings"
 ```
 
@@ -307,7 +279,7 @@ Get a notification setting.
 `GET /notification_settings/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/notification_settings/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/notification_settings/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `associated_record_type` (string), `associated_record_type_value` (string), `created_at` (date-time), `id` (string), `notification_channel_id` (string), `notification_event_condition_id` (string), `notification_profile_id` (string), `parameters` (array[object]), `status` (enum: enabled, enable-received, enable-pending, enable-submitted, delete-received, delete-pending, delete-submitted, deleted), `updated_at` (date-time)
@@ -322,7 +294,7 @@ Delete a notification setting.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/notification_settings/{id}"
+  "https://api.telnyx.com/v2/notification_settings/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `associated_record_type` (string), `associated_record_type_value` (string), `created_at` (date-time), `id` (string), `notification_channel_id` (string), `notification_event_condition_id` (string), `notification_profile_id` (string), `parameters` (array[object]), `status` (enum: enabled, enable-received, enable-pending, enable-submitted, delete-received, delete-pending, delete-submitted, deleted), `updated_at` (date-time)

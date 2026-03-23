@@ -81,9 +81,9 @@ List notification channels.
 `GET /notification_channels`
 
 ```go
-	page, err := client.NotificationChannels.List(context.TODO(), telnyx.NotificationChannelListParams{})
+	page, err := client.NotificationChannels.List(context.Background(), telnyx.NotificationChannelListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -99,9 +99,12 @@ Create a notification channel.
 Optional: `channel_destination` (string), `channel_type_id` (enum: sms, voice, email, webhook), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
 
 ```go
-	notificationChannel, err := client.NotificationChannels.New(context.TODO(), telnyx.NotificationChannelNewParams{})
+	notificationChannel, err := client.NotificationChannels.New(context.Background(), telnyx.NotificationChannelNewParams{
+		ChannelTypeID: "550e8400-e29b-41d4-a716-446655440000",
+		ChannelDestination: "https://example.com/webhooks",
+	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationChannel.Data)
 ```
@@ -115,9 +118,9 @@ Get a notification channel.
 `GET /notification_channels/{id}`
 
 ```go
-	notificationChannel, err := client.NotificationChannels.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	notificationChannel, err := client.NotificationChannels.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationChannel.Data)
 ```
@@ -134,14 +137,14 @@ Optional: `channel_destination` (string), `channel_type_id` (enum: sms, voice, e
 
 ```go
 	notificationChannel, err := client.NotificationChannels.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.NotificationChannelUpdateParams{
 			NotificationChannel: telnyx.NotificationChannelParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationChannel.Data)
 ```
@@ -155,9 +158,9 @@ Delete a notification channel.
 `DELETE /notification_channels/{id}`
 
 ```go
-	notificationChannel, err := client.NotificationChannels.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	notificationChannel, err := client.NotificationChannels.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationChannel.Data)
 ```
@@ -171,9 +174,9 @@ Returns a list of your notifications events conditions.
 `GET /notification_event_conditions`
 
 ```go
-	page, err := client.NotificationEventConditions.List(context.TODO(), telnyx.NotificationEventConditionListParams{})
+	page, err := client.NotificationEventConditions.List(context.Background(), telnyx.NotificationEventConditionListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -187,9 +190,9 @@ Returns a list of your notifications events.
 `GET /notification_events`
 
 ```go
-	page, err := client.NotificationEvents.List(context.TODO(), telnyx.NotificationEventListParams{})
+	page, err := client.NotificationEvents.List(context.Background(), telnyx.NotificationEventListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -203,9 +206,9 @@ Returns a list of your notifications profiles.
 `GET /notification_profiles`
 
 ```go
-	page, err := client.NotificationProfiles.List(context.TODO(), telnyx.NotificationProfileListParams{})
+	page, err := client.NotificationProfiles.List(context.Background(), telnyx.NotificationProfileListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -221,9 +224,11 @@ Create a notification profile.
 Optional: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)
 
 ```go
-	notificationProfile, err := client.NotificationProfiles.New(context.TODO(), telnyx.NotificationProfileNewParams{})
+	notificationProfile, err := client.NotificationProfiles.New(context.Background(), telnyx.NotificationProfileNewParams{
+		Name: "My Notification Profile",
+	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationProfile.Data)
 ```
@@ -237,9 +242,9 @@ Get a notification profile.
 `GET /notification_profiles/{id}`
 
 ```go
-	notificationProfile, err := client.NotificationProfiles.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	notificationProfile, err := client.NotificationProfiles.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationProfile.Data)
 ```
@@ -256,14 +261,14 @@ Optional: `created_at` (date-time), `id` (string), `name` (string), `updated_at`
 
 ```go
 	notificationProfile, err := client.NotificationProfiles.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.NotificationProfileUpdateParams{
 			NotificationProfile: telnyx.NotificationProfileParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationProfile.Data)
 ```
@@ -277,9 +282,9 @@ Delete a notification profile.
 `DELETE /notification_profiles/{id}`
 
 ```go
-	notificationProfile, err := client.NotificationProfiles.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	notificationProfile, err := client.NotificationProfiles.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationProfile.Data)
 ```
@@ -293,9 +298,9 @@ List notification settings.
 `GET /notification_settings`
 
 ```go
-	page, err := client.NotificationSettings.List(context.TODO(), telnyx.NotificationSettingListParams{})
+	page, err := client.NotificationSettings.List(context.Background(), telnyx.NotificationSettingListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -311,9 +316,9 @@ Add a notification setting.
 Optional: `associated_record_type` (string), `associated_record_type_value` (string), `created_at` (date-time), `id` (string), `notification_channel_id` (string), `notification_event_condition_id` (string), `notification_profile_id` (string), `parameters` (array[object]), `status` (enum: enabled, enable-received, enable-pending, enable-submitted, delete-received, delete-pending, delete-submitted, deleted), `updated_at` (date-time)
 
 ```go
-	notificationSetting, err := client.NotificationSettings.New(context.TODO(), telnyx.NotificationSettingNewParams{})
+	notificationSetting, err := client.NotificationSettings.New(context.Background(), telnyx.NotificationSettingNewParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationSetting.Data)
 ```
@@ -327,9 +332,9 @@ Get a notification setting.
 `GET /notification_settings/{id}`
 
 ```go
-	notificationSetting, err := client.NotificationSettings.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	notificationSetting, err := client.NotificationSettings.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationSetting.Data)
 ```
@@ -343,9 +348,9 @@ Delete a notification setting.
 `DELETE /notification_settings/{id}`
 
 ```go
-	notificationSetting, err := client.NotificationSettings.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	notificationSetting, err := client.NotificationSettings.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", notificationSetting.Data)
 ```
