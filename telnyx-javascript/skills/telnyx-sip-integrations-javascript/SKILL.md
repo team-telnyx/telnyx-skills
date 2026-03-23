@@ -663,9 +663,10 @@ Returns a list of your recording transcriptions.
 `GET /recording_transcriptions`
 
 ```javascript
-const recordingTranscriptions = await client.recordingTranscriptions.list();
-
-console.log(recordingTranscriptions.data);
+// Automatically fetches more pages as needed.
+for await (const recordingTranscription of client.recordingTranscriptions.list()) {
+  console.log(recordingTranscription.id);
+}
 ```
 
 Returns: `created_at` (string), `duration_millis` (int32), `id` (string), `record_type` (enum: recording_transcription), `recording_id` (string), `status` (enum: in-progress, completed), `transcription_text` (string), `updated_at` (string)
@@ -715,7 +716,7 @@ for await (const recordingResponseData of client.recordings.list()) {
 }
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a list of call recordings
 
@@ -724,10 +725,14 @@ Permanently deletes a list of call recordings.
 `POST /recordings/actions/delete`
 
 ```javascript
-await client.recordings.actions.delete({
+const action = await client.recordings.actions.delete({
   ids: ['428c31b6-7af4-4bcb-b7f5-5013ef9657c1', '428c31b6-7af4-4bcb-b7f5-5013ef9657c2'],
 });
+
+console.log(action.status);
 ```
+
+Returns: `status` (enum: ok)
 
 ## Retrieve a call recording
 
@@ -741,7 +746,7 @@ const recording = await client.recordings.retrieve('recording_id');
 console.log(recording.data);
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a call recording
 
@@ -755,7 +760,7 @@ const recording = await client.recordings.delete('recording_id');
 console.log(recording.data);
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Create a SIPREC connector
 

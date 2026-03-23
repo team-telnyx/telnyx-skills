@@ -638,9 +638,9 @@ Returns a list of your recording transcriptions.
 `GET /recording_transcriptions`
 
 ```ruby
-recording_transcriptions = client.recording_transcriptions.list
+page = client.recording_transcriptions.list
 
-puts(recording_transcriptions)
+puts(page)
 ```
 
 Returns: `created_at` (string), `duration_millis` (int32), `id` (string), `record_type` (enum: recording_transcription), `recording_id` (string), `status` (enum: in-progress, completed), `transcription_text` (string), `updated_at` (string)
@@ -685,7 +685,7 @@ page = client.recordings.list
 puts(page)
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a list of call recordings
 
@@ -694,12 +694,14 @@ Permanently deletes a list of call recordings.
 `POST /recordings/actions/delete`
 
 ```ruby
-result = client.recordings.actions.delete(
+action = client.recordings.actions.delete(
   ids: ["428c31b6-7af4-4bcb-b7f5-5013ef9657c1", "428c31b6-7af4-4bcb-b7f5-5013ef9657c2"]
 )
 
-puts(result)
+puts(action)
 ```
+
+Returns: `status` (enum: ok)
 
 ## Retrieve a call recording
 
@@ -713,7 +715,7 @@ recording = client.recordings.retrieve("recording_id")
 puts(recording)
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a call recording
 
@@ -727,7 +729,7 @@ recording = client.recordings.delete("recording_id")
 puts(recording)
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Create a SIPREC connector
 

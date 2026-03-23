@@ -9,11 +9,11 @@
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -192,7 +192,7 @@ import com.telnyx.sdk.models.documentlinks.DocumentLinkListParams;
 DocumentLinkListPage page = client.documentLinks().list();
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `document_id` (uuid), `id` (uuid), `linked_record_type` (string), `linked_resource_id` (string), `record_type` (string), `updated_at` (string)
 
 ## List all documents
 
@@ -207,7 +207,7 @@ import com.telnyx.sdk.models.documents.DocumentListParams;
 DocumentListPage page = client.documents().list();
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Upload a document
 
@@ -224,7 +224,7 @@ import com.telnyx.sdk.models.documents.DocumentUploadJsonResponse;
 DocumentUploadJsonResponse response = client.documents().uploadJson();
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Retrieve a document
 
@@ -239,13 +239,15 @@ import com.telnyx.sdk.models.documents.DocumentRetrieveResponse;
 DocumentRetrieveResponse document = client.documents().retrieve("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Update a document
 
 Update a document.
 
 `PATCH /documents/{id}`
+
+Optional: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ```java
 import com.telnyx.sdk.models.documents.DocServiceDocument;
@@ -259,7 +261,7 @@ DocumentUpdateParams params = DocumentUpdateParams.builder()
 DocumentUpdateResponse document = client.documents().update(params);
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Delete a document
 
@@ -274,7 +276,7 @@ import com.telnyx.sdk.models.documents.DocumentDeleteResponse;
 DocumentDeleteResponse document = client.documents().delete("6a09cdc3-8948-47f0-aa62-74ac943d6c58");
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Download a document
 
@@ -386,7 +388,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 import com.telnyx.sdk.models.requirementgroups.RequirementGroup;
 import com.telnyx.sdk.models.requirementgroups.RequirementGroupRetrieveParams;
 
-RequirementGroup requirementGroup = client.requirementGroups().retrieve("id");
+RequirementGroup requirementGroup = client.requirementGroups().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
@@ -401,7 +403,7 @@ Optional: `customer_reference` (string), `regulatory_requirements` (array[object
 import com.telnyx.sdk.models.requirementgroups.RequirementGroup;
 import com.telnyx.sdk.models.requirementgroups.RequirementGroupUpdateParams;
 
-RequirementGroup requirementGroup = client.requirementGroups().update("id");
+RequirementGroup requirementGroup = client.requirementGroups().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
@@ -414,7 +416,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 import com.telnyx.sdk.models.requirementgroups.RequirementGroup;
 import com.telnyx.sdk.models.requirementgroups.RequirementGroupDeleteParams;
 
-RequirementGroup requirementGroup = client.requirementGroups().delete("id");
+RequirementGroup requirementGroup = client.requirementGroups().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
@@ -427,7 +429,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 import com.telnyx.sdk.models.requirementgroups.RequirementGroup;
 import com.telnyx.sdk.models.requirementgroups.RequirementGroupSubmitForApprovalParams;
 
-RequirementGroup requirementGroup = client.requirementGroups().submitForApproval("id");
+RequirementGroup requirementGroup = client.requirementGroups().submitForApproval("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `action` (string), `country_code` (string), `created_at` (date-time), `customer_reference` (string), `id` (string), `phone_number_type` (string), `record_type` (string), `regulatory_requirements` (array[object]), `status` (enum: approved, unapproved, pending-approval, declined, expired), `updated_at` (date-time)
@@ -559,7 +561,7 @@ Retrieves the details of an existing user address.
 import com.telnyx.sdk.models.useraddresses.UserAddressRetrieveParams;
 import com.telnyx.sdk.models.useraddresses.UserAddressRetrieveResponse;
 
-UserAddressRetrieveResponse userAddress = client.userAddresses().retrieve("id");
+UserAddressRetrieveResponse userAddress = client.userAddresses().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `administrative_area` (string), `borough` (string), `business_name` (string), `country_code` (string), `created_at` (string), `customer_reference` (string), `extended_address` (string), `first_name` (string), `id` (uuid), `last_name` (string), `locality` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `record_type` (string), `street_address` (string), `updated_at` (string)

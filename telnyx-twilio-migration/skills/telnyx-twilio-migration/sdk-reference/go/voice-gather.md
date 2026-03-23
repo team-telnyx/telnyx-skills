@@ -68,12 +68,12 @@ Optional: `client_state` (string), `command_id` (string), `messages` (array[obje
 
 ```go
 	response, err := client.Calls.Actions.AddAIAssistantMessages(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionAddAIAssistantMessagesParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -89,16 +89,16 @@ Start an AI assistant on the call. **Expected Webhooks:**
 
 `POST /calls/{call_control_id}/actions/ai_assistant_start`
 
-Optional: `assistant` (object), `client_state` (string), `command_id` (string), `greeting` (string), `interruption_settings` (object), `transcription` (object), `voice` (string), `voice_settings` (object)
+Optional: `assistant` (object), `client_state` (string), `command_id` (string), `greeting` (string), `interruption_settings` (object), `message_history` (array[object]), `participants` (array[object]), `send_message_history_updates` (boolean), `transcription` (object), `voice` (string), `voice_settings` (object)
 
 ```go
 	response, err := client.Calls.Actions.StartAIAssistant(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStartAIAssistantParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -115,12 +115,12 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```go
 	response, err := client.Calls.Actions.StopAIAssistant(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStopAIAssistantParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -137,12 +137,15 @@ Optional: `client_state` (string), `command_id` (string), `gather_id` (string), 
 
 ```go
 	response, err := client.Calls.Actions.Gather(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
-		telnyx.CallActionGatherParams{},
+		telnyx.CallActionGatherParams{
+		MinimumDigits: 1,
+		MaximumDigits: 4,
+	},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -161,12 +164,12 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```go
 	response, err := client.Calls.Actions.StopGather(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStopGatherParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -183,7 +186,7 @@ Optional: `assistant` (object), `client_state` (string), `command_id` (string), 
 
 ```go
 	response, err := client.Calls.Actions.GatherUsingAI(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionGatherUsingAIParams{
 			Parameters: map[string]any{
@@ -194,7 +197,7 @@ Optional: `assistant` (object), `client_state` (string), `command_id` (string), 
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -211,12 +214,12 @@ Optional: `audio_url` (string), `client_state` (string), `command_id` (string), 
 
 ```go
 	response, err := client.Calls.Actions.GatherUsingAudio(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionGatherUsingAudioParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -233,7 +236,7 @@ Optional: `client_state` (string), `command_id` (string), `inter_digit_timeout_m
 
 ```go
 	response, err := client.Calls.Actions.GatherUsingSpeak(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionGatherUsingSpeakParams{
 			Payload: "say this on call",
@@ -241,7 +244,7 @@ Optional: `client_state` (string), `command_id` (string), `inter_digit_timeout_m
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```

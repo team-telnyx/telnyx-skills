@@ -75,51 +75,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "ApplicationSid": "string",
+  "ApplicationSid": "550e8400-e29b-41d4-a716-446655440000",
   "To": "+16175551212",
-  "From": "+16175551212",
-  "CallerId": "Info",
-  "Url": "https://www.example.com/instructions.xml",
-  "UrlMethod": "GET",
-  "FallbackUrl": "https://www.example.com/instructions-fallback.xml",
-  "StatusCallback": "https://www.example.com/callback",
-  "StatusCallbackMethod": "GET",
-  "StatusCallbackEvent": "initiated",
-  "MachineDetection": "Enable",
-  "DetectionMode": "Premium",
-  "AsyncAmd": true,
-  "AsyncAmdStatusCallback": "https://www.example.com/callback",
-  "AsyncAmdStatusCallbackMethod": "GET",
-  "MachineDetectionTimeout": 5000,
-  "MachineDetectionSpeechThreshold": 2000,
-  "MachineDetectionSpeechEndThreshold": 2000,
-  "MachineDetectionSilenceTimeout": 2000,
-  "CancelPlaybackOnMachineDetection": false,
-  "CancelPlaybackOnDetectMessageEnd": false,
-  "PreferredCodecs": "PCMA,PCMU",
-  "Record": false,
-  "RecordingChannels": "dual",
-  "RecordingStatusCallback": "https://example.com/recording_status_callback",
-  "RecordingStatusCallbackMethod": "GET",
-  "RecordingStatusCallbackEvent": "in-progress completed absent",
-  "RecordingTimeout": 5,
-  "RecordingTrack": "inbound",
-  "SendRecordingUrl": false,
-  "SipAuthPassword": "1234",
-  "SipAuthUsername": "user",
-  "Trim": "trim-silence",
-  "CustomHeaders": [
-    {
-      "name": "X-Custom-Header",
-      "value": "custom-value"
-    }
-  ],
-  "SipRegion": "Canada",
-  "SuperviseCallSid": "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
-  "SupervisingRole": "monitor",
-  "Timeout": 60,
-  "TimeLimit": 3600,
-  "Texml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Say>Hello</Say></Response>"
+  "From": "+16175551212"
 }' \
   "https://api.telnyx.com/v2/texml/Accounts/{account_sid}/Calls"
 ```
@@ -585,20 +543,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "friendly_name": "call-router",
-  "active": false,
-  "anchorsite_override": "Amsterdam, Netherlands",
-  "dtmf_type": "Inband",
-  "first_command_timeout": true,
-  "first_command_timeout_secs": 10,
-  "tags": [
-    "tag1",
-    "tag2"
-  ],
-  "voice_url": "https://example.com",
-  "voice_fallback_url": "https://fallback.example.com",
-  "voice_method": "get",
-  "status_callback": "https://example.com",
-  "status_callback_method": "get"
+  "voice_url": "https://example.com"
 }' \
   "https://api.telnyx.com/v2/texml_applications"
 ```
@@ -632,20 +577,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "friendly_name": "call-router",
-  "active": false,
-  "anchorsite_override": "Amsterdam, Netherlands",
-  "dtmf_type": "Inband",
-  "first_command_timeout": true,
-  "first_command_timeout_secs": 10,
-  "voice_url": "https://example.com",
-  "voice_fallback_url": "https://fallback.example.com",
-  "voice_method": "get",
-  "status_callback": "https://example.com",
-  "status_callback_method": "get",
-  "tags": [
-    "tag1",
-    "tag2"
-  ]
+  "voice_url": "https://example.com"
 }' \
   "https://api.telnyx.com/v2/texml_applications/1293384261075731499"
 ```

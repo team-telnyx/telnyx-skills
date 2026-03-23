@@ -202,7 +202,7 @@ for await (const documentLinkListResponse of client.documentLinks.list()) {
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `document_id` (uuid), `id` (uuid), `linked_record_type` (string), `linked_resource_id` (string), `record_type` (string), `updated_at` (string)
 
 ## List all documents
 
@@ -217,7 +217,7 @@ for await (const docServiceDocument of client.documents.list()) {
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Upload a document
 
@@ -233,7 +233,7 @@ const response = await client.documents.uploadJson({ document: {} });
 console.log(response.data);
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Retrieve a document
 
@@ -247,7 +247,7 @@ const document = await client.documents.retrieve('6a09cdc3-8948-47f0-aa62-74ac94
 console.log(document.data);
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Update a document
 
@@ -255,13 +255,15 @@ Update a document.
 
 `PATCH /documents/{id}`
 
+Optional: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
+
 ```javascript
 const document = await client.documents.update('6a09cdc3-8948-47f0-aa62-74ac943d6c58');
 
 console.log(document.data);
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Delete a document
 
@@ -275,7 +277,7 @@ const document = await client.documents.delete('6a09cdc3-8948-47f0-aa62-74ac943d
 console.log(document.data);
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Download a document
 
@@ -381,7 +383,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 `GET /requirement_groups/{id}`
 
 ```javascript
-const requirementGroup = await client.requirementGroups.retrieve('id');
+const requirementGroup = await client.requirementGroups.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(requirementGroup.id);
 ```
@@ -395,7 +397,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
 
 ```javascript
-const requirementGroup = await client.requirementGroups.update('id');
+const requirementGroup = await client.requirementGroups.update('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(requirementGroup.id);
 ```
@@ -407,7 +409,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 `DELETE /requirement_groups/{id}`
 
 ```javascript
-const requirementGroup = await client.requirementGroups.delete('id');
+const requirementGroup = await client.requirementGroups.delete('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(requirementGroup.id);
 ```
@@ -419,7 +421,7 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 `POST /requirement_groups/{id}/submit_for_approval`
 
 ```javascript
-const requirementGroup = await client.requirementGroups.submitForApproval('id');
+const requirementGroup = await client.requirementGroups.submitForApproval('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(requirementGroup.id);
 ```
@@ -545,7 +547,7 @@ Retrieves the details of an existing user address.
 `GET /user_addresses/{id}`
 
 ```javascript
-const userAddress = await client.userAddresses.retrieve('id');
+const userAddress = await client.userAddresses.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(userAddress.data);
 ```

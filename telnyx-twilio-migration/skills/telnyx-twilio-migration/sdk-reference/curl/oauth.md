@@ -108,7 +108,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "allowed": true,
-  "consent_token": "string"
+  "consent_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example"
 }' \
   "https://api.telnyx.com/v2/oauth/grants"
 ```
@@ -127,7 +127,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "token": "string"
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example"
 }' \
   "https://api.telnyx.com/v2/oauth/introspect"
 ```
@@ -159,13 +159,6 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "redirect_uris": [
-    "https://example.com/callback"
-  ],
-  "client_name": "My OAuth Application",
-  "scope": "admin"
-}' \
   "https://api.telnyx.com/v2/oauth/register"
 ```
 
@@ -185,8 +178,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "grant_type": "client_credentials",
-  "scope": "admin"
+  "grant_type": "client_credentials"
 }' \
   "https://api.telnyx.com/v2/oauth/token"
 ```
@@ -240,7 +232,7 @@ Retrieve a single OAuth client by ID
 `GET /oauth_clients/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/oauth_clients/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/oauth_clients/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `allowed_grant_types` (array[string]), `allowed_scopes` (array[string]), `client_id` (string), `client_secret` (string | null), `client_type` (enum: public, confidential), `created_at` (date-time), `logo_uri` (uri), `name` (string), `org_id` (string), `policy_uri` (uri), `record_type` (enum: oauth_client), `redirect_uris` (array[string]), `require_pkce` (boolean), `tos_uri` (uri), `updated_at` (date-time), `user_id` (string)
@@ -258,12 +250,7 @@ curl \
   -X PUT \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "allowed_scopes": [
-    "admin"
-  ]
-}' \
-  "https://api.telnyx.com/v2/oauth_clients/{id}"
+  "https://api.telnyx.com/v2/oauth_clients/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `allowed_grant_types` (array[string]), `allowed_scopes` (array[string]), `client_id` (string), `client_secret` (string | null), `client_type` (enum: public, confidential), `created_at` (date-time), `logo_uri` (uri), `name` (string), `org_id` (string), `policy_uri` (uri), `record_type` (enum: oauth_client), `redirect_uris` (array[string]), `require_pkce` (boolean), `tos_uri` (uri), `updated_at` (date-time), `user_id` (string)
@@ -278,7 +265,7 @@ Delete an OAuth client
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/oauth_clients/{id}"
+  "https://api.telnyx.com/v2/oauth_clients/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 ## List OAuth grants
@@ -300,7 +287,7 @@ Retrieve a single OAuth grant by ID
 `GET /oauth_grants/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/oauth_grants/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/oauth_grants/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `client_id` (string), `created_at` (date-time), `id` (uuid), `last_used_at` (date-time), `record_type` (enum: oauth_grant), `scopes` (array[string])
@@ -315,7 +302,7 @@ Revoke an OAuth grant
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/oauth_grants/{id}"
+  "https://api.telnyx.com/v2/oauth_grants/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `client_id` (string), `created_at` (date-time), `id` (uuid), `last_used_at` (date-time), `record_type` (enum: oauth_grant), `scopes` (array[string])

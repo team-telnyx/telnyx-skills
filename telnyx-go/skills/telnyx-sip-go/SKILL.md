@@ -80,9 +80,9 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `GET /access_ip_ranges`
 
 ```go
-	page, err := client.AccessIPRanges.List(context.TODO(), telnyx.AccessIPRangeListParams{})
+	page, err := client.AccessIPRanges.List(context.Background(), telnyx.AccessIPRangeListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -96,11 +96,11 @@ Returns: `cidr_block` (string), `created_at` (date-time), `description` (string)
 Optional: `description` (string)
 
 ```go
-	accessIPRange, err := client.AccessIPRanges.New(context.TODO(), telnyx.AccessIPRangeNewParams{
-		CidrBlock: "cidr_block",
+	accessIPRange, err := client.AccessIPRanges.New(context.Background(), telnyx.AccessIPRangeNewParams{
+		CidrBlock: "203.0.113.0/24",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", accessIPRange.ID)
 ```
@@ -112,9 +112,9 @@ Returns: `cidr_block` (string), `created_at` (date-time), `description` (string)
 `DELETE /access_ip_ranges/{access_ip_range_id}`
 
 ```go
-	accessIPRange, err := client.AccessIPRanges.Delete(context.TODO(), "access_ip_range_id")
+	accessIPRange, err := client.AccessIPRanges.Delete(context.Background(), "access_ip_range_id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", accessIPRange.ID)
 ```
@@ -128,9 +128,9 @@ Returns a list of your connections irrespective of type.
 `GET /connections`
 
 ```go
-	page, err := client.Connections.List(context.TODO(), telnyx.ConnectionListParams{})
+	page, err := client.Connections.List(context.Background(), telnyx.ConnectionListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -144,9 +144,9 @@ Retrieves the high-level details of an existing connection. To retrieve specific
 `GET /connections/{id}`
 
 ```go
-	connection, err := client.Connections.Get(context.TODO(), "id")
+	connection, err := client.Connections.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", connection.Data)
 ```
@@ -160,9 +160,9 @@ Returns a list of your credential connections.
 `GET /credential_connections`
 
 ```go
-	page, err := client.CredentialConnections.List(context.TODO(), telnyx.CredentialConnectionListParams{})
+	page, err := client.CredentialConnections.List(context.Background(), telnyx.CredentialConnectionListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -178,13 +178,13 @@ Creates a credential connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `sip_uri_calling_preference` (enum: disabled, unrestricted, internal), `tags` (array[string]), `webhook_api_version` (enum: 1, 2, texml), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```go
-	credentialConnection, err := client.CredentialConnections.New(context.TODO(), telnyx.CredentialConnectionNewParams{
+	credentialConnection, err := client.CredentialConnections.New(context.Background(), telnyx.CredentialConnectionNewParams{
 		ConnectionName: "my name",
 		Password:       "my123secure456password789",
 		UserName:       "myusername123",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", credentialConnection.Data)
 ```
@@ -198,9 +198,9 @@ Retrieves the details of an existing credential connection.
 `GET /credential_connections/{id}`
 
 ```go
-	credentialConnection, err := client.CredentialConnections.Get(context.TODO(), "id")
+	credentialConnection, err := client.CredentialConnections.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", credentialConnection.Data)
 ```
@@ -217,12 +217,12 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 
 ```go
 	credentialConnection, err := client.CredentialConnections.Update(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.CredentialConnectionUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", credentialConnection.Data)
 ```
@@ -236,9 +236,9 @@ Deletes an existing credential connection.
 `DELETE /credential_connections/{id}`
 
 ```go
-	credentialConnection, err := client.CredentialConnections.Delete(context.TODO(), "id")
+	credentialConnection, err := client.CredentialConnections.Delete(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", credentialConnection.Data)
 ```
@@ -252,9 +252,9 @@ Checks the registration_status for a credential connection, (`registration_statu
 `POST /credential_connections/{id}/actions/check_registration_status`
 
 ```go
-	response, err := client.CredentialConnections.Actions.CheckRegistrationStatus(context.TODO(), "id")
+	response, err := client.CredentialConnections.Actions.CheckRegistrationStatus(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -268,9 +268,9 @@ Returns a list of your FQDN connections.
 `GET /fqdn_connections`
 
 ```go
-	page, err := client.FqdnConnections.List(context.TODO(), telnyx.FqdnConnectionListParams{})
+	page, err := client.FqdnConnections.List(context.Background(), telnyx.FqdnConnectionListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -286,11 +286,11 @@ Creates a FQDN connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `microsoft_teams_sbc` (boolean), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```go
-	fqdnConnection, err := client.FqdnConnections.New(context.TODO(), telnyx.FqdnConnectionNewParams{
-		ConnectionName: "string",
+	fqdnConnection, err := client.FqdnConnections.New(context.Background(), telnyx.FqdnConnectionNewParams{
+		ConnectionName: "my-resource",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fqdnConnection.Data)
 ```
@@ -304,9 +304,9 @@ Retrieves the details of an existing FQDN connection.
 `GET /fqdn_connections/{id}`
 
 ```go
-	fqdnConnection, err := client.FqdnConnections.Get(context.TODO(), "1293384261075731499")
+	fqdnConnection, err := client.FqdnConnections.Get(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fqdnConnection.Data)
 ```
@@ -323,12 +323,12 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 
 ```go
 	fqdnConnection, err := client.FqdnConnections.Update(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.FqdnConnectionUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fqdnConnection.Data)
 ```
@@ -342,9 +342,9 @@ Deletes an FQDN connection.
 `DELETE /fqdn_connections/{id}`
 
 ```go
-	fqdnConnection, err := client.FqdnConnections.Delete(context.TODO(), "1293384261075731499")
+	fqdnConnection, err := client.FqdnConnections.Delete(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fqdnConnection.Data)
 ```
@@ -358,9 +358,9 @@ Get all FQDNs belonging to the user that match the given filters.
 `GET /fqdns`
 
 ```go
-	page, err := client.Fqdns.List(context.TODO(), telnyx.FqdnListParams{})
+	page, err := client.Fqdns.List(context.Background(), telnyx.FqdnListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -376,13 +376,13 @@ Create a new FQDN object.
 Optional: `port` (integer | null)
 
 ```go
-	fqdn, err := client.Fqdns.New(context.TODO(), telnyx.FqdnNewParams{
+	fqdn, err := client.Fqdns.New(context.Background(), telnyx.FqdnNewParams{
 		ConnectionID:  "1516447646313612565",
 		DNSRecordType: "a",
 		Fqdn:          "example.com",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fqdn.Data)
 ```
@@ -396,9 +396,9 @@ Return the details regarding a specific FQDN.
 `GET /fqdns/{id}`
 
 ```go
-	fqdn, err := client.Fqdns.Get(context.TODO(), "1517907029795014409")
+	fqdn, err := client.Fqdns.Get(context.Background(), "1517907029795014409")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fqdn.Data)
 ```
@@ -415,12 +415,12 @@ Optional: `connection_id` (string), `dns_record_type` (string), `fqdn` (string),
 
 ```go
 	fqdn, err := client.Fqdns.Update(
-		context.TODO(),
+		context.Background(),
 		"1517907029795014409",
 		telnyx.FqdnUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fqdn.Data)
 ```
@@ -434,9 +434,9 @@ Delete an FQDN.
 `DELETE /fqdns/{id}`
 
 ```go
-	fqdn, err := client.Fqdns.Delete(context.TODO(), "1517907029795014409")
+	fqdn, err := client.Fqdns.Delete(context.Background(), "1517907029795014409")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", fqdn.Data)
 ```
@@ -450,9 +450,9 @@ Returns a list of your IP connections.
 `GET /ip_connections`
 
 ```go
-	page, err := client.IPConnections.List(context.TODO(), telnyx.IPConnectionListParams{})
+	page, err := client.IPConnections.List(context.Background(), telnyx.IPConnectionListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -468,9 +468,11 @@ Creates an IP connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```go
-	ipConnection, err := client.IPConnections.New(context.TODO(), telnyx.IPConnectionNewParams{})
+	ipConnection, err := client.IPConnections.New(context.Background(), telnyx.IPConnectionNewParams{
+		ConnectionName: "my-ip-connection",
+	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", ipConnection.Data)
 ```
@@ -484,9 +486,9 @@ Retrieves the details of an existing ip connection.
 `GET /ip_connections/{id}`
 
 ```go
-	ipConnection, err := client.IPConnections.Get(context.TODO(), "id")
+	ipConnection, err := client.IPConnections.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", ipConnection.Data)
 ```
@@ -503,12 +505,12 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 
 ```go
 	ipConnection, err := client.IPConnections.Update(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.IPConnectionUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", ipConnection.Data)
 ```
@@ -522,9 +524,9 @@ Deletes an existing IP connection.
 `DELETE /ip_connections/{id}`
 
 ```go
-	ipConnection, err := client.IPConnections.Delete(context.TODO(), "id")
+	ipConnection, err := client.IPConnections.Delete(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", ipConnection.Data)
 ```
@@ -538,9 +540,9 @@ Get all IPs belonging to the user that match the given filters.
 `GET /ips`
 
 ```go
-	page, err := client.IPs.List(context.TODO(), telnyx.IPListParams{})
+	page, err := client.IPs.List(context.Background(), telnyx.IPListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -556,11 +558,11 @@ Create a new IP object.
 Optional: `connection_id` (string), `port` (integer)
 
 ```go
-	ip, err := client.IPs.New(context.TODO(), telnyx.IPNewParams{
+	ip, err := client.IPs.New(context.Background(), telnyx.IPNewParams{
 		IPAddress: "192.168.0.0",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", ip.Data)
 ```
@@ -574,9 +576,9 @@ Return the details regarding a specific IP.
 `GET /ips/{id}`
 
 ```go
-	ip, err := client.IPs.Get(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+	ip, err := client.IPs.Get(context.Background(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", ip.Data)
 ```
@@ -593,14 +595,14 @@ Optional: `connection_id` (string), `port` (integer)
 
 ```go
 	ip, err := client.IPs.Update(
-		context.TODO(),
+		context.Background(),
 		"6a09cdc3-8948-47f0-aa62-74ac943d6c58",
 		telnyx.IPUpdateParams{
 			IPAddress: "192.168.0.0",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", ip.Data)
 ```
@@ -614,9 +616,9 @@ Delete an IP.
 `DELETE /ips/{id}`
 
 ```go
-	ip, err := client.IPs.Delete(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+	ip, err := client.IPs.Delete(context.Background(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", ip.Data)
 ```
@@ -630,9 +632,9 @@ Get all outbound voice profiles belonging to the user that match the given filte
 `GET /outbound_voice_profiles`
 
 ```go
-	page, err := client.OutboundVoiceProfiles.List(context.TODO(), telnyx.OutboundVoiceProfileListParams{})
+	page, err := client.OutboundVoiceProfiles.List(context.Background(), telnyx.OutboundVoiceProfileListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -648,11 +650,11 @@ Create an outbound voice profile.
 Optional: `billing_group_id` (uuid), `call_recording` (object), `calling_window` (object), `concurrent_call_limit` (integer | null), `daily_spend_limit` (string), `daily_spend_limit_enabled` (boolean), `enabled` (boolean), `max_destination_rate` (number), `service_plan` (enum: global), `tags` (array[string]), `traffic_type` (enum: conversational), `usage_payment_method` (enum: rate-deck), `whitelisted_destinations` (array[string])
 
 ```go
-	outboundVoiceProfile, err := client.OutboundVoiceProfiles.New(context.TODO(), telnyx.OutboundVoiceProfileNewParams{
+	outboundVoiceProfile, err := client.OutboundVoiceProfiles.New(context.Background(), telnyx.OutboundVoiceProfileNewParams{
 		Name: "office",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", outboundVoiceProfile.Data)
 ```
@@ -666,9 +668,9 @@ Retrieves the details of an existing outbound voice profile.
 `GET /outbound_voice_profiles/{id}`
 
 ```go
-	outboundVoiceProfile, err := client.OutboundVoiceProfiles.Get(context.TODO(), "1293384261075731499")
+	outboundVoiceProfile, err := client.OutboundVoiceProfiles.Get(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", outboundVoiceProfile.Data)
 ```
@@ -683,14 +685,14 @@ Optional: `billing_group_id` (uuid), `call_recording` (object), `calling_window`
 
 ```go
 	outboundVoiceProfile, err := client.OutboundVoiceProfiles.Update(
-		context.TODO(),
+		context.Background(),
 		"1293384261075731499",
 		telnyx.OutboundVoiceProfileUpdateParams{
 			Name: "office",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", outboundVoiceProfile.Data)
 ```
@@ -704,9 +706,9 @@ Deletes an existing outbound voice profile.
 `DELETE /outbound_voice_profiles/{id}`
 
 ```go
-	outboundVoiceProfile, err := client.OutboundVoiceProfiles.Delete(context.TODO(), "1293384261075731499")
+	outboundVoiceProfile, err := client.OutboundVoiceProfiles.Delete(context.Background(), "1293384261075731499")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", outboundVoiceProfile.Data)
 ```

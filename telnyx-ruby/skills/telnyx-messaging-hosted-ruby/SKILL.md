@@ -73,7 +73,7 @@ Optional: `mms_fallback` (object), `sms_fallback` (object), `type` (enum: RCS), 
 response = client.messages.rcs.send_(
   agent_id: "Agent007",
   agent_message: {},
-  messaging_profile_id: "messaging_profile_id",
+  messaging_profile_id: "550e8400-e29b-41d4-a716-446655440000",
   to: "+13125551234"
 )
 
@@ -113,7 +113,7 @@ Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `
 `GET /messaging/rcs/agents/{id}`
 
 ```ruby
-rcs_agent_response = client.messaging.rcs.agents.retrieve("id")
+rcs_agent_response = client.messaging.rcs.agents.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(rcs_agent_response)
 ```
@@ -127,7 +127,7 @@ Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `
 Optional: `profile_id` (uuid), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```ruby
-rcs_agent_response = client.messaging.rcs.agents.update("id")
+rcs_agent_response = client.messaging.rcs.agents.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(rcs_agent_response)
 ```
@@ -151,7 +151,7 @@ Returns: `agent_id` (string), `agent_name` (string), `features` (array[string]),
 `GET /messaging/rcs/capabilities/{agent_id}/{phone_number}`
 
 ```ruby
-response = client.messaging.rcs.retrieve_capabilities("phone_number", agent_id: "agent_id")
+response = client.messaging.rcs.retrieve_capabilities("phone_number", agent_id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -165,7 +165,7 @@ Adds a test phone number to an RCS agent for testing purposes.
 `PUT /messaging/rcs/test_number_invite/{id}/{phone_number}`
 
 ```ruby
-response = client.messaging.rcs.invite_test_number("phone_number", id: "id")
+response = client.messaging.rcs.invite_test_number("phone_number", id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -215,7 +215,7 @@ Returns: `phone_numbers` (array[object])
 `GET /messaging_hosted_number_orders/{id}`
 
 ```ruby
-messaging_hosted_number_order = client.messaging_hosted_number_orders.retrieve("id")
+messaging_hosted_number_order = client.messaging_hosted_number_orders.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(messaging_hosted_number_order)
 ```
@@ -229,7 +229,7 @@ Delete a messaging hosted number order and all associated phone numbers.
 `DELETE /messaging_hosted_number_orders/{id}`
 
 ```ruby
-messaging_hosted_number_order = client.messaging_hosted_number_orders.delete("id")
+messaging_hosted_number_order = client.messaging_hosted_number_orders.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(messaging_hosted_number_order)
 ```
@@ -241,7 +241,7 @@ Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (a
 `POST /messaging_hosted_number_orders/{id}/actions/file_upload`
 
 ```ruby
-response = client.messaging_hosted_number_orders.actions.upload_file("id")
+response = client.messaging_hosted_number_orders.actions.upload_file("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -257,7 +257,7 @@ Validate the verification codes sent to the numbers of the hosted order. The ver
 ```ruby
 response = client.messaging_hosted_number_orders.validate_codes(
   "id",
-  verification_codes: [{code: "code", phone_number: "phone_number"}]
+  verification_codes: [{code: "code", phone_number: "+13125550001"}]
 )
 
 puts(response)
@@ -288,7 +288,7 @@ Returns: `error` (string), `phone_number` (string), `type` (enum: sms, call), `v
 `DELETE /messaging_hosted_numbers/{id}`
 
 ```ruby
-messaging_hosted_number = client.messaging_hosted_numbers.delete("id")
+messaging_hosted_number = client.messaging_hosted_numbers.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(messaging_hosted_number)
 ```

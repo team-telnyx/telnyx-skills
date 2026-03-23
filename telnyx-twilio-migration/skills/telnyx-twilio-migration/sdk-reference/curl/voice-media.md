@@ -54,7 +54,7 @@ the audio files will be placed in a queue awaiting playback. *Notes:*
 
 `POST /calls/{call_control_id}/actions/playback_start`
 
-Optional: `audio_type` (enum: mp3, wav), `audio_url` (string), `cache_audio` (boolean), `client_state` (string), `command_id` (string), `loop` (object), `media_name` (string), `overlay` (boolean), `playback_content` (string), `stop` (string), `target_legs` (string)
+Optional: `audio_type` (enum: mp3, wav), `audio_url` (string), `cache_audio` (boolean), `client_state` (string), `command_id` (string), `loop` (string), `media_name` (string), `overlay` (boolean), `playback_content` (string), `stop` (string), `target_legs` (string)
 
 ```bash
 curl \
@@ -62,18 +62,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "audio_url": "http://example.com/message.wav",
-  "media_name": "my_media_uploaded_to_media_storage_api",
-  "overlay": true,
-  "stop": "current",
-  "target_legs": "self",
-  "cache_audio": true,
-  "audio_type": "wav",
-  "playback_content": "SUQzAwAAAAADf1...",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/playback_start"
+      "audio_url": "https://example.com/audio.mp3"
+  }' \
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/playback_start"
 ```
 
 Returns: `result` (string)
@@ -93,13 +84,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "overlay": true,
-  "stop": "current",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/playback_stop"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/playback_stop"
 ```
 
 Returns: `result` (string)
@@ -119,12 +104,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "recording_id": "6e00ab49-9487-4364-8ad6-23965965afb2"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/record_pause"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/record_pause"
 ```
 
 Returns: `result` (string)
@@ -144,12 +124,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "recording_id": "6e00ab49-9487-4364-8ad6-23965965afb2"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/record_resume"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/record_resume"
 ```
 
 Returns: `result` (string)
@@ -173,24 +148,9 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "format": "mp3",
-  "channels": "single",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "play_beep": true,
-  "max_length": 100,
-  "timeout_secs": 100,
-  "recording_track": "outbound",
-  "trim": "trim-silence",
-  "custom_file_name": "my_recording_file_name",
-  "transcription": true,
-  "transcription_engine": "A",
-  "transcription_language": "en-US",
-  "transcription_profanity_filter": true,
-  "transcription_speaker_diarization": true,
-  "transcription_min_speaker_count": 4,
-  "transcription_max_speaker_count": 4
+  "channels": "single"
 }' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/record_start"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/record_start"
 ```
 
 Returns: `result` (string)
@@ -210,12 +170,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "recording_id": "6e00ab49-9487-4364-8ad6-23965965afb2"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/record_stop"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/record_stop"
 ```
 
 Returns: `result` (string)
@@ -229,7 +184,7 @@ Convert text to speech and play it back on the call. If multiple speak text comm
 
 `POST /calls/{call_control_id}/actions/speak` — Required: `payload`, `voice`
 
-Optional: `client_state` (string), `command_id` (string), `language` (enum: arb, cmn-CN, cy-GB, da-DK, de-DE, en-AU, en-GB, en-GB-WLS, en-IN, en-US, es-ES, es-MX, es-US, fr-CA, fr-FR, hi-IN, is-IS, it-IT, ja-JP, ko-KR, nb-NO, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sv-SE, tr-TR), `loop` (object), `payload_type` (enum: text, ssml), `service_level` (enum: basic, premium), `stop` (string), `target_legs` (enum: self, opposite, both), `voice_settings` (object)
+Optional: `client_state` (string), `command_id` (string), `language` (enum: arb, cmn-CN, cy-GB, da-DK, de-DE, en-AU, en-GB, en-GB-WLS, en-IN, en-US, es-ES, es-MX, es-US, fr-CA, fr-FR, hi-IN, is-IS, it-IT, ja-JP, ko-KR, nb-NO, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sv-SE, tr-TR), `loop` (string), `payload_type` (enum: text, ssml), `service_level` (enum: basic, premium), `stop` (string), `target_legs` (enum: self, opposite, both), `voice_settings` (object)
 
 ```bash
 curl \
@@ -237,17 +192,11 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "payload": "Say this on the call",
-  "payload_type": "ssml",
-  "service_level": "premium",
-  "stop": "current",
-  "voice": "Telnyx.KokoroTTS.af",
-  "language": "en-US",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "target_legs": "both"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/speak"
+      "payload": "Say this on the call",
+      "voice": "Telnyx.KokoroTTS.af",
+      "language": "en-US"
+  }' \
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/speak"
 ```
 
 Returns: `result` (string)

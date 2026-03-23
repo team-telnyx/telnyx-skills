@@ -47,6 +47,28 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `404` resource not found, `422` validation error (check field formats),
 `429` rate limited (retry with exponential backoff).
 
+## Join AI Assistant Conversation
+
+Add a participant to an existing AI assistant conversation. Use this command to bring an additional call leg into a running AI conversation.
+
+`POST /calls/{call_control_id}/actions/ai_assistant_join` — Required: `conversation_id`, `participant`
+
+Optional: `client_state` (string), `command_id` (string)
+
+```python
+response = client.calls.actions.join_ai_assistant(
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
+    conversation_id="v3:abc123",
+    participant={
+        "id": "v3:abc123def456",
+        "role": "user",
+    },
+)
+print(response.data)
+```
+
+Returns: `conversation_id` (uuid), `result` (string)
+
 ## Update client state
 
 Updates client state
@@ -55,7 +77,7 @@ Updates client state
 
 ```python
 response = client.calls.actions.update_client_state(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
     client_state="aGF2ZSBhIG5pY2UgZGF5ID1d",
 )
 print(response.data)
@@ -75,7 +97,7 @@ Optional: `client_state` (string), `command_id` (string), `duration_millis` (int
 
 ```python
 response = client.calls.actions.send_dtmf(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
     digits="1www2WABCDw9",
 )
 print(response.data)
@@ -85,7 +107,9 @@ Returns: `result` (string)
 
 ## SIPREC start
 
-Start siprec session to configured in SIPREC connector SRS. **Expected Webhooks:**
+Start siprec session to configured in SIPREC connector SRS. 
+
+**Expected Webhooks:**
 
 - `siprec.started`
 - `siprec.stopped`
@@ -97,7 +121,7 @@ Optional: `client_state` (string), `connector_name` (string), `include_metadata_
 
 ```python
 response = client.calls.actions.start_siprec(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -116,7 +140,7 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```python
 response = client.calls.actions.stop_siprec(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -127,11 +151,11 @@ Returns: `result` (string)
 
 `POST /calls/{call_control_id}/actions/suppression_start`
 
-Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp), `noise_suppression_engine_config` (object)
+Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp, AiCoustics), `noise_suppression_engine_config` (object)
 
 ```python
 response = client.calls.actions.start_noise_suppression(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -146,7 +170,7 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```python
 response = client.calls.actions.stop_noise_suppression(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -161,7 +185,7 @@ Switch the supervisor role for a bridged call. This allows switching between dif
 
 ```python
 response = client.calls.actions.switch_supervisor_role(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
     role="barge",
 )
 print(response.data)

@@ -59,14 +59,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "rx": "udp:192.0.2.1:9000",
-  "stream_type": "decrypted",
-  "tx": "udp:192.0.2.1:9001",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/fork_start"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/fork_start"
 ```
 
 Returns: `result` (string)
@@ -86,12 +79,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "stream_type": "decrypted"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/fork_stop"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/fork_stop"
 ```
 
 Returns: `result` (string)
@@ -110,29 +98,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "stream_url": "wss://www.example.com/websocket",
-  "stream_track": "both_tracks",
-  "stream_codec": "PCMA",
-  "stream_bidirectional_mode": "rtp",
-  "stream_bidirectional_codec": "G722",
-  "stream_bidirectional_target_legs": "both",
-  "stream_bidirectional_sampling_rate": 16000,
-  "enable_dialogflow": true,
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "custom_parameters": [
-    {
-      "name": "param1",
-      "value": "value1"
-    },
-    {
-      "name": "param2",
-      "value": "value2"
-    }
-  ],
-  "stream_auth_token": "your-auth-token"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/streaming_start"
+      "stream_url": "wss://example.com/audio-stream"
+  }' \
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/streaming_start"
 ```
 
 Returns: `result` (string)
@@ -152,12 +120,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "stream_id": "1edb94f9-7ef0-4150-b502-e0ebadfd9491"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/streaming_stop"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/streaming_stop"
 ```
 
 Returns: `result` (string)
@@ -177,13 +140,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "transcription_engine": "Google",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "transcription_tracks": "both",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/transcription_start"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/transcription_start"
 ```
 
 Returns: `result` (string)
@@ -201,11 +158,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/transcription_stop"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/transcription_stop"
 ```
 
 Returns: `result` (string)

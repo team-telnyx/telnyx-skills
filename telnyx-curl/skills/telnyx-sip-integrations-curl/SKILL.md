@@ -201,15 +201,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "active": false,
   "external_sip_connection": "zoom",
-  "tags": [
-    "tag1",
-    "tag2"
-  ],
-  "webhook_event_url": "https://example.com",
-  "webhook_event_failover_url": "https://failover.example.com",
-  "webhook_timeout_secs": 25,
   "outbound": {}
 }' \
   "https://api.telnyx.com/v2/external_connections"
@@ -282,14 +274,6 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "active": false,
-  "webhook_event_url": "https://example.com",
-  "webhook_event_failover_url": "https://failover.example.com",
-  "tags": [
-    "tag1",
-    "tag2"
-  ],
-  "webhook_timeout_secs": 25,
   "outbound": {}
 }' \
   "https://api.telnyx.com/v2/external_connections/1293384261075731499"
@@ -348,7 +332,7 @@ curl \
   -d '{
   "static_emergency_address_id": "550e8400-e29b-41d4-a716-446655440000"
 }' \
-  "https://api.telnyx.com/v2/external_connections/{id}/locations/{location_id}"
+  "https://api.telnyx.com/v2/external_connections/550e8400-e29b-41d4-a716-446655440000/locations/{location_id}"
 ```
 
 Returns: `accepted_address_suggestions` (boolean), `location_id` (uuid), `static_emergency_address_id` (uuid)
@@ -446,7 +430,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "number_ids": [
-    "string"
+    "550e8400-e29b-41d4-a716-446655440000"
   ]
 }' \
   "https://api.telnyx.com/v2/external_connections/1293384261075731499/uploads"
@@ -661,7 +645,7 @@ Returns a list of your call recordings.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/recordings"
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a list of call recordings
 
@@ -677,6 +661,8 @@ curl \
   "https://api.telnyx.com/v2/recordings/actions/delete"
 ```
 
+Returns: `status` (enum: ok)
+
 ## Retrieve a call recording
 
 Retrieves the details of an existing call recording.
@@ -687,7 +673,7 @@ Retrieves the details of an existing call recording.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/recordings/{recording_id}"
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a call recording
 
@@ -702,7 +688,7 @@ curl \
   "https://api.telnyx.com/v2/recordings/{recording_id}"
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Create a SIPREC connector
 

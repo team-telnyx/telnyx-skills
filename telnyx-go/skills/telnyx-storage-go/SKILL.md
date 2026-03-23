@@ -77,9 +77,9 @@ Returns the stored certificate detail of a bucket, if applicable.
 `GET /storage/buckets/{bucketName}/ssl_certificate`
 
 ```go
-	sslCertificate, err := client.Storage.Buckets.SslCertificate.Get(context.TODO(), "")
+	sslCertificate, err := client.Storage.Buckets.SslCertificate.Get(context.Background(), "")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", sslCertificate.Data)
 ```
@@ -94,12 +94,12 @@ Uploads an SSL certificate and its matching secret so that you can use Telnyx's 
 
 ```go
 	sslCertificate, err := client.Storage.Buckets.SslCertificate.New(
-		context.TODO(),
+		context.Background(),
 		"",
 		telnyx.StorageBucketSslCertificateNewParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", sslCertificate.Data)
 ```
@@ -113,9 +113,9 @@ Deletes an SSL certificate and its matching secret.
 `DELETE /storage/buckets/{bucketName}/ssl_certificate`
 
 ```go
-	sslCertificate, err := client.Storage.Buckets.SslCertificate.Delete(context.TODO(), "")
+	sslCertificate, err := client.Storage.Buckets.SslCertificate.Delete(context.Background(), "")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", sslCertificate.Data)
 ```
@@ -130,7 +130,7 @@ Returns the detail on API usage on a bucket of a particular time period, group b
 
 ```go
 	response, err := client.Storage.Buckets.Usage.GetAPIUsage(
-		context.TODO(),
+		context.Background(),
 		"",
 		telnyx.StorageBucketUsageGetAPIUsageParams{
 			Filter: telnyx.StorageBucketUsageGetAPIUsageParamsFilter{
@@ -140,7 +140,7 @@ Returns the detail on API usage on a bucket of a particular time period, group b
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -154,9 +154,9 @@ Returns the amount of storage space and number of files a bucket takes up.
 `GET /storage/buckets/{bucketName}/usage/storage`
 
 ```go
-	response, err := client.Storage.Buckets.Usage.GetBucketUsage(context.TODO(), "")
+	response, err := client.Storage.Buckets.Usage.GetBucketUsage(context.Background(), "")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -165,7 +165,9 @@ Returns: `num_objects` (integer), `size` (integer), `size_kb` (integer), `timest
 
 ## Create Presigned Object URL
 
-Returns a timed and authenticated URL to download (GET) or upload (PUT) an object. This is the equivalent to AWS S3’s “presigned” URL. Please note that Telnyx performs authentication differently from AWS S3 and you MUST NOT use the presign method of AWS s3api CLI or SDK to generate the presigned URL.
+Returns a timed and authenticated URL to download (GET) or upload (PUT) an object. This is the equivalent to AWS S3’s “presigned” URL. Please note that Telnyx performs authentication differently from AWS S3 and you MUST NOT use the presign method of AWS s3api CLI or SDK to generate the presigned URL. 
+
+Refer to: https://developers.telnyx.com/docs/cloud-storage/presigned-urls
 
 `POST /storage/buckets/{bucketName}/{objectName}/presigned_url`
 
@@ -173,14 +175,14 @@ Optional: `ttl` (integer)
 
 ```go
 	response, err := client.Storage.Buckets.NewPresignedURL(
-		context.TODO(),
+		context.Background(),
 		"",
 		telnyx.StorageBucketNewPresignedURLParams{
 			BucketName: "",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Content)
 ```

@@ -616,7 +616,7 @@ Get Telnyx usage data by product, broken out by the specified dimensions
 page = client.usage_reports.list(
     dimensions=["string"],
     metrics=["string"],
-    product="product",
+    product="wireless",
 )
 page = page.data[0]
 print(page)
@@ -636,3 +636,61 @@ print(response.data)
 ```
 
 Returns: `product` (string), `product_dimensions` (array[string]), `product_metrics` (array[string]), `record_types` (array[object])
+
+## Get all Wireless Detail Records (WDRs) Reports
+
+Returns the WDR Reports that match the given parameters.
+
+`GET /wireless/detail_records_reports`
+
+```python
+detail_records_reports = client.wireless.detail_records_reports.list()
+print(detail_records_reports.data)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Create a Wireless Detail Records (WDRs) Report
+
+Asynchronously create a report containing Wireless Detail Records (WDRs) for the SIM cards that consumed wireless data in the given time period.
+
+`POST /wireless/detail_records_reports`
+
+Optional: `end_time` (string), `start_time` (string)
+
+```python
+detail_records_report = client.wireless.detail_records_reports.create()
+print(detail_records_report.data)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Get a Wireless Detail Record (WDR) Report
+
+Returns one specific WDR report
+
+`GET /wireless/detail_records_reports/{id}`
+
+```python
+detail_records_report = client.wireless.detail_records_reports.retrieve(
+    "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
+)
+print(detail_records_report.data)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)
+
+## Delete a Wireless Detail Record (WDR) Report
+
+Deletes one specific WDR report.
+
+`DELETE /wireless/detail_records_reports/{id}`
+
+```python
+detail_records_report = client.wireless.detail_records_reports.delete(
+    "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
+)
+print(detail_records_report.data)
+```
+
+Returns: `created_at` (string), `end_time` (string), `id` (uuid), `record_type` (string), `report_url` (string), `start_time` (string), `status` (enum: pending, complete, failed, deleted), `updated_at` (string)

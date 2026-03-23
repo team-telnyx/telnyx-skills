@@ -21,11 +21,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -108,7 +108,7 @@ OAuth 2.0 authorization endpoint for the authorization code flow
 import com.telnyx.sdk.models.oauth.OAuthRetrieveAuthorizeParams;
 
 OAuthRetrieveAuthorizeParams params = OAuthRetrieveAuthorizeParams.builder()
-    .clientId("client_id")
+    .clientId("550e8400-e29b-41d4-a716-446655440000")
     .redirectUri("https://example.com")
     .responseType(OAuthRetrieveAuthorizeParams.ResponseType.CODE)
     .build();
@@ -142,7 +142,7 @@ import com.telnyx.sdk.models.oauth.OAuthGrantsResponse;
 
 OAuthGrantsParams params = OAuthGrantsParams.builder()
     .allowed(true)
-    .consentToken("consent_token")
+    .consentToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example")
     .build();
 OAuthGrantsResponse response = client.oauth().grants(params);
 ```
@@ -160,7 +160,7 @@ import com.telnyx.sdk.models.oauth.OAuthIntrospectParams;
 import com.telnyx.sdk.models.oauth.OAuthIntrospectResponse;
 
 OAuthIntrospectParams params = OAuthIntrospectParams.builder()
-    .token("token")
+    .token("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example")
     .build();
 OAuthIntrospectResponse response = client.oauth().introspect(params);
 ```

@@ -76,16 +76,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "sim_card_group_id": "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  "tags": [
-    "personal",
-    "customers",
-    "active-customers"
-  ],
-  "product": "whitelabel",
-  "whitelabel_name": "Custom SPN",
-  "amount": 10,
-  "status": "standby"
+  "amount": 10
 }' \
   "https://api.telnyx.com/v2/actions/purchase/esims"
 ```
@@ -107,18 +98,11 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "sim_card_group_id": "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  "tags": [
-    "personal",
-    "customers",
-    "active-customers"
-  ],
   "registration_codes": [
     "0000000001",
     "0000000002",
     "0000000003"
-  ],
-  "status": "standby"
+  ]
 }' \
   "https://api.telnyx.com/v2/actions/register/sim_cards"
 ```
@@ -252,13 +236,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "id": "79228acc-3f08-4e70-ac68-cb5aae8b537a",
-  "sim_card_id": "b34c1683-cd85-4493-b9a5-315eb4bc5e19",
-  "record_type": "sim_card_data_usage_notification",
-  "created_at": "2018-02-02T22:25:27.521Z",
-  "updated_at": "2018-02-02T22:25:27.521Z"
-}' \
   "https://api.telnyx.com/v2/sim_card_data_usage_notifications/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
@@ -361,9 +338,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "name": "My Test Group"
-}' \
   "https://api.telnyx.com/v2/sim_card_groups/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
@@ -498,9 +472,10 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "address_id": "1293384261075731499",
-  "quantity": 23
-}' \
+      "address_id": "1293384261075731499",
+      "quantity": 23,
+      "sim_card_group_id": "550e8400-e29b-41d4-a716-446655440000"
+  }' \
   "https://api.telnyx.com/v2/sim_card_orders"
 ```
 
@@ -533,7 +508,7 @@ Returns: `actions_in_progress` (boolean), `authorized_imeis` (array | null), `cr
 ## Request bulk disabling voice on SIM cards.
 
 This API triggers an asynchronous operation to disable voice on SIM cards belonging to a specified SIM Card Group. 
-For each SIM Card a SIM Card Action will be generated. The status of the SIM Card Actions can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+For each SIM Card a SIM Card Action will be generated.
 
 `POST /sim_cards/actions/bulk_disable_voice` — Required: `sim_card_group_id`
 
@@ -553,7 +528,7 @@ Returns: `action_type` (enum: bulk_disable_voice, bulk_enable_voice, bulk_set_pu
 ## Request bulk enabling voice on SIM cards.
 
 This API triggers an asynchronous operation to enable voice on SIM cards belonging to a specified SIM Card Group. 
-For each SIM Card a SIM Card Action will be generated. The status of the SIM Card Actions can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+For each SIM Card a SIM Card Action will be generated.
 
 `POST /sim_cards/actions/bulk_enable_voice` — Required: `sim_card_group_id`
 
@@ -635,39 +610,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "id": "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  "record_type": "sim_card",
-  "type": "physical",
-  "iccid": "89310410106543789301",
-  "imsi": "081932214823362973",
-  "msisdn": "+13109976224",
-  "sim_card_group_id": "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  "tags": [
-    "personal",
-    "customers",
-    "active-customers"
-  ],
-  "authorized_imeis": [
-    "106516771852751",
-    "534051870479563",
-    "508821468377961"
-  ],
-  "current_imei": "457032284023794",
-  "actions_in_progress": true,
-  "created_at": "2018-02-02T22:25:27.521Z",
-  "updated_at": "2018-02-02T22:25:27.521Z",
-  "ipv4": "192.168.0.0",
-  "ipv6": "2001:cdba:0000:0000:0000:0000:3257:9652",
-  "current_mnc": "260",
-  "current_mcc": "410",
-  "live_data_session": "connected",
-  "esim_installation_status": "released",
-  "version": "4.3",
-  "resources_with_in_progress_actions": [],
-  "eid": null,
-  "voice_enabled": false
-}' \
   "https://api.telnyx.com/v2/sim_cards/6a09cdc3-8948-47f0-aa62-74ac943d6c58"
 ```
 
@@ -744,7 +686,7 @@ Returns: `action_type` (enum: enable, enable_standby_sim_card, disable, set_stan
 ## Request setting a SIM card public IP
 
 This API makes a SIM card reachable on the public internet by mapping a random public IP to the SIM card.   
- The API will trigger an asynchronous operation called a SIM Card Action. The status of the SIM Card Action can be followed through the [List SIM Card Action](https://developers.telnyx.com/api-reference/sim-card-actions/list-sim-card-actions) API.
+ The API will trigger an asynchronous operation called a SIM Card Action.
 
 `POST /sim_cards/{id}/actions/set_public_ip`
 
@@ -861,7 +803,7 @@ curl \
   -d '{
   "provider": "aws",
   "provider_auth": {},
-  "bucket_name": "string"
+  "bucket_name": "my-bucket"
 }' \
   "https://api.telnyx.com/v2/storage/migration_sources"
 ```
@@ -873,7 +815,7 @@ Returns: `bucket_name` (string), `id` (string), `provider` (enum: aws, telnyx), 
 `GET /storage/migration_sources/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/storage/migration_sources/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/storage/migration_sources/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `bucket_name` (string), `id` (string), `provider` (enum: aws, telnyx), `provider_auth` (object), `source_region` (string)
@@ -886,7 +828,7 @@ Returns: `bucket_name` (string), `id` (string), `provider` (enum: aws, telnyx), 
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/storage/migration_sources/{id}"
+  "https://api.telnyx.com/v2/storage/migration_sources/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `bucket_name` (string), `id` (string), `provider` (enum: aws, telnyx), `provider_auth` (object), `source_region` (string)
@@ -915,12 +857,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "source_id": "string",
-  "target_bucket_name": "string",
-  "target_region": "string",
-  "last_copy": "2020-01-01T00:00:00Z",
-  "eta": "2020-01-01T00:00:00Z",
-  "created_at": "2020-01-01T00:00:00Z"
+  "source_id": "550e8400-e29b-41d4-a716-446655440000",
+  "target_bucket_name": "my-target-bucket",
+  "target_region": "us-central-1"
 }' \
   "https://api.telnyx.com/v2/storage/migrations"
 ```
@@ -932,7 +871,7 @@ Returns: `bytes_migrated` (integer), `bytes_to_migrate` (integer), `created_at` 
 `GET /storage/migrations/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/storage/migrations/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/storage/migrations/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `bytes_migrated` (integer), `bytes_to_migrate` (integer), `created_at` (date-time), `eta` (date-time), `id` (string), `last_copy` (date-time), `refresh` (boolean), `source_id` (string), `speed` (integer), `status` (enum: pending, checking, migrating, complete, error, stopped), `target_bucket_name` (string), `target_region` (string)
@@ -946,7 +885,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/storage/migrations/{id}/actions/stop"
+  "https://api.telnyx.com/v2/storage/migrations/550e8400-e29b-41d4-a716-446655440000/actions/stop"
 ```
 
 Returns: `bytes_migrated` (integer), `bytes_to_migrate` (integer), `created_at` (date-time), `eta` (date-time), `id` (string), `last_copy` (date-time), `refresh` (boolean), `source_id` (string), `speed` (integer), `status` (enum: pending, checking, migrating, complete, error, stopped), `target_bucket_name` (string), `target_region` (string)
@@ -982,7 +921,7 @@ Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time
 `GET /v2/mobile_voice_connections/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/v2/mobile_voice_connections/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/v2/mobile_voice_connections/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time), `id` (string), `inbound` (object), `outbound` (object), `record_type` (enum: mobile_voice_connection), `tags` (array[string]), `updated_at` (date-time), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (string | null), `webhook_event_url` (string | null), `webhook_timeout_secs` (integer | null)
@@ -998,7 +937,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/v2/mobile_voice_connections/{id}"
+  "https://api.telnyx.com/v2/v2/mobile_voice_connections/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time), `id` (string), `inbound` (object), `outbound` (object), `record_type` (enum: mobile_voice_connection), `tags` (array[string]), `updated_at` (date-time), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (string | null), `webhook_event_url` (string | null), `webhook_timeout_secs` (integer | null)
@@ -1011,7 +950,7 @@ Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/v2/mobile_voice_connections/{id}"
+  "https://api.telnyx.com/v2/v2/mobile_voice_connections/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `active` (boolean), `connection_name` (string), `created_at` (date-time), `id` (string), `inbound` (object), `outbound` (object), `record_type` (enum: mobile_voice_connection), `tags` (array[string]), `updated_at` (date-time), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (string | null), `webhook_event_url` (string | null), `webhook_timeout_secs` (integer | null)
@@ -1089,14 +1028,6 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "name": "My Wireless Blocklist",
-  "type": "country",
-  "values": [
-    "CA",
-    "US"
-  ]
-}' \
   "https://api.telnyx.com/v2/wireless_blocklists"
 ```
 

@@ -58,7 +58,7 @@ variety of use cases, including fraud detection, or the creation of AI-generated
 Optional: `client_state` (string), `command_id` (string), `rx` (string), `stream_type` (enum: decrypted), `tx` (string)
 
 ```javascript
-const response = await client.calls.actions.startForking('call_control_id');
+const response = await client.calls.actions.startForking('v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ');
 
 console.log(response.data);
 ```
@@ -76,7 +76,7 @@ Stop forking a call. **Expected Webhooks:**
 Optional: `client_state` (string), `command_id` (string), `stream_type` (enum: raw, decrypted)
 
 ```javascript
-const response = await client.calls.actions.stopForking('call_control_id');
+const response = await client.calls.actions.stopForking('v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ');
 
 console.log(response.data);
 ```
@@ -92,7 +92,7 @@ Start streaming the media from a call to a specific WebSocket address or Dialogf
 Optional: `client_state` (string), `command_id` (string), `custom_parameters` (array[object]), `dialogflow_config` (object), `enable_dialogflow` (boolean), `stream_auth_token` (string), `stream_bidirectional_codec` (enum: PCMU, PCMA, G722, OPUS, AMR-WB, L16), `stream_bidirectional_mode` (enum: mp3, rtp), `stream_bidirectional_sampling_rate` (enum: 8000, 16000, 22050, 24000, 48000), `stream_bidirectional_target_legs` (enum: both, self, opposite), `stream_codec` (enum: PCMU, PCMA, G722, OPUS, AMR-WB, L16, default), `stream_track` (enum: inbound_track, outbound_track, both_tracks), `stream_url` (string)
 
 ```javascript
-const response = await client.calls.actions.startStreaming('call_control_id');
+const response = await client.calls.actions.startStreaming('v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ');
 
 console.log(response.data);
 ```
@@ -110,7 +110,7 @@ Stop streaming a call to a WebSocket. **Expected Webhooks:**
 Optional: `client_state` (string), `command_id` (string), `stream_id` (uuid)
 
 ```javascript
-const response = await client.calls.actions.stopStreaming('call_control_id');
+const response = await client.calls.actions.stopStreaming('v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ');
 
 console.log(response.data);
 ```
@@ -128,7 +128,7 @@ Start real-time transcription. Transcription will stop on call hang-up, or can b
 Optional: `client_state` (string), `command_id` (string), `transcription_engine` (enum: Google, Telnyx, Deepgram, Azure, A, B), `transcription_engine_config` (object), `transcription_tracks` (string)
 
 ```javascript
-const response = await client.calls.actions.startTranscription('call_control_id');
+const response = await client.calls.actions.startTranscription('v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ');
 
 console.log(response.data);
 ```
@@ -144,7 +144,7 @@ Stop real-time transcription.
 Optional: `client_state` (string), `command_id` (string)
 
 ```javascript
-const response = await client.calls.actions.stopTranscription('call_control_id');
+const response = await client.calls.actions.stopTranscription('v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ');
 
 console.log(response.data);
 ```

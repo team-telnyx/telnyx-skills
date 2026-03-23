@@ -80,9 +80,9 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `GET /mobile_push_credentials`
 
 ```go
-	page, err := client.MobilePushCredentials.List(context.TODO(), telnyx.MobilePushCredentialListParams{})
+	page, err := client.MobilePushCredentials.List(context.Background(), telnyx.MobilePushCredentialListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -91,10 +91,10 @@ Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id
 
 ## Creates a new mobile push credential
 
-`POST /mobile_push_credentials`
+`POST /mobile_push_credentials` — Required: `type`, `certificate`, `private_key`, `alias`
 
 ```go
-	pushCredentialResponse, err := client.MobilePushCredentials.New(context.TODO(), telnyx.MobilePushCredentialNewParams{
+	pushCredentialResponse, err := client.MobilePushCredentials.New(context.Background(), telnyx.MobilePushCredentialNewParams{
 		OfIos: &telnyx.MobilePushCredentialNewParamsCreateMobilePushCredentialRequestIos{
 			Alias:       "LucyIosCredential",
 			Certificate: "-----BEGIN CERTIFICATE----- MIIGVDCCBTKCAQEAsNlRJVZn9ZvXcECQm65czs... -----END CERTIFICATE-----",
@@ -102,7 +102,7 @@ Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id
 		},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", pushCredentialResponse.Data)
 ```
@@ -116,9 +116,9 @@ Retrieves mobile push credential based on the given `push_credential_id`
 `GET /mobile_push_credentials/{push_credential_id}`
 
 ```go
-	pushCredentialResponse, err := client.MobilePushCredentials.Get(context.TODO(), "0ccc7b76-4df3-4bca-a05a-3da1ecc389f0")
+	pushCredentialResponse, err := client.MobilePushCredentials.Get(context.Background(), "0ccc7b76-4df3-4bca-a05a-3da1ecc389f0")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", pushCredentialResponse.Data)
 ```
@@ -132,9 +132,9 @@ Deletes a mobile push credential based on the given `push_credential_id`
 `DELETE /mobile_push_credentials/{push_credential_id}`
 
 ```go
-	err := client.MobilePushCredentials.Delete(context.TODO(), "0ccc7b76-4df3-4bca-a05a-3da1ecc389f0")
+	err := client.MobilePushCredentials.Delete(context.Background(), "0ccc7b76-4df3-4bca-a05a-3da1ecc389f0")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -145,9 +145,9 @@ List all On-demand Credentials.
 `GET /telephony_credentials`
 
 ```go
-	page, err := client.TelephonyCredentials.List(context.TODO(), telnyx.TelephonyCredentialListParams{})
+	page, err := client.TelephonyCredentials.List(context.Background(), telnyx.TelephonyCredentialListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -163,11 +163,11 @@ Create a credential.
 Optional: `expires_at` (string), `name` (string), `tag` (string)
 
 ```go
-	telephonyCredential, err := client.TelephonyCredentials.New(context.TODO(), telnyx.TelephonyCredentialNewParams{
+	telephonyCredential, err := client.TelephonyCredentials.New(context.Background(), telnyx.TelephonyCredentialNewParams{
 		ConnectionID: "1234567890",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", telephonyCredential.Data)
 ```
@@ -181,9 +181,9 @@ Get the details of an existing On-demand Credential.
 `GET /telephony_credentials/{id}`
 
 ```go
-	telephonyCredential, err := client.TelephonyCredentials.Get(context.TODO(), "id")
+	telephonyCredential, err := client.TelephonyCredentials.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", telephonyCredential.Data)
 ```
@@ -200,12 +200,12 @@ Optional: `connection_id` (string), `expires_at` (string), `name` (string), `tag
 
 ```go
 	telephonyCredential, err := client.TelephonyCredentials.Update(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.TelephonyCredentialUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", telephonyCredential.Data)
 ```
@@ -219,9 +219,9 @@ Delete an existing credential.
 `DELETE /telephony_credentials/{id}`
 
 ```go
-	telephonyCredential, err := client.TelephonyCredentials.Delete(context.TODO(), "id")
+	telephonyCredential, err := client.TelephonyCredentials.Delete(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", telephonyCredential.Data)
 ```

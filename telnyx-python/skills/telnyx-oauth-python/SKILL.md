@@ -97,7 +97,7 @@ OAuth 2.0 authorization endpoint for the authorization code flow
 
 ```python
 client.oauth.retrieve_authorize(
-    client_id="client_id",
+    client_id="550e8400-e29b-41d4-a716-446655440000",
     redirect_uri="https://example.com",
     response_type="code",
 )
@@ -127,7 +127,7 @@ Create an OAuth authorization grant
 ```python
 response = client.oauth.grants(
     allowed=True,
-    consent_token="consent_token",
+    consent_token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example",
 )
 print(response.redirect_uri)
 ```
@@ -142,7 +142,7 @@ Introspect an OAuth access token to check its validity and metadata
 
 ```python
 response = client.oauth.introspect(
-    token="token",
+    token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.example",
 )
 print(response.client_id)
 ```

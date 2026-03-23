@@ -71,7 +71,7 @@ Optional: `description` (string)
 
 ```python
 access_ip_range = client.access_ip_ranges.create(
-    cidr_block="cidr_block",
+    cidr_block="203.0.113.0/24",
 )
 print(access_ip_range.id)
 ```
@@ -178,7 +178,7 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 
 ```python
 credential_connection = client.credential_connections.update(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(credential_connection.data)
 ```
@@ -239,7 +239,7 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 
 ```python
 fqdn_connection = client.fqdn_connections.create(
-    connection_name="string",
+    connection_name="my-resource",
 )
 print(fqdn_connection.data)
 ```
@@ -396,7 +396,9 @@ Creates an IP connection.
 Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL, Ashburn, VA, San Jose, CA, Sydney, Australia, Amsterdam, Netherlands, London, UK, Toronto, Canada, Vancouver, Canada, Frankfurt, Germany), `android_push_credential_id` (string | null), `call_cost_in_webhooks` (boolean), `connection_name` (string), `default_on_hold_comfort_noise_enabled` (boolean), `dtmf_type` (enum: RFC 2833, Inband, SIP INFO), `encode_contact_header_enabled` (boolean), `encrypted_media` (enum: SRTP, None), `inbound` (object), `ios_push_credential_id` (string | null), `jitter_buffer` (object), `noise_suppression` (enum: inbound, outbound, both, disabled), `noise_suppression_details` (object), `onnet_t38_passthrough_enabled` (boolean), `outbound` (object), `rtcp_settings` (object), `tags` (array[string]), `transport_protocol` (enum: UDP, TCP, TLS), `webhook_api_version` (enum: 1, 2), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer | null)
 
 ```python
-ip_connection = client.ip_connections.create()
+ip_connection = client.ip_connections.create(
+    connection_name="my-ip-connection",
+)
 print(ip_connection.data)
 ```
 
@@ -427,7 +429,7 @@ Optional: `active` (boolean), `anchorsite_override` (enum: Latency, Chicago, IL,
 
 ```python
 ip_connection = client.ip_connections.update(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(ip_connection.data)
 ```

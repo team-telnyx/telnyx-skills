@@ -21,11 +21,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -95,7 +95,15 @@ Optional: `channel_destination` (string), `channel_type_id` (enum: sms, voice, e
 import com.telnyx.sdk.models.notificationchannels.NotificationChannelCreateParams;
 import com.telnyx.sdk.models.notificationchannels.NotificationChannelCreateResponse;
 
-NotificationChannelCreateResponse notificationChannel = client.notificationChannels().create();
+NotificationChannelCreateParams params = NotificationChannelCreateParams.builder()
+
+    .channelTypeId("550e8400-e29b-41d4-a716-446655440000")
+
+    .channelDestination("https://example.com/webhooks")
+
+    .build();
+
+NotificationChannelCreateResponse notificationChannel = client.notificationChannels().create(params);
 ```
 
 Returns: `channel_destination` (string), `channel_type_id` (enum: sms, voice, email, webhook), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
@@ -209,7 +217,13 @@ Optional: `created_at` (date-time), `id` (string), `name` (string), `updated_at`
 import com.telnyx.sdk.models.notificationprofiles.NotificationProfileCreateParams;
 import com.telnyx.sdk.models.notificationprofiles.NotificationProfileCreateResponse;
 
-NotificationProfileCreateResponse notificationProfile = client.notificationProfiles().create();
+NotificationProfileCreateParams params = NotificationProfileCreateParams.builder()
+
+    .name("My Notification Profile")
+
+    .build();
+
+NotificationProfileCreateResponse notificationProfile = client.notificationProfiles().create(params);
 ```
 
 Returns: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)

@@ -68,7 +68,7 @@ Returns: `created_at` (date-time), `description` (string), `id` (string), `ip_ad
 Optional: `description` (string)
 
 ```ruby
-access_ip_address_response = client.access_ip_address.create(ip_address: "ip_address")
+access_ip_address_response = client.access_ip_address.create(ip_address: "203.0.113.10")
 
 puts(access_ip_address_response)
 ```
@@ -163,7 +163,7 @@ Retrieves the details of an existing address.
 `GET /addresses/{id}`
 
 ```ruby
-address = client.addresses.retrieve("id")
+address = client.addresses.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(address)
 ```
@@ -177,7 +177,7 @@ Deletes an existing address.
 `DELETE /addresses/{id}`
 
 ```ruby
-address = client.addresses.delete("id")
+address = client.addresses.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(address)
 ```
@@ -243,7 +243,7 @@ Retrieves the details of an existing authentication provider.
 `GET /authentication_providers/{id}`
 
 ```ruby
-authentication_provider = client.authentication_providers.retrieve("id")
+authentication_provider = client.authentication_providers.retrieve("550e8400-e29b-41d4-a716-446655440000")
 
 puts(authentication_provider)
 ```
@@ -259,7 +259,7 @@ Updates settings of an existing authentication provider.
 Optional: `active` (boolean), `name` (string), `settings` (object), `settings_url` (uri), `short_name` (string)
 
 ```ruby
-authentication_provider = client.authentication_providers.update("id")
+authentication_provider = client.authentication_providers.update("550e8400-e29b-41d4-a716-446655440000")
 
 puts(authentication_provider)
 ```
@@ -273,7 +273,7 @@ Deletes an existing authentication provider.
 `DELETE /authentication_providers/{id}`
 
 ```ruby
-authentication_provider = client.authentication_providers.delete("id")
+authentication_provider = client.authentication_providers.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(authentication_provider)
 ```
@@ -381,7 +381,7 @@ Delete an integration secret given its ID.
 `DELETE /integration_secrets/{id}`
 
 ```ruby
-result = client.integration_secrets.delete("id")
+result = client.integration_secrets.delete("550e8400-e29b-41d4-a716-446655440000")
 
 puts(result)
 ```
@@ -393,7 +393,7 @@ Create an Access Token (JWT) for the credential.
 `POST /telephony_credentials/{id}/token`
 
 ```ruby
-response = client.telephony_credentials.create_token("id")
+response = client.telephony_credentials.create_token("550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```

@@ -77,7 +77,7 @@ Removes the call from a queue.
 Optional: `client_state` (string), `command_id` (string)
 
 ```javascript
-const response = await client.calls.actions.leaveQueue('call_control_id');
+const response = await client.calls.actions.leaveQueue('v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ');
 
 console.log(response.data);
 ```
@@ -142,7 +142,7 @@ Retrieve an existing conference
 `GET /conferences/{id}`
 
 ```javascript
-const conference = await client.conferences.retrieve('id');
+const conference = await client.conferences.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(conference.data);
 ```
@@ -195,7 +195,7 @@ Hold a list of participants in a conference call
 Optional: `audio_url` (string), `call_control_ids` (array[string]), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```javascript
-const response = await client.conferences.actions.hold('id');
+const response = await client.conferences.actions.hold('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -249,7 +249,7 @@ Mute a list of participants in a conference call
 Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe, Middle East, US)
 
 ```javascript
-const response = await client.conferences.actions.mute('id');
+const response = await client.conferences.actions.mute('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -262,10 +262,10 @@ Play audio to all or some participants on a conference call.
 
 `POST /conferences/{id}/actions/play`
 
-Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (object), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
+Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (string), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```javascript
-const response = await client.conferences.actions.play('id');
+const response = await client.conferences.actions.play('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -281,7 +281,7 @@ Pause conference recording.
 Optional: `command_id` (string), `recording_id` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```javascript
-const response = await client.conferences.actions.recordPause('id');
+const response = await client.conferences.actions.recordPause('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -297,7 +297,7 @@ Resume conference recording.
 Optional: `command_id` (string), `recording_id` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```javascript
-const response = await client.conferences.actions.recordResume('id');
+const response = await client.conferences.actions.recordResume('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -333,7 +333,7 @@ Stop recording the conference. **Expected Webhooks:**
 Optional: `client_state` (string), `command_id` (string), `recording_id` (uuid), `region` (enum: Australia, Europe, Middle East, US)
 
 ```javascript
-const response = await client.conferences.actions.recordStop('id');
+const response = await client.conferences.actions.recordStop('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -386,7 +386,7 @@ Stop audio being played to all or some participants on a conference call.
 Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe, Middle East, US)
 
 ```javascript
-const response = await client.conferences.actions.stop('id');
+const response = await client.conferences.actions.stop('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -420,7 +420,7 @@ Unmute a list of participants in a conference call
 Optional: `call_control_ids` (array[string]), `region` (enum: Australia, Europe, Middle East, US)
 
 ```javascript
-const response = await client.conferences.actions.unmute('id');
+const response = await client.conferences.actions.unmute('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```

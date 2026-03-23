@@ -22,11 +22,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -65,6 +65,31 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `404` resource not found, `422` validation error (check field formats),
 `429` rate limited (retry with exponential backoff).
 
+## Join AI Assistant Conversation
+
+Add a participant to an existing AI assistant conversation. Use this command to bring an additional call leg into a running AI conversation.
+
+`POST /calls/{call_control_id}/actions/ai_assistant_join` — Required: `conversation_id`, `participant`
+
+Optional: `client_state` (string), `command_id` (string)
+
+```java
+import com.telnyx.sdk.models.calls.actions.ActionJoinAiAssistantParams;
+import com.telnyx.sdk.models.calls.actions.ActionJoinAiAssistantResponse;
+
+ActionJoinAiAssistantParams params = ActionJoinAiAssistantParams.builder()
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
+    .conversationId("v3:abc123")
+    .participant(ActionJoinAiAssistantParams.Participant.builder()
+        .id("v3:abc123def456")
+        .role(ActionJoinAiAssistantParams.Participant.Role.USER)
+        .build())
+    .build();
+ActionJoinAiAssistantResponse response = client.calls().actions().joinAiAssistant(params);
+```
+
+Returns: `conversation_id` (uuid), `result` (string)
+
 ## Update client state
 
 Updates client state
@@ -76,7 +101,7 @@ import com.telnyx.sdk.models.calls.actions.ActionUpdateClientStateParams;
 import com.telnyx.sdk.models.calls.actions.ActionUpdateClientStateResponse;
 
 ActionUpdateClientStateParams params = ActionUpdateClientStateParams.builder()
-    .callControlId("call_control_id")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .clientState("aGF2ZSBhIG5pY2UgZGF5ID1d")
     .build();
 ActionUpdateClientStateResponse response = client.calls().actions().updateClientState(params);
@@ -99,7 +124,7 @@ import com.telnyx.sdk.models.calls.actions.ActionSendDtmfParams;
 import com.telnyx.sdk.models.calls.actions.ActionSendDtmfResponse;
 
 ActionSendDtmfParams params = ActionSendDtmfParams.builder()
-    .callControlId("call_control_id")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .digits("1www2WABCDw9")
     .build();
 ActionSendDtmfResponse response = client.calls().actions().sendDtmf(params);
@@ -109,7 +134,9 @@ Returns: `result` (string)
 
 ## SIPREC start
 
-Start siprec session to configured in SIPREC connector SRS. **Expected Webhooks:**
+Start siprec session to configured in SIPREC connector SRS. 
+
+**Expected Webhooks:**
 
 - `siprec.started`
 - `siprec.stopped`
@@ -123,7 +150,7 @@ Optional: `client_state` (string), `connector_name` (string), `include_metadata_
 import com.telnyx.sdk.models.calls.actions.ActionStartSiprecParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartSiprecResponse;
 
-ActionStartSiprecResponse response = client.calls().actions().startSiprec("call_control_id");
+ActionStartSiprecResponse response = client.calls().actions().startSiprec("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -142,7 +169,7 @@ Optional: `client_state` (string), `command_id` (string)
 import com.telnyx.sdk.models.calls.actions.ActionStopSiprecParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopSiprecResponse;
 
-ActionStopSiprecResponse response = client.calls().actions().stopSiprec("call_control_id");
+ActionStopSiprecResponse response = client.calls().actions().stopSiprec("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -151,13 +178,13 @@ Returns: `result` (string)
 
 `POST /calls/{call_control_id}/actions/suppression_start`
 
-Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp), `noise_suppression_engine_config` (object)
+Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp, AiCoustics), `noise_suppression_engine_config` (object)
 
 ```java
 import com.telnyx.sdk.models.calls.actions.ActionStartNoiseSuppressionParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartNoiseSuppressionResponse;
 
-ActionStartNoiseSuppressionResponse response = client.calls().actions().startNoiseSuppression("call_control_id");
+ActionStartNoiseSuppressionResponse response = client.calls().actions().startNoiseSuppression("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -172,7 +199,7 @@ Optional: `client_state` (string), `command_id` (string)
 import com.telnyx.sdk.models.calls.actions.ActionStopNoiseSuppressionParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopNoiseSuppressionResponse;
 
-ActionStopNoiseSuppressionResponse response = client.calls().actions().stopNoiseSuppression("call_control_id");
+ActionStopNoiseSuppressionResponse response = client.calls().actions().stopNoiseSuppression("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -188,7 +215,7 @@ import com.telnyx.sdk.models.calls.actions.ActionSwitchSupervisorRoleParams;
 import com.telnyx.sdk.models.calls.actions.ActionSwitchSupervisorRoleResponse;
 
 ActionSwitchSupervisorRoleParams params = ActionSwitchSupervisorRoleParams.builder()
-    .callControlId("call_control_id")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .role(ActionSwitchSupervisorRoleParams.Role.BARGE)
     .build();
 ActionSwitchSupervisorRoleResponse response = client.calls().actions().switchSupervisorRole(params);

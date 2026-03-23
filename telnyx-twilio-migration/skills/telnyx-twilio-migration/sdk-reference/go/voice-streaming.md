@@ -69,12 +69,12 @@ Optional: `client_state` (string), `command_id` (string), `rx` (string), `stream
 
 ```go
 	response, err := client.Calls.Actions.StartForking(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStartForkingParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -93,12 +93,12 @@ Optional: `client_state` (string), `command_id` (string), `stream_type` (enum: r
 
 ```go
 	response, err := client.Calls.Actions.StopForking(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStopForkingParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -115,12 +115,14 @@ Optional: `client_state` (string), `command_id` (string), `custom_parameters` (a
 
 ```go
 	response, err := client.Calls.Actions.StartStreaming(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
-		telnyx.CallActionStartStreamingParams{},
+		telnyx.CallActionStartStreamingParams{
+		StreamURL: "wss://example.com/audio-stream",
+	},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -139,12 +141,12 @@ Optional: `client_state` (string), `command_id` (string), `stream_id` (uuid)
 
 ```go
 	response, err := client.Calls.Actions.StopStreaming(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStopStreamingParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -163,14 +165,14 @@ Optional: `client_state` (string), `command_id` (string), `transcription_engine`
 
 ```go
 	response, err := client.Calls.Actions.StartTranscription(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStartTranscriptionParams{
 			TranscriptionStartRequest: telnyx.TranscriptionStartRequestParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -187,12 +189,12 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```go
 	response, err := client.Calls.Actions.StopTranscription(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStopTranscriptionParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```

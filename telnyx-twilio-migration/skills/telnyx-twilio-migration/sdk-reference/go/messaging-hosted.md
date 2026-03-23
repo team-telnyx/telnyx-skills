@@ -70,14 +70,14 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 Optional: `mms_fallback` (object), `sms_fallback` (object), `type` (enum: RCS), `webhook_url` (url)
 
 ```go
-	response, err := client.Messages.Rcs.Send(context.TODO(), telnyx.MessageRcSendParams{
+	response, err := client.Messages.Rcs.Send(context.Background(), telnyx.MessageRcSendParams{
 		AgentID:            "Agent007",
 		AgentMessage:       telnyx.RcsAgentMessageParam{},
-		MessagingProfileID: "messaging_profile_id",
+		MessagingProfileID: "550e8400-e29b-41d4-a716-446655440000",
 		To:                 "+13125551234",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -92,12 +92,12 @@ Generate a deeplink URL that can be used to start an RCS conversation with a spe
 
 ```go
 	response, err := client.Messages.Rcs.GenerateDeeplink(
-		context.TODO(),
+		context.Background(),
 		"agent_id",
 		telnyx.MessageRcGenerateDeeplinkParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -109,9 +109,9 @@ Returns: `url` (string)
 `GET /messaging/rcs/agents`
 
 ```go
-	page, err := client.Messaging.Rcs.Agents.List(context.TODO(), telnyx.MessagingRcAgentListParams{})
+	page, err := client.Messaging.Rcs.Agents.List(context.Background(), telnyx.MessagingRcAgentListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -123,9 +123,9 @@ Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `
 `GET /messaging/rcs/agents/{id}`
 
 ```go
-	rcsAgentResponse, err := client.Messaging.Rcs.Agents.Get(context.TODO(), "id")
+	rcsAgentResponse, err := client.Messaging.Rcs.Agents.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", rcsAgentResponse.Data)
 ```
@@ -140,12 +140,12 @@ Optional: `profile_id` (uuid), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```go
 	rcsAgentResponse, err := client.Messaging.Rcs.Agents.Update(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.MessagingRcAgentUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", rcsAgentResponse.Data)
 ```
@@ -157,12 +157,12 @@ Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `
 `POST /messaging/rcs/bulk_capabilities` — Required: `agent_id`, `phone_numbers`
 
 ```go
-	response, err := client.Messaging.Rcs.ListBulkCapabilities(context.TODO(), telnyx.MessagingRcListBulkCapabilitiesParams{
+	response, err := client.Messaging.Rcs.ListBulkCapabilities(context.Background(), telnyx.MessagingRcListBulkCapabilitiesParams{
 		AgentID:      "TestAgent",
 		PhoneNumbers: []string{"+13125551234"},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -175,14 +175,14 @@ Returns: `agent_id` (string), `agent_name` (string), `features` (array[string]),
 
 ```go
 	response, err := client.Messaging.Rcs.GetCapabilities(
-		context.TODO(),
+		context.Background(),
 		"phone_number",
 		telnyx.MessagingRcGetCapabilitiesParams{
-			AgentID: "agent_id",
+			AgentID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -197,14 +197,14 @@ Adds a test phone number to an RCS agent for testing purposes.
 
 ```go
 	response, err := client.Messaging.Rcs.InviteTestNumber(
-		context.TODO(),
+		context.Background(),
 		"phone_number",
 		telnyx.MessagingRcInviteTestNumberParams{
-			ID: "id",
+			ID: "550e8400-e29b-41d4-a716-446655440000",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -216,9 +216,9 @@ Returns: `agent_id` (string), `phone_number` (string), `record_type` (enum: rcs.
 `GET /messaging_hosted_number_orders`
 
 ```go
-	page, err := client.MessagingHostedNumberOrders.List(context.TODO(), telnyx.MessagingHostedNumberOrderListParams{})
+	page, err := client.MessagingHostedNumberOrders.List(context.Background(), telnyx.MessagingHostedNumberOrderListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -232,9 +232,9 @@ Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (a
 Optional: `messaging_profile_id` (string), `phone_numbers` (array[string])
 
 ```go
-	messagingHostedNumberOrder, err := client.MessagingHostedNumberOrders.New(context.TODO(), telnyx.MessagingHostedNumberOrderNewParams{})
+	messagingHostedNumberOrder, err := client.MessagingHostedNumberOrders.New(context.Background(), telnyx.MessagingHostedNumberOrderNewParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagingHostedNumberOrder.Data)
 ```
@@ -246,11 +246,11 @@ Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (a
 `POST /messaging_hosted_number_orders/eligibility_numbers_check` — Required: `phone_numbers`
 
 ```go
-	response, err := client.MessagingHostedNumberOrders.CheckEligibility(context.TODO(), telnyx.MessagingHostedNumberOrderCheckEligibilityParams{
+	response, err := client.MessagingHostedNumberOrders.CheckEligibility(context.Background(), telnyx.MessagingHostedNumberOrderCheckEligibilityParams{
 		PhoneNumbers: []string{"string"},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.PhoneNumbers)
 ```
@@ -262,9 +262,9 @@ Returns: `phone_numbers` (array[object])
 `GET /messaging_hosted_number_orders/{id}`
 
 ```go
-	messagingHostedNumberOrder, err := client.MessagingHostedNumberOrders.Get(context.TODO(), "id")
+	messagingHostedNumberOrder, err := client.MessagingHostedNumberOrders.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagingHostedNumberOrder.Data)
 ```
@@ -278,9 +278,9 @@ Delete a messaging hosted number order and all associated phone numbers.
 `DELETE /messaging_hosted_number_orders/{id}`
 
 ```go
-	messagingHostedNumberOrder, err := client.MessagingHostedNumberOrders.Delete(context.TODO(), "id")
+	messagingHostedNumberOrder, err := client.MessagingHostedNumberOrders.Delete(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagingHostedNumberOrder.Data)
 ```
@@ -293,12 +293,12 @@ Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (a
 
 ```go
 	response, err := client.MessagingHostedNumberOrders.Actions.UploadFile(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.MessagingHostedNumberOrderActionUploadFileParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -313,17 +313,17 @@ Validate the verification codes sent to the numbers of the hosted order. The ver
 
 ```go
 	response, err := client.MessagingHostedNumberOrders.ValidateCodes(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.MessagingHostedNumberOrderValidateCodesParams{
 			VerificationCodes: []telnyx.MessagingHostedNumberOrderValidateCodesParamsVerificationCode{{
 				Code:        "code",
-				PhoneNumber: "phone_number",
+				PhoneNumber: "+13125550001",
 			}},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -338,7 +338,7 @@ Create verification codes to validate numbers of the hosted order. The verificat
 
 ```go
 	response, err := client.MessagingHostedNumberOrders.NewVerificationCodes(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.MessagingHostedNumberOrderNewVerificationCodesParams{
 			PhoneNumbers:       []string{"string"},
@@ -346,7 +346,7 @@ Create verification codes to validate numbers of the hosted order. The verificat
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -358,9 +358,9 @@ Returns: `error` (string), `phone_number` (string), `type` (enum: sms, call), `v
 `DELETE /messaging_hosted_numbers/{id}`
 
 ```go
-	messagingHostedNumber, err := client.MessagingHostedNumbers.Delete(context.TODO(), "id")
+	messagingHostedNumber, err := client.MessagingHostedNumbers.Delete(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", messagingHostedNumber.Data)
 ```
@@ -374,12 +374,12 @@ Get a list of previously-submitted tollfree verification requests
 `GET /messaging_tollfree/verification/requests`
 
 ```go
-	page, err := client.MessagingTollfree.Verification.Requests.List(context.TODO(), telnyx.MessagingTollfreeVerificationRequestListParams{
+	page, err := client.MessagingTollfree.Verification.Requests.List(context.Background(), telnyx.MessagingTollfreeVerificationRequestListParams{
 		Page:     1,
 		PageSize: 1,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -395,9 +395,9 @@ Submit a new tollfree verification request
 Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegistrationCountry` (string | null), `businessRegistrationNumber` (string | null), `businessRegistrationType` (string | null), `campaignVerifyAuthorizationToken` (string | null), `doingBusinessAs` (string | null), `entityType` (object), `helpMessageResponse` (string | null), `isvReseller` (string | null), `optInConfirmationResponse` (string | null), `optInKeywords` (string | null), `privacyPolicyURL` (string | null), `termsAndConditionURL` (string | null), `webhookUrl` (string)
 
 ```go
-	verificationRequestEgress, err := client.MessagingTollfree.Verification.Requests.New(context.TODO(), telnyx.MessagingTollfreeVerificationRequestNewParams{
+	verificationRequestEgress, err := client.MessagingTollfree.Verification.Requests.New(context.Background(), telnyx.MessagingTollfreeVerificationRequestNewParams{
 		TfVerificationRequest: telnyx.TfVerificationRequestParam{
-			AdditionalInformation:    "additionalInformation",
+			AdditionalInformation: "Additional context for this request.",
 			BusinessAddr1:            "600 Congress Avenue",
 			BusinessCity:             "Austin",
 			BusinessContactEmail:     "email@example.com",
@@ -426,7 +426,7 @@ Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegist
 		},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verificationRequestEgress.ID)
 ```
@@ -440,9 +440,9 @@ Get a single verification request by its ID.
 `GET /messaging_tollfree/verification/requests/{id}`
 
 ```go
-	verificationRequestStatus, err := client.MessagingTollfree.Verification.Requests.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	verificationRequestStatus, err := client.MessagingTollfree.Verification.Requests.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verificationRequestStatus.ID)
 ```
@@ -459,11 +459,11 @@ Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegist
 
 ```go
 	verificationRequestEgress, err := client.MessagingTollfree.Verification.Requests.Update(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.MessagingTollfreeVerificationRequestUpdateParams{
 			TfVerificationRequest: telnyx.TfVerificationRequestParam{
-				AdditionalInformation:    "additionalInformation",
+				AdditionalInformation: "Additional context for this request.",
 				BusinessAddr1:            "600 Congress Avenue",
 				BusinessCity:             "Austin",
 				BusinessContactEmail:     "email@example.com",
@@ -493,7 +493,7 @@ Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegist
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verificationRequestEgress.ID)
 ```
@@ -511,9 +511,9 @@ A request may only be deleted when when the request is in the "rejected" state. 
 `DELETE /messaging_tollfree/verification/requests/{id}`
 
 ```go
-	err := client.MessagingTollfree.Verification.Requests.Delete(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	err := client.MessagingTollfree.Verification.Requests.Delete(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -525,7 +525,7 @@ Get the history of status changes for a verification request. Returns a paginate
 
 ```go
 	response, err := client.MessagingTollfree.Verification.Requests.GetStatusHistory(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.MessagingTollfreeVerificationRequestGetStatusHistoryParams{
 			PageNumber: 1,
@@ -533,7 +533,7 @@ Get the history of status changes for a verification request. Returns a paginate
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Records)
 ```
@@ -545,9 +545,9 @@ Returns: `records` (array[object]), `total_records` (integer)
 `GET /messaging_url_domains`
 
 ```go
-	page, err := client.MessagingURLDomains.List(context.TODO(), telnyx.MessagingURLDomainListParams{})
+	page, err := client.MessagingURLDomains.List(context.Background(), telnyx.MessagingURLDomainListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```

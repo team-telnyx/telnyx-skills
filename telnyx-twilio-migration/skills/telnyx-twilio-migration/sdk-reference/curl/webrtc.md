@@ -61,7 +61,7 @@ Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id
 
 ## Creates a new mobile push credential
 
-`POST /mobile_push_credentials`
+`POST /mobile_push_credentials` — Required: `type`, `certificate`, `private_key`, `alias`
 
 ```bash
 curl \
@@ -124,9 +124,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "tag": "some_tag",
-  "connection_id": "1234567890",
-  "expires_at": "2018-02-02T22:25:27.521Z"
+  "connection_id": "1234567890"
 }' \
   "https://api.telnyx.com/v2/telephony_credentials"
 ```
@@ -140,7 +138,7 @@ Get the details of an existing On-demand Credential.
 `GET /telephony_credentials/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/telephony_credentials/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/telephony_credentials/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
@@ -158,12 +156,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "tag": "some_tag",
-  "connection_id": "987654321",
-  "expires_at": "2018-02-02T22:25:27.521Z"
-}' \
-  "https://api.telnyx.com/v2/telephony_credentials/{id}"
+  "https://api.telnyx.com/v2/telephony_credentials/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
@@ -178,7 +171,7 @@ Delete an existing credential.
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/telephony_credentials/{id}"
+  "https://api.telnyx.com/v2/telephony_credentials/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)

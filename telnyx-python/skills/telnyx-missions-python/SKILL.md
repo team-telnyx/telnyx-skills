@@ -88,7 +88,7 @@ Optional: `description` (string), `execution_mode` (enum: external, managed), `i
 
 ```python
 mission = client.ai.missions.create(
-    name="name",
+    name="my-resource",
 )
 print(mission.data)
 ```
@@ -214,8 +214,8 @@ Get a specific knowledge base by ID
 
 ```python
 response = client.ai.missions.knowledge_bases.get_knowledge_base(
-    knowledge_base_id="knowledge_base_id",
-    mission_id="mission_id",
+    knowledge_base_id="550e8400-e29b-41d4-a716-446655440000",
+    mission_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response)
 ```
@@ -228,8 +228,8 @@ Update a knowledge base definition
 
 ```python
 response = client.ai.missions.knowledge_bases.update_knowledge_base(
-    knowledge_base_id="knowledge_base_id",
-    mission_id="mission_id",
+    knowledge_base_id="550e8400-e29b-41d4-a716-446655440000",
+    mission_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response)
 ```
@@ -242,8 +242,8 @@ Delete a knowledge base from a mission
 
 ```python
 client.ai.missions.knowledge_bases.delete_knowledge_base(
-    knowledge_base_id="knowledge_base_id",
-    mission_id="mission_id",
+    knowledge_base_id="550e8400-e29b-41d4-a716-446655440000",
+    mission_id="550e8400-e29b-41d4-a716-446655440000",
 )
 ```
 
@@ -281,8 +281,8 @@ Get a specific MCP server by ID
 
 ```python
 response = client.ai.missions.mcp_servers.get_mcp_server(
-    mcp_server_id="mcp_server_id",
-    mission_id="mission_id",
+    mcp_server_id="550e8400-e29b-41d4-a716-446655440000",
+    mission_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response)
 ```
@@ -295,8 +295,8 @@ Update an MCP server definition
 
 ```python
 response = client.ai.missions.mcp_servers.update_mcp_server(
-    mcp_server_id="mcp_server_id",
-    mission_id="mission_id",
+    mcp_server_id="550e8400-e29b-41d4-a716-446655440000",
+    mission_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response)
 ```
@@ -309,8 +309,8 @@ Delete an MCP server from a mission
 
 ```python
 client.ai.missions.mcp_servers.delete_mcp_server(
-    mcp_server_id="mcp_server_id",
-    mission_id="mission_id",
+    mcp_server_id="550e8400-e29b-41d4-a716-446655440000",
+    mission_id="550e8400-e29b-41d4-a716-446655440000",
 )
 ```
 
@@ -426,7 +426,7 @@ Optional: `agent_id` (string), `idempotency_key` (string), `payload` (object), `
 response = client.ai.missions.runs.events.log(
     run_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     mission_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    summary="summary",
+    summary="Brief task summary",
     type="status_change",
 )
 print(response.data)
@@ -442,7 +442,7 @@ Get details of a specific event
 
 ```python
 response = client.ai.missions.runs.events.get_event_details(
-    event_id="event_id",
+    event_id="550e8400-e29b-41d4-a716-446655440000",
     mission_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     run_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -533,7 +533,7 @@ Get details of a specific plan step
 
 ```python
 response = client.ai.missions.runs.plan.get_step_details(
-    step_id="step_id",
+    step_id="550e8400-e29b-41d4-a716-446655440000",
     mission_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     run_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -552,7 +552,7 @@ Optional: `metadata` (object), `status` (enum: pending, in_progress, completed, 
 
 ```python
 response = client.ai.missions.runs.plan.update_step(
-    step_id="step_id",
+    step_id="550e8400-e29b-41d4-a716-446655440000",
     mission_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     run_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -603,7 +603,7 @@ Link a Telnyx AI agent (voice/messaging) to a run
 response = client.ai.missions.runs.telnyx_agents.link(
     run_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     mission_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-    telnyx_agent_id="telnyx_agent_id",
+    telnyx_agent_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -618,7 +618,7 @@ Unlink a Telnyx agent from a run
 
 ```python
 client.ai.missions.runs.telnyx_agents.unlink(
-    telnyx_agent_id="telnyx_agent_id",
+    telnyx_agent_id="550e8400-e29b-41d4-a716-446655440000",
     mission_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
     run_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 )
@@ -658,8 +658,8 @@ Get a specific tool by ID
 
 ```python
 response = client.ai.missions.tools.get_tool(
-    tool_id="tool_id",
-    mission_id="mission_id",
+    tool_id="550e8400-e29b-41d4-a716-446655440000",
+    mission_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response)
 ```
@@ -672,8 +672,8 @@ Update a tool definition
 
 ```python
 response = client.ai.missions.tools.update_tool(
-    tool_id="tool_id",
-    mission_id="mission_id",
+    tool_id="550e8400-e29b-41d4-a716-446655440000",
+    mission_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response)
 ```
@@ -686,7 +686,7 @@ Delete a tool from a mission
 
 ```python
 client.ai.missions.tools.delete_tool(
-    tool_id="tool_id",
-    mission_id="mission_id",
+    tool_id="550e8400-e29b-41d4-a716-446655440000",
+    mission_id="550e8400-e29b-41d4-a716-446655440000",
 )
 ```

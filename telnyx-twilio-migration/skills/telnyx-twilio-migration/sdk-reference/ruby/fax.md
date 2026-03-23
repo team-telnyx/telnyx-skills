@@ -149,8 +149,7 @@ Send a fax. Files have size limits and page count limit validations. If a file i
 Optional: `black_threshold` (integer), `client_state` (string), `from_display_name` (string), `media_name` (string), `media_url` (string), `monochrome` (boolean), `preview_format` (enum: pdf, tiff), `quality` (enum: normal, high, very_high, ultra_light, ultra_dark), `store_media` (boolean), `store_preview` (boolean), `t38_enabled` (boolean), `webhook_url` (string)
 
 ```ruby
-fax = client.faxes.create(connection_id: "234423", from: "+13125790015", to: "+13127367276")
-
+fax = client.faxes.create(connection_id: "234423", from: "+13125790015", to: "+13127367276", media_url: "https://example.com/document.pdf")
 puts(fax)
 ```
 

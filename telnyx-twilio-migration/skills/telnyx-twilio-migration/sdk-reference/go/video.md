@@ -63,9 +63,9 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `GET /room_compositions`
 
 ```go
-	page, err := client.RoomCompositions.List(context.TODO(), telnyx.RoomCompositionListParams{})
+	page, err := client.RoomCompositions.List(context.Background(), telnyx.RoomCompositionListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -81,9 +81,9 @@ Asynchronously create a room composition.
 Optional: `format` (string), `resolution` (string), `session_id` (uuid), `video_layout` (object), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
 
 ```go
-	roomComposition, err := client.RoomCompositions.New(context.TODO(), telnyx.RoomCompositionNewParams{})
+	roomComposition, err := client.RoomCompositions.New(context.Background(), telnyx.RoomCompositionNewParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", roomComposition.Data)
 ```
@@ -95,9 +95,9 @@ Returns: `completed_at` (date-time), `created_at` (date-time), `download_url` (s
 `GET /room_compositions/{room_composition_id}`
 
 ```go
-	roomComposition, err := client.RoomCompositions.Get(context.TODO(), "5219b3af-87c6-4c08-9b58-5a533d893e21")
+	roomComposition, err := client.RoomCompositions.Get(context.Background(), "5219b3af-87c6-4c08-9b58-5a533d893e21")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", roomComposition.Data)
 ```
@@ -111,9 +111,9 @@ Synchronously delete a room composition.
 `DELETE /room_compositions/{room_composition_id}`
 
 ```go
-	err := client.RoomCompositions.Delete(context.TODO(), "5219b3af-87c6-4c08-9b58-5a533d893e21")
+	err := client.RoomCompositions.Delete(context.Background(), "5219b3af-87c6-4c08-9b58-5a533d893e21")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -122,9 +122,9 @@ Synchronously delete a room composition.
 `GET /room_participants`
 
 ```go
-	page, err := client.RoomParticipants.List(context.TODO(), telnyx.RoomParticipantListParams{})
+	page, err := client.RoomParticipants.List(context.Background(), telnyx.RoomParticipantListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -136,9 +136,9 @@ Returns: `context` (string), `id` (uuid), `joined_at` (date-time), `left_at` (da
 `GET /room_participants/{room_participant_id}`
 
 ```go
-	roomParticipant, err := client.RoomParticipants.Get(context.TODO(), "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
+	roomParticipant, err := client.RoomParticipants.Get(context.Background(), "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", roomParticipant.Data)
 ```
@@ -150,9 +150,9 @@ Returns: `context` (string), `id` (uuid), `joined_at` (date-time), `left_at` (da
 `GET /room_recordings`
 
 ```go
-	page, err := client.RoomRecordings.List(context.TODO(), telnyx.RoomRecordingListParams{})
+	page, err := client.RoomRecordings.List(context.Background(), telnyx.RoomRecordingListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -164,9 +164,9 @@ Returns: `codec` (string), `completed_at` (date-time), `created_at` (date-time),
 `DELETE /room_recordings`
 
 ```go
-	response, err := client.RoomRecordings.DeleteBulk(context.TODO(), telnyx.RoomRecordingDeleteBulkParams{})
+	response, err := client.RoomRecordings.DeleteBulk(context.Background(), telnyx.RoomRecordingDeleteBulkParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -178,9 +178,9 @@ Returns: `room_recordings` (integer)
 `GET /room_recordings/{room_recording_id}`
 
 ```go
-	roomRecording, err := client.RoomRecordings.Get(context.TODO(), "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
+	roomRecording, err := client.RoomRecordings.Get(context.Background(), "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", roomRecording.Data)
 ```
@@ -194,9 +194,9 @@ Synchronously delete a Room Recording.
 `DELETE /room_recordings/{room_recording_id}`
 
 ```go
-	err := client.RoomRecordings.Delete(context.TODO(), "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
+	err := client.RoomRecordings.Delete(context.Background(), "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -205,9 +205,9 @@ Synchronously delete a Room Recording.
 `GET /room_sessions`
 
 ```go
-	page, err := client.Rooms.Sessions.List0(context.TODO(), telnyx.RoomSessionList0Params{})
+	page, err := client.Rooms.Sessions.List0(context.Background(), telnyx.RoomSessionList0Params{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -220,12 +220,12 @@ Returns: `active` (boolean), `created_at` (date-time), `ended_at` (date-time), `
 
 ```go
 	session, err := client.Rooms.Sessions.Get(
-		context.TODO(),
+		context.Background(),
 		"0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 		telnyx.RoomSessionGetParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", session.Data)
 ```
@@ -239,9 +239,9 @@ Note: this will also kick all participants currently present in the room
 `POST /room_sessions/{room_session_id}/actions/end`
 
 ```go
-	response, err := client.Rooms.Sessions.Actions.End(context.TODO(), "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
+	response, err := client.Rooms.Sessions.Actions.End(context.Background(), "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -256,14 +256,14 @@ Optional: `exclude` (array[string]), `participants` (object)
 
 ```go
 	response, err := client.Rooms.Sessions.Actions.Kick(
-		context.TODO(),
+		context.Background(),
 		"0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 		telnyx.RoomSessionActionKickParams{
 			ActionsParticipantsRequest: telnyx.ActionsParticipantsRequestParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -278,14 +278,14 @@ Optional: `exclude` (array[string]), `participants` (object)
 
 ```go
 	response, err := client.Rooms.Sessions.Actions.Mute(
-		context.TODO(),
+		context.Background(),
 		"0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 		telnyx.RoomSessionActionMuteParams{
 			ActionsParticipantsRequest: telnyx.ActionsParticipantsRequestParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -300,14 +300,14 @@ Optional: `exclude` (array[string]), `participants` (object)
 
 ```go
 	response, err := client.Rooms.Sessions.Actions.Unmute(
-		context.TODO(),
+		context.Background(),
 		"0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 		telnyx.RoomSessionActionUnmuteParams{
 			ActionsParticipantsRequest: telnyx.ActionsParticipantsRequestParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -320,12 +320,12 @@ Returns: `result` (string)
 
 ```go
 	page, err := client.Rooms.Sessions.GetParticipants(
-		context.TODO(),
+		context.Background(),
 		"0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 		telnyx.RoomSessionGetParticipantsParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -337,9 +337,9 @@ Returns: `context` (string), `id` (uuid), `joined_at` (date-time), `left_at` (da
 `GET /rooms`
 
 ```go
-	page, err := client.Rooms.List(context.TODO(), telnyx.RoomListParams{})
+	page, err := client.Rooms.List(context.Background(), telnyx.RoomListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -355,9 +355,12 @@ Synchronously create a Room.
 Optional: `enable_recording` (boolean), `max_participants` (integer), `unique_name` (string), `webhook_event_failover_url` (uri), `webhook_event_url` (uri), `webhook_timeout_secs` (integer)
 
 ```go
-	room, err := client.Rooms.New(context.TODO(), telnyx.RoomNewParams{})
+	room, err := client.Rooms.New(context.Background(), telnyx.RoomNewParams{
+		UniqueName: "my-meeting-room",
+		MaxParticipants: 10,
+	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", room.Data)
 ```
@@ -370,12 +373,12 @@ Returns: `active_session_id` (uuid), `created_at` (date-time), `enable_recording
 
 ```go
 	room, err := client.Rooms.Get(
-		context.TODO(),
+		context.Background(),
 		"0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 		telnyx.RoomGetParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", room.Data)
 ```
@@ -392,12 +395,12 @@ Optional: `enable_recording` (boolean), `max_participants` (integer), `unique_na
 
 ```go
 	room, err := client.Rooms.Update(
-		context.TODO(),
+		context.Background(),
 		"0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 		telnyx.RoomUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", room.Data)
 ```
@@ -411,9 +414,9 @@ Synchronously delete a Room. Participants from that room will be kicked out, the
 `DELETE /rooms/{room_id}`
 
 ```go
-	err := client.Rooms.Delete(context.TODO(), "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
+	err := client.Rooms.Delete(context.Background(), "0ccc7b54-4df3-4bca-a65a-3da1ecc777f0")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -427,12 +430,12 @@ Optional: `refresh_token_ttl_secs` (integer), `token_ttl_secs` (integer)
 
 ```go
 	response, err := client.Rooms.Actions.GenerateJoinClientToken(
-		context.TODO(),
+		context.Background(),
 		"0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 		telnyx.RoomActionGenerateJoinClientTokenParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -449,14 +452,14 @@ Optional: `token_ttl_secs` (integer)
 
 ```go
 	response, err := client.Rooms.Actions.RefreshClientToken(
-		context.TODO(),
+		context.Background(),
 		"0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 		telnyx.RoomActionRefreshClientTokenParams{
 			RefreshToken: "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0ZWxueXhfdGVsZXBob255IiwiZXhwIjoxNTkwMDEwMTQzLCJpYXQiOjE1ODc1OTA5NDMsImlzcyI6InRlbG55eF90ZWxlcGhvbnkiLCJqdGkiOiJiOGM3NDgzNy1kODllLTRhNjUtOWNmMi0zNGM3YTZmYTYwYzgiLCJuYmYiOjE1ODc1OTA5NDIsInN1YiI6IjVjN2FjN2QwLWRiNjUtNGYxMS05OGUxLWVlYzBkMWQ1YzZhZSIsInRlbF90b2tlbiI6InJqX1pra1pVT1pNeFpPZk9tTHBFVUIzc2lVN3U2UmpaRmVNOXMtZ2JfeENSNTZXRktGQUppTXlGMlQ2Q0JSbWxoX1N5MGlfbGZ5VDlBSThzRWlmOE1USUlzenl6U2xfYURuRzQ4YU81MHlhSEd1UlNZYlViU1ltOVdJaVEwZz09IiwidHlwIjoiYWNjZXNzIn0.gNEwzTow5MLLPLQENytca7pUN79PmPj6FyqZWW06ZeEmesxYpwKh0xRtA0TzLh6CDYIRHrI8seofOO0YFGDhpQ",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -469,12 +472,12 @@ Returns: `token` (string), `token_expires_at` (date-time)
 
 ```go
 	page, err := client.Rooms.Sessions.List1(
-		context.TODO(),
+		context.Background(),
 		"0ccc7b54-4df3-4bca-a65a-3da1ecc777f0",
 		telnyx.RoomSessionList1Params{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```

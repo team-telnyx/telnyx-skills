@@ -85,7 +85,7 @@ Create a new mission definition
 Optional: `description` (string), `execution_mode` (enum: external, managed), `instructions` (string), `metadata` (object), `model` (string)
 
 ```ruby
-mission = client.ai.missions.create(name: "name")
+mission = client.ai.missions.create(name: "my-resource")
 
 puts(mission)
 ```
@@ -205,7 +205,7 @@ Get a specific knowledge base by ID
 `GET /ai/missions/{mission_id}/knowledge-bases/{knowledge_base_id}`
 
 ```ruby
-response = client.ai.missions.knowledge_bases.get_knowledge_base("knowledge_base_id", mission_id: "mission_id")
+response = client.ai.missions.knowledge_bases.get_knowledge_base("knowledge_base_id", mission_id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -217,7 +217,7 @@ Update a knowledge base definition
 `PUT /ai/missions/{mission_id}/knowledge-bases/{knowledge_base_id}`
 
 ```ruby
-response = client.ai.missions.knowledge_bases.update_knowledge_base("knowledge_base_id", mission_id: "mission_id")
+response = client.ai.missions.knowledge_bases.update_knowledge_base("knowledge_base_id", mission_id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -229,7 +229,7 @@ Delete a knowledge base from a mission
 `DELETE /ai/missions/{mission_id}/knowledge-bases/{knowledge_base_id}`
 
 ```ruby
-result = client.ai.missions.knowledge_bases.delete_knowledge_base("knowledge_base_id", mission_id: "mission_id")
+result = client.ai.missions.knowledge_bases.delete_knowledge_base("knowledge_base_id", mission_id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(result)
 ```
@@ -265,7 +265,7 @@ Get a specific MCP server by ID
 `GET /ai/missions/{mission_id}/mcp-servers/{mcp_server_id}`
 
 ```ruby
-response = client.ai.missions.mcp_servers.get_mcp_server("mcp_server_id", mission_id: "mission_id")
+response = client.ai.missions.mcp_servers.get_mcp_server("mcp_server_id", mission_id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -277,7 +277,7 @@ Update an MCP server definition
 `PUT /ai/missions/{mission_id}/mcp-servers/{mcp_server_id}`
 
 ```ruby
-response = client.ai.missions.mcp_servers.update_mcp_server("mcp_server_id", mission_id: "mission_id")
+response = client.ai.missions.mcp_servers.update_mcp_server("mcp_server_id", mission_id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -289,7 +289,7 @@ Delete an MCP server from a mission
 `DELETE /ai/missions/{mission_id}/mcp-servers/{mcp_server_id}`
 
 ```ruby
-result = client.ai.missions.mcp_servers.delete_mcp_server("mcp_server_id", mission_id: "mission_id")
+result = client.ai.missions.mcp_servers.delete_mcp_server("mcp_server_id", mission_id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(result)
 ```
@@ -406,7 +406,7 @@ Optional: `agent_id` (string), `idempotency_key` (string), `payload` (object), `
 response = client.ai.missions.runs.events.log(
   "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
   mission_id: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  summary: "summary",
+  summary: "Brief task summary",
   type: :status_change
 )
 
@@ -477,7 +477,7 @@ Create the initial plan for a run
 plan = client.ai.missions.runs.plan.create(
   "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
   mission_id: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  steps: [{description: "description", sequence: 0, step_id: "step_id"}]
+  steps: [{description: "description", sequence: 0, step_id: "550e8400-e29b-41d4-a716-446655440000"}]
 )
 
 puts(plan)
@@ -495,7 +495,7 @@ Add one or more steps to an existing plan
 response = client.ai.missions.runs.plan.add_steps_to_plan(
   "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
   mission_id: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  steps: [{description: "description", sequence: 0, step_id: "step_id"}]
+  steps: [{description: "description", sequence: 0, step_id: "550e8400-e29b-41d4-a716-446655440000"}]
 )
 
 puts(response)
@@ -585,7 +585,7 @@ Link a Telnyx AI agent (voice/messaging) to a run
 response = client.ai.missions.runs.telnyx_agents.link(
   "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
   mission_id: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-  telnyx_agent_id: "telnyx_agent_id"
+  telnyx_agent_id: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(response)
@@ -640,7 +640,7 @@ Get a specific tool by ID
 `GET /ai/missions/{mission_id}/tools/{tool_id}`
 
 ```ruby
-response = client.ai.missions.tools.get_tool("tool_id", mission_id: "mission_id")
+response = client.ai.missions.tools.get_tool("tool_id", mission_id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -652,7 +652,7 @@ Update a tool definition
 `PUT /ai/missions/{mission_id}/tools/{tool_id}`
 
 ```ruby
-response = client.ai.missions.tools.update_tool("tool_id", mission_id: "mission_id")
+response = client.ai.missions.tools.update_tool("tool_id", mission_id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -664,7 +664,7 @@ Delete a tool from a mission
 `DELETE /ai/missions/{mission_id}/tools/{tool_id}`
 
 ```ruby
-result = client.ai.missions.tools.delete_tool("tool_id", mission_id: "mission_id")
+result = client.ai.missions.tools.delete_tool("tool_id", mission_id: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(result)
 ```

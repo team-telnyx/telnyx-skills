@@ -87,11 +87,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "email": "new_managed_account@customer.org",
-  "password": "3jVjLq!tMuWKyWx4NN*CvhnB",
-  "business_name": "Larry's Cat Food Inc",
-  "managed_account_allow_custom_pricing": false,
-  "rollup_billing": false
+  "business_name": "Larry's Cat Food Inc"
 }' \
   "https://api.telnyx.com/v2/managed_accounts"
 ```
@@ -117,7 +113,7 @@ Retrieves the details of a single managed account.
 `GET /managed_accounts/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/managed_accounts/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/managed_accounts/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `api_key` (string), `api_token` (string), `api_user` (string), `balance` (object), `created_at` (string), `email` (email), `id` (uuid), `managed_account_allow_custom_pricing` (boolean), `manager_account_id` (string), `organization_name` (string), `record_type` (enum: managed_account), `rollup_billing` (boolean), `updated_at` (string)
@@ -135,10 +131,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "managed_account_allow_custom_pricing": false
-}' \
-  "https://api.telnyx.com/v2/managed_accounts/{id}"
+  "https://api.telnyx.com/v2/managed_accounts/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `api_key` (string), `api_token` (string), `api_user` (string), `balance` (object), `created_at` (string), `email` (email), `id` (uuid), `managed_account_allow_custom_pricing` (boolean), `manager_account_id` (string), `organization_name` (string), `record_type` (enum: managed_account), `rollup_billing` (boolean), `updated_at` (string)
@@ -154,7 +147,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/managed_accounts/{id}/actions/disable"
+  "https://api.telnyx.com/v2/managed_accounts/550e8400-e29b-41d4-a716-446655440000/actions/disable"
 ```
 
 Returns: `api_key` (string), `api_token` (string), `api_user` (string), `balance` (object), `created_at` (string), `email` (email), `id` (uuid), `managed_account_allow_custom_pricing` (boolean), `manager_account_id` (string), `organization_name` (string), `record_type` (enum: managed_account), `rollup_billing` (boolean), `updated_at` (string)
@@ -172,10 +165,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "reenable_all_connections": true
-}' \
-  "https://api.telnyx.com/v2/managed_accounts/{id}/actions/enable"
+  "https://api.telnyx.com/v2/managed_accounts/550e8400-e29b-41d4-a716-446655440000/actions/enable"
 ```
 
 Returns: `api_key` (string), `api_token` (string), `api_user` (string), `balance` (object), `created_at` (string), `email` (email), `id` (uuid), `managed_account_allow_custom_pricing` (boolean), `manager_account_id` (string), `organization_name` (string), `record_type` (enum: managed_account), `rollup_billing` (boolean), `updated_at` (string)
@@ -191,10 +181,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "channel_limit": 30
-}' \
-  "https://api.telnyx.com/v2/managed_accounts/{id}/update_global_channel_limit"
+  "https://api.telnyx.com/v2/managed_accounts/550e8400-e29b-41d4-a716-446655440000/update_global_channel_limit"
 ```
 
 Returns: `channel_limit` (integer), `email` (string), `id` (string), `manager_account_id` (string), `record_type` (string)
@@ -230,7 +217,7 @@ Returns a user in your organization.
 `GET /organizations/users/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/organizations/users/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/organizations/users/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (string | null), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)
@@ -246,7 +233,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/organizations/users/{id}/actions/remove"
+  "https://api.telnyx.com/v2/organizations/users/550e8400-e29b-41d4-a716-446655440000/actions/remove"
 ```
 
 Returns: `created_at` (string), `email` (email), `groups` (array[object]), `id` (string), `last_sign_in_at` (string | null), `organization_user_bypasses_sso` (boolean), `record_type` (string), `user_status` (enum: enabled, disabled, blocked)

@@ -80,7 +80,7 @@ Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id
 
 ## Creates a new mobile push credential
 
-`POST /mobile_push_credentials`
+`POST /mobile_push_credentials` — Required: `type`, `certificate`, `private_key`, `alias`
 
 ```javascript
 const pushCredentialResponse = await client.mobilePushCredentials.create({
@@ -165,7 +165,7 @@ Get the details of an existing On-demand Credential.
 `GET /telephony_credentials/{id}`
 
 ```javascript
-const telephonyCredential = await client.telephonyCredentials.retrieve('id');
+const telephonyCredential = await client.telephonyCredentials.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(telephonyCredential.data);
 ```
@@ -181,7 +181,7 @@ Update an existing credential.
 Optional: `connection_id` (string), `expires_at` (string), `name` (string), `tag` (string)
 
 ```javascript
-const telephonyCredential = await client.telephonyCredentials.update('id');
+const telephonyCredential = await client.telephonyCredentials.update('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(telephonyCredential.data);
 ```
@@ -195,7 +195,7 @@ Delete an existing credential.
 `DELETE /telephony_credentials/{id}`
 
 ```javascript
-const telephonyCredential = await client.telephonyCredentials.delete('id');
+const telephonyCredential = await client.telephonyCredentials.delete('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(telephonyCredential.data);
 ```

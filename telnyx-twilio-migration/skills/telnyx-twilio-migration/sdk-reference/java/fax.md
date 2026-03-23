@@ -9,11 +9,11 @@
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -174,6 +174,7 @@ FaxCreateParams params = FaxCreateParams.builder()
     .connectionId("234423")
     .from("+13125790015")
     .to("+13127367276")
+    .mediaUrl("https://example.com/document.pdf")
     .build();
 FaxCreateResponse fax = client.faxes().create(params);
 ```

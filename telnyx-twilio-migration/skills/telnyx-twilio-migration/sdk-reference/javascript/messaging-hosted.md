@@ -63,7 +63,7 @@ Optional: `mms_fallback` (object), `sms_fallback` (object), `type` (enum: RCS), 
 const response = await client.messages.rcs.send({
   agent_id: 'Agent007',
   agent_message: {},
-  messaging_profile_id: 'messaging_profile_id',
+  messaging_profile_id: '550e8400-e29b-41d4-a716-446655440000',
   to: '+13125551234',
 });
 
@@ -104,7 +104,7 @@ Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `
 `GET /messaging/rcs/agents/{id}`
 
 ```javascript
-const rcsAgentResponse = await client.messaging.rcs.agents.retrieve('id');
+const rcsAgentResponse = await client.messaging.rcs.agents.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(rcsAgentResponse.data);
 ```
@@ -118,7 +118,7 @@ Returns: `agent_id` (string), `agent_name` (string), `created_at` (date-time), `
 Optional: `profile_id` (uuid), `webhook_failover_url` (url), `webhook_url` (url)
 
 ```javascript
-const rcsAgentResponse = await client.messaging.rcs.agents.update('id');
+const rcsAgentResponse = await client.messaging.rcs.agents.update('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(rcsAgentResponse.data);
 ```
@@ -146,7 +146,7 @@ Returns: `agent_id` (string), `agent_name` (string), `features` (array[string]),
 
 ```javascript
 const response = await client.messaging.rcs.retrieveCapabilities('phone_number', {
-  agent_id: 'agent_id',
+  agent_id: '550e8400-e29b-41d4-a716-446655440000',
 });
 
 console.log(response.data);
@@ -161,7 +161,7 @@ Adds a test phone number to an RCS agent for testing purposes.
 `PUT /messaging/rcs/test_number_invite/{id}/{phone_number}`
 
 ```javascript
-const response = await client.messaging.rcs.inviteTestNumber('phone_number', { id: 'id' });
+const response = await client.messaging.rcs.inviteTestNumber('phone_number', { id: '550e8400-e29b-41d4-a716-446655440000' });
 
 console.log(response.data);
 ```
@@ -214,7 +214,7 @@ Returns: `phone_numbers` (array[object])
 `GET /messaging_hosted_number_orders/{id}`
 
 ```javascript
-const messagingHostedNumberOrder = await client.messagingHostedNumberOrders.retrieve('id');
+const messagingHostedNumberOrder = await client.messagingHostedNumberOrders.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(messagingHostedNumberOrder.data);
 ```
@@ -228,7 +228,7 @@ Delete a messaging hosted number order and all associated phone numbers.
 `DELETE /messaging_hosted_number_orders/{id}`
 
 ```javascript
-const messagingHostedNumberOrder = await client.messagingHostedNumberOrders.delete('id');
+const messagingHostedNumberOrder = await client.messagingHostedNumberOrders.delete('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(messagingHostedNumberOrder.data);
 ```
@@ -240,7 +240,7 @@ Returns: `id` (uuid), `messaging_profile_id` (string | null), `phone_numbers` (a
 `POST /messaging_hosted_number_orders/{id}/actions/file_upload`
 
 ```javascript
-const response = await client.messagingHostedNumberOrders.actions.uploadFile('id');
+const response = await client.messagingHostedNumberOrders.actions.uploadFile('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -285,7 +285,7 @@ Returns: `error` (string), `phone_number` (string), `type` (enum: sms, call), `v
 `DELETE /messaging_hosted_numbers/{id}`
 
 ```javascript
-const messagingHostedNumber = await client.messagingHostedNumbers.delete('id');
+const messagingHostedNumber = await client.messagingHostedNumbers.delete('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(messagingHostedNumber.data);
 ```
@@ -320,7 +320,7 @@ Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegist
 
 ```javascript
 const verificationRequestEgress = await client.messagingTollfree.verification.requests.create({
-  additionalInformation: 'additionalInformation',
+  additionalInformation: 'Additional context for this request.',
   businessAddr1: '600 Congress Avenue',
   businessCity: 'Austin',
   businessContactEmail: 'email@example.com',
@@ -378,7 +378,7 @@ Optional: `ageGatedContent` (boolean), `businessAddr2` (string), `businessRegist
 const verificationRequestEgress = await client.messagingTollfree.verification.requests.update(
   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
   {
-    additionalInformation: 'additionalInformation',
+    additionalInformation: 'Additional context for this request.',
     businessAddr1: '600 Congress Avenue',
     businessCity: 'Austin',
     businessContactEmail: 'email@example.com',

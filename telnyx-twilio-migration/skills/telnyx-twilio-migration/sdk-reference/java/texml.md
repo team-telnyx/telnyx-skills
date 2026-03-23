@@ -9,11 +9,11 @@
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -66,7 +66,7 @@ Returns multiple call resources for an account. This endpoint is eventually cons
 import com.telnyx.sdk.models.texml.accounts.calls.CallRetrieveCallsParams;
 import com.telnyx.sdk.models.texml.accounts.calls.CallRetrieveCallsResponse;
 
-CallRetrieveCallsResponse response = client.texml().accounts().calls().retrieveCalls("account_sid");
+CallRetrieveCallsResponse response = client.texml().accounts().calls().retrieveCalls("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `calls` (array[object]), `end` (integer), `first_page_uri` (string), `next_page_uri` (string), `page` (integer), `page_size` (integer), `start` (integer), `uri` (string)
@@ -84,7 +84,7 @@ import com.telnyx.sdk.models.texml.accounts.calls.CallCallsParams;
 import com.telnyx.sdk.models.texml.accounts.calls.CallCallsResponse;
 
 CallCallsParams params = CallCallsParams.builder()
-    .accountSid("account_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
     .applicationSid("example-app-sid")
     .from("+13120001234")
     .to("+13121230000")
@@ -105,8 +105,8 @@ import com.telnyx.sdk.models.texml.accounts.calls.CallRetrieveParams;
 import com.telnyx.sdk.models.texml.accounts.calls.CallRetrieveResponse;
 
 CallRetrieveParams params = CallRetrieveParams.builder()
-    .accountSid("account_sid")
-    .callSid("call_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 CallRetrieveResponse call = client.texml().accounts().calls().retrieve(params);
 ```
@@ -125,8 +125,8 @@ import com.telnyx.sdk.models.texml.accounts.calls.CallUpdateResponse;
 import com.telnyx.sdk.models.texml.accounts.calls.UpdateCall;
 
 CallUpdateParams params = CallUpdateParams.builder()
-    .accountSid("account_sid")
-    .callSid("call_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSid("550e8400-e29b-41d4-a716-446655440000")
     .updateCall(UpdateCall.builder().build())
     .build();
 CallUpdateResponse call = client.texml().accounts().calls().update(params);
@@ -145,8 +145,8 @@ import com.telnyx.sdk.models.texml.accounts.calls.recordingsjson.RecordingsJsonR
 import com.telnyx.sdk.models.texml.accounts.calls.recordingsjson.RecordingsJsonRetrieveRecordingsJsonResponse;
 
 RecordingsJsonRetrieveRecordingsJsonParams params = RecordingsJsonRetrieveRecordingsJsonParams.builder()
-    .accountSid("account_sid")
-    .callSid("call_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 RecordingsJsonRetrieveRecordingsJsonResponse response = client.texml().accounts().calls().recordingsJson().retrieveRecordingsJson(params);
 ```
@@ -164,8 +164,8 @@ import com.telnyx.sdk.models.texml.accounts.calls.recordingsjson.RecordingsJsonR
 import com.telnyx.sdk.models.texml.accounts.calls.recordingsjson.RecordingsJsonRecordingsJsonResponse;
 
 RecordingsJsonRecordingsJsonParams params = RecordingsJsonRecordingsJsonParams.builder()
-    .accountSid("account_sid")
-    .callSid("call_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 RecordingsJsonRecordingsJsonResponse response = client.texml().accounts().calls().recordingsJson().recordingsJson(params);
 ```
@@ -183,8 +183,8 @@ import com.telnyx.sdk.models.texml.accounts.calls.recordings.RecordingRecordingS
 import com.telnyx.sdk.models.texml.accounts.calls.recordings.RecordingRecordingSidJsonResponse;
 
 RecordingRecordingSidJsonParams params = RecordingRecordingSidJsonParams.builder()
-    .accountSid("account_sid")
-    .callSid("call_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSid("550e8400-e29b-41d4-a716-446655440000")
     .recordingSid("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
     .build();
 RecordingRecordingSidJsonResponse response = client.texml().accounts().calls().recordings().recordingSidJson(params);
@@ -203,8 +203,8 @@ import com.telnyx.sdk.models.texml.accounts.calls.CallSiprecJsonParams;
 import com.telnyx.sdk.models.texml.accounts.calls.CallSiprecJsonResponse;
 
 CallSiprecJsonParams params = CallSiprecJsonParams.builder()
-    .accountSid("account_sid")
-    .callSid("call_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 CallSiprecJsonResponse response = client.texml().accounts().calls().siprecJson(params);
 ```
@@ -222,9 +222,9 @@ import com.telnyx.sdk.models.texml.accounts.calls.siprec.SiprecSiprecSidJsonPara
 import com.telnyx.sdk.models.texml.accounts.calls.siprec.SiprecSiprecSidJsonResponse;
 
 SiprecSiprecSidJsonParams params = SiprecSiprecSidJsonParams.builder()
-    .accountSid("account_sid")
-    .callSid("call_sid")
-    .siprecSid("siprec_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSid("550e8400-e29b-41d4-a716-446655440000")
+    .siprecSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 SiprecSiprecSidJsonResponse response = client.texml().accounts().calls().siprec().siprecSidJson(params);
 ```
@@ -242,8 +242,8 @@ import com.telnyx.sdk.models.texml.accounts.calls.CallStreamsJsonParams;
 import com.telnyx.sdk.models.texml.accounts.calls.CallStreamsJsonResponse;
 
 CallStreamsJsonParams params = CallStreamsJsonParams.builder()
-    .accountSid("account_sid")
-    .callSid("call_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 CallStreamsJsonResponse response = client.texml().accounts().calls().streamsJson(params);
 ```
@@ -261,8 +261,8 @@ import com.telnyx.sdk.models.texml.accounts.calls.streams.StreamStreamingSidJson
 import com.telnyx.sdk.models.texml.accounts.calls.streams.StreamStreamingSidJsonResponse;
 
 StreamStreamingSidJsonParams params = StreamStreamingSidJsonParams.builder()
-    .accountSid("account_sid")
-    .callSid("call_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSid("550e8400-e29b-41d4-a716-446655440000")
     .streamingSid("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
     .build();
 StreamStreamingSidJsonResponse response = client.texml().accounts().calls().streams().streamingSidJson(params);
@@ -280,7 +280,7 @@ Lists conference resources.
 import com.telnyx.sdk.models.texml.accounts.conferences.ConferenceRetrieveConferencesParams;
 import com.telnyx.sdk.models.texml.accounts.conferences.ConferenceRetrieveConferencesResponse;
 
-ConferenceRetrieveConferencesResponse response = client.texml().accounts().conferences().retrieveConferences("account_sid");
+ConferenceRetrieveConferencesResponse response = client.texml().accounts().conferences().retrieveConferences("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `conferences` (array[object]), `end` (integer), `first_page_uri` (string), `next_page_uri` (string), `page` (integer), `page_size` (integer), `start` (integer), `uri` (string)
@@ -296,8 +296,8 @@ import com.telnyx.sdk.models.texml.accounts.conferences.ConferenceRetrieveParams
 import com.telnyx.sdk.models.texml.accounts.conferences.ConferenceRetrieveResponse;
 
 ConferenceRetrieveParams params = ConferenceRetrieveParams.builder()
-    .accountSid("account_sid")
-    .conferenceSid("conference_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .conferenceSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 ConferenceRetrieveResponse conference = client.texml().accounts().conferences().retrieve(params);
 ```
@@ -315,8 +315,8 @@ import com.telnyx.sdk.models.texml.accounts.conferences.ConferenceUpdateParams;
 import com.telnyx.sdk.models.texml.accounts.conferences.ConferenceUpdateResponse;
 
 ConferenceUpdateParams params = ConferenceUpdateParams.builder()
-    .accountSid("account_sid")
-    .conferenceSid("conference_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .conferenceSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 ConferenceUpdateResponse conference = client.texml().accounts().conferences().update(params);
 ```
@@ -334,8 +334,8 @@ import com.telnyx.sdk.models.texml.accounts.conferences.participants.Participant
 import com.telnyx.sdk.models.texml.accounts.conferences.participants.ParticipantRetrieveParticipantsResponse;
 
 ParticipantRetrieveParticipantsParams params = ParticipantRetrieveParticipantsParams.builder()
-    .accountSid("account_sid")
-    .conferenceSid("conference_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .conferenceSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 ParticipantRetrieveParticipantsResponse response = client.texml().accounts().conferences().participants().retrieveParticipants(params);
 ```
@@ -353,8 +353,8 @@ import com.telnyx.sdk.models.texml.accounts.conferences.participants.Participant
 import com.telnyx.sdk.models.texml.accounts.conferences.participants.ParticipantParticipantsResponse;
 
 ParticipantParticipantsParams params = ParticipantParticipantsParams.builder()
-    .accountSid("account_sid")
-    .conferenceSid("conference_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .conferenceSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 ParticipantParticipantsResponse response = client.texml().accounts().conferences().participants().participants(params);
 ```
@@ -372,9 +372,9 @@ import com.telnyx.sdk.models.texml.accounts.conferences.participants.Participant
 import com.telnyx.sdk.models.texml.accounts.conferences.participants.ParticipantRetrieveResponse;
 
 ParticipantRetrieveParams params = ParticipantRetrieveParams.builder()
-    .accountSid("account_sid")
-    .conferenceSid("conference_sid")
-    .callSidOrParticipantLabel("call_sid_or_participant_label")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .conferenceSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSidOrParticipantLabel("participant-1")
     .build();
 ParticipantRetrieveResponse participant = client.texml().accounts().conferences().participants().retrieve(params);
 ```
@@ -392,9 +392,9 @@ import com.telnyx.sdk.models.texml.accounts.conferences.participants.Participant
 import com.telnyx.sdk.models.texml.accounts.conferences.participants.ParticipantUpdateResponse;
 
 ParticipantUpdateParams params = ParticipantUpdateParams.builder()
-    .accountSid("account_sid")
-    .conferenceSid("conference_sid")
-    .callSidOrParticipantLabel("call_sid_or_participant_label")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .conferenceSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSidOrParticipantLabel("participant-1")
     .build();
 ParticipantUpdateResponse participant = client.texml().accounts().conferences().participants().update(params);
 ```
@@ -411,9 +411,9 @@ Deletes a conference participant
 import com.telnyx.sdk.models.texml.accounts.conferences.participants.ParticipantDeleteParams;
 
 ParticipantDeleteParams params = ParticipantDeleteParams.builder()
-    .accountSid("account_sid")
-    .conferenceSid("conference_sid")
-    .callSidOrParticipantLabel("call_sid_or_participant_label")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .conferenceSid("550e8400-e29b-41d4-a716-446655440000")
+    .callSidOrParticipantLabel("participant-1")
     .build();
 client.texml().accounts().conferences().participants().delete(params);
 ```
@@ -429,8 +429,8 @@ import com.telnyx.sdk.models.texml.accounts.conferences.ConferenceRetrieveRecord
 import com.telnyx.sdk.models.texml.accounts.conferences.ConferenceRetrieveRecordingsResponse;
 
 ConferenceRetrieveRecordingsParams params = ConferenceRetrieveRecordingsParams.builder()
-    .accountSid("account_sid")
-    .conferenceSid("conference_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .conferenceSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 ConferenceRetrieveRecordingsResponse response = client.texml().accounts().conferences().retrieveRecordings(params);
 ```
@@ -448,8 +448,8 @@ import com.telnyx.sdk.models.texml.accounts.conferences.ConferenceRetrieveRecord
 import com.telnyx.sdk.models.texml.accounts.conferences.ConferenceRetrieveRecordingsJsonResponse;
 
 ConferenceRetrieveRecordingsJsonParams params = ConferenceRetrieveRecordingsJsonParams.builder()
-    .accountSid("account_sid")
-    .conferenceSid("conference_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .conferenceSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 ConferenceRetrieveRecordingsJsonResponse response = client.texml().accounts().conferences().retrieveRecordingsJson(params);
 ```
@@ -466,7 +466,7 @@ Lists queue resources.
 import com.telnyx.sdk.models.texml.accounts.queues.QueueListPage;
 import com.telnyx.sdk.models.texml.accounts.queues.QueueListParams;
 
-QueueListPage page = client.texml().accounts().queues().list("account_sid");
+QueueListPage page = client.texml().accounts().queues().list("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `end` (integer), `first_page_uri` (string), `next_page_uri` (string), `page` (integer), `page_size` (integer), `queues` (array[object]), `start` (integer), `uri` (string)
@@ -481,7 +481,7 @@ Creates a new queue resource.
 import com.telnyx.sdk.models.texml.accounts.queues.QueueCreateParams;
 import com.telnyx.sdk.models.texml.accounts.queues.QueueCreateResponse;
 
-QueueCreateResponse queue = client.texml().accounts().queues().create("account_sid");
+QueueCreateResponse queue = client.texml().accounts().queues().create("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `account_sid` (string), `average_wait_time` (integer), `current_size` (integer), `date_created` (string), `date_updated` (string), `max_size` (integer), `sid` (string), `subresource_uris` (object), `uri` (string)
@@ -497,8 +497,8 @@ import com.telnyx.sdk.models.texml.accounts.queues.QueueRetrieveParams;
 import com.telnyx.sdk.models.texml.accounts.queues.QueueRetrieveResponse;
 
 QueueRetrieveParams params = QueueRetrieveParams.builder()
-    .accountSid("account_sid")
-    .queueSid("queue_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .queueSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 QueueRetrieveResponse queue = client.texml().accounts().queues().retrieve(params);
 ```
@@ -516,8 +516,8 @@ import com.telnyx.sdk.models.texml.accounts.queues.QueueUpdateParams;
 import com.telnyx.sdk.models.texml.accounts.queues.QueueUpdateResponse;
 
 QueueUpdateParams params = QueueUpdateParams.builder()
-    .accountSid("account_sid")
-    .queueSid("queue_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .queueSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 QueueUpdateResponse queue = client.texml().accounts().queues().update(params);
 ```
@@ -534,8 +534,8 @@ Delete a queue resource.
 import com.telnyx.sdk.models.texml.accounts.queues.QueueDeleteParams;
 
 QueueDeleteParams params = QueueDeleteParams.builder()
-    .accountSid("account_sid")
-    .queueSid("queue_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
+    .queueSid("550e8400-e29b-41d4-a716-446655440000")
     .build();
 client.texml().accounts().queues().delete(params);
 ```
@@ -550,7 +550,7 @@ Returns multiple recording resources for an account.
 import com.telnyx.sdk.models.texml.accounts.AccountRetrieveRecordingsJsonParams;
 import com.telnyx.sdk.models.texml.accounts.AccountRetrieveRecordingsJsonResponse;
 
-AccountRetrieveRecordingsJsonResponse response = client.texml().accounts().retrieveRecordingsJson("account_sid");
+AccountRetrieveRecordingsJsonResponse response = client.texml().accounts().retrieveRecordingsJson("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `end` (integer), `first_page_uri` (uri), `next_page_uri` (string), `page` (integer), `page_size` (integer), `previous_page_uri` (uri), `recordings` (array[object]), `start` (integer), `uri` (string)
@@ -566,7 +566,7 @@ import com.telnyx.sdk.models.texml.accounts.TexmlGetCallRecordingResponseBody;
 import com.telnyx.sdk.models.texml.accounts.recordings.json.JsonRetrieveRecordingSidJsonParams;
 
 JsonRetrieveRecordingSidJsonParams params = JsonRetrieveRecordingSidJsonParams.builder()
-    .accountSid("account_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
     .recordingSid("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
     .build();
 TexmlGetCallRecordingResponseBody texmlGetCallRecordingResponseBody = client.texml().accounts().recordings().json().retrieveRecordingSidJson(params);
@@ -584,7 +584,7 @@ Deletes recording resource identified by recording id.
 import com.telnyx.sdk.models.texml.accounts.recordings.json.JsonDeleteRecordingSidJsonParams;
 
 JsonDeleteRecordingSidJsonParams params = JsonDeleteRecordingSidJsonParams.builder()
-    .accountSid("account_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
     .recordingSid("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
     .build();
 client.texml().accounts().recordings().json().deleteRecordingSidJson(params);
@@ -600,7 +600,7 @@ Returns multiple recording transcription resources for an account.
 import com.telnyx.sdk.models.texml.accounts.AccountRetrieveTranscriptionsJsonParams;
 import com.telnyx.sdk.models.texml.accounts.AccountRetrieveTranscriptionsJsonResponse;
 
-AccountRetrieveTranscriptionsJsonResponse response = client.texml().accounts().retrieveTranscriptionsJson("account_sid");
+AccountRetrieveTranscriptionsJsonResponse response = client.texml().accounts().retrieveTranscriptionsJson("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `end` (integer), `first_page_uri` (uri), `next_page_uri` (string), `page` (integer), `page_size` (integer), `previous_page_uri` (uri), `start` (integer), `transcriptions` (array[object]), `uri` (string)
@@ -616,7 +616,7 @@ import com.telnyx.sdk.models.texml.accounts.transcriptions.json.JsonRetrieveReco
 import com.telnyx.sdk.models.texml.accounts.transcriptions.json.JsonRetrieveRecordingTranscriptionSidJsonResponse;
 
 JsonRetrieveRecordingTranscriptionSidJsonParams params = JsonRetrieveRecordingTranscriptionSidJsonParams.builder()
-    .accountSid("account_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
     .recordingTranscriptionSid("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
     .build();
 JsonRetrieveRecordingTranscriptionSidJsonResponse response = client.texml().accounts().transcriptions().json().retrieveRecordingTranscriptionSidJson(params);
@@ -634,7 +634,7 @@ Permanently deletes a recording transcription.
 import com.telnyx.sdk.models.texml.accounts.transcriptions.json.JsonDeleteRecordingTranscriptionSidJsonParams;
 
 JsonDeleteRecordingTranscriptionSidJsonParams params = JsonDeleteRecordingTranscriptionSidJsonParams.builder()
-    .accountSid("account_sid")
+    .accountSid("550e8400-e29b-41d4-a716-446655440000")
     .recordingTranscriptionSid("6a09cdc3-8948-47f0-aa62-74ac943d6c58")
     .build();
 client.texml().accounts().transcriptions().json().deleteRecordingTranscriptionSidJson(params);

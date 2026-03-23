@@ -118,7 +118,7 @@ Retrieves the details of a single managed account.
 `GET /managed_accounts/{id}`
 
 ```javascript
-const managedAccount = await client.managedAccounts.retrieve('id');
+const managedAccount = await client.managedAccounts.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(managedAccount.data);
 ```
@@ -134,7 +134,7 @@ Update a single managed account.
 Optional: `managed_account_allow_custom_pricing` (boolean)
 
 ```javascript
-const managedAccount = await client.managedAccounts.update('id');
+const managedAccount = await client.managedAccounts.update('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(managedAccount.data);
 ```
@@ -148,7 +148,7 @@ Disables a managed account, forbidding it to use Telnyx services, including send
 `POST /managed_accounts/{id}/actions/disable`
 
 ```javascript
-const response = await client.managedAccounts.actions.disable('id');
+const response = await client.managedAccounts.actions.disable('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -164,7 +164,7 @@ Enables a managed account and its sub-users to use Telnyx services.
 Optional: `reenable_all_connections` (boolean)
 
 ```javascript
-const response = await client.managedAccounts.actions.enable('id');
+const response = await client.managedAccounts.actions.enable('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -178,7 +178,7 @@ Returns: `api_key` (string), `api_token` (string), `api_user` (string), `balance
 Optional: `channel_limit` (integer)
 
 ```javascript
-const response = await client.managedAccounts.updateGlobalChannelLimit('id');
+const response = await client.managedAccounts.updateGlobalChannelLimit('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(response.data);
 ```
@@ -221,7 +221,7 @@ Returns a user in your organization.
 `GET /organizations/users/{id}`
 
 ```javascript
-const user = await client.organizations.users.retrieve('id');
+const user = await client.organizations.users.retrieve('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(user.data);
 ```
@@ -235,7 +235,7 @@ Deletes a user in your organization.
 `POST /organizations/users/{id}/actions/remove`
 
 ```javascript
-const action = await client.organizations.users.actions.remove('id');
+const action = await client.organizations.users.actions.remove('550e8400-e29b-41d4-a716-446655440000');
 
 console.log(action.data);
 ```

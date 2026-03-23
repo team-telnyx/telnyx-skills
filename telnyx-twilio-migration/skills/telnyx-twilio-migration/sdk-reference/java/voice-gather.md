@@ -9,11 +9,11 @@
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -64,7 +64,7 @@ Optional: `client_state` (string), `command_id` (string), `messages` (array[obje
 import com.telnyx.sdk.models.calls.actions.ActionAddAiAssistantMessagesParams;
 import com.telnyx.sdk.models.calls.actions.ActionAddAiAssistantMessagesResponse;
 
-ActionAddAiAssistantMessagesResponse response = client.calls().actions().addAiAssistantMessages("call_control_id");
+ActionAddAiAssistantMessagesResponse response = client.calls().actions().addAiAssistantMessages("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -78,13 +78,13 @@ Start an AI assistant on the call. **Expected Webhooks:**
 
 `POST /calls/{call_control_id}/actions/ai_assistant_start`
 
-Optional: `assistant` (object), `client_state` (string), `command_id` (string), `greeting` (string), `interruption_settings` (object), `transcription` (object), `voice` (string), `voice_settings` (object)
+Optional: `assistant` (object), `client_state` (string), `command_id` (string), `greeting` (string), `interruption_settings` (object), `message_history` (array[object]), `participants` (array[object]), `send_message_history_updates` (boolean), `transcription` (object), `voice` (string), `voice_settings` (object)
 
 ```java
 import com.telnyx.sdk.models.calls.actions.ActionStartAiAssistantParams;
 import com.telnyx.sdk.models.calls.actions.ActionStartAiAssistantResponse;
 
-ActionStartAiAssistantResponse response = client.calls().actions().startAiAssistant("call_control_id");
+ActionStartAiAssistantResponse response = client.calls().actions().startAiAssistant("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `conversation_id` (uuid), `result` (string)
@@ -101,7 +101,7 @@ Optional: `client_state` (string), `command_id` (string)
 import com.telnyx.sdk.models.calls.actions.ActionStopAiAssistantParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopAiAssistantResponse;
 
-ActionStopAiAssistantResponse response = client.calls().actions().stopAiAssistant("call_control_id");
+ActionStopAiAssistantResponse response = client.calls().actions().stopAiAssistant("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -118,7 +118,7 @@ Optional: `client_state` (string), `command_id` (string), `gather_id` (string), 
 import com.telnyx.sdk.models.calls.actions.ActionGatherParams;
 import com.telnyx.sdk.models.calls.actions.ActionGatherResponse;
 
-ActionGatherResponse response = client.calls().actions().gather("call_control_id");
+ActionGatherResponse response = client.calls().actions().gather("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -137,7 +137,7 @@ Optional: `client_state` (string), `command_id` (string)
 import com.telnyx.sdk.models.calls.actions.ActionStopGatherParams;
 import com.telnyx.sdk.models.calls.actions.ActionStopGatherResponse;
 
-ActionStopGatherResponse response = client.calls().actions().stopGather("call_control_id");
+ActionStopGatherResponse response = client.calls().actions().stopGather("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -156,7 +156,7 @@ import com.telnyx.sdk.models.calls.actions.ActionGatherUsingAiParams;
 import com.telnyx.sdk.models.calls.actions.ActionGatherUsingAiResponse;
 
 ActionGatherUsingAiParams params = ActionGatherUsingAiParams.builder()
-    .callControlId("call_control_id")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .parameters(ActionGatherUsingAiParams.Parameters.builder()
         .putAdditionalProperty("properties", JsonValue.from("bar"))
         .putAdditionalProperty("required", JsonValue.from("bar"))
@@ -180,7 +180,7 @@ Optional: `audio_url` (string), `client_state` (string), `command_id` (string), 
 import com.telnyx.sdk.models.calls.actions.ActionGatherUsingAudioParams;
 import com.telnyx.sdk.models.calls.actions.ActionGatherUsingAudioResponse;
 
-ActionGatherUsingAudioResponse response = client.calls().actions().gatherUsingAudio("call_control_id");
+ActionGatherUsingAudioResponse response = client.calls().actions().gatherUsingAudio("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ");
 ```
 
 Returns: `result` (string)
@@ -198,7 +198,7 @@ import com.telnyx.sdk.models.calls.actions.ActionGatherUsingSpeakParams;
 import com.telnyx.sdk.models.calls.actions.ActionGatherUsingSpeakResponse;
 
 ActionGatherUsingSpeakParams params = ActionGatherUsingSpeakParams.builder()
-    .callControlId("call_control_id")
+    .callControlId("v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ")
     .payload("say this on call")
     .voice("male")
     .build();

@@ -22,11 +22,11 @@ metadata:
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -84,7 +84,7 @@ Returns: `alias` (string), `certificate` (string), `created_at` (date-time), `id
 
 ## Creates a new mobile push credential
 
-`POST /mobile_push_credentials`
+`POST /mobile_push_credentials` — Required: `type`, `certificate`, `private_key`, `alias`
 
 ```java
 import com.telnyx.sdk.models.mobilepushcredentials.MobilePushCredentialCreateParams;
@@ -172,7 +172,7 @@ Get the details of an existing On-demand Credential.
 import com.telnyx.sdk.models.telephonycredentials.TelephonyCredentialRetrieveParams;
 import com.telnyx.sdk.models.telephonycredentials.TelephonyCredentialRetrieveResponse;
 
-TelephonyCredentialRetrieveResponse telephonyCredential = client.telephonyCredentials().retrieve("id");
+TelephonyCredentialRetrieveResponse telephonyCredential = client.telephonyCredentials().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
@@ -189,7 +189,7 @@ Optional: `connection_id` (string), `expires_at` (string), `name` (string), `tag
 import com.telnyx.sdk.models.telephonycredentials.TelephonyCredentialUpdateParams;
 import com.telnyx.sdk.models.telephonycredentials.TelephonyCredentialUpdateResponse;
 
-TelephonyCredentialUpdateResponse telephonyCredential = client.telephonyCredentials().update("id");
+TelephonyCredentialUpdateResponse telephonyCredential = client.telephonyCredentials().update("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)
@@ -204,7 +204,7 @@ Delete an existing credential.
 import com.telnyx.sdk.models.telephonycredentials.TelephonyCredentialDeleteParams;
 import com.telnyx.sdk.models.telephonycredentials.TelephonyCredentialDeleteResponse;
 
-TelephonyCredentialDeleteResponse telephonyCredential = client.telephonyCredentials().delete("id");
+TelephonyCredentialDeleteResponse telephonyCredential = client.telephonyCredentials().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `created_at` (string), `expired` (boolean), `expires_at` (string), `id` (string), `name` (string), `record_type` (string), `resource_id` (string), `sip_password` (string), `sip_username` (string), `updated_at` (string), `user_id` (string)

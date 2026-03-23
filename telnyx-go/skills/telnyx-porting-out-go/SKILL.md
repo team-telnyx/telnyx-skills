@@ -81,9 +81,9 @@ Returns the portout requests according to filters
 `GET /portouts`
 
 ```go
-	page, err := client.Portouts.List(context.TODO(), telnyx.PortoutListParams{})
+	page, err := client.Portouts.List(context.Background(), telnyx.PortoutListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -97,14 +97,14 @@ Returns a list of all port-out events.
 `GET /portouts/events`
 
 ```go
-	page, err := client.Portouts.Events.List(context.TODO(), telnyx.PortoutEventListParams{})
+	page, err := client.Portouts.Events.List(context.Background(), telnyx.PortoutEventListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_notification_methods` (array[string]), `created_at` (date-time), `event_type` (enum: portout.status_changed, portout.foc_date_changed, portout.new_comment), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `portout_id` (uuid), `record_type` (string), `updated_at` (date-time)
 
 ## Show a port-out event
 
@@ -113,14 +113,14 @@ Show a specific port-out event.
 `GET /portouts/events/{id}`
 
 ```go
-	event, err := client.Portouts.Events.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	event, err := client.Portouts.Events.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", event.Data)
 ```
 
-Returns: `data` (object)
+Returns: `available_notification_methods` (array[string]), `created_at` (date-time), `event_type` (enum: portout.status_changed, portout.foc_date_changed, portout.new_comment), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `portout_id` (uuid), `record_type` (string), `updated_at` (date-time)
 
 ## Republish a port-out event
 
@@ -129,9 +129,9 @@ Republish a specific port-out event.
 `POST /portouts/events/{id}/republish`
 
 ```go
-	err := client.Portouts.Events.Republish(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	err := client.Portouts.Events.Republish(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 ```
 
@@ -143,12 +143,12 @@ Given a port-out ID, list rejection codes that are eligible for that port-out
 
 ```go
 	response, err := client.Portouts.ListRejectionCodes(
-		context.TODO(),
+		context.Background(),
 		"329d6658-8f93-405d-862f-648776e8afd7",
 		telnyx.PortoutListRejectionCodesParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -162,9 +162,9 @@ List the reports generated about port-out operations.
 `GET /portouts/reports`
 
 ```go
-	page, err := client.Portouts.Reports.List(context.TODO(), telnyx.PortoutReportListParams{})
+	page, err := client.Portouts.Reports.List(context.Background(), telnyx.PortoutReportListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -178,14 +178,14 @@ Generate reports about port-out operations.
 `POST /portouts/reports`
 
 ```go
-	report, err := client.Portouts.Reports.New(context.TODO(), telnyx.PortoutReportNewParams{
+	report, err := client.Portouts.Reports.New(context.Background(), telnyx.PortoutReportNewParams{
 		Params: telnyx.ExportPortoutsCsvReportParam{
 			Filters: telnyx.ExportPortoutsCsvReportFiltersParam{},
 		},
 		ReportType: telnyx.PortoutReportNewParamsReportTypeExportPortoutsCsv,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", report.Data)
 ```
@@ -199,9 +199,9 @@ Retrieve a specific report generated.
 `GET /portouts/reports/{id}`
 
 ```go
-	report, err := client.Portouts.Reports.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	report, err := client.Portouts.Reports.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", report.Data)
 ```
@@ -215,9 +215,9 @@ Returns the portout request based on the ID provided
 `GET /portouts/{id}`
 
 ```go
-	portout, err := client.Portouts.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	portout, err := client.Portouts.Get(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", portout.Data)
 ```
@@ -231,9 +231,9 @@ Returns a list of comments for a portout request.
 `GET /portouts/{id}/comments`
 
 ```go
-	comments, err := client.Portouts.Comments.List(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	comments, err := client.Portouts.Comments.List(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", comments.Data)
 ```
@@ -250,12 +250,12 @@ Optional: `body` (string)
 
 ```go
 	comment, err := client.Portouts.Comments.New(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortoutCommentNewParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", comment.Data)
 ```
@@ -269,9 +269,9 @@ List every supporting documents for a portout request.
 `GET /portouts/{id}/supporting_documents`
 
 ```go
-	supportingDocuments, err := client.Portouts.SupportingDocuments.List(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	supportingDocuments, err := client.Portouts.SupportingDocuments.List(context.Background(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", supportingDocuments.Data)
 ```
@@ -288,12 +288,12 @@ Optional: `documents` (array[object])
 
 ```go
 	supportingDocument, err := client.Portouts.SupportingDocuments.New(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.PortoutSupportingDocumentNewParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", supportingDocument.Data)
 ```
@@ -310,7 +310,7 @@ Optional: `host_messaging` (boolean)
 
 ```go
 	response, err := client.Portouts.UpdateStatus(
-		context.TODO(),
+		context.Background(),
 		telnyx.PortoutUpdateStatusParamsStatusAuthorized,
 		telnyx.PortoutUpdateStatusParams{
 			ID:     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -318,7 +318,7 @@ Optional: `host_messaging` (boolean)
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```

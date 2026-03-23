@@ -70,9 +70,9 @@ Get all allowed bundles.
 `GET /bundle_pricing/billing_bundles`
 
 ```go
-	page, err := client.BundlePricing.BillingBundles.List(context.TODO(), telnyx.BundlePricingBillingBundleListParams{})
+	page, err := client.BundlePricing.BillingBundles.List(context.Background(), telnyx.BundlePricingBillingBundleListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -87,12 +87,12 @@ Get a single bundle by ID.
 
 ```go
 	billingBundle, err := client.BundlePricing.BillingBundles.Get(
-		context.TODO(),
+		context.Background(),
 		"8661948c-a386-4385-837f-af00f40f111a",
 		telnyx.BundlePricingBillingBundleGetParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", billingBundle.Data)
 ```
@@ -106,9 +106,9 @@ Get a paginated list of user bundles.
 `GET /bundle_pricing/user_bundles`
 
 ```go
-	page, err := client.BundlePricing.UserBundles.List(context.TODO(), telnyx.BundlePricingUserBundleListParams{})
+	page, err := client.BundlePricing.UserBundles.List(context.Background(), telnyx.BundlePricingUserBundleListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -124,9 +124,9 @@ Creates multiple user bundles for the user.
 Optional: `idempotency_key` (uuid), `items` (array[object])
 
 ```go
-	userBundle, err := client.BundlePricing.UserBundles.New(context.TODO(), telnyx.BundlePricingUserBundleNewParams{})
+	userBundle, err := client.BundlePricing.UserBundles.New(context.Background(), telnyx.BundlePricingUserBundleNewParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", userBundle.Data)
 ```
@@ -140,9 +140,9 @@ Returns all user bundles that aren't in use.
 `GET /bundle_pricing/user_bundles/unused`
 
 ```go
-	response, err := client.BundlePricing.UserBundles.ListUnused(context.TODO(), telnyx.BundlePricingUserBundleListUnusedParams{})
+	response, err := client.BundlePricing.UserBundles.ListUnused(context.Background(), telnyx.BundlePricingUserBundleListUnusedParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -157,12 +157,12 @@ Retrieves a user bundle by its ID.
 
 ```go
 	userBundle, err := client.BundlePricing.UserBundles.Get(
-		context.TODO(),
+		context.Background(),
 		"ca1d2263-d1f1-43ac-ba53-248e7a4bb26a",
 		telnyx.BundlePricingUserBundleGetParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", userBundle.Data)
 ```
@@ -177,12 +177,12 @@ Deactivates a user bundle by its ID.
 
 ```go
 	response, err := client.BundlePricing.UserBundles.Deactivate(
-		context.TODO(),
+		context.Background(),
 		"ca1d2263-d1f1-43ac-ba53-248e7a4bb26a",
 		telnyx.BundlePricingUserBundleDeactivateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -197,12 +197,12 @@ Retrieves the resources of a user bundle by its ID.
 
 ```go
 	response, err := client.BundlePricing.UserBundles.ListResources(
-		context.TODO(),
+		context.Background(),
 		"ca1d2263-d1f1-43ac-ba53-248e7a4bb26a",
 		telnyx.BundlePricingUserBundleListResourcesParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -216,14 +216,14 @@ List all documents links ordered by created_at descending.
 `GET /document_links`
 
 ```go
-	page, err := client.DocumentLinks.List(context.TODO(), telnyx.DocumentLinkListParams{})
+	page, err := client.DocumentLinks.List(context.Background(), telnyx.DocumentLinkListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `document_id` (uuid), `id` (uuid), `linked_record_type` (string), `linked_resource_id` (string), `record_type` (string), `updated_at` (string)
 
 ## List all documents
 
@@ -232,14 +232,14 @@ List all documents ordered by created_at descending.
 `GET /documents`
 
 ```go
-	page, err := client.Documents.List(context.TODO(), telnyx.DocumentListParams{})
+	page, err := client.Documents.List(context.Background(), telnyx.DocumentListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Upload a document
 
@@ -250,16 +250,16 @@ Upload a document.  Uploaded files must be linked to a service within 30 minutes
 Optional: `customer_reference` (string), `file` (byte), `filename` (string), `url` (string)
 
 ```go
-	response, err := client.Documents.UploadJson(context.TODO(), telnyx.DocumentUploadJsonParams{
+	response, err := client.Documents.UploadJson(context.Background(), telnyx.DocumentUploadJsonParams{
 		Document: telnyx.DocumentUploadJsonParamsDocument{},
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Retrieve a document
 
@@ -268,14 +268,14 @@ Retrieve a document.
 `GET /documents/{id}`
 
 ```go
-	document, err := client.Documents.Get(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+	document, err := client.Documents.Get(context.Background(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", document.Data)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Update a document
 
@@ -283,21 +283,23 @@ Update a document.
 
 `PATCH /documents/{id}`
 
+Optional: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
+
 ```go
 	document, err := client.Documents.Update(
-		context.TODO(),
+		context.Background(),
 		"6a09cdc3-8948-47f0-aa62-74ac943d6c58",
 		telnyx.DocumentUpdateParams{
 			DocServiceDocument: telnyx.DocServiceDocumentParam{},
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", document.Data)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Delete a document
 
@@ -306,14 +308,14 @@ Delete a document.  A document can only be deleted if it's not linked to a servi
 `DELETE /documents/{id}`
 
 ```go
-	document, err := client.Documents.Delete(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+	document, err := client.Documents.Delete(context.Background(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", document.Data)
 ```
 
-Returns: `data` (object)
+Returns: `av_scan_status` (enum: scanned, infected, pending_scan, not_scanned), `content_type` (string), `created_at` (string), `customer_reference` (string), `filename` (string), `id` (uuid), `record_type` (string), `sha256` (string), `size` (object), `status` (enum: pending, verified, denied), `updated_at` (string)
 
 ## Download a document
 
@@ -322,9 +324,9 @@ Download a document.
 `GET /documents/{id}/download`
 
 ```go
-	response, err := client.Documents.Download(context.TODO(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
+	response, err := client.Documents.Download(context.Background(), "6a09cdc3-8948-47f0-aa62-74ac943d6c58")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response)
 ```
@@ -336,9 +338,9 @@ Generates a temporary pre-signed URL that can be used to download the document d
 `GET /documents/{id}/download_link`
 
 ```go
-	response, err := client.Documents.GenerateDownloadLink(context.TODO(), "550e8400-e29b-41d4-a716-446655440000")
+	response, err := client.Documents.GenerateDownloadLink(context.Background(), "550e8400-e29b-41d4-a716-446655440000")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -351,14 +353,14 @@ Returns: `url` (uri)
 
 ```go
 	response, err := client.NumberOrderPhoneNumbers.UpdateRequirementGroup(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.NumberOrderPhoneNumberUpdateRequirementGroupParams{
 			RequirementGroupID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -370,9 +372,9 @@ Returns: `bundle_id` (uuid), `country_code` (string), `deadline` (date-time), `i
 `GET /phone_numbers_regulatory_requirements`
 
 ```go
-	phoneNumbersRegulatoryRequirement, err := client.PhoneNumbersRegulatoryRequirements.Get(context.TODO(), telnyx.PhoneNumbersRegulatoryRequirementGetParams{})
+	phoneNumbersRegulatoryRequirement, err := client.PhoneNumbersRegulatoryRequirements.Get(context.Background(), telnyx.PhoneNumbersRegulatoryRequirementGetParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", phoneNumbersRegulatoryRequirement.Data)
 ```
@@ -384,9 +386,9 @@ Returns: `phone_number` (string), `phone_number_type` (string), `record_type` (s
 `GET /regulatory_requirements`
 
 ```go
-	regulatoryRequirement, err := client.RegulatoryRequirements.Get(context.TODO(), telnyx.RegulatoryRequirementGetParams{})
+	regulatoryRequirement, err := client.RegulatoryRequirements.Get(context.Background(), telnyx.RegulatoryRequirementGetParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", regulatoryRequirement.Data)
 ```
@@ -398,9 +400,9 @@ Returns: `action` (string), `country_code` (string), `phone_number_type` (string
 `GET /requirement_groups`
 
 ```go
-	requirementGroups, err := client.RequirementGroups.List(context.TODO(), telnyx.RequirementGroupListParams{})
+	requirementGroups, err := client.RequirementGroups.List(context.Background(), telnyx.RequirementGroupListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", requirementGroups)
 ```
@@ -412,13 +414,13 @@ Returns: `action` (string), `country_code` (string), `phone_number_type` (string
 Optional: `customer_reference` (string), `regulatory_requirements` (array[object])
 
 ```go
-	requirementGroup, err := client.RequirementGroups.New(context.TODO(), telnyx.RequirementGroupNewParams{
+	requirementGroup, err := client.RequirementGroups.New(context.Background(), telnyx.RequirementGroupNewParams{
 		Action:          telnyx.RequirementGroupNewParamsActionOrdering,
 		CountryCode:     "US",
 		PhoneNumberType: telnyx.RequirementGroupNewParamsPhoneNumberTypeLocal,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", requirementGroup.ID)
 ```
@@ -430,9 +432,9 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 `GET /requirement_groups/{id}`
 
 ```go
-	requirementGroup, err := client.RequirementGroups.Get(context.TODO(), "id")
+	requirementGroup, err := client.RequirementGroups.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", requirementGroup.ID)
 ```
@@ -447,12 +449,12 @@ Optional: `customer_reference` (string), `regulatory_requirements` (array[object
 
 ```go
 	requirementGroup, err := client.RequirementGroups.Update(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.RequirementGroupUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", requirementGroup.ID)
 ```
@@ -464,9 +466,9 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 `DELETE /requirement_groups/{id}`
 
 ```go
-	requirementGroup, err := client.RequirementGroups.Delete(context.TODO(), "id")
+	requirementGroup, err := client.RequirementGroups.Delete(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", requirementGroup.ID)
 ```
@@ -478,9 +480,9 @@ Returns: `action` (string), `country_code` (string), `created_at` (date-time), `
 `POST /requirement_groups/{id}/submit_for_approval`
 
 ```go
-	requirementGroup, err := client.RequirementGroups.SubmitForApproval(context.TODO(), "id")
+	requirementGroup, err := client.RequirementGroups.SubmitForApproval(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", requirementGroup.ID)
 ```
@@ -494,9 +496,9 @@ List all requirement types ordered by created_at descending
 `GET /requirement_types`
 
 ```go
-	requirementTypes, err := client.RequirementTypes.List(context.TODO(), telnyx.RequirementTypeListParams{})
+	requirementTypes, err := client.RequirementTypes.List(context.Background(), telnyx.RequirementTypeListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", requirementTypes.Data)
 ```
@@ -510,9 +512,9 @@ Retrieve a requirement type by id
 `GET /requirement_types/{id}`
 
 ```go
-	requirementType, err := client.RequirementTypes.Get(context.TODO(), "a38c217a-8019-48f8-bff6-0fdd9939075b")
+	requirementType, err := client.RequirementTypes.Get(context.Background(), "a38c217a-8019-48f8-bff6-0fdd9939075b")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", requirementType.Data)
 ```
@@ -526,9 +528,9 @@ List all requirements with filtering, sorting, and pagination
 `GET /requirements`
 
 ```go
-	page, err := client.Requirements.List(context.TODO(), telnyx.RequirementListParams{})
+	page, err := client.Requirements.List(context.Background(), telnyx.RequirementListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -542,9 +544,9 @@ Retrieve a document requirement record
 `GET /requirements/{id}`
 
 ```go
-	requirement, err := client.Requirements.Get(context.TODO(), "a9dad8d5-fdbd-49d7-aa23-39bb08a5ebaa")
+	requirement, err := client.Requirements.Get(context.Background(), "a9dad8d5-fdbd-49d7-aa23-39bb08a5ebaa")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", requirement.Data)
 ```
@@ -557,14 +559,14 @@ Returns: `action` (enum: both, branded_calling, ordering, porting), `country_cod
 
 ```go
 	response, err := client.SubNumberOrders.UpdateRequirementGroup(
-		context.TODO(),
+		context.Background(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		telnyx.SubNumberOrderUpdateRequirementGroupParams{
 			RequirementGroupID: "a4b201f9-8646-4e54-a7d2-b2e403eeaf8c",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -578,9 +580,9 @@ Returns a list of your user addresses.
 `GET /user_addresses`
 
 ```go
-	page, err := client.UserAddresses.List(context.TODO(), telnyx.UserAddressListParams{})
+	page, err := client.UserAddresses.List(context.Background(), telnyx.UserAddressListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -596,7 +598,7 @@ Creates a user address.
 Optional: `administrative_area` (string), `borough` (string), `customer_reference` (string), `extended_address` (string), `neighborhood` (string), `phone_number` (string), `postal_code` (string), `skip_address_verification` (boolean)
 
 ```go
-	userAddress, err := client.UserAddresses.New(context.TODO(), telnyx.UserAddressNewParams{
+	userAddress, err := client.UserAddresses.New(context.Background(), telnyx.UserAddressNewParams{
 		BusinessName:  "Toy-O'Kon",
 		CountryCode:   "US",
 		FirstName:     "Alfred",
@@ -605,7 +607,7 @@ Optional: `administrative_area` (string), `borough` (string), `customer_referenc
 		StreetAddress: "600 Congress Avenue",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", userAddress.Data)
 ```
@@ -619,9 +621,9 @@ Retrieves the details of an existing user address.
 `GET /user_addresses/{id}`
 
 ```go
-	userAddress, err := client.UserAddresses.Get(context.TODO(), "id")
+	userAddress, err := client.UserAddresses.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", userAddress.Data)
 ```
@@ -635,9 +637,9 @@ Gets a paginated list of Verified Numbers.
 `GET /verified_numbers`
 
 ```go
-	page, err := client.VerifiedNumbers.List(context.TODO(), telnyx.VerifiedNumberListParams{})
+	page, err := client.VerifiedNumbers.List(context.Background(), telnyx.VerifiedNumberListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -653,12 +655,12 @@ Initiates phone number verification procedure. Supports DTMF extension dialing f
 Optional: `extension` (string)
 
 ```go
-	verifiedNumber, err := client.VerifiedNumbers.New(context.TODO(), telnyx.VerifiedNumberNewParams{
+	verifiedNumber, err := client.VerifiedNumbers.New(context.Background(), telnyx.VerifiedNumberNewParams{
 		PhoneNumber:        "+15551234567",
 		VerificationMethod: telnyx.VerifiedNumberNewParamsVerificationMethodSMS,
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verifiedNumber.PhoneNumber)
 ```
@@ -670,9 +672,9 @@ Returns: `phone_number` (string), `verification_method` (string)
 `GET /verified_numbers/{phone_number}`
 
 ```go
-	verifiedNumberDataWrapper, err := client.VerifiedNumbers.Get(context.TODO(), "+15551234567")
+	verifiedNumberDataWrapper, err := client.VerifiedNumbers.Get(context.Background(), "+15551234567")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verifiedNumberDataWrapper.Data)
 ```
@@ -684,9 +686,9 @@ Returns: `phone_number` (string), `record_type` (enum: verified_number), `verifi
 `DELETE /verified_numbers/{phone_number}`
 
 ```go
-	verifiedNumberDataWrapper, err := client.VerifiedNumbers.Delete(context.TODO(), "+15551234567")
+	verifiedNumberDataWrapper, err := client.VerifiedNumbers.Delete(context.Background(), "+15551234567")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verifiedNumberDataWrapper.Data)
 ```
@@ -699,14 +701,14 @@ Returns: `phone_number` (string), `record_type` (enum: verified_number), `verifi
 
 ```go
 	verifiedNumberDataWrapper, err := client.VerifiedNumbers.Actions.SubmitVerificationCode(
-		context.TODO(),
+		context.Background(),
 		"+15551234567",
 		telnyx.VerifiedNumberActionSubmitVerificationCodeParams{
 			VerificationCode: "123456",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", verifiedNumberDataWrapper.Data)
 ```

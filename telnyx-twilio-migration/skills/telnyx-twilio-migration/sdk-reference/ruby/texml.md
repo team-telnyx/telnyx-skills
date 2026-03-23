@@ -91,7 +91,7 @@ Returns an individual call identified by its CallSid. This endpoint is eventuall
 `GET /texml/Accounts/{account_sid}/Calls/{call_sid}`
 
 ```ruby
-call = client.texml.accounts.calls.retrieve("call_sid", account_sid: "account_sid")
+call = client.texml.accounts.calls.retrieve("call_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(call)
 ```
@@ -105,7 +105,7 @@ Update TeXML call. Please note that the keys present in the payload MUST BE form
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}`
 
 ```ruby
-call = client.texml.accounts.calls.update("call_sid", account_sid: "account_sid")
+call = client.texml.accounts.calls.update("call_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(call)
 ```
@@ -121,7 +121,7 @@ Returns recordings for a call identified by call_sid.
 ```ruby
 response = client.texml.accounts.calls.recordings_json.retrieve_recordings_json(
   "call_sid",
-  account_sid: "account_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(response)
@@ -136,7 +136,7 @@ Starts recording with specified parameters for call identified by call_sid.
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Recordings.json`
 
 ```ruby
-response = client.texml.accounts.calls.recordings_json.recordings_json("call_sid", account_sid: "account_sid")
+response = client.texml.accounts.calls.recordings_json.recordings_json("call_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -152,8 +152,8 @@ Updates recording resource for particular call.
 ```ruby
 response = client.texml.accounts.calls.recordings.recording_sid_json(
   "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  account_sid: "account_sid",
-  call_sid: "call_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000",
+  call_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(response)
@@ -168,7 +168,7 @@ Starts siprec session with specified parameters for call identified by call_sid.
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Siprec.json`
 
 ```ruby
-response = client.texml.accounts.calls.siprec_json("call_sid", account_sid: "account_sid")
+response = client.texml.accounts.calls.siprec_json("call_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -184,8 +184,8 @@ Updates siprec session identified by siprec_sid.
 ```ruby
 response = client.texml.accounts.calls.siprec.siprec_sid_json(
   "siprec_sid",
-  account_sid: "account_sid",
-  call_sid: "call_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000",
+  call_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(response)
@@ -200,7 +200,7 @@ Starts streaming media from a call to a specific WebSocket address.
 `POST /texml/Accounts/{account_sid}/Calls/{call_sid}/Streams.json`
 
 ```ruby
-response = client.texml.accounts.calls.streams_json("call_sid", account_sid: "account_sid")
+response = client.texml.accounts.calls.streams_json("call_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -216,8 +216,8 @@ Updates streaming resource for particular call.
 ```ruby
 response = client.texml.accounts.calls.streams.streaming_sid_json(
   "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  account_sid: "account_sid",
-  call_sid: "call_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000",
+  call_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(response)
@@ -246,7 +246,7 @@ Returns a conference resource.
 `GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}`
 
 ```ruby
-conference = client.texml.accounts.conferences.retrieve("conference_sid", account_sid: "account_sid")
+conference = client.texml.accounts.conferences.retrieve("conference_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(conference)
 ```
@@ -260,7 +260,7 @@ Updates a conference resource.
 `POST /texml/Accounts/{account_sid}/Conferences/{conference_sid}`
 
 ```ruby
-conference = client.texml.accounts.conferences.update("conference_sid", account_sid: "account_sid")
+conference = client.texml.accounts.conferences.update("conference_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(conference)
 ```
@@ -276,7 +276,7 @@ Lists conference participants
 ```ruby
 response = client.texml.accounts.conferences.participants.retrieve_participants(
   "conference_sid",
-  account_sid: "account_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(response)
@@ -291,7 +291,7 @@ Dials a new conference participant
 `POST /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Participants`
 
 ```ruby
-response = client.texml.accounts.conferences.participants.participants("conference_sid", account_sid: "account_sid")
+response = client.texml.accounts.conferences.participants.participants("conference_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -307,8 +307,8 @@ Gets conference participant resource
 ```ruby
 participant = client.texml.accounts.conferences.participants.retrieve(
   "call_sid_or_participant_label",
-  account_sid: "account_sid",
-  conference_sid: "conference_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000",
+  conference_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(participant)
@@ -325,8 +325,8 @@ Updates a conference participant
 ```ruby
 participant = client.texml.accounts.conferences.participants.update(
   "call_sid_or_participant_label",
-  account_sid: "account_sid",
-  conference_sid: "conference_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000",
+  conference_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(participant)
@@ -343,8 +343,8 @@ Deletes a conference participant
 ```ruby
 result = client.texml.accounts.conferences.participants.delete(
   "call_sid_or_participant_label",
-  account_sid: "account_sid",
-  conference_sid: "conference_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000",
+  conference_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(result)
@@ -357,7 +357,7 @@ Lists conference recordings
 `GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Recordings`
 
 ```ruby
-response = client.texml.accounts.conferences.retrieve_recordings("conference_sid", account_sid: "account_sid")
+response = client.texml.accounts.conferences.retrieve_recordings("conference_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -371,7 +371,7 @@ Returns recordings for a conference identified by conference_sid.
 `GET /texml/Accounts/{account_sid}/Conferences/{conference_sid}/Recordings.json`
 
 ```ruby
-response = client.texml.accounts.conferences.retrieve_recordings_json("conference_sid", account_sid: "account_sid")
+response = client.texml.accounts.conferences.retrieve_recordings_json("conference_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(response)
 ```
@@ -413,7 +413,7 @@ Returns a queue resource.
 `GET /texml/Accounts/{account_sid}/Queues/{queue_sid}`
 
 ```ruby
-queue = client.texml.accounts.queues.retrieve("queue_sid", account_sid: "account_sid")
+queue = client.texml.accounts.queues.retrieve("queue_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(queue)
 ```
@@ -427,7 +427,7 @@ Updates a queue resource.
 `POST /texml/Accounts/{account_sid}/Queues/{queue_sid}`
 
 ```ruby
-queue = client.texml.accounts.queues.update("queue_sid", account_sid: "account_sid")
+queue = client.texml.accounts.queues.update("queue_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(queue)
 ```
@@ -441,7 +441,7 @@ Delete a queue resource.
 `DELETE /texml/Accounts/{account_sid}/Queues/{queue_sid}`
 
 ```ruby
-result = client.texml.accounts.queues.delete("queue_sid", account_sid: "account_sid")
+result = client.texml.accounts.queues.delete("queue_sid", account_sid: "550e8400-e29b-41d4-a716-446655440000")
 
 puts(result)
 ```
@@ -469,7 +469,7 @@ Returns recording resource identified by recording id.
 ```ruby
 texml_get_call_recording_response_body = client.texml.accounts.recordings.json.retrieve_recording_sid_json(
   "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  account_sid: "account_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(texml_get_call_recording_response_body)
@@ -486,7 +486,7 @@ Deletes recording resource identified by recording id.
 ```ruby
 result = client.texml.accounts.recordings.json.delete_recording_sid_json(
   "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  account_sid: "account_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(result)
@@ -515,7 +515,7 @@ Returns the recording transcription resource identified by its ID.
 ```ruby
 response = client.texml.accounts.transcriptions.json.retrieve_recording_transcription_sid_json(
   "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  account_sid: "account_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(response)
@@ -532,7 +532,7 @@ Permanently deletes a recording transcription.
 ```ruby
 result = client.texml.accounts.transcriptions.json.delete_recording_transcription_sid_json(
   "6a09cdc3-8948-47f0-aa62-74ac943d6c58",
-  account_sid: "account_sid"
+  account_sid: "550e8400-e29b-41d4-a716-446655440000"
 )
 
 puts(result)

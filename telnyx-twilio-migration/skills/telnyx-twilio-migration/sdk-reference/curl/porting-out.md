@@ -71,7 +71,7 @@ Returns a list of all port-out events.
 curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/events"
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_notification_methods` (array[string]), `created_at` (date-time), `event_type` (enum: portout.status_changed, portout.foc_date_changed, portout.new_comment), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `portout_id` (uuid), `record_type` (string), `updated_at` (date-time)
 
 ## Show a port-out event
 
@@ -80,10 +80,10 @@ Show a specific port-out event.
 `GET /portouts/events/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/events/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/events/550e8400-e29b-41d4-a716-446655440000"
 ```
 
-Returns: `data` (object)
+Returns: `available_notification_methods` (array[string]), `created_at` (date-time), `event_type` (enum: portout.status_changed, portout.foc_date_changed, portout.new_comment), `id` (uuid), `payload` (object), `payload_status` (enum: created, completed), `portout_id` (uuid), `record_type` (string), `updated_at` (date-time)
 
 ## Republish a port-out event
 
@@ -96,7 +96,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/portouts/events/{id}/republish"
+  "https://api.telnyx.com/v2/portouts/events/550e8400-e29b-41d4-a716-446655440000/republish"
 ```
 
 ## List eligible port-out rejection codes for a specific order
@@ -146,7 +146,7 @@ Retrieve a specific report generated.
 `GET /portouts/reports/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/reports/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/reports/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `created_at` (date-time), `document_id` (uuid), `id` (uuid), `params` (object), `record_type` (string), `report_type` (enum: export_portouts_csv), `status` (enum: pending, completed), `updated_at` (date-time)
@@ -158,7 +158,7 @@ Returns the portout request based on the ID provided
 `GET /portouts/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `already_ported` (boolean), `authorized_name` (string), `carrier_name` (string), `city` (string), `created_at` (string), `current_carrier` (string), `end_user_name` (string), `foc_date` (string), `host_messaging` (boolean), `id` (string), `inserted_at` (string), `lsr` (array[string]), `phone_numbers` (array[string]), `pon` (string), `reason` (string | null), `record_type` (string), `rejection_code` (integer), `requested_foc_date` (string), `service_address` (string), `spid` (string), `state` (string), `status` (enum: pending, authorized, ported, rejected, rejected-pending, canceled), `support_key` (string), `updated_at` (string), `user_id` (uuid), `vendor` (uuid), `zip` (string)
@@ -170,7 +170,7 @@ Returns a list of comments for a portout request.
 `GET /portouts/{id}/comments`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/{id}/comments"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/550e8400-e29b-41d4-a716-446655440000/comments"
 ```
 
 Returns: `body` (string), `created_at` (string), `id` (string), `portout_id` (string), `record_type` (string), `user_id` (string)
@@ -188,7 +188,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/portouts/{id}/comments"
+  "https://api.telnyx.com/v2/portouts/550e8400-e29b-41d4-a716-446655440000/comments"
 ```
 
 Returns: `body` (string), `created_at` (string), `id` (string), `portout_id` (string), `record_type` (string), `user_id` (string)
@@ -200,7 +200,7 @@ List every supporting documents for a portout request.
 `GET /portouts/{id}/supporting_documents`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/{id}/supporting_documents"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/portouts/550e8400-e29b-41d4-a716-446655440000/supporting_documents"
 ```
 
 Returns: `created_at` (string), `document_id` (uuid), `id` (uuid), `portout_id` (uuid), `record_type` (string), `type` (enum: loa, invoice), `updated_at` (string)
@@ -218,7 +218,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://api.telnyx.com/v2/portouts/{id}/supporting_documents"
+  "https://api.telnyx.com/v2/portouts/550e8400-e29b-41d4-a716-446655440000/supporting_documents"
 ```
 
 Returns: `created_at` (string), `document_id` (uuid), `id` (uuid), `portout_id` (uuid), `record_type` (string), `type` (enum: loa, invoice), `updated_at` (string)
@@ -237,10 +237,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "reason": "I do not recognize this transaction",
-  "host_messaging": false
+  "reason": "I do not recognize this transaction"
 }' \
-  "https://api.telnyx.com/v2/portouts/{id}/{status}"
+  "https://api.telnyx.com/v2/portouts/550e8400-e29b-41d4-a716-446655440000/{status}"
 ```
 
 Returns: `already_ported` (boolean), `authorized_name` (string), `carrier_name` (string), `city` (string), `created_at` (string), `current_carrier` (string), `end_user_name` (string), `foc_date` (string), `host_messaging` (boolean), `id` (string), `inserted_at` (string), `lsr` (array[string]), `phone_numbers` (array[string]), `pon` (string), `reason` (string | null), `record_type` (string), `rejection_code` (integer), `requested_foc_date` (string), `service_address` (string), `spid` (string), `state` (string), `status` (enum: pending, authorized, ported, rejected, rejected-pending, canceled), `support_key` (string), `updated_at` (string), `user_id` (uuid), `vendor` (uuid), `zip` (string)

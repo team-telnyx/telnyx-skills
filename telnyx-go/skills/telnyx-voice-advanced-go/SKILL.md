@@ -71,6 +71,34 @@ Common error codes: `401` invalid API key, `403` insufficient permissions,
 `404` resource not found, `422` validation error (check field formats),
 `429` rate limited (retry with exponential backoff).
 
+## Join AI Assistant Conversation
+
+Add a participant to an existing AI assistant conversation. Use this command to bring an additional call leg into a running AI conversation.
+
+`POST /calls/{call_control_id}/actions/ai_assistant_join` — Required: `conversation_id`, `participant`
+
+Optional: `client_state` (string), `command_id` (string)
+
+```go
+	response, err := client.Calls.Actions.JoinAIAssistant(
+		context.Background(),
+		"call_control_id",
+		telnyx.CallActionJoinAIAssistantParams{
+			ConversationID: "v3:abc123",
+			Participant: telnyx.CallActionJoinAIAssistantParamsParticipant{
+				ID:   "v3:abc123def456",
+				Role: "user",
+			},
+		},
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%+v\n", response.Data)
+```
+
+Returns: `conversation_id` (uuid), `result` (string)
+
 ## Update client state
 
 Updates client state
@@ -79,14 +107,14 @@ Updates client state
 
 ```go
 	response, err := client.Calls.Actions.UpdateClientState(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionUpdateClientStateParams{
 			ClientState: "aGF2ZSBhIG5pY2UgZGF5ID1d",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -105,14 +133,14 @@ Optional: `client_state` (string), `command_id` (string), `duration_millis` (int
 
 ```go
 	response, err := client.Calls.Actions.SendDtmf(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionSendDtmfParams{
 			Digits: "1www2WABCDw9",
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -121,7 +149,9 @@ Returns: `result` (string)
 
 ## SIPREC start
 
-Start siprec session to configured in SIPREC connector SRS. **Expected Webhooks:**
+Start siprec session to configured in SIPREC connector SRS. 
+
+**Expected Webhooks:**
 
 - `siprec.started`
 - `siprec.stopped`
@@ -133,12 +163,12 @@ Optional: `client_state` (string), `connector_name` (string), `include_metadata_
 
 ```go
 	response, err := client.Calls.Actions.StartSiprec(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStartSiprecParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -157,12 +187,12 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```go
 	response, err := client.Calls.Actions.StopSiprec(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStopSiprecParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -173,16 +203,16 @@ Returns: `result` (string)
 
 `POST /calls/{call_control_id}/actions/suppression_start`
 
-Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp), `noise_suppression_engine_config` (object)
+Optional: `client_state` (string), `command_id` (string), `direction` (enum: inbound, outbound, both), `noise_suppression_engine` (enum: Denoiser, DeepFilterNet, Krisp, AiCoustics), `noise_suppression_engine_config` (object)
 
 ```go
 	response, err := client.Calls.Actions.StartNoiseSuppression(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStartNoiseSuppressionParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -197,12 +227,12 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```go
 	response, err := client.Calls.Actions.StopNoiseSuppression(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionStopNoiseSuppressionParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -217,14 +247,14 @@ Switch the supervisor role for a bridged call. This allows switching between dif
 
 ```go
 	response, err := client.Calls.Actions.SwitchSupervisorRole(
-		context.TODO(),
+		context.Background(),
 		"call_control_id",
 		telnyx.CallActionSwitchSupervisorRoleParams{
 			Role: telnyx.CallActionSwitchSupervisorRoleParamsRoleBarge,
 		},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```

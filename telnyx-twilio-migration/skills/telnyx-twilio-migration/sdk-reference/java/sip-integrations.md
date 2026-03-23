@@ -9,11 +9,11 @@
 <dependency>
     <groupId>com.telnyx.sdk</groupId>
     <artifactId>telnyx-java</artifactId>
-    <version>6.26.0</version>
+    <version>5.2.1</version>
 </dependency>
 
 // Gradle
-implementation("com.telnyx.sdk:telnyx-java:6.26.0")
+implementation("com.telnyx.sdk:telnyx-java:5.2.1")
 ```
 
 ## Setup
@@ -66,7 +66,7 @@ Returns the information about custom storage credentials.
 import com.telnyx.sdk.models.customstoragecredentials.CustomStorageCredentialRetrieveParams;
 import com.telnyx.sdk.models.customstoragecredentials.CustomStorageCredentialRetrieveResponse;
 
-CustomStorageCredentialRetrieveResponse customStorageCredential = client.customStorageCredentials().retrieve("connection_id");
+CustomStorageCredentialRetrieveResponse customStorageCredential = client.customStorageCredentials().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `backend` (enum: gcs, s3, azure), `configuration` (object)
@@ -84,7 +84,7 @@ import com.telnyx.sdk.models.customstoragecredentials.CustomStorageCredentialCre
 import com.telnyx.sdk.models.customstoragecredentials.GcsConfigurationData;
 
 CustomStorageCredentialCreateParams params = CustomStorageCredentialCreateParams.builder()
-    .connectionId("connection_id")
+    .connectionId("550e8400-e29b-41d4-a716-446655440000")
     .customStorageConfiguration(CustomStorageConfiguration.builder()
         .backend(CustomStorageConfiguration.Backend.GCS)
         .configuration(GcsConfigurationData.builder()
@@ -110,7 +110,7 @@ import com.telnyx.sdk.models.customstoragecredentials.CustomStorageCredentialUpd
 import com.telnyx.sdk.models.customstoragecredentials.GcsConfigurationData;
 
 CustomStorageCredentialUpdateParams params = CustomStorageCredentialUpdateParams.builder()
-    .connectionId("connection_id")
+    .connectionId("550e8400-e29b-41d4-a716-446655440000")
     .customStorageConfiguration(CustomStorageConfiguration.builder()
         .backend(CustomStorageConfiguration.Backend.GCS)
         .configuration(GcsConfigurationData.builder()
@@ -132,7 +132,7 @@ Deletes a stored custom credentials configuration.
 ```java
 import com.telnyx.sdk.models.customstoragecredentials.CustomStorageCredentialDeleteParams;
 
-client.customStorageCredentials().delete("connection_id");
+client.customStorageCredentials().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## Retrieve stored Dialogflow Connection
@@ -145,7 +145,7 @@ Return details of the Dialogflow connection associated with the given CallContro
 import com.telnyx.sdk.models.dialogflowconnections.DialogflowConnectionRetrieveParams;
 import com.telnyx.sdk.models.dialogflowconnections.DialogflowConnectionRetrieveResponse;
 
-DialogflowConnectionRetrieveResponse dialogflowConnection = client.dialogflowConnections().retrieve("connection_id");
+DialogflowConnectionRetrieveResponse dialogflowConnection = client.dialogflowConnections().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 Returns: `connection_id` (string), `conversation_profile_id` (string), `environment` (string), `record_type` (string), `service_account` (string)
@@ -162,7 +162,7 @@ import com.telnyx.sdk.models.dialogflowconnections.DialogflowConnectionCreatePar
 import com.telnyx.sdk.models.dialogflowconnections.DialogflowConnectionCreateResponse;
 
 DialogflowConnectionCreateParams params = DialogflowConnectionCreateParams.builder()
-    .connectionId("connection_id")
+    .connectionId("550e8400-e29b-41d4-a716-446655440000")
     .serviceAccount(DialogflowConnectionCreateParams.ServiceAccount.builder()
         .putAdditionalProperty("type", JsonValue.from("bar"))
         .putAdditionalProperty("project_id", JsonValue.from("bar"))
@@ -193,7 +193,7 @@ import com.telnyx.sdk.models.dialogflowconnections.DialogflowConnectionUpdatePar
 import com.telnyx.sdk.models.dialogflowconnections.DialogflowConnectionUpdateResponse;
 
 DialogflowConnectionUpdateParams params = DialogflowConnectionUpdateParams.builder()
-    .connectionId("connection_id")
+    .connectionId("550e8400-e29b-41d4-a716-446655440000")
     .serviceAccount(DialogflowConnectionUpdateParams.ServiceAccount.builder()
         .putAdditionalProperty("type", JsonValue.from("bar"))
         .putAdditionalProperty("project_id", JsonValue.from("bar"))
@@ -221,7 +221,7 @@ Deletes a stored Dialogflow Connection.
 ```java
 import com.telnyx.sdk.models.dialogflowconnections.DialogflowConnectionDeleteParams;
 
-client.dialogflowConnections().delete("connection_id");
+client.dialogflowConnections().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
 ## List all External Connections
@@ -723,10 +723,10 @@ Returns a list of your recording transcriptions.
 `GET /recording_transcriptions`
 
 ```java
+import com.telnyx.sdk.models.recordingtranscriptions.RecordingTranscriptionListPage;
 import com.telnyx.sdk.models.recordingtranscriptions.RecordingTranscriptionListParams;
-import com.telnyx.sdk.models.recordingtranscriptions.RecordingTranscriptionListResponse;
 
-RecordingTranscriptionListResponse recordingTranscriptions = client.recordingTranscriptions().list();
+RecordingTranscriptionListPage page = client.recordingTranscriptions().list();
 ```
 
 Returns: `created_at` (string), `duration_millis` (int32), `id` (string), `record_type` (enum: recording_transcription), `recording_id` (string), `status` (enum: in-progress, completed), `transcription_text` (string), `updated_at` (string)
@@ -774,7 +774,7 @@ import com.telnyx.sdk.models.recordings.RecordingListParams;
 RecordingListPage page = client.recordings().list();
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a list of call recordings
 
@@ -784,13 +784,16 @@ Permanently deletes a list of call recordings.
 
 ```java
 import com.telnyx.sdk.models.recordings.actions.ActionDeleteParams;
+import com.telnyx.sdk.models.recordings.actions.ActionDeleteResponse;
 
 ActionDeleteParams params = ActionDeleteParams.builder()
     .addId("428c31b6-7af4-4bcb-b7f5-5013ef9657c1")
     .addId("428c31b6-7af4-4bcb-b7f5-5013ef9657c2")
     .build();
-client.recordings().actions().delete(params);
+ActionDeleteResponse action = client.recordings().actions().delete(params);
 ```
+
+Returns: `status` (enum: ok)
 
 ## Retrieve a call recording
 
@@ -802,10 +805,10 @@ Retrieves the details of an existing call recording.
 import com.telnyx.sdk.models.recordings.RecordingRetrieveParams;
 import com.telnyx.sdk.models.recordings.RecordingRetrieveResponse;
 
-RecordingRetrieveResponse recording = client.recordings().retrieve("recording_id");
+RecordingRetrieveResponse recording = client.recordings().retrieve("550e8400-e29b-41d4-a716-446655440000");
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Delete a call recording
 
@@ -817,10 +820,10 @@ Permanently deletes a call recording.
 import com.telnyx.sdk.models.recordings.RecordingDeleteParams;
 import com.telnyx.sdk.models.recordings.RecordingDeleteResponse;
 
-RecordingDeleteResponse recording = client.recordings().delete("recording_id");
+RecordingDeleteResponse recording = client.recordings().delete("550e8400-e29b-41d4-a716-446655440000");
 ```
 
-Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `id` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `updated_at` (string)
+Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `channels` (enum: single, dual), `conference_id` (string), `connection_id` (string), `created_at` (string), `download_urls` (object), `duration_millis` (int32), `from` (string), `id` (string), `initiated_by` (string), `record_type` (enum: recording), `recording_ended_at` (string), `recording_started_at` (string), `source` (enum: conference, call), `status` (enum: completed), `to` (string), `updated_at` (string)
 
 ## Create a SIPREC connector
 

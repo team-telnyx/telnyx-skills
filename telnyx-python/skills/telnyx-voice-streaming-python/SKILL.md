@@ -71,7 +71,7 @@ Optional: `client_state` (string), `command_id` (string), `rx` (string), `stream
 
 ```python
 response = client.calls.actions.start_forking(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -90,7 +90,7 @@ Optional: `client_state` (string), `command_id` (string), `stream_type` (enum: r
 
 ```python
 response = client.calls.actions.stop_forking(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -107,7 +107,8 @@ Optional: `client_state` (string), `command_id` (string), `custom_parameters` (a
 
 ```python
 response = client.calls.actions.start_streaming(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
+    stream_url="wss://example.com/audio-stream",
 )
 print(response.data)
 ```
@@ -126,7 +127,7 @@ Optional: `client_state` (string), `command_id` (string), `stream_id` (uuid)
 
 ```python
 response = client.calls.actions.stop_streaming(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -145,7 +146,7 @@ Optional: `client_state` (string), `command_id` (string), `transcription_engine`
 
 ```python
 response = client.calls.actions.start_transcription(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```
@@ -162,7 +163,7 @@ Optional: `client_state` (string), `command_id` (string)
 
 ```python
 response = client.calls.actions.stop_transcription(
-    call_control_id="call_control_id",
+    call_control_id="550e8400-e29b-41d4-a716-446655440000",
 )
 print(response.data)
 ```

@@ -84,8 +84,7 @@ Create a notification channel.
 Optional: `channel_destination` (string), `channel_type_id` (enum: sms, voice, email, webhook), `created_at` (date-time), `id` (string), `notification_profile_id` (string), `updated_at` (date-time)
 
 ```ruby
-notification_channel = client.notification_channels.create
-
+notification_channel = client.notification_channels.create(channel_type_id: "webhook", channel_destination: "https://example.com/webhooks")
 puts(notification_channel)
 ```
 
@@ -186,8 +185,7 @@ Create a notification profile.
 Optional: `created_at` (date-time), `id` (string), `name` (string), `updated_at` (date-time)
 
 ```ruby
-notification_profile = client.notification_profiles.create
-
+notification_profile = client.notification_profiles.create(name: "My Notification Profile")
 puts(notification_profile)
 ```
 

@@ -71,11 +71,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/ai_assistant_add_messages"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/ai_assistant_add_messages"
 ```
 
 Returns: `result` (string)
@@ -89,20 +85,14 @@ Start an AI assistant on the call. **Expected Webhooks:**
 
 `POST /calls/{call_control_id}/actions/ai_assistant_start`
 
-Optional: `assistant` (object), `client_state` (string), `command_id` (string), `greeting` (string), `interruption_settings` (object), `transcription` (object), `voice` (string), `voice_settings` (object)
+Optional: `assistant` (object), `client_state` (string), `command_id` (string), `greeting` (string), `interruption_settings` (object), `message_history` (array[object]), `participants` (array[object]), `send_message_history_updates` (boolean), `transcription` (object), `voice` (string), `voice_settings` (object)
 
 ```bash
 curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "voice": "Telnyx.KokoroTTS.af",
-  "greeting": "Hello, can you tell me your age and where you live?",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/ai_assistant_start"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/ai_assistant_start"
 ```
 
 Returns: `conversation_id` (uuid), `result` (string)
@@ -120,11 +110,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/ai_assistant_stop"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/ai_assistant_stop"
 ```
 
 Returns: `result` (string)
@@ -143,18 +129,10 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "minimum_digits": 1,
-  "maximum_digits": 10,
-  "timeout_millis": 60000,
-  "inter_digit_timeout_millis": 10000,
-  "initial_timeout_millis": 10000,
-  "terminating_digit": "#",
-  "valid_digits": "123",
-  "gather_id": "my_gather_id",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/gather"
+      "minimum_digits": 1,
+      "maximum_digits": 4
+  }' \
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/gather"
 ```
 
 Returns: `result` (string)
@@ -174,11 +152,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/gather_stop"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/gather_stop"
 ```
 
 Returns: `result` (string)
@@ -205,7 +179,7 @@ curl \
       },
       "location": {
         "description": "The location of the customer.",
-        "type": "string"
+        "type": "webhook"
       }
     },
     "required": [
@@ -213,17 +187,9 @@ curl \
       "location"
     ],
     "type": "object"
-  },
-  "voice": "Telnyx.KokoroTTS.af",
-  "greeting": "Hello, can you tell me your age and where you live?",
-  "send_partial_results": false,
-  "send_message_history_updates": false,
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "user_response_timeout_ms": 15000,
-  "gather_ended_speech": "Thank you for providing the information."
+  }
 }' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/gather_using_ai"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/gather_using_ai"
 ```
 
 Returns: `conversation_id` (uuid), `result` (string)
@@ -241,22 +207,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "audio_url": "http://example.com/message.wav",
-  "media_name": "my_media_uploaded_to_media_storage_api",
-  "invalid_audio_url": "http://example.com/invalid.wav",
-  "invalid_media_name": "my_media_uploaded_to_media_storage_api",
-  "minimum_digits": 1,
-  "maximum_digits": 10,
-  "maximum_tries": 3,
-  "timeout_millis": 60000,
-  "terminating_digit": "#",
-  "valid_digits": "123",
-  "inter_digit_timeout_millis": 10000,
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/gather_using_audio"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/gather_using_audio"
 ```
 
 Returns: `result` (string)
@@ -276,22 +227,9 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "payload": "Say this on the call",
-  "invalid_payload": "Say this on the call",
-  "payload_type": "ssml",
-  "service_level": "premium",
-  "voice": "Telnyx.KokoroTTS.af",
-  "language": "en-US",
-  "minimum_digits": 1,
-  "maximum_digits": 10,
-  "maximum_tries": 3,
-  "timeout_millis": 60000,
-  "terminating_digit": "#",
-  "valid_digits": "123",
-  "inter_digit_timeout_millis": 10000,
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
+  "voice": "Telnyx.KokoroTTS.af"
 }' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/gather_using_speak"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/gather_using_speak"
 ```
 
 Returns: `result` (string)

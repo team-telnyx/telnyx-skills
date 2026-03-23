@@ -63,14 +63,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "queue_name": "tier_1_support",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "max_wait_time_secs": 600,
-  "max_size": 200,
-  "keep_after_hangup": true
+  "queue_name": "tier_1_support"
 }' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/enqueue"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/enqueue"
 ```
 
 Returns: `result` (string)
@@ -88,11 +83,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/calls/{call_control_id}/actions/leave_queue"
+  "https://api.telnyx.com/v2/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ/actions/leave_queue"
 ```
 
 Returns: `result` (string)
@@ -124,17 +115,7 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "call_control_id": "v2:T02llQxIyaRkhfRKxgAP8nY511EhFLizdvdUKJiSw8d6A9BborherQczRrZvZakpWxBlpw48KyZQ==",
-  "name": "Business",
-  "beep_enabled": "on_exit",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "comfort_noise": false,
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "duration_minutes": 5,
-  "hold_audio_url": "http://example.com/message.wav",
-  "hold_media_name": "my_media_uploaded_to_media_storage_api",
-  "max_participants": 3,
-  "start_conference_on_create": false,
-  "region": "US"
+  "name": "Business"
 }' \
   "https://api.telnyx.com/v2/conferences"
 ```
@@ -148,7 +129,7 @@ Lists conference participants
 `GET /conferences/{conference_id}/participants`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/conferences/{conference_id}/participants"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/participants"
 ```
 
 Returns: `call_control_id` (string), `call_leg_id` (string), `conference` (object), `created_at` (string), `end_conference_on_exit` (boolean), `id` (string), `muted` (boolean), `on_hold` (boolean), `record_type` (enum: participant), `soft_end_conference_on_exit` (boolean), `status` (enum: joining, joined, left), `updated_at` (string), `whisper_call_control_ids` (array[string])
@@ -160,7 +141,7 @@ Retrieve an existing conference
 `GET /conferences/{id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/conferences/{id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000"
 ```
 
 Returns: `connection_id` (string), `created_at` (string), `end_reason` (enum: all_left, ended_via_api, host_left, time_exceeded), `ended_by` (object), `expires_at` (string), `id` (string), `name` (string), `record_type` (enum: conference), `region` (string), `status` (enum: init, in_progress, completed), `updated_at` (string)
@@ -178,10 +159,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901"
-}' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/end"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/end"
 ```
 
 Returns: `result` (string)
@@ -200,20 +178,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "call_control_id": "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg",
-  "audio_url": "http://example.com/gather_prompt.wav",
-  "minimum_digits": 1,
-  "maximum_digits": 10,
-  "maximum_tries": 3,
-  "timeout_millis": 30000,
-  "terminating_digit": "#",
-  "valid_digits": "0123456789",
-  "inter_digit_timeout_millis": 3000,
-  "initial_timeout_millis": 10000,
-  "stop_playback_on_dtmf": true,
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d"
+  "call_control_id": "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg"
 }' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/gather_using_audio"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/gather_using_audio"
 ```
 
 Returns: `result` (string)
@@ -231,12 +198,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "audio_url": "http://example.com/message.wav",
-  "media_name": "my_media_uploaded_to_media_storage_api",
-  "region": "US"
-}' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/hold"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/hold"
 ```
 
 Returns: `result` (string)
@@ -255,25 +217,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "call_control_id": "v2:T02llQxIyaRkhfRKxgAP8nY511EhFLizdvdUKJiSw8d6A9BborherQczRrZvZakpWxBlpw48KyZQ==",
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "end_conference_on_exit": true,
-  "soft_end_conference_on_exit": true,
-  "hold": true,
-  "hold_audio_url": "http://example.com/message.wav",
-  "hold_media_name": "my_media_uploaded_to_media_storage_api",
-  "mute": true,
-  "start_conference_on_enter": true,
-  "supervisor_role": "whisper",
-  "whisper_call_control_ids": [
-    "v2:Sg1xxxQ_U3ixxxyXT_VDNI3xxxazZdg6Vxxxs4-GNYxxxVaJPOhFMRQ",
-    "v2:qqpb0mmvd-ovhhBr0BUQQn0fld5jIboaaX3-De0DkqXHzbf8d75xkw"
-  ],
-  "beep_enabled": "on_exit",
-  "region": "US"
+  "call_control_id": "v2:T02llQxIyaRkhfRKxgAP8nY511EhFLizdvdUKJiSw8d6A9BborherQczRrZvZakpWxBlpw48KyZQ=="
 }' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/join"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/join"
 ```
 
 Returns: `result` (string)
@@ -294,12 +240,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "call_control_id": "f91269aa-61d1-417f-97b3-10e020e8bc47",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "beep_enabled": "on_exit",
-  "region": "US"
+  "call_control_id": "f91269aa-61d1-417f-97b3-10e020e8bc47"
 }' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/leave"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/leave"
 ```
 
 Returns: `result` (string)
@@ -317,10 +260,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "region": "US"
-}' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/mute"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/mute"
 ```
 
 Returns: `result` (string)
@@ -331,19 +271,14 @@ Play audio to all or some participants on a conference call.
 
 `POST /conferences/{id}/actions/play`
 
-Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (object), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
+Optional: `audio_url` (string), `call_control_ids` (array[string]), `loop` (string), `media_name` (string), `region` (enum: Australia, Europe, Middle East, US)
 
 ```bash
 curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "audio_url": "http://example.com/message.wav",
-  "media_name": "my_media_uploaded_to_media_storage_api",
-  "region": "US"
-}' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/play"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/play"
 ```
 
 Returns: `result` (string)
@@ -361,12 +296,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "recording_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "region": "US"
-}' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/record_pause"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/record_pause"
 ```
 
 Returns: `result` (string)
@@ -384,12 +314,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "recording_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "region": "US"
-}' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/record_resume"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/record_resume"
 ```
 
 Returns: `result` (string)
@@ -410,15 +335,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "format": "mp3",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "channels": "dual",
-  "play_beep": true,
-  "trim": "trim-silence",
-  "custom_file_name": "my_recording_file_name",
-  "region": "US"
+  "format": "mp3"
 }' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/record_start"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/record_start"
 ```
 
 Returns: `result` (string)
@@ -438,13 +357,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "recording_id": "6e00ab49-9487-4364-8ad6-23965965afb2",
-  "region": "US"
-}' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/record_stop"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/record_stop"
 ```
 
 Returns: `result` (string)
@@ -463,14 +376,9 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "digits": "1234#",
-  "call_control_ids": [
-    "v3:MdI91X4lWFEs7IgbBEOT9M4AigoY08M0WWZFISt1Yw2axZ_IiE4pqg"
-  ],
-  "duration_millis": 250,
-  "client_state": "aGF2ZSBhIG5pY2UgZGF5ID1d"
+  "digits": "1234#"
 }' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/send_dtmf"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/send_dtmf"
 ```
 
 Returns: `result` (string)
@@ -490,13 +398,9 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "payload": "Say this to participants",
-  "payload_type": "ssml",
-  "voice": "Telnyx.KokoroTTS.af",
-  "language": "en-US",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "region": "US"
+  "voice": "Telnyx.KokoroTTS.af"
 }' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/speak"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/speak"
 ```
 
 Returns: `result` (string)
@@ -514,10 +418,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "region": "US"
-}' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/stop"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/stop"
 ```
 
 Returns: `result` (string)
@@ -537,11 +438,10 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "call_control_ids": [
-    "string"
-  ],
-  "region": "US"
+    "v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ"
+  ]
 }' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/unhold"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/unhold"
 ```
 
 Returns: `result` (string)
@@ -559,10 +459,7 @@ curl \
   -X POST \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "region": "US"
-}' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/unmute"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/unmute"
 ```
 
 Returns: `result` (string)
@@ -582,15 +479,9 @@ curl \
   -H "Content-Type: application/json" \
   -d '{
   "call_control_id": "v2:T02llQxIyaRkhfRKxgAP8nY511EhFLizdvdUKJiSw8d6A9BborherQczRrZvZakpWxBlpw48KyZQ==",
-  "command_id": "891510ac-f3e4-11e8-af5b-de00688a4901",
-  "supervisor_role": "whisper",
-  "whisper_call_control_ids": [
-    "v2:Sg1xxxQ_U3ixxxyXT_VDNI3xxxazZdg6Vxxxs4-GNYxxxVaJPOhFMRQ",
-    "v2:qqpb0mmvd-ovhhBr0BUQQn0fld5jIboaaX3-De0DkqXHzbf8d75xkw"
-  ],
-  "region": "US"
+  "supervisor_role": "whisper"
 }' \
-  "https://api.telnyx.com/v2/conferences/{id}/actions/update"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/actions/update"
 ```
 
 Returns: `result` (string)
@@ -602,7 +493,7 @@ Retrieve details of a specific conference participant by their ID or label.
 `GET /conferences/{id}/participants/{participant_id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/conferences/{id}/participants/{participant_id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/participants/{participant_id}"
 ```
 
 Returns: `call_control_id` (string), `call_leg_id` (string), `conference_id` (string), `created_at` (date-time), `end_conference_on_exit` (boolean), `id` (string), `label` (string), `muted` (boolean), `on_hold` (boolean), `soft_end_conference_on_exit` (boolean), `status` (enum: joining, joined, left), `updated_at` (date-time), `whisper_call_control_ids` (array[string])
@@ -620,12 +511,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "end_conference_on_exit": false,
-  "soft_end_conference_on_exit": false,
-  "beep_enabled": "always"
-}' \
-  "https://api.telnyx.com/v2/conferences/{id}/participants/{participant_id}"
+  "https://api.telnyx.com/v2/conferences/550e8400-e29b-41d4-a716-446655440000/participants/{participant_id}"
 ```
 
 Returns: `call_control_id` (string), `call_leg_id` (string), `conference_id` (string), `created_at` (date-time), `end_conference_on_exit` (boolean), `id` (string), `label` (string), `muted` (boolean), `on_hold` (boolean), `soft_end_conference_on_exit` (boolean), `status` (enum: joining, joined, left), `updated_at` (date-time), `whisper_call_control_ids` (array[string])
@@ -656,8 +542,7 @@ curl \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "queue_name": "tier_1_support",
-  "max_size": 100
+  "queue_name": "tier_1_support"
 }' \
   "https://api.telnyx.com/v2/queues"
 ```
@@ -727,7 +612,7 @@ Retrieve an existing call from an existing queue
 `GET /queues/{queue_name}/calls/{call_control_id}`
 
 ```bash
-curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/queues/{queue_name}/calls/{call_control_id}"
+curl -H "Authorization: Bearer $TELNYX_API_KEY" "https://api.telnyx.com/v2/queues/{queue_name}/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ"
 ```
 
 Returns: `call_control_id` (string), `call_leg_id` (string), `call_session_id` (string), `connection_id` (string), `enqueued_at` (string), `from` (string), `is_alive` (boolean), `queue_id` (string), `queue_position` (integer), `record_type` (enum: queue_call), `to` (string), `wait_time_secs` (integer)
@@ -745,10 +630,7 @@ curl \
   -X PATCH \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
-  "keep_after_hangup": true
-}' \
-  "https://api.telnyx.com/v2/queues/{queue_name}/calls/{call_control_id}"
+  "https://api.telnyx.com/v2/queues/{queue_name}/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ"
 ```
 
 ## Force remove a call from a queue
@@ -761,7 +643,7 @@ Removes an inactive call from a queue. If the call is no longer active, use this
 curl \
   -X DELETE \
   -H "Authorization: Bearer $TELNYX_API_KEY" \
-  "https://api.telnyx.com/v2/queues/{queue_name}/calls/{call_control_id}"
+  "https://api.telnyx.com/v2/queues/{queue_name}/calls/v3:550e8400-e29b-41d4-a716-446655440000_gRU1OGRkYQ"
 ```
 
 ---

@@ -86,7 +86,7 @@ Starts a background task to compute how the data in an [embedded storage bucket]
 Optional: `files` (array[string]), `min_cluster_size` (integer), `min_subcluster_size` (integer), `prefix` (string)
 
 ```javascript
-const response = await client.ai.clusters.compute({ bucket: 'bucket' });
+const response = await client.ai.clusters.compute({ bucket: 'my-bucket' });
 
 console.log(response.data);
 ```
@@ -202,7 +202,7 @@ const globalIPAllowedPorts = await client.globalIPAllowedPorts.list();
 console.log(globalIPAllowedPorts.data);
 ```
 
-Returns: `data` (array[object])
+Returns: `first_port` (integer), `id` (uuid), `last_port` (integer), `name` (string), `protocol_code` (string), `record_type` (string)
 
 ## Global IP Assignment Health Check Metrics
 
@@ -229,7 +229,7 @@ for await (const globalIPAssignment of client.globalIPAssignments.list()) {
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Create a Global IP assignment
 
@@ -237,13 +237,15 @@ Create a Global IP assignment.
 
 `POST /global_ip_assignments`
 
+Optional: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
+
 ```javascript
 const globalIPAssignment = await client.globalIPAssignments.create();
 
 console.log(globalIPAssignment.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Retrieve a Global IP
 
@@ -259,13 +261,15 @@ const globalIPAssignment = await client.globalIPAssignments.retrieve(
 console.log(globalIPAssignment.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Update a Global IP assignment
 
 Update a Global IP assignment.
 
 `PATCH /global_ip_assignments/{id}`
+
+Optional: `created_at` (string), `global_ip_id` (string), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (string)
 
 ```javascript
 const globalIPAssignment = await client.globalIPAssignments.update(
@@ -276,7 +280,7 @@ const globalIPAssignment = await client.globalIPAssignments.update(
 console.log(globalIPAssignment.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Delete a Global IP assignment
 
@@ -292,7 +296,7 @@ const globalIPAssignment = await client.globalIPAssignments.delete(
 console.log(globalIPAssignment.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `id` (uuid), `is_announced` (boolean), `is_connected` (boolean), `is_in_maintenance` (boolean), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Global IP Assignment Usage Metrics
 
@@ -318,7 +322,7 @@ const globalIPHealthCheckTypes = await client.globalIPHealthCheckTypes.list();
 console.log(globalIPHealthCheckTypes.data);
 ```
 
-Returns: `data` (array[object])
+Returns: `health_check_params` (object), `health_check_type` (string), `record_type` (string)
 
 ## List all Global IP health checks
 
@@ -333,7 +337,7 @@ for await (const globalIPHealthCheckListResponse of client.globalIPHealthChecks.
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Create a Global IP health check
 
@@ -341,13 +345,15 @@ Create a Global IP health check.
 
 `POST /global_ip_health_checks`
 
+Optional: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
+
 ```javascript
 const globalIPHealthCheck = await client.globalIPHealthChecks.create();
 
 console.log(globalIPHealthCheck.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Retrieve a Global IP health check
 
@@ -363,7 +369,7 @@ const globalIPHealthCheck = await client.globalIPHealthChecks.retrieve(
 console.log(globalIPHealthCheck.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Delete a Global IP health check
 
@@ -379,7 +385,7 @@ const globalIPHealthCheck = await client.globalIPHealthChecks.delete(
 console.log(globalIPHealthCheck.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `global_ip_id` (uuid), `health_check_params` (object), `health_check_type` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ## Global IP Latency Metrics
 
@@ -403,7 +409,7 @@ const globalIPProtocols = await client.globalIPProtocols.list();
 console.log(globalIPProtocols.data);
 ```
 
-Returns: `data` (array[object])
+Returns: `code` (string), `name` (string), `record_type` (string)
 
 ## Global IP Usage Metrics
 
@@ -430,7 +436,7 @@ for await (const globalIPListResponse of client.globalIPs.list()) {
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## Create a Global IP
 
@@ -438,13 +444,15 @@ Create a Global IP.
 
 `POST /global_ips`
 
+Optional: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
+
 ```javascript
 const globalIP = await client.globalIPs.create();
 
 console.log(globalIP.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## Retrieve a Global IP
 
@@ -458,7 +466,7 @@ const globalIP = await client.globalIPs.retrieve('6a09cdc3-8948-47f0-aa62-74ac94
 console.log(globalIP.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## Delete a Global IP
 
@@ -472,7 +480,7 @@ const globalIP = await client.globalIPs.delete('6a09cdc3-8948-47f0-aa62-74ac943d
 console.log(globalIP.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `description` (string), `id` (uuid), `ip_address` (string), `name` (string), `ports` (object), `record_type` (string), `updated_at` (string)
 
 ## List all Networks
 
@@ -487,13 +495,15 @@ for await (const networkListResponse of client.networks.list()) {
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Create a Network
 
 Create a new Network.
 
-`POST /networks`
+`POST /networks` — Required: `name`
+
+Optional: `created_at` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ```javascript
 const network = await client.networks.create({ name: 'test network' });
@@ -501,7 +511,7 @@ const network = await client.networks.create({ name: 'test network' });
 console.log(network.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Retrieve a Network
 
@@ -515,13 +525,15 @@ const network = await client.networks.retrieve('6a09cdc3-8948-47f0-aa62-74ac943d
 console.log(network.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Update a Network
 
 Update a Network.
 
-`PATCH /networks/{id}`
+`PATCH /networks/{id}` — Required: `name`
+
+Optional: `created_at` (string), `id` (uuid), `record_type` (string), `updated_at` (string)
 
 ```javascript
 const network = await client.networks.update('6a09cdc3-8948-47f0-aa62-74ac943d6c58', {
@@ -531,7 +543,7 @@ const network = await client.networks.update('6a09cdc3-8948-47f0-aa62-74ac943d6c
 console.log(network.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Delete a Network
 
@@ -545,7 +557,7 @@ const network = await client.networks.delete('6a09cdc3-8948-47f0-aa62-74ac943d6c
 console.log(network.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `record_type` (string), `updated_at` (string)
 
 ## Get Default Gateway status.
 
@@ -559,11 +571,13 @@ const defaultGateway = await client.networks.defaultGateway.retrieve(
 console.log(defaultGateway.data);
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Create Default Gateway.
 
 `POST /networks/{id}/default_gateway`
+
+Optional: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ```javascript
 const defaultGateway = await client.networks.defaultGateway.create(
@@ -573,7 +587,7 @@ const defaultGateway = await client.networks.defaultGateway.create(
 console.log(defaultGateway.data);
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## Delete Default Gateway.
 
@@ -587,7 +601,7 @@ const defaultGateway = await client.networks.defaultGateway.delete(
 console.log(defaultGateway.data);
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `network_id` (uuid), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string), `wireguard_peer_id` (uuid)
 
 ## List all Interfaces for a Network.
 
@@ -602,7 +616,7 @@ for await (const networkListInterfacesResponse of client.networks.listInterfaces
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `type` (string), `updated_at` (string)
 
 ## Get all Private Wireless Gateways
 
@@ -683,7 +697,7 @@ for await (const publicInternetGatewayListResponse of client.publicInternetGatew
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Create a Public Internet Gateway
 
@@ -691,13 +705,15 @@ Create a new Public Internet Gateway.
 
 `POST /public_internet_gateways`
 
+Optional: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
+
 ```javascript
 const publicInternetGateway = await client.publicInternetGateways.create();
 
 console.log(publicInternetGateway.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Retrieve a Public Internet Gateway
 
@@ -713,7 +729,7 @@ const publicInternetGateway = await client.publicInternetGateways.retrieve(
 console.log(publicInternetGateway.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Delete a Public Internet Gateway
 
@@ -729,7 +745,7 @@ const publicInternetGateway = await client.publicInternetGateways.delete(
 console.log(publicInternetGateway.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_ip` (string), `record_type` (string), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## List all Regions
 
@@ -758,13 +774,15 @@ for await (const virtualCrossConnectListResponse of client.virtualCrossConnects.
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Create a Virtual Cross Connect
 
 Create a new Virtual Cross Connect.  For AWS and GCE, you have the option of creating the primary connection first and the secondary connection later. You also have the option of disabling the primary and/or secondary connections at any time and later re-enabling them. With Azure, you do not have this option.
 
-`POST /virtual_cross_connects`
+`POST /virtual_cross_connects` — Required: `network_id`, `region_code`, `cloud_provider`, `cloud_provider_region`, `bgp_asn`, `primary_cloud_account_id`
+
+Optional: `bandwidth_mbps` (number), `created_at` (string), `id` (uuid), `name` (string), `primary_bgp_key` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ```javascript
 const virtualCrossConnect = await client.virtualCrossConnects.create({ region_code: 'ashburn-va' });
@@ -772,7 +790,7 @@ const virtualCrossConnect = await client.virtualCrossConnects.create({ region_co
 console.log(virtualCrossConnect.data);
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Retrieve a Virtual Cross Connect
 
@@ -788,13 +806,15 @@ const virtualCrossConnect = await client.virtualCrossConnects.retrieve(
 console.log(virtualCrossConnect.data);
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Update the Virtual Cross Connect
 
 Update the Virtual Cross Connect.  Cloud IPs can only be patched during the `created` state, as GCE will only inform you of your generated IP once the pending connection requested has been accepted.
 
 `PATCH /virtual_cross_connects/{id}`
+
+Optional: `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean)
 
 ```javascript
 const virtualCrossConnect = await client.virtualCrossConnects.update(
@@ -804,7 +824,7 @@ const virtualCrossConnect = await client.virtualCrossConnects.update(
 console.log(virtualCrossConnect.data);
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Delete a Virtual Cross Connect
 
@@ -820,7 +840,7 @@ const virtualCrossConnect = await client.virtualCrossConnects.delete(
 console.log(virtualCrossConnect.data);
 ```
 
-Returns: `data` (object)
+Returns: `bandwidth_mbps` (number), `bgp_asn` (number), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `created_at` (string), `id` (uuid), `name` (string), `network_id` (uuid), `primary_bgp_key` (string), `primary_cloud_account_id` (string), `primary_cloud_ip` (string), `primary_enabled` (boolean), `primary_routing_announcement` (boolean), `primary_telnyx_ip` (string), `record_type` (string), `region` (object), `region_code` (string), `secondary_bgp_key` (string), `secondary_cloud_account_id` (string), `secondary_cloud_ip` (string), `secondary_enabled` (boolean), `secondary_routing_announcement` (boolean), `secondary_telnyx_ip` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## List Virtual Cross Connect Cloud Coverage
 
@@ -835,7 +855,7 @@ for await (const virtualCrossConnectsCoverageListResponse of client.virtualCross
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `available_bandwidth` (array[number]), `cloud_provider` (enum: aws, azure, gce), `cloud_provider_region` (string), `location` (object), `record_type` (string)
 
 ## List all WireGuard Interfaces
 
@@ -850,13 +870,15 @@ for await (const wireguardInterfaceListResponse of client.wireguardInterfaces.li
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Create a WireGuard Interface
 
 Create a new WireGuard Interface. Current limitation of 10 interfaces per user can be created.
 
-`POST /wireguard_interfaces`
+`POST /wireguard_interfaces` — Required: `network_id`, `region_code`
+
+Optional: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `public_key` (string), `record_type` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ```javascript
 const wireguardInterface = await client.wireguardInterfaces.create({ region_code: 'ashburn-va' });
@@ -864,7 +886,7 @@ const wireguardInterface = await client.wireguardInterfaces.create({ region_code
 console.log(wireguardInterface.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Retrieve a WireGuard Interfaces
 
@@ -880,7 +902,7 @@ const wireguardInterface = await client.wireguardInterfaces.retrieve(
 console.log(wireguardInterface.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## Delete a WireGuard Interface
 
@@ -896,7 +918,7 @@ const wireguardInterface = await client.wireguardInterfaces.delete(
 console.log(wireguardInterface.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `enable_sip_trunking` (boolean), `endpoint` (string), `id` (uuid), `name` (string), `network_id` (uuid), `public_key` (string), `record_type` (string), `region` (object), `region_code` (string), `status` (enum: created, provisioning, provisioned, deleting), `updated_at` (string)
 
 ## List all WireGuard Peers
 
@@ -911,13 +933,15 @@ for await (const wireguardPeerListResponse of client.wireguardPeers.list()) {
 }
 ```
 
-Returns: `data` (array[object]), `meta` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Create a WireGuard Peer
 
 Create a new WireGuard Peer. Current limitation of 5 peers per interface can be created.
 
-`POST /wireguard_peers`
+`POST /wireguard_peers` — Required: `wireguard_interface_id`
+
+Optional: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string)
 
 ```javascript
 const wireguardPeer = await client.wireguardPeers.create({
@@ -927,7 +951,7 @@ const wireguardPeer = await client.wireguardPeers.create({
 console.log(wireguardPeer.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Retrieve the WireGuard Peer
 
@@ -941,7 +965,7 @@ const wireguardPeer = await client.wireguardPeers.retrieve('6a09cdc3-8948-47f0-a
 console.log(wireguardPeer.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Update the WireGuard Peer
 
@@ -957,7 +981,7 @@ const wireguardPeer = await client.wireguardPeers.update('6a09cdc3-8948-47f0-aa6
 console.log(wireguardPeer.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Delete the WireGuard Peer
 
@@ -971,7 +995,7 @@ const wireguardPeer = await client.wireguardPeers.delete('6a09cdc3-8948-47f0-aa6
 console.log(wireguardPeer.data);
 ```
 
-Returns: `data` (object)
+Returns: `created_at` (string), `id` (uuid), `last_seen` (string), `private_key` (string), `public_key` (string), `record_type` (string), `updated_at` (string), `wireguard_interface_id` (uuid)
 
 ## Retrieve Wireguard config template for Peer
 

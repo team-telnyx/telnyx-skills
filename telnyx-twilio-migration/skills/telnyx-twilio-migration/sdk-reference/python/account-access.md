@@ -71,7 +71,7 @@ Optional: `description` (string)
 
 ```python
 access_ip_address_response = client.access_ip_address.create(
-    ip_address="ip_address",
+    ip_address="203.0.113.10",
 )
 print(access_ip_address_response.id)
 ```
@@ -266,7 +266,7 @@ Optional: `active` (boolean), `name` (string), `settings` (object), `settings_ur
 
 ```python
 authentication_provider = client.authentication_providers.update(
-    id="id",
+    id="550e8400-e29b-41d4-a716-446655440000",
     active=True,
     name="Okta",
     settings={
@@ -317,7 +317,7 @@ Optional: `name` (string)
 
 ```python
 billing_group = client.billing_groups.create(
-    name="string",
+    name="my-resource",
 )
 print(billing_group.data)
 ```
@@ -346,7 +346,7 @@ Optional: `name` (string)
 ```python
 billing_group = client.billing_groups.update(
     id="f5586561-8ff0-4291-a0ac-84fe544797bd",
-    name="string",
+    name="my-resource",
 )
 print(billing_group.data)
 ```

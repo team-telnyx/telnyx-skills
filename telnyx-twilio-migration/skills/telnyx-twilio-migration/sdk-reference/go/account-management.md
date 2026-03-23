@@ -69,9 +69,9 @@ Lists the accounts managed by the current user. Users need to be explictly appro
 `GET /managed_accounts`
 
 ```go
-	page, err := client.ManagedAccounts.List(context.TODO(), telnyx.ManagedAccountListParams{})
+	page, err := client.ManagedAccounts.List(context.Background(), telnyx.ManagedAccountListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -87,11 +87,11 @@ Create a new managed account owned by the authenticated user. You need to be exp
 Optional: `email` (string), `managed_account_allow_custom_pricing` (boolean), `password` (string), `rollup_billing` (boolean)
 
 ```go
-	managedAccount, err := client.ManagedAccounts.New(context.TODO(), telnyx.ManagedAccountNewParams{
+	managedAccount, err := client.ManagedAccounts.New(context.Background(), telnyx.ManagedAccountNewParams{
 		BusinessName: "Larry's Cat Food Inc",
 	})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", managedAccount.Data)
 ```
@@ -105,9 +105,9 @@ Display information about allocatable global outbound channels for the current u
 `GET /managed_accounts/allocatable_global_outbound_channels`
 
 ```go
-	response, err := client.ManagedAccounts.GetAllocatableGlobalOutboundChannels(context.TODO())
+	response, err := client.ManagedAccounts.GetAllocatableGlobalOutboundChannels(context.Background())
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -121,9 +121,9 @@ Retrieves the details of a single managed account.
 `GET /managed_accounts/{id}`
 
 ```go
-	managedAccount, err := client.ManagedAccounts.Get(context.TODO(), "id")
+	managedAccount, err := client.ManagedAccounts.Get(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", managedAccount.Data)
 ```
@@ -140,12 +140,12 @@ Optional: `managed_account_allow_custom_pricing` (boolean)
 
 ```go
 	managedAccount, err := client.ManagedAccounts.Update(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ManagedAccountUpdateParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", managedAccount.Data)
 ```
@@ -159,9 +159,9 @@ Disables a managed account, forbidding it to use Telnyx services, including send
 `POST /managed_accounts/{id}/actions/disable`
 
 ```go
-	response, err := client.ManagedAccounts.Actions.Disable(context.TODO(), "id")
+	response, err := client.ManagedAccounts.Actions.Disable(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -178,12 +178,12 @@ Optional: `reenable_all_connections` (boolean)
 
 ```go
 	response, err := client.ManagedAccounts.Actions.Enable(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ManagedAccountActionEnableParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -198,12 +198,12 @@ Optional: `channel_limit` (integer)
 
 ```go
 	response, err := client.ManagedAccounts.UpdateGlobalChannelLimit(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.ManagedAccountUpdateGlobalChannelLimitParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -217,9 +217,9 @@ Returns a list of the users in your organization.
 `GET /organizations/users`
 
 ```go
-	page, err := client.Organizations.Users.List(context.TODO(), telnyx.OrganizationUserListParams{})
+	page, err := client.Organizations.Users.List(context.Background(), telnyx.OrganizationUserListParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", page)
 ```
@@ -233,9 +233,9 @@ Returns a report of all users in your organization with their group memberships.
 `GET /organizations/users/users_groups_report`
 
 ```go
-	response, err := client.Organizations.Users.GetGroupsReport(context.TODO(), telnyx.OrganizationUserGetGroupsReportParams{})
+	response, err := client.Organizations.Users.GetGroupsReport(context.Background(), telnyx.OrganizationUserGetGroupsReportParams{})
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", response.Data)
 ```
@@ -250,12 +250,12 @@ Returns a user in your organization.
 
 ```go
 	user, err := client.Organizations.Users.Get(
-		context.TODO(),
+		context.Background(),
 		"id",
 		telnyx.OrganizationUserGetParams{},
 	)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", user.Data)
 ```
@@ -269,9 +269,9 @@ Deletes a user in your organization.
 `POST /organizations/users/{id}/actions/remove`
 
 ```go
-	action, err := client.Organizations.Users.Actions.Remove(context.TODO(), "id")
+	action, err := client.Organizations.Users.Actions.Remove(context.Background(), "id")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	fmt.Printf("%+v\n", action.Data)
 ```
