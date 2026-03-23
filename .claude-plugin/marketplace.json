@@ -279,12 +279,12 @@
       "description": "Telnyx WebRTC client SDK skills \u2014 build VoIP calling apps on web, iOS, Android, Flutter, and React Native. Covers authentication, call controls, push notifications, call quality metrics, and AI Agent integration.",
       "source": "./telnyx-webrtc-client",
       "skills": [
-        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-js",
-        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-ios",
-        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-android",
-        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-flutter",
-        "./telnyx-webrtc-client/skills/telnyx-webrtc-client-react-native",
-        "./telnyx-webrtc-client/skills/push-notification-tester"
+        "./skills/telnyx-webrtc-client-js",
+        "./skills/telnyx-webrtc-client-ios",
+        "./skills/telnyx-webrtc-client-android",
+        "./skills/telnyx-webrtc-client-flutter",
+        "./skills/telnyx-webrtc-client-react-native",
+        "./skills/push-notification-tester"
       ]
     },
     {
@@ -302,7 +302,7 @@
       "description": "Telnyx CLI \u2014 manage phone numbers, send messages, make calls, and access all Telnyx APIs from the terminal. 946 commands auto-generated from the OpenAPI spec.",
       "source": "./telnyx-cli",
       "skills": [
-        "./telnyx-cli/skills/telnyx-cli"
+        "./skills/telnyx-cli"
       ]
     }
   ]
