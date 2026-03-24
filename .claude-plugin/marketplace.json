@@ -304,6 +304,17 @@
       "skills": [
         "./skills/telnyx-cli"
       ]
+    },
+    {
+      "name": "telnyx-import-voice-ai",
+      "version": "1.0.0",
+      "description": "Import voice AI assistants from Vapi, Retell, and ElevenLabs into Telnyx. Covers secret setup, bulk or selective import, verification, and post-import cleanup.",
+      "source": "./telnyx-import-voice-ai",
+      "skills": [
+        "./skills/telnyx-import-elevenlabs",
+        "./skills/telnyx-import-retell",
+        "./skills/telnyx-import-vapi"
+      ]
     }
   ]
 }

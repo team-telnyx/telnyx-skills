@@ -268,6 +268,7 @@ Replace `<PLUGIN>` with the plugin from the table below:
 | `telnyx-webrtc-client` | WebRTC client SDKs (JS, iOS, Android, Flutter, React Native) |
 | `telnyx-twilio-migration` | Migrate from Twilio to Telnyx |
 | `telnyx-cli` | Telnyx CLI |
+| `telnyx-import-voice-ai` | Import voice AI assistants from Vapi, Retell, and ElevenLabs into Telnyx |
 <!-- END GENERATED PLUGIN_TABLE -->
 
 Each language plugin includes all <!-- PRODUCT_COUNT -->36<!-- /PRODUCT_COUNT --> Telnyx products (messaging, voice, numbers, IoT, AI, and more).
