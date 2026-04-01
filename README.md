@@ -136,7 +136,7 @@ Or install a full plugin via Claude Code:
 
 ```sh
 /plugin marketplace add team-telnyx/ai
-/plugin install telnyx-python@skills
+/plugin install telnyx@telnyx
 ```
 
 See [Skills](/skills) for the full list of available skills and plugins.

@@ -1,56 +1,47 @@
-# Contributing to Telnyx Agent Skills
+# Contributing
 
-Thank you for your interest in contributing to Telnyx Agent Skills! We welcome contributions from the community.
+Contributions of any kind are welcome! If you've found a bug or have a feature request, please feel free to [open an issue](/issues).
 
-## How Skills Are Generated
+To make changes yourself, follow these steps:
 
-These skills are **automatically generated** from Telnyx OpenAPI specifications. The code examples in each skill come directly from our API documentation to ensure accuracy.
+1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository and [clone](https://help.github.com/articles/cloning-a-repository/) it locally.
+2. Make your changes
+3. Test your changes (see below)
+4. Submit a [pull request](https://help.github.com/articles/creating-a-pull-request-from-a-fork/)
 
-This means:
-- **Do not modify code examples directly** - they will be overwritten on the next generation
-- If you find an error in a code example, it needs to be fixed in the upstream OpenAPI spec
+## What's in this repo
 
-## How to Contribute
+| Directory | What it contains | How to test |
+|-----------|-----------------|-------------|
+| `tools/python/` | Python agent toolkit (PyPI) | `cd tools/python && pip install -e ".[dev]" && pytest` |
+| `tools/typescript/` | TypeScript agent toolkit (npm) | `cd tools/typescript && npm ci && npm test` |
+| `tools/mcp/` | MCP proxy server (npm) | `cd tools/mcp && npm ci && npm run build` |
+| `cli/` | Agent CLI | `cd cli && npm ci && npm test` |
+| `skills/` | Agent skills (SKILL.md files) | See "Skills" below |
+| `guides/` | Operational guides | `npm run test:guides` |
 
-### Reporting Issues
+## Skills
 
-If you find a problem with a skill:
+Skills in `skills/` are the canonical source. They are synced to `providers/claude/plugin/skills/` and `providers/cursor/plugin/skills/` via `scripts/sync-skills.sh`. After modifying skills, run:
 
-1. **Incorrect code example**: Open an issue describing the error. Include the skill name, the problematic code block, and what you expected instead.
-2. **Missing skill or operation**: Open an issue requesting the addition.
-3. **Documentation improvements**: Open a PR with your suggested changes to non-code sections.
+```bash
+./scripts/sync-skills.sh
+```
 
-### Submitting Pull Requests
+CI will fail if provider skill copies are out of sync with the canonical source.
 
-1. Fork this repository
-2. Create a branch for your changes (`git checkout -b fix/description`)
-3. Make your changes
-4. Test that the skill still works as expected
-5. Submit a pull request
+### Auto-generated skills
 
-#### What PRs are welcome:
+Most skills are automatically generated from Telnyx OpenAPI specifications. Do not modify code examples directly — they will be overwritten on the next generation. If you find an error in a code example, it needs to be fixed in the upstream OpenAPI spec.
 
-- Fixes to skill descriptions or metadata
-- Improvements to installation instructions
-- Documentation clarifications
-- New skills for products not yet covered (requires coordination with maintainers)
+### Hand-authored skills
 
-#### What PRs will be declined:
-
-- Direct modifications to code examples (these come from OpenAPI specs)
-- Changes that conflict with the Agent Skills specification
-
-### Code of Conduct
-
-- Be respectful and constructive
-- Provide context and examples when reporting issues
-- Be patient - all PRs are reviewed by maintainers
+Skills in `telnyx-twilio-migration/`, `telnyx-webrtc-client/`, and `telnyx-import-voice-ai/` are manually authored. PRs to improve these are welcome.
 
 ## Questions?
 
-- For skill-related questions, open an issue in this repository
-- For Telnyx API questions, visit [support.telnyx.com](https://support.telnyx.com)
-- For Agent Skills specification questions, see [agentskills.io](https://agentskills.io)
+- For API questions, visit [support.telnyx.com](https://support.telnyx.com)
+- For skill specification questions, see [agentskills.io](https://agentskills.io)
 
 ## License
 

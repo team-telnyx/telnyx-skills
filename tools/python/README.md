@@ -2,8 +2,6 @@
 
 Python SDK for building AI agents with [Telnyx](https://telnyx.com) APIs. Works with **OpenAI**, **LangChain**, and **CrewAI**.
 
-Modelled after [Stripe's Agent Toolkit](https://github.com/stripe/ai) — same developer experience, built for telecom.
-
 ## Installation
 
 ```bash
