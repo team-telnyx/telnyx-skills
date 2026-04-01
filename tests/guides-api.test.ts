@@ -2,12 +2,9 @@
  * API smoke tests for operational guides.
  * Extracts GET curl commands from guides and verifies endpoints exist.
  * Requires TELNYX_API_KEY environment variable.
- *
- * Ported from telnyx-agent-portal/tests/guides-api.test.ts
- * Paths adapted: docs/guides/ → guides/
  */
 
-import { describe, it } from "node:test";
+import { describe, it, before } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -27,9 +24,7 @@ if (!API_KEY) {
     });
   });
 } else {
-  const guideFiles = readdirSync(GUIDES_DIR).filter(
-    (f) => f.endsWith(".md") && f !== "README.md"
-  );
+  const guideFiles = readdirSync(GUIDES_DIR).filter((f) => f.endsWith(".md"));
 
   /**
    * Extract GET-only curl URLs from a guide.
