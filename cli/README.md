@@ -140,15 +140,15 @@ The CLI looks for an API key in this order:
 
 ## Architecture
 
-- **No external HTTP dependencies** — uses native `fetch()` (Node 18+)
-- **No CLI framework** — simple `process.argv` parsing for 6 commands
+- **Hybrid execution** — wraps `telnyx-cli` where available, falls back to native `fetch()` for operations without CLI support
+- **No CLI framework** — simple `process.argv` parsing for 10 commands
 - **TypeScript + tsx** — direct execution, no build step
 - **Error handling** — composite commands report what succeeded and what failed
 
 ## Development
 
 ```bash
-cd packages/cli
+cd cli
 npm install
 
 # Run directly

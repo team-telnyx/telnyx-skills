@@ -1,5 +1,5 @@
 {
-  "name": "telnyx-ai-skills",
+  "name": "telnyx-ai",
   "private": true,
   "description": "Telnyx AI skills monorepo — SDKs, CLI, guides, and agent skills",
   "scripts": {
