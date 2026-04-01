@@ -1,5 +1,24 @@
-# Telnyx MCP Server
+# @telnyx/mcp
 
-MCP server exposing curated Telnyx tools for Claude Desktop, Cursor, Cline, Windsurf, and other MCP clients.
+The Telnyx [Model Context Protocol](https://modelcontextprotocol.com/) server allows you to integrate with Telnyx APIs through function calling. This protocol supports various tools to interact with different Telnyx services.
 
-> To be implemented — wraps the same tool definitions from the agent toolkit as MCP tools.
+## Setup
+
+Telnyx hosts a remote MCP server at `https://api.telnyx.com/v2/mcp`.
+
+To run the Telnyx MCP server locally using npx:
+
+```bash
+npx -y @telnyx/mcp --api-key=YOUR_TELNYX_API_KEY
+```
+
+Or set the environment variable:
+
+```bash
+export TELNYX_API_KEY=YOUR_KEY
+npx -y @telnyx/mcp
+```
+
+## How it works
+
+This package proxies MCP requests to the remote Telnyx MCP server over HTTP.
