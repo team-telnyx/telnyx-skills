@@ -5,7 +5,13 @@ import { createProxy } from "./index.js";
 function getApiKey(): string {
   const args = process.argv.slice(2);
 
-  // Check --api-key flag
+  // Check --api-key=VALUE (equals-separated)
+  const equalsArg = args.find((a) => a.startsWith("--api-key="));
+  if (equalsArg) {
+    return equalsArg.split("=").slice(1).join("=");
+  }
+
+  // Check --api-key VALUE (space-separated)
   const keyFlagIndex = args.indexOf("--api-key");
   if (keyFlagIndex !== -1 && args[keyFlagIndex + 1]) {
     return args[keyFlagIndex + 1];
