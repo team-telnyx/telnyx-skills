@@ -1,24 +1,20 @@
 # Telnyx AI
 
-This repo is the one-stop shop for building AI-powered products and businesses on top of Telnyx.
+This repo is the one-stop shop for AI Agents and AI-first developers building with Telnyx.
 
-It contains a collection of SDKs to help you integrate Telnyx with LLMs and agent frameworks, including:
+> [!NOTE]
+> This repository is a work in progress under active development. We are continuously improving based on testing and feedback. Contributions and feedback encouraged!
 
-* [`telnyx-agent-toolkit`](/tools/python) - for integrating Telnyx APIs with popular agent frameworks through function calling — available in [Python](/tools/python) and [TypeScript](/tools/typescript).
-* [Agent Skills](/skills) - for giving coding assistants accurate, up-to-date context about Telnyx APIs and SDKs.
-* [Agent CLI](/cli) - for provisioning Telnyx infrastructure in a single command.
+## Table of contents
 
-## Model Context Protocol (MCP)
+- [Agent Toolkit](#agent-toolkit) - integrate Telnyx APIs with popular agent frameworks including OpenAI's Agent SDK, LangChain, CrewAI, and Vercel's AI SDK through function calling — available in [Python](#python) and [TypeScript](#typescript).
+  
+- [Agent Skills](#agent-skills) - give AI coding assistants accurate, up-to-date context about Telnyx APIs and SDKs.
+  
+- [Agent CLI](#agent-cli) - provision and build on Telnyx infrastructure in a single command.
 
-Telnyx hosts a remote MCP server at `https://api.telnyx.com/v2/mcp`.
-
-To run a local Telnyx MCP server using npx:
-
-```sh
-npx -y @telnyx/mcp --api-key=YOUR_TELNYX_API_KEY
-```
-
-See [MCP](/tools/mcp) for more details.
+- [Telnyx Plugins](#plugins) - Install the Telnyx plugin for Claude Code, Cursor, or Gemini CLI to give your coding assistant Telnyx MCP server access and Telnyx Agent Skills.
+ 
 
 ## Agent Toolkit
 
@@ -131,17 +127,31 @@ const agentExecutor = new AgentExecutor({
 Install individual skills for your coding assistant via the [Skills CLI](https://github.com/vercel-labs/skills):
 
 ```sh
-npx skills add team-telnyx/ai --skill telnyx-messaging-python --agent cursor
+npx skills add team-telnyx/ai --skill <SKILL> --agent <AGENT>
 ```
 
-Or install the full Telnyx plugin via Claude Code:
+Or install skills via the full Telnyx plugin via Claude Code:
 
 ```sh
 /plugin marketplace add team-telnyx/ai
 /plugin install telnyx@telnyx
 ```
 
-See [Skills](/skills) for the full list of available skills.
+> [!NOTE]
+> See [Skills](/skills/README.md) for full install instrcuctions and comprehensive list of available skills.
+
+
+## Model Context Protocol (MCP)
+
+Telnyx hosts a remote MCP server at `https://api.telnyx.com/v2/mcp`.
+
+To run a local Telnyx MCP server using npx:
+
+```sh
+npx -y @telnyx/mcp --api-key=YOUR_TELNYX_API_KEY
+```
+
+See [MCP](/tools/mcp) for more details.
 
 ## Guides
 
