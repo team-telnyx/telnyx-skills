@@ -275,7 +275,7 @@ git clone https://github.com/team-telnyx/ai.git
 mkdir -p .github/skills
 
 # Example:
-cp -r telnyx-skills/telnyx-python/skills/telnyx-messaging-python .github/skills/
+cp -r ai/skills/telnyx-python/skills/telnyx-messaging-python .github/skills/
 ```
 
 ## Contributing

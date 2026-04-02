@@ -28,7 +28,7 @@ Skills in `skills/` are the canonical source. They are synced to `providers/clau
 ./scripts/sync-skills.sh
 ```
 
-CI will fail if provider skill copies are out of sync with the canonical source.
+You can verify sync locally with `./scripts/check-skills-sync.sh`.
 
 ### Auto-generated skills
 

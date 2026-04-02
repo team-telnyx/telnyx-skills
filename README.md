@@ -143,6 +143,12 @@ Or install the full Telnyx plugin via Claude Code:
 
 See [Skills](/skills) for the full list of available skills.
 
+## Guides
+
+Curl-first operational guides for common Telnyx workflows — SMS messaging, voice call control, AI assistants, phone numbers, verification, webhooks, 10DLC registration, WireGuard networking, and x402 payments.
+
+See [Guides](/guides) for the full list.
+
 [python-sdk]: https://github.com/team-telnyx/telnyx-python
 [node-sdk]: https://github.com/team-telnyx/telnyx-node
 [api-keys]: https://portal.telnyx.com/#/app/api-keys
