@@ -7,14 +7,58 @@ This repo is the one-stop shop for AI Agents and AI-first developers building wi
 
 ## Table of contents
 
+- [Telnyx Plugins](#plugins) - Install the Telnyx plugin for Claude Code, Cursor, or Gemini CLI to give your coding assistant Telnyx MCP server access and Telnyx Agent Skills.
+
 - [Agent Toolkit](#agent-toolkit) - integrate Telnyx APIs with popular agent frameworks including OpenAI's Agent SDK, LangChain, CrewAI, and Vercel's AI SDK through function calling — available in [Python](#python) and [TypeScript](#typescript).
   
 - [Agent Skills](#agent-skills) - give AI coding assistants accurate, up-to-date context about Telnyx APIs and SDKs.
   
 - [Agent CLI](#agent-cli) - provision and build on Telnyx infrastructure in a single command.
-
-- [Telnyx Plugins](#plugins) - Install the Telnyx plugin for Claude Code, Cursor, or Gemini CLI to give your coding assistant Telnyx MCP server access and Telnyx Agent Skills.
  
+
+## Plugins and Extenstion
+
+Install the unified Telnyx plugin to give your AI coding assistant Telnyx MCP server access and 228 Agent Skills covering messaging, voice, numbers, AI, IoT, WebRTC, Twilio migration, and more. 
+
+Empowers coding agents to generate correct, production-ready code without relying on pre-training or fragile doc retrieval.
+
+### Claude Code Plugin
+
+**Step 1.** Add the Telnyx marketplace (one-time setup):
+
+```bash
+/plugin marketplace add team-telnyx/ai
+```
+
+**Step 2.** Install the plugin:
+
+```bash
+/plugin install telnyx@telnyx
+```
+
+### Gemini CLI extension
+
+ ```sh
+  gemini extensions install https://github.com/team-telnyx/ai
+```
+
+### Cursor                                                
+
+> [!NOTE]
+> Note: Our Cursor Marketplace listing is pending. 
+
+In the meantime, install skills via the [Skills CLI](#agent-skills).
+
+Add the Telnyx MCP server to your project's `.cursor/mcp.json`:                                                                                                
+  ```json       
+  {                                                         
+    "mcpServers": {
+      "telnyx": {
+        "type": "http",
+        "url": "https://api.telnyx.com/v2/mcp"
+      }
+    }
+  }
 
 ## Agent Toolkit
 
@@ -95,28 +139,6 @@ Every command supports `--json` for machine-readable output.
 
 See [Agent CLI](/cli)
 
-## Plugins
-
-Install the Telnyx plugin to give your AI coding assistant MCP server access and 228 Agent Skills covering messaging, voice, numbers, AI, IoT, WebRTC, Twilio migration, and more.
-
-### Claude Code
-
- ```sh
-  /plugin marketplace add team-telnyx/ai
-  /plugin install telnyx@telnyx
-```
-### Gemini CLI
-
- ```sh
-  gemini extensions install team-telnyx/ai
-```
-
-### Cursor                                                
-
-```sh
-  /add-plugin telnyx
-```
-Note: Cursor marketplace listing is pending. In the meantime, install skills via the [Skills CLI](#agent-skills).
 
 ## Model Context Protocol (MCP)
 
