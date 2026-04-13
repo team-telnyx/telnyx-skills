@@ -43,7 +43,7 @@ Templates support these component types:
 | `UTILITY` | Order updates, shipping, account alerts | `whatsapp_utility` |
 | `MARKETING` | Promotions, newsletters, offers | `whatsapp_marketing` |
 
-### List Templates Filters (`GET /v2/whatsapp_business_accounts/:id/templates`)
+### List Templates Filters (`GET /v2/whatsapp/message_templates`)
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -216,7 +216,7 @@ Templates support these component types:
 
 ### 2. Monitor template approvals
 
-1. Configure webhook events on your WABA: `PATCH /v2/whatsapp_business_accounts/:id/webhooks`
+1. Configure webhook events on your WABA: `PATCH /v2/whatsapp/business_accounts/{id}/settings`
 2. Subscribe to `message_template_status_update`
 3. Create a new template via `POST .../templates`
 4. Wait for `whatsapp.template.approved` or `whatsapp.template.rejected` webhook
