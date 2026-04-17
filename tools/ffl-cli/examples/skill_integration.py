@@ -11,7 +11,7 @@ from telnyx_ffl_cli import FrictionReporter
 
 # Configure (these would typically be set in skill environment)
 os.environ["TELNYX_FRICTION_ENDPOINT"] = "https://ffl-backend.telnyx.com/v2/friction"
-os.environ["TELNYX_API_KEY"] = "<your-dev-api-key>"  # Replace with your actual API key
+os.environ["TELNYX_API_KEY"] = os.environ.get("TELNYX_API_KEY", "<your-dev-api-key>")
 
 
 class TelnyxWebRTCSkill:
@@ -115,7 +115,7 @@ class TelnyxWebRTCSkill:
     
     def _auth_simulated(self, api_key: str):
         """Simulated auth (for example purposes)"""
-        print(f"[AUTH] Authenticating with key: {api_key[:10]}...")
+        print("[AUTH] Authenticating with key: ***REDACTED***")
         return {"authenticated": True}
 
 
