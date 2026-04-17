@@ -1,8 +1,11 @@
 #!/bin/bash
-# Stop hook: detect documentation friction from Claude's response
-# Detects: docs-vs-API mismatches, outdated docs, unexpected API responses, workarounds
+# Stop hook: session telemetry + documentation friction detection
+# 1) Sends a usage telemetry summary (tools used, API calls, endpoints hit)
+# 2) Detects: docs-vs-API mismatches, outdated docs, unexpected API responses, workarounds
 
 export PATH="$HOME/Library/Python/3.9/bin:$HOME/.local/bin:$PATH"
+
+TELEMETRY_ENDPOINT="https://aifde-telemetry.telnyx.com/v2/telemetry"
 
 INPUT=$(cat)
 
@@ -25,6 +28,70 @@ fi
 if ! grep -qi "telnyx\|api\.telnyx\.com\|messaging\|verify\|numbers" "$TRANSCRIPT_PATH" 2>/dev/null; then
   exit 0
 fi
+
+# ─── Session telemetry (usage summary) ────────────────────────────────────────
+
+# Count total API calls to Telnyx
+API_CALL_COUNT=$(grep -c "api\.telnyx\.com/v2" "$TRANSCRIPT_PATH" 2>/dev/null || echo 0)
+API_CALL_COUNT=$(( API_CALL_COUNT + 0 ))
+
+# Extract unique endpoints hit (e.g. /v2/messages, /v2/phone_numbers)
+ENDPOINTS_HIT=$(grep -oE 'api\.telnyx\.com(/v2/[a-zA-Z0-9_/-]+)' "$TRANSCRIPT_PATH" 2>/dev/null \
+  | sed 's|api\.telnyx\.com||' | sort -u | head -20 | tr '\n' ',' | sed 's/,$//')
+
+# Extract unique skills used
+SKILLS_USED=$(grep -oE 'skills/[a-zA-Z0-9_-]+' "$TRANSCRIPT_PATH" 2>/dev/null \
+  | sed 's|skills/||' | sort -u | head -10 | tr '\n' ',' | sed 's/,$//')
+
+# Count HTTP methods used
+GET_COUNT=$(grep -cE '(curl.*-X GET|curl.*api\.telnyx\.com.*/v2/[^ ]*[^-]$|GET /v2/)' "$TRANSCRIPT_PATH" 2>/dev/null || echo 0)
+POST_COUNT=$(grep -cE '(curl.*-X POST|POST /v2/)' "$TRANSCRIPT_PATH" 2>/dev/null || echo 0)
+PATCH_COUNT=$(grep -cE '(curl.*-X PATCH|PATCH /v2/)' "$TRANSCRIPT_PATH" 2>/dev/null || echo 0)
+DELETE_COUNT=$(grep -cE '(curl.*-X DELETE|DELETE /v2/)' "$TRANSCRIPT_PATH" 2>/dev/null || echo 0)
+
+# Send session telemetry (fire-and-forget)
+if [[ $API_CALL_COUNT -gt 0 ]]; then
+  TELEMETRY_PAYLOAD=$(jq -n \
+    --arg session_id "$SESSION_ID" \
+    --arg sdk "claude-plugin" \
+    --argjson api_call_count "$API_CALL_COUNT" \
+    --arg endpoints_hit "$ENDPOINTS_HIT" \
+    --arg skills_used "${SKILLS_USED:-unknown}" \
+    --argjson get_count "$(( GET_COUNT + 0 ))" \
+    --argjson post_count "$(( POST_COUNT + 0 ))" \
+    --argjson patch_count "$(( PATCH_COUNT + 0 ))" \
+    --argjson delete_count "$(( DELETE_COUNT + 0 ))" \
+    '{
+      tool: "session_summary",
+      status: "success",
+      duration_ms: 0,
+      http_status: 0,
+      http_method: "",
+      api_path: "",
+      sdk: $sdk,
+      context: {
+        session_id: $session_id,
+        api_call_count: $api_call_count,
+        endpoints_hit: $endpoints_hit,
+        skills_used: $skills_used,
+        methods: {
+          GET: $get_count,
+          POST: $post_count,
+          PATCH: $patch_count,
+          DELETE: $delete_count
+        }
+      }
+    }')
+
+  curl -s -X POST "$TELEMETRY_ENDPOINT" \
+    -H "Content-Type: application/json" \
+    -d "$TELEMETRY_PAYLOAD" \
+    --max-time 5 >/dev/null 2>&1 &
+
+  echo "[telnyx-ai:telemetry] session summary sent: ${API_CALL_COUNT} API calls, endpoints=[${ENDPOINTS_HIT}]" >&2
+fi
+
+# ─── Friction detection ───────────────────────────────────────────────────────
 
 # --- Friction patterns in Claude's response (ERE syntax: use | not \|) ---
 FRICTION_PATTERNS=(
@@ -132,6 +199,7 @@ if [[ $FRICTION_COUNT -gt 0 ]] || [[ $RETRY_COUNT -ge 5 ]]; then
     echo "[telnyx-skills:docs] report sent" >&2 || \
     echo "[telnyx-skills:docs] report failed" >&2
   fi
+
 fi
 
 exit 0
