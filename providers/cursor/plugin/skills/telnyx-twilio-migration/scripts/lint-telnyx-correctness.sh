@@ -147,15 +147,16 @@ grep_shebang_files() {
 }
 
 # A caller asking for "*.js" means "JavaScript", not "files whose name ends in
-# .js". Node resolves .cjs/.mjs and bundlers resolve .jsx/.tsx/.mts/.cts as the
-# same source language, so a check that only globs the bare extension silently
-# passes any project using them. Expanding here fixes every call site at once;
-# per-call glob lists drift apart as checks are added.
+# .js". Node resolves .cjs/.mjs, bundlers resolve .jsx/.tsx/.mts/.cts, and
+# component frameworks embed JavaScript in .vue/.svelte/.astro files. A check
+# that only globs the bare extension silently passes projects using them.
+# Expanding here fixes every call site at once; per-call glob lists drift apart
+# as checks are added.
 expand_source_globs() {
   local glob
   for glob in "$@"; do
     case "$glob" in
-      '*.js') echo '*.js' '*.jsx' '*.cjs' '*.mjs' ;;
+      '*.js') echo '*.js' '*.jsx' '*.cjs' '*.mjs' '*.vue' '*.svelte' '*.astro' ;;
       '*.ts') echo '*.ts' '*.tsx' '*.mts' '*.cts' ;;
       '*.py') echo '*.py' '*.pyw' ;;
       '*.rb') echo '*.rb' '*.rake' 'Rakefile' ;;

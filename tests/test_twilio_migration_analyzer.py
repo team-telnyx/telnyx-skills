@@ -523,6 +523,8 @@ class CorrectnessLinterContracts(unittest.TestCase):
         ".tsx",
     )
 
+    JS_COMPONENT_FAMILY = (".astro", ".svelte", ".vue")
+
     def test_messaging_profile_linter_reads_every_js_module_extension(self) -> None:
         for suffix in self.JS_TS_FAMILY:
             with self.subTest(suffix=suffix):
@@ -538,6 +540,26 @@ class CorrectnessLinterContracts(unittest.TestCase):
                 }
                 _, payload = self.run_messaging_linter(files)
                 self.assert_required_profile_detected(payload, name)
+
+    def test_correctness_linter_reads_javascript_component_files(self) -> None:
+        for suffix in self.JS_COMPONENT_FAMILY:
+            with self.subTest(suffix=suffix):
+                _, payload = self.run_messaging_linter(
+                    {
+                        f"Component{suffix}": (
+                            "<script>\n"
+                            "const twilio = require('twilio');\n"
+                            "</script>\n"
+                        )
+                    }
+                )
+                flagged = [
+                    check
+                    for check in payload["checks"]
+                    if check["name"] == "residual_twilio_imports"
+                    and check["status"] in {"warn", "issue"}
+                ]
+                self.assertTrue(flagged, json.dumps(payload["checks"]))
 
     def test_language_aliases_are_analysed_as_their_canonical_language(self) -> None:
         # An extension is not a language. A .bash file is a shell script and a
