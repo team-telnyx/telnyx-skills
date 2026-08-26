@@ -613,6 +613,43 @@ class CorrectnessLinterContracts(unittest.TestCase):
         )
         self.assertEqual("issue", check["status"], json.dumps(payload["checks"]))
 
+    def test_script_end_tag_variants_preserve_executable_boundaries(self) -> None:
+        # HTML parsers tolerate whitespace and ignored junk after an end-tag
+        # name. The template extractor must therefore recognize the same
+        # boundary: code before it remains executable, while markup after it
+        # must not be scanned as host-language source.
+        closing_tags = (
+            "</script>",
+            "</SCRIPT   >",
+            "</script\t\n data-ignored>",
+            "</ScRiPt ignored=value>",
+        )
+        for suffix in (*self.JS_COMPONENT_FAMILY, ".ejs"):
+            for closing_tag in closing_tags:
+                with self.subTest(suffix=suffix, closing_tag=closing_tag):
+                    source = (
+                        "<script>\n"
+                        "client.messages.sendNumberPool({to, text});\n"
+                        f"{closing_tag}\n"
+                        "<p>client.messages.sendNumberPool({to, text});</p>\n"
+                    )
+                    _, payload = self.run_messaging_linter(
+                        {f"Component{suffix}": source}
+                    )
+                    check = next(
+                        item
+                        for item in payload["checks"]
+                        if item["name"] == "required_messaging_profile_id"
+                    )
+                    self.assertEqual(
+                        "issue", check["status"], json.dumps(payload["checks"])
+                    )
+                    self.assertEqual(
+                        1,
+                        len(check["details"]["files"]),
+                        json.dumps(check),
+                    )
+
     def test_body_field_modes_continue_after_one_unreadable_file(self) -> None:
         with tempfile.TemporaryDirectory(
             prefix="telnyx-body-field-fail-safe-"

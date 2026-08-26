@@ -267,7 +267,7 @@ def executable_source(path: Path, source: str) -> str:
         ranges.extend(
             match.span(1)
             for match in re.finditer(
-                r"<script\b[^>]*>(.*?)</script\s*>", template_source,
+                r"<script\b[^>]*>(.*?)</script\b[^>]*>", template_source,
                 flags=re.IGNORECASE | re.DOTALL,
             )
         )
@@ -370,7 +370,7 @@ def executable_source(path: Path, source: str) -> str:
             ranges.extend(
                 match.span(1)
                 for match in re.finditer(
-                    r"<script\b[^>]*>(.*?)</script\s*>", source,
+                    r"<script\b[^>]*>(.*?)</script\b[^>]*>", source,
                     flags=re.IGNORECASE | re.DOTALL,
                 )
             )
