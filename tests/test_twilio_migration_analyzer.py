@@ -83,6 +83,9 @@ class CorrectnessLinterProductArgument(unittest.TestCase):
             "video",
             "iot",
             "lookup",
+            "numbers",
+            "phone-numbers",
+            "porting",
         ):
             with self.subTest(product=product):
                 result = self.run_product(product)
@@ -525,6 +528,324 @@ class CorrectnessLinterContracts(unittest.TestCase):
 
     JS_COMPONENT_FAMILY = (".astro", ".svelte", ".vue")
 
+    def test_mixed_templates_scan_only_executable_host_code(self) -> None:
+        for suffix in self.JS_COMPONENT_FAMILY:
+            with self.subTest(suffix=suffix):
+                result, payload = self.run_messaging_linter(
+                    {f"Component{suffix}": "<template><p>VoiceResponse()</p></template>\n"},
+                    product="voice",
+                )
+                self.assertEqual(0, result.returncode, payload)
+
+                result, payload = self.run_messaging_linter(
+                    {
+                        f"Component{suffix}": (
+                            '<template><Gather speechModel="phone_call"/></template>\n'
+                        )
+                    },
+                    product="voice",
+                )
+                self.assertEqual(1, result.returncode, payload)
+                self.assertTrue(
+                    any(check["status"] == "issue" for check in payload["checks"]),
+                    payload,
+                )
+
+        for suffix in (".ejs", ".jsp"):
+            with self.subTest(suffix=suffix):
+                result, payload = self.run_messaging_linter(
+                    {f"view{suffix}": '<% // <Gather speechModel="phone_call"/> %>\n'},
+                    product="voice",
+                )
+                self.assertEqual(0, result.returncode, payload)
+
+        native_comments = {
+            "view.ejs": '<%# <Gather speechModel="phone_call"/> %>\n',
+            "view.erb": '<%# <Gather speechModel="phone_call"/> %>\n',
+            "view.jsp": '<%-- <Gather speechModel="phone_call"/> --%>\n',
+            "view.hbs": '{{!-- <Gather speechModel="phone_call"/> --}}\n',
+            "view.handlebars": '{{! <Gather speechModel="phone_call"/> }}\n',
+            "view.mustache": '{{! <Gather speechModel="phone_call"/> }}\n',
+            "view.jinja": '{# <Gather speechModel="phone_call"/> #}\n',
+            "view.jinja2": '{# <Gather speechModel="phone_call"/> #}\n',
+            "view.twig": '{# <Gather speechModel="phone_call"/> #}\n',
+        }
+        for filename, contents in native_comments.items():
+            with self.subTest(native_comment=filename):
+                result, payload = self.run_messaging_linter(
+                    {filename: contents}, product="voice"
+                )
+                self.assertEqual(0, result.returncode, payload)
+
+        result, payload = self.run_messaging_linter(
+            {"View.cshtml": "<p>using Twilio is the old example</p>\n"}
+        )
+        self.assertEqual(0, result.returncode, payload)
+        result, payload = self.run_messaging_linter(
+            {
+                "View.cshtml": (
+                    "<p>preview</p>\n"
+                    "@using Twilio\n"
+                )
+            }
+        )
+        self.assertEqual(1, result.returncode, payload)
+        self.assertTrue(
+            any(
+                check["name"] == "residual_twilio_imports"
+                and check["status"] == "issue"
+                for check in payload["checks"]
+            ),
+            payload,
+        )
+
+    def test_template_literal_interpolation_remains_executable(self) -> None:
+        source = (
+            "async function send(to, text) {\n"
+            "  return `result: ${await client.messages.sendNumberPool({to, text})}`;\n"
+            "}\n"
+        )
+        _, payload = self.run_messaging_linter({"send.js": source})
+        check = next(
+            item
+            for item in payload["checks"]
+            if item["name"] == "required_messaging_profile_id"
+        )
+        self.assertEqual("issue", check["status"], json.dumps(payload["checks"]))
+
+    def test_body_field_modes_continue_after_one_unreadable_file(self) -> None:
+        with tempfile.TemporaryDirectory(
+            prefix="telnyx-body-field-fail-safe-"
+        ) as directory:
+            root = Path(directory)
+            unreadable = root / "unreadable.js"
+            unreadable.write_text("client.messages.send({body});\n", encoding="utf-8")
+            unreadable.chmod(0)
+            valid = root / "valid.js"
+            valid.write_text("client.messages.send({body});\n", encoding="utf-8")
+            try:
+                result = subprocess.run(
+                    [
+                        sys.executable,
+                        str(MESSAGING_SOURCE_ANALYZER),
+                        "--message-body-fields",
+                        str(root),
+                    ],
+                    cwd=ROOT,
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                    check=False,
+                )
+            finally:
+                unreadable.chmod(stat.S_IRUSR | stat.S_IWUSR)
+
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        self.assertIn("valid.js:1", result.stdout)
+        self.assertIn("unreadable.js:1", result.stdout)
+        self.assertIn("could not analyze this file", result.stdout)
+
+    def test_extensionless_rakefile_is_ruby_source(self) -> None:
+        for name in ("Rakefile", "rakefile"):
+            with self.subTest(name=name):
+                _, payload = self.run_messaging_linter(
+                    {
+                        name: (
+                            "client.send_number_pool(to: '+1', from: '+2', text: 'hi')\n"
+                        )
+                    }
+                )
+                self.assert_required_profile_detected(payload, name)
+
+    def test_project_state_is_loaded_without_repeating_the_flag(self) -> None:
+        result, payload = self.run_messaging_linter(
+            {
+                "app.py": "from twilio.rest import Client\n",
+                "migration-state.json": '{"kept_on_twilio":{"messaging":true}}\n',
+            }
+        )
+        self.assertEqual(0, result.returncode, payload)
+
+    def test_kept_conversations_calls_do_not_waive_telnyx_messaging_errors(
+        self,
+    ) -> None:
+        kept_result, kept_payload = self.run_messaging_linter(
+            {
+                "conversation.js": "\n".join(
+                    (
+                        "conversation.messages.create({body: 'kept one'});",
+                        "channel.messages.create({body: 'kept two'});",
+                        "client.conversations('CH1').messages.create({body: 'kept three'});",
+                        "client.conversations('CH2')\n  .messages.create({body: 'kept four'});",
+                    )
+                ),
+                "migration-state.json": (
+                    '{"kept_on_twilio":{"conversations":true}}\n'
+                ),
+            }
+        )
+        self.assertEqual(0, kept_result.returncode, kept_payload)
+
+        failing_result, failing_payload = self.run_messaging_linter(
+            {
+                "mixed.js": (
+                    "conversation.messages.create({body: 'kept'});\n"
+                    "client.messages.send({body: 'wrong Telnyx field'});\n"
+                ),
+                "migration-state.json": (
+                    '{"kept_on_twilio":{"conversations":true}}\n'
+                ),
+            }
+        )
+        self.assertEqual(1, failing_result.returncode, failing_payload)
+        body_check = next(
+            check
+            for check in failing_payload["checks"]
+            if check["name"] == "body_not_text"
+        )
+        self.assertEqual("issue", body_check["status"])
+        details = json.dumps(body_check["details"])
+        self.assertIn("wrong Telnyx field", details)
+        self.assertNotIn("kept", details)
+
+        messaging_result, messaging_payload = self.run_messaging_linter(
+            {
+                "twilio.js": "client.messages.create({body: 'kept messaging'});\n",
+                "migration-state.json": (
+                    '{"kept_on_twilio":{"messaging":true}}\n'
+                ),
+            }
+        )
+        self.assertEqual(0, messaging_result.returncode, messaging_payload)
+        messaging_check = next(
+            check
+            for check in messaging_payload["checks"]
+            if check["name"] == "twilio_messages_create"
+        )
+        self.assertEqual("warn", messaging_check["status"])
+
+        decoy_result, decoy_payload = self.run_messaging_linter(
+            {
+                "decoy.js": (
+                    "if (conversationEnabled) "
+                    "client.messages.send({body: 'must remain an issue'});\n"
+                ),
+                "migration-state.json": (
+                    '{"kept_on_twilio":{"conversations":true}}\n'
+                ),
+            }
+        )
+        self.assertEqual(1, decoy_result.returncode, decoy_payload)
+        self.assertIn("must remain an issue", json.dumps(decoy_payload))
+
+    def test_every_product_reports_missing_python_consistently(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="telnyx-no-python-") as directory:
+            result = subprocess.run(
+                [
+                    BASH,
+                    str(CORRECTNESS_LINTER),
+                    directory,
+                    "--product",
+                    "voice",
+                ],
+                cwd=ROOT,
+                env={"PATH": ""},
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+            )
+        self.assertEqual(2, result.returncode, result.stdout + result.stderr)
+        self.assertIn("Python 3.10+ is required for correctness analysis", result.stderr)
+
+    def test_python_older_than_310_is_rejected_before_analysis(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="telnyx-old-python-") as directory:
+            tools = Path(directory) / "bin"
+            tools.mkdir()
+            fake_python = tools / "python3"
+            fake_python.write_text("#!/bin/sh\nexit 1\n", encoding="utf-8")
+            fake_python.chmod(fake_python.stat().st_mode | stat.S_IXUSR)
+            project = Path(directory) / "project"
+            project.mkdir()
+            result = subprocess.run(
+                [BASH, str(CORRECTNESS_LINTER), str(project), "--product", "voice"],
+                cwd=ROOT,
+                env={"PATH": str(tools)},
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+            )
+        self.assertEqual(2, result.returncode, result.stdout + result.stderr)
+        self.assertIn("Python 3.10+ is required", result.stderr)
+
+    def test_full_validation_invokes_the_profile_analyzer(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="telnyx-full-validation-") as directory:
+            project = Path(directory)
+            (project / "send.js").write_text(
+                "client.sendNumberPool({to: '+1', from: '+2', text: 'hi'});\n",
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [BASH, str(MIGRATION_SCRIPTS.parent / "run-validation.sh"), directory],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+                env={**os.environ, "TELNYX_API_KEY": ""},
+            )
+        self.assertEqual(1, result.returncode, result.stdout + result.stderr)
+        self.assertIn("Correctness checks failed", result.stdout)
+        self.assertIn("Step 5.3: Smoke Test", result.stdout)
+        self.assertIn("Phase 5 Summary", result.stdout)
+
+    def test_endpoint_candidates_exclude_source_fixtures_and_assertions(self) -> None:
+        _, payload = self.run_messaging_linter(
+            {
+                "fixture.py": (
+                    "snippet = 'api.post(\"messages/number_pool\",'\n"
+                    "self.assertTrue(\n"
+                    "    required_endpoint('/v2/messages/number_pool')\n"
+                    ")\n"
+                )
+            }
+        )
+        check = next(
+            item
+            for item in payload["checks"]
+            if item["name"] == "required_messaging_profile_id"
+        )
+        self.assertEqual("pass", check["status"], json.dumps(payload["checks"]))
+
+    def test_full_validation_forwards_discovery_webhook_context(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="telnyx-scan-context-") as directory:
+            project = Path(directory)
+            (project / "handler.js").write_text(
+                "app.post('/hook', (req, res) => { const event = req.body.data.payload; res.sendStatus(200); });\n",
+                encoding="utf-8",
+            )
+            (project / "twilio-scan.json").write_text(
+                json.dumps(
+                    {
+                        "products_used": ["messaging"],
+                        "summary": {"has_webhook_validation": False},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [BASH, str(MIGRATION_SCRIPTS.parent / "run-validation.sh"), directory],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+                env={**os.environ, "TELNYX_API_KEY": ""},
+            )
+        self.assertIn("original code did not validate webhooks either", result.stdout)
+        self.assertIn("Correctness checks passed", result.stdout)
+
     def test_messaging_profile_linter_reads_every_js_module_extension(self) -> None:
         for suffix in self.JS_TS_FAMILY:
             with self.subTest(suffix=suffix):
@@ -560,6 +881,53 @@ class CorrectnessLinterContracts(unittest.TestCase):
                     and check["status"] in {"warn", "issue"}
                 ]
                 self.assertTrue(flagged, json.dumps(payload["checks"]))
+
+    def test_shell_checks_scan_executable_server_template_regions(self) -> None:
+        fixtures = {
+            "view.ejs": "<% const twilio = require('twilio'); %>\n",
+            "view.erb": "<% require 'twilio-ruby' %>\n",
+            "view.jsp": "<% import com.twilio.Twilio; %>\n",
+            "directive.jsp": '<%@ page import="com.twilio.Twilio" %>\n',
+        }
+        for name, source in fixtures.items():
+            with self.subTest(name=name):
+                _, payload = self.run_messaging_linter({name: source})
+                check = next(
+                    item
+                    for item in payload["checks"]
+                    if item["name"] == "residual_twilio_imports"
+                )
+                self.assertIn(check["status"], {"warn", "issue"})
+
+    def test_client_component_markup_is_not_a_server_webhook(self) -> None:
+        for suffix in (".vue", ".svelte", ".astro", ".ejs"):
+            with self.subTest(suffix=suffix):
+                source = (
+                    '<script>app.post("/preview", () => data.payload)</script>\n'
+                    if suffix == ".ejs"
+                    else '<button @click="postTodo">{{ data.payload }}</button>\n'
+                )
+                _, payload = self.run_messaging_linter(
+                    {f"Component{suffix}": source}
+                )
+                findings = [
+                    item
+                    for item in payload["checks"]
+                    if item["name"] == "webhook_ed25519_missing"
+                    and item["status"] in {"warn", "issue"}
+                ]
+                self.assertEqual([], findings, json.dumps(payload["checks"]))
+
+        _, payload = self.run_messaging_linter(
+            {"server.ejs": '<% app.post("/sms", () => data.payload); %>'}
+        )
+        findings = [
+            item
+            for item in payload["checks"]
+            if item["name"] == "webhook_ed25519_missing"
+            and item["status"] in {"warn", "issue"}
+        ]
+        self.assertEqual(1, len(findings), json.dumps(payload["checks"]))
 
     def test_language_aliases_are_analysed_as_their_canonical_language(self) -> None:
         # An extension is not a language. A .bash file is a shell script and a
@@ -615,6 +983,39 @@ class CorrectnessLinterContracts(unittest.TestCase):
                 any(status in {"warn", "issue"} for status in statuses(canonical, violating)),
                 f"{canonical} did not flag a missing profile at all",
             )
+
+    def test_phtml_markup_cannot_mask_php_request(self) -> None:
+        source = (
+            "<p>Don't forget to send this message.</p>\n"
+            "<?php\n"
+            '$client->post("https://api.telnyx.com/v2/messages/number_pool", '
+            '["json" => ["to" => "+1", "text" => "hi"]]);\n'
+            "?>\n"
+        )
+        _, payload = self.run_messaging_linter({"send.phtml": source})
+        check = next(
+            item
+            for item in payload["checks"]
+            if item["name"] == "required_messaging_profile_id"
+        )
+        self.assertEqual("issue", check["status"], json.dumps(payload["checks"]))
+
+    def test_multiline_template_comments_preserve_speech_model_line(self) -> None:
+        source = (
+            "<!-- comment\n"
+            "     spanning\n"
+            "     lines -->\n"
+            '<Response><Gather speechModel="phone_call"/></Response>\n'
+        )
+        _, payload = self.run_messaging_linter(
+            {"ivr.xml": source}, product="voice"
+        )
+        check = next(
+            item
+            for item in payload["checks"]
+            if item["name"] == "gather_speech_model_attr"
+        )
+        self.assertIn("ivr.xml:4", json.dumps(check), json.dumps(payload["checks"]))
 
     # Each entry: (label, filename, violating, compliant). Violating sends to
     # /v2/messages/number_pool without messaging_profile_id and must be
@@ -712,6 +1113,139 @@ class CorrectnessLinterContracts(unittest.TestCase):
         self.assert_required_profile_passes(
             {"bin/send-pool": body % ", messaging_profile_id: 'abc'"}
         )
+
+    def test_extensionless_node_findings_are_not_duplicated(self) -> None:
+        _, payload = self.run_messaging_linter(
+            {
+                "bin/respond": (
+                    "#!/usr/bin/env node\n"
+                    "const response = new MessagingResponse();\n"
+                )
+            }
+        )
+        check = next(
+            item
+            for item in payload["checks"]
+            if item["name"] == "messaging_response_builder"
+        )
+        self.assertEqual(1, len(check["details"]["files"]))
+
+    def test_component_template_handlers_are_executable_javascript(self) -> None:
+        violating = {
+            "Send.vue": (
+                '<template><button @click="client.sendNumberPool('
+                "{to: '+1', text: 'hi'})\">Send</button></template>\n"
+            ),
+            "Submit.vue": (
+                "<template><form v-on:submit='client.sendNumberPool("
+                '{to: "+1", text: "hi"})\'></form></template>\n'
+            ),
+            "Modified.vue": (
+                '<button @click.prevent.stop="client.sendNumberPool('
+                "{to: '+1', text: 'hi'})\">Send</button>\n"
+            ),
+            "Send.svelte": (
+                '<button on:click={() => client.sendNumberPool('
+                "{to: '+1', text: 'hi'})}>Send</button>\n"
+            ),
+            "Modern.svelte": (
+                '<button onclick={() => client.sendNumberPool('
+                "{to: '+1', text: 'hi'})}>Send</button>\n"
+            ),
+            "Send.astro": (
+                '<button onclick={() => client.sendNumberPool('
+                "{to: '+1', text: 'hi'})}>Send</button>\n"
+            ),
+        }
+        for name, source in violating.items():
+            with self.subTest(name=name):
+                _, payload = self.run_messaging_linter({name: source})
+                self.assert_required_profile_detected(payload, name)
+
+        compliant = {
+            name: source.replace(
+                "text: 'hi'", "text: 'hi', messaging_profile_id: 'profile'"
+            ).replace(
+                'text: "hi"', 'text: "hi", messaging_profile_id: "profile"'
+            )
+            for name, source in violating.items()
+        }
+        self.assert_required_profile_passes(compliant)
+
+        _, payload = self.run_messaging_linter(
+            {
+                "Nested.vue": (
+                    "{{ client.sendNumberPool({to, metadata: {campaign}}) }}"
+                )
+            }
+        )
+        self.assert_required_profile_detected(payload, "Nested.vue")
+
+    def test_typescript_component_scripts_keep_typescript_resolution(self) -> None:
+        source = "\n".join(
+            (
+                '<script lang="ts">',
+                'const endpoint = "/v2/messages/number_pool" as const;',
+                'fetch(endpoint, {method: "POST", body: JSON.stringify({to: "+1"})});',
+                "</script>",
+            )
+        )
+        for suffix in (".vue", ".svelte", ".astro"):
+            with self.subTest(suffix=suffix):
+                _, payload = self.run_messaging_linter({f"Typed{suffix}": source})
+                self.assert_required_profile_detected(payload, f"Typed{suffix}")
+
+        unquoted = source.replace('lang="ts"', "lang=ts")
+        for suffix in (".vue", ".svelte"):
+            with self.subTest(unquoted_suffix=suffix):
+                _, payload = self.run_messaging_linter({f"Typed{suffix}": unquoted})
+                self.assert_required_profile_detected(payload, f"Typed{suffix}")
+
+        astro_frontmatter = "\n".join(
+            (
+                "---",
+                'const endpoint = "/v2/messages/number_pool" as const;',
+                'fetch(endpoint, {method: "POST", body: JSON.stringify({to: "+1"})});',
+                "---",
+            )
+        )
+        _, payload = self.run_messaging_linter({"Frontmatter.astro": astro_frontmatter})
+        self.assert_required_profile_detected(payload, "Frontmatter.astro")
+
+    def test_ejs_client_script_blocks_are_executable(self) -> None:
+        name = "send.ejs"
+        _, payload = self.run_messaging_linter(
+            {
+                name: (
+                    '<script>fetch("/v2/messages/number_pool", '
+                    '{method: "POST", body: JSON.stringify({to: "+1"})});</script>'
+                )
+            }
+        )
+        self.assert_required_profile_detected(payload, name)
+
+    def test_component_style_blocks_are_not_executable_requests(self) -> None:
+        for suffix in (".svelte", ".astro"):
+            with self.subTest(suffix=suffix):
+                self.assert_required_profile_passes(
+                    {
+                        f"Styled{suffix}": (
+                            '<style>.hero { background: url("/v2/messages/number_pool"); }</style>'
+                        )
+                    }
+                )
+
+    def test_commented_component_handlers_are_not_executable(self) -> None:
+        for suffix in (".vue", ".svelte", ".astro"):
+            with self.subTest(suffix=suffix):
+                self.assert_required_profile_passes(
+                    {
+                        f"Commented{suffix}": (
+                            '<!-- <button onclick={() => client.sendNumberPool('
+                            "{to: '+1', text: 'hi'})}>Send</button> -->\n"
+                        )
+                    }
+                )
 
     def test_uppercase_and_extensionless_python_sources_are_linted(self) -> None:
         # SMSBOT.PY and an extensionless #!/usr/bin/env python3 executable are
@@ -980,6 +1514,15 @@ class CorrectnessLinterContracts(unittest.TestCase):
                 f"const api = axios.create({{baseURL:'{base}'}});\n"
                 "api.post('/number_pool', {to:'+1'%s});\n"
             ),
+            "defaults-instance.js": (
+                "const api = axios.create();\n"
+                f"api.defaults.baseURL = '{base}';\n"
+                "api.post('/number_pool', {to:'+1'%s});\n"
+            ),
+            "defaults-global.js": (
+                f"axios.defaults.baseURL = '{base}';\n"
+                "axios.post('/number_pool', {to:'+1'%s});\n"
+            ),
             "httpx.py": (
                 f"httpx.Client(base_url='{base}')"
                 ".post('/number_pool', json={'to':'+1'%s})"
@@ -1005,7 +1548,12 @@ class CorrectnessLinterContracts(unittest.TestCase):
                 "other.js": (
                     "axios.create({baseURL:'https://api.telnyx.com/v2/messages'})"
                     ".post('/', {to: '+1'});"
-                )
+                ),
+                "defaults-other.js": (
+                    "axios.defaults.baseURL = "
+                    "'https://api.telnyx.com/v2/messages';\n"
+                    "axios.post('/other', {to: '+1'});"
+                ),
             }
         )
 
@@ -4587,6 +5135,28 @@ class CorrectnessLinterContracts(unittest.TestCase):
         )
         self.assert_required_profile_detected(payload, fixture_name)
 
+    def test_recognized_call_does_not_mask_unrecognized_required_send(self) -> None:
+        fixtures = {
+            "mixed.ts": "\n".join(
+                (
+                    "client.sendNumberPool({to, messaging_profile_id: profileId});",
+                    'custom.fire("https://api.telnyx.com/v2/messages/number_pool", {to});',
+                )
+            ),
+            "multiline.ts": "\n".join(
+                (
+                    "custom.fire(",
+                    '  "https://api.telnyx.com/v2/messages/number_pool",',
+                    "  {to}",
+                    ");",
+                )
+            ),
+        }
+        result, payload = self.run_messaging_linter(fixtures)
+        self.assertEqual(1, result.returncode)
+        for fixture_name in fixtures:
+            self.assert_required_profile_detected(payload, fixture_name)
+
     def test_unrelated_requests_comments_and_strings_do_not_mask_missing_profile(
         self,
     ) -> None:
@@ -6173,6 +6743,20 @@ class CorrectnessLinterContracts(unittest.TestCase):
 
 
 class AnalyzerConsistencyContracts(unittest.TestCase):
+    def test_texml_runtime_guidance_matches_analyzer_contracts(self) -> None:
+        skill = (ROOT / "skills/telnyx-twilio-migration/SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        verbs = (
+            ROOT / "skills/telnyx-twilio-migration/references/texml-verbs.md"
+        ).read_text(encoding="utf-8")
+        self.assertNotIn("`speechModel` does NOT exist in TeXML", skill)
+        self.assertIn("<Language speechModel", skill)
+        self.assertIn("map to the corresponding TeXML element's `model`", skill)
+        self.assertNotIn("non-Neural voices may fall back", skill)
+        self.assertNotIn("non-Neural voices may fall back", verbs)
+        self.assertIn("Preserve a supported source voice verbatim", verbs)
+
     def test_analyzer_and_shell_exclude_the_same_generated_directories(self) -> None:
         canonical = {
             ".next", ".nuxt", "coverage", ".tox", "node_modules", "dist", "build"

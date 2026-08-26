@@ -138,6 +138,34 @@ fi
 
 echo ""
 
+# --- Step 5.1b: Telnyx Correctness Linter ---
+# This integration belongs with the source-aware analyzer. Without it the full
+# Phase 5 wrapper can certify a required sender that lacks
+# messaging_profile_id even though the standalone linter would block it.
+echo -e "${BOLD}Step 5.1b: Telnyx Correctness${NC}"
+echo "────────────────────────────────"
+
+CORRECTNESS_ARGS=("$PROJECT_ROOT")
+# Discovery records whether the original app intentionally omitted webhook
+# validation. Preserve that context so the wrapper and standalone linter reach
+# the same verdict instead of upgrading an intentional warning to an issue.
+[ -f "$PROJECT_ROOT/twilio-scan.json" ] && \
+  CORRECTNESS_ARGS+=("--scan-json" "$PROJECT_ROOT/twilio-scan.json")
+bash "$SCRIPT_DIR/lint-telnyx-correctness.sh" "${CORRECTNESS_ARGS[@]}"
+CORRECTNESS_EXIT=$?
+if [ "$CORRECTNESS_EXIT" -eq 0 ]; then
+  echo ""
+  echo -e "  ${GREEN}PASS${NC}  Correctness checks passed"
+  RESULTS="${RESULTS}correctness:pass,"
+else
+  echo ""
+  echo -e "  ${RED}FAIL${NC}  Correctness checks failed (exit code: $CORRECTNESS_EXIT)"
+  OVERALL_PASS=false
+  RESULTS="${RESULTS}correctness:fail,"
+fi
+
+echo ""
+
 # --- Step 5.2: TeXML Validation (optional) ---
 if [ "$INCLUDE_TEXML" = true ]; then
   echo -e "${BOLD}Step 5.2: TeXML Validation${NC}"

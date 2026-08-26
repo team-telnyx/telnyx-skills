@@ -74,6 +74,8 @@ SUFFIX_LANGUAGE_ALIASES = {
     ".svelte": ".js",
     ".astro": ".js",
     ".erb": ".rb",
+    ".ejs": ".js",
+    ".jsp": ".java",
 }
 INCLUDED_SUFFIXES = {
     ".cs",
@@ -120,8 +122,281 @@ def canonical_suffix(path: Path) -> str:
     """Return the language suffix a file should be analysed as."""
     suffix = path.suffix.lower()
     if not suffix:
+        if path.name.lower() == "rakefile":
+            return ".rb"
         return shebang_suffix(path) or ""
+    # Component files can opt into TypeScript inside their script block. Keep
+    # that grammar mode: treating `as const` as JavaScript can make endpoint
+    # resolution fail while provenance still consumes the literal, silently
+    # certifying a required-profile send.
+    # Astro frontmatter is TypeScript-capable by default; JavaScript remains a
+    # valid subset, so using the TS grammar avoids consuming an endpoint literal
+    # while failing to resolve a legal `as const` alias.
+    if suffix == ".astro":
+        return ".ts"
+    if suffix in {".vue", ".svelte"}:
+        try:
+            source = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            source = ""
+        if re.search(
+            r"<script\b[^>]*\blang\s*=\s*(?:(['\"])(?:ts|typescript)\1|(?:ts|typescript)(?=\s|>))",
+            source,
+            re.I,
+        ):
+            return ".ts"
     return SUFFIX_LANGUAGE_ALIASES.get(suffix, suffix)
+
+
+def _blank_outside_ranges(source: str, ranges: list[tuple[int, int]]) -> str:
+    """Preserve offsets/newlines while retaining only executable ranges."""
+    keep = bytearray(len(source))
+    for start, end in ranges:
+        keep[start:end] = b"\x01" * (end - start)
+    return "".join(
+        char if char in "\r\n" or keep[index] else " "
+        for index, char in enumerate(source)
+    )
+
+
+def _balanced_brace_ranges(source: str, openings: list[int]) -> list[tuple[int, int]]:
+    """Return quote-aware inner spans for balanced template expressions."""
+
+    ranges: list[tuple[int, int]] = []
+    for opening in openings:
+        depth = 0
+        quote = ""
+        escaped = False
+        for index in range(opening, len(source)):
+            character = source[index]
+            if quote:
+                if escaped:
+                    escaped = False
+                elif character == "\\":
+                    escaped = True
+                elif character == quote:
+                    quote = ""
+                continue
+            if character in {"'", '"', "`"}:
+                quote = character
+            elif character == "{":
+                depth += 1
+            elif character == "}":
+                depth -= 1
+                if depth == 0:
+                    ranges.append((opening + 1, index))
+                    break
+    return ranges
+
+
+def _balanced_parenthesis_ranges(
+    source: str, openings: list[int]
+) -> list[tuple[int, int]]:
+    """Return quote-aware inner spans for balanced parenthesized expressions."""
+
+    ranges: list[tuple[int, int]] = []
+    for opening in openings:
+        depth = 0
+        quote = ""
+        escaped = False
+        for index in range(opening, len(source)):
+            character = source[index]
+            if quote:
+                if escaped:
+                    escaped = False
+                elif character == "\\":
+                    escaped = True
+                elif character == quote:
+                    quote = ""
+                continue
+            if character in {"'", '"', "`"}:
+                quote = character
+            elif character == "(":
+                depth += 1
+            elif character == ")":
+                depth -= 1
+                if depth == 0:
+                    ranges.append((opening + 1, index))
+                    break
+    return ranges
+
+
+def _javascript_template_expression_ranges(
+    source: str, start: int, end: int
+) -> list[tuple[int, int]]:
+    """Return executable `${...}` spans inside one JavaScript template literal."""
+
+    ranges: list[tuple[int, int]] = []
+    cursor = start
+    while cursor < end:
+        marker = source.find("${", cursor, end)
+        if marker < 0:
+            break
+        backslashes = 0
+        probe = marker - 1
+        while probe >= start and source[probe] == "\\":
+            backslashes += 1
+            probe -= 1
+        if backslashes % 2:
+            cursor = marker + 2
+            continue
+        balanced = _balanced_brace_ranges(source, [marker + 1])
+        if not balanced or balanced[0][1] > end:
+            break
+        ranges.append(balanced[0])
+        cursor = balanced[0][1] + 1
+    return ranges
+
+
+def executable_source(path: Path, source: str) -> str:
+    """Extract executable host-language regions from mixed template files."""
+    suffix = path.suffix.lower()
+    ranges: list[tuple[int, int]] = []
+    if suffix in {".vue", ".svelte", ".astro"}:
+        # Comments may contain complete, syntactically valid examples. Preserve
+        # their offsets/newlines but remove their contents before discovering
+        # script blocks, handlers, interpolations, or balanced expressions.
+        template_source = re.sub(
+            r"<!--.*?-->",
+            lambda match: "".join(
+                char if char in "\r\n" else " " for char in match.group(0)
+            ),
+            source,
+            flags=re.DOTALL,
+        )
+        ranges.extend(
+            match.span(1)
+            for match in re.finditer(
+                r"<script\b[^>]*>(.*?)</script\s*>", template_source,
+                flags=re.IGNORECASE | re.DOTALL,
+            )
+        )
+        if suffix == ".astro":
+            frontmatter = re.match(
+                r"\A\s*---\s*\r?\n(.*?)\r?\n---(?:\s*\r?\n|\Z)",
+                template_source,
+                re.DOTALL,
+            )
+            if frontmatter:
+                ranges.append(frontmatter.span(1))
+        if suffix == ".vue":
+            ranges.extend(
+                match.span("expression")
+                for match in re.finditer(
+                    r"(?:v-on:[\w:-]+|@[\w:-]+)(?:\.[\w-]+)*\s*=\s*"
+                    r"(?P<quote>['\"])(?P<expression>.*?)(?P=quote)",
+                    template_source,
+                    re.DOTALL,
+                )
+            )
+            # Vue interpolations may contain nested object literals. A
+            # non-greedy regex leaves such calls unterminated; balance the
+            # entire double-brace region and retain its inner expression.
+            for opening in (
+                match.start() for match in re.finditer(r"\{\{", template_source)
+            ):
+                balanced = _balanced_brace_ranges(template_source, [opening])
+                if balanced:
+                    _, closing = balanced[0]
+                    ranges.append((opening + 2, closing - 1))
+        else:
+            # Svelte event handlers / expressions and Astro template
+            # expressions are executable JavaScript outside <script> too.
+            # Preserve their complete balanced spans, including nested payload
+            # objects, rather than stopping at the first closing brace.
+            expression_source = re.sub(
+                r"<style\b[^>]*>.*?</style\s*>",
+                lambda match: "".join(
+                    char if char in "\r\n" else " " for char in match.group(0)
+                ),
+                template_source,
+                flags=re.IGNORECASE | re.DOTALL,
+            )
+            openings = [
+                match.start()
+                for match in re.finditer(r"\{", expression_source)
+            ]
+            ranges.extend(_balanced_brace_ranges(expression_source, openings))
+    elif suffix == ".cshtml":
+        # Razor is a mixed HTML/C# template. Retain explicit expressions,
+        # statement/code blocks, and single-line directives while blanking page
+        # markup so text such as `<p>VoiceResponse()</p>` is not treated as C#.
+        brace_openings = [
+            match.end() - 1
+            for match in re.finditer(
+                r"(?<!@)@(?:\s*|(?:code|functions)\s*)\{",
+                source,
+                flags=re.IGNORECASE,
+            )
+        ]
+        brace_openings.extend(
+            match.end() - 1
+            for match in re.finditer(
+                r"(?<!@)@(?:if|for|foreach|while|switch|try|catch|finally|using|lock)\b[^{}]*\{",
+                source,
+                flags=re.IGNORECASE,
+            )
+        )
+        ranges.extend(_balanced_brace_ranges(source, brace_openings))
+        paren_openings = [
+            match.end() - 1
+            for match in re.finditer(r"(?<!@)@\s*\(", source)
+        ]
+        ranges.extend(_balanced_parenthesis_ranges(source, paren_openings))
+        ranges.extend(
+            match.span()
+            for match in re.finditer(
+                r"(?m)^\s*@(?:using|inject|model|inherits|implements|namespace|addTagHelper|removeTagHelper|tagHelperPrefix)\b[^\r\n]*",
+                source,
+            )
+        )
+    elif suffix == ".phtml":
+        # PHTML is a mixed HTML/PHP template, not a plain PHP source file.
+        # Feeding its markup to the PHP lexer lets an apostrophe in page text
+        # open a string that masks a later request inside <?php ... ?>.
+        ranges.extend(
+            match.span(1)
+            for match in re.finditer(
+                r"<\?(?:php\b|=)(.*?)(?:\?>|\Z)",
+                source,
+                flags=re.IGNORECASE | re.DOTALL,
+            )
+        )
+    elif suffix in {".ejs", ".erb", ".jsp"}:
+        if suffix == ".ejs":
+            # EJS scriptlets execute on the server, while ordinary <script>
+            # blocks execute in the generated browser page. Both can contain
+            # migration-sensitive JavaScript and must remain visible.
+            ranges.extend(
+                match.span(1)
+                for match in re.finditer(
+                    r"<script\b[^>]*>(.*?)</script\s*>", source,
+                    flags=re.IGNORECASE | re.DOTALL,
+                )
+            )
+        for match in re.finditer(
+            r"<%(?!%)(?:[=#-])?(.*?)(?:[-]?%>)", source, re.DOTALL
+        ):
+            # ERB/EJS <%# ... %> and JSP <%-- ... --%> are template
+            # comments, not executable scriptlets.
+            if source.startswith(("<%#", "<%--"), match.start()):
+                continue
+            ranges.append(match.span(1))
+    else:
+        return source
+    return _blank_outside_ranges(source, ranges)
+
+
+def backend_executable_source(path: Path, source: str) -> str:
+    """Return executable regions that can declare server-side handlers."""
+    if path.suffix.lower() != ".ejs":
+        return executable_source(path, source)
+    ranges: list[tuple[int, int]] = []
+    for match in re.finditer(r"<%(?!%)(?:[=#-])?(.*?)(?:[-]?%>)", source, re.DOTALL):
+        if source.startswith("<%#", match.start()):
+            continue
+        ranges.append(match.span(1))
+    return _blank_outside_ranges(source, ranges)
 # Kept in step with the EXCLUDE_DIRS list in scan-twilio-usage.sh. Generated
 # output belongs here as much as node_modules: a stale compiled bundle under
 # .next carrying a pre-fix number-pool send would fail Phase 4 after the
@@ -612,6 +887,30 @@ def lex_source(source: str, suffix: str) -> LexedSource:
             continue
 
         _blank(code, string_start, index)
+        if delimiter == "`" and suffix in JS_TS_SUFFIXES:
+            # JavaScript template literal text is inert, but every `${...}`
+            # interpolation is executable JavaScript. Recursively lex those
+            # spans and restore their code/comments at the original offsets.
+            # Nested string tokens are recorded before the enclosing template
+            # token so lookups inside an interpolation select the narrow token.
+            for expression_start, expression_end in _javascript_template_expression_ranges(
+                source, contents_start, contents_end
+            ):
+                nested = lex_source(
+                    source[expression_start:expression_end], suffix
+                )
+                code[expression_start:expression_end] = list(nested.code)
+                without_comments[expression_start:expression_end] = list(
+                    nested.without_comments
+                )
+                strings.extend(
+                    StringToken(
+                        expression_start + token.start,
+                        expression_start + token.end,
+                        token.contents,
+                    )
+                    for token in nested.strings
+                )
         strings.append(
             StringToken(string_start, index, source[contents_start:contents_end])
         )
@@ -3517,13 +3816,20 @@ def client_base_url(lexed: LexedSource, call: Call, suffix: str) -> str | None:
             return base
 
     if receiver is None:
-        region = _paren_group_span_before_accessor(lexed, call)
-        return _base_url_in_region(lexed, region) if region is not None else None
+        # `axios.post(...)` has no client instance receiver. Use the dotted
+        # callee prefix so `axios.defaults.baseURL = ...` participates in the
+        # same member-assignment resolution as an axios instance.
+        prefix = re.split(r"->|::|\.", callee)[0] if "." in callee else ""
+        if prefix and re.fullmatch(r"[a-z_]\w*", prefix):
+            receiver = prefix
+        else:
+            region = _paren_group_span_before_accessor(lexed, call)
+            return _base_url_in_region(lexed, region) if region is not None else None
 
-    # C# commonly configures HttpClient in a separate member assignment:
-    # `client.BaseAddress = new Uri("..."); client.PostAsync(path, ...)`.
+    # C# and Axios both support assigning a base URL after construction.
     member_base_pattern = re.compile(
-        rf"\b{re.escape(receiver)}\s*\.\s*BaseAddress\s*="
+        rf"\b{re.escape(receiver)}\s*\.\s*"
+        rf"(?:BaseAddress|(?:defaults\s*\.\s*)?base[Uu][Rr][LlIi]?)\s*="
     )
     member_base = list(
         member_base_pattern.finditer(lexed.code, 0, call.start)
@@ -8787,7 +9093,7 @@ def iter_source_files(project_root: Path):
                 continue
             path = Path(directory, filename)
             suffix = path.suffix.lower()
-            if suffix in INCLUDED_SUFFIXES:
+            if suffix in INCLUDED_SUFFIXES or filename.lower() == "rakefile":
                 yield path
             elif not suffix and shebang_suffix(path) is not None:
                 yield path
@@ -9630,12 +9936,13 @@ def required_path_tokens(lexed: LexedSource) -> list[StringToken]:
         tail = token.contents.rstrip("/")
         if re.search(r"\s", tail):
             continue
-        if (
-            required_endpoint(token.contents)
-            or tail.endswith("messages/number_pool")
-            or tail.endswith("messages/alphanumeric_sender_id")
-            or re.search(r"(?:number_pool|alphanumeric_sender_id)\b", tail)
-        ):
+        template_endpoint = re.fullmatch(
+            r"(?:\$\{[^{}\s]+\}|#\{[^{}\s]+\}|\{[^{}\s]+\})"
+            r"(?:/v2)?/messages/(?:number_pool|alphanumeric_sender_id)/?"
+            r"(?:[?#][^\s]*)?",
+            tail,
+        )
+        if required_endpoint(token.contents) or template_endpoint:
             found.append(token)
     return found
 
@@ -9752,27 +10059,19 @@ def unresolved_endpoint_tokens(
     file either way.
     """
     consumed: set[tuple[int, int]] = set()
-    unexplained_calls = 0
     for call in analysed_calls:
         tokens = consumed_endpoint_tokens(lexed, call, suffix)
         if tokens:
             consumed |= tokens
-        else:
-            # The analyzer resolved this call's endpoint through a path this
-            # consumption model does not mirror - a destructuring default, an
-            # interprocedural alias, a computed member. It still ACCOUNTED for
-            # one endpoint, so it explains one otherwise-unconsumed literal.
-            # Budgeting them this way keeps two independent sends independent:
-            # a file with two endpoint literals and one resolved call still
-            # reports the second.
-            unexplained_calls += 1
     candidates = [
         token
         for token in required_path_tokens(lexed)
         if (token.start, token.end) not in consumed
         and _looks_like_a_send_target(lexed, token, suffix)
     ]
-    return candidates[unexplained_calls:] if unexplained_calls else candidates
+    # Never use one call as a positional "budget" for an unrelated literal.
+    # Only provenance from that exact call may consume a candidate endpoint.
+    return candidates
 
 
 # A required path can appear WITHOUT being a request target: as a curl -d body,
@@ -9855,6 +10154,14 @@ _NOT_A_CALL_VERB_RE = re.compile(
     r"|catch|except|with|return|and|or|not|in|is)$",
     re.I,
 )
+_READ_VERB_RE = re.compile(
+    r"^(?:get|head|options|read|download|list|find|query)(?:Async)?$", re.I
+)
+_ASSERTION_VERB_RE = re.compile(
+    r"^(?:expect|assert\w*|should|toBe|toEqual|toHaveBeenCalledWith"
+    r"|assertEqual|assertIn|is_expected)$",
+    re.I,
+)
 # A display STATEMENT has no parentheses to enclose the literal: `<?php echo
 # "$url"`, `then echo "$url"`.
 _DISPLAY_STATEMENT_RE = re.compile(
@@ -9870,6 +10177,30 @@ _CALLEE_SPLIT_RE = re.compile(r"\s*(?:->|::|\?\.|\.)\s*")
 _CALLEE_TAIL_RE = re.compile(
     r"[A-Za-z_$][\w$]*(?:\s*(?:->|::|\?\.|\.)\s*[A-Za-z_$][\w$]*)*$"
 )
+
+
+def _enclosing_call_verbs(lexed: LexedSource, position: int) -> list[str]:
+    """Return innermost-to-outermost unclosed call verbs at `position`."""
+
+    window_start = max(0, position - 600)
+    prefix = lexed.code[window_start:position]
+    depth = 0
+    verbs: list[str] = []
+    for index in range(len(prefix) - 1, -1, -1):
+        char = prefix[index]
+        if char in ")]}":
+            depth += 1
+        elif char in "([{":
+            if depth:
+                depth -= 1
+                continue
+            if char != "(":
+                continue
+            head = lexed.original[window_start:window_start + index].rstrip()
+            match = _CALLEE_TAIL_RE.search(head)
+            if match is not None:
+                verbs.append(_CALLEE_SPLIT_RE.split(match.group(0))[-1])
+    return verbs
 
 
 def _enclosing_call_verb(lexed: LexedSource, position: int) -> str:
@@ -9991,6 +10322,28 @@ def _looks_like_a_send_target(
             if _SEND_SITE_RE.search(line):
                 return True
         return False
+    # Use the lexical call enclosure before falling back to a physical line.
+    # A custom request call commonly wraps its URL onto the next line; limiting
+    # this check to the URL's line silently certified such unknown clients.
+    # The nearest call can be a helper nested inside an OUTER assertion, e.g.
+    # `assertTrue(required_endpoint(URL))`. Consider every enclosing call before
+    # treating the innermost unknown helper as a send.
+    if any(
+        _ASSERTION_VERB_RE.match(verb)
+        for verb in _enclosing_call_verbs(lexed, token.start)
+    ):
+        return False
+    enclosing_verb = _enclosing_call_verb(lexed, token.start)
+    if enclosing_verb:
+        if (
+            _DISPLAY_VERB_RE.match(enclosing_verb)
+            or _INSPECTION_VERB_RE.match(enclosing_verb)
+            or _NOT_A_CALL_VERB_RE.match(enclosing_verb)
+            or _READ_VERB_RE.match(enclosing_verb)
+            or _ASSERTION_VERB_RE.match(enclosing_verb)
+        ):
+            return False
+        return True
     # Otherwise require a request-like call on the same logical line, and NOT a
     # display command, which is how prose mentions reach the source.
     line_start = lexed.code.rfind("\n", 0, token.start) + 1
@@ -10045,6 +10398,7 @@ def _looks_like_a_send_target(
 
 def analyze_file(path: Path, project_root: Path) -> tuple[int, list[str]]:
     source = path.read_text(encoding="utf-8", errors="replace")
+    source = executable_source(path, source)
     suffix = canonical_suffix(path)
     lexed = lex_source(source, suffix)
     sdk_calls = calls_matching(lexed, SDK_CALL_RE)
@@ -10185,10 +10539,50 @@ def region_has_message_body(
     return False
 
 
-def message_body_fields(path: Path, pattern: re.Pattern[str]) -> list[str]:
+def call_belongs_to_kept_product(
+    lexed: LexedSource,
+    call: Call,
+    kept_products: set[str],
+    pattern: re.Pattern[str],
+) -> bool:
+    """Recognize product-qualified calls that intentionally remain on Twilio."""
+
+    call_head = lexed.code[call.start:call.open_paren]
+    # A retained Twilio Messaging client uses messages.create({body: ...}).
+    # Do not waive Telnyx-only messages.send({body: ...}) calls in the same
+    # hybrid file.
+    if pattern is MESSAGE_BODY_CALL_RE and "messaging" in kept_products and re.search(
+        r"\bcreate\s*$", call_head, re.IGNORECASE
+    ):
+        return True
+
+    if "conversations" not in kept_products and "conversation" not in kept_products:
+        return False
+
+    # Bind the waiver to the immediate receiver of `.messages`, not to any
+    # conversation-looking identifier earlier on the line. Preserve newlines
+    # inside a fluent `client.conversations(id)\n  .messages.create(...)` chain.
+    statement_start = max(
+        lexed.code.rfind(";", 0, call.start),
+        lexed.code.rfind("{", 0, call.start),
+        lexed.code.rfind("}", 0, call.start),
+    ) + 1
+    receiver = lexed.code[statement_start:call.start].strip()
+    return bool(
+        re.search(r"(?:^|[^\w$])(?:conversation|channel)\s*$", receiver, re.I)
+        or re.search(
+            r"\.\s*conversations?\s*\([^;{}]*\)\s*$", receiver, re.I
+        )
+    )
+
+
+def message_body_fields(
+    path: Path, pattern: re.Pattern[str], kept_products: set[str] | None = None
+) -> list[str]:
     """Return real top-level body fields from selected messaging calls."""
 
     source = path.read_text(encoding="utf-8", errors="replace")
+    source = executable_source(path, source)
     suffix = canonical_suffix(path)
     lexed = lex_source(source, suffix)
     source_resolver = SourceEndpointResolver(lexed, suffix)
@@ -10201,6 +10595,10 @@ def message_body_fields(path: Path, pattern: re.Pattern[str]) -> list[str]:
     )
     matches: list[str] = []
     for call in calls_matching(lexed, pattern):
+        if call_belongs_to_kept_product(
+            lexed, call, kept_products or set(), pattern
+        ):
+            continue
         states = [
             resolver.span_presence(start, end, call.start)
             for start, end in payload_spans(
@@ -10221,22 +10619,43 @@ def main(argv: list[str]) -> int:
         "--twilio-body-fields": TWILIO_MESSAGE_CREATE_RE,
         "--message-body-fields": MESSAGE_BODY_CALL_RE,
     }
-    if len(argv) == 3 and argv[1] in source_modes:
-        project_root = Path(argv[2]).resolve()
+    if len(argv) in {3, 5} and argv[1] in source_modes:
+        kept_products: set[str] = set()
+        if len(argv) == 5:
+            if argv[2] != "--kept-products":
+                print("Error: expected --kept-products", file=sys.stderr)
+                return 2
+            kept_products = {
+                product.strip().lower()
+                for product in argv[3].split(",")
+                if product.strip()
+            }
+        project_root = Path(argv[-1]).resolve()
         if not project_root.is_dir():
             print(f"Error: '{project_root}' is not a directory", file=sys.stderr)
             return 2
-        findings = [
-            finding
-            for path in iter_source_files(project_root)
-            for finding in message_body_fields(path, source_modes[argv[1]])
-        ]
+        findings: list[str] = []
+        for path in iter_source_files(project_root):
+            try:
+                findings.extend(
+                    message_body_fields(path, source_modes[argv[1]], kept_products)
+                )
+            except Exception as error:  # noqa: BLE001 - fail safe per file
+                findings.append(
+                    finding_row(
+                        path,
+                        1,
+                        f"  [could not analyze this file "
+                        f"({type(error).__name__}) - verify body fields manually]",
+                    )
+                )
         print("\n".join(findings))
         return 0
     if len(argv) != 2:
         print(
             f"Usage: {Path(argv[0]).name} "
-            "[--twilio-body-fields|--message-body-fields] <project-root>",
+            "[--twilio-body-fields|--message-body-fields] "
+            "[--kept-products <csv>] <project-root>",
             file=sys.stderr,
         )
         return 2

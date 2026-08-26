@@ -35,6 +35,7 @@ def main() -> int:
     parser.add_argument("--mode", choices=("comments", "code"), default="comments")
     parser.add_argument("--analyzer", type=Path, required=True)
     parser.add_argument("--pattern", required=True)
+    parser.add_argument("--region", choices=("all", "backend"), default="all")
     args = parser.parse_args()
 
     analyzer = load_analyzer(args.analyzer)
@@ -49,6 +50,10 @@ def main() -> int:
         try:
             if path not in cache:
                 source = path.read_text(encoding="utf-8", errors="replace")
+                if args.region == "backend":
+                    source = analyzer.backend_executable_source(path, source)
+                else:
+                    source = analyzer.executable_source(path, source)
                 suffix = analyzer.canonical_suffix(path)
                 if (
                     path.name == ".env"
