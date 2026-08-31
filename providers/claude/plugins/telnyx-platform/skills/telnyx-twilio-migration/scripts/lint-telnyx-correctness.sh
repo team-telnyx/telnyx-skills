@@ -398,10 +398,10 @@ while [ $# -gt 0 ]; do
       # skips every product-scoped check and still exits 0 — a silent pass.
       # Same accepted set as validate-migration.sh.
       case "$PRODUCT_FILTER" in
-        voice|messaging|verify|webrtc|sip|fax|video|iot|lookup|numbers|phone-numbers|porting) ;;
+        all|voice|messaging|verify|webrtc|sip|fax|video|iot|lookup|numbers|phone-numbers|porting) ;;
         *)
           echo "Error: Unknown product '$PRODUCT_FILTER'" >&2
-          echo "Valid products: voice, messaging, verify, webrtc, sip, fax, video, iot, lookup, numbers, phone-numbers, porting" >&2
+          echo "Valid products: all, voice, messaging, verify, webrtc, sip, fax, video, iot, lookup, numbers, phone-numbers, porting" >&2
           exit 2
           ;;
       esac
@@ -458,7 +458,7 @@ fi
 if ! command -v python3 >/dev/null 2>&1 || ! python3 -c \
   'import sys; raise SystemExit(0 if sys.version_info >= (3, 10) else 1)' \
   >/dev/null 2>&1; then
-  echo "Error: Python 3.10+ is required for correctness analysis" >&2
+  echo "Error: python3 is required for correctness analysis; Python 3.10+ is required for correctness analysis" >&2
   exit 2
 fi
 
@@ -506,52 +506,6 @@ if [ -n "$SCAN_JSON" ] && [ -f "$SCAN_JSON" ] && command -v jq >/dev/null 2>&1; 
   SCAN_PRODUCTS=$(jq -r '.products_used // [] | map(ascii_downcase) | join(",")' "$SCAN_JSON" 2>/dev/null || true)
 fi
 
-# Hybrid awareness, mirroring validate-migration.sh: a product recorded as
-# kept on Twilio in migration-state.json is a skill-sanctioned deployment
-# state, so residual-Twilio findings for it are expected and must not hard-
-# fail Phase 4 forever.
-if [ -n "$STATE_FILE" ] && [ -f "$STATE_FILE" ] && command -v jq >/dev/null 2>&1; then
-  # Only products with a truthy keep reason stay in hybrid scope. An
-  # operator reverses a decision with `set kept_on_twilio.X false`
-  # (there is no unset command), so false/null/empty means NOT kept.
-  KEPT_ON_TWILIO=$(jq -r '.kept_on_twilio // {} | to_entries | map(select(.value != false and .value != null and .value != "")) | map(.key) | join(",")' "$STATE_FILE" 2>/dev/null || true)
-elif [ -n "$STATE_FILE" ] && [ ! -f "$STATE_FILE" ]; then
-  echo "Warning: --state-file '$STATE_FILE' not found, ignoring" >&2
-fi
-
-# Waive only for the product that is actually KEPT on Twilio.
-#
-# Testing `-n "$KEPT_ON_TWILIO"` alone made ANY hybrid state a GLOBAL waiver: in
-# a `--product messaging` run, a leftover Twilio messaging import was downgraded
-# to a warning - and the linter exited clean - merely because an unrelated
-# product such as voice was kept on Twilio. That is a silent pass on exactly the
-# residue the check exists to find.
-#
-# The product is passed per call site because these checks are not all inside a
-# product-scoped block; the global ones (residual imports, client instantiation,
-# directory names, docs) legitimately span products and pass "any", which waives
-# whenever ANY product is kept - the original behaviour, but now stated at the
-# call site rather than applied silently everywhere.
-kept_on_twilio() {
-  local product="$1"
-  [ -n "$KEPT_ON_TWILIO" ] || return 1
-  [ "$product" = "any" ] && return 0
-  case ",$KEPT_ON_TWILIO," in
-    *",$product,"*) return 0 ;;
-    *) return 1 ;;
-  esac
-}
-
-lint_issue_or_hybrid_warn() {
-  local product="$1"
-  shift
-  if kept_on_twilio "$product"; then
-    lint_warn "$1" "$2 (hybrid deployment — $KEPT_ON_TWILIO kept on Twilio)" "$3" "${4:-}"
-  else
-    lint_issue "$1" "$2" "$3" "${4:-}"
-  fi
-}
-
 # Helper: returns 0 if a product was detected in the scan (or if no scan data)
 scan_has_product() {
   local product="$1"
@@ -586,13 +540,13 @@ if product_applies "messaging"; then
     echo "Error: messaging source analysis requires python3 and $messaging_source_analyzer" >&2
     exit 2
   fi
-  if ! twilio_create_calls=$(python3 -B "$messaging_source_analyzer" --twilio-body-fields --kept-products "$KEPT_ON_TWILIO" "$PROJECT_ROOT"); then
+  if ! twilio_create_calls=$(python3 -B "$messaging_source_analyzer" --twilio-body-fields --kept-products "$HYBRID_PRODUCTS" "$PROJECT_ROOT"); then
     echo "Error: Twilio messages.create analysis failed" >&2
     exit 2
   fi
   count=$(count_matches "$twilio_create_calls")
   if [ "$count" -gt 0 ]; then
-    lint_issue_or_hybrid_warn "messaging" "twilio_messages_create" \
+    lint_issue "twilio_messages_create" \
       "Twilio .messages.create() request using body found at $count call site(s)" \
       "Use telnyx.messages.send() (Python) or telnyx.messages.create() with the text parameter (JavaScript/Ruby)" \
       "$(matches_to_json "$twilio_create_calls")"
@@ -601,7 +555,7 @@ if product_applies "messaging"; then
   fi
 
   # Check 2: body= or body: in message send context — Telnyx uses 'text' not 'body'
-  if ! matches=$(python3 -B "$messaging_source_analyzer" --message-body-fields --kept-products "$KEPT_ON_TWILIO" "$PROJECT_ROOT"); then
+  if ! matches=$(python3 -B "$messaging_source_analyzer" --message-body-fields --kept-products "$HYBRID_PRODUCTS" "$PROJECT_ROOT"); then
     echo "Error: messaging body-field analysis failed" >&2
     exit 2
   fi
@@ -995,7 +949,7 @@ done < <(find "$PROJECT_ROOT" -maxdepth 1 -type f \
 doc_files=$(echo "$doc_files" | sed '/^$/d')
 doc_count=$(echo "$doc_files" | sed '/^$/d' | wc -l | tr -d ' ')
 if [ "$doc_count" -gt 0 ]; then
-  lint_issue_or_hybrid_warn "any" "docs_still_twilio" \
+  lint_issue "docs_still_twilio" \
     "Documentation files still reference Twilio (not migration-related references) in $doc_count file(s)" \
     "Update README/docs: replace Twilio service names, env vars, setup instructions, and URLs with Telnyx equivalents" \
     "$(echo "$doc_files" | sed '/^$/d' | head -10 | jq -R -s '{files: (split("\n") | map(select(length > 0)))}' 2>/dev/null || echo '{"files":[]}')"

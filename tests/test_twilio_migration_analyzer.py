@@ -754,12 +754,12 @@ class CorrectnessLinterContracts(unittest.TestCase):
             }
         )
         self.assertEqual(0, messaging_result.returncode, messaging_payload)
-        messaging_check = next(
+        messaging_checks = [
             check
             for check in messaging_payload["checks"]
             if check["name"] == "twilio_messages_create"
-        )
-        self.assertEqual("warn", messaging_check["status"])
+        ]
+        self.assertEqual([], messaging_checks)
 
         decoy_result, decoy_payload = self.run_messaging_linter(
             {
@@ -855,7 +855,7 @@ class CorrectnessLinterContracts(unittest.TestCase):
         )
         self.assertEqual("pass", check["status"], json.dumps(payload["checks"]))
 
-    def test_full_validation_forwards_discovery_webhook_context(self) -> None:
+    def test_full_validation_does_not_waive_unsigned_webhooks(self) -> None:
         with tempfile.TemporaryDirectory(prefix="telnyx-scan-context-") as directory:
             project = Path(directory)
             (project / "handler.js").write_text(
@@ -880,8 +880,9 @@ class CorrectnessLinterContracts(unittest.TestCase):
                 check=False,
                 env={**os.environ, "TELNYX_API_KEY": ""},
             )
-        self.assertIn("original code did not validate webhooks either", result.stdout)
-        self.assertIn("Correctness checks passed", result.stdout)
+        self.assertNotIn("original code did not validate webhooks either", result.stdout)
+        self.assertIn("no Ed25519 signature verification", result.stdout)
+        self.assertIn("Correctness checks failed", result.stdout)
 
     def test_messaging_profile_linter_reads_every_js_module_extension(self) -> None:
         for suffix in self.JS_TS_FAMILY:
@@ -1050,7 +1051,7 @@ class CorrectnessLinterContracts(unittest.TestCase):
         check = next(
             item
             for item in payload["checks"]
-            if item["name"] == "gather_speech_model_attr"
+            if item["name"] == "speech_model_attr"
         )
         self.assertIn("ivr.xml:4", json.dumps(check), json.dumps(payload["checks"]))
 
@@ -1339,9 +1340,10 @@ class CorrectnessLinterContracts(unittest.TestCase):
         ]
         self.assertTrue(flagged, json.dumps(payload["checks"]))
 
-    def test_state_file_downgrades_residual_checks_to_warn(self) -> None:
-        # The linter had no hybrid mechanism at all: a kept-on-Twilio product
-        # the skill itself sanctioned hard-failed Phase 4 forever.
+    def test_state_file_does_not_cross_waive_selected_product(self) -> None:
+        # A retained TaskRouter product must not waive residual checks while
+        # validating Messaging. Hybrid state is scoped to the selected product;
+        # otherwise an unrelated retained product could hide live Twilio code.
         files = {
             "taskrouter_client.py": (
                 "from twilio.request_validator import RequestValidator\n"
@@ -1372,12 +1374,13 @@ class CorrectnessLinterContracts(unittest.TestCase):
                 timeout=30,
                 check=False,
             )
-            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            self.assertEqual(1, result.returncode, result.stdout + result.stderr)
             payload = json.loads(result.stdout)
-            issues = [c for c in payload["checks"] if c["status"] == "issue"]
-            self.assertEqual([], issues, json.dumps(issues))
-            warns = [c for c in payload["checks"] if c["status"] == "warn"]
-            self.assertTrue(warns, "hybrid state produced no warns at all")
+            issues = {
+                c["name"] for c in payload["checks"] if c["status"] == "issue"
+            }
+            self.assertIn("twilio_webhook_middleware", issues)
+            self.assertIn("residual_twilio_imports", issues)
 
     def test_migration_comment_is_not_a_residual_import_in_linter(self) -> None:
         files = {
@@ -6792,7 +6795,7 @@ class AnalyzerConsistencyContracts(unittest.TestCase):
         self.assertIn("map to the corresponding TeXML element's `model`", skill)
         self.assertNotIn("non-Neural voices may fall back", skill)
         self.assertNotIn("non-Neural voices may fall back", verbs)
-        self.assertIn("Preserve a supported source voice verbatim", verbs)
+        self.assertIn("Preserve a documented provider-prefixed voice", verbs)
 
     def test_analyzer_and_shell_exclude_the_same_generated_directories(self) -> None:
         canonical = {
