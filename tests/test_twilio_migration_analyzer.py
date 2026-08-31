@@ -189,10 +189,16 @@ class CorrectnessLinterContracts(unittest.TestCase):
             path = Path(directory) / filename
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(source, encoding="utf-8")
-            lines = source.splitlines()
-            grep_output = "".join(
-                f"{path}:{i + 1}:{line}\n"
-                for i, line in enumerate(lines)
+            # Match the producer contract exactly: grep --null terminates the
+            # filename with NUL and counts only LF as a source-line boundary.
+            grep_output = b"".join(
+                os.fsencode(path)
+                + b"\0"
+                + str(i + 1).encode("ascii")
+                + b":"
+                + line.encode("utf-8")
+                + b"\n"
+                for i, line in enumerate(source.split("\n"))
                 if line.strip()
             )
             result = subprocess.run(
@@ -209,11 +215,11 @@ class CorrectnessLinterContracts(unittest.TestCase):
                 ],
                 input=grep_output,
                 capture_output=True,
-                text=True,
                 timeout=15,
                 check=False,
             )
-            return result.stdout
+            self.assertEqual(0, result.returncode, result.stderr.decode())
+            return result.stdout.decode()
 
     def test_filter_source_matches_strips_comments_keeps_strings(self) -> None:
         # A comment-only match is filtered; a string match is preserved.
@@ -246,6 +252,113 @@ class CorrectnessLinterContracts(unittest.TestCase):
         # Only the live code line (2) should survive.
         self.assertEqual(1, len(kept_lines), output)
         self.assertIn(":2:", kept_lines[0])
+
+    def test_filter_source_matches_uses_grep_lf_line_boundaries(self) -> None:
+        # str.splitlines() also splits form-feed and vertical-tab characters,
+        # while grep -n does not. That disagreement used to index the wrong
+        # lexed line and silently discard the live match after either byte.
+        for separator in ("\f", "\v"):
+            with self.subTest(separator=repr(separator)):
+                output = self.run_filter_source_matches(
+                    "app.js",
+                    f"const marker = 1;{separator}\nconst x = VoiceResponse();\n",
+                    "code",
+                    "VoiceResponse",
+                )
+                self.assertIn(":2:", output)
+                self.assertIn("VoiceResponse", output)
+
+    def test_filter_source_matches_preserves_numeric_colons_in_paths(self) -> None:
+        # The old `<path>:<line>:<text>` regex treated `:123:` inside a valid
+        # path as the locator, then fell back to filtering the raw comment.
+        output = self.run_filter_source_matches(
+            "root:123:part/app.js",
+            "// VoiceResponse() removed\nconst x = VoiceResponse();\n",
+            "code",
+            "VoiceResponse",
+        )
+        kept_lines = [line for line in output.splitlines() if line.strip()]
+        self.assertEqual(1, len(kept_lines), output)
+        self.assertIn("root:123:part/app.js:2:", kept_lines[0])
+
+    def test_filter_source_matches_keeps_numeric_colons_in_match_text(self) -> None:
+        output = self.run_filter_source_matches(
+            "app.js",
+            "const x = VoiceResponse({code:123:value});\n",
+            "code",
+            "VoiceResponse",
+        )
+        self.assertIn("code:123:value", output)
+
+    def test_filter_source_matches_rejects_legacy_ambiguous_records(self) -> None:
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-B",
+                str(FILTER_SOURCE_SCRIPT),
+                "--mode",
+                "code",
+                "--pattern",
+                "VoiceResponse",
+                "--analyzer",
+                str(MESSAGING_SOURCE_ANALYZER),
+            ],
+            input=b"/tmp/app.js:1:VoiceResponse()\n",
+            capture_output=True,
+            timeout=15,
+            check=False,
+        )
+        self.assertEqual(2, result.returncode, result.stderr.decode())
+        self.assertIn("malformed NUL-delimited grep input", result.stderr.decode())
+
+    def test_filter_source_matches_fails_closed_for_missing_source(self) -> None:
+        missing = Path(tempfile.gettempdir()) / "missing-filter-source.js"
+        missing.unlink(missing_ok=True)
+        record = os.fsencode(missing) + b"\0" + b"1:VoiceResponse()\n"
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-B",
+                str(FILTER_SOURCE_SCRIPT),
+                "--mode",
+                "code",
+                "--pattern",
+                "VoiceResponse",
+                "--analyzer",
+                str(MESSAGING_SOURCE_ANALYZER),
+            ],
+            input=record,
+            capture_output=True,
+            timeout=15,
+            check=False,
+        )
+        self.assertEqual(2, result.returncode, result.stderr.decode())
+        self.assertIn("could not filter", result.stderr.decode())
+
+    def test_filter_source_matches_fails_closed_for_invalid_pattern(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="filter-pattern-") as directory:
+            path = Path(directory) / "app.js"
+            path.write_text("VoiceResponse()\n", encoding="utf-8")
+            record = os.fsencode(path) + b"\0" + b"1:VoiceResponse()\n"
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "-B",
+                    str(FILTER_SOURCE_SCRIPT),
+                    "--mode",
+                    "code",
+                    "--pattern",
+                    "[",
+                    "--analyzer",
+                    str(MESSAGING_SOURCE_ANALYZER),
+                ],
+                input=record,
+                capture_output=True,
+                timeout=15,
+                check=False,
+            )
+        self.assertEqual(2, result.returncode, result.stderr.decode())
+        self.assertIn("could not evaluate", result.stderr.decode())
 
     def assert_required_profile_detected(
         self, payload: dict[str, Any], fixture_name: str
@@ -967,6 +1080,25 @@ class CorrectnessLinterContracts(unittest.TestCase):
         ]
         self.assertEqual(1, len(findings), json.dumps(payload["checks"]))
 
+        # Exclusions apply to the source suffix, never to matching text. The
+        # old formatted-output regex discarded this real server handler merely
+        # because its route happened to contain a component-like locator.
+        _, payload = self.run_messaging_linter(
+            {
+                "server.js": (
+                    'app.post("/callback.vue:123:test", '
+                    "() => data.payload);\n"
+                )
+            }
+        )
+        findings = [
+            item
+            for item in payload["checks"]
+            if item["name"] == "webhook_ed25519_missing"
+            and item["status"] in {"warn", "issue"}
+        ]
+        self.assertEqual(1, len(findings), json.dumps(payload["checks"]))
+
     def test_language_aliases_are_analysed_as_their_canonical_language(self) -> None:
         # An extension is not a language. A .bash file is a shell script and a
         # .phtml file is PHP, but every downstream check compares against the
@@ -1397,6 +1529,40 @@ class CorrectnessLinterContracts(unittest.TestCase):
             and c["name"] == "residual_twilio_imports"
         ]
         self.assertEqual([], flagged, json.dumps(flagged))
+
+    def test_residual_import_filter_protocol_handles_path_and_line_boundaries(
+        self,
+    ) -> None:
+        # Exercise the real grep -> NUL-record -> lexer pipeline, not just the
+        # parser helper. Numeric colons in paths and non-LF control bytes in a
+        # prior physical line must neither invent nor hide a residual import.
+        _, comment_payload = self.run_messaging_linter(
+            {"root:123:part/app.py": "# from twilio.rest import Client\n"}
+        )
+        comment_check = next(
+            c
+            for c in comment_payload["checks"]
+            if c["name"] == "residual_twilio_imports"
+        )
+        self.assertEqual("pass", comment_check["status"], comment_payload)
+
+        for marker in ("\f", "\v", "\0"):
+            with self.subTest(marker=repr(marker)):
+                result, payload = self.run_messaging_linter(
+                    {
+                        "root:123:part/app.py": (
+                            f"sentinel = 1{marker}\n"
+                            "from twilio.rest import Client\n"
+                        )
+                    }
+                )
+                check = next(
+                    c
+                    for c in payload["checks"]
+                    if c["name"] == "residual_twilio_imports"
+                )
+                self.assertEqual("issue", check["status"], payload)
+                self.assertEqual(1, result.returncode, result.stdout)
 
     def test_factory_created_rest_clients_are_scanned(self) -> None:
         # requests.Session().post(...) and axios.create(...).post(...) have a

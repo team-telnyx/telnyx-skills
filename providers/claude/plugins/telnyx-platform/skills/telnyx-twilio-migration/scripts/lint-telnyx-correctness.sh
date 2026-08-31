@@ -99,6 +99,21 @@ ci_glob() {
   esac
 }
 
+# grep returns 1 when it found no matches and >1 for an operational error.
+# Static-analysis discovery may accept the former, but must never translate
+# the latter into a clean migration result.
+grep_allow_no_match() {
+  local status
+  set +e
+  grep "$@"
+  status=$?
+  set -e
+  if [ "$status" -gt 1 ]; then
+    return "$status"
+  fi
+  return 0
+}
+
 # Extensionless executables with shebangs (package.json "bin" entry points,
 # repo CLIs) are source files no --include glob can ever match; the Phase-1
 # scanner greps without includes and sees them, so skipping them here made
@@ -153,7 +168,7 @@ grep_shebang_files() {
     list=$(shebang_files_for_glob "$glob")
     [ -z "$list" ] && continue
     while IFS= read -r _f; do
-      [ -n "$_f" ] && { grep -nH -E "$pattern" "$_f" 2>/dev/null || true; }
+      [ -n "$_f" ] && grep_allow_no_match -a -nH --null -E "$pattern" "$_f"
     done <<< "$list"
   done
 }
@@ -180,14 +195,6 @@ expand_source_globs() {
   done
 }
 
-# Comment-leading lines are prose, not residual code: '# migrated from
-# twilio' must not fail a completed migration. Live code with a TRAILING
-# comment still matches, since only lines STARTING with a comment marker are
-# stripped.
-strip_comment_lines() {
-  grep -v '^\([^:]*:[0-9]*:\)[[:space:]]*\(#\|//\|/\*\|\*\|--\|%\|<!--\)' || true
-}
-
 # Filter grep hits through the same lexer used by the messaging-profile
 # analyzer.  Line-prefix filters cannot distinguish a trailing dead comment
 # from live code, and syntax checks must not treat a quoted migration note as
@@ -210,6 +217,7 @@ filter_backend_matches() {
   scripts_dir=$(cd "$(dirname "$0")" && pwd)
   python3 -B "$scripts_dir/filter-source-matches.py" \
     --mode comments --region backend --pattern "$pattern" \
+    --exclude-suffix .vue --exclude-suffix .svelte --exclude-suffix .astro \
     --analyzer "$scripts_dir/lint-required-messaging-profile.py"
 }
 
@@ -246,7 +254,7 @@ search_raw_files() {
   done
   # shellcheck disable=SC2086
   set +f
-  grep -rn $include_args $GREP_EXCLUDES -E "$pattern" "$PROJECT_ROOT" 2>/dev/null || true
+  grep_allow_no_match -a -rnH --null $include_args $GREP_EXCLUDES -E "$pattern" "$PROJECT_ROOT"
   grep_shebang_files "$pattern" "$@"
 }
 
@@ -357,17 +365,21 @@ hybrid_waiver_applies() {
     [ -n "$MIGRATED_FILES" ] || return 0
     while IFS= read -r match; do
       [ -n "$match" ] || continue
-      path=$(printf '%s\n' "$match" | sed -E 's/:[0-9]+:.*$//')
-      case "$path" in
-        "$PROJECT_ROOT"/*) path=${path#"$PROJECT_ROOT"/} ;;
-        ./*) path=${path#./} ;;
-      esac
       while IFS= read -r migrated_file; do
         [ -n "$migrated_file" ] || continue
+        migrated_path="$PROJECT_ROOT/$migrated_file"
+        # Filtered grep output is `<absolute path>:<line>:<text>`. Do not
+        # recover the path with a colon regex: POSIX paths may themselves
+        # contain `:<digits>:`. Instead compare each complete, known migrated
+        # path and then validate only its numeric locator suffix.
+        remainder=${match#"$migrated_path:"}
+        if [ "$remainder" != "$match" ] && [[ "$remainder" =~ ^[0-9]+: ]]; then
+          return 1
+        fi
         # A directory finding covers every file below it. Do not waive a
         # Twilio-named directory when any explicitly migrated file lives in
         # that directory, even though the grep finding names only the parent.
-        if [ "$migrated_file" = "$path" ] || [[ "$migrated_file" = "$path"/* ]]; then
+        if [ "$migrated_path" = "$match" ] || [[ "$migrated_path" = "$match"/* ]]; then
           return 1
         fi
       done <<<"$MIGRATED_FILES"
@@ -848,19 +860,16 @@ if product_applies "all"; then
   # cross-file heuristic after applying the normal executable-source filter.
   webhook_pattern="(app\.(post|put)|router\.(post|put)|@app\.route|@csrf_exempt|http\.HandleFunc|post.*do)"
   webhook_handlers=$(search_raw_files "$webhook_pattern" "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php" \
-    | filter_backend_matches "$webhook_pattern" \
-    | grep -vE '\.(vue|svelte|astro):[0-9]+:' || true)
+    | filter_backend_matches "$webhook_pattern")
   webhook_count=$(count_matches "$webhook_handlers")
   if [ "$webhook_count" -gt 0 ]; then
     ed25519_pattern="(telnyx-signature-ed25519|ed25519|verify_signature|verifySignature|construct_event|webhooks\.unwrap|TELNYX_PUBLIC_KEY)"
     ed25519_refs=$(search_raw_files "$ed25519_pattern" "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php" \
-      | filter_backend_matches "$ed25519_pattern" \
-      | grep -vE '\.(vue|svelte|astro):[0-9]+:' || true)
+      | filter_backend_matches "$ed25519_pattern")
     ed25519_count=$(count_matches "$ed25519_refs")
     webhook_parse_pattern="(data\.payload|data\[.payload.\]|data\.event_type|data\[.event_type.\])"
     telnyx_webhook_parse=$(search_raw_files "$webhook_parse_pattern" "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php" \
-      | filter_backend_matches "$webhook_parse_pattern" \
-      | grep -vE '\.(vue|svelte|astro):[0-9]+:' || true)
+      | filter_backend_matches "$webhook_parse_pattern")
     telnyx_parse_count=$(count_matches "$telnyx_webhook_parse")
     if [ "$telnyx_parse_count" -gt 0 ] && [ "$ed25519_count" -eq 0 ]; then
       lint_issue "webhook_ed25519_missing" \
