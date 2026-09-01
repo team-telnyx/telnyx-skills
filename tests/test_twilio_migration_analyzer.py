@@ -268,6 +268,17 @@ class CorrectnessLinterContracts(unittest.TestCase):
                 self.assertIn(":2:", output)
                 self.assertIn("VoiceResponse", output)
 
+        # grep counts only LF. A preceding bare CR must stay inside the same
+        # grep record instead of becoming a synthetic lexer line.
+        output = self.run_filter_source_matches(
+            "app.py",
+            "# removed VoiceResponse()\rVoiceResponse()\n",
+            "code",
+            "VoiceResponse",
+        )
+        self.assertIn(":1:", output)
+        self.assertIn("VoiceResponse", output)
+
     def test_filter_source_matches_preserves_numeric_colons_in_paths(self) -> None:
         # The old `<path>:<line>:<text>` regex treated `:123:` inside a valid
         # path as the locator, then fell back to filtering the raw comment.
@@ -1564,6 +1575,22 @@ class CorrectnessLinterContracts(unittest.TestCase):
                 self.assertEqual("issue", check["status"], payload)
                 self.assertEqual(1, result.returncode, result.stdout)
 
+        # A bare CR is a Python source line terminator but not a grep -n record
+        # delimiter. The live builder after it must not inherit the comment.
+        result, payload = self.run_messaging_linter(
+            {"app.py": "# removed VoiceResponse()\rVoiceResponse()\n"},
+            product="voice",
+        )
+        self.assertEqual(1, result.returncode, payload)
+        self.assertTrue(
+            any(
+                check["name"] == "voice_response_builder"
+                and check["status"] == "issue"
+                for check in payload["checks"]
+            ),
+            payload,
+        )
+
     def test_factory_created_rest_clients_are_scanned(self) -> None:
         # requests.Session().post(...) and axios.create(...).post(...) have a
         # factory-call receiver, so call_receiver() returns None and the
@@ -1648,8 +1675,22 @@ class CorrectnessLinterContracts(unittest.TestCase):
                     {name: f"requests.post('{url}', json={{'to':'+1','messaging_profile_id': {value}}})"}
                 )
                 self.assert_required_profile_detected(payload, name)
-        # A usable value must still pass: string, non-zero number, env var.
-        for value in ("'abc'", "123", "process.env.MP"):
+        # Numeric literals are not UUID strings, regardless of radix, sign,
+        # exponent or language suffix.
+        for value in ("42", "-1", "+2.5", "1e3", "0x2a", "0b10", "0o52", "42n"):
+            with self.subTest(numeric=value):
+                name = "send.js"
+                _, payload = self.run_messaging_linter(
+                    {
+                        name: (
+                            f"fetch('{url}', {{method:'POST', body: "
+                            f"JSON.stringify({{to:'+1', messaging_profile_id: {value}}})}});"
+                        )
+                    }
+                )
+                self.assert_required_profile_detected(payload, name)
+        # A usable value must still pass: non-empty string or dynamic value.
+        for value in ("'abc'", "process.env.MP"):
             with self.subTest(valid=value):
                 self.assert_required_profile_passes(
                     {
@@ -1659,6 +1700,240 @@ class CorrectnessLinterContracts(unittest.TestCase):
                         )
                     }
                 )
+
+    def test_required_sdk_method_aliases_are_analyzed(self) -> None:
+        """Method values/delegates retain the required-profile contract."""
+
+        cases = {
+            "send.py": (
+                "send_pool = client.messages.send_number_pool\n"
+                "send_pool({'to': '+1'%s})\n"
+            ),
+            "send.js": (
+                "const sendPool = client.messages.sendNumberPool.bind(client.messages);\n"
+                "sendPool({to: '+1'%s});\n"
+            ),
+            "destructured.ts": (
+                "const {sendNumberPool: sendPool} = client.messages;\n"
+                "sendPool({to: '+1'%s});\n"
+            ),
+            "send.go": (
+                "sendPool := client.Messages.SendNumberPool\n"
+                "sendPool(map[string]any{\"to\": \"+1\"%s})\n"
+            ),
+            "Send.cs": (
+                "var sendPool = client.Messages.SendNumberPool;\n"
+                "sendPool(new { To = \"+1\"%s });\n"
+            ),
+            "send.rb": (
+                "send_pool = client.messages.method(:send_number_pool)\n"
+                "send_pool.call({to: '+1'%s})\n"
+            ),
+            "send.php": (
+                "<?php\n$sendPool = [$client->messages, 'sendNumberPool'];\n"
+                "$sendPool(['to' => '+1'%s]);\n"
+            ),
+            "Send.java": (
+                "var sendPool = client.messages::sendNumberPool;\n"
+                "sendPool.apply(Map.of(\"to\", \"+1\"%s));\n"
+            ),
+        }
+        for name, template in cases.items():
+            if name.endswith(".py"):
+                separator = ", 'messaging_profile_id': 'abc'"
+            elif name.endswith(".go"):
+                separator = ', "messaging_profile_id": "abc"'
+            elif name.endswith(".cs"):
+                separator = ', MessagingProfileId = "abc"'
+            elif name.endswith(".rb"):
+                separator = ", messaging_profile_id: 'abc'"
+            elif name.endswith(".php"):
+                separator = ", 'messaging_profile_id' => 'abc'"
+            elif name.endswith(".java"):
+                separator = ', "messaging_profile_id", "abc"'
+            else:
+                separator = ", messaging_profile_id: 'abc'"
+            with self.subTest(language=name, polarity="missing"):
+                result = self.run_required_profile_analyzer(
+                    {name: template % ""}
+                )
+                rows = result.stdout.splitlines()
+                self.assertGreaterEqual(int(rows[0]), 1, result.stdout)
+                self.assertTrue(any(name in row for row in rows[1:]), result.stdout)
+            with self.subTest(language=name, polarity="present"):
+                result = self.run_required_profile_analyzer(
+                    {name: template % separator}
+                )
+                rows = result.stdout.splitlines()
+                self.assertGreaterEqual(int(rows[0]), 1, result.stdout)
+                self.assertFalse(any(row.strip() for row in rows[1:]), result.stdout)
+
+        # Nearest reassignment invalidates an earlier SDK method alias.
+        result = self.run_required_profile_analyzer(
+            {
+                "shadow.js": "let send = client.messages.sendNumberPool;\n"
+                "send = localPreview;\n"
+                "send({to: '+1'});\n"
+            }
+        )
+        self.assertEqual("0", result.stdout.strip(), result.stdout)
+
+    def test_external_endpoint_provenance_fails_closed_across_languages(self) -> None:
+        """Imported mutating endpoints never disappear at a file boundary."""
+
+        url = "https://api.telnyx.com/v2/messages/number_pool"
+        cases = {
+            "ruby": (
+                {"config.rb": f"POOL_URL = '{url}'\n"},
+                "send.rb",
+                "require_relative './config'\n"
+                "Net::HTTP.post(URI(POOL_URL), %s.to_json)\n",
+                "{to: '+1'}",
+                "{to: '+1', messaging_profile_id: 'abc'}",
+            ),
+            "go": (
+                {"config/endpoints.go": f'package config\nconst PoolURL = "{url}"\n'},
+                "send.go",
+                'package main\nimport "example/config"\nfunc send() { '
+                'http.Post(config.PoolURL, "application/json", strings.NewReader(`%s`)) }\n',
+                '{"to":"+1"}',
+                '{"to":"+1","messaging_profile_id":"abc"}',
+            ),
+            "java": (
+                {"Config.java": f'class Config {{ static final String POOL_URL = "{url}"; }}\n'},
+                "Send.java",
+                "import example.Config;\nHttpRequest.newBuilder()"
+                ".uri(URI.create(Config.POOL_URL))"
+                '.POST(BodyPublishers.ofString("%s")).build();\n',
+                '{\\"to\\":\\"+1\\"}',
+                '{\\"to\\":\\"+1\\",\\"messaging_profile_id\\":\\"abc\\"}',
+            ),
+            "csharp": (
+                {"Config.cs": f'class Config {{ public const string PoolUrl = "{url}"; }}\n'},
+                "Send.cs",
+                "using Project;\nawait client.PostAsync(Config.PoolUrl, "
+                'new StringContent("%s"));\n',
+                '{\\"to\\":\\"+1\\"}',
+                '{\\"to\\":\\"+1\\",\\"messaging_profile_id\\":\\"abc\\"}',
+            ),
+            "php": (
+                {"config.php": f"<?php const POOL_URL = '{url}';\n"},
+                "send.php",
+                "<?php require 'config.php';\nfile_get_contents(POOL_URL, false, "
+                "stream_context_create(['http' => ['method' => 'POST', "
+                "'content' => '%s']]));\n",
+                '{"to":"+1"}',
+                '{"to":"+1","messaging_profile_id":"abc"}',
+            ),
+            "shell": (
+                {"config.sh": f"POOL_URL='{url}'\n"},
+                "send.sh",
+                ". ./config.sh\ncurl -X POST \"$POOL_URL\" -d '%s'\n",
+                '{"to":"+1"}',
+                '{"to":"+1","messaging_profile_id":"abc"}',
+            ),
+        }
+        for language, (support, filename, template, missing, present) in cases.items():
+            with self.subTest(language=language, polarity="missing"):
+                result = self.run_required_profile_analyzer(
+                    {**support, filename: template % missing}
+                )
+                rows = result.stdout.splitlines()
+                self.assertGreaterEqual(int(rows[0]), 1, result.stdout)
+                self.assertTrue(
+                    any(filename in row for row in rows[1:]), result.stdout
+                )
+            with self.subTest(language=language, polarity="present"):
+                result = self.run_required_profile_analyzer(
+                    {**support, filename: template % present}
+                )
+                rows = result.stdout.splitlines()
+                self.assertGreaterEqual(int(rows[0]), 1, result.stdout)
+                self.assertFalse(
+                    any(row.strip() for row in rows[1:]), result.stdout
+                )
+
+    def test_relative_module_scalar_endpoints_are_resolved(self) -> None:
+        pool = "https://api.telnyx.com/v2/messages/number_pool"
+        for files in (
+            {
+                "config.js": f"export const POOL_URL = '{pool}';\n",
+                "send.js": (
+                    "import { POOL_URL } from './config.js';\n"
+                    "fetch(POOL_URL, {method:'POST', body: JSON.stringify({to:'+1'})});\n"
+                ),
+            },
+            {
+                "config.js": f"exports.POOL_URL = '{pool}';\n",
+                "send.js": (
+                    "const {POOL_URL: endpoint} = require('./config');\n"
+                    "fetch(endpoint, {method:'POST', body: JSON.stringify({to:'+1'})});\n"
+                ),
+            },
+            {
+                "config.py": f"POOL_URL = '{pool}'\n",
+                "send.py": (
+                    "from config import POOL_URL as endpoint\n"
+                    "requests.post(endpoint, json={'to': '+1'})\n"
+                ),
+            },
+        ):
+            with self.subTest(files=tuple(files)):
+                result, payload = self.run_messaging_linter(files)
+                self.assertEqual(1, result.returncode, payload)
+                self.assert_required_profile_detected(
+                    payload,
+                    next(name for name in files if name.startswith("send.")),
+                )
+
+        self.assert_required_profile_passes(
+            {
+                "config.js": "export const SEND_URL = '/v2/messages';\n",
+                "send.js": (
+                    "import { SEND_URL } from './config.js';\n"
+                    "fetch(SEND_URL, {method:'POST', body: JSON.stringify({to:'+1'})});\n"
+                ),
+            }
+        )
+
+    def test_javascript_line_comment_terminators_do_not_hide_sends(self) -> None:
+        url = "https://api.telnyx.com/v2/messages/number_pool"
+        for terminator in ("\r", "\u2028", "\u2029"):
+            with self.subTest(terminator=repr(terminator)):
+                self.assert_required_profile_flagged(
+                    {
+                        "send.js": (
+                            "// old send"
+                            + terminator
+                            + f"fetch('{url}', {{method:'POST', body: JSON.stringify({{to:'+1'}})}});\n"
+                        )
+                    }
+                )
+
+    def test_finding_rows_escape_newline_bearing_paths(self) -> None:
+        result = self.run_required_profile_analyzer(
+            {
+                "odd\nname.js": (
+                    "client.messages.sendNumberPool({to:'+1'});\n"
+                )
+            }
+        )
+        rows = result.stdout.splitlines()
+        self.assertEqual("1", rows[0], result.stdout)
+        self.assertEqual(2, len(rows), result.stdout)
+        self.assertIn(r"odd\nname.js:1:", rows[1])
+
+        shell_result, payload = self.run_messaging_linter(
+            {"odd\nname.js": "client.messages.sendNumberPool({to:'+1'});\n"}
+        )
+        check = next(
+            item
+            for item in payload["checks"]
+            if item["name"] == "required_messaging_profile_id"
+        )
+        self.assertEqual(1, shell_result.returncode, payload)
+        self.assertEqual(1, len(check["details"]["files"]), check)
+        self.assertIn(r"odd\nname.js:1:", check["details"]["files"][0])
 
     def test_url_constructor_base_is_combined_with_the_path(self) -> None:
         # new URL(path, base) resolves the path relative to the base, so

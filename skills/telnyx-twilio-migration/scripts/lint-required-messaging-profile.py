@@ -136,7 +136,10 @@ def canonical_suffix(path: Path) -> str:
         return ".ts"
     if suffix in {".vue", ".svelte"}:
         try:
-            source = path.read_text(encoding="utf-8", errors="replace")
+            with path.open(
+                "r", encoding="utf-8", errors="replace", newline=""
+            ) as source_file:
+                source = source_file.read()
         except OSError:
             source = ""
         if re.search(
@@ -154,7 +157,7 @@ def _blank_outside_ranges(source: str, ranges: list[tuple[int, int]]) -> str:
     for start, end in ranges:
         keep[start:end] = b"\x01" * (end - start)
     return "".join(
-        char if char in "\r\n" or keep[index] else " "
+        char if char in "\r\n\u2028\u2029" or keep[index] else " "
         for index, char in enumerate(source)
     )
 
@@ -440,12 +443,14 @@ PROFILE_IDENTIFIER_RE = re.compile(
     rf"(?<![\w$])(?:{PROFILE_NAME_PATTERN})(?!\w)"
 )
 PROFILE_CLI_RE = re.compile(r"--messaging-profile-id(?:\s|=|$)")
-SDK_CALL_RE = re.compile(
-    r"(?:\?\.|\.|->)\s*(?:"
+SDK_METHOD_PATTERN = (
     r"sendNumberPool|send_number_pool|SendNumberPool|"
     r"sendWithAlphanumericSender|send_with_alphanumeric_sender|"
     r"SendWithAlphanumericSender"
-    r")\s*(?:\?\.)?\s*\("
+)
+SDK_CALL_RE = re.compile(
+    rf"(?:\?\.|\.|->)\s*(?:{SDK_METHOD_PATTERN})"
+    r"\s*(?:\?\.)?\s*\("
 )
 FETCH_CALL_RE = re.compile(
     r"(?<![\w$])(?:fetch|request|post_form|postAsync|PostAsync|post|Post|POST|"
@@ -710,8 +715,24 @@ class EndpointFrame:
 
 def _blank(buffer: list[str], start: int, end: int) -> None:
     for index in range(start, end):
-        if buffer[index] != "\n":
+        # Preserve every source line terminator. JavaScript recognizes U+2028
+        # and U+2029 in addition to CR/LF, and all C-style languages accept a
+        # bare CR as a physical line boundary. Replacing one with a space can
+        # merge the comment with executable code on the following line.
+        if buffer[index] not in {"\r", "\n", "\u2028", "\u2029"}:
             buffer[index] = " "
+
+
+def _line_comment_end(source: str, start: int, suffix: str) -> int:
+    """Return the first language-valid line terminator after ``start``."""
+
+    terminators = {"\r", "\n"}
+    if suffix in JS_TS_SUFFIXES:
+        terminators.update({"\u2028", "\u2029"})
+    for index in range(start, len(source)):
+        if source[index] in terminators:
+            return index
+    return len(source)
 
 
 # Heredoc openers: shell/ruby `<<TAG`, `<<-TAG`, `<<~TAG`, `<<'TAG'`; PHP
@@ -777,8 +798,7 @@ def lex_source(source: str, suffix: str) -> LexedSource:
             continue
 
         if c_line_comments and source.startswith("//", index):
-            end = source.find("\n", index + 2)
-            end = len(source) if end < 0 else end
+            end = _line_comment_end(source, index + 2, suffix)
             _blank(code, index, end)
             _blank(without_comments, index, end)
             index = end
@@ -786,11 +806,10 @@ def lex_source(source: str, suffix: str) -> LexedSource:
 
         if hash_comments and source[index] == "#":
             if suffix == ".sh" and index == 0 and source.startswith("#!", index):
-                end = source.find("\n", index + 2)
-                index = len(source) if end < 0 else end
+                end = _line_comment_end(source, index + 2, suffix)
+                index = end
                 continue
-            end = source.find("\n", index + 1)
-            end = len(source) if end < 0 else end
+            end = _line_comment_end(source, index + 1, suffix)
             _blank(code, index, end)
             _blank(without_comments, index, end)
             index = end
@@ -866,7 +885,14 @@ def lex_source(source: str, suffix: str) -> LexedSource:
             if honours_escapes and source[index] == "\\":
                 index = min(len(source), index + 2)
                 continue
-            if source[index] == "\n" and line_bounded:
+            if (
+                line_bounded
+                and source[index] in {"\r", "\n", "\u2028", "\u2029"}
+                and (
+                    source[index] in {"\r", "\n"}
+                    or suffix in JS_TS_SUFFIXES
+                )
+            ):
                 # A single/double-quoted JS/TS or Python literal cannot contain a
                 # raw newline, so hitting one means the quote never opened a
                 # string at all (an apostrophe in JSX text, prose, or a comment).
@@ -940,6 +966,118 @@ def calls_matching(lexed: LexedSource, pattern: re.Pattern[str]) -> list[Call]:
             closing = lexed.code.find("\n", opening)
             closing = len(lexed.code) - 1 if closing < 0 else closing
         calls.append(Call(match.start(), opening, closing + 1))
+    return calls
+
+
+def sdk_alias_calls(lexed: LexedSource) -> list[Call]:
+    """Find calls through local aliases of required-profile SDK methods.
+
+    Method values/delegates are ordinary customer code in Python, JS/TS, Go,
+    Java/Kotlin and C#. The direct-call regex cannot see them once the member
+    name is assigned. Track both assignment/bind forms and JS destructuring,
+    and require the defining assignment to remain the nearest one before each
+    call so a later reassignment does not create a false SDK finding.
+    """
+
+    code = lexed.code
+    definitions: list[tuple[str, int]] = []
+    member = re.compile(
+        rf"(?:\?\.|\.|->|::)\s*(?:{SDK_METHOD_PATTERN})(?!\w)"
+    )
+    for match in member.finditer(code):
+        # A direct invocation is already covered by SDK_CALL_RE.
+        after = code[match.end():]
+        if re.match(r"\s*(?:\?\.)?\s*\(", after):
+            continue
+        line_start = max(code.rfind("\n", 0, match.start()), code.rfind(";", 0, match.start())) + 1
+        prefix = code[line_start:match.start()]
+        assignment = re.search(
+            r"(?P<alias>\$?[A-Za-z_][A-Za-z0-9_]*)\s*(?:=|:=)\s*.*$",
+            prefix,
+        )
+        if assignment is not None:
+            definitions.append((assignment.group("alias").lstrip("$"), match.end()))
+
+    # JavaScript/TypeScript/CommonJS destructuring aliases.
+    for match in re.finditer(r"\{(?P<members>[^{}]*)\}\s*=", code):
+        for item in split_arguments(code, match.start("members"), match.end("members")):
+            text = code[slice(*item)].strip()
+            parsed = re.fullmatch(
+                rf"(?P<method>{SDK_METHOD_PATTERN})(?:\s*:\s*(?P<alias>[A-Za-z_$]\w*))?",
+                text,
+            )
+            if parsed is not None:
+                definitions.append(
+                    ((parsed.group("alias") or parsed.group("method")).lstrip("$"), match.end())
+                )
+
+    # Ruby's bound Method and PHP callable-array/Closure forms store the SDK
+    # method name as a symbol or string, so it is intentionally absent from the
+    # masked code view used above. without_comments retains those values while
+    # still excluding prose and comments.
+    visible = lexed.without_comments
+    for match in re.finditer(
+        rf"(?m)^\s*(?P<alias>[A-Za-z_]\w*)\s*=\s*[^\r\n;]*"
+        rf"\.\s*method\s*\(\s*:\s*(?:{SDK_METHOD_PATTERN})\s*\)",
+        visible,
+    ):
+        definitions.append((match.group("alias"), match.end()))
+    for match in re.finditer(
+        rf"(?m)^\s*\$(?P<alias>[A-Za-z_]\w*)\s*=\s*"
+        rf"(?:Closure\s*::\s*fromCallable\s*\(\s*)?\["
+        rf"[^\]\r\n]*,\s*['\"](?:{SDK_METHOD_PATTERN})['\"]\s*\]",
+        visible,
+    ):
+        definitions.append((match.group("alias"), match.end()))
+
+    calls: list[Call] = []
+    seen: set[tuple[int, int]] = set()
+    for alias, definition_end in definitions:
+        invocation_patterns = (
+            re.compile(rf"(?<![\w$.>])\$?{re.escape(alias)}\s*\("),
+            re.compile(
+                rf"(?<![\w$])\$?{re.escape(alias)}\s*(?:\.|->)\s*"
+                r"(?:call|apply|accept|invoke|Invoke)\s*\("
+            ),
+        )
+        invocations = sorted(
+            (
+                match
+                for pattern in invocation_patterns
+                for match in pattern.finditer(code, definition_end)
+            ),
+            key=lambda match: match.start(),
+        )
+        for match in invocations:
+            # A later assignment/shadowing invalidates the original method
+            # value. Nearest-definition semantics match the rest of the linter.
+            between = code[definition_end:match.start()]
+            if re.search(
+                rf"(?<![\w$])\$?{re.escape(alias)}\s*(?:=|:=)(?!=)",
+                between,
+            ):
+                continue
+            opening = code.find("(", match.start(), match.end())
+            closing = matching_delimiter(code, opening, "(", ")")
+            if closing is None:
+                continue
+            key = (match.start(), closing + 1)
+            if key not in seen:
+                seen.add(key)
+                calls.append(Call(match.start(), opening, closing + 1))
+
+        # PHP also invokes callable arrays via call_user_func(_array).
+        for call in calls_matching(
+            lexed, re.compile(r"(?<!\w)call_user_func(?:_array)?\s*\(")
+        ):
+            args = split_arguments(code, call.open_paren + 1, call.end - 1)
+            if not args:
+                continue
+            callable_arg = code[slice(*args[0])].strip().lstrip("$")
+            key = (call.start, call.end)
+            if callable_arg == alias and key not in seen:
+                seen.add(key)
+                calls.append(call)
     return calls
 
 
@@ -2073,7 +2211,12 @@ def finding_row(path: Path, line: int, detail: str) -> str:
     in one run leaves a consumer unable to group, dedupe or open by file.
     """
 
-    return f"{path}:{line}:{detail}"
+    # The analyzer-to-shell protocol is LF-delimited. POSIX permits CR and LF
+    # in filenames, so emitting a raw path can turn one finding into several
+    # records and inflate both counts and details.files. Escape only the record
+    # delimiters; keep the rest of the path byte-for-byte displayable.
+    display_path = str(path).replace("\r", "\\r").replace("\n", "\\n")
+    return f"{display_path}:{line}:{detail}"
 
 
 def call_detail(path: Path, lexed: LexedSource, call: Call) -> str:
@@ -5060,9 +5203,18 @@ class SourceEndpointResolver:
     JAVASCRIPT_SUFFIXES = JS_TS_SUFFIXES
     C_SUFFIXES = JS_TS_SUFFIXES | {".cs", ".go", ".java", ".php", ".sh"}
 
-    def __init__(self, lexed: LexedSource, suffix: str) -> None:
+    def __init__(
+        self,
+        lexed: LexedSource,
+        suffix: str,
+        external_values: dict[str, str] | None = None,
+        external_names: set[str] | None = None,
+    ) -> None:
         self.lexed = lexed
         self.suffix = suffix
+        self.external_values = external_values or {}
+        self.external_names = external_names or set()
+        self.unverified_external_calls: set[int] = set()
         self.graph = EndpointGraph(len(lexed.code))
         self.c_headers = c_function_headers(lexed, suffix)
         self.class_fields = class_field_regions(lexed, suffix)
@@ -7017,6 +7169,15 @@ class SourceEndpointResolver:
         before: int,
         projection: EndpointReference = (),
     ) -> EndpointValue:
+        # Resolve statically imported scalar endpoints before entering the
+        # per-file binding graph. Keeping module provenance explicit avoids
+        # conflating same-named locals and makes the cross-file boundary the
+        # only special case; all endpoint classification remains shared.
+        expression_text = self.lexed.code[start:end].strip()
+        if not projection and re.fullmatch(r"[A-Za-z_$]\w*", expression_text):
+            external = self.external_values.get(expression_text.lstrip("$"))
+            if external is not None:
+                return endpoint_literal_value(external)
         scope_id = self.scope_at(before)
         expression = self._parse_expression(
             start, end, scope_id, before
@@ -7026,6 +7187,33 @@ class SourceEndpointResolver:
                 expression, projection, before, scope_id
             )
         )
+
+    def _is_external_expression(self, start: int, end: int) -> bool:
+        """Return whether an unresolved URL expression crosses a module boundary."""
+
+        # Shell references commonly live inside double-quoted URL arguments,
+        # which the code view masks as string data. This check is already
+        # bounded to the selected URL/call span, so the original view is the
+        # correct place to recover the imported reference spelling.
+        text = self.lexed.original[start:end].strip()
+        references = re.findall(r"\$?[A-Za-z_][A-Za-z0-9_$]*", text)
+        normalized = [reference.lstrip("$") for reference in references]
+        if any(reference in self.external_names for reference in normalized):
+            return True
+        if "<uppercase>" in self.external_names and any(
+            re.fullmatch(r"[A-Z][A-Z0-9_]*", reference)
+            for reference in normalized
+        ):
+            return True
+        if "<qualified>" in self.external_names and re.search(
+            r"(?:\.|::|->)\s*[A-Za-z_]", text
+        ):
+            return True
+        if "<shell>" in self.external_names and re.search(
+            r"\$(?:\{)?[A-Za-z_]", text
+        ):
+            return True
+        return False
 
     def config_method_may_mutate(
         self, span: tuple[int, int], before: int
@@ -7158,6 +7346,19 @@ class SourceEndpointResolver:
                 for value in resolved
             ):
                 return True
+        # A mutating request whose URL crosses a module boundary must not be
+        # certified merely because this file has no literal. Resolve exact
+        # local exports where possible; otherwise fail closed only for a URL
+        # expression proven to originate from an import/require/source form.
+        # The caller emits a distinct manual-verification finding, rather than
+        # pretending the unknown endpoint is definitely a number-pool route.
+        if any(
+            value.kind in {UNKNOWN, MISSING}
+            and self._is_external_expression(*span)
+            for span, value in zip(original_spans, resolved)
+        ):
+            self.unverified_external_calls.add(call.start)
+            return True
         if not args:
             return False
         return bool(
@@ -7191,6 +7392,20 @@ class SourceEndpointResolver:
                     expression, (), call.start, scope_id
                 )
             ).kind == REQUIRED:
+                return True
+            if (
+                self.graph.evaluate(
+                    EndpointExpressionState(
+                        expression, (), call.start, scope_id
+                    )
+                ).kind
+                in {UNKNOWN, MISSING}
+                and self._is_external_expression(
+                    call.start,
+                    call.end,
+                )
+            ):
+                self.unverified_external_calls.add(call.start)
                 return True
         return False
 
@@ -8329,6 +8544,19 @@ class PayloadStateResolver:
             r"|new\s+(?:Array|Map|Set|Object)\s*\(\s*\))",
             code,
             re.I,
+        ):
+            return WRITE_ABSENT
+        # The public API contract is a UUID string. Reject every statically
+        # numeric literal (not just zero) across the advertised languages;
+        # dynamic expressions remain MAYBE/PRESENT because their runtime type
+        # cannot be proven here.
+        if re.fullmatch(
+            r"[+-]?(?:(?:0[xX][0-9a-fA-F](?:_?[0-9a-fA-F])*)"
+            r"|(?:0[bB][01](?:_?[01])*)|(?:0[oO][0-7](?:_?[0-7])*)"
+            r"|(?:(?:\d(?:_?\d)*)(?:\.(?:\d(?:_?\d)*)?)?"
+            r"|\.(?:\d(?:_?\d)*))(?:[eE][+-]?\d(?:_?\d)*)?)"
+            r"(?:[nNlLfFdDmM])?",
+            code,
         ):
             return WRITE_ABSENT
         tokens = [token for token in self.lexed.strings if start <= token.start and token.end <= end]
@@ -10270,6 +10498,21 @@ def _looks_like_a_send_target(
     # boundary for computed/interprocedural lookups.
     line_start_decl = lexed.code.rfind("\n", 0, token.start) + 1
     declaration = lexed.original[line_start_decl:token.start]
+    # A class/package constant is a declaration, not a send. Braces from the
+    # surrounding class made _is_standalone_binding reject Java/C# fields, so a
+    # compliant cross-file consumer was still accompanied by an unverifiable
+    # finding on the constant definition itself. The imported use site is now
+    # judged (or failed closed) independently.
+    if re.search(
+        r"(?:\bstatic[ \t]+final"
+        r"|\b(?:public|private|protected|internal)[ \t]+const"
+        r"|\b(?:public|private|protected|internal)?[ \t]*static[ \t]+readonly)"
+        r"[ \t]+[A-Za-z_$][\w$<>,.?\[\]]*[ \t]+"
+        r"[A-Za-z_$][\w$]*[ \t]*=[ \t]*$",
+        declaration,
+        re.I,
+    ) and _SEND_SITE_RE.search(declaration) is None:
+        return False
     if re.search(
         r"(?:=|:=)\s*(?:new\s+\w+[^=]*)?(?:Map\s*\.\s*of|List\s*\.\s*of"
         r"|Arrays\s*\.\s*asList|array|dict|\{|\[|\()",
@@ -10396,16 +10639,271 @@ def _looks_like_a_send_target(
 
 
 
+def _read_source_text(path: Path) -> str:
+    """Read source without universal-newline translation."""
+
+    with path.open(
+        "r", encoding="utf-8", errors="replace", newline=""
+    ) as source_file:
+        return source_file.read()
+
+
+def _relative_module_candidates(
+    source_path: Path, module: str, suffix: str, project_root: Path
+) -> list[Path]:
+    """Return bounded local-module candidates for JS/TS and Python imports."""
+
+    if module.startswith("."):
+        base = source_path.parent / module
+    elif suffix == ".py":
+        # Python commonly imports a sibling/top-level project module without a
+        # leading dot. Resolve only beneath the scanned project root; package
+        # dependencies are intentionally outside this static contract.
+        base = project_root / module.replace(".", "/")
+    else:
+        return []
+    candidates = [base]
+    if base.suffix:
+        return candidates
+    if suffix in JS_TS_SUFFIXES:
+        candidates.extend(base.with_suffix(ext) for ext in sorted(JS_TS_SUFFIXES))
+        candidates.extend((base / "index").with_suffix(ext) for ext in sorted(JS_TS_SUFFIXES))
+    elif suffix == ".py":
+        candidates.extend((base.with_suffix(".py"), base / "__init__.py"))
+    return candidates
+
+
+def _exported_scalar(source: str, suffix: str, name: str) -> str | None:
+    """Resolve one exported/top-level name when its value is a string literal."""
+
+    lexed = lex_source(source, suffix)
+    visible = lexed.without_comments
+    escaped = re.escape(name)
+    if suffix in JS_TS_SUFFIXES:
+        assignment = re.search(
+            rf"(?:\bexport\s+(?:const|let|var)\s+{escaped}"
+            rf"|\b(?:module\s*\.\s*)?exports\s*\.\s*{escaped})"
+            r"\s*=\s*(['\"])(?P<value>.*?)\1",
+            visible,
+            re.S,
+        )
+    elif suffix == ".py":
+        assignment = re.search(
+            rf"(?m)^[ \t]*{escaped}\s*=\s*(['\"])(?P<value>.*?)\1",
+            visible,
+        )
+    else:
+        assignment = None
+    return assignment.group("value") if assignment is not None else None
+
+
+def external_static_values(
+    path: Path, project_root: Path, source: str, suffix: str
+) -> dict[str, str]:
+    """Resolve relative named imports to statically exported scalar strings.
+
+    This deliberately follows only explicit relative modules and literal
+    exports. Dynamic/package imports stay unknown instead of being guessed.
+    """
+
+    lexed = lex_source(source, suffix)
+    visible = lexed.without_comments
+    imports: list[tuple[str, str, str]] = []
+    if suffix in JS_TS_SUFFIXES:
+        for match in re.finditer(
+            r"\bimport\s*\{(?P<members>[^{}]*)\}\s*from\s*"
+            r"(['\"])(?P<module>\.[^'\"]*)\2",
+            visible,
+        ):
+            for member in match.group("members").split(","):
+                parsed = re.fullmatch(
+                    r"\s*(?P<export>[A-Za-z_$]\w*)"
+                    r"(?:\s+as\s+(?P<local>[A-Za-z_$]\w*))?\s*",
+                    member,
+                )
+                if parsed is not None:
+                    imports.append(
+                        (
+                            match.group("module"),
+                            parsed.group("export"),
+                            parsed.group("local") or parsed.group("export"),
+                        )
+                    )
+        for match in re.finditer(
+            r"\b(?:const|let|var)\s*\{(?P<members>[^{}]*)\}\s*=\s*"
+            r"require\s*\(\s*(['\"])(?P<module>\.[^'\"]*)\2\s*\)",
+            visible,
+        ):
+            for member in match.group("members").split(","):
+                parsed = re.fullmatch(
+                    r"\s*(?P<export>[A-Za-z_$]\w*)"
+                    r"(?:\s*:\s*(?P<local>[A-Za-z_$]\w*))?\s*",
+                    member,
+                )
+                if parsed is not None:
+                    imports.append(
+                        (
+                            match.group("module"),
+                            parsed.group("export"),
+                            parsed.group("local") or parsed.group("export"),
+                        )
+                    )
+    elif suffix == ".py":
+        for match in re.finditer(
+            r"(?m)^\s*from\s+(?P<module>\.*[A-Za-z_][\w.]*)\s+import\s+"
+            r"(?P<members>[^\r\n]+)",
+            visible,
+        ):
+            for member in match.group("members").split(","):
+                parsed = re.fullmatch(
+                    r"\s*(?P<export>[A-Za-z_]\w*)"
+                    r"(?:\s+as\s+(?P<local>[A-Za-z_]\w*))?\s*",
+                    member,
+                )
+                if parsed is not None:
+                    dots = len(match.group("module")) - len(match.group("module").lstrip("."))
+                    module_tail = match.group("module")[dots:].replace(".", "/")
+                    relative = "../" * max(0, dots - 1) + module_tail
+                    imports.append(
+                        (
+                            "./" + relative if dots else match.group("module"),
+                            parsed.group("export"),
+                            parsed.group("local") or parsed.group("export"),
+                        )
+                    )
+
+    resolved: dict[str, str] = {}
+    for module, exported, local in imports:
+        for candidate in _relative_module_candidates(
+            path, module, suffix, project_root
+        ):
+            if not candidate.is_file():
+                continue
+            target_suffix = canonical_suffix(candidate)
+            value = _exported_scalar(
+                _read_source_text(candidate), target_suffix, exported
+            )
+            if value is not None:
+                resolved[local] = value
+            break
+    return resolved
+
+
+def external_reference_names(source: str, suffix: str) -> set[str]:
+    """Return local names whose values originate outside the current file.
+
+    Exact static exports are resolved separately. This index covers the wider
+    language-level import boundary so an unresolved mutating request fails
+    closed instead of silently passing. Sentinels are intentionally narrow:
+    uppercase constants after require/include, qualified package/class members,
+    and shell variables only when a source command is present.
+    """
+
+    visible = lex_source(source, suffix).without_comments
+    names: set[str] = set()
+    if suffix in JS_TS_SUFFIXES:
+        for match in re.finditer(
+            r"\bimport\s*\{(?P<members>[^{}]*)\}\s*from\s*"
+            r"(['\"])\.[^'\"]*\2",
+            visible,
+        ):
+            for member in match.group("members").split(","):
+                parsed = re.fullmatch(
+                    r"\s*([A-Za-z_$]\w*)(?:\s+as\s+([A-Za-z_$]\w*))?\s*",
+                    member,
+                )
+                if parsed is not None:
+                    names.add((parsed.group(2) or parsed.group(1)).lstrip("$"))
+        names.update(
+            match.group(1)
+            for match in re.finditer(
+                r"\bimport\s+\*\s+as\s+([A-Za-z_$]\w*)\s+from\s*"
+                r"(['\"])\.[^'\"]*\2",
+                visible,
+            )
+        )
+        names.update(
+            match.group(1)
+            for match in re.finditer(
+                r"\b(?:const|let|var)\s+([A-Za-z_$]\w*)\s*=\s*"
+                r"require\s*\(\s*(['\"])\.[^'\"]*\2",
+                visible,
+            )
+        )
+        for match in re.finditer(
+            r"\b(?:const|let|var)\s*\{(?P<members>[^{}]*)\}\s*=\s*"
+            r"require\s*\(\s*(['\"])\.[^'\"]*\2",
+            visible,
+        ):
+            for member in match.group("members").split(","):
+                parsed = re.fullmatch(
+                    r"\s*([A-Za-z_$]\w*)(?:\s*:\s*([A-Za-z_$]\w*))?\s*",
+                    member,
+                )
+                if parsed is not None:
+                    names.add((parsed.group(2) or parsed.group(1)).lstrip("$"))
+    elif suffix == ".py":
+        for match in re.finditer(r"(?m)^\s*from\s+[\w.]+\s+import\s+([^\r\n]+)", visible):
+            for member in match.group(1).split(","):
+                parsed = re.fullmatch(
+                    r"\s*([A-Za-z_]\w*)(?:\s+as\s+([A-Za-z_]\w*))?\s*",
+                    member,
+                )
+                if parsed is not None:
+                    names.add(parsed.group(2) or parsed.group(1))
+        for match in re.finditer(
+            r"(?m)^\s*import\s+([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)"
+            r"(?:\s+as\s+([A-Za-z_]\w*))?",
+            visible,
+        ):
+            names.add(match.group(2) or match.group(1).split(".")[0])
+    elif suffix == ".rb" and re.search(r"(?m)^\s*require(?:_relative)?\b", visible):
+        names.update({"<uppercase>", "<qualified>"})
+    elif suffix == ".php" and re.search(r"\b(?:require|require_once|include|include_once)\b", visible):
+        names.update({"<uppercase>", "<qualified>"})
+    elif suffix == ".go" and re.search(r"(?m)^\s*import\b", visible):
+        names.add("<qualified>")
+        for match in re.finditer(
+            r"(?m)^\s*(?:import\s+)?(?:(\w+)\s+)?['\"]([^'\"]+)['\"]",
+            visible,
+        ):
+            names.add(match.group(1) or match.group(2).rsplit("/", 1)[-1])
+    elif suffix == ".java" and re.search(r"(?m)^\s*import\b", visible):
+        names.update({"<uppercase>", "<qualified>"})
+        names.update(
+            match.group(1)
+            for match in re.finditer(
+                r"(?m)^\s*import\s+(?:static\s+)?(?:[\w$]+\.)*([A-Za-z_$]\w*)\s*;",
+                visible,
+            )
+        )
+    elif suffix == ".cs" and re.search(r"(?m)^\s*using\b", visible):
+        names.update({"<uppercase>", "<qualified>"})
+    elif suffix == ".sh" and re.search(
+        r"(?m)^\s*(?:source\s+|\.\s+)[^\r\n]+", visible
+    ):
+        names.add("<shell>")
+    return names
+
+
 def analyze_file(path: Path, project_root: Path) -> tuple[int, list[str]]:
-    source = path.read_text(encoding="utf-8", errors="replace")
+    # newline="" is required: Path.read_text() performs universal-newline
+    # translation, destroying bare-CR and CRLF source boundaries before the
+    # lexer and grep-line protocol can agree on them.
+    source = _read_source_text(path)
     source = executable_source(path, source)
     suffix = canonical_suffix(path)
     lexed = lex_source(source, suffix)
-    sdk_calls = calls_matching(lexed, SDK_CALL_RE)
+    sdk_calls = calls_matching(lexed, SDK_CALL_RE) + sdk_alias_calls(lexed)
     fetch_calls = calls_matching(lexed, FETCH_CALL_RE)
     shell_curls = shell_curl_calls(lexed) if suffix == ".sh" else []
     required_calls: list[tuple[Call, bool]] = [(call, True) for call in sdk_calls]
-    source_resolver = SourceEndpointResolver(lexed, suffix)
+    source_resolver = SourceEndpointResolver(
+        lexed,
+        suffix,
+        external_static_values(path, project_root, source, suffix),
+        external_reference_names(source, suffix),
+    )
     profile_resolver = PayloadStateResolver(
         lexed,
         suffix,
@@ -10443,10 +10941,9 @@ def analyze_file(path: Path, project_root: Path) -> tuple[int, list[str]]:
             required_calls.append((context, False))
 
     required_calls.sort(key=lambda item: (item[0].start, item[0].end))
-    missing = [
-        call_detail(path, lexed, call)
-        for call, sdk_call in required_calls
-        if not call_has_profile(
+    missing: list[str] = []
+    for call, sdk_call in required_calls:
+        if call_has_profile(
             lexed,
             call,
             suffix,
@@ -10454,8 +10951,15 @@ def analyze_file(path: Path, project_root: Path) -> tuple[int, list[str]]:
             project_root,
             sdk_call=sdk_call,
             resolver=profile_resolver,
-        )
-    ]
+        ):
+            continue
+        detail = call_detail(path, lexed, call)
+        if call.start in source_resolver.unverified_external_calls:
+            detail += (
+                "  [could not resolve the imported endpoint for this mutating "
+                "request; verify messaging_profile_id manually]"
+            )
+        missing.append(detail)
 
     # Fail-safe backstop: a required endpoint the analysis never accounted for
     # is reported for manual verification rather than passed silently.
@@ -10581,7 +11085,7 @@ def message_body_fields(
 ) -> list[str]:
     """Return real top-level body fields from selected messaging calls."""
 
-    source = path.read_text(encoding="utf-8", errors="replace")
+    source = _read_source_text(path)
     source = executable_source(path, source)
     suffix = canonical_suffix(path)
     lexed = lex_source(source, suffix)

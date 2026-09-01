@@ -83,7 +83,13 @@ def main() -> int:
             continue
         try:
             if path not in cache:
-                source = path.read_text(encoding="utf-8", errors="replace")
+                # Preserve physical newlines exactly. grep -n counts LF bytes;
+                # universal-newline translation would turn a preceding bare CR
+                # into a synthetic LF and make the lexer index a different row.
+                with path.open(
+                    "r", encoding="utf-8", errors="replace", newline=""
+                ) as source_file:
+                    source = source_file.read()
                 if args.region == "backend":
                     source = analyzer.backend_executable_source(path, source)
                 else:
