@@ -13,7 +13,7 @@
  */
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, writeFileSync, chmodSync, cpSync, rmSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, chmodSync, cpSync, existsSync, rmSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
@@ -117,7 +117,7 @@ describe("command-scoped minimum resolution", () => {
     const vendor = join(isolatedRoot, "vendor", "telnyx");
     const compatiblePath = makeFakeTelnyx(`#!/usr/bin/env node
 const args = process.argv.slice(2);
-if (args[0] === "--version") console.log("telnyx version 0.24.0");
+if (args[0] === "--version") console.log("telnyx version 0.30.0");
 else console.log("{}");
 `);
     cpSync(join(cliRoot, "src"), join(isolatedRoot, "src"), { recursive: true });
@@ -130,7 +130,7 @@ console.log("telnyx version 0.21.0");
     try {
       const moduleUrl = pathToFileURL(join(isolatedRoot, "src", "telnyx-cli.ts")).href;
       const result = spawnSync(process.execPath, ["--import", "tsx", "--input-type=module", "--eval",
-        `const { telnyxCli } = await import(${JSON.stringify(moduleUrl)}); await telnyxCli(["test"], { minimumVersion: "0.24.0" });`,
+        `const { telnyxCli } = await import(${JSON.stringify(moduleUrl)}); await telnyxCli(["test"], { minimumVersion: "0.30.0" });`,
       ], {
         cwd: isolatedRoot,
         encoding: "utf8",
@@ -152,7 +152,7 @@ console.log("telnyx version 0.21.0");
 `);
     const compatiblePath = makeFakeTelnyx(`#!/usr/bin/env node
 const args = process.argv.slice(2);
-if (args[0] === "--version") console.log("telnyx version 0.24.0");
+if (args[0] === "--version") console.log("telnyx version 0.30.0");
 else console.log("{}");
 `);
     const previousOverride = process.env.TELNYX_CLI_PATH;
@@ -161,14 +161,83 @@ else console.log("{}");
     process.env.PATH = `${dirname(compatiblePath)}:${previousPath ?? ""}`;
     try {
       await assert.rejects(
-        () => telnyxCli(["ai:anthropic:v1", "messages"], { minimumVersion: "0.24.0" }),
-        /0\.21\.0.*requires >= 0\.24\.0/,
+        () => telnyxCli(["ai:anthropic:v1", "messages"], { minimumVersion: "0.30.0" }),
+        /0\.21\.0.*requires >= 0\.30\.0/,
       );
     } finally {
       if (previousOverride === undefined) delete process.env.TELNYX_CLI_PATH;
       else process.env.TELNYX_CLI_PATH = previousOverride;
       if (previousPath === undefined) delete process.env.PATH;
       else process.env.PATH = previousPath;
+    }
+  });
+
+  it("keeps the rejected vendor error when PATH cannot satisfy a command-scoped minimum", () => {
+    const cliRoot = join(__dirname, "..");
+    const isolatedRoot = mkdtempSync(join(cliRoot, ".resolver-vendor-error-"));
+    const vendor = join(isolatedRoot, "vendor", "telnyx");
+    const actionLog = join(isolatedRoot, "action.log");
+    const emptyPath = join(isolatedRoot, "empty-path");
+    cpSync(join(cliRoot, "src"), join(isolatedRoot, "src"), { recursive: true });
+    mkdirSync(dirname(vendor), { recursive: true });
+    mkdirSync(emptyPath);
+    writeFileSync(vendor, `#!${process.execPath}
+const args = process.argv.slice(2);
+if (args[0] === "--version") console.log("telnyx version 0.27.0");
+else require("node:fs").appendFileSync(${JSON.stringify(actionLog)}, "executed\\n");
+`);
+    chmodSync(vendor, 0o755);
+
+    try {
+      const moduleUrl = pathToFileURL(join(isolatedRoot, "src", "telnyx-cli.ts")).href;
+      const result = spawnSync(process.execPath, ["--import", "tsx", "--input-type=module", "--eval",
+        `const { telnyxCli } = await import(${JSON.stringify(moduleUrl)}); await telnyxCli(["test"], { minimumVersion: "0.30.0" });`,
+      ], {
+        cwd: isolatedRoot,
+        encoding: "utf8",
+        env: { ...process.env, TELNYX_CLI_PATH: undefined, PATH: emptyPath },
+      });
+      const output = `${result.stdout}${result.stderr}`;
+      assert.notEqual(result.status, 0, output);
+      assert.match(output, /0\.27\.0.*requires >= 0\.30\.0/);
+      assert.match(output, /go install|TELNYX_CLI_PATH/);
+      assert.doesNotMatch(output, /npm install/);
+      assert.equal(existsSync(actionLog), false, "rejected CLI must not execute the action");
+    } finally {
+      rmSync(isolatedRoot, { recursive: true, force: true });
+    }
+  });
+
+  it("keeps the rejected vendor error when PATH resolves an incompatible CLI", () => {
+    const cliRoot = join(__dirname, "..");
+    const isolatedRoot = mkdtempSync(join(cliRoot, ".resolver-wrong-path-"));
+    const vendor = join(isolatedRoot, "vendor", "telnyx");
+    const wrongPath = makeFakeTelnyx(`#!${process.execPath}
+if (process.argv[2] === "--version") console.log("@telnyx/api-cli/1.1.0");
+`);
+    cpSync(join(cliRoot, "src"), join(isolatedRoot, "src"), { recursive: true });
+    mkdirSync(dirname(vendor), { recursive: true });
+    writeFileSync(vendor, `#!${process.execPath}
+console.log("telnyx version 0.27.0");
+`);
+    chmodSync(vendor, 0o755);
+
+    try {
+      const moduleUrl = pathToFileURL(join(isolatedRoot, "src", "telnyx-cli.ts")).href;
+      const result = spawnSync(process.execPath, ["--import", "tsx", "--input-type=module", "--eval",
+        `const { telnyxCli } = await import(${JSON.stringify(moduleUrl)}); await telnyxCli(["test"], { minimumVersion: "0.30.0" });`,
+      ], {
+        cwd: isolatedRoot,
+        encoding: "utf8",
+        env: { ...process.env, TELNYX_CLI_PATH: undefined, PATH: `${dirname(wrongPath)}:${process.env.PATH ?? ""}` },
+      });
+      const output = `${result.stdout}${result.stderr}`;
+      assert.notEqual(result.status, 0, output);
+      assert.match(output, /0\.27\.0.*requires >= 0\.30\.0/);
+      assert.match(output, /go install|TELNYX_CLI_PATH/);
+      assert.doesNotMatch(output, /npm install/);
+    } finally {
+      rmSync(isolatedRoot, { recursive: true, force: true });
     }
   });
 });

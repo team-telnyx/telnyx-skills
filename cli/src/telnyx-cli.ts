@@ -24,6 +24,11 @@ const INSTALL_HINT =
   "or install it manually: go install github.com/team-telnyx/telnyx-cli/cmd/telnyx@latest " +
   "(or set TELNYX_CLI_PATH to a compatible telnyx binary).";
 
+function minimumVersionInstallHint(minimumVersion: string): string {
+  return `Install Telnyx Go CLI >= ${minimumVersion}: go install github.com/team-telnyx/telnyx-cli/cmd/telnyx@latest ` +
+    "or set TELNYX_CLI_PATH to a compatible telnyx binary.";
+}
+
 /**
  * Thrown when the resolved `telnyx` binary is missing or is an incompatible CLI
  * (e.g. the npm `@telnyx/api-cli`, which uses different, singular command names
@@ -38,7 +43,7 @@ export class IncompatibleTelnyxCLIError extends Error {
         : minimumVersion && reportedVersion
           ? `Resolved "${binaryPath}" is Telnyx Go CLI ${reportedVersion}, but this command requires >= ${minimumVersion}.`
         : `Resolved "${binaryPath}" is not the Telnyx Go CLI (reported: ${versionOutput.split("\n")[0]}).`;
-    super(`${detail} ${INSTALL_HINT}`);
+    super(`${detail} ${minimumVersion ? minimumVersionInstallHint(minimumVersion) : INSTALL_HINT}`);
     this.name = "IncompatibleTelnyxCLIError";
   }
 }
@@ -77,13 +82,17 @@ export async function verifyTelnyxGoCli(binaryPath: string, minimumVersion?: str
     // unless the failing process still emitted a Go-CLI version signature.
     const combined = `${err?.stdout ?? ""}${err?.stderr ?? ""}`.trim();
     if (err?.code === "ENOENT" || !parseTelnyxGoCliVersion(combined)) {
-      throw new IncompatibleTelnyxCLIError(binaryPath, err?.code === "ENOENT" ? null : combined || null);
+      throw new IncompatibleTelnyxCLIError(
+        binaryPath,
+        err?.code === "ENOENT" ? null : combined || null,
+        minimumVersion,
+      );
     }
     out = combined;
   }
   const version = parseTelnyxGoCliVersion(out);
   if (!version) {
-    throw new IncompatibleTelnyxCLIError(binaryPath, out || null);
+    throw new IncompatibleTelnyxCLIError(binaryPath, out || null, minimumVersion);
   }
   if (minimumVersion) {
     const comparison = compareSemanticVersions(version, minimumVersion);
@@ -115,7 +124,10 @@ function getTelnyxBinary(minimumVersion?: string): Promise<string> {
         // An explicit override is authoritative. Only an implicitly preferred
         // vendor may fall back to PATH for a command-scoped minimum.
         if (process.env.TELNYX_CLI_PATH || !trusted) throw error;
-        return verifyTelnyxGoCli("telnyx", minimumVersion).then(() => "telnyx");
+        return verifyTelnyxGoCli("telnyx", minimumVersion).then(
+          () => "telnyx",
+          () => { throw error; },
+        );
       });
   }
   if (trusted) return Promise.resolve(path);

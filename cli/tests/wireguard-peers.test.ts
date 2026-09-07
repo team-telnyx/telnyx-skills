@@ -80,7 +80,8 @@ describe("get-wireguard-peer-config", () => {
     const result = runAgent(["get-wireguard-peer-config", "--id", "wgpeer_123", "--json"], fake.env);
     assert.equal(result.status, 1);
     assert.match(result.stdout, /requires >= 0\.30\.0/);
-    assert.match(result.stdout, /npm install|go install|TELNYX_CLI_PATH/);
+    assert.match(result.stdout, /go install|TELNYX_CLI_PATH/);
+    assert.doesNotMatch(result.stdout, /npm install/);
     assert.deepEqual(loggedArgs(fake.logPath), []);
   });
 
