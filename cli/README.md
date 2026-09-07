@@ -576,9 +576,10 @@ telnyx-agent create-telephony-credential-token --id <credential-id> --json
 `--id` is required and is passed to `telephony-credentials create-token` as the
 generated CLI's exact `--id` flag. Human-readable output confirms the credential
 ID but never prints the JWT. `--json` is an explicit sensitive-output opt-in and
-returns `{ credential_id, jwt }`, preserving the raw JWT (including any trailing
-newline). Do not log, commit, or share that JSON output. Failed requests suppress
-any partial response payload.
+returns `{ credential_id, jwt }`; `jwt` excludes one trailing LF or CRLF emitted
+as subprocess-output framing, while preserving the value itself. Do not log,
+commit, or share that JSON output. Failed requests suppress any partial response
+payload.
 
 ### `telnyx-agent send-group-mms`
 

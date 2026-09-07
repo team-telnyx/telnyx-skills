@@ -27,10 +27,11 @@ export async function createTelephonyCredentialTokenCommand(flags: Flags): Promi
       ["telephony-credentials", "create-token", "--id", id],
       { minimumVersion: MINIMUM_CLI_VERSION },
     );
+    const framedJwt = jwt.endsWith("\r\n") ? jwt.slice(0, -2) : jwt.endsWith("\n") ? jwt.slice(0, -1) : jwt;
     if (jsonOutput) {
       // `jwt` intentionally avoids the generic output redactor's `token` key:
       // --json is the explicit opt-in to structured sensitive output.
-      outputJson({ credential_id: id, jwt });
+      outputJson({ credential_id: id, jwt: framedJwt });
       return;
     }
     printSuccess("Telephony credential access token created!", {

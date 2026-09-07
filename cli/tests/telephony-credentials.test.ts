@@ -10,8 +10,14 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const cliRoot = join(__dirname, "..");
 const cliBin = join(cliRoot, "bin", "telnyx-agent.ts");
+const JWT = "eyJhbGciOiJIUzI1NiJ9.payload.signature";
+const FAILED_RESPONSE_SECRET = "eyJ.private.payload-must-not-leak";
 
-function setupFakeTelnyx(version = "0.30.0", fail = false): { env: NodeJS.ProcessEnv; logPath: string } {
+function setupFakeTelnyx(
+  version = "0.30.0",
+  fail = false,
+  rawOutput = `${JWT}\n`,
+): { env: NodeJS.ProcessEnv; logPath: string } {
   const tempDir = mkdtempSync(join(tmpdir(), "telnyx-agent-credential-token-"));
   const binDir = join(tempDir, "bin");
   const logPath = join(tempDir, "args.jsonl");
@@ -23,11 +29,11 @@ const args = process.argv.slice(2);
 if (args[0] === "--version") { console.log("telnyx version ${version}"); process.exit(0); }
 fs.appendFileSync(process.env.TELNYX_FAKE_ARGS_LOG, JSON.stringify(args) + "\\n");
 if (${JSON.stringify(fail)}) {
-  process.stdout.write("eyJ.private.payload-must-not-leak");
+  process.stdout.write(${JSON.stringify(FAILED_RESPONSE_SECRET)});
   process.stderr.write("private-error-payload-must-not-leak");
   process.exit(9);
 }
-process.stdout.write("eyJhbGciOiJIUzI1NiJ9.payload.signature\\n");
+process.stdout.write(${JSON.stringify(rawOutput)});
 `);
   chmodSync(fakeTelnyx, 0o755);
   return { env: { ...process.env, TELNYX_CLI_PATH: fakeTelnyx, TELNYX_FAKE_ARGS_LOG: logPath }, logPath };
@@ -50,17 +56,32 @@ function loggedArgs(logPath: string): string[][] {
 }
 
 describe("create-telephony-credential-token", () => {
-  it("routes the exact v0.30 generated action and preserves the raw JWT only in explicit JSON output", () => {
-    const fake = setupFakeTelnyx();
+  for (const { name, rawOutput, expectedJwt } of [
+    { name: "LF", rawOutput: `${JWT}\n`, expectedJwt: JWT },
+    { name: "CRLF", rawOutput: `${JWT}\r\n`, expectedJwt: JWT },
+    { name: "no trailing newline", rawOutput: JWT, expectedJwt: JWT },
+    { name: "exactly one trailing framing line ending", rawOutput: `${JWT}\n\n`, expectedJwt: `${JWT}\n` },
+  ]) {
+    it(`routes the exact v0.30 generated action and removes ${name} only in explicit JSON output`, () => {
+      const fake = setupFakeTelnyx("0.30.0", false, rawOutput);
+      const result = runAgent(["create-telephony-credential-token", "--id", "cred_123", "--json"], fake.env);
+      assert.equal(result.status, 0, result.stderr);
+      assert.deepEqual(JSON.parse(result.stdout), {
+        credential_id: "cred_123",
+        jwt: expectedJwt,
+      });
+      assert.deepEqual(loggedArgs(fake.logPath), [
+        ["telephony-credentials", "create-token", "--id", "cred_123", "--format", "raw"],
+      ]);
+    });
+  }
+
+  it("does not alter whitespace inside a JWT payload", () => {
+    const payload = "header.payload\ninterior.signature";
+    const fake = setupFakeTelnyx("0.30.0", false, `${payload}\n`);
     const result = runAgent(["create-telephony-credential-token", "--id", "cred_123", "--json"], fake.env);
     assert.equal(result.status, 0, result.stderr);
-    assert.deepEqual(JSON.parse(result.stdout), {
-      credential_id: "cred_123",
-      jwt: "eyJhbGciOiJIUzI1NiJ9.payload.signature\n",
-    });
-    assert.deepEqual(loggedArgs(fake.logPath), [
-      ["telephony-credentials", "create-token", "--id", "cred_123", "--format", "raw"],
-    ]);
+    assert.equal(JSON.parse(result.stdout).jwt, payload);
   });
 
   it("does not print the JWT in human output", () => {
@@ -68,7 +89,7 @@ describe("create-telephony-credential-token", () => {
     const result = runAgent(["create-telephony-credential-token", "--id", "cred_123"], fake.env);
     assert.equal(result.status, 0, result.stderr);
     assert.match(result.stdout, /received but hidden/);
-    assert.doesNotMatch(result.stdout, /eyJhbGciOiJIUzI1NiJ9\.payload\.signature/);
+    assert.doesNotMatch(result.stdout, new RegExp(JWT));
   });
 
   it("requires a v0.30 Go CLI with an actionable upgrade message before dispatch", () => {
@@ -85,7 +106,7 @@ describe("create-telephony-credential-token", () => {
       const fake = setupFakeTelnyx("0.30.0", true);
       const result = runAgent(["create-telephony-credential-token", "--id", "cred_123", ...outputFlag], fake.env);
       assert.equal(result.status, 1);
-      assert.doesNotMatch(`${result.stdout}${result.stderr}`, /payload-must-not-leak/);
+      assert.doesNotMatch(`${result.stdout}${result.stderr}`, new RegExp(FAILED_RESPONSE_SECRET));
       assert.match(`${result.stdout}${result.stderr}`, /sensitive response output was suppressed/);
     }
   });
