@@ -120,14 +120,13 @@ function getTelnyxBinary(minimumVersion?: string): Promise<string> {
   if (minimumVersion) {
     return verifyTelnyxGoCli(path, minimumVersion)
       .then(() => path)
-      .catch((error) => {
+      .catch((vendorError) => {
         // An explicit override is authoritative. Only an implicitly preferred
         // vendor may fall back to PATH for a command-scoped minimum.
-        if (process.env.TELNYX_CLI_PATH || !trusted) throw error;
-        return verifyTelnyxGoCli("telnyx", minimumVersion).then(
-          () => "telnyx",
-          () => { throw error; },
-        );
+        if (process.env.TELNYX_CLI_PATH || !trusted) throw vendorError;
+        return verifyTelnyxGoCli("telnyx", minimumVersion)
+          .then(() => "telnyx")
+          .catch(() => { throw vendorError; });
       });
   }
   if (trusted) return Promise.resolve(path);
