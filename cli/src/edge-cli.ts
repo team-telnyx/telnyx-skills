@@ -86,6 +86,17 @@ export function supportsShipStatus(): boolean {
   }
 }
 
+/** Detect deployed-function runtime logs from the released v0.5.1 help surface. */
+export function supportsRuntimeLogs(): boolean {
+  try {
+    const out = runEdge(["logs", "--help"]);
+    return /\blogs\s+<function>(?:\s|\[|$)/i.test(out) &&
+      ["since", "last", "json"].every((flag) => new RegExp(`--${flag}\\b`, "i").test(out));
+  } catch {
+    return false;
+  }
+}
+
 /** Detect non-interactive confirmation from a destructive command's own help. */
 export function supportsNonInteractiveConfirmation(): boolean {
   try {
@@ -180,6 +191,31 @@ export function supportsSqlBoundParameters(): boolean {
   try {
     const out = runEdge(["storage", "sqldb", "execute", "--help"]);
     return /--param(?:[\s=,]|$)/i.test(out) && /--param-json\b/i.test(out);
+  } catch {
+    return false;
+  }
+}
+
+/** Detect the released SQL export surface without inferring it from SQL execute. */
+export function supportsSqlDatabaseExport(): boolean {
+  try {
+    const out = runEdge(["storage", "sqldb", "export", "--help"]);
+    return /\bstorage\s+sqldb\s+export\s+<[^>]+>/i.test(out) &&
+      ["remote", "output", "table", "no-data", "no-schema"]
+        .every((flag) => new RegExp(`--${flag}\\b`, "i").test(out)) &&
+      /--output\b[^\r\n]*-\s+writes?\s+to\s+stdout\b/i.test(out);
+  } catch {
+    return false;
+  }
+}
+
+/** Detect the released `execute --file -` standard-input import form. */
+export function supportsSqlStdinImport(): boolean {
+  try {
+    const out = runEdge(["storage", "sqldb", "execute", "--help"]);
+    return /\bstorage\s+sqldb\s+execute\s+<[^>]+>/i.test(out) &&
+      /--remote\b/i.test(out) &&
+      /--file[^\r\n]*-\s*(?:means|for|reads?\s+from)?\s*(?:standard input|stdin)\b/i.test(out);
   } catch {
     return false;
   }

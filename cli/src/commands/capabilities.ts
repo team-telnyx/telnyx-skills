@@ -37,7 +37,7 @@ const CAPABILITIES: Record<string, Capability[]> = {
     { name: "Chat Completions", description: "LLM inference via Telnyx AI (executable with telnyx-agent ai-chat)", actions: ["ai_chat"] },
     { name: "Anthropic Messages", description: "Anthropic-compatible LLM inference (executable with telnyx-agent ai-anthropic-message)", actions: ["ai_anthropic_message"] },
     { name: "Embeddings", description: "Generate text embeddings (executable with telnyx-agent ai-embed)", actions: ["ai_embed"] },
-    { name: "Assistants", description: "Create, manage, execute, and validate AI assistants", actions: ["list_ai_assistants", "create_ai_assistant", "get_ai_assistant", "update_ai_assistant", "delete_ai_assistant", "chat_ai_assistant", "send_ai_assistant_sms", "trigger_ai_assistant_test_run", "get_ai_assistant_test_run", "list_ai_assistant_test_runs", "test_ai_assistant_tool"] },
+    { name: "Assistants", description: "Create, manage, execute, validate, and generate unapplied instruction suggestions for AI assistants", actions: ["list_ai_assistants", "create_ai_assistant", "get_ai_assistant", "update_ai_assistant", "delete_ai_assistant", "enhance_ai_assistant_instructions", "chat_ai_assistant", "send_ai_assistant_sms", "trigger_ai_assistant_test_run", "get_ai_assistant_test_run", "list_ai_assistant_test_runs", "test_ai_assistant_tool"] },
     { name: "AI Collections", description: "Retrieve and rank RAG document chunks from an AI collection", actions: ["search_ai_collection"] },
   ],
   "🌐 Web Intelligence": [
@@ -135,6 +135,7 @@ const COMPOSITE_COMMANDS = [
   { name: "telnyx-agent get-ai-assistant", description: "Retrieve one AI assistant by ID" },
   { name: "telnyx-agent update-ai-assistant", description: "Update an AI assistant and create a new version" },
   { name: "telnyx-agent delete-ai-assistant", description: "Delete an AI assistant with explicit confirmation" },
+  { name: "telnyx-agent enhance-ai-assistant-instructions", description: "Generate suggested instruction improvements without applying them; preserves the raw response body (requires Telnyx Go CLI v0.30+)" },
   { name: "telnyx-agent search-ai-collection", description: "Search ranked RAG document chunks in an AI collection, or omit --query to list its document catalog" },
   { name: "telnyx-agent web-search", description: "Search the web with domain, country, freshness, safe-search, and live-crawl controls" },
   { name: "telnyx-agent web-contents", description: "Retrieve clean HTML, Markdown, or metadata for up to 20 URLs" },
