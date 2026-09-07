@@ -151,6 +151,7 @@ import {
   webSearchCommand,
 } from "./commands/web-search.ts";
 import { storageSqlQueryCommand } from "./commands/storage-sql.ts";
+import { getWireguardPeerConfigCommand } from "./commands/wireguard-peers.ts";
 import { parseFlags, isBooleanFlag } from "./utils/output.ts";
 
 // Version is read lazily so that `--version` works without loading any command modules.
@@ -175,6 +176,7 @@ Commands:
   list-sim-card-actions List asynchronous SIM card actions with filters and pagination
   setup-ai          Zero to AI: create assistant, buy number, wire them together
   setup-wireguard   Zero to VPN: create network, WireGuard interface, peer
+  get-wireguard-peer-config Retrieve the WireGuard client configuration for a peer
   setup-verify      Zero to verification: create profile (no number bought)
   verify-send       Trigger a phone verification (sms, call, flashcall, or whatsapp)
   verify-check      Verify a code or check verification status
@@ -301,6 +303,7 @@ Setup-specific Flags:
   --instructions    AI assistant instructions (setup-ai)
   --name            AI assistant name (setup-ai)
   --network-id      Use existing network (setup-wireguard)
+  --id <peer-id>    WireGuard peer ID (get-wireguard-peer-config — required); configuration is sensitive and emitted only with --json
   --profile-name    Custom verify profile name (setup-verify)
   --destinations    Whitelisted destination countries for verify (setup-verify, default: US)
 
@@ -1044,6 +1047,7 @@ const COMMANDS: Record<string, (
   "setup-iot": setupIotCommand,
   "setup-ai": setupAiCommand,
   "setup-wireguard": setupWireguardCommand,
+  "get-wireguard-peer-config": getWireguardPeerConfigCommand,
   "setup-verify": setupVerifyCommand,
   "verify-send": verifySendCommand,
   "verify-check": verifyCheckCommand,

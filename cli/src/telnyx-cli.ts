@@ -294,3 +294,53 @@ export async function telnyxCli(
     throw err;
   }
 }
+
+/**
+ * Run a generated CLI action whose successful response is opaque text rather
+ * than JSON (for example a JWT or a WireGuard configuration). The returned
+ * string is deliberately not trimmed or parsed: callers that explicitly opt
+ * into sensitive JSON output receive the exact stdout payload.
+ *
+ * On failure stdout is intentionally discarded. These actions can return
+ * credentials, so a partial response must never be echoed in an error message.
+ */
+export async function telnyxCliRaw(
+  args: string[],
+  opts?: {
+    timeout?: number;
+    env?: Record<string, string | undefined>;
+    formatPosition?: "command" | "root";
+    stdin?: string;
+    minimumVersion?: string;
+  },
+): Promise<string> {
+  const timeout = opts?.timeout ?? 60000;
+  const binary = await getTelnyxBinary(opts?.minimumVersion);
+  try {
+    const outputFormatArgs = ["--format", "raw"];
+    const executionArgs = opts?.formatPosition === "root"
+      ? [...outputFormatArgs, ...args]
+      : [...args, ...outputFormatArgs];
+    const execution = execFileAsync(binary, executionArgs, {
+      env: { ...process.env, ...opts?.env } as NodeJS.ProcessEnv,
+      timeout,
+      maxBuffer: 10 * 1024 * 1024,
+    });
+    if (opts?.stdin !== undefined) execution.child.stdin?.end(opts.stdin);
+    const { stdout } = await execution;
+    return stdout;
+  } catch (err: any) {
+    if (err instanceof IncompatibleTelnyxCLIError) throw err;
+    if (err.code === "ENOENT") throw new IncompatibleTelnyxCLIError(binary, null);
+    if (err.killed) throw new Error(`telnyx CLI timed out after ${timeout}ms`);
+    if (err.status !== undefined || err.code !== undefined) {
+      // Do not include stdout: a failed request may still have emitted a
+      // credential/config payload before exiting non-zero.
+      throw new TelnyxCLIError(
+        typeof (err.status ?? err.code) === "number" ? (err.status ?? err.code) : 1,
+        "Telnyx CLI request failed; sensitive response output was suppressed.",
+      );
+    }
+    throw err;
+  }
+}
