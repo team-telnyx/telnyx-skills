@@ -71,7 +71,7 @@ const CAPABILITIES: Record<string, Capability[]> = {
     { name: "Verification Check", description: "Submit a code for verification or check verification status", actions: ["verify_code", "check_verification_status"] },
   ],
   "🔐 Networking": [
-    { name: "WireGuard VPN", description: "Create private networks and WireGuard tunnels", actions: ["create_network", "create_wireguard_interface", "create_wireguard_peer"] },
+    { name: "WireGuard VPN", description: "Create private networks and WireGuard tunnels, and retrieve a peer's client configuration", actions: ["create_network", "create_wireguard_interface", "create_wireguard_peer", "get_wireguard_peer_config"] },
   ],
   "⚡ Edge Compute": [
     { name: "Edge Functions", description: "Pair Telnyx AI workflows with Telnyx Edge Compute. telnyx-agent now provides an executable handoff and prefers API-key auth for agent use when supported by telnyx-edge.", actions: ["see_guides_edge_compute"] },
@@ -150,6 +150,7 @@ const COMPOSITE_COMMANDS = [
   { name: "telnyx-agent list-ai-assistant-test-runs", description: "List and filter execution history for an AI assistant test" },
   { name: "telnyx-agent test-ai-assistant-tool", description: "Execute a webhook tool with arguments and dynamic variables in an assistant context" },
   { name: "telnyx-agent setup-wireguard", description: "Zero to VPN: creates network, WireGuard interface, peer — outputs ready-to-use WG config" },
+  { name: "telnyx-agent get-wireguard-peer-config", description: "Retrieve a peer WireGuard configuration (Go CLI v0.30+; output is sensitive and requires --json)" },
   { name: "telnyx-edge ship", description: "Deploy an Edge Compute function with the dedicated telnyx-edge CLI (referenced by the Edge Compute guide)" },
   { name: "telnyx-agent edge-doctor", description: "Validate Edge Compute handoff prerequisites and point to the next concrete telnyx-edge steps" },
   { name: "telnyx-agent setup-edge-mcp", description: "Concrete MCP-on-Edge handoff: points to the real example and deploy command via telnyx-edge" },
