@@ -216,7 +216,9 @@ export class TelnyxCLIError extends Error {
  *   Set formatPosition to "root" when a subcommand defines its own --format
  *   request flag; this places the output flag before the command hierarchy so
  *   urfave does not bind it to the subcommand flag.
- * @returns Parsed JSON response from the CLI (typically { data: ... } or { data: [...], meta: ... })
+ * @returns Parsed JSON response from the CLI (typically { data: ... } or { data: [...], meta: ... }).
+ *   Set rawResponse to preserve the complete stdout body without JSON parsing.
+ *   The body is still buffered by child_process and therefore remains bounded by maxBuffer.
  */
 export async function telnyxCli(
   args: string[],
@@ -227,6 +229,7 @@ export async function telnyxCli(
     formatPosition?: "command" | "root";
     stdin?: string;
     minimumVersion?: string;
+    rawResponse?: boolean;
   },
 ): Promise<any> {
   const timeout = opts?.timeout ?? 60000;
@@ -243,6 +246,7 @@ export async function telnyxCli(
     });
     if (opts?.stdin !== undefined) execution.child.stdin?.end(opts.stdin);
     const { stdout } = await execution;
+    if (opts?.rawResponse) return stdout;
     const trimmed = stdout.trim();
     if (!trimmed) return {};
     // The Go CLI should output clean JSON with --format json, but keep the
@@ -263,6 +267,12 @@ export async function telnyxCli(
     }
     if (err.status !== undefined || err.code !== undefined) {
       const exitCode = err.status ?? err.code ?? 1;
+      if (opts?.rawResponse) {
+        throw new TelnyxCLIError(
+          typeof exitCode === "number" ? exitCode : 1,
+          "telnyx CLI failed while producing a raw response",
+        );
+      }
       const rawStdout = err.stdout?.toString() || "";
       const rawStderr = err.stderr?.toString() || "";
       // Combine both streams — the CLI may write errors to either
