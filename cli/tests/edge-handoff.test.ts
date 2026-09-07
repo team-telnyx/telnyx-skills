@@ -36,6 +36,7 @@ type FakeEdgeOptions = {
   sqlParamJson?: boolean;
   sqlDatabaseExport?: boolean;
   sqlDatabaseExportNoSchema?: boolean;
+  sqlDatabaseExportStdout?: boolean;
   sqlStdinImport?: boolean;
   customDomainCommands?: Array<"add" | "verify" | "list" | "delete" | "cert">;
   customDomainCertUpload?: boolean;
@@ -72,6 +73,7 @@ function withFakeEdgeCli(options: FakeEdgeOptions | AuthMode = "api_key") {
   const sqlParamJson = config.sqlParamJson ?? true;
   const sqlDatabaseExport = config.sqlDatabaseExport ?? true;
   const sqlDatabaseExportNoSchema = config.sqlDatabaseExportNoSchema ?? true;
+  const sqlDatabaseExportStdout = config.sqlDatabaseExportStdout ?? true;
   const sqlStdinImport = config.sqlStdinImport ?? true;
   const customDomainCommands = config.customDomainCommands ?? ["add", "verify", "list", "delete", "cert"];
   const customDomainCertUpload = config.customDomainCertUpload ?? true;
@@ -176,7 +178,7 @@ if (args[0] === 'storage' && args[1] === 'sqldb' && args[2] === 'execute' && arg
 }
 if (args[0] === 'storage' && args[1] === 'sqldb' && args[2] === 'export' && args.includes('--help')) {
   if (${sqlDatabaseExport}) {
-    console.log(['Export a remote SQL database', 'Usage: telnyx-edge storage sqldb export <database> [flags]', '--remote  --output string  --table strings  --no-data', ...(${sqlDatabaseExportNoSchema} ? ['--no-schema'] : [])].join('\\n'));
+    console.log(['Export a remote SQL database', 'Usage: telnyx-edge storage sqldb export <database> [flags]', '--remote  --table strings  --no-data', '--output string  Path to SQL file' + (${sqlDatabaseExportStdout} ? ' (- writes to stdout)' : ''), ...(${sqlDatabaseExportNoSchema} ? ['--no-schema'] : [])].join('\\n'));
     process.exit(0);
   }
   process.stderr.write('unknown command "export"\\n');
@@ -479,6 +481,7 @@ describe("CLI — Edge Compute handoff", () => {
     for (const [config, exportSupported, stdinSupported] of [
       [{ sqlDatabaseExport: false }, false, true],
       [{ sqlDatabaseExportNoSchema: false }, false, true],
+      [{ sqlDatabaseExportStdout: false }, false, true],
       [{ sqlStdinImport: false }, true, false],
     ] as const) {
       const fake = withFakeEdgeCli({ auth: "api_key", ...config });
@@ -486,6 +489,7 @@ describe("CLI — Edge Compute handoff", () => {
       assert.equal(data.ready, true, "SQL export/import must remain optional for setup handoffs");
       assert.equal(data.sql_database_export_supported, exportSupported);
       assert.equal(data.sql_stdin_import_supported, stdinSupported);
+      assert.equal(data.next_steps.some((step: string) => step.includes('--output - |')), exportSupported && stdinSupported);
     }
   });
 

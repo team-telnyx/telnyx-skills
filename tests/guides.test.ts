@@ -387,6 +387,9 @@ describe("Edge Compute v0.5.1 guide regression", () => {
     assert.match(guide, /storage sqldb execute "\$DEST_SQLDB_ID" --remote --file -/);
     assert.match(guide, /not a point-in-time snapshot, refuses virtual tables, and may contain sensitive data/);
     assert.match(guide, /do not combine `--no-data` with `--no-schema`/);
+    assert.match(guide, /can partially modify the destination on failure, and is not a transactional restore/);
+    assert.match(guide, /empty\/disposable destination/);
+    assert.match(guide, /never pipe blindly into a populated production database/);
   });
 
   it("does not advertise post-v0.5.1 metrics, deployments, or invocation-log flags", () => {

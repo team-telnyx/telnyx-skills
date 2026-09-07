@@ -202,7 +202,8 @@ export function supportsSqlDatabaseExport(): boolean {
     const out = runEdge(["storage", "sqldb", "export", "--help"]);
     return /\bstorage\s+sqldb\s+export\s+<[^>]+>/i.test(out) &&
       ["remote", "output", "table", "no-data", "no-schema"]
-        .every((flag) => new RegExp(`--${flag}\\b`, "i").test(out));
+        .every((flag) => new RegExp(`--${flag}\\b`, "i").test(out)) &&
+      /--output\b[^\r\n]*-\s+writes?\s+to\s+stdout\b/i.test(out);
   } catch {
     return false;
   }

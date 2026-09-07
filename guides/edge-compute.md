@@ -384,7 +384,7 @@ telnyx-edge types
 Do not confuse shared account SQLDB with actor-local SQL. `[storage.sqldb.DB]` exposes one account database as `env.DB` to any functions that bind the same UUID. `ctx.storage.sql` belongs to one StatefulActor instance, is reached only inside that actor, and has no `storage sqldb execute` or migration CLI surface.
 
 ### SQL export and standard-input import (v0.5.1)
-Export creates SQL data for backup or a deliberate copy; it is not a point-in-time snapshot, refuses virtual tables, and may contain sensitive data. Protect the output, verify the destination before importing, and do not combine `--no-data` with `--no-schema`.
+Export creates SQL data for backup or a deliberate copy; it is not a point-in-time snapshot, refuses virtual tables, and may contain sensitive data. Import executes schema and data statements, can partially modify the destination on failure, and is not a transactional restore. Use an empty/disposable destination, or review the SQL and back up the target first; never pipe blindly into a populated production database. Protect the output, verify the destination before importing, and do not combine `--no-data` with `--no-schema`.
 ```bash
 telnyx-edge storage sqldb export "$SQLDB_ID" --remote --output ./database.sql
 telnyx-edge storage sqldb export "$SOURCE_SQLDB_ID" --remote --output - | telnyx-edge storage sqldb execute "$DEST_SQLDB_ID" --remote --file -
