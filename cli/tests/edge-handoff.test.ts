@@ -20,6 +20,10 @@ type FakeEdgeOptions = {
   ship?: boolean;
   shipStatusFunctionUsage?: boolean;
   shipStatusLogs?: boolean;
+  runtimeLogsFunctionUsage?: boolean;
+  runtimeLogsSince?: boolean;
+  runtimeLogsLast?: boolean;
+  runtimeLogsJson?: boolean;
   resetFunc?: boolean;
   resetNoninteractiveConfirmation?: boolean;
   noninteractiveConfirmation?: boolean;
@@ -30,6 +34,9 @@ type FakeEdgeOptions = {
   sqlDatabases?: boolean;
   sqlParam?: boolean;
   sqlParamJson?: boolean;
+  sqlDatabaseExport?: boolean;
+  sqlDatabaseExportNoSchema?: boolean;
+  sqlStdinImport?: boolean;
   customDomainCommands?: Array<"add" | "verify" | "list" | "delete" | "cert">;
   customDomainCertUpload?: boolean;
   customDomainCertFlag?: boolean;
@@ -49,6 +56,10 @@ function withFakeEdgeCli(options: FakeEdgeOptions | AuthMode = "api_key") {
   const ship = config.ship ?? true;
   const shipStatusFunctionUsage = config.shipStatusFunctionUsage ?? true;
   const shipStatusLogs = config.shipStatusLogs ?? true;
+  const runtimeLogsFunctionUsage = config.runtimeLogsFunctionUsage ?? true;
+  const runtimeLogsSince = config.runtimeLogsSince ?? true;
+  const runtimeLogsLast = config.runtimeLogsLast ?? true;
+  const runtimeLogsJson = config.runtimeLogsJson ?? true;
   const resetFunc = config.resetFunc ?? true;
   const resetNoninteractiveConfirmation = config.resetNoninteractiveConfirmation ?? false;
   const noninteractiveConfirmation = config.noninteractiveConfirmation ?? true;
@@ -59,6 +70,9 @@ function withFakeEdgeCli(options: FakeEdgeOptions | AuthMode = "api_key") {
   const sqlDatabases = config.sqlDatabases ?? true;
   const sqlParam = config.sqlParam ?? true;
   const sqlParamJson = config.sqlParamJson ?? true;
+  const sqlDatabaseExport = config.sqlDatabaseExport ?? true;
+  const sqlDatabaseExportNoSchema = config.sqlDatabaseExportNoSchema ?? true;
+  const sqlStdinImport = config.sqlStdinImport ?? true;
   const customDomainCommands = config.customDomainCommands ?? ["add", "verify", "list", "delete", "cert"];
   const customDomainCertUpload = config.customDomainCertUpload ?? true;
   const customDomainCertFlag = config.customDomainCertFlag ?? true;
@@ -98,6 +112,10 @@ if (args[0] === 'secrets' && args[1] === 'add' && args.includes('--help')) {
 }
 if (args[0] === 'ship' && args[1] === 'status' && args.includes('--help')) {
   console.log(['Show why a function ship failed', 'Usage: telnyx-edge ship status ${shipStatusFunctionUsage ? "<function>" : "[flags]"}', ...(${shipStatusLogs} ? ['      --logs  Also print the build log or crash output'] : [])].join('\\n'));
+  process.exit(0);
+}
+if (args[0] === 'logs' && args.includes('--help')) {
+  console.log(['Read deployed function runtime logs', 'Usage: telnyx-edge logs ${runtimeLogsFunctionUsage ? "<function>" : "[flags]"}', ...(${runtimeLogsSince} ? ['      --since duration  Look back over a historical window'] : []), ...(${runtimeLogsLast} ? ['  -n, --last int  Maximum number of log lines'] : []), ...(${runtimeLogsJson} ? ['      --json  Print JSON output'] : [])].join('\\n'));
   process.exit(0);
 }
 if (args[0] === 'ship' && args.includes('--help')) {
@@ -150,11 +168,19 @@ if (args[0] === 'storage' && args[1] === 'kv' && args.includes('--help')) {
 }
 if (args[0] === 'storage' && args[1] === 'sqldb' && args[2] === 'execute' && args.includes('--help')) {
   if (${sqlDatabases}) {
-    console.log(['Run SQL against a SQL database', 'Usage: telnyx-edge storage sqldb execute <database> [flags]', '--remote  --command string  --file string', ...(${sqlParam} ? ['--param string'] : []), ...(${sqlParamJson} ? ['--param-json string'] : [])].join('\\n'));
+    console.log(['Run SQL against a SQL database', 'Usage: telnyx-edge storage sqldb execute <database> [flags]', '--remote  --command string  --file string', ...(${sqlStdinImport} ? ['Use --file - for standard input'] : []), ...(${sqlParam} ? ['--param string'] : []), ...(${sqlParamJson} ? ['--param-json string'] : [])].join('\\n'));
     process.exit(0);
   }
   console.log('Usage: telnyx-edge storage sqldb execute <database> [flags]\\n--remote --command string');
   process.exit(0);
+}
+if (args[0] === 'storage' && args[1] === 'sqldb' && args[2] === 'export' && args.includes('--help')) {
+  if (${sqlDatabaseExport}) {
+    console.log(['Export a remote SQL database', 'Usage: telnyx-edge storage sqldb export <database> [flags]', '--remote  --output string  --table strings  --no-data', ...(${sqlDatabaseExportNoSchema} ? ['--no-schema'] : [])].join('\\n'));
+    process.exit(0);
+  }
+  process.stderr.write('unknown command "export"\\n');
+  process.exit(1);
 }
 if (args[0] === 'domains' && args[1] === 'cert' && args[2] === 'upload' && args.includes('--help')) {
   if (${customDomainCertUpload}) {
@@ -292,6 +318,7 @@ describe("CLI — Edge Compute handoff", () => {
     assert.equal(data.secrets_add_supported, true);
     assert.equal(data.ship_supported, true);
     assert.equal(data.ship_status_supported, true);
+    assert.equal(data.runtime_logs_supported, true);
     assert.equal(data.stateful_actors_supported, true);
     assert.equal(data.inspect_supported, true);
     assert.equal(data.actor_instances_supported, true);
@@ -302,6 +329,8 @@ describe("CLI — Edge Compute handoff", () => {
     assert.equal(data.kv_key_management_supported, true);
     assert.equal(data.sql_databases_supported, true);
     assert.equal(data.sql_bound_parameters_supported, true);
+    assert.equal(data.sql_database_export_supported, true);
+    assert.equal(data.sql_stdin_import_supported, true);
     assert.equal(data.custom_domains_supported, true);
   });
 
@@ -354,14 +383,18 @@ describe("CLI — Edge Compute handoff", () => {
       sqlDatabases: false,
       shipStatusFunctionUsage: false,
       shipStatusLogs: false,
+      runtimeLogsSince: false,
       sqlParam: false,
       sqlParamJson: false,
+      sqlDatabaseExport: false,
+      sqlStdinImport: false,
       argLog: true,
     });
     const data = JSON.parse(run(["edge-doctor", "--json"], fake.env));
     assert.equal(data.telnyx_edge_version, "v0.5.0");
     assert.equal(data.ready, true, "optional capabilities do not block the core handoff");
     assert.equal(data.ship_status_supported, false);
+    assert.equal(data.runtime_logs_supported, false);
     assert.equal(data.reset_func_supported, false);
     assert.equal(data.noninteractive_confirmation_supported, false);
     assert.equal(data.types_supported, false);
@@ -369,17 +402,21 @@ describe("CLI — Edge Compute handoff", () => {
     assert.equal(data.kv_key_management_supported, false);
     assert.equal(data.sql_databases_supported, false);
     assert.equal(data.sql_bound_parameters_supported, false);
+    assert.equal(data.sql_database_export_supported, false);
+    assert.equal(data.sql_stdin_import_supported, false);
     assert.ok(data.next_steps.some((step: string) => step.includes("Optional capabilities not detected")));
     const calls = readFileSync(fake.argsLog, "utf8").trim().split("\n").map((line) => JSON.parse(line));
     for (const expected of [
       ["reset-func", "--help"],
       ["ship", "status", "--help"],
+      ["logs", "--help"],
       ["delete-func", "--help"],
       ["secrets", "add", "--help"],
       ["types", "--help"],
       ["storage", "kv", "--help"],
       ["storage", "kv", "key", "--help"],
       ["storage", "sqldb", "execute", "--help"],
+      ["storage", "sqldb", "export", "--help"],
     ]) {
       assert.ok(calls.some((args) => JSON.stringify(args) === JSON.stringify(expected)), `missing probe ${expected.join(" ")}`);
     }
@@ -398,6 +435,57 @@ describe("CLI — Edge Compute handoff", () => {
       assert.ok(data.next_steps.some((step: string) => step.includes("ship status <function> --logs diagnostics")));
       const calls = readFileSync(fake.argsLog, "utf8").trim().split("\n").map((line) => JSON.parse(line));
       assert.ok(calls.some((args) => JSON.stringify(args) === JSON.stringify(["ship", "status", "--help"])));
+    }
+  });
+
+  it("detects only the released runtime-log help surface", () => {
+    const positive = withFakeEdgeCli({ auth: "api_key", argLog: true });
+    const available = JSON.parse(run(["edge-doctor", "--json"], positive.env));
+    assert.equal(available.ready, true);
+    assert.equal(available.runtime_logs_supported, true);
+    assert.ok(available.checks.some((check: { name: string; ok: boolean }) =>
+      check.name === "Function runtime logs" && check.ok));
+    assert.ok(available.next_steps.some((step: string) =>
+      step.includes("telnyx-edge logs <function-name> --since 10m --last 200")));
+    const calls = readFileSync(positive.argsLog, "utf8").trim().split("\n").map((line) => JSON.parse(line));
+    assert.ok(calls.some((args) => JSON.stringify(args) === JSON.stringify(["logs", "--help"])));
+
+    for (const config of [
+      { runtimeLogsFunctionUsage: false },
+      { runtimeLogsSince: false },
+      { runtimeLogsLast: false },
+      { runtimeLogsJson: false },
+    ]) {
+      const fake = withFakeEdgeCli({ auth: "api_key", ...config });
+      const data = JSON.parse(run(["edge-doctor", "--json"], fake.env));
+      assert.equal(data.ready, true, "runtime logs must remain optional for setup handoffs");
+      assert.equal(data.runtime_logs_supported, false);
+      assert.ok(data.next_steps.some((step: string) => step.includes("runtime logs")));
+    }
+  });
+
+  it("requires complete SQL export and standard-input help surfaces", () => {
+    const positive = withFakeEdgeCli({ auth: "api_key", argLog: true });
+    const available = JSON.parse(run(["edge-doctor", "--json"], positive.env));
+    assert.equal(available.ready, true);
+    assert.equal(available.sql_database_export_supported, true);
+    assert.equal(available.sql_stdin_import_supported, true);
+    assert.ok(available.next_steps.some((step: string) =>
+      step.includes("storage sqldb export <source-database> --remote --output - | telnyx-edge storage sqldb execute <destination-database> --remote --file -")));
+    const calls = readFileSync(positive.argsLog, "utf8").trim().split("\n").map((line) => JSON.parse(line));
+    assert.ok(calls.some((args) => JSON.stringify(args) === JSON.stringify(["storage", "sqldb", "export", "--help"])));
+    assert.ok(calls.some((args) => JSON.stringify(args) === JSON.stringify(["storage", "sqldb", "execute", "--help"])));
+
+    for (const [config, exportSupported, stdinSupported] of [
+      [{ sqlDatabaseExport: false }, false, true],
+      [{ sqlDatabaseExportNoSchema: false }, false, true],
+      [{ sqlStdinImport: false }, true, false],
+    ] as const) {
+      const fake = withFakeEdgeCli({ auth: "api_key", ...config });
+      const data = JSON.parse(run(["edge-doctor", "--json"], fake.env));
+      assert.equal(data.ready, true, "SQL export/import must remain optional for setup handoffs");
+      assert.equal(data.sql_database_export_supported, exportSupported);
+      assert.equal(data.sql_stdin_import_supported, stdinSupported);
     }
   });
 

@@ -369,6 +369,33 @@ describe("Verify discovery parity", () => {
   });
 });
 
+describe("Edge Compute v0.5.1 guide regression", () => {
+  const guide = readFileSync(join(GUIDES_DIR, "edge-compute.md"), "utf-8");
+
+  it("distinguishes released runtime logs from ship-failure logs", () => {
+    assert.match(guide, /### Runtime logs \(v0\.5\.1\)/);
+    assert.match(guide, /ship-failure logs, not deployed-function runtime output/);
+    assert.match(guide, /telnyx-edge logs my-function --since 10m --last 200/);
+    assert.match(guide, /telnyx-edge logs my-function --json/);
+    assert.match(guide, /historical window; lines can arrive a few seconds/);
+  });
+
+  it("documents released SQL export and standard-input import safety boundaries", () => {
+    assert.match(guide, /### SQL export and standard-input import \(v0\.5\.1\)/);
+    assert.match(guide, /storage sqldb export "\$SQLDB_ID" --remote --output \.\/database\.sql/);
+    assert.match(guide, /storage sqldb export "\$SOURCE_SQLDB_ID" --remote --output -/);
+    assert.match(guide, /storage sqldb execute "\$DEST_SQLDB_ID" --remote --file -/);
+    assert.match(guide, /not a point-in-time snapshot, refuses virtual tables, and may contain sensitive data/);
+    assert.match(guide, /do not combine `--no-data` with `--no-schema`/);
+  });
+
+  it("does not advertise post-v0.5.1 metrics, deployments, or invocation-log flags", () => {
+    assert.doesNotMatch(guide, /telnyx-edge metrics\b/);
+    assert.doesNotMatch(guide, /telnyx-edge deployments\b/);
+    assert.doesNotMatch(guide, /telnyx-edge logs[^\n]*--type\b/);
+  });
+});
+
 describe("guide content requirements", () => {
   for (const file of guideFiles) {
     const filepath = join(GUIDES_DIR, file);
