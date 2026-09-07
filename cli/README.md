@@ -214,6 +214,7 @@ capability catalog, not a substitute for this complete router inventory.
 | `get-ai-assistant` | Use this to retrieve one configured AI assistant by ID. | Read-only; Go CLI |
 | `update-ai-assistant` | Use this to change an assistant’s configuration and create a new assistant version. | Mutates/version-creates; Go CLI |
 | `delete-ai-assistant` | Use this to permanently delete a configured AI assistant by ID. | Deletes; requires `--confirm`; Go CLI |
+| `enhance-ai-assistant-instructions` | Use this to generate suggested improvements for one assistant's instructions before deciding whether to update that assistant. | Suggestion only; never applies or promotes instructions; raw buffered body; Go CLI v0.30+ |
 | `search-ai-collection` | Use this to retrieve ranked RAG chunks for a query or, without a query, list the collection’s document catalog. | Read-only; Go CLI v0.27+ |
 | `chat-ai-assistant` | Use this to send a live chat turn through an existing assistant conversation rather than run a stateless completion or a test. | Sends conversation turn; non-idempotent; Go CLI |
 | `send-ai-assistant-sms` | Use this to start or continue an AI assistant conversation over SMS. | Sends SMS; non-idempotent; Go CLI |
@@ -306,6 +307,30 @@ this README/help before dispatch, especially for live mutations.
 `--confirm`; do not automate that acknowledgement without reviewing the target
 IDs and operation. `storage-sql-query` can execute mutating SQL as well as
 queries and has no dry-run or `--confirm` guard.
+
+### `telnyx-agent enhance-ai-assistant-instructions`
+
+Generate a suggested instruction rewrite for an existing assistant without changing
+that assistant. The command calls the Go CLI's `ai:assistants:instructions enhance`
+action with a required `--assistant-id` and optional `--enhancement-prompt` and
+`--instructions` flags. Omitting `--instructions` lets the service use the current
+assistant instructions.
+
+```bash
+telnyx-agent enhance-ai-assistant-instructions \
+  --assistant-id <assistant-id> \
+  --enhancement-prompt "Make escalation rules explicit"
+```
+
+This command requires Telnyx Go CLI v0.30.0 or newer; it does not change the
+package's v0.27.0 vendored platform pin. The upstream response is not treated as
+JSON or as any particular event-stream schema. The wrapper collects stdout through
+the existing 10 MiB child-process buffer and writes the exact successful body to
+human-readable stdout, including its original whitespace. With `--json`, it returns
+`{ assistant_id, response, applied: false }`; `response` preserves that exact raw body
+without parsing it. Review the returned suggestion and explicitly run
+`update-ai-assistant` if you decide to apply it; enhancement never updates or
+promotes an assistant.
 
 ### `telnyx-agent setup-sms`
 
