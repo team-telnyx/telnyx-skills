@@ -20,11 +20,14 @@ import {
   supportsNonInteractiveConfirmation,
   supportsResetFunc,
   supportsResetFuncNonInteractiveConfirmation,
+  supportsRuntimeLogs,
   supportsSecretsAdd,
   supportsShip,
   supportsShipStatus,
   supportsSqlBoundParameters,
+  supportsSqlDatabaseExport,
   supportsSqlDatabases,
+  supportsSqlStdinImport,
   supportsStatefulActors,
   supportsTypes,
 } from "../edge-cli.ts";
@@ -41,6 +44,7 @@ interface EdgeDoctorResult {
   secrets_add_supported: boolean;
   ship_supported: boolean;
   ship_status_supported: boolean;
+  runtime_logs_supported: boolean;
   stateful_actors_supported: boolean;
   inspect_supported: boolean;
   actor_instances_supported: boolean;
@@ -52,6 +56,8 @@ interface EdgeDoctorResult {
   kv_key_management_supported: boolean;
   sql_databases_supported: boolean;
   sql_bound_parameters_supported: boolean;
+  sql_database_export_supported: boolean;
+  sql_stdin_import_supported: boolean;
   custom_domains_supported: boolean;
   checks: Array<{ name: string; ok: boolean; detail: string }>;
   next_steps: string[];
@@ -70,6 +76,7 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
   let secretsAddSupported = false;
   let shipSupported = false;
   let shipStatusSupported = false;
+  let runtimeLogsSupported = false;
   let statefulActorsSupported = false;
   let inspectSupported = false;
   let actorInstancesSupported = false;
@@ -81,6 +88,8 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
   let kvKeyManagementSupported = false;
   let sqlDatabasesSupported = false;
   let sqlBoundParametersSupported = false;
+  let sqlDatabaseExportSupported = false;
+  let sqlStdinImportSupported = false;
   let customDomainsSupported = false;
 
   try {
@@ -105,6 +114,7 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
     secretsAddSupported = supportsSecretsAdd();
     shipSupported = supportsShip();
     shipStatusSupported = supportsShipStatus();
+    runtimeLogsSupported = supportsRuntimeLogs();
     statefulActorsSupported = supportsStatefulActors();
     inspectSupported = supportsInspect();
     actorInstancesSupported = supportsActorInstances();
@@ -116,6 +126,8 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
     kvKeyManagementSupported = supportsKvKeyManagement();
     sqlDatabasesSupported = supportsSqlDatabases();
     sqlBoundParametersSupported = supportsSqlBoundParameters();
+    sqlDatabaseExportSupported = supportsSqlDatabaseExport();
+    sqlStdinImportSupported = supportsSqlStdinImport();
     customDomainsSupported = supportsCustomDomains();
 
     checks.push({
@@ -148,6 +160,13 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
       detail: shipStatusSupported
         ? "ship status <function> --logs is available"
         : "ship status --help did not advertise both <function> usage and --logs",
+    });
+    checks.push({
+      name: "Function runtime logs",
+      ok: runtimeLogsSupported,
+      detail: runtimeLogsSupported
+        ? "logs <function> supports --since, --last, and --json"
+        : "logs --help did not advertise <function> usage with --since, --last, and --json",
     });
     checks.push({
       name: "Stateful actors supported",
@@ -219,6 +238,20 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
       detail: sqlBoundParametersSupported
         ? "storage sqldb execute supports --param and --param-json"
         : "storage sqldb execute --help did not advertise both --param and --param-json",
+    });
+    checks.push({
+      name: "SQL database export",
+      ok: sqlDatabaseExportSupported,
+      detail: sqlDatabaseExportSupported
+        ? "storage sqldb export supports --remote, --output, --table, --no-data, and --no-schema"
+        : "storage sqldb export --help did not advertise the complete export surface",
+    });
+    checks.push({
+      name: "SQL standard-input import",
+      ok: sqlStdinImportSupported,
+      detail: sqlStdinImportSupported
+        ? "storage sqldb execute accepts --file - from standard input"
+        : "storage sqldb execute --help did not advertise --file - standard-input input",
     });
     checks.push({
       name: "Custom domains",
@@ -322,6 +355,9 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
     if (shipStatusSupported) {
       nextSteps.push("Diagnose the latest ship before resetting it: telnyx-edge ship status <function-name> --logs");
     }
+    if (runtimeLogsSupported) {
+      nextSteps.push("Read deployed-function runtime logs with: telnyx-edge logs <function-name> --since 10m --last 200");
+    }
     if (resetFuncSupported) {
       nextSteps.push(`Recover a failed deployment with: telnyx-edge reset-func <function-name>${resetFuncNoninteractiveConfirmationSupported ? " --yes" : ""}`);
     }
@@ -337,11 +373,18 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
     if (sqlBoundParametersSupported) {
       nextSteps.push("Bind SQL inputs safely with repeatable --param (strings) and --param-json (numbers, booleans, or null).");
     }
+    if (sqlDatabaseExportSupported) {
+      nextSteps.push("Export a remote SQL database with: telnyx-edge storage sqldb export <database> --remote --output ./database.sql");
+    }
+    if (sqlDatabaseExportSupported && sqlStdinImportSupported) {
+      nextSteps.push("Copy SQL data only to an empty/disposable destination (imports can partially modify it on failure): telnyx-edge storage sqldb export <source-database> --remote --output - | telnyx-edge storage sqldb execute <destination-database> --remote --file -");
+    }
     if (customDomainsSupported) {
       nextSteps.push("Route a hostname with: telnyx-edge domains add <hostname> <function-id>, then follow the DNS verification and TLS certificate workflow.");
     }
     const missingOptional = [
       !shipStatusSupported && "ship status <function> --logs diagnostics",
+      !runtimeLogsSupported && "runtime logs",
       !resetFuncSupported && "reset-func",
       resetFuncSupported && !resetFuncNoninteractiveConfirmationSupported && "reset-func --yes",
       !noninteractiveConfirmationSupported && "destructive-command --yes",
@@ -350,6 +393,8 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
       !kvKeyManagementSupported && "KV keys",
       !sqlDatabasesSupported && "remote SQL execution",
       !sqlBoundParametersSupported && "SQL --param/--param-json bindings",
+      !sqlDatabaseExportSupported && "SQL database export",
+      !sqlStdinImportSupported && "SQL standard-input import",
       !customDomainsSupported && "custom domains",
     ].filter((value): value is string => Boolean(value));
     if (missingOptional.length > 0) {
@@ -369,6 +414,7 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
     secrets_add_supported: secretsAddSupported,
     ship_supported: shipSupported,
     ship_status_supported: shipStatusSupported,
+    runtime_logs_supported: runtimeLogsSupported,
     stateful_actors_supported: statefulActorsSupported,
     inspect_supported: inspectSupported,
     actor_instances_supported: actorInstancesSupported,
@@ -380,6 +426,8 @@ export async function edgeDoctorCommand(flags: Record<string, string | boolean>)
     kv_key_management_supported: kvKeyManagementSupported,
     sql_databases_supported: sqlDatabasesSupported,
     sql_bound_parameters_supported: sqlBoundParametersSupported,
+    sql_database_export_supported: sqlDatabaseExportSupported,
+    sql_stdin_import_supported: sqlStdinImportSupported,
     custom_domains_supported: customDomainsSupported,
     checks,
     next_steps: nextSteps,
