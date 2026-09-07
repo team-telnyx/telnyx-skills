@@ -151,6 +151,7 @@ import {
   webSearchCommand,
 } from "./commands/web-search.ts";
 import { storageSqlQueryCommand } from "./commands/storage-sql.ts";
+import { createTelephonyCredentialTokenCommand } from "./commands/telephony-credentials.ts";
 import { parseFlags, isBooleanFlag } from "./utils/output.ts";
 
 // Version is read lazily so that `--version` works without loading any command modules.
@@ -228,6 +229,7 @@ Commands:
   call-dial         Make an outbound call via Call Control
   call-control      Call Control actions (answer, hangup, transfer, dtmf, record, speak, ...)
   call-pay          Securely collect or tokenize payment details on an active call
+  create-telephony-credential-token Create a JWT for an on-demand telephony credential
   call-status       Get the status of a call by call-control-id
   list-call-recordings List post-call recordings with call filters and pagination
   get-call-recording Retrieve one post-call recording by ID
@@ -604,6 +606,9 @@ Call Pay Flags:
   --max-attempts                 Maximum attempts per collection step (Go CLI default: 3)
   --client-state                 Base64 state included in subsequent webhooks
   --command-id                   Idempotency key for the payment command
+Telephony Credential Token Flags:
+  --id <credential-id>           Existing on-demand telephony credential ID (create-telephony-credential-token — required)
+                                Requires Telnyx Go CLI v0.30.0+. The JWT is sensitive and is emitted only with --json.
 Post-call Recording Discovery Flags:
   --id <id>                     Recording or recording-transcription ID (get commands — required)
   --call-control-id             Exact Call Control ID filter (list-call-recordings)
@@ -1096,6 +1101,7 @@ const COMMANDS: Record<string, (
   "call-dial": callDialCommand,
   "call-control": callControlCommand,
   "call-pay": callPayCommand,
+  "create-telephony-credential-token": createTelephonyCredentialTokenCommand,
   "call-status": callStatusCommand,
   "list-call-recordings": listCallRecordingsCommand,
   "get-call-recording": getCallRecordingCommand,

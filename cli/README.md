@@ -160,6 +160,7 @@ capability catalog, not a substitute for this complete router inventory.
 | `get-call-recording` | Use this to retrieve one post-call recording resource and its metadata or media URLs, not its transcript. | Read-only; Go CLI |
 | `list-recording-transcriptions` | Use this to list transcription resources generated from recordings, filtered by recording or creation time. | Read-only; Go CLI |
 | `get-recording-transcription` | Use this to retrieve the transcript resource for one known recording-transcription ID. | Read-only; Go CLI |
+| `create-telephony-credential-token` | Use this to create a JWT for one existing on-demand telephony credential when a SIP or WebRTC client needs short-lived access. | Creates credential token; sensitive output only with `--json`; Go CLI v0.30+ |
 
 ### Conferences
 
@@ -560,6 +561,24 @@ telnyx-agent call-control --call-control-id <id> --action hangup
 - `call-dial` accepts any valid `+E.164` `--to` (posts directly to `POST /v2/calls`).
 - `call-status` reports `active` / `ended`, derived from the live call's
   `is_alive` state.
+
+### `telnyx-agent create-telephony-credential-token`
+
+Creates an access-token JWT for an existing on-demand telephony credential.
+This upstream action first appeared in Telnyx Go CLI v0.30.0; it is checked per
+command and does **not** change the package's vendored v0.27.0 binary pin.
+
+```bash
+telnyx-agent create-telephony-credential-token --id <credential-id>
+telnyx-agent create-telephony-credential-token --id <credential-id> --json
+```
+
+`--id` is required and is passed to `telephony-credentials create-token` as the
+generated CLI's exact `--id` flag. Human-readable output confirms the credential
+ID but never prints the JWT. `--json` is an explicit sensitive-output opt-in and
+returns `{ credential_id, jwt }`, preserving the raw JWT (including any trailing
+newline). Do not log, commit, or share that JSON output. Failed requests suppress
+any partial response payload.
 
 ### `telnyx-agent send-group-mms`
 
