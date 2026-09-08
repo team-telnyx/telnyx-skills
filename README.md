@@ -51,7 +51,7 @@ Empowers agents to generate correct, production-ready code — and to manage the
 /plugin install telnyx-verify@telnyx     # Phone verification / 2FA
 /plugin install telnyx-numbers@telnyx    # Number management, 10DLC, porting
 /plugin install telnyx-webrtc@telnyx     # WebRTC and client SDKs
-/plugin install telnyx-ai@telnyx         # AI inference and assistants
+/plugin install telnyx-ai@telnyx         # AI inference, assistants, and Meeting Bot
 /plugin install telnyx-platform@telnyx   # Account, fax, IoT, networking, SIP, storage, TeXML, OAuth, Twilio migration
 ```
 
@@ -274,7 +274,7 @@ top-level trees support plugin discovery and review:
 | Path | Purpose |
 | --- | --- |
 | [`.agents/`](.agents/plugins/marketplace.json) | Agent-client marketplace metadata that maps `telnyx-developer-kit` to its local plugin source. |
-| [`submission/`](submission/telnyx-developer-kit/README.md) | Reviewer-facing Telnyx Developer Kit handoff material, including review cases, annotation justifications, the pinned six-tool connector contract, release notes, and readiness gates; it is not part of the distributable plugin archive. |
+| [`submission/`](submission/telnyx-developer-kit/README.md) | Reviewer-facing Telnyx Developer Kit handoff material, including review cases, annotation justifications, the pinned five-tool connector contract, release notes, and readiness gates; it is not part of the distributable plugin archive. |
 
 ## Maintainers
 

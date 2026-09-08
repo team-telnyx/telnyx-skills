@@ -21,7 +21,7 @@ CONTRACT = SUBMISSION / "connector-contract.json"
 WORKFLOW = ROOT / ".github" / "workflows" / "telnyx-developer-kit-review.yml"
 
 CONNECTOR_URL = "https://api.telnyx.com/v2/ai/mcp"
-CONTRACT_SHA256 = "29c307e0735c462d5cafa7a4d1223fd2e8b57664b013d6fd46289574fb482878"
+CONTRACT_SHA256 = "f14d578ce1f36f339ee9c506009f678b49dace1fda6dee288f131f91082e2fad"
 ICON_SHA256 = "de304ddafa033ec73d619b27123f6891262f726919046d37b1f989ad47160599"
 SKILLS = {
     "telnyx-kit-architecture-patterns",
@@ -32,7 +32,6 @@ SKILLS = {
 TOOLS = {
     "list_api_endpoints",
     "get_api_endpoint_schema",
-    "lookup_phone_number",
     "get_call_status",
     "list_call_events",
     "search_recordings",
@@ -77,10 +76,13 @@ def digest(path: Path) -> str:
 
 def validate_plugin() -> None:
     manifest = load_json(MANIFEST)
+    for description in (manifest.get("description", ""), manifest.get("interface", {}).get("longDescription", "")):
+        require("five" in description and "Number Lookup" not in description,
+                "manifest descriptions must advertise the five-tool catalog without Number Lookup")
     require(manifest.get("name") == PLUGIN.name, "manifest name must match plugin directory")
     require(manifest.get("mcpServers") == "./.mcp.json", "manifest must reference ./.mcp.json")
     require(manifest.get("skills") == "./skills/", "manifest must reference ./skills/")
-    require("apps" not in manifest, "the six-tool connector must not bundle MCP Apps")
+    require("apps" not in manifest, "the five-tool connector must not bundle MCP Apps")
     require("hooks" not in manifest, "unsupported hooks field must not be present")
     require(re.fullmatch(r"\d+\.\d+\.\d+", manifest.get("version", "")) is not None,
             "plugin version must be strict semver")
@@ -125,27 +127,20 @@ def validate_contract() -> None:
             "embedded connector contract differs from the reviewed server contract")
     contract = load_json(CONTRACT)
     require(contract.get("id") == "telnyx-ai-connector", "unexpected connector id")
-    require(contract.get("version") == "1.0.0-preview.5", "unexpected connector version")
+    require(contract.get("version") == "1.0.0-preview.7", "unexpected connector version")
     require(contract.get("hosts") == ["claude", "codex"], "connector host contract drifted")
     require(contract.get("protocolVersions") == ["2026-07-28", "2025-11-25"],
             "protocol compatibility contract drifted")
     contract_tools = {tool.get("name") for tool in contract.get("tools", [])}
-    require(contract_tools == TOOLS, f"six-tool contract mismatch: {sorted(contract_tools)}")
-    lookup = next(tool for tool in contract["tools"] if tool["name"] == "lookup_phone_number")
-    require(lookup.get("operation") == "billable_read", "Number Lookup must remain billable")
-    require(lookup.get("annotations", {}).get("destructiveHint") is True,
-            "billable lookup must preserve its irreversible-charge annotation")
-    lookup_endpoint = next(endpoint for endpoint in contract["endpoints"] if endpoint["name"] == "number_lookup")
-    required = set(lookup_endpoint["inputSchema"].get("required", []))
-    require("confirm_billable_lookup" in required, "billable confirmation must be required")
-    require(lookup_endpoint["inputSchema"]["properties"]["confirm_billable_lookup"] == {"const": True},
-            "billable confirmation must accept only true")
+    require(contract_tools == TOOLS, f"five-tool contract mismatch: {sorted(contract_tools)}")
+    require(all("number_lookup" not in endpoint["path"] for endpoint in contract["endpoints"]),
+            "deferred Number Lookup must not be executable")
 
     annotations = load_json(SUBMISSION / "annotation-justifications.json")
     require(annotations.get("contractVersion") == contract["version"],
             "annotation justification contract version drifted")
     require({item.get("name") for item in annotations.get("tools", [])} == TOOLS,
-            "annotation justifications must cover exactly the six tools")
+            "annotation justifications must cover exactly the five tools")
     expected = {tool["name"]: tool["annotations"] for tool in contract["tools"]}
     for item in annotations["tools"]:
         require(item.get("annotations") == expected[item["name"]],
@@ -158,10 +153,9 @@ def validate_contract() -> None:
         for case in cases.get(section, [])
         for tool in case.get("toolsUnderTest", [])
     }
-    require(covered == TOOLS, f"review cases do not cover exactly the six tools: {sorted(covered)}")
-    billable = [case for case in cases["positive"] if "lookup_phone_number" in case.get("toolsUnderTest", [])]
-    require(len(billable) == 1 and billable[0].get("requiresExplicitBillableApproval") is True,
-            "billable review case must require separate explicit approval")
+    require(covered == TOOLS, f"review cases do not cover exactly the five tools: {sorted(covered)}")
+    require(any(case.get("id") == "N1-deferred-number-lookup" and not case.get("toolsUnderTest")
+                for case in cases["negative"]), "review cases must reject deferred lookup")
 
 
 def validate_messaging_error_guidance() -> None:
@@ -177,8 +171,26 @@ def validate_messaging_error_guidance() -> None:
         "40300 | Carrier rejected": "debugging skill must not map 40300 to a carrier rejection",
     }
     for label, root in guidance_roots.items():
+        architecture = (root / "telnyx-kit-architecture-patterns" / "SKILL.md").read_text()
+        require(re.search(r"WebSocket state on the received\s+`stream_id`", architecture) is not None,
+                f"{label} media state must use the WebSocket stream_id")
+        require("stream state on `StreamSid`" not in architecture,
+                f"{label} must distinguish HTTP callbacks from media WebSocket events")
         debugging = (root / "telnyx-kit-debugging" / "SKILL.md").read_text()
         guardrails = (root / "telnyx-kit-guardrails" / "SKILL.md").read_text()
+        navigator = (root / "telnyx-kit-product-navigator" / "SKILL.md").read_text()
+        require("lookup_phone_number" not in navigator,
+                f"{label} navigator must not advertise removed hosted Number Lookup")
+        require("confirm_billable_lookup" not in guardrails,
+                f"{label} guardrails must not teach the removed lookup parameter")
+        require("Number Lookup is not available through this connector" in navigator,
+                f"{label} navigator must disclose hosted lookup unavailability")
+        require("catalog covers only three reviewed endpoints" in navigator,
+                f"{label} navigator must disclose the bounded catalog")
+        require("Messaging, TeXML, Verify and Numbers require separate API documentation" in navigator,
+                f"{label} navigator must route unsupported products outside the connector catalog")
+        require("even with approval" in guardrails,
+                f"{label} guardrails must not imply approval enables hosted lookup")
         require("| Messaging SMS/MMS API request | 40300 | Recipient opted out (STOP) |" in debugging,
                 f"{label} debugging skill must map synchronous SMS opt-outs to 40300")
         require("| Messaging SMS/MMS delivery | 40300 | Context-dependent delivery error |" in debugging,

@@ -10,11 +10,13 @@ Strong production candidate, not production-certified. The repository policy
 stays `NOT_AVAILABLE` until every external gate below has dated evidence.
 
 The embedded `connector-contract.json` is byte-identical to
-`team-telnyx/telnyx-ai-connector` contract `1.0.0-preview.5` at source candidate
-`5bff92e2f32f32705e1ea3a5e15d0676c64b4cb9`. Its SHA-256 is
-`29c307e0735c462d5cafa7a4d1223fd2e8b57664b013d6fd46289574fb482878`.
-After the source PR merges, update this pin to the merged commit if the contract
-bytes change.
+`team-telnyx/telnyx-ai-connector` contract `1.0.0-preview.7` in the local, uncommitted
+2026-09-08 five-tool candidate, including the prior delegation/TLS patch. The last checked remote
+head still contains preview.5. Its local SHA-256 is
+`f14d578ce1f36f339ee9c506009f678b49dace1fda6dee288f131f91082e2fad`.
+Record the new source commit only after an authorized commit/push. Preview.6 narrows Call Control
+IDs to unambiguous single segments (no `/`, `\\`, `%`, `?`, `#`); preview.7 additionally defers Number
+Lookup, removing its catalog entry, execution and delegated capability. It is still Telnyx API v2.
 
 ## Local validation
 
@@ -37,16 +39,17 @@ TELNYX_MCP_OAUTH_TOKEN=REDACTED \
 ## Certification gates
 
 1. Source, Gateway/Auth Manager, and deployment CI pass on their exact heads.
-2. All workflow actions are exact-SHA pinned and approved by the owning team.
+2. Workflow references follow Infra's approved internal moving-reference policy; external actions
+   are pinned or explicitly accepted, and resolved workflow revisions are recorded.
 3. The immutable multi-architecture image, SBOM, provenance, and signature are
    published and independently verified.
 4. The image is deployed disabled to staging; Gateway propagation, PKCE S256,
    exact audience/scope binding, refresh, revocation, and key rotation pass.
-5. A dedicated staging account validates every non-billable endpoint and one
-   separately approved Number Lookup. No billable lookup is pre-authorized.
-6. Empty-profile Claude and Codex installs discover exactly these six tools and
+5. A dedicated staging account validates all three account-read endpoints. Number Lookup is
+   unavailable; stale direct calls must fail without upstream dispatch, even with confirmation.
+6. Empty-profile Claude and Codex installs discover exactly these five tools and
    no legacy route, catch-all executor, Apps tool, or resource.
-7. Product approves the six-tool contract, and Gateway, Auth Manager, security,
+7. Product approves the five-tool contract, and Gateway, Auth Manager, security,
    product, connector, and code owners approve the release.
 8. Only then may a separate release change switch marketplace installation to
    `AVAILABLE` and promote the already-tested image digest.

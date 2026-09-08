@@ -21,7 +21,8 @@ const CAPABILITIES: Record<string, Capability[]> = {
     { name: "RCS Messaging", description: "Send RCS text messages and check recipient capabilities", actions: ["send_rcs_message", "check_rcs_capabilities"] },
   ],
   "📞 Voice": [
-    { name: "Call Control", description: "Make and manage voice calls via SIP connections", actions: ["make_call", "list_connections", "list_voice_connections", "get_voice_connection", "list_active_calls", "list_call_recordings", "get_call_recording", "list_recording_transcriptions", "get_recording_transcription", "answer_call", "hangup_call", "transfer_call", "send_dtmf", "start_recording", "stop_recording", "start_noise_suppression", "stop_noise_suppression", "speak_tts", "bridge_calls", "refer_call", "reject_call", "get_call_status", "answering_machine_detection", "deepfake_detection", "number_masking", "from_display_name", "time_limit", "media_encryption", "transcription", "gather", "stop_gather", "start_playback", "stop_playback", "start_transcription", "stop_transcription", "pause_recording", "resume_recording", "start_forking", "stop_forking", "start_siprec", "stop_siprec", "start_streaming", "stop_streaming", "enqueue", "leave_queue", "send_sip_info", "update_client_state", "add_ai_assistant_messages", "gather_using_ai", "gather_using_audio", "gather_using_speak", "join_ai_assistant", "start_ai_assistant", "stop_ai_assistant", "start_conversation_relay", "stop_conversation_relay", "switch_supervisor_role", "pay"] },
+    { name: "Call Control", description: "Make and manage voice calls via SIP connections", actions: ["make_call", "list_connections", "list_voice_connections", "get_voice_connection", "list_active_calls", "list_call_recordings", "get_call_recording", "list_recording_transcriptions", "get_recording_transcription", "answer_call", "hangup_call", "transfer_call", "send_dtmf", "start_recording", "stop_recording", "start_noise_suppression", "stop_noise_suppression", "speak_tts", "bridge_calls", "refer_call", "reject_call", "get_call_status", "answering_machine_detection", "deepfake_detection", "number_masking", "from_display_name", "time_limit", "media_encryption", "transcription", "gather", "stop_gather", "start_playback", "stop_playback", "start_transcription", "stop_transcription", "pause_recording", "resume_recording", "start_forking", "stop_forking", "start_siprec", "stop_siprec", "start_streaming", "enqueue", "leave_queue", "send_sip_info", "update_client_state", "add_ai_assistant_messages", "gather_using_ai", "gather_using_audio", "gather_using_speak", "join_ai_assistant", "start_ai_assistant", "stop_ai_assistant", "start_conversation_relay", "stop_conversation_relay", "switch_supervisor_role", "pay"] },
+    { name: "Telephony Credentials", description: "Create a short-lived JWT for an existing on-demand telephony credential (requires Telnyx Go CLI v0.30+; JWT is emitted only with --json)", actions: ["create_telephony_credential_token"] },
     { name: "Conferences", description: "Discover, create, inspect, and control multi-party conferences and participants", actions: ["create_conference", "get_conference", "list_conferences", "list_conference_participants", "update_conference_participant", "end_conference", "gather_conference_dtmf", "hold_conference_participants", "join_conference", "leave_conference", "mute_conference_participants", "play_conference_audio", "pause_conference_recording", "resume_conference_recording", "start_conference_recording", "stop_conference_recording", "send_conference_dtmf", "speak_to_conference", "stop_conference_audio", "unhold_conference_participants", "unmute_conference_participants"] },
   ],
   "🎥 Rooms": [
@@ -37,7 +38,7 @@ const CAPABILITIES: Record<string, Capability[]> = {
     { name: "Chat Completions", description: "LLM inference via Telnyx AI (executable with telnyx-agent ai-chat)", actions: ["ai_chat"] },
     { name: "Anthropic Messages", description: "Anthropic-compatible LLM inference (executable with telnyx-agent ai-anthropic-message)", actions: ["ai_anthropic_message"] },
     { name: "Embeddings", description: "Generate text embeddings (executable with telnyx-agent ai-embed)", actions: ["ai_embed"] },
-    { name: "Assistants", description: "Create, manage, execute, and validate AI assistants", actions: ["list_ai_assistants", "create_ai_assistant", "get_ai_assistant", "update_ai_assistant", "delete_ai_assistant", "chat_ai_assistant", "send_ai_assistant_sms", "trigger_ai_assistant_test_run", "get_ai_assistant_test_run", "list_ai_assistant_test_runs", "test_ai_assistant_tool"] },
+    { name: "Assistants", description: "Create, manage, execute, validate, and generate unapplied instruction suggestions for AI assistants", actions: ["list_ai_assistants", "create_ai_assistant", "get_ai_assistant", "update_ai_assistant", "delete_ai_assistant", "enhance_ai_assistant_instructions", "chat_ai_assistant", "send_ai_assistant_sms", "trigger_ai_assistant_test_run", "get_ai_assistant_test_run", "list_ai_assistant_test_runs", "test_ai_assistant_tool"] },
     { name: "AI Collections", description: "Retrieve and rank RAG document chunks from an AI collection", actions: ["search_ai_collection"] },
   ],
   "🌐 Web Intelligence": [
@@ -70,7 +71,7 @@ const CAPABILITIES: Record<string, Capability[]> = {
     { name: "Verification Check", description: "Submit a code for verification or check verification status", actions: ["verify_code", "check_verification_status"] },
   ],
   "🔐 Networking": [
-    { name: "WireGuard VPN", description: "Create private networks and WireGuard tunnels", actions: ["create_network", "create_wireguard_interface", "create_wireguard_peer"] },
+    { name: "WireGuard VPN", description: "Create private networks and WireGuard tunnels, and retrieve a peer's client configuration", actions: ["create_network", "create_wireguard_interface", "create_wireguard_peer", "get_wireguard_peer_config"] },
   ],
   "⚡ Edge Compute": [
     { name: "Edge Functions", description: "Pair Telnyx AI workflows with Telnyx Edge Compute. telnyx-agent now provides an executable handoff and prefers API-key auth for agent use when supported by telnyx-edge.", actions: ["see_guides_edge_compute"] },
@@ -119,6 +120,7 @@ const COMPOSITE_COMMANDS = [
   { name: "telnyx-agent rcs-send", description: "Send a text message from an RCS agent" },
   { name: "telnyx-agent rcs-capabilities", description: "Check the RCS features available for a recipient" },
   { name: "telnyx-agent setup-voice", description: "Zero to voice: creates SIP connection, buys number, assigns it" },
+  { name: "telnyx-agent create-telephony-credential-token", description: "Create a JWT for an on-demand telephony credential (Go CLI v0.30+; output is sensitive and requires --json)" },
   { name: "telnyx-agent setup-iot", description: "Zero to IoT: lists SIMs, creates group, activates SIM" },
   { name: "telnyx-agent list-sim-cards", description: "List IoT SIM cards with filters and pagination" },
   { name: "telnyx-agent retrieve-sim-card", description: "Retrieve one IoT SIM card by ID" },
@@ -135,6 +137,7 @@ const COMPOSITE_COMMANDS = [
   { name: "telnyx-agent get-ai-assistant", description: "Retrieve one AI assistant by ID" },
   { name: "telnyx-agent update-ai-assistant", description: "Update an AI assistant and create a new version" },
   { name: "telnyx-agent delete-ai-assistant", description: "Delete an AI assistant with explicit confirmation" },
+  { name: "telnyx-agent enhance-ai-assistant-instructions", description: "Generate suggested instruction improvements without applying them; preserves the raw response body (requires Telnyx Go CLI v0.30+)" },
   { name: "telnyx-agent search-ai-collection", description: "Search ranked RAG document chunks in an AI collection, or omit --query to list its document catalog" },
   { name: "telnyx-agent web-search", description: "Search the web with domain, country, freshness, safe-search, and live-crawl controls" },
   { name: "telnyx-agent web-contents", description: "Retrieve clean HTML, Markdown, or metadata for up to 20 URLs" },
@@ -147,6 +150,7 @@ const COMPOSITE_COMMANDS = [
   { name: "telnyx-agent list-ai-assistant-test-runs", description: "List and filter execution history for an AI assistant test" },
   { name: "telnyx-agent test-ai-assistant-tool", description: "Execute a webhook tool with arguments and dynamic variables in an assistant context" },
   { name: "telnyx-agent setup-wireguard", description: "Zero to VPN: creates network, WireGuard interface, peer — outputs ready-to-use WG config" },
+  { name: "telnyx-agent get-wireguard-peer-config", description: "Retrieve a peer WireGuard configuration (Go CLI v0.30+; output is sensitive and requires --json)" },
   { name: "telnyx-edge ship", description: "Deploy an Edge Compute function with the dedicated telnyx-edge CLI (referenced by the Edge Compute guide)" },
   { name: "telnyx-agent edge-doctor", description: "Validate Edge Compute handoff prerequisites and point to the next concrete telnyx-edge steps" },
   { name: "telnyx-agent setup-edge-mcp", description: "Concrete MCP-on-Edge handoff: points to the real example and deploy command via telnyx-edge" },

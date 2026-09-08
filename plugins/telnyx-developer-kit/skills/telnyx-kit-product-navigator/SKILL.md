@@ -21,12 +21,14 @@ Answer three questions, then jump to the row that matches.
 
 - **Codex or Claude with the Telnyx Developer Kit installed**: Use the
   installed OAuth-authenticated `telnyx` MCP connector. Call
-  `list_api_endpoints` to discover the relevant operation, then call
-  `get_api_endpoint_schema` for the selected endpoint before writing a request.
+  `list_api_endpoints` to discover the relevant supported operation, then call
+  `get_api_endpoint_schema` for that endpoint before writing a request. The
+  catalog covers only three reviewed endpoints: call status, call events and
+  recording search. It is not a catalog of the entire Telnyx API.
   Those two catalog tools cannot execute the represented endpoints. Account
   access is limited to `get_call_status`, `list_call_events`,
-  `search_recordings`, and the explicitly confirmed billable
-  `lookup_phone_number`; there is no catch-all executor or MCP App. Do not ask
+  `search_recordings`. Number Lookup is not available through this connector,
+  even with approval; there is no catch-all executor or MCP App. Do not ask
   for or accept a Telnyx API key in chat.
 - **Claude with only a product plugin installed**: Use matching
   `telnyx-<product>-*` skills from that installation. Product plugins do not
@@ -52,7 +54,7 @@ Answer three questions, then jump to the row that matches.
 | Real-time media into your AI model | Media Streaming | `<Connect><Stream>` or Call Control streaming | telnyx-voice plugin |
 | Speech-to-text / text-to-speech | STT / TTS | OpenAI-compatible + TTS API | telnyx-stt / telnyx-tts plugins |
 | Buy, configure, port numbers | Numbers | `/v2/available_phone_numbers`, `/v2/number_orders`, porting | telnyx-numbers plugin |
-| Look up carrier/caller data for a number | Number Lookup | `GET /v2/number_lookup/{number}` | `lookup_phone_number` in the hosted Developer Kit connector |
+| Look up carrier/caller data for a number | Number Lookup | `GET /v2/number_lookup/{number}` | Separate API integration with explicit billable-operation approval; unavailable in the hosted connector |
 | Send/receive fax | Programmable Fax | Send: `POST /v2/faxes` with `connection_id`; receive: create with `POST /v2/fax_applications`, then assign the number using `PATCH /v2/phone_numbers/{id}` with the Fax Application ID as `connection_id` | telnyx-platform plugin |
 | Connect a PBX/SIP system | SIP Trunking | credential or IP connections | telnyx-platform plugin |
 | Cellular connectivity for devices | IoT SIM | `/v2/sim_cards` (eSIM buys use `amount`) | telnyx-platform plugin |
@@ -83,11 +85,10 @@ Answer three questions, then jump to the row that matches.
   policy is explicit.
 - **Coming from Twilio**: product names map non-obviously (Messaging Service
   → messaging profile, TwiML App → TeXML Application, Verify Service →
-  Verify profile). In Codex with the Telnyx Developer Kit, use
-  `list_api_endpoints` for the corresponding Messaging, TeXML, Verify, Numbers,
-  or other Telnyx operation, then inspect each selected operation with
-  `get_api_endpoint_schema`. In Claude or Cursor, use the matching installed
-  product skill and use `telnyx-twilio-migration` only when it is already
+  Verify profile). Messaging, TeXML, Verify and Numbers require separate API documentation
+  or matching installed product skills; do not search for them in this connector's
+  three-endpoint catalog or infer that a missing search result means the product is
+  unsupported by Telnyx. In any client, use `telnyx-twilio-migration` only when it is already
   installed or the user explicitly chooses its companion package. Treat any
   separate migration package as an explicit user choice, not an automatic
   dependency.

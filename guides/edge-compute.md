@@ -50,7 +50,6 @@ Names must be 1–64 characters, contain only alphanumeric characters and dashes
 ## Quick Start
 
 Use one of the repository-aware handoff commands below for a complete clone, build, secrets, deploy, and inspect sequence. The expanded manual flows show exactly what each helper emits.
-
 ### Classic Node lockfile prerequisite
 
 Before shipping a classic Node function whose `package.json` declares dependencies, ensure the function directory contains either `package-lock.json` or `npm-shrinkwrap.json`. These are the accepted npm lockfile forms; without one, `telnyx-edge ship` fails before upload.
@@ -156,7 +155,6 @@ curl -X POST "https://<your-edge-endpoint>/" \
 Do not put `WEBHOOK_SECRET` in the request body or an Authorization header unless your own handler explicitly defines that separate protocol. Its purpose in this example is HMAC verification.
 
 ## API Reference
-
 ### List, create, deploy, inspect, and recover
 
 ```bash
@@ -176,7 +174,7 @@ telnyx-edge inspect my-function
 
 `inspect <function>` is the per-function detail view: deployment status, invoke URL, timestamps, and **every binding the deployed function declares**. Binding rows show the `env.<NAME>` handle, kind, target, and status; actor rows also show their owner/reference role. Probe it with `telnyx-edge inspect --help` when supporting multiple CLI releases.
 
-Before resetting a failed function, inspect the latest ship outcome: `ship status <function>` prints one actionable, stage-classified reason, and `--logs` adds the build-log or crash-output snippet when the platform supplied one. A failed function can then be reset to `created` without changing its identity, fixed, and shipped again:
+Before resetting a failed function, inspect the latest ship outcome: `ship status <function>` prints one actionable, stage-classified reason, and `--logs` adds the build-log or crash-output snippet when the platform supplied one. These are ship-failure logs, not deployed-function runtime output. A failed function can then be reset to `created` without changing its identity, fixed, and shipped again:
 
 ```bash
 telnyx-edge ship status my-function --logs
@@ -193,7 +191,11 @@ telnyx-edge delete-func my-function --yes
 ```
 
 `delete-func` is irreversible. Use `--yes` (`-y`) in scripts, agents, and CI to skip the interactive confirmation; see [Non-interactive destructive commands](#non-interactive-destructive-commands) for the full list.
-
+### Runtime logs (v0.5.1)
+`logs <function>` reads runtime output from a deployed function, unlike `ship status <function> --logs`, which only adds logs associated with a failed ship. It reads a historical window; lines can arrive a few seconds after the function writes them.
+```bash
+telnyx-edge logs my-function --since 10m --last 200; telnyx-edge logs my-function --json
+```
 ### Custom domains (v0.5.0)
 
 `domains add` prints the DNS TXT record needed for ownership verification. After publishing it, complete the workflow and use `--yes` for destructive teardown:
@@ -205,7 +207,6 @@ telnyx-edge domains list
 telnyx-edge domains delete api.example.com --yes
 ```
 DNS propagation can delay verification; retry `verify` before certificate upload. `domains list` reports verification and certificate status.
-
 ### Revisions and rollback
 
 Every successful ship creates an immutable revision.
@@ -216,7 +217,6 @@ telnyx-edge rollback my-function <revision-id>
 ```
 
 Rollback retargets traffic to a prior healthy revision without rebuilding or re-uploading it.
-
 ### Secrets and Telnyx bindings
 
 ```bash
@@ -265,7 +265,6 @@ const mcpToken: string = await env.SECRETS.get("MCP_TOKEN");
 ```
 
 `binding` is the code-facing handle; `name` is the secret-store key. `types` covers all declared actor, Telnyx, secret, KV, SQL database, and Cloud Storage bindings, runs offline without authentication, and should be rerun whenever the manifest changes.
-
 ### Rate limiter bindings
 
 Declare each fixed-window limiter in `func.toml` or `telnyx.toml`. `limit` is the allowed call count and `period` is the window in seconds:
@@ -293,7 +292,6 @@ if (!success) return new Response("Too many requests", { status: 429 });
 ```
 
 The runtime handle is canonicalized to uppercase with hyphens replaced by underscores (`api-limit` becomes `env.API_LIMIT`). `namespace_id` is optional and must be a positive integer string; functions using the same value share a counter pool, so reuse it only when cross-function limiting is intentional.
-
 ### Non-interactive destructive commands
 
 Destructive commands prompt in a terminal and deliberately fail rather than hang when stdin is not a terminal. Scripts, agents, and CI must pass `--yes` (`-y`) to `delete-func`, `reset-func`, `domains delete`, `secrets delete`, `bindings delete`, `actors delete`, `storage sqldb delete`, `storage kv delete`, and `storage kv key delete`. Piping the output of `yes` is not accepted.
@@ -306,7 +304,6 @@ telnyx-edge storage sqldb delete "$SQLDB_ID" --yes
 `--yes` only waives the CLI's local intent check. On SQL database and KV namespace deletion, `--force` (`-f`) separately tells the API to override its "still bound/in use" precondition; it does **not** confirm intent. To do both in CI, pass both flags, for example `telnyx-edge storage sqldb delete "$SQLDB_ID" --yes --force`. Functions that still bind the deleted resource are not deleted and will break.
 
 For a whole shell or CI job, `TELNYX_EDGE_SKIP_CONFIRMATIONS=1` has the same effect as `--yes`. For a persistent local preference, use `telnyx-edge config set skip_confirmations true` (undo with `false`). Neither setting implies `--force`, which remains per invocation.
-
 ### Persistent KV storage
 
 ```bash
@@ -332,7 +329,6 @@ id = "<namespace-uuid>"
 ```
 
 Then run `telnyx-edge types`: it generates `telnyx-env.d.ts` with KV handles typed as `KvNamespace`. Rerun it whenever binding declarations change.
-
 ### SQL databases (v0.3.0; bound parameters v0.4.1)
 
 A SQL database is an account-scoped SQLite database. It exists independently of functions and can be shared by every function that binds its UUID.
@@ -371,7 +367,6 @@ telnyx-edge storage sqldb migrations create "$SQLDB_ID" add-links-table
 telnyx-edge storage sqldb migrations list "$SQLDB_ID" --remote
 telnyx-edge storage sqldb migrations apply "$SQLDB_ID" --remote
 ```
-
 Bind the database in `func.toml` or `telnyx.toml`, using the real UUID, and regenerate declarations:
 
 ```toml
@@ -388,6 +383,12 @@ telnyx-edge types
 
 Do not confuse shared account SQLDB with actor-local SQL. `[storage.sqldb.DB]` exposes one account database as `env.DB` to any functions that bind the same UUID. `ctx.storage.sql` belongs to one StatefulActor instance, is reached only inside that actor, and has no `storage sqldb execute` or migration CLI surface.
 
+### SQL export and standard-input import (v0.5.1)
+Export creates SQL data for backup or a deliberate copy; it is not a point-in-time snapshot, refuses virtual tables, and may contain sensitive data. Import executes schema and data statements, can partially modify the destination on failure, and is not a transactional restore. Use an empty/disposable destination, or review the SQL and back up the target first; never pipe blindly into a populated production database. Protect the output, verify the destination before importing, and do not combine `--no-data` with `--no-schema`.
+```bash
+telnyx-edge storage sqldb export "$SQLDB_ID" --remote --output ./database.sql
+telnyx-edge storage sqldb export "$SOURCE_SQLDB_ID" --remote --output - | telnyx-edge storage sqldb execute "$DEST_SQLDB_ID" --remote --file -
+```
 ### Cloud Storage binding types (v0.2.4)
 
 CLI v0.2.4 added `[storage.cloudstorage.<name>]` manifest bindings and `CloudStorageBucket` output from `telnyx-edge types`. JavaScript/TypeScript scaffolds include the Cloud Storage dependencies.
@@ -431,7 +432,6 @@ The two inspect commands answer different questions:
 
 - `inspect <function>` shows one function and every declared binding (including actor owner/reference roles).
 - `actors inspect <type>` shows one account-scoped actor type, attached functions, and a best-effort live instance count.
-
 ### v0.2.5 actor-instance support and limitations
 
 v0.2.5 added `actors instances <type>` and the instance count in `actors inspect <type>`. The instance command is intentionally limited:

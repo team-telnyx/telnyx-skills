@@ -111,6 +111,7 @@ import {
   chatAiAssistantCommand,
   createAiAssistantCommand,
   deleteAiAssistantCommand,
+  enhanceAiAssistantInstructionsCommand,
   getAiAssistantTestRunCommand,
   getAiAssistantCommand,
   listAiAssistantTestRunsCommand,
@@ -151,6 +152,8 @@ import {
   webSearchCommand,
 } from "./commands/web-search.ts";
 import { storageSqlQueryCommand } from "./commands/storage-sql.ts";
+import { getWireguardPeerConfigCommand } from "./commands/wireguard-peers.ts";
+import { createTelephonyCredentialTokenCommand } from "./commands/telephony-credentials.ts";
 import { parseFlags, isBooleanFlag } from "./utils/output.ts";
 
 // Version is read lazily so that `--version` works without loading any command modules.
@@ -175,6 +178,7 @@ Commands:
   list-sim-card-actions List asynchronous SIM card actions with filters and pagination
   setup-ai          Zero to AI: create assistant, buy number, wire them together
   setup-wireguard   Zero to VPN: create network, WireGuard interface, peer
+  get-wireguard-peer-config Retrieve the WireGuard client configuration for a peer
   setup-verify      Zero to verification: create profile (no number bought)
   verify-send       Trigger a phone verification (sms, call, flashcall, or whatsapp)
   verify-check      Verify a code or check verification status
@@ -228,6 +232,7 @@ Commands:
   call-dial         Make an outbound call via Call Control
   call-control      Call Control actions (answer, hangup, transfer, dtmf, record, speak, ...)
   call-pay          Securely collect or tokenize payment details on an active call
+  create-telephony-credential-token Create a JWT for an on-demand telephony credential
   call-status       Get the status of a call by call-control-id
   list-call-recordings List post-call recordings with call filters and pagination
   get-call-recording Retrieve one post-call recording by ID
@@ -275,6 +280,7 @@ Commands:
   get-ai-assistant  Retrieve an AI assistant by ID
   update-ai-assistant Update an AI assistant by ID
   delete-ai-assistant Delete an AI assistant by ID (requires --confirm)
+  enhance-ai-assistant-instructions Generate improved assistant instructions without applying them (Go CLI v0.30+; raw response)
   search-ai-collection Search or list RAG documents in an AI collection
   web-search        Search the web and return structured, LLM-ready results
   web-contents      Retrieve clean content for up to 20 URLs
@@ -301,6 +307,7 @@ Setup-specific Flags:
   --instructions    AI assistant instructions (setup-ai)
   --name            AI assistant name (setup-ai)
   --network-id      Use existing network (setup-wireguard)
+  --id <peer-id>    WireGuard peer ID (get-wireguard-peer-config — required); configuration is sensitive and emitted only with --json
   --profile-name    Custom verify profile name (setup-verify)
   --destinations    Whitelisted destination countries for verify (setup-verify, default: US)
 
@@ -604,6 +611,9 @@ Call Pay Flags:
   --max-attempts                 Maximum attempts per collection step (Go CLI default: 3)
   --client-state                 Base64 state included in subsequent webhooks
   --command-id                   Idempotency key for the payment command
+Telephony Credential Token Flags:
+  --id <credential-id>           Existing on-demand telephony credential ID (create-telephony-credential-token — required)
+                                Requires Telnyx Go CLI v0.30.0+. The JWT is sensitive and is emitted only with --json.
 Post-call Recording Discovery Flags:
   --id <id>                     Recording or recording-transcription ID (get commands — required)
   --call-control-id             Exact Call Control ID filter (list-call-recordings)
@@ -782,6 +792,15 @@ AI Assistant Lifecycle Flags:
   --version-name    Human-readable version name (update only)
   --promote-to-main <bool> Promote the new version (update only)
   --confirm         Explicitly confirm deletion (delete only, required)
+
+AI Assistant Instruction Enhancement Flags (requires Telnyx Go CLI v0.30+):
+  --assistant-id <id> Assistant ID to inspect and enhance (required)
+  --enhancement-prompt <text> Optional guidance for the enhancement
+  --instructions <text> Optional instructions to enhance; omitted uses the assistant's current instructions
+  The response body is buffered (up to the Go-CLI wrapper's 10 MiB limit); human output is raw,
+  without JSON or event-stream parsing. This command only returns a suggestion; it never
+  updates or promotes the assistant. With --json, the raw body is preserved in a structured
+  { assistant_id, response, applied: false } result.
 
 AI Collection Retrieval Flags:
   --collection-id <slug> Collection slug to search (required; --slug alias accepted)
@@ -1015,6 +1034,7 @@ Examples:
   telnyx-agent get-ai-assistant --id <assistant-id> --json
   telnyx-agent update-ai-assistant --id <assistant-id> --greeting "How can I help?" --json
   telnyx-agent delete-ai-assistant --id <assistant-id> --confirm --json
+  telnyx-agent enhance-ai-assistant-instructions --assistant-id <assistant-id> --enhancement-prompt "Make escalation rules explicit"
   telnyx-agent search-ai-collection --collection-id support-transcripts --query "billing issue" --retrieval-type hybrid --top-k 10 --json
   telnyx-agent web-search --query "latest WebRTC developments" --count 10 --freshness week --json
   telnyx-agent web-contents --url https://example.com --format markdown --json
@@ -1044,6 +1064,7 @@ const COMMANDS: Record<string, (
   "setup-iot": setupIotCommand,
   "setup-ai": setupAiCommand,
   "setup-wireguard": setupWireguardCommand,
+  "get-wireguard-peer-config": getWireguardPeerConfigCommand,
   "setup-verify": setupVerifyCommand,
   "verify-send": verifySendCommand,
   "verify-check": verifyCheckCommand,
@@ -1096,6 +1117,7 @@ const COMMANDS: Record<string, (
   "call-dial": callDialCommand,
   "call-control": callControlCommand,
   "call-pay": callPayCommand,
+  "create-telephony-credential-token": createTelephonyCredentialTokenCommand,
   "call-status": callStatusCommand,
   "list-call-recordings": listCallRecordingsCommand,
   "get-call-recording": getCallRecordingCommand,
@@ -1143,6 +1165,7 @@ const COMMANDS: Record<string, (
   "get-ai-assistant": getAiAssistantCommand,
   "update-ai-assistant": updateAiAssistantCommand,
   "delete-ai-assistant": deleteAiAssistantCommand,
+  "enhance-ai-assistant-instructions": enhanceAiAssistantInstructionsCommand,
   "search-ai-collection": searchAiCollectionCommand,
   "chat-ai-assistant": chatAiAssistantCommand,
   "send-ai-assistant-sms": sendAiAssistantSmsCommand,
@@ -1188,7 +1211,7 @@ const KNOWN_FLAGS = new Set<string>([
   "destination-version-id", "destinations", "digits", "dimensions", "disable-cache",
   "display-name", "document", "document-id", "document-type", "dtmf-detection", "duration-minutes",
   "dynamic-variables", "dynamic-variables-webhook-timeout-ms", "dynamic-variables-webhook-url",
-  "email", "emergency-address-id", "enable-messaging", "enabled", "encoding-format", "end-time", "ends-with",
+  "email", "emergency-address-id", "enable-messaging", "enabled", "encoding-format", "end-time", "ends-with", "enhancement-prompt",
   "exclude", "exclude-domain", "extension", "fallback-config", "fast-port-eligible", "features",
   "file-url", "filter", "filter-sim-card-group-id", "flag", "foc-after", "foc-before", "foc-date",
   "foc-datetime-requested", "force", "fork-rx", "fork-stream-type", "fork-tx", "format",

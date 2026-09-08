@@ -88,7 +88,9 @@ processing:
   explicit human approval BEFORE the purchase call.
 - Number Lookup enrichment is also billable. Name the single requested lookup
   type, disclose that the request can incur a charge, obtain explicit approval
-  for that call, and only then pass `confirm_billable_lookup: true`.
+  for that call in a separate API integration. The hosted Developer Kit connector
+  does not expose Number Lookup, even with approval. Do not attempt a substitute
+  hosted tool or request an API key in chat.
 - Cap loops that touch billable endpoints (max sends/calls per run); a bug
   or prompt injection must hit a ceiling, not a credit card.
 - Automatically retry only reads or writes protected by an idempotency

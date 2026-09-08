@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import http.server
 import json
+import math
 import os
 import sys
 import threading
@@ -21,6 +22,10 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parent.parent
 CONTRACT_PATH = ROOT / "submission" / "telnyx-developer-kit" / "connector-contract.json"
 DEFAULT_URL = "https://api.telnyx.com/v2/ai/mcp"
+EXPECTED_ISSUERS = {
+    DEFAULT_URL: "https://api.telnyx.com",
+    "https://apidev.telnyx.com/v2/ai/mcp": "https://apidev.telnyx.com",
+}
 MAX_RESPONSE_BYTES = 1024 * 1024
 MAX_TOOL_LIST_PAGES = 100
 JSON_SCHEMA_DIALECT = "https://json-schema.org/draft/2020-12/schema"
@@ -73,17 +78,43 @@ def read_limited(response: Any) -> bytes:
     return payload
 
 
+def strict_json(text: str) -> Any:
+    """Reject ambiguous objects and non-finite values throughout remote JSON."""
+    def unique(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                raise AuditError("JSON contains duplicate object keys")
+            result[key] = value
+        return result
+
+    def reject_constant(value: str) -> Any:
+        raise AuditError("JSON contains a non-finite numeric constant")
+
+    def finite_float(value: str) -> float:
+        number = float(value)
+        if not math.isfinite(number):
+            raise AuditError("JSON number exceeds finite numeric range")
+        return number
+
+    try:
+        return json.loads(text, object_pairs_hook=unique, parse_constant=reject_constant,
+                          parse_float=finite_float)
+    except (ValueError, RecursionError) as error:
+        raise AuditError("response is not valid bounded JSON") from error
+
+
 def parse_body(content_type: str, payload: bytes) -> dict[str, Any]:
-    text = payload.decode("utf-8")
+    try:
+        text = payload.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise AuditError("response is not valid UTF-8") from error
     if "text/event-stream" in content_type.lower():
         data = [line[5:].strip() for line in text.splitlines() if line.startswith("data:")]
         if len(data) != 1:
             raise AuditError(f"expected one SSE data event, received {len(data)}")
         text = data[0]
-    try:
-        body = json.loads(text)
-    except json.JSONDecodeError as error:
-        raise AuditError(f"response is not valid JSON: {error}") from error
+    body = strict_json(text)
     if not isinstance(body, dict):
         raise AuditError("JSON-RPC response must be an object")
     return body
@@ -153,20 +184,39 @@ def read_rpc_response(
     content_type = response.headers.get("Content-Type", "")
     if "text/event-stream" not in content_type.lower():
         body = parse_body(content_type, read_limited(response))
-        require(body.get("id") == expected_id, f"expected JSON-RPC id {expected_id}")
+        validate_rpc_response(body, expected_id)
         return body
 
     deadline = time.monotonic() + timeout_seconds
     for data in iter_sse_data(response, deadline=deadline):
-        try:
-            body = json.loads(data)
-        except json.JSONDecodeError as error:
-            raise AuditError(f"SSE data is not valid JSON: {error}") from error
+        body = strict_json(data)
         if not isinstance(body, dict):
             raise AuditError("SSE JSON-RPC response must be an object")
-        if body.get("id") == expected_id:
-            return body
+        # Notifications may precede the response, but cannot masquerade as one.
+        if "method" in body and "id" not in body:
+            require(
+                body.get("jsonrpc") == "2.0"
+                and isinstance(body["method"], str) and bool(body["method"])
+                and "result" not in body and "error" not in body,
+                "invalid JSON-RPC notification",
+            )
+            continue
+        validate_rpc_response(body, expected_id)
+        return body
     raise AuditError(f"SSE stream ended before JSON-RPC id {expected_id}")
+
+
+def validate_rpc_response(body: dict[str, Any], expected_id: int) -> None:
+    require(body.get("jsonrpc") == "2.0", "expected JSON-RPC version 2.0")
+    require(type(body.get("id")) is int and body["id"] == expected_id,
+            f"expected JSON-RPC integer id {expected_id}")
+    require("method" not in body and (("result" in body) != ("error" in body)),
+            "expected exactly one JSON-RPC result or error")
+    if "error" in body:
+        error = body["error"]
+        require(isinstance(error, dict) and type(error.get("code")) is int
+                and isinstance(error.get("message"), str),
+                "invalid JSON-RPC error object")
 
 
 def open_authenticated(request: urllib.request.Request, timeout: int) -> Any:
@@ -356,6 +406,14 @@ def validate_tool_catalog(received: Any, contract: dict[str, Any]) -> None:
         "contract must pin exactly one input schema for every tool",
     )
     for name, contract_tool in expected.items():
+        # Public catalog data still sits behind the same OAuth POST boundary.
+        # Check both the canonical field and OpenAI's compatibility mirror.
+        security = [{"type": "oauth2", "scopes": ["admin"]}]
+        require(by_name[name].get("securitySchemes") == security,
+                f"OAuth security schemes drifted for {name}")
+        meta = by_name[name].get("_meta")
+        require(isinstance(meta, dict) and meta.get("securitySchemes") == security,
+                f"OAuth security scheme mirror drifted for {name}")
         require(by_name[name].get("title") == contract_tool["title"], f"title drifted for {name}")
         require(
             by_name[name].get("annotations") == contract_tool["annotations"],
@@ -464,6 +522,12 @@ def audit_protocol_version(
         f"{handshake_method} failed for {protocol_version}",
     )
     result = handshake["result"]
+    capabilities = result.get("capabilities")
+    require(isinstance(capabilities, dict), "server capabilities must be an object")
+    # This isolated server has no resources or resource templates. Reject the
+    # capability itself, even an empty/false/null value, in both protocol eras.
+    require("resources" not in capabilities,
+            "isolated connector must not advertise resource capabilities")
     if modern:
         expected_modern = [
             version
@@ -503,6 +567,8 @@ def audit_protocol_version(
 
 
 def run_audit(url: str, token: str) -> None:
+    expected_issuer = EXPECTED_ISSUERS.get(url)
+    require(expected_issuer is not None, "audit URL must be an approved Telnyx connector")
     contract = json.loads(CONTRACT_PATH.read_text())
     protocol_versions = contract.get("protocolVersions")
     require(
@@ -517,7 +583,7 @@ def run_audit(url: str, token: str) -> None:
     require(metadata.get("resource") == url, "OAuth resource metadata does not bind the exact connector URL")
     require(metadata.get("scopes_supported") == ["admin"], "OAuth metadata scopes changed")
     servers = metadata.get("authorization_servers")
-    require(isinstance(servers, list) and len(servers) == 1, "expected one authorization server")
+    require(servers == [expected_issuer], "OAuth authorization server must match the connector environment")
 
     for index, protocol_version in enumerate(protocol_versions):
         audit_protocol_version(
@@ -528,7 +594,7 @@ def run_audit(url: str, token: str) -> None:
             (index + 1) * 1_000,
         )
     print(
-        "Hosted six-tool OAuth metadata audit: OK "
+        "Hosted five-tool OAuth metadata audit: OK "
         f"({len(protocol_versions)} protocol versions; no tools were called)"
     )
 
@@ -611,6 +677,8 @@ def self_test() -> None:
             "title": item["title"],
             "annotations": item["annotations"],
             "inputSchema": input_schemas[item["name"]],
+            "securitySchemes": [{"type": "oauth2", "scopes": ["admin"]}],
+            "_meta": {"securitySchemes": [{"type": "oauth2", "scopes": ["admin"]}]},
         }
         for item in contract["tools"]
     ]
@@ -655,7 +723,7 @@ def self_test() -> None:
                 return
             self.send_json(200, {
                 "resource": test_url,
-                "authorization_servers": ["https://auth.example.test"],
+                "authorization_servers": ["https://apidev.telnyx.com"],
                 "scopes_supported": ["admin"],
             })
 
@@ -774,6 +842,7 @@ def self_test() -> None:
     test_url = f"http://127.0.0.1:{server.server_port}/v2/ai/mcp"
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
+    EXPECTED_ISSUERS[test_url] = "https://apidev.telnyx.com"
     try:
         run_audit(test_url, "test-token")
         assert observed == [
@@ -794,6 +863,7 @@ def self_test() -> None:
         else:
             raise AssertionError("a repeated tools/list cursor must fail closed")
     finally:
+        EXPECTED_ISSUERS.pop(test_url, None)
         server.shutdown()
         server.server_close()
         thread.join(timeout=5)
@@ -810,12 +880,12 @@ def self_test() -> None:
     duplicate_tool = next(
         tool
         for tool in duplicate_schema_contract["tools"]
-        if tool["name"] == "lookup_phone_number"
+        if tool["name"] == "get_call_status"
     )
     duplicate_endpoint = next(
         endpoint
         for endpoint in duplicate_schema_contract["endpoints"]
-        if endpoint["executionTool"] == "lookup_phone_number"
+        if endpoint["executionTool"] == "get_call_status"
     )
     duplicate_tool["inputSchema"] = duplicate_endpoint["inputSchema"]
     try:
@@ -840,12 +910,12 @@ def self_test() -> None:
         raise AssertionError("missing input-schema ownership must fail the release audit")
 
     drifted_tools = json.loads(json.dumps(valid_tools))
-    lookup = next(tool for tool in drifted_tools if tool["name"] == "lookup_phone_number")
-    lookup["inputSchema"]["required"].remove("lookup_type")
+    lookup = next(tool for tool in drifted_tools if tool["name"] == "get_call_status")
+    lookup["inputSchema"]["required"].remove("call_control_id")
     try:
         validate_tool_catalog(drifted_tools, contract)
     except AuditError as error:
-        assert str(error) == "input schema drifted for lookup_phone_number"
+        assert str(error) == "input schema drifted for get_call_status"
     else:
         raise AssertionError("execution-tool schema drift must fail the release audit")
 
@@ -862,12 +932,12 @@ def self_test() -> None:
         raise AssertionError("discovery-tool schema drift must fail the release audit")
 
     dialect_drift = json.loads(json.dumps(valid_tools))
-    lookup = next(tool for tool in dialect_drift if tool["name"] == "lookup_phone_number")
+    lookup = next(tool for tool in dialect_drift if tool["name"] == "get_call_status")
     lookup["inputSchema"]["$schema"] = "http://json-schema.org/draft-04/schema#"
     try:
         validate_tool_catalog(dialect_drift, contract)
     except AuditError as error:
-        assert str(error).startswith("unsupported JSON Schema dialect for lookup_phone_number")
+        assert str(error).startswith("unsupported JSON Schema dialect for get_call_status")
     else:
         raise AssertionError("behavior-changing JSON Schema dialect drift must fail the audit")
 

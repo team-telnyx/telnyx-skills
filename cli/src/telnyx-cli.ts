@@ -24,6 +24,11 @@ const INSTALL_HINT =
   "or install it manually: go install github.com/team-telnyx/telnyx-cli/cmd/telnyx@latest " +
   "(or set TELNYX_CLI_PATH to a compatible telnyx binary).";
 
+function minimumVersionInstallHint(minimumVersion: string): string {
+  return `Install Telnyx Go CLI >= ${minimumVersion}: go install github.com/team-telnyx/telnyx-cli/cmd/telnyx@latest ` +
+    "or set TELNYX_CLI_PATH to a compatible telnyx binary.";
+}
+
 /**
  * Thrown when the resolved `telnyx` binary is missing or is an incompatible CLI
  * (e.g. the npm `@telnyx/api-cli`, which uses different, singular command names
@@ -38,7 +43,7 @@ export class IncompatibleTelnyxCLIError extends Error {
         : minimumVersion && reportedVersion
           ? `Resolved "${binaryPath}" is Telnyx Go CLI ${reportedVersion}, but this command requires >= ${minimumVersion}.`
         : `Resolved "${binaryPath}" is not the Telnyx Go CLI (reported: ${versionOutput.split("\n")[0]}).`;
-    super(`${detail} ${INSTALL_HINT}`);
+    super(`${detail} ${minimumVersion ? minimumVersionInstallHint(minimumVersion) : INSTALL_HINT}`);
     this.name = "IncompatibleTelnyxCLIError";
   }
 }
@@ -77,13 +82,17 @@ export async function verifyTelnyxGoCli(binaryPath: string, minimumVersion?: str
     // unless the failing process still emitted a Go-CLI version signature.
     const combined = `${err?.stdout ?? ""}${err?.stderr ?? ""}`.trim();
     if (err?.code === "ENOENT" || !parseTelnyxGoCliVersion(combined)) {
-      throw new IncompatibleTelnyxCLIError(binaryPath, err?.code === "ENOENT" ? null : combined || null);
+      throw new IncompatibleTelnyxCLIError(
+        binaryPath,
+        err?.code === "ENOENT" ? null : combined || null,
+        minimumVersion,
+      );
     }
     out = combined;
   }
   const version = parseTelnyxGoCliVersion(out);
   if (!version) {
-    throw new IncompatibleTelnyxCLIError(binaryPath, out || null);
+    throw new IncompatibleTelnyxCLIError(binaryPath, out || null, minimumVersion);
   }
   if (minimumVersion) {
     const comparison = compareSemanticVersions(version, minimumVersion);
@@ -111,11 +120,13 @@ function getTelnyxBinary(minimumVersion?: string): Promise<string> {
   if (minimumVersion) {
     return verifyTelnyxGoCli(path, minimumVersion)
       .then(() => path)
-      .catch((error) => {
+      .catch((vendorError) => {
         // An explicit override is authoritative. Only an implicitly preferred
         // vendor may fall back to PATH for a command-scoped minimum.
-        if (process.env.TELNYX_CLI_PATH || !trusted) throw error;
-        return verifyTelnyxGoCli("telnyx", minimumVersion).then(() => "telnyx");
+        if (process.env.TELNYX_CLI_PATH || !trusted) throw vendorError;
+        return verifyTelnyxGoCli("telnyx", minimumVersion)
+          .then(() => "telnyx")
+          .catch(() => { throw vendorError; });
       });
   }
   if (trusted) return Promise.resolve(path);
@@ -216,7 +227,9 @@ export class TelnyxCLIError extends Error {
  *   Set formatPosition to "root" when a subcommand defines its own --format
  *   request flag; this places the output flag before the command hierarchy so
  *   urfave does not bind it to the subcommand flag.
- * @returns Parsed JSON response from the CLI (typically { data: ... } or { data: [...], meta: ... })
+ * @returns Parsed JSON response from the CLI (typically { data: ... } or { data: [...], meta: ... }).
+ *   Set rawResponse to preserve the complete stdout body without JSON parsing.
+ *   The body is still buffered by child_process and therefore remains bounded by maxBuffer.
  */
 export async function telnyxCli(
   args: string[],
@@ -227,6 +240,7 @@ export async function telnyxCli(
     formatPosition?: "command" | "root";
     stdin?: string;
     minimumVersion?: string;
+    rawResponse?: boolean;
   },
 ): Promise<any> {
   const timeout = opts?.timeout ?? 60000;
@@ -243,6 +257,7 @@ export async function telnyxCli(
     });
     if (opts?.stdin !== undefined) execution.child.stdin?.end(opts.stdin);
     const { stdout } = await execution;
+    if (opts?.rawResponse) return stdout;
     const trimmed = stdout.trim();
     if (!trimmed) return {};
     // The Go CLI should output clean JSON with --format json, but keep the
@@ -263,6 +278,12 @@ export async function telnyxCli(
     }
     if (err.status !== undefined || err.code !== undefined) {
       const exitCode = err.status ?? err.code ?? 1;
+      if (opts?.rawResponse) {
+        throw new TelnyxCLIError(
+          typeof exitCode === "number" ? exitCode : 1,
+          "telnyx CLI failed while producing a raw response",
+        );
+      }
       const rawStdout = err.stdout?.toString() || "";
       const rawStderr = err.stderr?.toString() || "";
       // Combine both streams — the CLI may write errors to either
@@ -289,6 +310,56 @@ export async function telnyxCli(
       throw new TelnyxCLIError(
         typeof exitCode === "number" ? exitCode : 1,
         cleanError || errorText.trim(),
+      );
+    }
+    throw err;
+  }
+}
+
+/**
+ * Run a generated CLI action whose successful response is opaque text rather
+ * than JSON (for example a JWT or a WireGuard configuration). The returned
+ * string is deliberately not trimmed or parsed: callers that explicitly opt
+ * into sensitive JSON output receive the exact stdout payload.
+ *
+ * On failure stdout is intentionally discarded. These actions can return
+ * credentials, so a partial response must never be echoed in an error message.
+ */
+export async function telnyxCliRaw(
+  args: string[],
+  opts?: {
+    timeout?: number;
+    env?: Record<string, string | undefined>;
+    formatPosition?: "command" | "root";
+    stdin?: string;
+    minimumVersion?: string;
+  },
+): Promise<string> {
+  const timeout = opts?.timeout ?? 60000;
+  const binary = await getTelnyxBinary(opts?.minimumVersion);
+  try {
+    const outputFormatArgs = ["--format", "raw"];
+    const executionArgs = opts?.formatPosition === "root"
+      ? [...outputFormatArgs, ...args]
+      : [...args, ...outputFormatArgs];
+    const execution = execFileAsync(binary, executionArgs, {
+      env: { ...process.env, ...opts?.env } as NodeJS.ProcessEnv,
+      timeout,
+      maxBuffer: 10 * 1024 * 1024,
+    });
+    if (opts?.stdin !== undefined) execution.child.stdin?.end(opts.stdin);
+    const { stdout } = await execution;
+    return stdout;
+  } catch (err: any) {
+    if (err instanceof IncompatibleTelnyxCLIError) throw err;
+    if (err.code === "ENOENT") throw new IncompatibleTelnyxCLIError(binary, null);
+    if (err.killed) throw new Error(`telnyx CLI timed out after ${timeout}ms`);
+    if (err.status !== undefined || err.code !== undefined) {
+      // Do not include stdout: a failed request may still have emitted a
+      // credential/config payload before exiting non-zero.
+      throw new TelnyxCLIError(
+        typeof (err.status ?? err.code) === "number" ? (err.status ?? err.code) : 1,
+        "Telnyx CLI request failed; sensitive response output was suppressed.",
       );
     }
     throw err;

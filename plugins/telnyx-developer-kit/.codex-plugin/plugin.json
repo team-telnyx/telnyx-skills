@@ -1,7 +1,7 @@
 {
   "name": "telnyx-developer-kit",
   "version": "0.1.0",
-  "description": "Build and debug Telnyx integrations with four focused skills and an OAuth-authenticated hosted MCP connector exposing six reviewed discovery, Number Lookup, Call Control, and recording tools.",
+  "description": "Build and debug Telnyx integrations with four focused skills and an OAuth-authenticated hosted MCP connector exposing five reviewed tools for a bounded Call Control and recording catalog and account reads.",
   "author": {
     "name": "Telnyx",
     "url": "https://telnyx.com"
@@ -28,7 +28,7 @@
   "interface": {
     "displayName": "Telnyx Developer Kit",
     "shortDescription": "Build and debug with Telnyx",
-    "longDescription": "Plan, build, review, and debug communications applications with Telnyx. Four bundled skills cover product selection, architecture, production guardrails, and troubleshooting. The OAuth-authenticated hosted MCP connector exposes exactly six focused tools: API discovery, schema inspection, one explicitly confirmed billable Number Lookup, and three account-scoped Call Control and recording reads.",
+    "longDescription": "Plan, build, review, and debug communications applications with Telnyx. Four bundled skills cover product selection, architecture, production guardrails, and troubleshooting. The OAuth-authenticated hosted MCP connector exposes exactly five focused tools: discovery and schema inspection for three reviewed endpoints, plus account-scoped call status, call events, and recording search. Other products require separate API documentation and integrations.",
     "developerName": "Telnyx",
     "category": "Developer Tools",
     "capabilities": [

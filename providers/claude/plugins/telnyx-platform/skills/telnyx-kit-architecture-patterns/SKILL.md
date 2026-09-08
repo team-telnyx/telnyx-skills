@@ -36,8 +36,12 @@ Caller → Telnyx number → TeXML app: <Connect><Stream url="wss://you"/></Conn
   reachable `wss://` application endpoint. Your server must accept the
   ConversationRelay WebSocket protocol and exchange the structured text and
   control messages that drive the conversation.
-- Scale unit = concurrent streams; key TeXML call state on `CallSid` and
-  stream state on `StreamSid`, never on `call_control_id` or process globals.
+- Scale unit = concurrent streams. Key media WebSocket state on the received
+  `stream_id`; reject missing identifiers instead of sharing a default/global state.
+  TeXML HTTP callbacks use `CallSid` for call state and `StreamSid` for stream
+  status callbacks. Those callback fields are not the media WebSocket field names.
+  See [media frames](https://developers.telnyx.com/api-reference/websockets/stream-call-media-over-websocket)
+  and [TeXML stream callbacks](https://developers.telnyx.com/api-reference/callbacks/texml-stream).
 - Keep control in the TeXML model. Do not send Call Control commands against a
   TeXML-managed call; return the next XML response or use the appropriate
   TeXML verb for transfer and hangup behavior.

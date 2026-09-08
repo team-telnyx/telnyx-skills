@@ -38,7 +38,9 @@ jobs:
       - name: Validate Codex developer-kit package
         run: python3 scripts/check-codex-plugin.py
       - name: Validate hosted MCP auditor fixtures
-        run: python3 scripts/check-telnyx-mcp-catalog.py --self-test
+        run: |
+          python3 scripts/check-telnyx-mcp-catalog.py --self-test
+          python3 scripts/test-mcp-catalog-audit.py
 
   hosted-mcp-audit:
     name: Hosted MCP Release Audit (metadata only)
@@ -52,7 +54,7 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
           python-version: '3.12'
-      - name: Validate deployed six-tool OAuth contract
+      - name: Validate deployed five-tool OAuth contract
         run: python3 ./scripts/check-telnyx-mcp-catalog.py --url "$TELNYX_MCP_URL"
         env:
           TELNYX_MCP_URL: ${{ inputs.connector_url }}
