@@ -237,24 +237,18 @@ def contextual_calls(source: str, suffix: str) -> list[tuple[int, str]]:
         return match is None or bool(re.fullmatch(r"namespace\s*\{", match[0]))
 
     aliases = {}
-    for match in re.finditer(r"\buse\s+\\?Twilio\\Rest\\(ClientFactory|Client)(?:\s+as\s+(\w+))?\s*;", code, re.I):
-        aliases[(namespace_at(match.start()), (match[2] or match[1]).lower())] = match[1].lower()
-    for match in re.finditer(r"\buse\s+\\?Twilio\\Rest\\\{([^{};]+)\}\s*;", code, re.I):
-        for member in match[1].split(","):
-            imported = re.fullmatch(
-                r"\s*(ClientFactory|Client)(?:\s+as\s+(\w+))?\s*",
-                member,
-                re.I,
-            )
-            if imported:
-                aliases[(namespace_at(match.start()),
-                         (imported[2] or imported[1]).lower())] = imported[1].lower()
 
     def kind(type_name: str, offset: int) -> str | None:
         normalized = type_name.lstrip("\\").lower()
         if normalized in {"twilio\\rest\\client", "twilio\\rest\\clientfactory"} and (type_name.startswith("\\") or global_namespace(offset)):
             return normalized.rsplit("\\", 1)[-1]
-        return aliases.get((namespace_at(offset), normalized))
+        if not type_name.startswith("\\"):
+            first, separator, rest = normalized.partition("\\")
+            imported = aliases.get((namespace_at(offset), first))
+            expanded = imported + separator + rest if imported else ""
+            if expanded in {"twilio\\rest\\client", "twilio\\rest\\clientfactory"}:
+                return expanded.rsplit("\\", 1)[-1]
+        return None
 
     analyzer = load_script("lint-required-messaging-profile")
     # Index braces once so bindings cannot leak between functions/classes.
@@ -265,6 +259,24 @@ def contextual_calls(source: str, suffix: str) -> list[tuple[int, str]]:
             stack.append(offset)
         elif character == "}" and stack:
             braces[stack.pop()] = offset
+    namespace_braces = {match.end() - 1 for match in namespaces if match[0].endswith("{")}
+    for statement in re.finditer(r"\buse\s+([^;()]+);", code, re.I):
+        # Trait uses and closure captures are not namespace imports.
+        if re.match(r"(?:function|const)\b", statement[1], re.I):
+            continue
+        if any(start < statement.start() < end and start not in namespace_braces
+               for start, end in braces.items()):
+            continue
+        for start, end in analyzer.split_arguments(code, statement.start(1), statement.end(1)):
+            item = code[start:end].strip()
+            group = re.fullmatch(r"(\\?[\w\\]+\\)\s*\{([^{}]*)\}", item)
+            members = [(group[1], member) for member in group[2].split(",")] if group else [("", item)]
+            for prefix, member in members:
+                imported = re.fullmatch(r"\s*(\\?[A-Za-z_]\w*(?:\\[A-Za-z_]\w*)*)(?:\s+as\s+([A-Za-z_]\w*))?\s*", member, re.I)
+                if imported:
+                    qualified = (prefix + imported[1]).lstrip("\\").lower()
+                    alias = (imported[2] or imported[1].rsplit("\\", 1)[-1]).lower()
+                    aliases[(namespace_at(statement.start()), alias)] = qualified
     functions = []
     classes = []
     for pattern, spans in ((r"\bfunction\s*\w*\s*\([^;{]*\)[^;{]*\{", functions),

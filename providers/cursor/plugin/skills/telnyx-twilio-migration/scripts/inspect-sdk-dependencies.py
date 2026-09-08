@@ -9,6 +9,7 @@ on older Python. Gradle catalogs still require tomllib; no packages are installe
 from __future__ import annotations
 
 import ast
+import codecs
 import configparser
 from functools import lru_cache
 import json
@@ -17,6 +18,7 @@ import os
 from pathlib import Path
 import re
 import sys
+import tokenize
 import xml.etree.ElementTree as ET
 
 try:
@@ -43,8 +45,26 @@ def version_is_constrained(value: object) -> bool:
 
 def read_text(path: Path) -> str:
     try:
-        return path.read_text(encoding="utf-8")
-    except (OSError, UnicodeError):
+        # Python source and pip requirements honor PEP 263 declarations. npm's
+        # JSON reader accepts a leading UTF-8 BOM; TOML does not share that rule.
+        if path.name == "setup.py":
+            with tokenize.open(path) as source:
+                return source.read()
+        if path.name == "requirements.txt":
+            data = path.read_bytes()
+            # pip checks BOMs before coding comments, and UTF-32 before UTF-16.
+            for boms, encoding in (((codecs.BOM_UTF32_LE, codecs.BOM_UTF32_BE), "utf-32"),
+                                   ((codecs.BOM_UTF16_LE, codecs.BOM_UTF16_BE), "utf-16"),
+                                   ((codecs.BOM_UTF8,), "utf-8-sig")):
+                if data.startswith(boms):
+                    return data.decode(encoding)
+            for line in data.split(b"\n")[:2]:
+                cookie = re.search(br"coding[:=]\s*([-\w.]+)", line) if line.startswith(b"#") else None
+                if cookie:
+                    return data.decode(cookie[1].decode("ascii"))
+            return data.decode("utf-8")
+        return path.read_text(encoding="utf-8-sig" if path.name == "package.json" else "utf-8")
+    except (OSError, UnicodeError, SyntaxError, LookupError):
         return ""
 
 
@@ -252,6 +272,36 @@ def python_requirement(value: object) -> list[str]:
     return [suffix.split(";", 1)[0].strip().strip("() ")]
 
 
+_SETUP_FUNCTION = object()
+
+
+class _SetupModule:
+    """Static import identity, never an imported or executed Python module."""
+
+
+_SETUP_MODULE = _SetupModule()
+
+
+def setup_import_bindings(statement: ast.Import | ast.ImportFrom) -> dict:
+    """Names replaced by an import; None denotes an unrecognized owner."""
+    result = {}
+    for alias in statement.names:
+        name = alias.asname or alias.name.split(".")[0]
+        result[name] = None
+        if isinstance(statement, ast.Import):
+            if alias.name == "setuptools" or (not alias.asname and alias.name.startswith("setuptools.")):
+                result[name] = _SETUP_MODULE
+        elif not statement.level and statement.module in {"setuptools", "distutils.core"} and alias.name == "setup":
+            result[name] = _SETUP_FUNCTION
+        elif not statement.level and statement.module == "setuptools" and alias.name == "*":
+            # setuptools explicitly exports these names through __all__. Do
+            # not erase unrelated local requirements or aliases on this import.
+            result = dict.fromkeys(("Command", "Distribution", "Extension", "Require",
+                                    "SetuptoolsDeprecationWarning", "find_namespace_packages", "find_packages"))
+            result["setup"] = _SETUP_FUNCTION
+    return result
+
+
 def setup_literal(node: ast.AST, bindings: dict, depth: int = 0):
     """Resolve only local literal data, never execute setup code or imports."""
     if depth > 20:
@@ -259,6 +309,8 @@ def setup_literal(node: ast.AST, bindings: dict, depth: int = 0):
     resolve = lambda child: setup_literal(child, bindings, depth + 1)
     if isinstance(node, ast.Name):
         return bindings[node.id]
+    if isinstance(node, ast.Attribute) and node.attr == "setup" and isinstance(resolve(node.value), _SetupModule):
+        return _SETUP_FUNCTION
     if isinstance(node, (ast.List, ast.Tuple)):
         values = [resolve(child) for child in node.elts]
         return tuple(values) if isinstance(node, ast.Tuple) else values
@@ -293,29 +345,72 @@ def setup_bindings(tree: ast.AST, call: ast.Call) -> dict:
         for child in ast.iter_child_nodes(node):
             yield from local_nodes(child)
 
-    def invalidate(names):
+    def invalidate(names, mutation=False):
         # Containers can own aliases too, e.g. config={"requires": requirements}.
         def mutable_objects(value):
-            objects = {id(value)} if isinstance(value, (list, dict)) else set()
+            objects = {id(value)} if isinstance(value, (list, dict, _SetupModule)) else set()
             children = value.values() if isinstance(value, dict) else value if isinstance(value, (list, tuple)) else ()
             for child in children:
                 objects.update(mutable_objects(child))
             return objects
 
         objects = set().union(*(mutable_objects(bindings[name]) for name in names if name in bindings))
+        if mutation and class_outer is not None:
+            # Class-local rebinding stays local; mutating a shared outer module
+            # or container does not. Never restore its stale entry snapshot.
+            for name in list(class_outer):
+                if mutable_objects(class_outer[name]) & objects:
+                    del class_outer[name]
         for name in list(bindings):
             if name in names or mutable_objects(bindings[name]) & objects:
                 del bindings[name]
 
     def preceding(statement):
+        nonlocal bindings
+        common_imports = {}
+        if isinstance(statement, (ast.If, ast.Try)):
+            # Reuse the same statement handling on each alternative, but merge
+            # only import identity -- never conditional literal requirements.
+            paths = []
+            if isinstance(statement, ast.If):
+                paths = [(statement.body, None, []), (statement.orelse, None, [])]
+                headers = [statement.test]
+            else:
+                paths = [(statement.body + statement.orelse, None, statement.finalbody)]
+                paths += [(handler.body, handler.name, statement.finalbody) for handler in statement.handlers]
+                headers = [handler.type for handler in statement.handlers if handler.type is not None]
+            if not any(isinstance(node, (ast.Call, ast.NamedExpr)) for header in headers for node in ast.walk(header)):
+                incoming, alternatives = bindings, []
+                try:
+                    for body, exception_name, finalbody in paths:
+                        bindings = incoming.copy()
+                        if exception_name:
+                            bindings.pop(exception_name, None)
+                        for item in body:
+                            preceding(item)
+                        if exception_name:
+                            bindings.pop(exception_name, None)
+                        for item in finalbody:
+                            preceding(item)
+                        alternatives.append({name: value for name, value in bindings.items()
+                                             if value is _SETUP_FUNCTION or value is _SETUP_MODULE})
+                finally:
+                    bindings = incoming
+                common_imports = {name: value for name, value in alternatives[0].items()
+                                  if all(other.get(name) is value for other in alternatives[1:])}
         nodes = list(local_nodes(statement))
         mutated = set()
         for node in nodes:
             if isinstance(node, ast.Call):
-                mutated.update(item.id for item in ast.walk(node) if isinstance(item, ast.Name))
+                try:
+                    known_setup = setup_literal(node.func, bindings) is _SETUP_FUNCTION
+                except (KeyError, ValueError, TypeError, SyntaxError):
+                    known_setup = False
+                operands = [*node.args, *(kw.value for kw in node.keywords)] if known_setup else [node]
+                mutated.update(item.id for operand in operands for item in ast.walk(operand) if isinstance(item, ast.Name))
             elif isinstance(node, (ast.Attribute, ast.Subscript)) and isinstance(node.ctx, (ast.Store, ast.Del)):
                 mutated.update(item.id for item in ast.walk(node.value) if isinstance(item, ast.Name))
-        invalidate(mutated)
+        invalidate(mutated, mutation=True)
         if isinstance(statement, (ast.Assign, ast.AnnAssign)):
             targets = statement.targets if isinstance(statement, ast.Assign) else [statement.target]
             try:
@@ -333,13 +428,36 @@ def setup_bindings(tree: ast.AST, call: ast.Call) -> dict:
             return
         invalidate({node.id for node in nodes if isinstance(node, ast.Name)
                     and isinstance(node.ctx, (ast.Store, ast.Del))})
-        if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-            bindings.pop(statement.name, None)
+        # Conditional imports/definitions also replace names, even though the
+        # AST represents them without Name(Store) nodes.
+        for node in nodes:
+            if isinstance(node, (ast.Import, ast.ImportFrom)):
+                effects = setup_import_bindings(node)
+                if "*" in effects:
+                    bindings.clear()
+                invalidate(set(effects))
+            elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                bindings.pop(node.name, None)
         if isinstance(statement, (ast.Import, ast.ImportFrom)):
-            for alias in statement.names:
-                bindings.pop(alias.asname or alias.name.split(".")[0], None)
+            bindings.update({name: value for name, value in setup_import_bindings(statement).items() if value is not None})
+        bindings.update(common_imports)
 
+    class_outer = None
     for parent, child in reversed(path):
+        if class_outer is not None and isinstance(parent, (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)):
+            # Only the outermost iterator is evaluated in the class namespace;
+            # the comprehension body has its own enclosing lexical scope.
+            if not any(node is call for node in ast.walk(parent.generators[0].iter)):
+                bindings = class_outer
+                class_outer = None
+        if isinstance(parent, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
+            # A class body executes with its own locals, but is not a closure
+            # for methods or nested classes. Preserve the outer lexical scope.
+            if class_outer is not None:
+                bindings = class_outer
+                class_outer = None
+            if isinstance(parent, ast.ClassDef):
+                class_outer = bindings.copy()
         if isinstance(parent, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
             # Python locals shadow outer names throughout the function, including
             # before their assignment. Parameters are unknown, not outer literals.
@@ -348,6 +466,12 @@ def setup_bindings(tree: ast.AST, call: ast.Call) -> dict:
                        for node in local_nodes(statement) if isinstance(node, ast.Name)
                        and isinstance(node.ctx, (ast.Store, ast.Del))}
             locals_.update(node.arg for node in ast.walk(parent.args) if isinstance(node, ast.arg))
+            for statement in statements:
+                for node in local_nodes(statement):
+                    if isinstance(node, (ast.Import, ast.ImportFrom)):
+                        locals_.update(alias.asname or alias.name.split(".")[0] for alias in node.names)
+                    elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                        locals_.add(node.name)
             for name in locals_:
                 bindings.pop(name, None)
         if isinstance(parent, (ast.For, ast.AsyncFor, ast.With, ast.AsyncWith,
@@ -356,13 +480,23 @@ def setup_bindings(tree: ast.AST, call: ast.Call) -> dict:
             targets = [parent.target] if isinstance(parent, (ast.For, ast.AsyncFor, ast.comprehension)) else (
                 [item.optional_vars for item in parent.items if item.optional_vars is not None]
                 if isinstance(parent, (ast.With, ast.AsyncWith)) else [])
+            if isinstance(parent, ast.comprehension) and child is parent.iter:
+                targets = []
             names = {node.id for target in targets for node in ast.walk(target) if isinstance(node, ast.Name)}
             if isinstance(parent, ast.ExceptHandler) and parent.name:
                 names.add(parent.name)
             for name in names:
                 bindings.pop(name, None)
         if isinstance(parent, (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)):
-            for generator in parent.generators:
+            visible = parent.generators
+            for index, generator in enumerate(parent.generators):
+                if any(node is call for node in ast.walk(generator.iter)):
+                    visible = parent.generators[:index]
+                    break
+                if any(node is call for condition in generator.ifs for node in ast.walk(condition)):
+                    visible = parent.generators[:index + 1]
+                    break
+            for generator in visible:
                 for node in ast.walk(generator.target):
                     if isinstance(node, ast.Name):
                         bindings.pop(node.id, None)
@@ -372,7 +506,7 @@ def setup_bindings(tree: ast.AST, call: ast.Call) -> dict:
                 [parent.iter] if isinstance(parent, (ast.For, ast.AsyncFor)) else
                 [item.context_expr for item in parent.items])
             invalidate({name.id for header in headers for node in ast.walk(header)
-                        if isinstance(node, ast.Call) for name in ast.walk(node) if isinstance(name, ast.Name)})
+                        if isinstance(node, ast.Call) for name in ast.walk(node) if isinstance(name, ast.Name)}, mutation=True)
         for _, children in ast.iter_fields(parent):
             if isinstance(children, list) and child in children and isinstance(child, ast.stmt):
                 for previous in children[:children.index(child)]:
@@ -439,17 +573,19 @@ def python_dependencies(root: Path) -> list[tuple[str, bool]]:
     try:
         tree = ast.parse(read_text(root / "setup.py"))
         for call in ast.walk(tree):
-            if not isinstance(call, ast.Call) or not (
-                isinstance(call.func, ast.Name) and call.func.id == "setup"
-                or isinstance(call.func, ast.Attribute) and isinstance(call.func.value, ast.Name)
-                and call.func.value.id == "setuptools" and call.func.attr == "setup"
-            ):
+            if not isinstance(call, ast.Call):
+                continue
+            bindings = setup_bindings(tree, call)
+            try:
+                if setup_literal(call.func, bindings) is not _SETUP_FUNCTION:
+                    continue
+            except (KeyError, ValueError, TypeError, SyntaxError):
                 continue
             for keyword in call.keywords:
                 if keyword.arg not in {"install_requires", "extras_require"}:
                     continue
                 try:
-                    value = setup_literal(keyword.value, setup_bindings(tree, call))
+                    value = setup_literal(keyword.value, bindings)
                 except (KeyError, ValueError, TypeError, SyntaxError):
                     continue
                 if keyword.arg == "extras_require" and isinstance(value, dict):

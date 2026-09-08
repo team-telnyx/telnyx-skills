@@ -10517,12 +10517,15 @@ class GradleMapDependencySiblings(unittest.TestCase):
 
 
 class DeclaredSdkVersionContracts(unittest.TestCase):
-    def checks(self, files: dict[str, str]) -> dict[str, str]:
+    def checks(self, files: dict[str, str | bytes]) -> dict[str, str]:
         with tempfile.TemporaryDirectory(prefix="declared-sdk-version-") as directory:
             for name, content in files.items():
                 path = Path(directory) / name
                 path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text(content, encoding="utf-8")
+                if isinstance(content, bytes):
+                    path.write_bytes(content)
+                else:
+                    path.write_text(content, encoding="utf-8")
             result = subprocess.run(
                 [BASH, str(VALIDATE_MIGRATION_SCRIPT), directory, "--json"],
                 cwd=ROOT, capture_output=True, text=True, timeout=30, check=False,
@@ -10601,6 +10604,135 @@ class DeclaredSdkVersionContracts(unittest.TestCase):
         ):
             with self.subTest(source=source):
                 self.assert_manifest({"setup.py": "from setuptools import setup\n" + source}, True, True)
+
+    def test_setup_import_identity_and_alias_siblings(self) -> None:
+        for prefix, callee in (
+            ("from setuptools import setup as package_setup", "package_setup"),
+            ("from setuptools import (find_packages, setup as package_setup)", "package_setup"),
+            ("import setuptools as packaging", "packaging.setup"),
+            ("import setuptools\npackaging = setuptools", "packaging.setup"),
+            ("from setuptools import setup\npackage_setup = setup", "package_setup"),
+            ("import setuptools as packaging\npackage_setup = packaging.setup", "package_setup"),
+            ("from distutils.core import setup as package_setup", "package_setup"),
+        ):
+            with self.subTest(prefix=prefix):
+                self.assert_manifest({"setup.py": prefix + f'\n{callee}(install_requires=["telnyx>=4.0"])\n'}, True, True)
+
+    def test_setup_equivalent_import_branches_preserve_ownership(self) -> None:
+        for prefix, callee in (
+            ("try:\n    from setuptools import setup\nexcept ImportError:\n    from distutils.core import setup", "setup"),
+            ("if sys.version_info >= (3, 0):\n    from setuptools import setup\nelse:\n    from distutils.core import setup", "setup"),
+            ("try:\n    from setuptools import setup as configure\nexcept (ImportError, ModuleNotFoundError):\n    from distutils.core import setup as configure", "configure"),
+            ("if version:\n    import setuptools as packaging\nelse:\n    import setuptools as packaging", "packaging.setup"),
+            ("try:\n    from setuptools import setup\nexcept ImportError:\n    from distutils.core import setup\nelse:\n    pass\nfinally:\n    pass", "setup"),
+            ("if version:\n    try:\n        from setuptools import setup\n    except ImportError:\n        from distutils.core import setup\nelse:\n    from setuptools import setup", "setup"),
+            ("if version:\n    from setuptools import setup\n    REQS = ['other']\nelse:\n    from distutils.core import setup\n    REQS = []", "setup"),
+        ):
+            with self.subTest(prefix=prefix):
+                self.assert_manifest({"setup.py": prefix + f'\n{callee}(install_requires=["telnyx>=4.0"])\n'}, True, True)
+
+    def test_setup_submodule_and_public_star_imports(self) -> None:
+        for prefix, callee in (
+            ("import setuptools.command.sdist", "setuptools.setup"),
+            ("import os, setuptools.command.sdist", "setuptools.setup"),
+            ("from setuptools import *", "setup"),
+            ("REQS=['telnyx>=4.0']\nfrom setuptools import *", "setup"),
+        ):
+            with self.subTest(prefix=prefix):
+                self.assert_manifest({"setup.py": prefix + f'\n{callee}(install_requires=' + ("REQS" if prefix.startswith("REQS") else '["telnyx>=4.0"]') + ')\n'}, True, True)
+
+    def test_setup_import_branch_negatives_stay_unresolved(self) -> None:
+        for prefix, callee in (
+            ("if version:\n    from setuptools import setup", "setup"),
+            ("if version:\n    from setuptools import setup\nelse:\n    from other import setup", "setup"),
+            ("try:\n    from setuptools import setup\nexcept ImportError:\n    pass", "setup"),
+            ("try:\n    from setuptools import setup\nexcept ImportError as setup:\n    from distutils.core import setup", "setup"),
+            ("try:\n    from setuptools import setup\nexcept ImportError:\n    from distutils.core import setup\nfinally:\n    setup = other", "setup"),
+            ("if version:\n    from setuptools import setup\n    setup = other\nelse:\n    from setuptools import setup", "setup"),
+            ("import setuptools.command.sdist as setuptools", "setuptools.setup"),
+            ("from setuptools.command.sdist import *", "setup"),
+            ("from .setuptools import *", "setup"),
+            ("from setuptools import *\nsetup = other", "setup"),
+            ("from setuptools import *\nfrom other import *", "setup"),
+            ("import setuptools as a\nimport setuptools as b\nb.setup = other", "a.setup"),
+            ("if version:\n    import setuptools as packaging\n    packaging.setup = other\nelse:\n    import setuptools as packaging", "packaging.setup"),
+        ):
+            with self.subTest(prefix=prefix):
+                checks = self.checks({"setup.py": prefix + f'\n{callee}(install_requires=["telnyx>=4.0"])\n'})
+                self.assertNotEqual("pass", checks["telnyx_sdk_dependency"])
+                self.assertEqual("warn", checks["telnyx_sdk_version_pinned"])
+
+        for alternative in ('[]', '["telnyx>=4.0"]'):
+            with self.subTest(conditional_requirements=alternative):
+                checks = self.checks({"setup.py": 'if version:\n    from setuptools import setup\n    REQS=["telnyx>=4.0"]\nelse:\n    from distutils.core import setup\n    REQS=' + alternative + '\nsetup(install_requires=REQS)\n'})
+                self.assertNotEqual("pass", checks["telnyx_sdk_dependency"])
+                self.assertEqual("warn", checks["telnyx_sdk_version_pinned"])
+
+    def test_manifest_encodings_follow_each_format(self) -> None:
+        for name, content in (
+            ("requirements.txt", b"\xef\xbb\xbftelnyx==4.0.0\n"),
+            ("requirements.txt", b"# -*- coding: latin-1 -*-\n# caf\xe9\ntelnyx>=4.0\n"),
+            ("requirements.txt", "telnyx>=4.0\n".encode("utf-16")),
+            ("requirements.txt", "telnyx>=4.0\n".encode("utf-32")),
+            ("requirements.txt", b"# first\n# coding: latin-1\n# caf\xe9\ntelnyx>=4.0\n"),
+            ("setup.py", b'\xef\xbb\xbffrom setuptools import setup as s\ns(install_requires=["telnyx>=4.0"])\n'),
+            ("setup.py", b'# coding: latin-1\n# caf\xe9\nfrom setuptools import setup as s\ns(install_requires=["telnyx>=4.0"])\n'),
+            ("package.json", b'\xef\xbb\xbf{"dependencies":{"telnyx":"^6.0.0"}}'),
+        ):
+            with self.subTest(name=name, content=content):
+                checks = self.checks({name: content})
+                self.assertEqual("pass", checks["telnyx_sdk_dependency"])
+                self.assertEqual("pass", checks["telnyx_sdk_version_pinned"])
+
+    def test_setup_class_scope_is_not_a_method_closure(self) -> None:
+        for source, declared in (
+            ('class C:\n    from setuptools import setup as configure\n    def run(self):\n        configure(install_requires=["telnyx>=4.0"])', False),
+            ('class C:\n    import setuptools as packaging\n    def run(self):\n        packaging.setup(install_requires=["telnyx>=4.0"])', False),
+            ('class C:\n    from setuptools import setup as configure\n    class Inner:\n        configure(install_requires=["telnyx>=4.0"])', False),
+            ('class C:\n    from setuptools import setup as configure\n    values = [configure(install_requires=["telnyx>=4.0"]) for x in [1]]', False),
+            ('class C:\n    from setuptools import setup as configure\n    values = [x for x in configure(install_requires=["telnyx>=4.0"])]', True),
+            ('class C:\n    from setuptools import setup as configure\n    values = [x for configure in configure(install_requires=["telnyx>=4.0"])]', True),
+            ('from setuptools import setup as configure\nvalues = [x for configure in configure(install_requires=["telnyx>=4.0"])]', True),
+            ('class C:\n    from setuptools import setup as configure\n    configure(install_requires=["telnyx>=4.0"])', True),
+            ('from setuptools import setup as configure\nclass C:\n    configure = None\n    def run(self):\n        configure(install_requires=["telnyx>=4.0"])', True),
+            ('import setuptools as packaging\nclass C:\n    packaging.setup = other\n    def run(self):\n        packaging.setup(install_requires=["telnyx>=4.0"])', False),
+            ('from setuptools import setup as configure\nREQS=["telnyx>=4.0"]\nclass C:\n    REQS.clear()\n    def run(self):\n        configure(install_requires=REQS)', False),
+        ):
+            with self.subTest(source=source):
+                checks = self.checks({"setup.py": source})
+                self.assertEqual(declared, checks["telnyx_sdk_dependency"] == "pass")
+                self.assertEqual("pass" if declared else "warn", checks["telnyx_sdk_version_pinned"])
+
+    def test_invalid_encoding_does_not_create_dependency_evidence(self) -> None:
+        for name, content in (
+            ("requirements.txt", b"# coding: unknown-encoding\ntelnyx>=4.0\n"),
+            ("setup.py", b'\xef\xbb\xbf# coding: latin-1\nfrom setuptools import setup\nsetup(install_requires=["telnyx>=4.0"])'),
+            ("pyproject.toml", b'\xef\xbb\xbf[project]\ndependencies=["telnyx>=4.0"]'),
+            ("Pipfile", b'\xef\xbb\xbf[packages]\ntelnyx="==4.0.0"'),
+        ):
+            with self.subTest(name=name):
+                checks = self.checks({name: content})
+                self.assertNotEqual("pass", checks["telnyx_sdk_dependency"])
+                self.assertEqual("warn", checks["telnyx_sdk_version_pinned"])
+
+    def test_setup_unrelated_and_shadowed_imports_do_not_certify(self) -> None:
+        for source in (
+            'from unrelated import setup\nsetup(install_requires=["telnyx>=4.0"])',
+            'def setup(**kwargs): pass\nsetup(install_requires=["telnyx>=4.0"])',
+            'from setuptools import setup as configure\nconfigure = unrelated\nconfigure(install_requires=["telnyx>=4.0"])',
+            'from setuptools import setup as configure\ndef run(configure):\n    configure(install_requires=["telnyx>=4.0"])',
+            'from setuptools import setup as configure\ndef run():\n    configure(install_requires=["telnyx>=4.0"])\n    from unrelated import configure',
+            'from setuptools import setup as configure\ndef run():\n    configure(install_requires=["telnyx>=4.0"])\n    def configure(**kwargs): pass',
+            'import setuptools as packaging\nalias = packaging\nalias.setup = unrelated\npackaging.setup(install_requires=["telnyx>=4.0"])',
+            'def other():\n    from setuptools import setup as configure\nconfigure(install_requires=["telnyx>=4.0"])',
+            'from setuptools import setup as configure\nif enabled:\n    from unrelated import configure\nconfigure(install_requires=["telnyx>=4.0"])',
+            'from setuptools import setup as configure\nif enabled:\n    def configure(**kwargs): pass\nconfigure(install_requires=["telnyx>=4.0"])',
+            'from setuptools import setup as configure\nfrom unrelated import *\nconfigure(install_requires=["telnyx>=4.0"])',
+        ):
+            with self.subTest(source=source):
+                checks = self.checks({"setup.py": source})
+                self.assertNotEqual("pass", checks["telnyx_sdk_dependency"])
+                self.assertEqual("warn", checks["telnyx_sdk_version_pinned"])
 
     def test_setup_binding_scope_reassignment_and_mutation_are_not_stale_evidence(self) -> None:
         for source in (
@@ -11677,6 +11809,48 @@ class PhpSdkOwnershipRegression(unittest.TestCase):
 
     def products(self, source: str) -> set[str]:
         return {product for _, product in self.calls(source, ".php")}
+
+    def test_import_lists_and_namespace_aliases(self) -> None:
+        for imports, constructor in (
+            (r"use Twilio\Rest\Client, Psr\Log\LoggerInterface;", "Client"),
+            (r"use Psr\Log\LoggerInterface,Twilio\Rest\Client;", "Client"),
+            (r"use Twilio\Rest\Client as Sms,Psr\Log\LoggerInterface;", "Sms"),
+            ("use Psr\\Log\\LoggerInterface,\n Twilio\\Rest\\Client as Sms;", "Sms"),
+            (r"use Twilio\Rest as Rest, Psr\Log\LoggerInterface;", r"Rest\Client"),
+            (r"use Twilio as Sdk;", r"Sdk\Rest\Client"),
+            (r"use Twilio\Rest\{Client as Sms, function helper};", "Sms"),
+        ):
+            for receiver in ("c", "twilio"):
+                with self.subTest(imports=imports, receiver=receiver):
+                    source = f"<?php namespace App; {imports}\n${receiver} = new {constructor}();\n${receiver}->messages->create($to, []);"
+                    self.assertEqual({"messaging"}, self.products(source))
+
+    def test_import_kinds_and_scopes_are_not_interchangeable(self) -> None:
+        for imports in (
+            r"use function Other\helper, Twilio\Rest\Client;",
+            r"use const Other\VALUE, Twilio\Rest\Client;",
+            r"use Twilio\Rest\{function Client, const VALUE};",
+            r"class Holder { use Twilio\Rest\Client; }",
+            r"use Other\Client, Psr\Log\LoggerInterface;",
+        ):
+            with self.subTest(imports=imports):
+                self.assertEqual(set(), self.products("<?php " + imports + " $c = new Client(); $c->messages->create($to, []);"))
+
+    def test_factory_in_import_list_preserves_ownership(self) -> None:
+        for imports in (r"use Psr\Log\LoggerInterface, Twilio\Rest\ClientFactory as Factory;",
+                        r"use Twilio\Rest\{ClientFactory as Factory, function helper};"):
+            with self.subTest(imports=imports):
+                self.assertEqual({"messaging"}, self.products("<?php " + imports + " $factory = new Factory(); $c = $factory->create(); $c->messages->create($to, []);"))
+
+    def test_comma_imports_reach_both_public_scanners(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="php-import-list-") as directory:
+            Path(directory, "send.php").write_text(r'<?php use Twilio\Rest\Client, Psr\Log\LoggerInterface; $c = new Client($sid, $token); $c->messages->create($to, []);', encoding="utf-8")
+            for script in (SCAN_USAGE_SCRIPT, DEEP_SCAN_SCRIPT):
+                with self.subTest(script=script):
+                    command = [BASH, str(script)] if script.suffix == ".sh" else [sys.executable, str(script)]
+                    result = subprocess.run([*command, directory, *(["--json"] if script.suffix == ".sh" else [])], capture_output=True, text=True, timeout=30)
+                    self.assertEqual(0, result.returncode, result.stderr)
+                    self.assertIn("messaging", json.loads(result.stdout)["products_used"])
 
     def test_grouped_import_alias_owns_client(self) -> None:
         source = (
