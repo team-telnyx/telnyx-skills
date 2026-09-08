@@ -1,7 +1,7 @@
 {
   "name": "telnyx-developer-kit",
   "version": "0.2.0",
-  "description": "Telnyx Developer Kit \u2014 a curated front door for building with Telnyx, plus an OAuth-authenticated hosted MCP connector with six focused discovery, Number Lookup, Call Control, and recording tools.",
+  "description": "Telnyx Developer Kit \u2014 a curated front door for building with Telnyx, plus an OAuth-authenticated hosted MCP connector with five focused tools for a bounded Call Control and recording catalog and account reads.",
   "author": {
     "name": "Telnyx",
     "url": "https://telnyx.com"

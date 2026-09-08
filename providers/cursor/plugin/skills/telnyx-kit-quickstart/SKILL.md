@@ -133,9 +133,11 @@ results by webhook. Before writing handlers:
 - Verify Ed25519 signatures before processing (`telnyx-kit-guardrails`).
 - API v2 event webhooks are JSON under `data.event_type` and `data.payload.*`.
   Return `200` fast, enqueue work, and dedupe on `data.id`.
-- TeXML POST callbacks are flat `application/x-www-form-urlencoded` PascalCase
-  fields; configured GET callbacks use query parameters. Verify the raw request
-  before parsing. Instruction URLs must return TeXML promptly; callback routes
+- Configure authenticated TeXML callbacks as POST with flat
+  `application/x-www-form-urlencoded` PascalCase fields. Verify the exact raw
+  form body before parsing, and reject GET before trusting callback fields:
+  the signature covers `timestamp|raw_body`, not query parameters.
+  Instruction URLs must return TeXML promptly; callback routes
   should dedupe on TeXML identifiers rather than looking for `data.id`.
 
 For local development, expose a tunnel (ngrok or similar) and point the

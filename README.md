@@ -52,7 +52,7 @@ Empowers agents to generate correct, production-ready code — and to manage the
 /plugin install telnyx-verify@telnyx     # Phone verification / 2FA
 /plugin install telnyx-numbers@telnyx    # Number management, 10DLC, porting
 /plugin install telnyx-webrtc@telnyx     # WebRTC and client SDKs
-/plugin install telnyx-ai@telnyx         # AI inference and assistants
+/plugin install telnyx-ai@telnyx         # AI inference, assistants, and Meeting Bot
 /plugin install telnyx-platform@telnyx   # Account, fax, IoT, networking, SIP, storage, TeXML, OAuth, Twilio migration
 ```
 
@@ -255,7 +255,7 @@ top-level tree contains review-only material:
 
 | Path | Purpose |
 | --- | --- |
-| [`submission/`](submission/telnyx-developer-kit/README.md) | Reviewer-facing Telnyx Developer Kit handoff material, including the pinned six-tool connector contract; it is not part of the distributable plugin archive. |
+| [`submission/`](submission/telnyx-developer-kit/connector-contract.json) | Reviewer-facing Telnyx Developer Kit handoff material, including the pinned five-tool connector contract; it is not part of the distributable plugin archive. |
 
 ## Maintainers
 

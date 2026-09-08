@@ -3,7 +3,8 @@
  * Stainless-generated Go CLI.
  *
  * List requests use raw output so the Go CLI returns one parseable `{ data, meta }`
- * envelope instead of streaming one JSON document per resource.
+ * envelope instead of streaming one JSON document per resource. Instruction enhancement
+ * instead preserves the raw body because its response is not a JSON contract.
  */
 
 import { telnyxCli, TelnyxCLIError } from "../telnyx-cli.ts";
@@ -59,6 +60,8 @@ export interface AiAssistantToolTestResult {
   tool_id: string;
   tool_test: JsonRecord;
 }
+
+const AI_ASSISTANT_INSTRUCTION_ENHANCE_MINIMUM_CLI_VERSION = "0.30.0";
 
 export async function listAiAssistantsCommand(flags: Flags): Promise<void> {
   const jsonOutput = flags.json === true;
@@ -143,6 +146,34 @@ export async function updateAiAssistantCommand(flags: Flags): Promise<void> {
       Object.keys(requestBody).length > 0 ? { stdin: JSON.stringify(requestBody) } : undefined,
     );
     presentAssistant("AI assistant updated!", normalizeAssistant(response, assistantId), jsonOutput);
+  } catch (err) {
+    fail(errorMsg(err), jsonOutput);
+  }
+}
+
+/**
+ * Request an instruction enhancement without changing the assistant. The upstream
+ * endpoint returns a generated body rather than a stable JSON schema, so this
+ * command emits that buffered body exactly as received.
+ */
+export async function enhanceAiAssistantInstructionsCommand(flags: Flags): Promise<void> {
+  const jsonOutput = flags.json === true;
+  const assistantId = requiredStringFlag(flags, "assistant-id", jsonOutput);
+  const args = ["ai:assistants:instructions", "enhance", "--assistant-id", assistantId];
+  addOptionalStringFlag(args, flags, "enhancement-prompt", "--enhancement-prompt", jsonOutput);
+  addOptionalStringFlag(args, flags, "instructions", "--instructions", jsonOutput);
+
+  try {
+    const response = await telnyxCli(args, {
+      format: "raw",
+      rawResponse: true,
+      minimumVersion: AI_ASSISTANT_INSTRUCTION_ENHANCE_MINIMUM_CLI_VERSION,
+    });
+    if (jsonOutput) {
+      outputJson({ assistant_id: assistantId, response, applied: false });
+    } else {
+      process.stdout.write(response);
+    }
   } catch (err) {
     fail(errorMsg(err), jsonOutput);
   }
@@ -489,6 +520,19 @@ function addMappedFlag(
   const raw = flags[source];
   const value = typeof raw === "string" && (allowEmpty || raw.length > 0) ? raw : undefined;
   if (value !== undefined) args.push(target, value);
+}
+
+function addOptionalStringFlag(
+  args: string[],
+  flags: Flags,
+  source: string,
+  target: string,
+  jsonOutput: boolean,
+): void {
+  const value = flags[source];
+  if (value === undefined) return;
+  if (typeof value !== "string") fail(`--${source} requires a value`, jsonOutput);
+  args.push(target, value);
 }
 
 function addJsonObjectFlag(

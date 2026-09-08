@@ -84,9 +84,8 @@ For focused live API work, use the OAuth-authenticated Telnyx MCP connector:
   endpoint schemas.
 - `get_call_status`, `list_call_events`, and `search_recordings` perform the
   connector's account-scoped, read-only operations.
-- `lookup_phone_number` is billable. Name the lookup type, explain that the
-  request can incur a charge, and obtain explicit user approval before passing
-  `confirm_billable_lookup: true`.
+- Number Lookup is unavailable in this release. Do not call `lookup_phone_number`,
+  even if a user offers approval; there is no connector execution path for it.
 
 The connector intentionally has no catch-all API executor. For other Telnyx
 operations, use the appropriate product skill or SDK and apply its approval and

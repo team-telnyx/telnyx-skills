@@ -25,7 +25,7 @@ const contractPath = path.join(
 );
 
 const connectorUrl = "https://api.telnyx.com/v2/ai/mcp";
-const contractSha256 = "29c307e0735c462d5cafa7a4d1223fd2e8b57664b013d6fd46289574fb482878";
+const contractSha256 = "f14d578ce1f36f339ee9c506009f678b49dace1fda6dee288f131f91082e2fad";
 const expectedSkills = [
   "telnyx-kit-architecture-patterns",
   "telnyx-kit-debugging",
@@ -37,7 +37,6 @@ const expectedSkills = [
 const expectedTools = [
   "list_api_endpoints",
   "get_api_endpoint_schema",
-  "lookup_phone_number",
   "get_call_status",
   "list_call_events",
   "search_recordings",
@@ -57,6 +56,8 @@ async function assertNoSymlinks(directory) {
 
 async function main() {
   const manifest = await readJson(manifestPath);
+  assert.match(manifest.description, /five/);
+  assert.doesNotMatch(manifest.description, /Number Lookup|six-tool/);
   assert.equal(manifest.name, "telnyx-developer-kit");
   assert.deepEqual(Object.keys(manifest.mcpServers ?? {}), ["telnyx"]);
   assert.deepEqual(manifest.mcpServers.telnyx, {
@@ -81,14 +82,14 @@ async function main() {
     assert.match(builder, new RegExp(`\\b${tool}\\b`), `builder omits ${tool}`);
   }
   assert.doesNotMatch(builder, /\binvoke_api_endpoint\b/);
-  assert.match(builder, /explicit user approval/i);
-  assert.match(builder, /confirm_billable_lookup:\s*true/);
+  assert.match(builder, /Number Lookup is unavailable/i);
+  assert.doesNotMatch(builder, /confirm_billable_lookup:\s*true/);
 
   const contractBytes = await readFile(contractPath);
   assert.equal(createHash("sha256").update(contractBytes).digest("hex"), contractSha256);
   const contract = JSON.parse(contractBytes);
   assert.equal(contract.id, "telnyx-ai-connector");
-  assert.equal(contract.version, "1.0.0-preview.5");
+  assert.equal(contract.version, "1.0.0-preview.7");
   assert.deepEqual(contract.hosts, ["claude", "codex"]);
   assert.deepEqual(contract.tools.map(({ name }) => name).sort(), [...expectedTools].sort());
   const inputSchemaOwners = new Map();
@@ -108,9 +109,7 @@ async function main() {
     [...expectedTools].sort(),
     "the frozen contract must pin exactly one input schema for every tool",
   );
-  const lookup = contract.endpoints.find(({ name }) => name === "number_lookup");
-  assert.deepEqual(lookup.inputSchema.properties.confirm_billable_lookup, { const: true });
-  assert.ok(lookup.inputSchema.required.includes("confirm_billable_lookup"));
+  assert.equal(contract.endpoints.some(({ path }) => path.includes("number_lookup")), false);
 
   const guidanceRoots = new Map([
     ["canonical", path.join(repoRoot, "skills")],
@@ -118,6 +117,12 @@ async function main() {
     ["cursor", path.join(repoRoot, "providers", "cursor", "plugin", "skills")],
   ]);
   for (const [label, root] of guidanceRoots) {
+    const architecture = await readFile(path.join(root, "telnyx-kit-architecture-patterns", "SKILL.md"), "utf8");
+    assert.match(architecture, /WebSocket state on the received\s+`stream_id`/, `${label} media stream identity`);
+    assert.doesNotMatch(architecture, /stream state on `StreamSid`/);
+    const quickstart = await readFile(path.join(root, "telnyx-kit-quickstart", "SKILL.md"), "utf8");
+    assert.match(quickstart, /authenticated TeXML callbacks as POST/, `${label} authenticated callback method`);
+    assert.match(quickstart, /reject GET before trusting callback fields/, `${label} callback signature boundary`);
     const debugging = await readFile(
       path.join(root, "telnyx-kit-debugging", "SKILL.md"),
       "utf8",
@@ -126,6 +131,13 @@ async function main() {
       path.join(root, "telnyx-kit-guardrails", "SKILL.md"),
       "utf8",
     );
+    const navigator = await readFile(path.join(root, "telnyx-kit-product-navigator", "SKILL.md"), "utf8");
+    assert.doesNotMatch(navigator, /lookup_phone_number/, `${label} removed hosted lookup tool`);
+    assert.doesNotMatch(guardrails, /confirm_billable_lookup/, `${label} removed lookup parameter`);
+    assert.match(navigator, /Number Lookup is not available through this connector/);
+    assert.match(navigator, /catalog covers only three reviewed endpoints/);
+    assert.match(navigator, /Messaging, TeXML, Verify and Numbers require separate API documentation/);
+    assert.match(guardrails, /even with approval/);
     assert.match(
       debugging,
       /\| Messaging SMS\/MMS API request \| 40300 \| Recipient opted out \(STOP\) \|/,
@@ -151,6 +163,12 @@ async function main() {
   }
 
   const pluginText = await readFile(manifestPath, "utf8");
+  const readme = await readFile(path.join(repoRoot, "README.md"), "utf8");
+  const submissionLinks = [...readme.matchAll(/\]\((submission\/[^)#]+)(?:#[^)]*)?\)/g)];
+  assert.ok(submissionLinks.length, "README must link to the submission artifact");
+  for (const [, target] of submissionLinks) {
+    assert.ok((await lstat(path.join(repoRoot, target))).isFile(), `missing submission artifact: ${target}`);
+  }
   assert.doesNotMatch(pluginText, /telnyx_api_key|user_config|authorization/i);
   assert.doesNotMatch(pluginText, /https:\/\/api\.telnyx\.com\/v2\/mcp(?:["/]|$)/);
 
@@ -159,6 +177,8 @@ async function main() {
   assert.equal(entries.length, 1, "marketplace must contain exactly one developer-kit entry");
   assert.equal(entries[0].source, "./providers/claude/plugins/telnyx-developer-kit");
   assert.equal(entries[0].version, manifest.version);
+  assert.match(entries[0].description, /five-tool/);
+  assert.doesNotMatch(entries[0].description, /Number Lookup|six-tool/);
 
   await assertNoSymlinks(pluginRoot);
   console.log("Claude developer-kit connector contract: OK");

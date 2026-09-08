@@ -92,10 +92,30 @@ capability catalog, not a substitute for this complete router inventory.
 | `setup-iot` | Use this to select an IoT SIM, create its SIM-card group, enable the SIM, and assign it to that group. | Creates/activates; asynchronous SIM action; hybrid REST + Go CLI |
 | `setup-ai` | Use this to create an AI assistant, buy a phone number, and connect them through a TeXML application. | Creates/buys; non-idempotent; hybrid REST + Go CLI |
 | `setup-wireguard` | Use this to create a private network, WireGuard interface, and peer and return a ready-to-use peer configuration. | Creates network resources; direct REST |
+| `get-wireguard-peer-config` | Use this to retrieve the generated client configuration for one known WireGuard peer. | Read-only; sensitive output only with `--json`; Go CLI v0.30+ |
 | `setup-verify` | Use this to create or reuse a Verify profile for OTP delivery through Telnyx’s managed sender pool. | Creates profile; buys no number; direct REST |
 | `setup-10dlc` | Use this to create a US A2P 10DLC brand and campaign and optionally assign an existing number. | Creates/submits; non-idempotent; approval pending; Go CLI |
 | `setup-porting` | Use this to check number portability, create a draft port-in order, list its requirements, and optionally submit it. | Creates order; submits only when requested; direct REST |
 | `setup-whatsapp` | Use this to select a WhatsApp Business Account, reuse or buy a number, initialize and verify it, and set its business profile. | Creates/buys/sends verification; may remain pending; hybrid REST + Go CLI |
+
+### `telnyx-agent get-wireguard-peer-config`
+
+Retrieves the generated WireGuard client configuration for an existing peer.
+The generated upstream action is `wireguard-peers retrieve-config --id <peer-id>`
+and first appeared in Telnyx Go CLI v0.30.0. This command checks that version per
+invocation; it does **not** change the package's vendored v0.27.0 binary pin.
+
+```bash
+telnyx-agent get-wireguard-peer-config --id <peer-id>
+telnyx-agent get-wireguard-peer-config --id <peer-id> --json
+```
+
+`--id` is required and is forwarded as the generated CLI's exact `--id` flag.
+Human-readable output confirms the peer ID but never prints the configuration.
+`--json` is an explicit sensitive-output opt-in and returns
+`{ wireguard_peer_id, wireguard_config }`, preserving the raw config including
+its trailing newline and any private key. Do not log, commit, or share that JSON
+output. Failed requests suppress any partial response payload.
 
 ### Verify
 
@@ -160,6 +180,7 @@ capability catalog, not a substitute for this complete router inventory.
 | `get-call-recording` | Use this to retrieve one post-call recording resource and its metadata or media URLs, not its transcript. | Read-only; Go CLI |
 | `list-recording-transcriptions` | Use this to list transcription resources generated from recordings, filtered by recording or creation time. | Read-only; Go CLI |
 | `get-recording-transcription` | Use this to retrieve the transcript resource for one known recording-transcription ID. | Read-only; Go CLI |
+| `create-telephony-credential-token` | Use this to create a JWT for one existing on-demand telephony credential when a SIP or WebRTC client needs short-lived access. | Creates credential token; sensitive output only with `--json`; Go CLI v0.30+ |
 
 ### Conferences
 
@@ -213,6 +234,7 @@ capability catalog, not a substitute for this complete router inventory.
 | `get-ai-assistant` | Use this to retrieve one configured AI assistant by ID. | Read-only; Go CLI |
 | `update-ai-assistant` | Use this to change an assistant’s configuration and create a new assistant version. | Mutates/version-creates; Go CLI |
 | `delete-ai-assistant` | Use this to permanently delete a configured AI assistant by ID. | Deletes; requires `--confirm`; Go CLI |
+| `enhance-ai-assistant-instructions` | Use this to generate suggested improvements for one assistant's instructions before deciding whether to update that assistant. | Suggestion only; never applies or promotes instructions; raw buffered body; Go CLI v0.30+ |
 | `search-ai-collection` | Use this to retrieve ranked RAG chunks for a query or, without a query, list the collection’s document catalog. | Read-only; Go CLI v0.27+ |
 | `chat-ai-assistant` | Use this to send a live chat turn through an existing assistant conversation rather than run a stateless completion or a test. | Sends conversation turn; non-idempotent; Go CLI |
 | `send-ai-assistant-sms` | Use this to start or continue an AI assistant conversation over SMS. | Sends SMS; non-idempotent; Go CLI |
@@ -305,6 +327,30 @@ this README/help before dispatch, especially for live mutations.
 `--confirm`; do not automate that acknowledgement without reviewing the target
 IDs and operation. `storage-sql-query` can execute mutating SQL as well as
 queries and has no dry-run or `--confirm` guard.
+
+### `telnyx-agent enhance-ai-assistant-instructions`
+
+Generate a suggested instruction rewrite for an existing assistant without changing
+that assistant. The command calls the Go CLI's `ai:assistants:instructions enhance`
+action with a required `--assistant-id` and optional `--enhancement-prompt` and
+`--instructions` flags. Omitting `--instructions` lets the service use the current
+assistant instructions.
+
+```bash
+telnyx-agent enhance-ai-assistant-instructions \
+  --assistant-id <assistant-id> \
+  --enhancement-prompt "Make escalation rules explicit"
+```
+
+This command requires Telnyx Go CLI v0.30.0 or newer; it does not change the
+package's v0.27.0 vendored platform pin. The upstream response is not treated as
+JSON or as any particular event-stream schema. The wrapper collects stdout through
+the existing 10 MiB child-process buffer and writes the exact successful body to
+human-readable stdout, including its original whitespace. With `--json`, it returns
+`{ assistant_id, response, applied: false }`; `response` preserves that exact raw body
+without parsing it. Review the returned suggestion and explicitly run
+`update-ai-assistant` if you decide to apply it; enhancement never updates or
+promotes an assistant.
 
 ### `telnyx-agent setup-sms`
 
@@ -560,6 +606,25 @@ telnyx-agent call-control --call-control-id <id> --action hangup
 - `call-dial` accepts any valid `+E.164` `--to` (posts directly to `POST /v2/calls`).
 - `call-status` reports `active` / `ended`, derived from the live call's
   `is_alive` state.
+
+### `telnyx-agent create-telephony-credential-token`
+
+Creates an access-token JWT for an existing on-demand telephony credential.
+This upstream action first appeared in Telnyx Go CLI v0.30.0; it is checked per
+command and does **not** change the package's vendored v0.27.0 binary pin.
+
+```bash
+telnyx-agent create-telephony-credential-token --id <credential-id>
+telnyx-agent create-telephony-credential-token --id <credential-id> --json
+```
+
+`--id` is required and is passed to `telephony-credentials create-token` as the
+generated CLI's exact `--id` flag. Human-readable output confirms the credential
+ID but never prints the JWT. `--json` is an explicit sensitive-output opt-in and
+returns `{ credential_id, jwt }`; `jwt` excludes one trailing LF or CRLF emitted
+as subprocess-output framing, while preserving the value itself. Do not log,
+commit, or share that JSON output. Failed requests suppress any partial response
+payload.
 
 ### `telnyx-agent send-group-mms`
 
