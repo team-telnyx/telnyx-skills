@@ -31,6 +31,68 @@ def lexed_source(source: str, suffix: str):
                                analyzer.canonical_suffix(path), analyzer.source_dialect(path))
 
 
+def scala_import_bindings(code: str, products: dict[str, str]) -> list[tuple[int, dict, dict]]:
+    """Read Scala 2/3 selectors, preserving renames and wildcard exclusions.
+
+    Import positions are retained because Scala permits block-local imports.
+    This recognizes literal package imports, not arbitrary stable-path aliases.
+    """
+    analyzer = load_script("lint-required-messaging-profile")
+    prefix = "com.twilio.rest.api.v2010.account"
+    result = []
+    for statement in re.finditer(r"\bimport\s+((?:[.,]\s*\n\s*|[^;\n{}]|\{[^{}]*\})+)", code):
+        for start, end in analyzer.split_arguments(code, statement.start(1), statement.end(1)):
+            expression = code[start:end].strip()
+            grouped = re.fullmatch(r"([\w.]+)\.\s*\{([^{}]*)\}", expression)
+            if grouped:
+                package, selectors = grouped[1], grouped[2].split(",")
+            else:
+                single = re.fullmatch(r"([\w.]+)\.\s*([\w*]+)(?:\s+as\s+(\w+))?", expression)
+                if not single:
+                    continue
+                package = single[1]
+                selectors = [single[2] + (" as " + single[3] if single[3] else "")]
+            package = package.removeprefix("_root_.")
+            explicit, wildcard, excluded = {}, False, set()
+            for selector in selectors:
+                member = re.fullmatch(r"\s*([\w*]+)(?:\s*(?:=>|\bas\b)\s*(\w+))?\s*", selector)
+                if not member:
+                    continue
+                name, alias = member[1], member[2]
+                if name in {"_", "*"} and alias is None:
+                    wildcard = True
+                else:
+                    excluded.add(name)
+                    if alias != "_":
+                        explicit[alias or name] = products.get(name) if package == prefix else None
+            wildcards = ({name: product for name, product in products.items() if name not in excluded}
+                         if wildcard and package == prefix else {})
+            result.append((statement.start(), explicit, wildcards))
+    return result
+
+
+def scala_indent_regions(code: str) -> list[tuple[int, int]]:
+    """Index Scala 3 indentation regions alongside (not instead of) braces."""
+    regions, stack = [], []
+    previous, previous_indent, offset = "", 0, 0
+    for line in code.splitlines(keepends=True):
+        stripped = line.strip()
+        if stripped:
+            indent = len(line) - len(line.lstrip(" \t"))
+            while stack and indent < stack[-1][0]:
+                _, start = stack.pop()
+                regions.append((start, offset))
+            if indent > previous_indent and re.search(
+                r"(?::|=|=>|\bthen|\bdo|\bmatch|\btry|\bcatch|\bfinally|\belse|\byield)$",
+                previous,
+            ):
+                stack.append((indent, offset))
+            previous, previous_indent = stripped, indent
+        offset += len(line)
+    regions.extend((start, len(code)) for _, start in stack)
+    return regions
+
+
 def contextual_calls(source: str, suffix: str) -> list[tuple[int, str]]:
     lexed = lexed_source(source, suffix)
     code = lexed.code
@@ -68,6 +130,12 @@ def contextual_calls(source: str, suffix: str) -> list[tuple[int, str]]:
     if suffix in {".java", ".kt", ".kts", ".scala"}:
         analyzer = load_script("lint-required-messaging-profile")
         resolver = analyzer.SourceEndpointResolver(lexed, ".java")
+        indent_regions = scala_indent_regions(code) if suffix == ".scala" else []
+
+        def scope_path(offset: int) -> tuple[int, ...]:
+            return tuple(sorted((*analyzer.curly_ancestry(code, offset),
+                                 *(start for start, end in indent_regions if start <= offset < end))))
+
         parameter_scopes = []
         parameter_headers = []
         if suffix != ".java":
@@ -80,11 +148,22 @@ def contextual_calls(source: str, suffix: str) -> list[tuple[int, str]]:
                 if closing is None:
                     continue
                 parameter_headers.append((opening, closing))
+                names = set(re.findall(r"(?:^|,)\s*(?:\w+\s+)*?(\w+)\s*:", code[opening + 1:closing]))
+                expression = re.match(r"\s*(?::[^{}\n=]+)?\s*=\s*", code[closing + 1:])
+                if expression:
+                    start = closing + 1 + expression.end()
+                    if start < len(code) and code[start] != "{":
+                        end = analyzer.assignment_end(lexed, start, ".java")
+                        # A multiline indentation body includes following
+                        # expressions, but not a dedented sibling definition.
+                        body_regions = [end for begin, end in indent_regions
+                                        if closing < begin <= start < end]
+                        parameter_scopes.append((start - 1, min(body_regions) if body_regions else end, names))
+                        continue
                 body = code.find("{", closing)
                 if body < 0 or not re.fullmatch(r"\s*(?::[^{}\n=]+)?\s*=?\s*", code[closing + 1:body]):
                     continue
                 end = analyzer.matching_delimiter(code, body, "{", "}")
-                names = set(re.findall(r"(?:^|,)\s*(?:\w+\s+)*?(\w+)\s*:", code[opening + 1:closing]))
                 if end is not None:
                     parameter_scopes.append((body, end, names))
         prefix = "com.twilio.rest.api.v2010.account."
@@ -99,21 +178,48 @@ def contextual_calls(source: str, suffix: str) -> list[tuple[int, str]]:
             else:
                 explicit[match[2] or target.rsplit(".", 1)[-1]] = None
         imports.update(explicit)  # Single imports shadow wildcard imports in either order.
+        scala_imports = scala_import_bindings(code, products) if suffix == ".scala" else []
+        scala_objects = list(re.finditer(r"\bobject\s+(\w+)", code)) if suffix == ".scala" else []
         for match in re.finditer(r"(?<![\w.])([\w.]+)\s*\.\s*creator\s*\(", code):
             receiver = match[1]
             first = receiver.split(".", 1)[0]
+            use_scope = scope_path(match.start()) if suffix == ".scala" else ()
             binding_id = resolver.graph.visible_binding(first, resolver.scope_at(match.start()), match.start())
-            if binding_id is not None:
-                binding = resolver.graph.bindings[binding_id]
+            bindings = ([resolver.graph.bindings[index]
+                         for index in resolver.graph.bindings_by_name.get(first, [])]
+                        if suffix == ".scala" else
+                        [resolver.graph.bindings[binding_id]] if binding_id is not None else [])
+            shadowed = False
+            for binding in bindings:
+                binding_scope = scope_path(binding.declaration_start) if suffix == ".scala" else ()
                 if ((suffix == ".java" or binding.kind != "parameter")
                         and not any(start < binding.declaration_start < end
                                     for start, end in parameter_headers)
-                        and analyzer.scope_contains(code, binding.declaration_start, match.start())):
-                    continue
+                        and (use_scope[:len(binding_scope)] == binding_scope if suffix == ".scala"
+                             else analyzer.scope_contains(code, binding.declaration_start, match.start()))):
+                    shadowed = True
+                    break
+            if shadowed or any(obj[1] == first and use_scope[:len(scope_path(obj.start()))] == scope_path(obj.start())
+                               for obj in scala_objects):
+                continue
             if any(start < match.start() < end and first in names
                    for start, end, names in parameter_scopes):
                 continue
             product = imports.get(receiver)
+            if suffix == ".scala":
+                # A deeper lexical scope wins; within a scope, explicit
+                # selectors take precedence over wildcard selectors.
+                candidates = []
+                for position, selected, wildcard in scala_imports:
+                    import_scope = scope_path(position)
+                    if position >= match.start() or use_scope[:len(import_scope)] != import_scope:
+                        continue
+                    depth = len(import_scope)
+                    if receiver in selected:
+                        candidates.append((depth, 1, position, selected[receiver]))
+                    elif receiver in wildcard:
+                        candidates.append((depth, 0, position, wildcard[receiver]))
+                product = max(candidates, key=lambda item: item[:3])[3] if candidates else None
             if receiver.startswith(prefix):
                 product = products.get(receiver[len(prefix):])
             if product:

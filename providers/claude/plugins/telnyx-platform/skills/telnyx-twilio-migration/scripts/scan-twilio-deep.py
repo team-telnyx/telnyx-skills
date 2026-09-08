@@ -945,6 +945,9 @@ def scan_java_file(filepath: Path, lines: List[str]) -> List[Detection]:
     lexed = _ownership.lexed_source(source, filepath.suffix)
     syntax_lines = lexed.code.split("\n")
     lines = lexed.without_comments.split("\n")
+    scala_selectors = (_ownership.scala_import_bindings(lexed.code, {
+        "Message": "messaging", "Call": "voice",
+        "IncomingPhoneNumber": "phone-numbers"}) if filepath.suffix == ".scala" else [])
     for line, product in _ownership.contextual_calls(source, filepath.suffix):
         detections.append(Detection(
             pattern=lines[line - 1].strip(), line=line, detection_method="regex",
@@ -958,6 +961,21 @@ def scan_java_file(filepath: Path, lines: List[str]) -> List[Detection]:
         # import com.twilio.*
         m = _JAVA_IMPORT_RE.search(syntax_lines[i - 1])
         if m:
+            if filepath.suffix == ".scala" and re.search(
+                r"\bimport\s+(?:_root_\.)?com\.twilio\.rest\.api\.v2010\.account\.\s*\{",
+                syntax_lines[i - 1],
+            ):
+                # Selector text is not a package name: Message => _ excludes
+                # Message, while Message => Sms imports it under another name.
+                products = {product for offset, selected, _ in scala_selectors
+                            if source.count("\n", 0, offset) + 1 == i
+                            for product in selected.values() if product}
+                for product in sorted(products or {"general"}):
+                    detections.append(Detection(
+                        pattern=stripped, line=i, detection_method="regex",
+                        context=get_context_lines(lines, i), confidence="high", product=product))
+                detected_lines.add(i)
+                continue
             pkg = m.group(1).lower()
             product = "general"
             if "messaging" in pkg or "message" in pkg:

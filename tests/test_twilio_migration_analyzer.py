@@ -10516,6 +10516,368 @@ class GradleMapDependencySiblings(unittest.TestCase):
 
 
 
+class DeclaredSdkVersionContracts(unittest.TestCase):
+    def checks(self, files: dict[str, str]) -> dict[str, str]:
+        with tempfile.TemporaryDirectory(prefix="declared-sdk-version-") as directory:
+            for name, content in files.items():
+                path = Path(directory) / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(content, encoding="utf-8")
+            result = subprocess.run(
+                [BASH, str(VALIDATE_MIGRATION_SCRIPT), directory, "--json"],
+                cwd=ROOT, capture_output=True, text=True, timeout=30, check=False,
+            )
+        self.assertNotIn("Traceback", result.stderr)
+        return {item["name"]: item["status"]
+                for item in json.loads(result.stdout)["checks"]}
+
+    def assert_manifest(self, files: dict[str, str], declared: bool, pinned: bool) -> None:
+        checks = self.checks(files)
+        self.assertEqual("pass" if declared else "fail", checks["telnyx_sdk_dependency"])
+        self.assertEqual("pass" if pinned else "warn", checks["telnyx_sdk_version_pinned"])
+
+    def test_node_exact_and_declared_dependency_sections(self) -> None:
+        for section in ("dependencies", "devDependencies", "optionalDependencies", "peerDependencies"):
+            with self.subTest(section=section):
+                self.assert_manifest({"package.json": json.dumps({section: {"telnyx": "6.0.0"}})}, True, True)
+
+    def test_node_metadata_does_not_supply_sdk_or_version(self) -> None:
+        for dependencies, declared in (({}, False), ({"telnyx": "*"}, True)):
+            with self.subTest(dependencies=dependencies):
+                self.assert_manifest({"package.json": json.dumps({
+                    "dependencies": dependencies, "config": {"telnyx": "^6.0"}, "version": "1.0.0",
+                })}, declared, False)
+
+    def test_node_unbounded_alternative_is_not_a_constraint(self) -> None:
+        for value in ("", "*", "latest", "^6.0 || *"):
+            with self.subTest(value=value):
+                self.assert_manifest({"package.json": json.dumps({"dependencies": {"telnyx": value}})}, True, False)
+
+    def test_python_literal_manifest_forms(self) -> None:
+        fixtures = (
+            {"requirements.txt": "telnyx == 4.0.0\n"},
+            {"Pipfile": '[packages]\ntelnyx = "==4.0.0"\n'},
+            {"Pipfile": '[dev-packages]\ntelnyx = {version = ">=4.0,<5.0"}\n'},
+            {"pyproject.toml": '[project]\ndependencies = ["telnyx >= 4.0, < 5.0"]\n'},
+            {"pyproject.toml": '[tool.poetry.dependencies]\ntelnyx = "^4.0"\n'},
+            {"setup.cfg": '[options]\ninstall_requires =\n    telnyx == 4.0.0\n'},
+            {"setup.py": 'from setuptools import setup\nsetup(install_requires=["telnyx == 4.0.0"])\n'},
+        )
+        for files in fixtures:
+            with self.subTest(files=files):
+                self.assert_manifest(files, True, True)
+
+    def test_python_requirements_hash_options_and_continuations(self) -> None:
+        digest = "a" * 64
+        for source in (
+            f"telnyx==4.0 --hash=sha256:{digest}\n",
+            "telnyx==4.0 \\" + f"\n    --hash=sha256:{digest}\n",
+            f"telnyx[aiohttp]==4.0 \\\r\n    --hash sha256:{digest} --hash=sha256:{digest}\r\n",
+            f'telnyx==4.0; python_version >= "3.10" --hash=sha256:{digest}\n',
+            "telnyx>=4.0,\\\n    <5.0 # bounded range\n",
+        ):
+            with self.subTest(source=source):
+                self.assert_manifest({"requirements.txt": source}, True, True)
+
+    def test_python_requirement_options_do_not_supply_version_evidence(self) -> None:
+        for source, declared in (
+            ("telnyx --hash=sha256:abcd\n", True),
+            ("telnyx\nother==4.0 --hash=sha256:abcd\n", True),
+            ("# telnyx==4.0 --hash=sha256:abcd\n", False),
+            ("other==4.0 --config-settings=telnyx==4.0\n", False),
+            ("telnyx>=4banana --hash=sha256:abcd\n", True),
+        ):
+            with self.subTest(source=source):
+                self.assert_manifest({"requirements.txt": source}, declared, False)
+
+    def test_setup_literal_bindings_reach_their_own_call(self) -> None:
+        for source in (
+            'REQS=["telnyx>=4.0"]\nsetup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\nALIAS=REQS\nsetup(install_requires=ALIAS)',
+            'BASE=["other"]\nREQS=BASE + ["telnyx>=4.0"]\nsetup(install_requires=REQS)',
+            'EXTRAS={"sms": ["telnyx>=4.0"]}\nsetup(extras_require=EXTRAS)',
+            'REQS: list[str] = ["telnyx>=4.0"]\nsetup(install_requires=REQS)',
+            'def configure():\n    REQS=["telnyx>=4.0"]\n    setup(install_requires=REQS)',
+        ):
+            with self.subTest(source=source):
+                self.assert_manifest({"setup.py": "from setuptools import setup\n" + source}, True, True)
+
+    def test_setup_binding_scope_reassignment_and_mutation_are_not_stale_evidence(self) -> None:
+        for source in (
+            'REQS=["telnyx>=4.0"]\nREQS=[]\nsetup(install_requires=REQS)',
+            'setup(install_requires=REQS)\nREQS=["telnyx>=4.0"]',
+            'def unrelated():\n    REQS=["telnyx>=4.0"]\nsetup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\ndef configure(REQS):\n    setup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\ndef configure():\n    setup(install_requires=REQS)\n    REQS=[]',
+            'REQS=["telnyx>=4.0"]\nREQS.clear()\nsetup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\nALIAS=REQS\nALIAS.clear()\nsetup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\nCONFIG={"requires": REQS}\nCONFIG["requires"].clear()\nsetup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\nCONFIG={"requires": REQS}\nmutate(CONFIG)\nsetup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\nfor REQS in [[]]:\n    setup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\nwith open("x") as REQS:\n    setup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\ntry:\n    load()\nexcept Exception as REQS:\n    setup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\nif mutate(REQS):\n    setup(install_requires=REQS)',
+            'REQS=["telnyx>=4.0"]\n[setup(install_requires=REQS) for REQS in [[]]]',
+            'REQS=["telnyx>=4.0"]\nif dynamic:\n    REQS=[]\nsetup(install_requires=REQS)',
+            'REQS=read_requirements()\nsetup(install_requires=REQS)',
+        ):
+            with self.subTest(source=source):
+                self.assert_manifest({"setup.py": "from setuptools import setup\n" + source}, False, False)
+
+    def test_ruby_conditional_modifiers_preserve_argument_ownership(self) -> None:
+        for modifier in ("if", "unless"):
+            for source, pinned in (
+                (f"gem 'telnyx', '~> 4.0' {modifier} ENV['SMS']", True),
+                (f"gem('telnyx', '>= 4.0', '< 5.0') {modifier} enabled", True),
+                (f"gem 'telnyx' {modifier} enabled('4.0')", False),
+                (f"gem 'telnyx', version {modifier} enabled('4.0')", False),
+                (f"gem 'telnyx', '~> 4.0' + suffix {modifier} enabled", False),
+            ):
+                with self.subTest(source=source):
+                    self.assert_manifest({"Gemfile": source}, True, pinned)
+
+    def test_python_comments_metadata_and_other_packages_are_not_evidence(self) -> None:
+        fixtures = (
+            ({"requirements.txt": "telnyx\n# Old: telnyx==4.0.0\n"}, True),
+            ({"requirements.txt": "# telnyx==4.0.0\n"}, False),
+            ({"requirements.txt": "not-telnyx==4.0.0\n"}, False),
+            ({"pyproject.toml": '[project]\ndescription = "telnyx==4.0.0"\n'}, False),
+            ({"setup.py": 'from setuptools import setup\nsetup(description="telnyx==4.0.0")\n'}, False),
+        )
+        for files, declared in fixtures:
+            with self.subTest(files=files):
+                self.assert_manifest(files, declared, False)
+
+    def test_ruby_exact_ranges_and_multiline_calls(self) -> None:
+        for source in ("gem 'telnyx', '5.0.0'", "gem('telnyx', '>= 5.0', '< 6.0')",
+                       'gem "telnyx", "5.0.0"', "gem %q{telnyx}, %q{~> 5.0}",
+                       "gem 'telnyx',\n  '~> 5.0'"):
+            with self.subTest(source=source):
+                self.assert_manifest({"Gemfile": source}, True, True)
+
+    def test_ruby_statement_boundaries_and_comments(self) -> None:
+        for source, declared in (
+            ("gem 'telnyx'; gem 'rake', '~> 13.0'", True),
+            ("gem 'telnyx' # previously '~> 5.0'", True),
+            ("# gem 'telnyx', '~> 5.0'", False),
+            ('help = "gem \'telnyx\', \'~> 5.0\'"', False),
+            ("gem 'telnyx', '5.0' + suffix", True),
+            ("gem 'telnyx' + suffix, '5.0'", False),
+            ("gem `telnyx`, '~> 5.0'", False),
+            ("gem 'telnyx', `5.0.0`", True),
+            ('gem "telnyx", "#{version}"', True),
+        ):
+            with self.subTest(source=source):
+                self.assert_manifest({"Gemfile": source}, declared, False)
+
+    def test_go_requires_not_comments_or_exclusions(self) -> None:
+        for line, declared in (
+            ("require github.com/team-telnyx/telnyx-go/v4 v4.98.0", True),
+            ("require (\n github.com/team-telnyx/telnyx-go/v4 v4.98.0 // indirect\n)", True),
+            ("// require github.com/team-telnyx/telnyx-go/v4 v4.98.0", False),
+            ("exclude github.com/team-telnyx/telnyx-go/v4 v4.98.0", False),
+        ):
+            with self.subTest(line=line):
+                self.assert_manifest({"go.mod": "module example.test/app\ngo 1.24\n" + line}, declared, declared)
+
+    def test_python_specifier_grammar_and_poetry_context(self) -> None:
+        helper = runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name("inspect-sdk-dependencies.py")))
+        for value in (">=4banana", ">=4.*", "==4..0", "~=4", "==4.0.0garbage", "4.0", "^4.0", "~4.0"):
+            with self.subTest(value=value):
+                self.assertFalse(helper["python_version_is_constrained"](value))
+        for value in ("==4.0", ">=4.0, <5.0", "~=4.0", "==4.*", "!=4.1", "==4.0rc1", "==4.0.post1", "==4.0+local"):
+            with self.subTest(value=value):
+                self.assertTrue(helper["python_version_is_constrained"](value))
+        for value in ("4.0", "^4.0", "~4.0", "4.*"):
+            with self.subTest(value=value):
+                self.assertTrue(helper["python_version_is_constrained"](value, poetry=True))
+        self.assert_manifest({"requirements.txt": "telnyx>=4banana\n"}, True, False)
+
+    def test_python_literal_toml_fallback_without_tomllib(self) -> None:
+        helper = runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name("inspect-sdk-dependencies.py")))
+        globals_ = helper["read_mapping"].__globals__
+        original = globals_["tomllib"]
+        globals_["tomllib"] = None
+        try:
+            fixtures = (
+                ("Pipfile", '[packages]\ntelnyx = "==4.0"\n', True),
+                ("Pipfile", '[packages]\n"telnyx" = { version = ">=4.0,<5.0", extras = ["aiohttp"] }\n', True),
+                ("pyproject.toml", '[project]\ndependencies = [\n "telnyx >=4.0,<5.0", # comment\n]\n', True),
+                ("pyproject.toml", '[tool.poetry.dependencies]\ntelnyx = {version = "^4.0", optional = true}\n', True),
+                ("pyproject.toml", '[project]\ndependencies = ["telnyx\\u003e=4.0"]\n', True),
+                ("pyproject.toml", '[project]\ndependencies = ["\\U00000074elnyx>=4.0"]\n', True),
+                ("Pipfile", '[packages]\ntelnyx = "==4.0\\t"\n', True),
+                ("Pipfile", '["pack\\u0061ges"]\n"tel\\u006eyx" = {"vers\\u0069on" = "==4.0"}\n', True),
+                ("Pipfile", '[packages]\ntelnyx = "==4.0\\x20"\n', False),
+                ("Pipfile", '[packages]\ntelnyx = "==4.0\\uD800"\n', False),
+                ("pyproject.toml", '[project]\ndescription = "telnyx==4.0"\n', False),
+                ("Pipfile", '# [packages]\n# telnyx = "==4.0"\n', False),
+                ("Pipfile", '[packages]\ntelnyx = "*"\n', False),
+                ("Pipfile", '[packages]\ntelnyx = "==4.0" + dynamic\n', False),
+                ("pyproject.toml", '[project]\ndependencies = ("telnyx>=4.0",)\n', False),
+                ("Pipfile", '[packages]\ntelnyx = {"version": "==4.0"}\n', False),
+                ("Pipfile", '[packages]\ntelnyx = {version="*", version="==4.0"}\n', False),
+                ("Pipfile", '[packages]\ntelnyx = "==4.0"\n[packages]\nother="*"\n', False),
+            )
+            for name, contents, expected in fixtures:
+                with self.subTest(contents=contents), tempfile.TemporaryDirectory() as directory:
+                    (Path(directory) / name).write_text(contents, encoding="utf-8")
+                    self.assertEqual(expected, helper["other_pinned"](Path(directory)))
+                    if original is not None:
+                        globals_["tomllib"] = original
+                        self.assertEqual(expected, helper["other_pinned"](Path(directory)))
+                        globals_["tomllib"] = None
+        finally:
+            globals_["tomllib"] = original
+
+    def test_escaped_toml_dependencies_through_public_validator(self) -> None:
+        self.assert_manifest({"pyproject.toml": '[project]\ndependencies = ["telnyx\\u003e=4.0"]\n'}, True, True)
+        self.assert_manifest({"Pipfile": '[packages]\ntelnyx = "==4.0\\t"\n'}, True, True)
+        self.assert_manifest({"Pipfile": '["pack\\u0061ges"]\n"tel\\u006eyx" = {"vers\\u0069on" = "==4.0"}\n'}, True, True)
+
+    def test_maven_hard_exact_and_bounded_ranges(self) -> None:
+        for version in ("[6.89.0]", "[6.89.0,7.0)"):
+            with self.subTest(version=version):
+                self.assert_manifest({"pom.xml": "<project><dependencies><dependency>"
+                    "<groupId>com.telnyx.sdk</groupId><artifactId>telnyx</artifactId>"
+                    f"<version>{version}</version></dependency></dependencies></project>"}, True, True)
+
+    @unittest.skipIf(sys.version_info < (3, 11), "stdlib tomllib requires Python 3.11")
+    def test_consumed_gradle_catalog_rich_versions(self) -> None:
+        for version in ('{ strictly = "6.89.0" }', '{ require = "6.89.0" }'):
+            with self.subTest(version=version):
+                catalog = '[libraries]\ntelnyx = { module = "com.telnyx.sdk:telnyx", version = ' + version + ' }\n'
+                self.assert_manifest({"build.gradle.kts": "dependencies { implementation(libs.telnyx) }",
+                                      "gradle/libs.versions.toml": catalog}, True, True)
+                self.assert_manifest({"build.gradle.kts": "dependencies { implementation(libs.other) }",
+                                      "gradle/libs.versions.toml": catalog}, False, False)
+
+
+class ComposerConstraintContracts(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.helper_path = DEEP_SCAN_SCRIPT.with_name("inspect-sdk-dependencies.py")
+        cls.helper = runpy.run_path(str(cls.helper_path))
+
+    def validator_checks(self, manifest: object) -> dict[str, str]:
+        with tempfile.TemporaryDirectory(prefix="composer-constraint-") as directory:
+            path = Path(directory) / "composer.json"
+            if isinstance(manifest, bytes):
+                path.write_bytes(manifest)
+            else:
+                path.write_text(json.dumps(manifest), encoding="utf-8")
+            result = subprocess.run(
+                [BASH, str(VALIDATE_MIGRATION_SCRIPT), directory, "--json"],
+                cwd=ROOT, capture_output=True, text=True, timeout=30, check=False,
+            )
+        self.assertNotIn("Traceback", result.stderr)
+        return {item["name"]: item["status"]
+                for item in json.loads(result.stdout)["checks"]}
+
+    def test_validator_accepts_composer_caret_in_both_dependency_sections(self) -> None:
+        for section in ("require", "require-dev"):
+            with self.subTest(section=section):
+                checks = self.validator_checks({section: {"telnyx/telnyx-php": "^7.0"}})
+                self.assertEqual("pass", checks["telnyx_sdk_dependency"])
+                self.assertEqual("pass", checks["telnyx_sdk_version_pinned"])
+
+    def test_supported_composer_constraint_families(self) -> None:
+        constraints = (
+            "7", "7.0", "7.0.1", "v7.0.1", "=7.0.1", "== 7.0.1",
+            "^7.0", "~7.0.1", "~ 7.0", ">=7.0", "<8.0", "!=7.0.1",
+            ">=7.0 <8.0", ">= 7.0, < 8.0", "7.0 - 8.0", "7 - 8",
+            "^6.0 || ^7.0", "^6.0 | ^7.0", "7.*", "7.0.x", "7.X",
+            "7.*.*", "7.0.0-RC1", "7.0.0-beta.2", "7.0.0-stable",
+            "7.0.0-beta2-dev", "7.0.0+build.1", "^7.0.0-beta.2.1",
+            "^7.0@beta", "7.*@dev", "dev-main", "dev-feature/sdk-fix",
+            "7.x-dev", "v7.x-dev", "dev-main#abc123", "7.x-dev#abc123",
+            "* >=7.0", "^7.0 || 8.*@beta",
+        )
+        for constraint in constraints:
+            with self.subTest(constraint=constraint):
+                self.assertTrue(self.helper["composer_version_is_constrained"](constraint))
+
+    def test_unbounded_or_unsupported_constraints_do_not_supply_version_evidence(self) -> None:
+        constraints = (
+            None, True, 7, 7.0, [], {}, "", "  ", "*", "*.*", "x", "X.X",
+            "@dev", "@stable", "@RC", "@alpha", "@beta", "*@stable",
+            "*.*@beta", "^7.0 || *", "* | ^7.0", "^7.0 || *@dev",
+            "^7.0 || @dev", "latest", "stable", "^", ">=", "7..0",
+            "7.0 garbage", "^7.0 ||", "|| ^7.0", ">=7.0,", "7.*.1",
+            "^7.0@unknown", "dev-", "7.0.0#abc123", "dev-main#",
+            "7.0.0-dev3", "7.0.0+", ">=7.0,,<8.0", "dev-main as 7.0.0",
+            "7.0.0-beta" + "1" * 2000 + "!",
+        )
+        for constraint in constraints:
+            with self.subTest(constraint=constraint):
+                self.assertFalse(self.helper["composer_version_is_constrained"](constraint))
+
+    def test_validator_accepts_other_composer_constraint_families(self) -> None:
+        for constraint in ("7.0.1", "~7.0", ">=7.0 <8", "7 - 8", "7.*",
+                           "^7@beta", "dev-main", "7.x-dev"):
+            with self.subTest(constraint=constraint):
+                checks = self.validator_checks({"require": {"telnyx/telnyx-php": constraint}})
+                self.assertEqual("pass", checks["telnyx_sdk_dependency"])
+                self.assertEqual("pass", checks["telnyx_sdk_version_pinned"])
+
+    def test_validator_warns_for_unbounded_or_malformed_versions(self) -> None:
+        for constraint in ("*", "@dev", "^7 || *", "", "latest", None, 7, ["^7"]):
+            with self.subTest(constraint=constraint):
+                checks = self.validator_checks({"require": {"telnyx/telnyx-php": constraint}})
+                self.assertEqual("warn", checks["telnyx_sdk_version_pinned"])
+
+    def test_unrelated_sections_and_packages_cannot_supply_version_evidence(self) -> None:
+        for section in ("extra", "suggest", "provide", "replace", "conflict",
+                        "repositories", "scripts"):
+            with self.subTest(section=section):
+                checks = self.validator_checks({
+                    "require": {"telnyx/telnyx-php": "*", "other/package": "^7.0"},
+                    "version": "7.0.1", section: {"telnyx/telnyx-php": "^7.0"},
+                })
+                self.assertEqual("pass", checks["telnyx_sdk_dependency"])
+                self.assertEqual("warn", checks["telnyx_sdk_version_pinned"])
+        checks = self.validator_checks({"extra": {"telnyx/telnyx-php": "^7.0"}})
+        self.assertEqual("fail", checks["telnyx_sdk_dependency"])
+        self.assertEqual("warn", checks["telnyx_sdk_version_pinned"])
+
+    def test_malformed_composer_files_fail_closed_without_tracebacks(self) -> None:
+        for manifest in (b"{broken", b"\xff", [], None, 7,
+                         {"require": ["telnyx/telnyx-php", "^7.0"]}):
+            with self.subTest(manifest=manifest):
+                checks = self.validator_checks(manifest)
+                self.assertEqual("fail", checks["telnyx_sdk_dependency"])
+                self.assertEqual("warn", checks["telnyx_sdk_version_pinned"])
+
+    def test_cli_preserves_presence_mode_and_checks_require_dev(self) -> None:
+        for manifest, declared, constrained in (
+            ({"require": {"telnyx/telnyx-php": "*"}}, True, False),
+            ({"require-dev": {"telnyx/telnyx-php": "^7.0"}}, True, True),
+            ({"require": {"telnyx/telnyx-php": "*"},
+              "require-dev": {"telnyx/telnyx-php": "^7.0"}}, True, True),
+            ({"extra": {"telnyx/telnyx-php": "^7.0"}}, False, False),
+            ({"require": {"other/package": "^7.0"}}, False, False),
+        ):
+            with self.subTest(manifest=manifest), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                (root / "composer.json").write_text(json.dumps(manifest), encoding="utf-8")
+                for mode, expected in (("composer", declared), ("composer-pinned", constrained)):
+                    result = subprocess.run(
+                        [sys.executable, str(self.helper_path), mode, directory],
+                        capture_output=True, text=True, timeout=30, check=False,
+                    )
+                    self.assertEqual(0 if expected else 1, result.returncode, result.stderr)
+                    self.assertEqual("", result.stderr)
+
+    def test_missing_or_nonfile_manifest_has_no_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for is_directory in (False, True):
+                if is_directory:
+                    (root / "composer.json").mkdir()
+                self.assertFalse(self.helper["composer_declared"](root))
+                self.assertFalse(self.helper["composer_pinned"](root))
+
+
 class DiscoveryAndValidationRegressionContracts(unittest.TestCase):
     maxDiff = None
 
@@ -10700,6 +11062,8 @@ class DiscoveryAndValidationRegressionContracts(unittest.TestCase):
             ("import com.twilio.rest.api.v2010.account.Message;\nclass X { void send() { var Message = new Queue(); Message.creator(); } }", ".java", None),
             ("import com.twilio.rest.api.v2010.account.Message as Sms\nfun send() { val Sms = Queue(); Sms.creator() }", ".kt", None),
             ("import com.twilio.rest.api.v2010.account.Message as Sms\nfun send(Sms: Queue) { Sms.creator() }", ".kt", None),
+            ("import com.twilio.rest.api.v2010.account.Message as Sms\nfun send(Sms: Queue) = Sms.creator()", ".kt", None),
+            ("import com.twilio.rest.api.v2010.account.Message as Sms\nfun other(Sms: Queue) = Sms.creator()\nfun send() = Sms.creator()", ".kts", "messaging"),
             ("import com.twilio.rest.api.v2010.account.Message\nobject X { def send(Message: Queue) = { Message.creator() } }", ".scala", None),
             ("import com.twilio.rest.api.v2010.account.Message as Sms\nfun other(Sms: Queue) {}\nfun send() { Sms.creator() }", ".kt", "messaging"),
             ("import com.twilio.rest.api.v2010.account.Message\nobject X { def other(Message: Queue) = {}\ndef send() = { Message.creator() } }", ".scala", "messaging"),
@@ -10715,6 +11079,102 @@ class DiscoveryAndValidationRegressionContracts(unittest.TestCase):
             with self.subTest(source=source):
                 found = {product for _, product in calls(source, suffix)}
                 self.assertEqual({expected} if expected else set(), found)
+
+    def test_scala_import_selector_matrix(self) -> None:
+        calls = runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name(
+            "sdk-source-ownership.py")))["contextual_calls"]
+        prefix = "com.twilio.rest.api.v2010.account"
+        for resource, product in (("Message", "messaging"), ("Call", "voice"),
+                                  ("IncomingPhoneNumber", "phone-numbers")):
+            selectors = (
+                ("_", resource, True), ("*", resource, True),
+                ("{_}", resource, True), ("{*}", resource, True),
+                ("{" + resource + "}", resource, True),
+                ("{" + resource + " => Api}", "Api", True),
+                ("{" + resource + " as Api}", "Api", True),
+                (resource + " as Api", "Api", True),
+                ("{" + resource + " => _, _}", resource, False),
+                ("{" + resource + " as _, *}", resource, False),
+                ("{" + resource + " => Api, _}", resource, False),
+                ("{" + resource + " => Api, _}", "Api", True),
+                ("\n  {" + resource + " => Api, _}", "Api", True),
+                ("\n  _", resource, True), ("\n  *", resource, True),
+            )
+            for selector, receiver, expected in selectors:
+                source = f"import {prefix}.{selector}\nobject X {{ def send() = {{ {receiver}.creator() }} }}"
+                with self.subTest(resource=resource, selector=selector, receiver=receiver):
+                    self.assertEqual({product} if expected else set(),
+                                     {p for _, p in calls(source, ".scala")})
+
+    def test_scala_import_scope_and_negative_controls(self) -> None:
+        calls = runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name(
+            "sdk-source-ownership.py")))["contextual_calls"]
+        prefix = "com.twilio.rest.api.v2010.account"
+        for source, expected in (
+            (f"// import {prefix}._\nMessage.creator()", False),
+            (f'val text = "import {prefix}._"\nMessage.creator()', False),
+            (f"import unrelated.{{Message}}\nimport {prefix}._\nMessage.creator()", False),
+            (f"import {prefix}._\nimport unrelated.{{Message}}\nMessage.creator()", False),
+            (f"object A {{ import {prefix}._ }}\nobject B {{ Message.creator() }}", False),
+            (f"object A {{ Message.creator(); import {prefix}._ }}", False),
+            (f"object A {{ import {prefix}._; Message.creator() }}", True),
+            (f"import {prefix}._\nobject X {{ def send(Message: Queue) = {{ Message.creator() }} }}", False),
+            (f"import {prefix}._\nobject X {{ def send() = {{ val Message = new Queue(); Message.creator() }} }}", False),
+            (f"import {prefix}._\nobject X {{ def other(Message: Queue) = {{}}; def send() = {{ Message.creator() }} }}", True),
+            (f"import {prefix}.{{Message => _, _}}\nCall.creator()", True),
+            (f"import {prefix}._\nobject X {{ def send(Message: Queue) = Message.creator() }}", False),
+            (f"import {prefix}._\nobject X {{ def other(Message: Queue) = Message.creator(); def send() = {{ Message.creator() }} }}", True),
+            (f"object A:\n  import {prefix}.*\n  def noOp() = ()\nobject B:\n  object Message {{ def creator() = 1 }}\n  val x = Message.creator()\n", False),
+            (f"object A:\n  import {prefix}._\n  def send() =\n    Message.creator()\n", True),
+            (f"import {prefix}._\nobject X:\n  def send(Message: Queue) =\n    Message.creator()\n", False),
+            (f"import {prefix}._\nobject X {{ def send(Message: Queue, flag: Boolean) = if (flag) {{ 1 }} else Message.creator() }}", False),
+            (f"import {prefix}._\nobject X {{ def send(Message: Queue) = (\nMessage.creator()\n) }}", False),
+            (f"object A:\n  val Message = new Queue()\nobject B:\n  import {prefix}.*\n  def send() = Message.creator()\n", True),
+            (f"import {prefix}._\nobject X {{ object Message {{ def creator() = 1 }}; val x=Message.creator() }}", False),
+            (f"import {prefix}._\nobject A:\n  val Message = new Queue()\n  val x=Message.creator()\nobject B:\n  def send() = Message.creator()\n", True),
+        ):
+            with self.subTest(source=source):
+                self.assertEqual(expected, bool(calls(source, ".scala")))
+        for suffix in (".java", ".kt", ".kts"):
+            with self.subTest(suffix=suffix):
+                self.assertFalse(calls(f"import {prefix}._;\nMessage.creator();", suffix))
+                self.assertTrue(calls(f"import {prefix}.*;\nMessage.creator();", suffix))
+
+    def test_scala_selectors_reach_both_public_scanners(self) -> None:
+        prefix = "com.twilio.rest.api.v2010.account"
+        for selector, receiver, expected in (
+            ("_", "Message", True), ("{Message => Sms, _}", "Sms", True),
+            ("{Message as Sms, *}", "Sms", True),
+            ("{Message => _, _}", "Message", False),
+            ("\n  {Message => Sms, _}", "Sms", True),
+        ):
+            with self.subTest(selector=selector):
+                shallow, deep = self._scan({"Send.scala":
+                    f"import {prefix}.{selector}\nobject X {{ def send() = {{ {receiver}.creator() }} }}\n"})
+                for report in (shallow, deep):
+                    self.assertEqual(expected, "messaging" in report["products_used"], report)
+
+    def test_scala_scope_and_other_product_public_controls(self) -> None:
+        prefix = "com.twilio.rest.api.v2010.account"
+        for source, expected in (
+            (f"import {prefix}._\nclass Queue {{ def creator() = 1 }}\nobject X {{ def send(Message: Queue) = Message.creator() }}", False),
+            (f"object A:\n  import {prefix}.*\n  def noOp() = ()\nobject B:\n  object Message {{ def creator() = 1 }}\n  val x = Message.creator()\n", False),
+            (f"object A:\n  import {prefix}._\n  def send() =\n    Message.creator(to, from, body)\n", True),
+        ):
+            with self.subTest(source=source):
+                for report in self._scan({"Send.scala": source}):
+                    self.assertEqual(expected, "messaging" in report["products_used"], report)
+        _, deep = self._scan({"Verify.scala": "import com.twilio.rest.verify.v2.{Service}\n"})
+        self.assertIn("verify", deep["products_used"])
+
+    def test_scala_comma_continued_imports_reach_public_scanners(self) -> None:
+        prefix = "com.twilio.rest.api.v2010.account"
+        for selector, receiver in (("_", "Message"), ("*", "Message"),
+                                   ("{Message}", "Message"), ("{Message => Sms}", "Sms")):
+            with self.subTest(selector=selector):
+                for report in self._scan({"Send.scala":
+                    f"import scala.util.Try,\n  {prefix}.{selector}\nobject X {{ def send() = {receiver}.creator(to, from, body) }}\n"}):
+                    self.assertIn("messaging", report["products_used"], report)
 
     def test_structured_dependency_pin_siblings(self) -> None:
         helper = runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name("inspect-sdk-dependencies.py")))

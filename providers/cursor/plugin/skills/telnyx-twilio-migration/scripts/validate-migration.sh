@@ -594,14 +594,10 @@ section_header "Telnyx SDK Present"
 # --- Check 6: Telnyx SDK in dependency files ---
 if product_applies "all"; then
   dep_matches=""
-  # Python (root + subdirectories)
-  dep_matches+=$(find "$PROJECT_ROOT" -maxdepth 3 \( -name requirements.txt -o -name setup.py -o -name setup.cfg -o -name pyproject.toml -o -name Pipfile \) -not -path "*/node_modules/*" -not -path "*/.git/*" -not -path "*/vendor/*" -exec grep -l "telnyx" {} \; 2>/dev/null || true)
-  # Node (root + subdirectories)
-  dep_matches+=$(find "$PROJECT_ROOT" -maxdepth 3 -name package.json -not -path "*/node_modules/*" -not -path "*/.git/*" -exec grep -l '"telnyx"\|"@telnyx/' {} \; 2>/dev/null || true)
-  # Ruby
-  dep_matches+=$(find "$PROJECT_ROOT" -maxdepth 3 -name Gemfile -not -path "*/vendor/*" -exec grep -l "telnyx" {} \; 2>/dev/null || true)
-  # Go
-  dep_matches+=$(grep -rn $GREP_EXCLUDES -l "telnyx" "$PROJECT_ROOT"/go.mod 2>/dev/null || true)
+  # Python, Node, Ruby and Go: dependency declarations, not comments or metadata.
+  if python3 "$SCRIPT_DIR/inspect-sdk-dependencies.py" other-declared "$PROJECT_ROOT"; then
+    dep_matches+=$'\nSDK dependency declaration\n'
+  fi
   # Java/Kotlin (build.gradle, build.gradle.kts, pom.xml, libs.versions.toml)
   if python3 "$SCRIPT_DIR/inspect-sdk-dependencies.py" jvm-declared "$PROJECT_ROOT"; then
     dep_matches+=$'\nJVM dependency declaration\n'
@@ -642,26 +638,18 @@ if product_applies "all"; then
 
   # --- Check 6a: Telnyx SDK version pinning ---
   version_pinned=false
-  # Python: check for version constraint (>=, <, ~=, ==)
-  if grep -qE 'telnyx[><=~!]+' "$PROJECT_ROOT"/{requirements.txt,setup.py,setup.cfg,pyproject.toml,Pipfile} 2>/dev/null; then
-    version_pinned=true
-  fi
-  # Node: check package.json for version constraint (^, ~, >=)
-  if grep -qE '"telnyx"\s*:\s*"[\^~>=]' "$PROJECT_ROOT"/package.json 2>/dev/null; then
-    version_pinned=true
-  fi
-  # Ruby: check Gemfile for version constraint (~>)
-  if grep -qE "gem\s+['\"]telnyx['\"].*~>" "$PROJECT_ROOT"/Gemfile 2>/dev/null; then
-    version_pinned=true
-  fi
-  # Go modules always require an explicit semantic version. Recognize both the
-  # current /v4 module path and an eventual later major-version path.
-  if grep -qE 'github\.com/team-telnyx/telnyx-go(/v[0-9]+)?[[:space:]]+v[0-9]+\.' "$PROJECT_ROOT"/go.mod 2>/dev/null; then
+  # Reuse the declaration owners for literal versions and supported ranges.
+  if python3 "$SCRIPT_DIR/inspect-sdk-dependencies.py" other-pinned "$PROJECT_ROOT"; then
     version_pinned=true
   fi
   # Inspect dependency fields structurally. App/parent/unrelated versions are
   # not evidence that this SDK dependency has a constrained version.
   if python3 "$SCRIPT_DIR/inspect-sdk-dependencies.py" jvm-pinned "$PROJECT_ROOT"; then
+    version_pinned=true
+  fi
+  # Composer accepts caret/tilde/range constraints as well as exact versions.
+  # Only require/require-dev links for the SDK count, never unrelated metadata.
+  if python3 "$SCRIPT_DIR/inspect-sdk-dependencies.py" composer-pinned "$PROJECT_ROOT"; then
     version_pinned=true
   fi
   # If no dependency files found at all, skip the check
