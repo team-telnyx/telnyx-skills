@@ -20,6 +20,7 @@
 #   2 — Usage error
 
 set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # --- Colors (disabled if not a terminal) ---
 # shellcheck disable=SC2034  # BLUE reserved for info lines; kept for palette consistency
@@ -204,7 +205,7 @@ search_files() {
     include_args="$include_args --include=$glob"
   done
   # shellcheck disable=SC2086
-  grep -rn $GREP_EXCLUDES $include_args -E "$pattern" "$PROJECT_ROOT" 2>/dev/null || true
+  grep -rnI $GREP_EXCLUDES $include_args -E "$pattern" "$PROJECT_ROOT" 2>/dev/null || true
 }
 
 # Search helper that excludes .md files and minified JS (for config/env var checks)
@@ -217,7 +218,18 @@ search_source_files() {
     include_args="$include_args --include=$glob"
   done
   # shellcheck disable=SC2086
-  grep -rn $GREP_EXCLUDES --exclude='*.md' --exclude='*.min.js' $include_args -E "$pattern" "$PROJECT_ROOT" 2>/dev/null || true
+  grep -rnI $GREP_EXCLUDES --exclude='*.md' --exclude='*.min.js' $include_args -E "$pattern" "$PROJECT_ROOT" 2>/dev/null || true
+}
+
+# Auth-related names are common in unrelated SDKs. Require Telnyx context in
+# the same file before reporting static evidence, not cryptographic assurance.
+search_telnyx_auth_files() {
+  local pattern="$1" file
+  while IFS= read -r -d '' file; do
+    if grep -qiE 'telnyx' "$file"; then
+      grep -nH -E "$pattern" "$file" || true
+    fi
+  done < <(grep -rlI --null $GREP_EXCLUDES --exclude='*.md' -E "$pattern" "$PROJECT_ROOT" 2>/dev/null || true)
 }
 
 # Search helper that filters out comment-only lines to reduce false positives.
@@ -407,10 +419,52 @@ fi
 # ============================================================
 section_header "Residual Twilio References"
 
+# Grep suppresses permission errors below; make scan incompleteness visible.
+# Use the same exclusions as the content checks, including caller exclusions.
+unreadable_files=$(python3 - "$PROJECT_ROOT" "$EXCLUDE_DIRS $EXTRA_EXCLUDE_DIRS" "$EXCLUDE_FILES" "$EXCLUDE_LOCK_FILES" <<'PY'
+import fnmatch
+import json
+import os
+import stat
+import sys
+root, excluded_dirs, excluded_files, excluded_locks = sys.argv[1:]
+excluded_dirs = excluded_dirs.split()
+excluded_files = excluded_files.split() + [arg.removeprefix("--exclude=") for arg in excluded_locks.split()]
+unreadable = []
+def excluded(name, patterns):
+    return any(fnmatch.fnmatchcase(name, pattern) for pattern in patterns)
+def walk_error(error):
+    unreadable.append(error.filename)
+for directory, dirs, files in os.walk(root, onerror=walk_error):
+    dirs[:] = [name for name in dirs if not excluded(name, excluded_dirs)]
+    for name in files:
+        if excluded(name, excluded_files):
+            continue
+        path = os.path.join(directory, name)
+        try:
+            mode = os.stat(path).st_mode
+            if stat.S_ISREG(mode) and (not mode & 0o444 or not os.access(path, os.R_OK)):
+                unreadable.append(path)
+        except OSError:
+            unreadable.append(path)
+print(json.dumps({"files": unreadable}))
+PY
+)
+if [ "$(jq '.files | length' <<< "$unreadable_files")" -gt 0 ]; then
+  check_fail "source_readability" "Files could not be read; migration validation is incomplete:" "$unreadable_files"
+fi
+
+# Rust is not a supported SDK analyzer. Concrete Twilio imports must not be
+# hidden by an unrelated supported-language Telnyx dependency.
+matches=$(search_code_only '(^|[;[:space:]])(use|extern[[:space:]]+crate)[[:space:]]+twilio([[:space:]:;]|$)' "*.rs")
+if [ -n "$matches" ]; then
+  check_residual_matches_with_hybrid_scope "unsupported_twilio_source" "Twilio Rust source found; this validator cannot analyse Rust SDK migration completeness. Manual review is required:" "$matches"
+fi
+
 # --- Check 1: Twilio SDK imports ---
 # Python
 if product_applies "all"; then
-  matches=$(search_files "(from twilio|import twilio)" "*.py")
+  matches=$(search_files "(from twilio|import twilio)" "*.py" "*.pyw")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
     check_residual_matches_with_hybrid_scope "twilio_python_imports" "Twilio Python imports found in $count file(s):" "$matches"
@@ -421,7 +475,7 @@ fi
 
 # JavaScript / TypeScript
 if product_applies "all"; then
-  matches=$(search_files "(require\(['\"]twilio['\"]|from ['\"]twilio['\"])" "*.js" "*.ts" "*.jsx" "*.tsx" "*.mjs" "*.cjs")
+  matches=$(search_files "(require\(['\"]twilio['\"]|from ['\"]twilio['\"])" "*.js" "*.ts" "*.jsx" "*.tsx" "*.mjs" "*.cjs" "*.mts" "*.cts")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
     check_residual_matches_with_hybrid_scope "twilio_js_imports" "Twilio JS/TS imports found in $count file(s):" "$matches"
@@ -443,7 +497,7 @@ fi
 
 # Ruby
 if product_applies "all"; then
-  matches=$(search_files "(require ['\"]twilio-ruby['\"]|require ['\"]twilio['\"])" "*.rb")
+  matches=$(search_files "(require ['\"]twilio-ruby['\"]|require ['\"]twilio['\"])" "*.rb" "*.rake")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
     check_residual_matches_with_hybrid_scope "twilio_ruby_imports" "Twilio Ruby imports found in $count file(s):" "$matches"
@@ -454,7 +508,7 @@ fi
 
 # Java
 if product_applies "all"; then
-  matches=$(search_files "import com\.twilio\." "*.java" "*.kt" "*.scala")
+  matches=$(search_files "import com\.twilio\." "*.java" "*.kt" "*.kts" "*.scala")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
     check_residual_matches_with_hybrid_scope "twilio_java_imports" "Twilio Java imports found in $count file(s):" "$matches"
@@ -465,7 +519,7 @@ fi
 
 # PHP
 if product_applies "all"; then
-  matches=$(search_files "(use Twilio|require.*twilio.php)" "*.php")
+  matches=$(search_files "(use Twilio|require.*twilio.php)" "*.php" "*.phtml")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
     check_residual_matches_with_hybrid_scope "twilio_php_imports" "Twilio PHP imports found in $count file(s):" "$matches"
@@ -476,7 +530,7 @@ fi
 
 # C#
 if product_applies "all"; then
-  matches=$(search_files "using Twilio" "*.cs")
+  matches=$(search_files "using Twilio" "*.cs" "*.cshtml")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
     check_residual_matches_with_hybrid_scope "twilio_csharp_imports" "Twilio C# imports found in $count file(s):" "$matches"
@@ -487,7 +541,7 @@ fi
 
 # --- Check 2: Twilio API URLs (excludes .md docs and minified JS) ---
 if product_applies "all"; then
-  matches=$(search_source_files "(api\.twilio\.com|verify\.twilio\.com|video\.twilio\.com|taskrouter\.twilio\.com|chat\.twilio\.com|conversations\.twilio\.com|sync\.twilio\.com|proxy\.twilio\.com|studio\.twilio\.com)")
+  matches=$(search_source_files "(api\.twilio\.com|verify\.twilio\.com|video\.twilio\.com|taskrouter\.twilio\.com|chat\.twilio\.com|conversations\.twilio\.com|sync\.twilio\.com|proxy\.twilio\.com|studio\.twilio\.com|twimlets\.com)")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
     check_residual_matches_with_hybrid_scope \
@@ -549,11 +603,15 @@ if product_applies "all"; then
   # Go
   dep_matches+=$(grep -rn $GREP_EXCLUDES -l "telnyx" "$PROJECT_ROOT"/go.mod 2>/dev/null || true)
   # Java/Kotlin (build.gradle, build.gradle.kts, pom.xml, libs.versions.toml)
-  dep_matches+=$(find "$PROJECT_ROOT" -maxdepth 4 \( -name pom.xml -o -name build.gradle -o -name build.gradle.kts -o -name "libs.versions.toml" \) -not -path "*/node_modules/*" -not -path "*/.git/*" -not -path "*/build/*" -exec grep -l "telnyx" {} \; 2>/dev/null || true)
+  if python3 "$SCRIPT_DIR/inspect-sdk-dependencies.py" jvm-declared "$PROJECT_ROOT"; then
+    dep_matches+=$'\nJVM dependency declaration\n'
+  fi
   # iOS (Swift Package Manager — project.pbxproj, Package.swift)
   dep_matches+=$(find "$PROJECT_ROOT" -maxdepth 4 \( -name "project.pbxproj" -o -name "Package.swift" \) -not -path "*/.git/*" -exec grep -l -i "telnyx" {} \; 2>/dev/null || true)
   # PHP
-  dep_matches+=$(grep -rn $GREP_EXCLUDES -l "telnyx" "$PROJECT_ROOT"/composer.json 2>/dev/null || true)
+  if python3 "$SCRIPT_DIR/inspect-sdk-dependencies.py" composer "$PROJECT_ROOT"; then
+    dep_matches+=$'\nComposer dependency declaration\n'
+  fi
   # C#
   dep_matches+=$(find "$PROJECT_ROOT" -maxdepth 3 -name "*.csproj" -exec grep -l "Telnyx" {} \; 2>/dev/null || true)
   # Flutter
@@ -570,7 +628,10 @@ if product_applies "all"; then
   else
     # Before failing, check if Telnyx imports exist in source — if so, SDK is present
     # but in a dependency file we don't recognize (e.g., monorepo, custom build system)
-    source_imports=$(search_files "(import telnyx|from telnyx|require.*telnyx|use Telnyx|using Telnyx|github\.com/telnyx|@telnyx/|com\.telnyx\.|TelnyxRTC|TelnyxClient)")
+    source_imports=$(search_files "(import telnyx|from telnyx|require.*telnyx|use Telnyx|using Telnyx|github\.com/(team-)?telnyx|@telnyx/|com\.telnyx\.|TelnyxRTC|TelnyxClient)" \
+      "*.py" "*.pyw" "*.js" "*.jsx" "*.ts" "*.tsx" "*.mjs" "*.cjs" "*.mts" "*.cts" "*.rb" "*.rake" \
+      "*.go" "*.java" "*.kt" "*.kts" "*.scala" "*.php" "*.phtml" "*.cs" "*.cshtml" \
+      "*.swift" "*.dart")
     source_count=$(count_matches "$source_imports")
     if [ "$source_count" -gt 0 ]; then
       check_warn "telnyx_sdk_dependency" "Telnyx SDK not found in standard dependency files, but Telnyx imports found in $source_count source file(s) — likely using a non-standard dependency manager"
@@ -593,9 +654,19 @@ if product_applies "all"; then
   if grep -qE "gem\s+['\"]telnyx['\"].*~>" "$PROJECT_ROOT"/Gemfile 2>/dev/null; then
     version_pinned=true
   fi
+  # Go modules always require an explicit semantic version. Recognize both the
+  # current /v4 module path and an eventual later major-version path.
+  if grep -qE 'github\.com/team-telnyx/telnyx-go(/v[0-9]+)?[[:space:]]+v[0-9]+\.' "$PROJECT_ROOT"/go.mod 2>/dev/null; then
+    version_pinned=true
+  fi
+  # Inspect dependency fields structurally. App/parent/unrelated versions are
+  # not evidence that this SDK dependency has a constrained version.
+  if python3 "$SCRIPT_DIR/inspect-sdk-dependencies.py" jvm-pinned "$PROJECT_ROOT"; then
+    version_pinned=true
+  fi
   # If no dependency files found at all, skip the check
   has_deps=false
-  for f in requirements.txt setup.py setup.cfg pyproject.toml Pipfile package.json Gemfile go.mod; do
+  for f in requirements.txt setup.py setup.cfg pyproject.toml Pipfile package.json Gemfile go.mod pom.xml build.gradle build.gradle.kts composer.json; do
     if [ -f "$PROJECT_ROOT/$f" ]; then has_deps=true; break; fi
   done
   if [ "$has_deps" = true ]; then
@@ -637,7 +708,9 @@ fi
 
 # --- Check 7: Telnyx imports in source code ---
 if product_applies "all"; then
-  matches=$(search_files "(import telnyx|from telnyx|require.*telnyx|use Telnyx|using Telnyx|github\.com/telnyx)")
+  matches=$(search_files "(import telnyx|from telnyx|require.*telnyx|use Telnyx|using Telnyx|github\.com/(team-)?telnyx|com\.telnyx\.)" \
+    "*.py" "*.pyw" "*.js" "*.jsx" "*.ts" "*.tsx" "*.mjs" "*.cjs" "*.mts" "*.cts" "*.rb" "*.rake" \
+    "*.go" "*.java" "*.kt" "*.kts" "*.scala" "*.php" "*.phtml" "*.cs" "*.cshtml")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
     check_pass "telnyx_source_imports" "Telnyx imports found in $count source file(s)"
@@ -655,10 +728,10 @@ section_header "Auth Patterns"
 
 # --- Check 8: Bearer auth ---
 if product_applies "all"; then
-  matches=$(search_files "(Authorization.*Bearer|bearer.*auth|Bearer.*TELNYX|TELNYX.*Bearer)")
+  matches=$(search_telnyx_auth_files "(Authorization.*Bearer|bearer.*auth|Bearer.*TELNYX|TELNYX.*Bearer)")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
-    check_pass "bearer_auth" "Bearer auth pattern found in $count file(s)"
+    check_pass "bearer_auth" "Bearer auth pattern found in $count Telnyx-related match(es) (static evidence only)"
   else
     check_pass "bearer_auth" "No explicit Bearer auth pattern (SDK may handle this)"
   fi
@@ -682,10 +755,10 @@ section_header "Webhook Validation"
 
 # --- Check 10: Ed25519 signature validation ---
 if product_applies "voice,messaging,verify,sip,fax"; then
-  matches=$(search_files "(ed25519|Ed25519|telnyx-signature-ed25519|verify_signature|construct_event|webhooks\.unwrap|webhook.*signature.*telnyx)")
+  matches=$(search_telnyx_auth_files "(telnyx-signature-ed25519|verify_signature|construct_event|webhooks\.unwrap|webhook.*signature.*telnyx|ed25519.*[Vv]erify|Ed25519.*[Vv]erify)")
   count=$(count_matches "$matches")
   if [ "$count" -gt 0 ]; then
-    check_pass "ed25519_validation" "Ed25519 webhook signature validation found in $count file(s)"
+    check_pass "ed25519_validation" "Telnyx webhook verification pattern found in $count match(es) (static evidence only; review signature enforcement)"
   else
     # Check if the project has webhook handlers — if so, missing validation is a FAIL
     webhook_handlers=$(search_files "(app\.(post|put)|router\.(post|put)|@app\.route|@csrf_exempt|HandleFunc|post '/)" "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php")

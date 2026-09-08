@@ -36,6 +36,9 @@ MESSAGING_SOURCE_ANALYZER = (
     MIGRATION_SCRIPTS.parent / "lint-required-messaging-profile.py"
 )
 PREFLIGHT_SCRIPT = MIGRATION_SCRIPTS.parent / "preflight-check.sh"
+SCAN_USAGE_SCRIPT = MIGRATION_SCRIPTS.parent / "scan-twilio-usage.sh"
+DEEP_SCAN_SCRIPT = MIGRATION_SCRIPTS.parent / "scan-twilio-deep.py"
+VALIDATE_MIGRATION_SCRIPT = MIGRATION_SCRIPTS.parent / "validate-migration.sh"
 TEXML_VALIDATOR = MIGRATION_SCRIPTS.parent / "validate-texml.sh"
 FILTER_SOURCE_SCRIPT = MIGRATION_SCRIPTS.parent / "filter-source-matches.py"
 SMOKE_SCRIPT = MIGRATION_SCRIPTS / "smoke-test.sh"
@@ -158,6 +161,72 @@ class CorrectnessLinterContracts(unittest.TestCase):
                 timeout=15,
                 check=False,
             )
+
+    def test_csharp_twilio_message_send_and_client_init_are_actionable(self) -> None:
+        result, payload = self.run_messaging_linter(
+            {
+                "Program.cs": (
+                    "using Twilio;\n"
+                    "using Twilio.Rest.Api.V2010.Account;\n"
+                    "TwilioClient.Init(accountSid, authToken);\n"
+                    "var message = MessageResource.Create(\n"
+                    "  from: new PhoneNumber(from),\n"
+                    "  to: new PhoneNumber(to),\n"
+                    "  body: \"Ahoy from Twilio!\"\n"
+                    ");\n"
+                )
+            }
+        )
+        self.assertEqual(1, result.returncode)
+        statuses = {item["name"]: item["status"] for item in payload["checks"]}
+        self.assertEqual("issue", statuses["twilio_messages_create"])
+        self.assertEqual("issue", statuses["body_not_text"])
+        self.assertEqual("issue", statuses["twilio_client_instantiation"])
+
+    def test_csharp_body_checks_require_sdk_ownership(self) -> None:
+        sources = (
+            ('class MessageResource { public static void Create(string body) {} }\n'
+             'class Queue { void Send() { MessageResource.Create(body: "data"); } }', False),
+            ('using Twilio.Rest.Api.V2010.Account;\n'
+             'class MessageResource { public static void Create(string body) {} }\n'
+             'MessageResource.Create(body: "data");', False),
+            ('using MessageResource = Example.Queue;\n'
+             'using Twilio.Rest.Api.V2010.Account;\nMessageResource.Create(body: "data");', False),
+            ('using Sms = Twilio.Rest.Api.V2010.Account.MessageResource;\nSms.Create(body: "data");', True),
+            ('using Api = Twilio.Rest.Api.V2010.Account;\nApi.MessageResource.Create(body: "data");', True),
+            ('global::Twilio.Rest.Api.V2010.Account.MessageResource.Create(body: "data");', True),
+            ('using static Twilio.Rest.Api.V2010.Account.MessageResource;\nCreate(body: "data");', True),
+            ('namespace A { using Twilio.Rest.Api.V2010.Account; }\n'
+             'namespace B { class Queue { void Send() { MessageResource.Create(body: "data"); } } }', False),
+            ('using Sms = Twilio.Rest.Api.V2010.Account.MessageResource;\n'
+             'class X { void Go() { var Sms = new Queue(); Sms.Create(body: "data"); } }', False),
+            ('using Api = Twilio.Rest.Api.V2010.Account;\n'
+             'class X { void Go() { var Api = new Queue(); Api.MessageResource.Create(body: "data"); } }', False),
+            ('using Sms = Twilio.Rest.Api.V2010.Account.MessageResource;\n'
+             'class X { void Go(Queue Sms) { Sms.Create(body: "data"); } }', False),
+            ('using Sms = Twilio.Rest.Api.V2010.Account.MessageResource;\n'
+             'class X { void Other() { var Sms = new Queue(); }\n'
+             'void Go() { Sms.Create(body: "data"); } }', True),
+            ('using Sms = Twilio.Rest.Api.V2010.Account.MessageResource;\n'
+             'class X { void Go() { { var Sms = new Queue(); } Sms.Create(body: "data"); } }', True),
+        )
+        for source, expected in sources:
+            with self.subTest(source=source):
+                _, payload = self.run_messaging_linter({"Program.cs": source})
+                statuses = {item["name"]: item["status"] for item in payload["checks"]}
+                for check in ("twilio_messages_create", "body_not_text"):
+                    self.assertEqual("issue" if expected else "pass", statuses[check])
+
+    def test_csharp_generic_body_calls_are_preserved(self) -> None:
+        for field, expected in (("Body", "issue"), ("Text", "pass")):
+            with self.subTest(field=field):
+                _, payload = self.run_messaging_linter({"Program.cs": (
+                    'client.Messages.Send(new MessageCreateOptions { '
+                    f'{field} = "hello", To = "+1"' + ' });'
+                )})
+                statuses = {item["name"]: item["status"] for item in payload["checks"]}
+                self.assertEqual(expected, statuses["body_not_text"])
+                self.assertEqual("pass", statuses["twilio_messages_create"])
 
     def test_documented_mapping_prose_is_not_residual_twilio(self) -> None:
         result, payload = self.run_messaging_linter(
@@ -1789,6 +1858,19 @@ class CorrectnessLinterContracts(unittest.TestCase):
         _, payload = self.run_messaging_linter({"Frontmatter.astro": astro_frontmatter})
         self.assert_required_profile_detected(payload, "Frontmatter.astro")
 
+        comment_string_frontmatter = "\n".join(
+            (
+                "---",
+                'const marker = "<!--";',
+                'fetch("/v2/messages/number_pool", {method: "POST", body: JSON.stringify({to: "+1"})});',
+                "---",
+            )
+        )
+        _, payload = self.run_messaging_linter(
+            {"CommentString.astro": comment_string_frontmatter}
+        )
+        self.assert_required_profile_detected(payload, "CommentString.astro")
+
     def test_ejs_client_script_blocks_are_executable(self) -> None:
         name = "send.ejs"
         _, payload = self.run_messaging_linter(
@@ -1800,6 +1882,220 @@ class CorrectnessLinterContracts(unittest.TestCase):
             }
         )
         self.assert_required_profile_detected(payload, name)
+
+    def test_ejs_script_type_controls_client_execution(self) -> None:
+        url = "https://api.telnyx.com/v2/messages/number_pool"
+        missing = (
+            f'fetch("{url}", '
+            '{method: "POST", body: JSON.stringify({to: "+1"})});'
+        )
+        valid = missing.replace(
+            '{to: "+1"}',
+            '{to: "+1", messaging_profile_id: "mp"}',
+        )
+        executable_openers = {
+            "absent": "<script>",
+            "empty": '<script type="">',
+            "boolean-empty": "<script type>",
+            "module": '<script type="module">',
+            "classic": '<script type="text/javascript">',
+            "legacy": "<script TYPE=application/x-javascript>",
+            "data-type-only": '<script data-type="application/json">',
+            "dynamic-type": '<script type="<%= scriptType %>">',
+            "language-javascript": '<script language="javascript">',
+        }
+        inert_openers = {
+            "json": '<script type="application/json">',
+            "json-case": "<SCRIPT TYPE='Application/JSON'>",
+            "json-entity": '<script type="application&#x2f;json">',
+            "json-ld": "<script type=application/ld+json>",
+            "plain": '<script type = "text/plain">',
+            "import-map": '<script type="importmap">',
+            "speculation-rules": '<script type="speculationrules">',
+            "language-non-js": '<script language="vbscript">',
+            "duplicate-first": (
+                '<script type="application/json" type="text/javascript">'
+            ),
+            "module-with-parameters": '<script type="module;foo">',
+            "empty-essence-with-parameters": (
+                '<script type="; charset=utf-8">'
+            ),
+            "javascript-with-parameters": (
+                '<script type="Application/JavaScript; charset=utf-8">'
+            ),
+        }
+
+        for label, opener in executable_openers.items():
+            for polarity, request, should_detect in (
+                ("missing", missing, True),
+                ("valid", valid, False),
+            ):
+                name = f"executable-{label}-{polarity}.ejs"
+                with self.subTest(label=label, polarity=polarity):
+                    result, payload = self.run_messaging_linter(
+                        {name: f"{opener}{request}</script>"}
+                    )
+                    if should_detect:
+                        self.assert_required_profile_detected(payload, name)
+                    else:
+                        checks = [
+                            check
+                            for check in payload["checks"]
+                            if check["name"] == "required_messaging_profile_id"
+                        ]
+                        self.assertEqual(
+                            [
+                                {
+                                    "name": "required_messaging_profile_id",
+                                    "status": "pass",
+                                }
+                            ],
+                            checks,
+                        )
+                        self.assertEqual(0, result.returncode, result.stdout)
+
+        for label, opener in inert_openers.items():
+            name = f"inert-{label}.ejs"
+            with self.subTest(label=label):
+                self.assert_required_profile_passes(
+                    {name: f"{opener}{missing}</script>"}
+                )
+
+        self.assert_required_profile_passes(
+            {
+                "mixed.ejs": (
+                    f'<script type="application/json">{missing}</script>'
+                    f'<script type="module">{valid}</script>'
+                )
+            }
+        )
+        self.assert_required_profile_passes(
+            {
+                "quoted-angle.ejs": (
+                    '<script data-note="1 > 0" type="application/json">'
+                    f"{missing}</script>"
+                ),
+                "commented.ejs": f"<!-- <script>{missing}</script> -->",
+                "boundary.ejs": f"<scripture>{missing}</scripture>",
+            }
+        )
+        _, payload = self.run_messaging_linter(
+            {"unclosed.ejs": f"<script>{missing}"}
+        )
+        self.assert_required_profile_detected(payload, "unclosed.ejs")
+        _, payload = self.run_messaging_linter(
+            {
+                "closing-boundary.ejs": (
+                    f"<script>const inert = 1;</scripture>{missing}</script>"
+                )
+            }
+        )
+        self.assert_required_profile_detected(payload, "closing-boundary.ejs")
+
+        # Tag discovery must preserve original Unicode offsets and follow HTML
+        # tag-name/end-tag boundaries.  Inert custom/data/comment regions must
+        # not become requests, nor may they consume a later real script.
+        _, payload = self.run_messaging_linter(
+            {"unicode-offset.ejs": f"İ<script>{missing}</script>"}
+        )
+        self.assert_required_profile_detected(payload, "unicode-offset.ejs")
+        for name, source in {
+            "script-dot.ejs": f"<script.foo>{missing}</script.foo>",
+            "slash-close.ejs": (
+                "<script>const okay = true;</script/>"
+                f'<script type="application/json">{missing}</script>'
+            ),
+            "unterminated-comment.ejs": f"<!--\n<script>{missing}</script>",
+            "textarea.ejs": f"<textarea><script>{missing}</script></textarea>",
+            "title.ejs": f"<title><script>{missing}</script></title>",
+            "style.ejs": f"<style><script>{missing}</script></style>",
+            "plaintext.ejs": f"<plaintext><script>{missing}</script>",
+            "non-ascii-empty-type.ejs": (
+                f'<script type="&nbsp;">{missing}</script>'
+            ),
+            "attribute.ejs": f'<div data-example="<script>{missing}</script>">x</div>',
+            "nested-template.ejs": (
+                "<template><template></template>"
+                f"<script>{missing}</script></template>"
+            ),
+        }.items():
+            with self.subTest(inert_boundary=name):
+                self.assert_required_profile_passes({name: source})
+
+        for name, source in {
+            "after-custom.ejs": (
+                f"<script.foo>{missing}</script.foo><script>{missing}</script>"
+            ),
+            "after-comment.ejs": (
+                f"<!-- <script>{missing}</script> --><script>{missing}</script>"
+            ),
+            "after-bang-comment.ejs": (
+                f"<!-- inert --!><script>{missing}</script>"
+            ),
+            "after-abrupt-comment.ejs": f"<!--><script>{missing}</script>",
+            "legacy-script-comment.ejs": (
+                f"<script><!--\n{missing}\n//--></script>"
+            ),
+            "comment-text-in-script.ejs": (
+                f'<script>const marker = "<!--";\n{missing}</script>'
+            ),
+            "comment-text-in-attribute.ejs": (
+                f'<div data-marker="<!--"></div><script>{missing}</script>'
+            ),
+            "ascii-end-tag.ejs": (
+                f'<script>const marker = "</ſcript>";\n{missing}</script>'
+            ),
+            "non-ascii-attribute-separator.ejs": (
+                f'<script type\u00a0="application/json">{missing}</script>'
+            ),
+            "slash-close-live.ejs": (
+                f"<script>{missing}</script/><p>ordinary</p>"
+            ),
+        }.items():
+            with self.subTest(executable_boundary=name):
+                _, payload = self.run_messaging_linter({name: source})
+                self.assert_required_profile_detected(payload, name)
+
+        for suffix in (".vue", ".svelte", ".astro"):
+            with self.subTest(suffix=suffix, script_type="json"):
+                self.assert_required_profile_passes(
+                    {
+                        f"data{suffix}": (
+                            '<script type="application/json">'
+                            f"{missing}</script>"
+                        )
+                    }
+                )
+            with self.subTest(suffix=suffix, script_type="module"):
+                _, payload = self.run_messaging_linter(
+                    {
+                        f"module{suffix}": (
+                            f'<script type="module">{missing}</script>'
+                        )
+                    }
+                )
+                self.assert_required_profile_detected(payload, f"module{suffix}")
+
+    def test_template_comment_and_script_scans_are_linear(self) -> None:
+        namespace = runpy.run_path(str(MESSAGING_SOURCE_ANALYZER))
+        without_comments = namespace["_without_html_comments"]
+        script_ranges = namespace["_script_element_body_ranges"]
+
+        # These inputs made the former non-anchored DOTALL regex retry at every
+        # opener.  Large bounded fixtures make the regression deterministic:
+        # the linear scanners complete comfortably below this generous limit.
+        for label, operation, source in (
+            ("comments", without_comments, "<!--" * 20_000),
+            (
+                "script-tags",
+                script_ranges,
+                "İ" * 20_000 + "<script>const x = 1;</script>" * 2_000,
+            ),
+        ):
+            with self.subTest(label=label):
+                started = time.perf_counter()
+                operation(source)
+                self.assertLess(time.perf_counter() - started, 1.0)
 
     def test_component_style_blocks_are_not_executable_requests(self) -> None:
         for suffix in (".svelte", ".astro"):
@@ -3160,6 +3456,274 @@ class CorrectnessLinterContracts(unittest.TestCase):
             any("after-heredoc.rb" in row for row in result.stdout.splitlines()[1:]),
             result.stdout,
         )
+
+    def test_ruby_multiple_heredocs_preserve_each_body_interpolation_mode(
+        self,
+    ) -> None:
+        url = "https://api.telnyx.com/v2/messages/number_pool"
+
+        def request(profile: bool) -> str:
+            field = ", messaging_profile_id: 'mp'" if profile else ""
+            return (
+                f"Net::HTTP.post(URI('{url}'), "
+                f"{{to: '+1'{field}}}.to_json)"
+            )
+
+        opener_modes = {
+            "plain": lambda tag: f"<<{tag}",
+            "indented": lambda tag: f"<<~{tag}",
+            "double": lambda tag: f'<<"{tag}"',
+            "single": lambda tag: f"<<'{tag}'",
+            "command": lambda tag: f"<<`{tag}`",
+        }
+        for first_mode, first_opener in opener_modes.items():
+            for second_mode, second_opener in opener_modes.items():
+                for active_body in (0, 1):
+                    for polarity, profile in (
+                        ("missing", False),
+                        ("valid", True),
+                    ):
+                        modes = (first_mode, second_mode)
+                        bodies = ["ordinary first", "ordinary second"]
+                        bodies[active_body] = f"#{{{request(profile)}}}"
+                        source = "\n".join(
+                            (
+                                f"puts {first_opener('FIRST')}, {second_opener('SECOND')}",
+                                bodies[0],
+                                "FIRST",
+                                bodies[1],
+                                "SECOND",
+                                "",
+                            )
+                        )
+                        should_execute = modes[active_body] != "single"
+                        name = (
+                            f"multi-{first_mode}-{second_mode}-{active_body}-"
+                            f"{polarity}.rb"
+                        )
+                        with self.subTest(
+                            first=first_mode,
+                            second=second_mode,
+                            active_body=active_body,
+                            polarity=polarity,
+                        ):
+                            result = self.run_required_profile_analyzer(
+                                {name: source}
+                            )
+                            detected = any(
+                                name in row for row in result.stdout.splitlines()[1:]
+                            )
+                            self.assertEqual(
+                                should_execute and not profile,
+                                detected,
+                                result.stdout,
+                            )
+
+        triple = "\n".join(
+            (
+                "render <<'ONE', <<~TWO, <<\"THREE\"",
+                f"#{{{request(False)}}}",
+                "ONE",
+                "ordinary second",
+                "TWO",
+                f"#{{{request(False)}}}",
+                "THREE",
+                "",
+            )
+        )
+        result = self.run_required_profile_analyzer({"triple.rb": triple})
+        self.assertTrue(
+            any("triple.rb" in row for row in result.stdout.splitlines()[1:]),
+            result.stdout,
+        )
+
+    def test_ruby_heredoc_grammar_boundaries(self) -> None:
+        url = "https://api.telnyx.com/v2/messages/number_pool"
+        send = f"Net::HTTP.post(URI('{url}'), {{to: '+1'}}.to_json)"
+
+        # Ripper classifies these completed operands as shifts rather than
+        # heredoc openers.  None may mask the live request that follows.
+        shifts = {
+            "decimal": "mask = 1 <<OFFSET",
+            "hex": "mask = 0x1 <<OFFSET",
+            "parenthesized": "mask = value() <<OFFSET",
+            "string": 'mask = "x" <<OFFSET',
+            "instance": "mask = @value <<OFFSET",
+            "class-variable": "mask = @@value <<OFFSET",
+            "global": "mask = $value <<OFFSET",
+            "nil": "mask = nil <<OFFSET",
+            "true": "mask = true <<OFFSET",
+            "false": "mask = false <<OFFSET",
+            "self": "mask = self <<OFFSET",
+            "file-keyword": "mask = __FILE__ <<OFFSET",
+            "symbol": "mask = :value <<OFFSET",
+            "regexp": "mask = /value/ <<OFFSET",
+            "adjacent-local": "buffer<<OFFSET",
+            "adjacent-constant": "Buffer<<OFFSET",
+            "bound-local": "value = 1; mask = value <<OFFSET",
+            "bound-parameter": "def shift(value); mask = value <<OFFSET; end",
+            "bound-brace-parameter": "[1].each { |value| mask = value <<OFFSET }",
+            "bound-destructured-parameter": (
+                "[[1, 2]].each { |(value, other)| mask = value <<OFFSET }"
+            ),
+            "bound-do-parameter": (
+                "[1].each do |value|\n  mask = value <<OFFSET\nend"
+            ),
+            "multiple-assignment": "value, other = 1, 2; mask = value <<OFFSET",
+            "two-bound-shifts": (
+                "def first(value); value <<BITS; end\n"
+                "def second(other); other <<MASK; end"
+            ),
+            "multiline-parameter": (
+                "def shift(\n  value\n)\n  value <<OFFSET\nend"
+            ),
+        }
+        for label, shift in shifts.items():
+            name = f"shift-{label}.rb"
+            with self.subTest(shift=label):
+                result = self.run_required_profile_analyzer(
+                    {name: f"OFFSET = 1\n{shift}\n{send}\n"}
+                )
+                self.assertTrue(
+                    any(name in row for row in result.stdout.splitlines()[1:]),
+                    result.stdout,
+                )
+
+        # Names mentioned only in parameter defaults or introduced as block
+        # parameters are not locals in the surrounding scope. Their `<<DOC`
+        # forms remain real heredocs, so requests inside the bodies are inert.
+        for label, source in {
+            "default-expression": (
+                "def render(value = fallback)\n"
+                f"  fallback <<DOC\n  {send}\nDOC\nend\n"
+            ),
+            "block-shadow": (
+                "[1].each { |value| value = 1 }\n"
+                f"value <<DOC\n{send}\nDOC\n"
+            ),
+            "block-default": (
+                "[1].each { |value = fallback| value }\n"
+                f"fallback <<DOC\n{send}\nDOC\n"
+            ),
+            "nested-block-shadow": (
+                "[1].each do |value|\n"
+                "  if true\n    :ok\n  end\n"
+                "  value = 1\nend\n"
+                f"value <<DOC\n{send}\nDOC\n"
+            ),
+        }.items():
+            with self.subTest(binding_scope=label):
+                self.assertEqual(
+                    "0",
+                    self.run_required_profile_analyzer(
+                        {f"binding-{label}.rb": source}
+                    ).stdout.strip(),
+                )
+
+        # Quoted identifiers accept delimiters beyond bare Ruby identifiers.
+        # Their bodies remain inert for every quote mode.
+        for label, opener, terminator in (
+            ("hyphen", '<<"END-HTML"', "END-HTML"),
+            ("space", '<<"1 END"', "1 END"),
+            ("punctuation", "<<'END/HTML!'", "END/HTML!"),
+            ("command", "<<`END-HTML`", "END-HTML"),
+            ("backslash", r'<<"END\q"', r"END\q"),
+            ("unicode-bare", "<<ÉND", "ÉND"),
+        ):
+            with self.subTest(delimiter=label):
+                self.assertEqual(
+                    "0",
+                    self.run_required_profile_analyzer(
+                        {
+                            f"delimiter-{label}.rb": (
+                                f"doc = {opener}\n{send}\n{terminator}\n"
+                            )
+                        }
+                    ).stdout.strip(),
+                )
+
+        # Plain heredocs terminate only at column zero and only on an exact
+        # delimiter line.  Flexible variants accept indentation but still not
+        # suffix text.
+        for premature in ("  DOC", "DOC.anything", "DOC # comment", "DOC ", "DOC\t"):
+            with self.subTest(plain_premature=premature):
+                self.assertEqual(
+                    "0",
+                    self.run_required_profile_analyzer(
+                        {"plain-terminator.rb": f"doc = <<DOC\n{premature}\n{send}\nDOC\n"}
+                    ).stdout.strip(),
+                )
+        for opener in ("<<-DOC", "<<~DOC"):
+            for trailing in (" ", "\t"):
+                with self.subTest(opener=opener, trailing=trailing):
+                    self.assertEqual("0", self.run_required_profile_analyzer({
+                        "trailing.rb": f"doc = {opener}\n  DOC{trailing}\n{send}\nDOC\n"
+                    }).stdout.strip())
+            with self.subTest(indented_terminator=opener):
+                result = self.run_required_profile_analyzer(
+                    {"indented-terminator.rb": f"doc = {opener}\n  DOC\n{send}\n"}
+                )
+                self.assertTrue(
+                    any(
+                        "indented-terminator.rb" in row
+                        for row in result.stdout.splitlines()[1:]
+                    ),
+                    result.stdout,
+                )
+
+        modified = (
+            "puts <<FIRST.upcase, <<'SECOND'\n"
+            f"#{{{send}}}\nFIRST\nordinary\nSECOND\n"
+        )
+        result = self.run_required_profile_analyzer({"modified.rb": modified})
+        self.assertTrue(
+            any("modified.rb" in row for row in result.stdout.splitlines()[1:]),
+            result.stdout,
+        )
+
+        # Text that resembles an opener inside a declaration-line string is
+        # not a second heredoc and cannot steal a later live send.
+        quoted_decoy = f'puts <<FIRST, "not <<SECOND"\nordinary\nFIRST\n{send}\n'
+        result = self.run_required_profile_analyzer(
+            {"quoted-decoy.rb": quoted_decoy}
+        )
+        self.assertTrue(
+            any("quoted-decoy.rb" in row for row in result.stdout.splitlines()[1:]),
+            result.stdout,
+        )
+        regex_decoy = f"puts <<FIRST, /not <<SECOND/\nordinary\nFIRST\n{send}\n"
+        result = self.run_required_profile_analyzer(
+            {"regexp-opener-decoy.rb": regex_decoy}
+        )
+        self.assertTrue(
+            any(
+                "regexp-opener-decoy.rb" in row
+                for row in result.stdout.splitlines()[1:]
+            ),
+            result.stdout,
+        )
+
+    def test_ruby_multiple_heredoc_discovery_is_linear(self) -> None:
+        namespace = runpy.run_path(str(MESSAGING_SOURCE_ANALYZER))
+        openers_at = namespace["_ruby_heredoc_openers_at"]
+        source = ", ".join(f"<<H{index}" for index in range(30_000)) + "\n"
+        started = time.perf_counter()
+        matches = openers_at(source, 0)
+        self.assertEqual(30_000, len(matches))
+        self.assertLess(time.perf_counter() - started, 1.0)
+
+        # Guard the complete binding-sensitive second pass too. Its owner
+        # lookup once scanned every method span for every assignment, making a
+        # large but ordinary Ruby file quadratic even without any heredocs.
+        lex_source = namespace["lex_source"]
+        methods = "".join(
+            f"def method_{index}(value); local = {index}; end\n"
+            for index in range(8_000)
+        )
+        started = time.perf_counter()
+        lexed = lex_source(methods, ".rb")
+        self.assertEqual(len(methods), len(lexed.code))
+        self.assertLess(time.perf_counter() - started, 4.0)
 
     def test_ruby_interpolation_balancing_ignores_literal_braces(self) -> None:
         url = "https://api.telnyx.com/v2/messages/number_pool"
@@ -9766,6 +10330,841 @@ class CorrectnessLinterContracts(unittest.TestCase):
         )
 
 
+CSHARP_DISCOVERY_RESOURCES = (
+    ("Twilio.Rest.Api.V2010.Account.MessageResource", "messaging"),
+    ("Twilio.Rest.Api.V2010.Account.CallResource", "voice"),
+    ("Twilio.Rest.Verify.V2.Service.VerificationResource", "verify"),
+    ("Twilio.Rest.Fax.V1.FaxResource", "fax"),
+    ("Twilio.Rest.Supersim.V1.SimResource", "iot"),
+    ("Twilio.Rest.Wireless.V1.SimResource", "iot"),
+    ("Twilio.Rest.Conversations.V1.ConversationResource", "conversations"),
+    ("Twilio.Rest.Conversations.V1.Service.ConversationResource", "conversations"),
+    ("Twilio.Rest.Notify.V1.Service.NotificationResource", "notify"),
+    ("Twilio.Rest.Taskrouter.V1.Workspace.WorkflowResource", "taskrouter"),
+)
+
+
+class CsharpResourceOwnershipSiblings(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.calls = staticmethod(runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name("sdk-source-ownership.py")))["contextual_calls"])
+
+    def products(self, source: str) -> set[str]:
+        return {product for _, product in self.calls(source, ".cs")}
+
+    def test_imported_and_fully_qualified_resources_are_owned(self) -> None:
+        for target, product in CSHARP_DISCOVERY_RESOURCES:
+            namespace, resource = target.rsplit(".", 1)
+            for source in (
+                f"using {namespace}; class App {{ void Run() {{ {resource}.CreateAsync(); }} }}",
+                f"class App {{ void Run() {{ global::{target}.Fetch(); }} }}",
+            ):
+                with self.subTest(target=target, source=source):
+                    self.assertEqual({product}, self.products(source))
+
+    def test_alias_is_owned(self) -> None:
+        source = (
+            "using Verify = Twilio.Rest.Verify.V2.Service.VerificationResource; "
+            "class App { void Run() { Verify.Create(); } }"
+        )
+        self.assertEqual({"verify"}, self.products(source))
+
+    def test_namespace_import_does_not_cross_boundary(self) -> None:
+        source = (
+            "namespace One { using Twilio.Rest.Fax.V1; } "
+            "namespace Two { class FaxResource { public static void Create() {} } "
+            "class App { void Run() { FaxResource.Create(); } } }"
+        )
+        self.assertEqual(set(), self.products(source))
+
+    def test_alias_and_resource_are_shadowed_locally(self) -> None:
+        fixtures = (
+            "using Verify = Twilio.Rest.Verify.V2.Service.VerificationResource; "
+            "class App { void Run(Queue Verify) { Verify.Create(); } }",
+            "using Twilio.Rest.Conversations.V1; "
+            "class ConversationResource { public static void Create() {} } "
+            "class App { void Run() { ConversationResource.Create(); } }",
+        )
+        for source in fixtures:
+            with self.subTest(source=source):
+                self.assertEqual(set(), self.products(source))
+
+    def test_shallow_scanner_rejects_unowned_bare_resources(self) -> None:
+        declarations = "\n".join(
+            f"class {target.rsplit('.', 1)[-1]} {{ public static void Create() {{}} }}"
+            for target, _ in dict(CSHARP_DISCOVERY_RESOURCES).items()
+        )
+        calls = "\n".join(
+            f"{target.rsplit('.', 1)[-1]}.Create();" for target, _ in CSHARP_DISCOVERY_RESOURCES
+        )
+        with tempfile.TemporaryDirectory(prefix="csharp-resource-ownership-") as directory:
+            (Path(directory) / "App.cs").write_text(
+                declarations + "\nclass App { void Run() {\n" + calls + "\n} }\n",
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [BASH, str(SCAN_USAGE_SCRIPT), directory], cwd=ROOT,
+                capture_output=True, text=True, timeout=30, check=False,
+            )
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertEqual([], json.loads(result.stdout)["products_used"])
+
+
+
+class GradleMapDependencySiblings(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.helper = runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name("inspect-sdk-dependencies.py")))
+
+    def inspect(self, source: str) -> tuple[bool, bool]:
+        with tempfile.TemporaryDirectory(prefix="gradle-map-dependency-") as directory:
+            root = Path(directory)
+            (root / "build.gradle").write_text(source, encoding="utf-8")
+            dependencies = self.helper["gradle_dependencies"](root)
+            declared = any(
+                group == "com.telnyx.sdk" and artifact == "telnyx"
+                for group, artifact, _ in dependencies
+            )
+            return declared, self.helper["gradle_pinned"](root)
+
+    def test_named_map_notation_is_declared_and_pinned(self) -> None:
+        sources = (
+            "dependencies { implementation group: 'com.telnyx.sdk', "
+            "name: 'telnyx', version: '6.89.0' }",
+            "dependencies { implementation(version: '6.89.0', "
+            "name: 'telnyx', group: 'com.telnyx.sdk') }",
+            "dependencies { api name: \"telnyx\", version: \"6.89.0\", "
+            "group: \"com.telnyx.sdk\" }",
+        )
+        for source in sources:
+            with self.subTest(source=source):
+                self.assertEqual((True, True), self.inspect(source))
+
+    def test_missing_or_dynamic_version_is_declared_but_not_pinned(self) -> None:
+        sources = (
+            "implementation group: 'com.telnyx.sdk', name: 'telnyx'",
+            "implementation group: 'com.telnyx.sdk', name: 'telnyx', "
+            "version: sdkVersion",
+            "implementation(group: 'com.telnyx.sdk', name: 'telnyx', "
+            "version: 'latest.release')",
+        )
+        for source in sources:
+            with self.subTest(source=source):
+                self.assertEqual((True, False), self.inspect(source))
+
+    def test_unrelated_coordinates_are_not_telnyx(self) -> None:
+        sources = (
+            "implementation group: 'com.example', name: 'telnyx', version: '6.89.0'",
+            "implementation group: 'com.telnyx.sdk', name: 'other', version: '6.89.0'",
+        )
+        for source in sources:
+            with self.subTest(source=source):
+                self.assertEqual((False, False), self.inspect(source))
+
+    def test_map_fields_do_not_cross_statement_boundaries(self) -> None:
+        source = (
+            "implementation group: 'com.telnyx.sdk'; "
+            "implementation name: 'telnyx', version: '6.89.0'"
+        )
+        self.assertEqual((False, False), self.inspect(source))
+
+    def test_comma_newline_continues_named_map(self) -> None:
+        source = (
+            "implementation group: 'com.telnyx.sdk',\n"
+            "  name: 'telnyx',\n"
+            "  version: '6.89.0'"
+        )
+        self.assertEqual((True, True), self.inspect(source))
+
+    def test_later_dynamic_duplicate_invalidates_literal_version(self) -> None:
+        source = (
+            "implementation group: 'com.telnyx.sdk', name: 'telnyx', "
+            "version: '6.89.0', version: sdkVersion"
+        )
+        self.assertEqual((True, False), self.inspect(source))
+
+    def test_comments_and_prose_do_not_establish_map_dependency(self) -> None:
+        sources = (
+            "// implementation group: 'com.telnyx.sdk', name: 'telnyx', version: '6.89.0'",
+            "def help = \"implementation group: 'com.telnyx.sdk', name: 'telnyx', "
+            "version: '6.89.0'\"",
+            "dependencies { /* implementation group: 'com.telnyx.sdk', "
+            "name: 'telnyx', version: '6.89.0' */ }",
+        )
+        for source in sources:
+            with self.subTest(source=source):
+                self.assertEqual((False, False), self.inspect(source))
+
+    def test_validator_accepts_declared_pinned_map_dependency(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="gradle-map-validator-") as directory:
+            (Path(directory) / "build.gradle").write_text(
+                "dependencies { implementation group: 'com.telnyx.sdk', "
+                "name: 'telnyx', version: '6.89.0' }",
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [BASH, str(VALIDATE_MIGRATION_SCRIPT), directory, "--json"],
+                cwd=ROOT, capture_output=True, text=True, timeout=30,
+                check=False,
+            )
+        checks = {
+            check["name"]: check["status"]
+            for check in json.loads(result.stdout)["checks"]
+        }
+        self.assertEqual("pass", checks["telnyx_sdk_dependency"])
+        self.assertEqual("pass", checks["telnyx_sdk_version_pinned"])
+
+
+
+class DiscoveryAndValidationRegressionContracts(unittest.TestCase):
+    maxDiff = None
+
+    def test_discovery_pipeline_does_not_certify_failed_or_empty_scans(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            scripts = root / "scripts"
+            scripts.mkdir()
+            wrapper = scripts / "run-discovery.sh"
+            wrapper.write_text(SCAN_USAGE_SCRIPT.with_name("run-discovery.sh").read_text(), encoding="utf-8")
+            project = root / "project"
+            project.mkdir()
+            environment = dict(os.environ)
+            environment.pop("TELNYX_API_KEY", None)
+            for scan, expected in (
+                ('echo "Python 3 is required" >&2; exit 127', 2),
+                ('echo "partial output"; echo "cannot read source" >&2; exit 2', 2),
+                ('exit 0', 2),
+                ('echo \'{"products_used": [], "files": [], "languages_detected": []}\'', 0),
+            ):
+                with self.subTest(scan=scan):
+                    (scripts / "scan-twilio-usage.sh").write_text(scan, encoding="utf-8")
+                    result = subprocess.run([BASH, str(wrapper), str(project)],
+                        capture_output=True, text=True, timeout=45, env=environment)
+                    self.assertEqual(expected, result.returncode, result.stdout + result.stderr)
+                    if expected:
+                        self.assertIn("Discovery incomplete", result.stderr)
+                        self.assertNotIn("Phase 1 Complete", result.stdout)
+                        self.assertNotIn("PASS", result.stdout)
+                    else:
+                        self.assertIn("Phase 1 Complete", result.stdout)
+                    if "Python 3" in scan:
+                        self.assertIn("Python 3 is required", result.stderr)
+                    if "cannot read" in scan:
+                        self.assertIn("cannot read source", result.stderr)
+
+    def test_hidden_source_directories_are_not_generated_directories(self) -> None:
+        scanner = runpy.run_path(str(DEEP_SCAN_SCRIPT))
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = "using Twilio.Rest.Api.V2010.Account;\nMessageResource.Create(args);"
+            for folder in (".github/scripts", ".tools", ".git", ".venv", "node_modules"):
+                path = root / folder / "Send.cs"
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(source, encoding="utf-8")
+            report = scanner["run_scan"](root)
+            self.assertEqual({".github/scripts/Send.cs", ".tools/Send.cs"},
+                {item["path"] for item in report["files"]})
+            result = subprocess.run([BASH, str(SCAN_USAGE_SCRIPT), str(root)],
+                capture_output=True, text=True, timeout=45)
+            self.assertEqual(0, result.returncode, result.stderr)
+            shallow = json.loads(result.stdout)
+            self.assertIn("messaging", shallow["products_used"])
+
+    def test_csharp_resource_discovery_uses_shared_ownership(self) -> None:
+        scanner = runpy.run_path(str(DEEP_SCAN_SCRIPT))
+        for resource, product in (("MessageResource", "messaging"), ("CallResource", "voice"),
+                                  ("IncomingPhoneNumberResource", "phone-numbers")):
+            for method in ("Create", "Read", "Update", "Fetch"):
+                for source, expected in (
+                    (f'class {resource} {{}}\n{resource}.{method}(args);', set()),
+                    (f'using Twilio.Rest.Api.V2010.Account;\n{resource}.{method}(args);', {product}),
+                    (f'using Resource = Twilio.Rest.Api.V2010.Account.{resource};\nResource.{method}(args);', {product}),
+                ):
+                    with self.subTest(resource=resource, method=method, source=source):
+                        found = scanner["scan_csharp_file"](Path("app.cs"), source.split("\n"))
+                        self.assertEqual(expected, {d.product for d in found if d.product != "general"})
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "app.cs"
+            for source, expected in (("class MessageResource {}\nMessageResource.Create(args);", []),
+                ('using Twilio.Rest.Api.V2010.Account;\nMessageResource.Create(args);', ["messaging"])):
+                path.write_text(source, encoding="utf-8")
+                result = subprocess.run([BASH, str(SCAN_USAGE_SCRIPT), str(root)],
+                    capture_output=True, text=True, timeout=45)
+                self.assertEqual(0, result.returncode, result.stderr)
+                self.assertEqual(expected, json.loads(result.stdout)["products_used"])
+
+    def test_discovery_read_errors_are_not_successful_empty_scans(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "app.php"
+            source.write_text("<?php use Twilio\\Rest\\Client;", encoding="utf-8")
+            source.chmod(0)
+            try:
+                result = subprocess.run([BASH, str(SCAN_USAGE_SCRIPT), str(root)],
+                    capture_output=True, text=True, timeout=45)
+                self.assertEqual(2, result.returncode, result.stdout + result.stderr)
+                self.assertIn("scan is incomplete", result.stderr)
+                self.assertNotIn('"products_used"', result.stdout)
+            finally:
+                source.chmod(0o644)
+
+    def test_rake_language_and_sip_product_are_unambiguous(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "send.rake").write_text('require "twilio-ruby"\nSipGrant\n', encoding="utf-8")
+            result = subprocess.run([BASH, str(SCAN_USAGE_SCRIPT), str(root)],
+                capture_output=True, text=True, timeout=45)
+            report = json.loads(result.stdout)
+            self.assertEqual(["ruby"], report["languages_detected"])
+            self.assertEqual(["sip"], report["products_used"])
+
+    def test_go_sdk_product_ownership_siblings(self) -> None:
+        helper = runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name("sdk-source-ownership.py")))
+        calls = helper["contextual_calls"]
+        for service, resource, product in (("Api", "Message", "messaging"), ("Api", "Call", "voice"),
+                ("VerifyV2", "Verification", "verify"), ("LookupsV2", "PhoneNumber", "lookup"),
+                ("VideoV1", "Room", "video")):
+            method = "Fetch" if service == "LookupsV2" else "Create"
+            for imported, factory in (("import \"github.com/twilio/twilio-go\"", "twilio"),
+                    ('import (\n sms "github.com/twilio/twilio-go"\n)', "sms")):
+                prefix = f'package main\n{imported}\nfunc main() {{ c := {factory}.NewRestClient(); '
+                for code, expected in (
+                    (f'c.{service}.{method}{resource}(p)', {product}),
+                    (f'alias := c; alias.{service}.{method}{resource}(p)', {product}),
+                    (f'c = queue.New(); c.{service}.{method}{resource}(p)', set()),
+                    (f'// c.{service}.{method}{resource}(p)\n', set()),
+                    (f'example := "c.{service}.{method}{resource}(p)"', set()),
+                ):
+                    with self.subTest(service=service, code=code, imported=imported):
+                        self.assertEqual(expected, {p for _, p in calls(prefix + code + " }", ".go")})
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "main.go").write_text('package main\nimport "github.com/twilio/twilio-go"\n'
+                'func main(){ c := twilio.NewRestClient(); c.Api.CreateMessage(p) }\n', encoding="utf-8")
+            result = subprocess.run([BASH, str(SCAN_USAGE_SCRIPT), str(root)],
+                capture_output=True, text=True, timeout=45)
+            self.assertEqual(0, result.returncode, result.stderr)
+            self.assertIn("messaging", json.loads(result.stdout)["products_used"])
+
+    def test_generic_product_names_do_not_establish_sdk_ownership(self) -> None:
+        scanner = runpy.run_path(str(DEEP_SCAN_SCRIPT))
+        for name, suffix in (("scan_java_file", ".java"), ("scan_php_file", ".php"), ("scan_go_file", ".go")):
+            with self.subTest(suffix=suffix):
+                found = scanner[name](Path("sample" + suffix), ["verifyToken();", "conversations = [];", "lookups();"])
+                self.assertEqual([], found)
+
+    def test_residual_import_extension_siblings(self) -> None:
+        # The correctness wrapper already expands families; the migration
+        # validator must not silently narrow those same families.
+        families = (
+            ((".py", ".pyw"), "from twilio.rest import Client", "twilio_python_imports"),
+            ((".js", ".mjs", ".cjs", ".ts", ".mts", ".cts", ".jsx", ".tsx"),
+             'import Twilio from "twilio";', "twilio_js_imports"),
+            ((".rb", ".rake"), 'require "twilio-ruby"', "twilio_ruby_imports"),
+            ((".java", ".kt", ".kts", ".scala"),
+             "import com.twilio.rest.api.v2010.account.Message;", "twilio_java_imports"),
+            ((".php", ".phtml"), "<?php use Twilio\\Rest\\Client;", "twilio_php_imports"),
+            ((".cs", ".cshtml"), "using Twilio;", "twilio_csharp_imports"),
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for suffixes, statement, check in families:
+                for suffix in suffixes:
+                    with self.subTest(suffix=suffix):
+                        path = root / ("app" + suffix)
+                        for source, expected in ((statement, "fail"), ("", "pass")):
+                            path.write_text(source + "\n", encoding="utf-8")
+                            result = subprocess.run([BASH, str(VALIDATE_MIGRATION_SCRIPT), str(root), "--json"],
+                                capture_output=True, text=True, timeout=30)
+                            checks = {item["name"]: item["status"].lower()
+                                      for item in json.loads(result.stdout)["checks"]}
+                            self.assertEqual(expected, checks[check], result.stdout)
+                        path.unlink()
+
+    def test_sdk_ownership_binding_siblings(self) -> None:
+        helper = runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name("sdk-source-ownership.py")))
+        calls = helper["contextual_calls"]
+        for source, suffix, expected in (
+            ("import com.twilio.rest.api.v2010.account.*;\nMessage.creator(a,b,c);", ".java", "messaging"),
+            ("import com.twilio.rest.api.v2010.account.Message as Sms\nSms.creator(a,b,c)", ".kt", "messaging"),
+            ("com.twilio.rest.api.v2010.account.Call.creator(a,b,c);", ".java", "voice"),
+            ('String text = "import com.twilio.rest.api.v2010.account.Message";\nMessage.creator();', ".java", None),
+            ("<?php use Twilio\\Rest\\Client as Sms;\n$c = new Sms($sid,$token);\n$alias = $c;\n$alias->messages->create($to,[]);", ".php", "messaging"),
+            ("<?php $c = new \\Twilio\\Rest\\Client($sid,$token);\n$c->calls->create($to,[]);", ".phtml", "voice"),
+            ("<?php use Twilio\\Rest\\Client;\n$c = new Client($sid,$token);\n$c = new Queue();\n$c->messages->create($to,[]);", ".php", None),
+            ("<?php use Twilio\\Rest\\Client;\nfunction one(Client $c) {$c->calls->read();}\nfunction two($c) {$c->messages->create($to,[]);}", ".php", "voice"),
+            ("import com.twilio.rest.api.v2010.account.*;\nimport com.example.Message;\nMessage.creator();", ".java", None),
+            ("import com.example.Message;\nimport com.twilio.rest.api.v2010.account.*;\nMessage.creator();", ".java", None),
+            ("import com.twilio.rest.api.v2010.account.Message;\nclass X { void send(Queue Message) { Message.creator(); } }", ".java", None),
+            ("import com.twilio.rest.api.v2010.account.Message;\nclass X { void send() { var Message = new Queue(); Message.creator(); } }", ".java", None),
+            ("import com.twilio.rest.api.v2010.account.Message as Sms\nfun send() { val Sms = Queue(); Sms.creator() }", ".kt", None),
+            ("import com.twilio.rest.api.v2010.account.Message as Sms\nfun send(Sms: Queue) { Sms.creator() }", ".kt", None),
+            ("import com.twilio.rest.api.v2010.account.Message\nobject X { def send(Message: Queue) = { Message.creator() } }", ".scala", None),
+            ("import com.twilio.rest.api.v2010.account.Message as Sms\nfun other(Sms: Queue) {}\nfun send() { Sms.creator() }", ".kt", "messaging"),
+            ("import com.twilio.rest.api.v2010.account.Message\nobject X { def other(Message: Queue) = {}\ndef send() = { Message.creator() } }", ".scala", "messaging"),
+            ("<?php use Twilio\\Rest\\Client; class A { function send() {$this->client->messages->create($to, []);} function __construct() {$this->client = new Client($sid, $token);} }", ".php", "messaging"),
+            ("<?php use Twilio\\Rest\\Client; class A { function send() {$this->client->messages->create($to, []);} private Client $client; }", ".php", "messaging"),
+            ("<?php namespace A { use Twilio\\Rest\\Client; } namespace B { class Client {} $c = new Client(); $c->messages->create($to, []); }", ".php", None),
+            ("<?php namespace A; use Twilio\\Rest\\Client; namespace B; $c = new Client(); $c->messages->create($to, []);", ".php", None),
+            ("<?php namespace B { $c = new \\Twilio\\Rest\\Client(); $c->messages->create($to, []); }", ".php", "messaging"),
+            ("<?php namespace { $c = new Twilio\\Rest\\Client(); $c->messages->create($to, []); }", ".php", "messaging"),
+            ("<?php use Twilio\\Rest\\Client; function send(Client $client) { return $client->messages->create($to, []); }", ".php", "messaging"),
+            ("<?php use Twilio\\Rest\\Client; function send(Client $client, bool $dryRun) { if ($dryRun) return $client; $client->messages->create($to, []); }", ".php", "messaging"),
+        ):
+            with self.subTest(source=source):
+                found = {product for _, product in calls(source, suffix)}
+                self.assertEqual({expected} if expected else set(), found)
+
+    def test_structured_dependency_pin_siblings(self) -> None:
+        helper = runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name("inspect-sdk-dependencies.py")))
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "gradle").mkdir()
+            catalogs = (
+                '[libraries]\ntelnyx = "com.telnyx.sdk:telnyx:6.89.0"\n',
+                '[versions]\nsdk = "6.89.0"\n[libraries]\ntelnyx = { module = "com.telnyx.sdk:telnyx", version.ref = "sdk" }\n',
+                '[libraries]\ntelnyx = { group = "com.telnyx.sdk", name = "telnyx", version = "6.89.0" }\n',
+            )
+            for catalog in catalogs:
+                (root / "gradle/libs.versions.toml").write_text(catalog, encoding="utf-8")
+                for declaration, expected in (
+                    ("dependencies { implementation(libs.telnyx) }", True),
+                    ("dependencies { implementation(libs.unrelated) }", False),
+                    ("// implementation(libs.telnyx)", False),
+                    ("dependencies { // implementation(libs.telnyx)\n}", False),
+                    ('val help = """implementation(libs.telnyx)"""', False),
+                ):
+                    with self.subTest(catalog=catalog, declaration=declaration):
+                        (root / "build.gradle.kts").write_text(declaration, encoding="utf-8")
+                        self.assertEqual(expected and helper["tomllib"] is not None,
+                                         helper["gradle_pinned"](root))
+            for version, expected in (("6.89.0", True), ("6.+", False), ("latest.release", False)):
+                (root / "build.gradle.kts").write_text(
+                    f'dependencies {{ implementation("com.telnyx.sdk:telnyx:{version}") }}', encoding="utf-8")
+                self.assertEqual(expected, helper["gradle_pinned"](root))
+            for source in ('dependencies { // implementation("com.telnyx.sdk:telnyx:6.89.0")\n}',
+                           'val help = """implementation("com.telnyx.sdk:telnyx:6.89.0")"""'):
+                (root / "build.gradle.kts").write_text(source, encoding="utf-8")
+                self.assertFalse(helper["gradle_pinned"](root))
+            (root / "build.gradle.kts").write_text("", encoding="utf-8")
+            for delimiter, terminator in (("/", "/"), ("$/", "/$")):
+                (root / "build.gradle").write_text(
+                    f'def help = {delimiter}implementation("com.telnyx.sdk:telnyx:6.89.0"){terminator}', encoding="utf-8")
+                self.assertFalse(helper["gradle_pinned"](root))
+            (root / "build.gradle").write_text("dependencies { implementation 'com.telnyx.sdk:telnyx:6.89.0' }", encoding="utf-8")
+            self.assertTrue(helper["gradle_pinned"](root))
+            (root / "build.gradle").write_text("", encoding="utf-8")
+            dependency = "<dependency><groupId>com.telnyx.sdk</groupId><artifactId>telnyx</artifactId>{}</dependency>"
+            for managed_version, expected in (("6.89.0", True), ("${unknown}", False)):
+                (root / "pom.xml").write_text("<project><dependencyManagement><dependencies>"
+                    + dependency.format("<version>" + managed_version + "</version>")
+                    + "</dependencies></dependencyManagement><dependencies>"
+                    + dependency.format("") + "</dependencies></project>", encoding="utf-8")
+                self.assertEqual(expected, helper["maven_pinned"](root / "pom.xml"))
+            for contents in ("<project><!-- com.telnyx.sdk:telnyx --></project>",
+                             "<project><dependencies><dependency><groupId>com.telnyx.sdk</groupId><artifactId>unrelated</artifactId><version>1.0.0</version></dependency></dependencies></project>"):
+                (root / "pom.xml").write_text(contents, encoding="utf-8")
+                self.assertFalse(helper["jvm_declared"](root, "telnyx"))
+
+    def test_sdk_ownership_ignores_comments_and_unrelated_receivers(self) -> None:
+        for suffix in ("java", "kt", "kts", "scala"):
+            with self.subTest(suffix=suffix):
+                shallow, deep = self._scan({f"Queue.{suffix}": (
+                    "import com.example.queue.Message;\n"
+                    "import com.twilio.Twilio;\n"
+                    "// com.twilio.rest.api.v2010.account.Message\n"
+                    "class Queue { Object send() { return Message.creator(); } }\n"
+                )})
+                self.assertNotIn("messaging", shallow["products_used"])
+                self.assertNotIn("messaging", deep["products_used"])
+        for suffix in ("php", "phtml"):
+            for context in ("// Twilio\\Rest\\Client", "use Twilio\\Rest\\Client;"):
+                with self.subTest(suffix=suffix, context=context):
+                    shallow, deep = self._scan({f"Queue.{suffix}": (
+                        "<?php\n" + context + "\n"
+                        "$client = new \\Example\\Queue();\n"
+                        "$client->messages->create($to, $payload);\n"
+                    )})
+                    self.assertNotIn("messaging", shallow["products_used"])
+                    self.assertNotIn("messaging", deep["products_used"])
+
+    def test_maven_pin_belongs_to_dependency(self) -> None:
+        dependency = ("<dependency><groupId>com.telnyx.sdk</groupId>"
+                      "<artifactId>telnyx</artifactId>{}</dependency>")
+        for header, version, expected in (
+            ("<version>1.2.3</version>", "", "warn"),
+            ("<parent><version>1.2.3</version></parent>", "", "warn"),
+            ("", "<version>6.89.0</version>", "pass"),
+            ("<properties><sdk.version>6.89.0</sdk.version></properties>",
+             "<version>${sdk.version}</version>", "pass"),
+            ("", "<version>${missing}</version>", "warn"),
+        ):
+            with self.subTest(header=header, version=version):
+                with tempfile.TemporaryDirectory() as directory:
+                    root = Path(directory)
+                    (root / "pom.xml").write_text(
+                        '<project xmlns="http://maven.apache.org/POM/4.0.0">'
+                        + header + "<dependencies>" + dependency.format(version)
+                        + "</dependencies></project>", encoding="utf-8")
+                    result = subprocess.run(
+                        [BASH, str(VALIDATE_MIGRATION_SCRIPT), directory, "--json"],
+                        capture_output=True, text=True, timeout=30, check=False)
+                    checks = {item["name"]: item["status"]
+                              for item in json.loads(result.stdout)["checks"]}
+                    self.assertEqual(expected, checks["telnyx_sdk_version_pinned"])
+
+    def test_php_preflight_uses_dependency_sections(self) -> None:
+        for section, expected in (("require", True), ("require-dev", True),
+                                  ("extra", False)):
+            with self.subTest(section=section), tempfile.TemporaryDirectory() as directory:
+                (Path(directory) / "composer.json").write_text(
+                    json.dumps({section: {"telnyx/telnyx-php": "^7.0"}}),
+                    encoding="utf-8")
+                result = subprocess.run(
+                    [BASH, str(PREFLIGHT_SCRIPT), directory, "--quick"],
+                    env={**os.environ, "TELNYX_API_KEY": "KEYlocal-test-only"},
+                    capture_output=True, text=True, timeout=30, check=False)
+                self.assertEqual(expected, "PHP: telnyx/telnyx-php" in result.stdout)
+
+    def _write_fixture(self, root: Path, files: dict[str, str | bytes]) -> None:
+        for relative, contents in files.items():
+            path = root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            if isinstance(contents, bytes):
+                path.write_bytes(contents)
+            else:
+                path.write_text(contents, encoding="utf-8")
+
+    def _scan(
+        self, files: dict[str, str]
+    ) -> tuple[dict[str, Any], dict[str, Any]]:
+        with tempfile.TemporaryDirectory(prefix="twilio-discovery-") as directory:
+            root = Path(directory)
+            self._write_fixture(root, files)
+            shallow = subprocess.run(
+                [BASH, str(SCAN_USAGE_SCRIPT), str(root)],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+            self.assertEqual(0, shallow.returncode, shallow.stderr)
+            deep = subprocess.run(
+                [sys.executable, "-B", str(DEEP_SCAN_SCRIPT), str(root)],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+            self.assertEqual(0, deep.returncode, deep.stderr)
+            return json.loads(shallow.stdout), json.loads(deep.stdout)
+
+    def test_public_repo_messaging_shapes_are_discovered_consistently(self) -> None:
+        fixtures = {
+            "php": {
+                "Observer/Send.php": (
+                    "<?php\nuse Twilio\\Rest\\ClientFactory;\n"
+                    "class Sender { private $clientFactory;\n"
+                    "function __construct(ClientFactory $factory) {\n"
+                    "$this->clientFactory = $factory; }\n"
+                    "function send() { $client = $this->clientFactory->create([]);\n"
+                    "$client->messages->create($to, ['body' => $text]); } }\n"
+                )
+            },
+            "go-rest": {
+                "main.go": (
+                    'package main\nvar endpoint = "https://api.twilio.com/'
+                    '2010-04-01/Accounts/AC123/Messages.json"\n'
+                )
+            },
+            "typescript-rest": {
+                "src/component/utils.ts": (
+                    "export const endpoint = `https://api.twilio.com/"
+                    "2010-04-01/Accounts/${sid}/Messages.json`;\n"
+                )
+            },
+            "kotlin-sdk": {
+                "src/SmsService.kt": (
+                    "import com.twilio.rest.api.v2010.account.Message\n"
+                    "import com.twilio.type.PhoneNumber\n"
+                    "val creator = Message.creator(to, from, message)\n"
+                ),
+                "pom.xml": (
+                    "<dependency><groupId>com.twilio.sdk</groupId>"
+                    "<artifactId>twilio</artifactId></dependency>\n"
+                ),
+            },
+        }
+        for label, files in fixtures.items():
+            with self.subTest(label=label):
+                shallow, deep = self._scan(files)
+                self.assertIn("messaging", shallow["products_used"])
+                self.assertIn("messaging", deep["products_used"])
+                self.assertNotIn("voice-android:webrtc", shallow["products_used"])
+
+    def test_direct_rest_product_siblings_are_classified(self) -> None:
+        cases = {
+            "voice": "https://api.twilio.com/2010-04-01/Accounts/AC/Calls.json",
+            "verify": "https://verify.twilio.com/v2/Services/VA/Verifications",
+            "lookup": "https://lookups.twilio.com/v2/PhoneNumbers/+12025550123",
+            "video": "https://video.twilio.com/v1/Rooms",
+            "fax": "https://fax.twilio.com/v1/Faxes",
+            "phone-numbers": (
+                "https://api.twilio.com/2010-04-01/Accounts/AC/"
+                "IncomingPhoneNumbers.json"
+            ),
+        }
+        for product, endpoint in cases.items():
+            with self.subTest(product=product):
+                shallow, deep = self._scan(
+                    {"client.ts": f"export const endpoint = '{endpoint}';\n"}
+                )
+                self.assertIn(product, shallow["products_used"])
+                self.assertIn(product, deep["products_used"])
+
+    def test_generic_message_method_names_require_twilio_context(self) -> None:
+        fixtures = {
+            "java": {
+                "src/Queue.java": (
+                    "import com.example.queue.Message;\n"
+                    "class Queue { Object create() { return Message.creator(); } }\n"
+                )
+            },
+            "php": {
+                "src/Mailer.php": (
+                    "<?php\n$client->messages->create($recipient, $payload);\n"
+                )
+            },
+        }
+        for label, files in fixtures.items():
+            with self.subTest(label=label):
+                shallow, deep = self._scan(files)
+                self.assertNotIn("messaging", shallow["products_used"])
+                self.assertNotIn("messaging", deep["products_used"])
+
+    def test_mobile_dependency_delimiter_and_binary_exclusion(self) -> None:
+        shallow, _ = self._scan(
+            {
+                "build.gradle": (
+                    "implementation 'com.twilio:voice-android:6.6.0'\n"
+                )
+            }
+        )
+        self.assertIn("webrtc", shallow["products_used"])
+        self.assertNotIn("voice-android:webrtc", shallow["products_used"])
+
+        with tempfile.TemporaryDirectory(prefix="twilio-binary-scan-") as directory:
+            root = Path(directory)
+            (root / "compiled-app").write_bytes(
+                b"\x7fELF\x00https://api.twilio.com/2010-04-01/"
+                b"Accounts/AC/Messages.json\x00"
+            )
+            result = subprocess.run(
+                [BASH, str(SCAN_USAGE_SCRIPT), str(root)],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+            self.assertEqual(0, result.returncode, result.stderr)
+            payload = json.loads(result.stdout)
+            self.assertEqual([], payload["products_used"])
+            self.assertEqual([], payload["files"])
+
+    def test_validator_ignores_binary_build_artifacts_and_recognizes_pins(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="migration-validation-") as directory:
+            root = Path(directory)
+            self._write_fixture(
+                root,
+                {
+                    "go.mod": (
+                        "module example.test/migration\n\n"
+                        "go 1.24\n\n"
+                        "require github.com/team-telnyx/telnyx-go/v4 v4.98.0\n"
+                    ),
+                    "src/App.kt": (
+                        "import com.telnyx.sdk.client.TelnyxClient\n"
+                        "class App(val client: TelnyxClient)\n"
+                    ),
+                    "build-output": (
+                        b"\x7fELF\x00https://api.twilio.com/2010-04-01/"
+                        b"\x00X-Twilio-Signature\x00HmacSHA1\x00"
+                    ),
+                },
+            )
+            result = subprocess.run(
+                [BASH, str(VALIDATE_MIGRATION_SCRIPT), str(root), "--json"],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            checks = {
+                item["name"]: item["status"]
+                for item in json.loads(result.stdout)["checks"]
+            }
+            self.assertEqual("pass", checks["twilio_api_urls"])
+            self.assertEqual("pass", checks["twilio_signature_validation"])
+            self.assertEqual("pass", checks["telnyx_sdk_version_pinned"])
+            self.assertEqual("pass", checks["telnyx_source_imports"])
+
+    def test_validator_recognizes_kotlin_telnyx_imports(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="kotlin-validation-") as directory:
+            root = Path(directory)
+            self._write_fixture(
+                root,
+                {
+                    "pom.xml": (
+                        "<project><dependencies><dependency>"
+                        "<groupId>com.telnyx.sdk</groupId>"
+                        "<artifactId>telnyx</artifactId><version>6.89.0</version>"
+                        "</dependency></dependencies></project>\n"
+                    ),
+                    "src/App.kt": (
+                        "import com.telnyx.sdk.client.TelnyxClient\n"
+                        "class App(val client: TelnyxClient)\n"
+                    ),
+                },
+            )
+            result = subprocess.run(
+                [BASH, str(VALIDATE_MIGRATION_SCRIPT), str(root), "--json"],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            checks = {
+                item["name"]: item["status"]
+                for item in json.loads(result.stdout)["checks"]
+            }
+            self.assertEqual("pass", checks["telnyx_source_imports"])
+            self.assertEqual("pass", checks["telnyx_sdk_version_pinned"])
+
+    def test_validator_does_not_infer_maven_pin_from_unrelated_version(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="maven-validation-") as directory:
+            root = Path(directory)
+            (root / "pom.xml").write_text(
+                "<project><name>telnyx migration helper</name>"
+                "<version>1.2.3</version>"
+                "<dependencies><dependency><groupId>com.example</groupId>"
+                "<artifactId>example</artifactId><version>4.5.6</version>"
+                "</dependency></dependencies></project>\n",
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [BASH, str(VALIDATE_MIGRATION_SCRIPT), str(root), "--json"],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+            self.assertEqual(1, result.returncode, result.stdout + result.stderr)
+            checks = {
+                item["name"]: item["status"]
+                for item in json.loads(result.stdout)["checks"]
+            }
+            self.assertEqual("fail", checks["telnyx_sdk_dependency"])
+            self.assertEqual("warn", checks["telnyx_sdk_version_pinned"])
+
+    def test_project_preflight_does_not_report_host_ruby_gems(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="migration-preflight-") as directory:
+            root = Path(directory)
+            fake_bin = root / "fake-bin"
+            fake_bin.mkdir()
+            gem = fake_bin / "gem"
+            gem.write_text(
+                "#!/bin/sh\n"
+                "case \"$*\" in\n"
+                "  *twilio-ruby*) echo 'twilio-ruby (7.8.4)' ;;\n"
+                "  *telnyx*) echo 'telnyx (5.1.0)' ;;\n"
+                "esac\n",
+                encoding="utf-8",
+            )
+            gem.chmod(gem.stat().st_mode | stat.S_IXUSR)
+            project = root / "project"
+            project.mkdir()
+            (project / "package.json").write_text(
+                '{"dependencies":{"twilio":"^5.0.0","telnyx":"^6.0.0"}}\n',
+                encoding="utf-8",
+            )
+            environment = os.environ.copy()
+            environment["PATH"] = f"{fake_bin}{os.pathsep}{environment['PATH']}"
+            environment["TELNYX_API_KEY"] = "KEYlocal-test-only"
+            result = subprocess.run(
+                [BASH, str(PREFLIGHT_SCRIPT), str(project), "--quick"],
+                cwd=ROOT,
+                env=environment,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            self.assertNotIn("Ruby: twilio-ruby", result.stdout)
+            self.assertNotIn("Ruby: telnyx", result.stdout)
+            self.assertIn("Node.js: twilio ^5.0.0 (declared in project)", result.stdout)
+            self.assertIn("Node.js: telnyx ^6.0.0 (declared in project)", result.stdout)
+
+    def test_project_preflight_detects_jvm_project_dependencies(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="jvm-migration-preflight-") as directory:
+            project = Path(directory)
+            (project / "pom.xml").write_text(
+                "<project><dependencies>"
+                "<dependency><groupId>com.twilio.sdk</groupId>"
+                "<artifactId>twilio</artifactId><version>7.34.0</version>"
+                "</dependency>"
+                "<dependency><groupId>com.telnyx.sdk</groupId>"
+                "<artifactId>telnyx</artifactId><version>6.89.0</version>"
+                "</dependency>"
+                "</dependencies></project>\n",
+                encoding="utf-8",
+            )
+            environment = os.environ.copy()
+            environment["TELNYX_API_KEY"] = "KEYlocal-test-only"
+            result = subprocess.run(
+                [BASH, str(PREFLIGHT_SCRIPT), str(project), "--quick"],
+                cwd=ROOT,
+                env=environment,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            self.assertIn("Java/Kotlin: Twilio SDK (declared in project)", result.stdout)
+            self.assertIn("Java/Kotlin: Telnyx SDK (declared in project)", result.stdout)
+
+    def test_host_preflight_go_module_major_versions(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            fake_bin = root / "bin"
+            fake_bin.mkdir()
+            go = fake_bin / "go"
+            go.write_text('#!/bin/sh\nif [ "$*" = "list -m all" ]; then\n'
+                'printf "%s\\n" "$TEST_GO_MODULE"\nelse exit 1; fi\n', encoding="utf-8")
+            go.chmod(0o755)
+            for module, expected in (("github.com/team-telnyx/telnyx-go/v4 v4.0.0", True),
+                    ("github.com/team-telnyx/telnyx-go v1.0.0", True),
+                    ("github.com/example/telnyx-go v4.0.0", False),
+                    ("github.com/team-telnyx/telnyx-go-tools v1.0.0", False)):
+                with self.subTest(module=module):
+                    environment = {**os.environ, "PATH": str(fake_bin) + os.pathsep + os.environ["PATH"],
+                        "TELNYX_API_KEY": "KEYlocal-test-only", "TEST_GO_MODULE": module}
+                    result = subprocess.run([BASH, str(PREFLIGHT_SCRIPT), "--quick"],
+                        cwd=root, capture_output=True, text=True, timeout=45, env=environment)
+                    self.assertEqual(0, result.returncode, result.stderr + result.stdout)
+                    self.assertEqual(expected, "Go: telnyx-go (found in go.mod)" in result.stdout)
+
+
 class AnalyzerConsistencyContracts(unittest.TestCase):
     def test_texml_runtime_guidance_matches_analyzer_contracts(self) -> None:
         skill = (ROOT / "skills/telnyx-twilio-migration/SKILL.md").read_text(
@@ -9809,6 +11208,227 @@ class AnalyzerConsistencyContracts(unittest.TestCase):
             re.findall(r'"([^"]+)"', block[: block.index("}")])
         )
         self.assertEqual(shell_dirs, analyzer_dirs)
+
+
+class PhpSdkOwnershipRegression(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.calls = staticmethod(runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name("sdk-source-ownership.py")))["contextual_calls"])
+
+    def products(self, source: str) -> set[str]:
+        return {product for _, product in self.calls(source, ".php")}
+
+    def test_grouped_import_alias_owns_client(self) -> None:
+        source = (
+            "<?php namespace App;\n"
+            "use Twilio\\Rest\\{Client as SmsClient, ClientFactory};\n"
+            "$client = new SmsClient($sid, $token);\n"
+            "$client->messages->create($to, []);\n"
+        )
+        self.assertEqual({"messaging"}, self.products(source))
+
+    def test_unrelated_group_member_does_not_own_client(self) -> None:
+        source = (
+            "<?php namespace App;\n"
+            "use Twilio\\Rest\\{Queue, ClientFactory};\n"
+            "$client = new Queue();\n"
+            "$client->messages->create($to, []);\n"
+        )
+        self.assertEqual(set(), self.products(source))
+
+    def test_grouped_alias_does_not_cross_namespace_boundary(self) -> None:
+        source = (
+            "<?php namespace One { use Twilio\\Rest\\{Client as SmsClient}; }\n"
+            "namespace Two { class SmsClient {} $client = new SmsClient(); "
+            "$client->messages->create($to, []); }\n"
+        )
+        self.assertEqual(set(), self.products(source))
+
+    def test_promoted_client_properties_own_receiver(self) -> None:
+        for modifier in (
+            "private",
+            "protected",
+            "public",
+            "private readonly",
+            "protected readonly",
+            "public readonly",
+        ):
+            with self.subTest(modifier=modifier):
+                source = (
+                    "<?php namespace App; use Twilio\\Rest\\Client;\n"
+                    f"class Sender {{ function __construct({modifier} Client $client) {{}} "
+                    "function send() { $this->client->messages->create($to, []); } }\n"
+                )
+                self.assertEqual({"messaging"}, self.products(source))
+
+    def test_unrelated_promoted_type_does_not_own_receiver(self) -> None:
+        source = (
+            "<?php namespace App; use Twilio\\Rest\\Client;\n"
+            "class Sender { function __construct(private Queue $client) {} "
+            "function send() { $this->client->messages->create($to, []); } }\n"
+        )
+        self.assertEqual(set(), self.products(source))
+
+    def test_promoted_property_does_not_cross_class_boundary(self) -> None:
+        source = (
+            "<?php namespace App; use Twilio\\Rest\\Client;\n"
+            "class TwilioSender { function __construct(private Client $client) {} }\n"
+            "class QueueSender { private $client; function send() { "
+            "$this->client->messages->create($to, []); } }\n"
+        )
+        self.assertEqual(set(), self.products(source))
+
+
+
+class ValidatorCorpusRegression(unittest.TestCase):
+    def run_fixture(self, files, *args, unreadable=None):
+        with tempfile.TemporaryDirectory(prefix="validator-corpus-") as directory:
+            root = Path(directory)
+            for name, text in files.items():
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(text, encoding="utf-8")
+            if unreadable:
+                (root / unreadable).chmod(0)
+            try:
+                return subprocess.run(
+                    [shutil.which("bash") or "/bin/bash", str(VALIDATE_MIGRATION_SCRIPT), str(root), *args],
+                    capture_output=True, text=True, timeout=45,
+                )
+            finally:
+                if unreadable:
+                    (root / unreadable).chmod(0o644)
+
+    def status(self, result, name):
+        return next((check["status"] for check in json.loads(result.stdout)["checks"]
+                     if check["name"] == name), None)
+
+    def test_twimlets_is_residual(self):
+        result = self.run_fixture({"app.py": 'url = "http://twimlets.com/forward?PhoneNumber=123"\n'}, "--json")
+        self.assertEqual(self.status(result, "twilio_api_urls"), "fail")
+
+    def test_unreadable_file_blocks_unless_excluded(self):
+        files = {"skipme/bad.py": "x = 1\n"}
+        result = self.run_fixture(files, "--json", unreadable="skipme/bad.py")
+        self.assertEqual(self.status(result, "source_readability"), "fail")
+        result = self.run_fixture(files, "--json", "--exclude-dir", "skipme", unreadable="skipme/bad.py")
+        self.assertIsNone(self.status(result, "source_readability"))
+        result = self.run_fixture({"package-lock.json": "{}"}, "--json", unreadable="package-lock.json")
+        self.assertIsNone(self.status(result, "source_readability"))
+
+    def test_rust_twilio_is_not_hidden_by_node_telnyx(self):
+        files = {"src/main.rs": "use twilio::{Client, OutboundMessage};\n",
+                 "Cargo.toml": '[dependencies]\ntwilio = "1.1"\n',
+                 "package.json": '{"dependencies":{"telnyx":"^6.0.0"}}',
+                 "app.js": "const Telnyx = require('telnyx');\n"}
+        result = self.run_fixture(files, "--json")
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertEqual(self.status(result, "unsupported_twilio_source"), "fail")
+        files["src/main.rs"] = "fn main() {}\n"
+        files["Cargo.toml"] = '[dependencies]\nreqwest = "0.12"\n'
+        result = self.run_fixture(files, "--json")
+        self.assertIsNone(self.status(result, "unsupported_twilio_source"))
+
+    def test_unreadable_path_identity_is_structured(self):
+        name = "bad:line\nnext\r.py"
+        result = self.run_fixture({name: "x = 1"}, "--json", unreadable=name)
+        check = next(item for item in json.loads(result.stdout)["checks"]
+                     if item["name"] == "source_readability")
+        self.assertEqual(1, len(check["details"]["files"]))
+        self.assertTrue(check["details"]["files"][0].endswith("/" + name))
+
+    def test_unrelated_security_names_do_not_certify_telnyx(self):
+        result = self.run_fixture({
+            "crypto.go": 'package crypto\nimport "crypto/ed25519"\nfunc key() { _ = ed25519.GenerateKey }\n',
+            "auth.go": 'package auth\nfunc Auth(t string) string { return "Authorization: Bearer " + t }\n',
+            "package.json": '{"dependencies":{"telnyx":"^6.0.0"}}',
+        })
+        self.assertNotIn("webhook verification pattern found", result.stdout)
+        self.assertNotIn("Ed25519 webhook signature validation found", result.stdout)
+        self.assertNotIn("Bearer auth pattern found", result.stdout)
+
+    def test_real_telnyx_auth_patterns_remain_visible_without_certification(self):
+        result = self.run_fixture({
+            "app.py": 'from telnyx import Telnyx\nclient = Telnyx()\nclient.webhooks.unwrap(body, headers=headers)\n',
+            "send.sh": 'curl https://api.telnyx.com/v2/messages -H "Authorization: Bearer $TELNYX_API_KEY"\n',
+            "requirements.txt": "telnyx>=4.0,<5.0\n",
+        })
+        self.assertIn("Telnyx webhook verification pattern found", result.stdout)
+        self.assertIn("Bearer auth pattern found", result.stdout)
+        self.assertIn("static evidence only", result.stdout)
+
+
+
+class GoSdkOwnershipSiblings(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.calls = staticmethod(runpy.run_path(str(DEEP_SCAN_SCRIPT.with_name("sdk-source-ownership.py")))["contextual_calls"])
+
+    def products(self, source: str) -> set[str]:
+        return {product for _, product in self.calls(source, ".go")}
+
+    def test_import_package_is_shadowed_by_parameter(self) -> None:
+        source = 'package app\nimport "github.com/twilio/twilio-go"\n' + (
+            "func send(twilio Other) {\n"
+            " client := twilio.NewRestClient()\n"
+            " client.Api.CreateMessage(params)\n"
+            "}\n"
+        )
+        self.assertEqual(set(), self.products(source))
+
+    def test_outer_sdk_client_is_shadowed_by_parameter(self) -> None:
+        source = 'package app\nimport "github.com/twilio/twilio-go"\n' + (
+            "var client = twilio.NewRestClient()\n"
+            "func send(client Other) { client.Api.CreateMessage(params) }\n"
+        )
+        self.assertEqual(set(), self.products(source))
+
+    def test_uninitialized_locals_shadow_package_and_client(self) -> None:
+        fixtures = (
+            'package app\nimport "github.com/twilio/twilio-go"\n' + (
+                "func send() { var twilio Other; client := twilio.NewRestClient(); "
+                "client.Api.CreateMessage(params) }\n"
+            ),
+            'package app\nimport "github.com/twilio/twilio-go"\n' + (
+                "var client = twilio.NewRestClient()\n"
+                "func send() { var client Other; client.Api.CreateMessage(params) }\n"
+            ),
+        )
+        for source in fixtures:
+            with self.subTest(source=source):
+                self.assertEqual(set(), self.products(source))
+
+    def test_selector_assignment_does_not_rebind_sdk_client(self) -> None:
+        source = 'package app\nimport "github.com/twilio/twilio-go"\n' + (
+            "func send(holder *Holder) {\n"
+            " client := twilio.NewRestClient()\n"
+            " holder.client = other\n"
+            " client.Api.CreateMessage(params)\n"
+            "}\n"
+        )
+        self.assertEqual({"messaging"}, self.products(source))
+
+    def test_true_assignment_rebinds_sdk_client(self) -> None:
+        source = 'package app\nimport "github.com/twilio/twilio-go"\n' + (
+            "func send() {\n"
+            " client := twilio.NewRestClient()\n"
+            " client = queue.New()\n"
+            " client.Api.CreateMessage(params)\n"
+            "}\n"
+        )
+        self.assertEqual(set(), self.products(source))
+
+    def test_bindings_in_unrelated_scopes_do_not_hide_sdk_client(self) -> None:
+        source = 'package app\nimport "github.com/twilio/twilio-go"\n' + (
+            "func unrelated(twilio Other) { _ = twilio }\n"
+            "func send() {\n"
+            " client := twilio.NewRestClient()\n"
+            " { client := queue.New(); _ = client }\n"
+            " client.Api.CreateMessage(params)\n"
+            "}\n"
+        )
+        self.assertEqual({"messaging"}, self.products(source))
+
 
 
 if __name__ == "__main__":

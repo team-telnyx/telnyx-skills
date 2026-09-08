@@ -11,6 +11,7 @@ their nearest real assignment in the same file.
 from __future__ import annotations
 
 import bisect
+import html
 import json
 import os
 import posixpath
@@ -150,7 +151,7 @@ def canonical_suffix(path: Path) -> str:
         if re.search(
             r"<script\b[^>]*\blang\s*=\s*(?:(['\"])(?:ts|typescript)\1|(?:ts|typescript)(?=\s|>))",
             source,
-            re.I,
+            re.I | re.ASCII,
         ):
             return ".ts"
     return SUFFIX_LANGUAGE_ALIASES.get(suffix, suffix)
@@ -1268,6 +1269,298 @@ def _mask_jsx_markup(source: str, suffix: str) -> str:
     return "".join(output)
 
 
+_JAVASCRIPT_MIME_ESSENCES = {
+    "application/ecmascript",
+    "application/javascript",
+    "application/x-ecmascript",
+    "application/x-javascript",
+    "text/ecmascript",
+    "text/javascript",
+    "text/javascript1.0",
+    "text/javascript1.1",
+    "text/javascript1.2",
+    "text/javascript1.3",
+    "text/javascript1.4",
+    "text/javascript1.5",
+    "text/jscript",
+    "text/livescript",
+    "text/x-ecmascript",
+    "text/x-javascript",
+}
+
+
+def _html_attributes(attributes: str) -> list[tuple[str, str]]:
+    """Parse static HTML attributes without matching inside quoted values."""
+
+    parsed: list[tuple[str, str]] = []
+    index = 0
+    while index < len(attributes):
+        while index < len(attributes) and attributes[index] in "\t\n\f\r ":
+            index += 1
+        if index >= len(attributes) or attributes[index] in {">", "/"}:
+            break
+        name_start = index
+        while (
+            index < len(attributes)
+            and attributes[index] not in "\t\n\f\r "
+            and attributes[index] not in {'=', '>', '/'}
+        ):
+            index += 1
+        name = attributes[name_start:index].lower()
+        if not name:
+            index += 1
+            continue
+        while index < len(attributes) and attributes[index] in "\t\n\f\r ":
+            index += 1
+        value = ""
+        if index < len(attributes) and attributes[index] == "=":
+            index += 1
+            while index < len(attributes) and attributes[index] in "\t\n\f\r ":
+                index += 1
+            if index < len(attributes) and attributes[index] in {'"', "'"}:
+                quote = attributes[index]
+                index += 1
+                value_start = index
+                closing = attributes.find(quote, index)
+                if closing < 0:
+                    value = attributes[value_start:]
+                    index = len(attributes)
+                else:
+                    value = attributes[value_start:closing]
+                    index = closing + 1
+            else:
+                value_start = index
+                while (
+                    index < len(attributes)
+                    and attributes[index] not in "\t\n\f\r "
+                    and attributes[index] != ">"
+                ):
+                    index += 1
+                value = attributes[value_start:index]
+        parsed.append((name, html.unescape(value)))
+    return parsed
+
+
+def _script_attributes_execute_javascript(attributes: str) -> bool:
+    """Return whether a browser treats a static script tag as JavaScript."""
+
+    attribute_values: dict[str, str] = {}
+    for name, value in _html_attributes(attributes):
+        # HTML keeps the first duplicate attribute and ignores later ones.
+        attribute_values.setdefault(name, value)
+
+    if "type" in attribute_values:
+        value = attribute_values["type"].strip("\t\n\f\r ")
+        # A server-generated type cannot be classified statically. Retaining
+        # its body prevents a dynamic JavaScript block from silently escaping.
+        if "<%" in value:
+            return True
+        if not value:
+            return True
+        lowered = value.lower()
+        if lowered == "module":
+            return True
+        # HTML's JavaScript MIME *essence match* is an exact comparison against
+        # these legacy strings, not MIME parsing.  In particular the standard
+        # says `text/javascript; charset=utf-8` is a data block and is not run.
+        return lowered in _JAVASCRIPT_MIME_ESSENCES
+
+    language = attribute_values.get("language", "").strip("\t\n\f\r ")
+    if not language or "<%" in language:
+        return True
+    essence = language.lower()
+    if "/" not in essence:
+        essence = f"text/{essence}"
+    return essence in _JAVASCRIPT_MIME_ESSENCES
+
+
+_HTML_TAG_RE = re.compile(r"<(?P<closing>/)?(?P<name>[^\t\n\f\r />]+)")
+_HTML_INERT_RAW_TEXT_ELEMENTS = {
+    "iframe",
+    "noembed",
+    "noframes",
+    "noscript",
+    "plaintext",
+    "style",
+    "template",
+    "textarea",
+    "title",
+    "xmp",
+}
+
+
+def _html_tag_end(source: str, start: int) -> int | None:
+    """Return the first tag-closing angle bracket outside quoted attributes."""
+
+    quote = ""
+    index = start
+    while index < len(source):
+        character = source[index]
+        if quote:
+            if character == quote:
+                quote = ""
+        elif character in {'"', "'"}:
+            quote = character
+        elif character == ">":
+            return index
+        index += 1
+    return None
+
+
+def _html_raw_text_end(
+    source: str, start: int, name: str
+) -> tuple[int, int] | None:
+    """Return the start/end of a raw-text element's next matching end tag."""
+
+    closer = re.compile(
+        rf"</{re.escape(name)}(?=[\t\n\f\r />])", re.I | re.ASCII
+    ).search(source, start)
+    if closer is None:
+        return None
+    end = _html_tag_end(source, closer.end())
+    return closer.start(), len(source) if end is None else end + 1
+
+
+def _html_template_end(source: str, start: int) -> int | None:
+    """Return the end of a template element, including nested templates."""
+
+    depth = 1
+    cursor = start
+    while cursor < len(source):
+        opening = source.find("<", cursor)
+        if opening < 0:
+            return None
+        tag = _HTML_TAG_RE.match(source, opening)
+        if tag is None:
+            cursor = opening + 1
+            continue
+        tag_end = _html_tag_end(source, tag.end())
+        if tag_end is None:
+            return None
+        name = tag.group("name").lower()
+        if tag.group("closing"):
+            if name == "template":
+                depth -= 1
+                if depth == 0:
+                    return tag_end + 1
+            cursor = tag_end + 1
+            continue
+        if name == "plaintext":
+            cursor = len(source)
+            continue
+        if name == "template":
+            depth += 1
+            cursor = tag_end + 1
+            continue
+        if name == "script" or name in (_HTML_INERT_RAW_TEXT_ELEMENTS - {"template"}):
+            closer = _html_raw_text_end(source, tag_end + 1, name)
+            cursor = len(source) if closer is None else closer[1]
+            continue
+        cursor = tag_end + 1
+    return None
+
+
+def _script_element_body_ranges(source: str) -> list[tuple[int, int]]:
+    """Return executable JavaScript bodies from quote-aware HTML script tags."""
+
+    ranges: list[tuple[int, int]] = []
+    cursor = 0
+    while cursor < len(source):
+        opening = source.find("<", cursor)
+        if opening < 0:
+            break
+        opener = _HTML_TAG_RE.match(source, opening)
+        if opener is None:
+            cursor = opening + 1
+            continue
+        boundary = opener.end()
+        tag_end = _html_tag_end(source, boundary)
+        if tag_end is None:
+            break
+        name = opener.group("name").lower()
+        if opener.group("closing"):
+            cursor = tag_end + 1
+            continue
+
+        body_start = tag_end + 1
+        if name == "script":
+            closer = _html_raw_text_end(source, body_start, name)
+            body_end = len(source) if closer is None else closer[0]
+            if _script_attributes_execute_javascript(source[boundary:tag_end]):
+                ranges.append((body_start, body_end))
+            cursor = len(source) if closer is None else closer[1]
+            continue
+        if name == "template":
+            closing_end = _html_template_end(source, body_start)
+            cursor = len(source) if closing_end is None else closing_end
+            continue
+        if name in _HTML_INERT_RAW_TEXT_ELEMENTS:
+            closer = _html_raw_text_end(source, body_start, name)
+            cursor = len(source) if closer is None else closer[1]
+            continue
+        cursor = tag_end + 1
+    return ranges
+
+
+def _html_comment_end(source: str, opening: int) -> int:
+    """Return the offset after an HTML comment, or EOF when unterminated."""
+
+    content_start = opening + 4
+    abrupt = (
+        content_start + 1
+        if source.startswith(">", content_start)
+        else content_start + 2
+        if source.startswith("->", content_start)
+        else -1
+    )
+    normal = source.find("-->", content_start)
+    bang = source.find("--!>", content_start)
+    closers = [position for position in (abrupt, normal, bang) if position >= 0]
+    closing = min(closers) if closers else -1
+    if closing < 0:
+        return len(source)
+    if closing == abrupt:
+        return abrupt
+    if closing == bang:
+        return bang + 4
+    return normal + 3
+
+
+def _without_html_comments(source: str) -> str:
+    """Blank HTML comments in markup state while preserving source offsets."""
+
+    output = list(source)
+    cursor = 0
+    while cursor < len(source):
+        opening = source.find("<", cursor)
+        if opening < 0:
+            break
+        if source.startswith("<!--", opening):
+            end = _html_comment_end(source, opening)
+            _blank(output, opening, end)
+            cursor = end
+            continue
+        tag = _HTML_TAG_RE.match(source, opening)
+        if tag is None:
+            cursor = opening + 1
+            continue
+        tag_end = _html_tag_end(source, tag.end())
+        if tag_end is None:
+            break
+        name = tag.group("name").lower()
+        if tag.group("closing"):
+            cursor = tag_end + 1
+            continue
+        if name == "plaintext":
+            break
+        if name == "script" or name in (_HTML_INERT_RAW_TEXT_ELEMENTS - {"template"}):
+            closer = _html_raw_text_end(source, tag_end + 1, name)
+            cursor = len(source) if closer is None else closer[1]
+            continue
+        cursor = tag_end + 1
+    return "".join(output)
+
+
 def executable_source(path: Path, source: str) -> str:
     """Extract executable host-language regions from mixed template files."""
     suffix = path.suffix.lower()
@@ -1275,32 +1568,28 @@ def executable_source(path: Path, source: str) -> str:
     if suffix in JSX_CAPABLE_SUFFIXES:
         return _mask_jsx_markup(source, suffix)
     if suffix in {".vue", ".svelte", ".astro"}:
-        # Comments may contain complete, syntactically valid examples. Preserve
-        # their offsets/newlines but remove their contents before discovering
-        # script blocks, handlers, interpolations, or balanced expressions.
-        template_source = re.sub(
-            r"<!--.*?-->",
-            lambda match: "".join(
-                char if char in "\r\n" else " " for char in match.group(0)
-            ),
-            source,
-            flags=re.DOTALL,
-        )
-        ranges.extend(
-            match.span(1)
-            for match in re.finditer(
-                r"<script\b[^>]*>(.*?)</script\b[^>]*>", template_source,
-                flags=re.IGNORECASE | re.DOTALL,
-            )
-        )
+        frontmatter = None
+        markup_source = source
         if suffix == ".astro":
+            # Astro frontmatter is JavaScript/TypeScript, not HTML markup. A
+            # string such as `"<!--"` must therefore not open an HTML comment
+            # that erases the remaining executable frontmatter.
             frontmatter = re.match(
                 r"\A\s*---\s*\r?\n(.*?)\r?\n---(?:\s*\r?\n|\Z)",
-                template_source,
+                source,
                 re.DOTALL,
             )
             if frontmatter:
-                ranges.append(frontmatter.span(1))
+                markup = list(source)
+                _blank(markup, *frontmatter.span(1))
+                markup_source = "".join(markup)
+        # Comments may contain complete, syntactically valid examples. Preserve
+        # their offsets/newlines but remove their contents before discovering
+        # script blocks, handlers, interpolations, or balanced expressions.
+        template_source = _without_html_comments(markup_source)
+        ranges.extend(_script_element_body_ranges(template_source))
+        if frontmatter:
+            ranges.append(frontmatter.span(1))
         if suffix == ".vue":
             ranges.extend(_vue_directive_expression_ranges(template_source))
             # Vue interpolations may contain nested object literals. A
@@ -1418,11 +1707,7 @@ def executable_source(path: Path, source: str) -> str:
             # blocks execute in the generated browser page. Both can contain
             # migration-sensitive JavaScript and must remain visible.
             ranges.extend(
-                match.span(1)
-                for match in re.finditer(
-                    r"<script\b[^>]*>(.*?)</script\b[^>]*>", source,
-                    flags=re.IGNORECASE | re.DOTALL,
-                )
+                _script_element_body_ranges(_without_html_comments(source))
             )
         for match in re.finditer(
             r"<%(?!%)(?:[=#-])?(.*?)(?:[-]?%>)", source, re.DOTALL
@@ -1539,8 +1824,11 @@ FETCH_CALL_RE = re.compile(
     r"axios\s*\.\s*post|axios)\s*\("
 )
 TWILIO_MESSAGE_CREATE_RE = re.compile(
+    r"(?:"
     r"(?:\?\.|\.|->)\s*messages\s*(?:\?\.|\.|->)\s*"
     r"create\s*(?:\?\.)?\s*\("
+    r"|(?<![\w$])MessageResource\s*\.\s*Create\s*\("
+    r")"
 )
 MESSAGE_BODY_CALL_RE = re.compile(
     r"(?:"
@@ -1550,6 +1838,7 @@ MESSAGE_BODY_CALL_RE = re.compile(
     r"Send\s*\("
     r"|(?:\?\.|\.|->)\s*messages\s*\(\s*\)\s*"
     r"(?:\?\.|\.|->)\s*send\s*\("
+    r"|(?<![\w$])MessageResource\s*\.\s*Create\s*\("
     r")"
 )
 SIMPLE_VARIABLE_RE = re.compile(r"(?:\.\.\.|\*\*|[&*])?\s*(\$?[A-Za-z_]\w*)\s*$")
@@ -1815,13 +2104,89 @@ def _line_comment_end(source: str, start: int, suffix: str) -> int:
 _HEREDOC_OPENER_RE = re.compile(
     r"<<[<]?[-~]?(?P<q>['\"]?)(?P<tag>[A-Za-z_]\w*)(?P=q)(?!\w)"
 )
+_RUBY_HEREDOC_OPENER_RE = re.compile(
+    r"<<(?P<indent>[-~]?)(?:"
+    r"'(?P<single>[^'\r\n]*)'|"
+    r'"(?P<double>[^"\r\n]*)"|'
+    r"`(?P<command>[^`\r\n]*)`|"
+    r"(?P<tag>(?!\d)\w+)"
+    r")"
+)
 # Requiring end-of-line after the tag is necessary but NOT sufficient. Ruby's
 # singleton-class syntax `class <<self` also puts a bare word straight after
 # `<<` at end of line, so it parsed as a heredoc opening a body that never
 # closed - blanking the rest of the file and silently passing every send below
 # it. That is the same defect the end-of-line anchor was added to fix, one
 # spelling sideways, so the opener needs its LEFT context checked too.
-_NOT_A_HEREDOC_PREFIX_RE = re.compile(r"(?:^|[^\w.])class[ \t]*$")
+def _ruby_heredoc_tag(match: "re.Match[str]") -> str:
+    """Return the delimiter spelling from a Ruby heredoc opener match."""
+
+    for name in ("single", "double", "command", "tag"):
+        value = match.group(name)
+        if value is not None:
+            return value
+    return ""
+
+
+def _ruby_heredoc_quote(match: "re.Match[str]") -> str:
+    """Return the quote mode used by one Ruby heredoc opener."""
+
+    if match.group("single") is not None:
+        return "'"
+    if match.group("double") is not None:
+        return '"'
+    if match.group("command") is not None:
+        return "`"
+    return ""
+
+
+def _ruby_heredoc_has_shift_left_context(source: str, index: int) -> bool:
+    """Return whether Ruby lexes this compact ``<<TAG`` as left shift."""
+
+    cursor = index - 1
+    adjacent = cursor >= 0 and source[cursor] not in " \t\r\n"
+    while cursor >= 0 and source[cursor] in " \t":
+        cursor -= 1
+    if cursor < 0 or source[cursor] in "\r\n":
+        return False
+    # Ruby's lexical ambiguity treats command/local/constant receivers followed
+    # by whitespace and <<TAG as heredocs, but literals, completed expressions,
+    # and instance/global variables remain shift operands.  These are the
+    # contexts Ripper emits as on_op rather than on_heredoc_beg.
+    if source[cursor].isdigit() or source[cursor] in "'\"`)]}/":
+        return True
+    if not (source[cursor].isalnum() or source[cursor] == "_"):
+        return False
+    end = cursor + 1
+    while cursor >= 0 and (source[cursor].isalnum() or source[cursor] == "_"):
+        cursor -= 1
+    word = source[cursor + 1:end]
+    return (
+        adjacent
+        or word
+        in {
+            "nil",
+            "true",
+            "false",
+            "self",
+            "__FILE__",
+            "__LINE__",
+            "__ENCODING__",
+        }
+        or (cursor >= 0 and source[cursor] in {"@", "$", ":"})
+    )
+
+
+def _ruby_heredoc_has_class_left_context(source: str, index: int) -> bool:
+    """Return whether the token before ``<<`` is Ruby's ``class`` keyword."""
+
+    cursor = index - 1
+    while cursor >= 0 and source[cursor] in " \t":
+        cursor -= 1
+    end = cursor + 1
+    while cursor >= 0 and (source[cursor].isalnum() or source[cursor] == "_"):
+        cursor -= 1
+    return source[cursor + 1:end] == "class"
 
 
 def _heredoc_opener_at(
@@ -1833,7 +2198,18 @@ def _heredoc_opener_at(
     applying the rejection there would disable heredoc masking on any opener
     line that merely ENDS with the word `class` (`echo class <<EOT`).
     """
-    match = _HEREDOC_OPENER_RE.match(source, index)
+    opener_pattern = _HEREDOC_OPENER_RE
+    if suffix == ".rb":
+        match = _RUBY_HEREDOC_OPENER_RE.match(source, index)
+        if match is None:
+            return None
+        if (
+            _ruby_heredoc_has_class_left_context(source, index)
+            or _ruby_heredoc_has_shift_left_context(source, index)
+        ):
+            return None
+        return match
+    match = opener_pattern.match(source, index)
     if match is None:
         return None
     # In shell, three opening angle brackets introduce an inline here-string,
@@ -1850,10 +2226,68 @@ def _heredoc_opener_at(
         line_end = len(source)
     if suffix != ".sh" and source[match.end():line_end].strip():
         return None
-    if suffix == ".rb":
-        if _NOT_A_HEREDOC_PREFIX_RE.search(source[line_start:index]):
-            return None
     return match
+
+
+def _ruby_heredoc_openers_at(
+    source: str, index: int
+) -> list["re.Match[str]"]:
+    """Return ordered Ruby heredoc openers declared by one expression.
+
+    Ruby consumes multiple heredoc bodies after the declaration line, in the
+    same order as their openers. The ordinary single-opener validator requires
+    an opener to end its line, so this also accepts comma-separated openers on
+    the declaration line without lending one opener's mode to another body.
+    """
+
+    first = _heredoc_opener_at(source, index, ".rb")
+    if first is None:
+        return []
+    line_end = source.find("\n", first.end())
+    if line_end < 0:
+        line_end = len(source)
+
+    openers = [first]
+    cursor = first.end()
+    quote = ""
+    escaped = False
+    while cursor < line_end:
+        character = source[cursor]
+        if quote:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == quote:
+                quote = ""
+            cursor += 1
+            continue
+        if character == "#":
+            break
+        if character in {"'", '"', "`"}:
+            quote = character
+            cursor += 1
+            continue
+        if character == "/":
+            regexp = _ruby_slash_regex(source, cursor, allow_newlines=False)
+            if regexp is not None and regexp[0] <= line_end:
+                cursor = regexp[0]
+                continue
+        if character == "%":
+            percent = _ruby_percent_literal(source, cursor)
+            if percent is not None and percent[0] <= line_end:
+                cursor = percent[0]
+                continue
+        if source.startswith("<<", cursor):
+            candidate = _heredoc_opener_at(source, cursor, ".rb")
+            if candidate is not None:
+                openers.append(candidate)
+                cursor = candidate.end()
+                continue
+            cursor += 2
+            continue
+        cursor += 1
+    return openers
 
 
 def _heredoc_langs(suffix: str) -> bool:
@@ -2283,7 +2717,244 @@ def _ruby_command_regex_has_valid_tail(source: str, regexp_end: int) -> bool:
     return re.match(r"(?:[+-]\s*)?(?:[$@A-Za-z_\d]|[('\"\[{])", tail) is None
 
 
-def lex_source(source: str, suffix: str, dialect: str = "") -> LexedSource:
+def _ruby_bound_shift_offsets(source: str, code: str) -> frozenset[int]:
+    """Return ambiguous ``<<TAG`` offsets whose receiver is a local binding.
+
+    Ruby lexes ``puts <<DOC`` as a heredoc, but lexes ``value <<BITS`` as an
+    operator once ``value`` has been introduced as a local in the same lexical
+    method/top-level scope.  A first masking pass gives us comment/string-safe
+    code and method boundaries; this binding pass then prevents the second pass
+    from swallowing the rest of the file as a nonexistent heredoc body.
+    """
+
+    spans = sorted(_ruby_function_spans(code))
+    span_starts = [start for start, _ in spans]
+    parents: list[int] = []
+    stack: list[int] = []
+    for span_index, (start, end) in enumerate(spans):
+        while stack and spans[stack[-1]][1] <= start:
+            stack.pop()
+        parents.append(stack[-1] if stack else -1)
+        stack.append(span_index)
+
+    def owner(offset: int) -> tuple[int, int] | None:
+        # Intervals are nested or disjoint. Start with the latest possible
+        # owner and follow its precomputed parent chain instead of scanning all
+        # method spans for every binding/candidate (quadratic on large files).
+        span_index = bisect.bisect_right(span_starts, offset) - 1
+        while span_index >= 0:
+            start, end = spans[span_index]
+            if start <= offset < end:
+                return start, end
+            span_index = parents[span_index]
+        return None
+
+    def parameter_names(parameters: str) -> set[str]:
+        """Return declaration names, excluding identifiers in defaults."""
+
+        names: set[str] = set()
+        start = 0
+        depth = 0
+        for index, character in enumerate(parameters + ","):
+            if character in "([{":
+                depth += 1
+            elif character in ")]}":
+                depth = max(0, depth - 1)
+            elif character in {",", ";"} and depth == 0:
+                piece = parameters[start:index].strip()
+                start = index + 1
+                while (
+                    len(piece) >= 2
+                    and piece[0] == "("
+                    and matching_delimiter(piece, 0, "(", ")")
+                    == len(piece) - 1
+                ):
+                    piece = piece[1:-1].strip()
+                if "," in piece:
+                    names.update(parameter_names(piece))
+                    continue
+                declared = re.match(
+                    r"(?:\*\*?|&)?\s*(?P<name>[a-z_]\w*)\b", piece
+                )
+                if declared is not None:
+                    names.add(declared.group("name"))
+        return names
+
+    def do_block_end(opening_end: int) -> int:
+        """Match a Ruby ``do`` with its structurally corresponding ``end``."""
+
+        depth = 1
+        boundaries = list(re.finditer(r"[;\r\n]", code[opening_end:]))
+        start = opening_end
+        pieces: list[tuple[int, int]] = []
+        for boundary in boundaries:
+            end = opening_end + boundary.start()
+            pieces.append((start, end))
+            start = opening_end + boundary.end()
+        pieces.append((start, len(code)))
+        for statement_start, statement_end in pieces:
+            stripped = code[statement_start:statement_end].strip()
+            if not stripped:
+                continue
+            if re.match(r"end\b", stripped):
+                depth -= 1
+                if depth == 0:
+                    return statement_end
+                continue
+            if (
+                re.match(
+                    r"(?:def|class|module|if|unless|case|begin|for|while|until)\b",
+                    stripped,
+                )
+                or re.search(r"\bdo(?:\s*\|[^|]*\|)?\s*$", stripped)
+            ):
+                depth += 1
+        return len(code)
+
+    # Identify block parameter lists before ordinary assignments: a default
+    # such as `|item = fallback|` binds only `item` inside the block and must
+    # not invent either name as an outer local.
+    pipe_spans = [
+        (match.start(), match.end(), parameter_names(match.group("params")))
+        for match in re.finditer(r"\|(?P<params>[^|\r\n]*)\|", code)
+    ]
+    block_bindings: list[tuple[int, int, set[str], tuple[int, int] | None]] = []
+    for pipe_start, pipe_end, names in pipe_spans:
+        if not names:
+            continue
+        prefix_start = max(0, pipe_start - 120)
+        prefix = code[prefix_start:pipe_start]
+        brace = prefix.rfind("{")
+        if brace >= 0:
+            opening = prefix_start + brace
+            closing = matching_delimiter(code, opening, "{", "}")
+            if closing is not None:
+                block_bindings.append((pipe_end, closing, names, owner(pipe_start)))
+                continue
+        do_match = re.search(r"\bdo\s*$", prefix)
+        if do_match is not None:
+            opening_end = prefix_start + do_match.end()
+            closing = do_block_end(opening_end)
+            block_bindings.append((pipe_end, closing, names, owner(pipe_start)))
+
+    bindings: dict[tuple[tuple[int, int] | None, str], list[int]] = {}
+
+    def bind(name: str, offset: int) -> None:
+        if not re.fullmatch(r"[a-z_]\w*", name):
+            return
+        bindings.setdefault((owner(offset), name), []).append(offset)
+
+    # Simple and compound assignments establish a Ruby local from that point
+    # onward.  Strings/comments/heredoc bodies are blank in ``code``, so text
+    # that merely resembles an assignment cannot leak a binding into code.
+    assignment = re.compile(
+        r"(?<![\w@$.])([a-z_]\w*)\s*"
+        r"(?:\|\|=|&&=|<<=|>>=|\*\*=|[+\-*/%&|^]=|=(?!=|>))"
+    )
+    for match in assignment.finditer(code):
+        if any(start <= match.start() < end for start, end, _ in pipe_spans):
+            continue
+        if any(
+            start <= match.start() < end and match.group(1) in names
+            for start, end, names, _ in block_bindings
+        ):
+            continue
+        bind(match.group(1), match.start(1))
+
+    # Multiple assignment binds every bare local on its left side, not just
+    # the identifier adjacent to ``=``.
+    for match in re.finditer(
+        r"(?:^|[;\r\n])\s*"
+        r"(?P<lhs>[a-z_]\w*(?:\s*,\s*[a-z_]\w*)+)\s*=(?!=|>)",
+        code,
+        re.M,
+    ):
+        for name in re.findall(r"[a-z_]\w*", match.group("lhs")):
+            if any(
+                start <= match.start("lhs") < end
+                for start, end, _ in pipe_spans
+            ):
+                continue
+            if any(
+                start <= match.start("lhs") < end and name in names
+                for start, end, names, _ in block_bindings
+            ):
+                continue
+            bind(name, match.start("lhs"))
+
+    # Method parameters are local for the whole method body.  Their binding
+    # position is the method opener so a shift in an endless method expression
+    # is covered too.
+    for start, end in spans:
+        method = re.match(
+            r"\s*(?:(?:private|protected|public)\s+)?def\s+"
+            r"(?:self\s*\.\s*)?(?:\[\]=?|[A-Za-z_]\w*[!?=]?)",
+            code[start:end],
+        )
+        if method is None:
+            continue
+        params_start = start + method.end()
+        while params_start < end and code[params_start] in " \t":
+            params_start += 1
+        if params_start < end and code[params_start] == "(":
+            params_end = matching_delimiter(code, params_start, "(", ")")
+            if params_end is None:
+                continue
+            parameters = code[params_start + 1:params_end]
+        else:
+            ends = [
+                position
+                for position in (
+                    code.find("\n", params_start, end),
+                    code.find(";", params_start, end),
+                )
+                if position >= 0
+            ]
+            params_end = min(ends) if ends else end
+            parameters = code[params_start:params_end]
+        for name in parameter_names(parameters):
+            bind(name, start)
+
+    for positions in bindings.values():
+        positions.sort()
+
+    shifts: set[int] = set()
+    for candidate in re.finditer(r"<<", code):
+        index = candidate.start()
+        opener = _RUBY_HEREDOC_OPENER_RE.match(source, index)
+        if opener is None:
+            continue
+        cursor = index - 1
+        if cursor < 0 or code[cursor] not in " \t":
+            continue
+        while cursor >= 0 and code[cursor] in " \t":
+            cursor -= 1
+        word_end = cursor + 1
+        while cursor >= 0 and (code[cursor].isalnum() or code[cursor] == "_"):
+            cursor -= 1
+        name = code[cursor + 1:word_end]
+        if re.fullmatch(r"[a-z_]\w*", name) is None:
+            continue
+        scope = owner(index)
+        positions = bindings.get((scope, name), [])
+        insertion = bisect.bisect_left(positions, index)
+        if insertion and positions[insertion - 1] < index:
+            shifts.add(index)
+            continue
+        if any(
+            start <= index < end and block_owner == scope and name in names
+            for start, end, names, block_owner in block_bindings
+        ):
+            shifts.add(index)
+    return frozenset(shifts)
+
+
+def _lex_source_once(
+    source: str,
+    suffix: str,
+    dialect: str = "",
+    ruby_shift_offsets: frozenset[int] = frozenset(),
+) -> LexedSource:
     """Mask comments and strings while preserving offsets and newlines."""
 
     code = list(source)
@@ -2472,17 +3143,31 @@ def lex_source(source: str, suffix: str, dialect: str = "") -> LexedSource:
         # Heredoc bodies are DATA, not code. They were lexed as code, so an
         # apostrophe inside one ("Don't edit by hand") paired with a later quote
         # and masked the send that followed.
-        heredoc = _heredoc_opener_at(source, index, suffix) if _heredoc_langs(suffix) else None
-        if heredoc is not None:
-            body_start = source.find("\n", heredoc.end())
+        openers: list["re.Match[str]"] = []
+        if suffix == ".rb":
+            if index not in ruby_shift_offsets:
+                openers = _ruby_heredoc_openers_at(source, index)
+        elif _heredoc_langs(suffix):
+            heredoc = _heredoc_opener_at(source, index, suffix)
+            if heredoc is not None:
+                openers = [heredoc]
+        if openers:
+            body_start = source.find("\n", openers[0].end())
             if body_start < 0:
-                index = heredoc.end()
+                index = openers[-1].end()
                 continue
             body_start += 1
-            openers = [heredoc]
             for opener in openers:
-                tag = opener.group("tag")
-                terminator_pattern = rf"^[ \t]*{re.escape(tag)}\b"
+                if suffix == ".rb":
+                    tag = _ruby_heredoc_tag(opener)
+                    indentation = opener.group("indent")
+                    line_prefix = r"^[ \t]*" if indentation in {"-", "~"} else "^"
+                    terminator_pattern = (
+                        rf"{line_prefix}{re.escape(tag)}(?=\r?$)"
+                    )
+                else:
+                    tag = opener.group("tag")
+                    terminator_pattern = rf"^[ \t]*{re.escape(tag)}\b"
                 terminator = re.compile(terminator_pattern, re.M).search(
                     source, body_start
                 )
@@ -2491,7 +3176,7 @@ def lex_source(source: str, suffix: str, dialect: str = "") -> LexedSource:
                 )
                 _blank(code, body_start, body_end)
                 _blank(without_comments, body_start, body_end)
-                if suffix == ".rb" and opener.group("q") != "'":
+                if suffix == ".rb" and _ruby_heredoc_quote(opener) != "'":
                     for expression_start, expression_end in _ruby_interpolation_ranges(
                         source, body_start, body_end
                     ):
@@ -2775,6 +3460,24 @@ def lex_source(source: str, suffix: str, dialect: str = "") -> LexedSource:
             last_js_opaque_end = index
 
     return LexedSource(source, "".join(code), "".join(without_comments), tuple(strings))
+
+
+def lex_source(source: str, suffix: str, dialect: str = "") -> LexedSource:
+    """Mask comments/strings, resolving Ruby's binding-sensitive ``<<``."""
+
+    if suffix != ".rb":
+        return _lex_source_once(source, suffix, dialect)
+
+    ruby_shift_offsets: frozenset[int] = frozenset()
+    while True:
+        lexed = _lex_source_once(
+            source, suffix, dialect, ruby_shift_offsets
+        )
+        discovered = _ruby_bound_shift_offsets(source, lexed.code)
+        combined = ruby_shift_offsets | discovered
+        if combined == ruby_shift_offsets:
+            return lexed
+        ruby_shift_offsets = combined
 
 
 def matching_delimiter(code: str, opening: int, left: str, right: str) -> int | None:
@@ -4089,6 +4792,10 @@ def payload_spans(
             # the argument list this region covers.
             spans.append(arguments[-1])
         return spans
+    if suffix == ".cs" and mode == "body":
+        # Twilio's MessageResource.Create uses independent named arguments;
+        # `body:` is commonly the third argument, not an object in argument 0.
+        return [(start, end)]
     return arguments[:1]
 
 
@@ -4876,6 +5583,13 @@ def _ruby_function_spans(code: str) -> list[tuple[int, int]]:
                 r"(?:if|unless|case|begin|for|while|until)\b", stripped
             ):
                 stack.append(("control", None))
+    # A provisional heredoc pass can mask the `end` belonging to a method whose
+    # body contains a binding-sensitive shift. Retain such open named scopes to
+    # EOF so the repair pass can still associate parameters and assignments
+    # with the correct method rather than dropping the scope entirely.
+    for kind, opener_start in stack:
+        if kind in {"def", "class", "module"} and opener_start is not None:
+            spans.append((opener_start, len(code)))
     return spans
 
 
@@ -13827,6 +14541,92 @@ def call_belongs_to_kept_product(
     )
 
 
+def csharp_twilio_message_calls(
+    lexed: LexedSource, source: SourceEndpointResolver | None = None
+) -> list[Call]:
+    return csharp_twilio_resource_calls(
+        lexed, "Twilio.Rest.Api.V2010.Account.MessageResource", ("Create",), source
+    )
+
+
+def csharp_twilio_resource_calls(
+    lexed: LexedSource, target: str, methods: tuple[str, ...],
+    source: SourceEndpointResolver | None = None,
+) -> list[Call]:
+    """Resolve the SDK resource's C# using/alias forms before checking its body.
+
+    Generic class names are not sufficient ownership evidence. Keep imports
+    scoped to their namespace and let local types shadow namespace imports.
+    """
+    code = lexed.code
+    namespaces = _csharp_namespace_spans(code)
+    types = _csharp_type_spans(code)
+    source = source or SourceEndpointResolver(lexed, ".cs")
+
+    def namespace_at(offset: int) -> tuple[int, int, str] | None:
+        return max((span for span in namespaces if span[0] < offset < span[1]),
+                   key=lambda span: span[0], default=None)
+
+    imports = []
+    for match in re.finditer(
+        r"\b(?:global\s+)?using\s+(?:(?P<static>static)\s+)?"
+        r"(?:(?P<alias>\w+)\s*=\s*)?(?:global\s*::\s*)?"
+        r"(?P<target>\w+(?:\s*\.\s*\w+)*)\s*;", code
+    ):
+        imports.append((match, re.sub(r"\s+", "", match.group("target")),
+                        namespace_at(match.start())))
+    candidates = calls_matching(lexed, re.compile(
+        r"(?<![\w$.])(?:global\s*::\s*)?(?:\w+\s*\.\s*)*(?:"
+        + "|".join(re.escape(method) for method in methods) + r")\s*\("
+    ))
+    result = []
+    for call in candidates:
+        head = re.sub(r"\s+", "", code[call.start:call.open_paren])
+        receiver = head.rsplit(".", 1)[0] if "." in head else ""
+        if receiver.startswith("global::"):
+            if receiver.removeprefix("global::") == target:
+                result.append(call)
+            continue
+        visible = [(match, name) for match, name, scope in imports
+                   if scope is None or scope[0] < call.start < scope[1]]
+        aliases = {match.group("alias"): name for match, name in visible
+                   if match.group("alias")}
+        first, dot, rest = receiver.partition(".")
+        binding_id = source.graph.visible_binding(
+            first, source.scope_at(call.start), call.start
+        ) if first else None
+        if binding_id is not None:
+            declaration = source.graph.bindings[binding_id].declaration_start
+            if (scope_contains(code, declaration, call.start)
+                    and not any(match.start() <= declaration < match.end()
+                                for match, _, _ in imports)):
+                # Local variables, parameters and fields beat a using alias.
+                # Reuse the normal scope index so an unrelated method/block
+                # cannot hide the SDK receiver here.
+                continue
+        expanded = aliases.get(first, first) + (dot + rest if dot else "")
+        if expanded == target:
+            result.append(call)
+            continue
+        # A same-namespace or enclosing type declaration takes precedence over
+        # imported namespace members, even when declared after the use.
+        local = any(name == first and (
+            opening < call.start < closing
+            or namespace_at(opening) == namespace_at(call.start)
+        ) for opening, closing, name in types)
+        if local or first in aliases:
+            continue
+        if receiver == target.rsplit(".", 1)[-1] and any(
+            not match.group("alias") and not match.group("static")
+            and name == target.rsplit(".", 1)[0] for match, name in visible
+        ):
+            result.append(call)
+        elif not receiver and any(match.group("static") and name == target
+                                  for match, name in visible):
+            result.append(call)
+    return result
+
+
 def message_body_fields(
     path: Path, pattern: re.Pattern[str], kept_products: set[str] | None = None
 ) -> list[str]:
@@ -13845,7 +14645,15 @@ def message_body_fields(
         source=source_resolver,
     )
     matches: list[str] = []
-    for call in calls_matching(lexed, pattern):
+    # Ownership applies only to the ambiguous C# resource class, not to the
+    # existing generic Messages.Send / messages.create body-check families.
+    calls = [call for call in calls_matching(lexed, pattern)
+             if not re.search(r"\bMessageResource\s*\.\s*Create\s*$",
+                              lexed.code[call.start:call.open_paren])]
+    if suffix == ".cs":
+        calls.extend(csharp_twilio_message_calls(lexed, source_resolver))
+    calls = list({call.open_paren: call for call in calls}.values())
+    for call in calls:
         if call_belongs_to_kept_product(
             lexed, call, kept_products or set(), pattern
         ):

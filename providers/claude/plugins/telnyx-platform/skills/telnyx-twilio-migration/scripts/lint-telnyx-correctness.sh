@@ -1008,7 +1008,7 @@ else
 fi
 
 # Check 11: Twilio client instantiation patterns
-matches=$(search_live_files code '(Client\(.*account_sid|Twilio\(|twilio\.Twilio\(|new Twilio\.)' "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php")
+matches=$(search_live_files code '(Client\(.*account_sid|Twilio\(|twilio\.Twilio\(|new Twilio\.|TwilioClient[[:space:]]*\.[[:space:]]*Init[[:space:]]*\()' "*.py" "*.js" "*.ts" "*.rb" "*.go" "*.java" "*.php" "*.cs")
 count=$(count_matches "$matches")
 if [ "$count" -gt 0 ]; then
   if hybrid_waiver_applies "$matches"; then

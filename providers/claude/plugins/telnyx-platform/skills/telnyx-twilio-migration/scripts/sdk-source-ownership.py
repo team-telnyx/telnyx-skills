@@ -1,0 +1,364 @@
+#!/usr/bin/env python3
+"""Shared, bounded SDK ownership for ambiguous JVM/PHP/Go discovery call names.
+
+This is discovery evidence, not a whole-program type checker. A comment, string,
+unrelated import, or receiver name alone never establishes SDK ownership.
+"""
+from __future__ import annotations
+
+from functools import lru_cache
+import importlib.util
+from pathlib import Path
+import re
+import os
+import sys
+
+
+@lru_cache(maxsize=None)
+def load_script(name: str):
+    spec = importlib.util.spec_from_file_location(
+        name.replace("-", "_"), Path(__file__).with_name(name + ".py"))
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def lexed_source(source: str, suffix: str):
+    analyzer = load_script("lint-required-messaging-profile")
+    path = Path("source" + suffix)
+    return analyzer.lex_source(analyzer.executable_source(path, source),
+                               analyzer.canonical_suffix(path), analyzer.source_dialect(path))
+
+
+def contextual_calls(source: str, suffix: str) -> list[tuple[int, str]]:
+    lexed = lexed_source(source, suffix)
+    code = lexed.code
+    if suffix == ".go":
+        return go_contextual_calls(source, lexed)
+    if suffix in {".cs", ".cshtml"}:
+        analyzer = load_script("lint-required-messaging-profile")
+        resolver = analyzer.SourceEndpointResolver(lexed, ".cs")
+        resources = (
+            ("Twilio.Rest.Api.V2010.Account.MessageResource", "messaging"),
+            ("Twilio.Rest.Api.V2010.Account.CallResource", "voice"),
+            ("Twilio.Rest.Api.V2010.Account.IncomingPhoneNumberResource", "phone-numbers"),
+            ("Twilio.Rest.Api.V2010.AccountResource", "general"),
+            ("Twilio.Rest.Verify.V2.Service.VerificationResource", "verify"),
+            ("Twilio.Rest.Fax.V1.FaxResource", "fax"),
+            ("Twilio.Rest.Supersim.V1.SimResource", "iot"),
+            ("Twilio.Rest.Wireless.V1.SimResource", "iot"),
+            ("Twilio.Rest.Conversations.V1.ConversationResource", "conversations"),
+            ("Twilio.Rest.Conversations.V1.Service.ConversationResource", "conversations"),
+            ("Twilio.Rest.Notify.V1.Service.NotificationResource", "notify"),
+            ("Twilio.Rest.Taskrouter.V1.Workspace.WorkflowResource", "taskrouter"),
+        )
+        methods = tuple(
+            method + suffix
+            for method in ("Create", "Read", "Update", "Fetch", "Delete", "List")
+            for suffix in ("", "Async")
+        )
+        return [(source.count("\n", 0, call.start) + 1, product)
+                for target, product in resources
+                for call in analyzer.csharp_twilio_resource_calls(lexed,
+                    target, methods, resolver)]
+    result = []
+    products = {"Message": "messaging", "Call": "voice",
+                "IncomingPhoneNumber": "phone-numbers"}
+    if suffix in {".java", ".kt", ".kts", ".scala"}:
+        analyzer = load_script("lint-required-messaging-profile")
+        resolver = analyzer.SourceEndpointResolver(lexed, ".java")
+        parameter_scopes = []
+        parameter_headers = []
+        if suffix != ".java":
+            # Kotlin/Scala name:type parameters differ from Java Type name.
+            # Keep that dialect distinction local to SDK ownership, without
+            # changing the endpoint resolver's advertised Java contract.
+            for function in re.finditer(r"\b(?:fun|def)\s+\w+\s*\(", code):
+                opening = code.rfind("(", function.start(), function.end())
+                closing = analyzer.matching_delimiter(code, opening, "(", ")")
+                if closing is None:
+                    continue
+                parameter_headers.append((opening, closing))
+                body = code.find("{", closing)
+                if body < 0 or not re.fullmatch(r"\s*(?::[^{}\n=]+)?\s*=?\s*", code[closing + 1:body]):
+                    continue
+                end = analyzer.matching_delimiter(code, body, "{", "}")
+                names = set(re.findall(r"(?:^|,)\s*(?:\w+\s+)*?(\w+)\s*:", code[opening + 1:closing]))
+                if end is not None:
+                    parameter_scopes.append((body, end, names))
+        prefix = "com.twilio.rest.api.v2010.account."
+        imports = {}
+        explicit = {}
+        for match in re.finditer(r"\bimport\s+(com\.twilio\.rest\.api\.v2010\.account\.\*|[\w.]+)(?:\s+as\s+(\w+))?", code):
+            target = match[1]
+            if target == prefix + "*":
+                imports.update(products)
+            elif target.startswith(prefix) and target[len(prefix):] in products:
+                explicit[match[2] or target.rsplit(".", 1)[-1]] = products[target[len(prefix):]]
+            else:
+                explicit[match[2] or target.rsplit(".", 1)[-1]] = None
+        imports.update(explicit)  # Single imports shadow wildcard imports in either order.
+        for match in re.finditer(r"(?<![\w.])([\w.]+)\s*\.\s*creator\s*\(", code):
+            receiver = match[1]
+            first = receiver.split(".", 1)[0]
+            binding_id = resolver.graph.visible_binding(first, resolver.scope_at(match.start()), match.start())
+            if binding_id is not None:
+                binding = resolver.graph.bindings[binding_id]
+                if ((suffix == ".java" or binding.kind != "parameter")
+                        and not any(start < binding.declaration_start < end
+                                    for start, end in parameter_headers)
+                        and analyzer.scope_contains(code, binding.declaration_start, match.start())):
+                    continue
+            if any(start < match.start() < end and first in names
+                   for start, end, names in parameter_scopes):
+                continue
+            product = imports.get(receiver)
+            if receiver.startswith(prefix):
+                product = products.get(receiver[len(prefix):])
+            if product:
+                result.append((source.count("\n", 0, match.start()) + 1, product))
+        return result
+
+    namespaces = list(re.finditer(r"\bnamespace(?:\s+[\w\\]+)?\s*[;{]", code))
+
+    def namespace_at(offset: int) -> int:
+        return next((match.start() for match in reversed(namespaces)
+                     if match.start() < offset), -1)
+
+    def global_namespace(offset: int) -> bool:
+        match = next((match for match in reversed(namespaces) if match.start() < offset), None)
+        return match is None or bool(re.fullmatch(r"namespace\s*\{", match[0]))
+
+    aliases = {}
+    for match in re.finditer(r"\buse\s+\\?Twilio\\Rest\\(ClientFactory|Client)(?:\s+as\s+(\w+))?\s*;", code, re.I):
+        aliases[(namespace_at(match.start()), (match[2] or match[1]).lower())] = match[1].lower()
+    for match in re.finditer(r"\buse\s+\\?Twilio\\Rest\\\{([^{};]+)\}\s*;", code, re.I):
+        for member in match[1].split(","):
+            imported = re.fullmatch(
+                r"\s*(ClientFactory|Client)(?:\s+as\s+(\w+))?\s*",
+                member,
+                re.I,
+            )
+            if imported:
+                aliases[(namespace_at(match.start()),
+                         (imported[2] or imported[1]).lower())] = imported[1].lower()
+
+    def kind(type_name: str, offset: int) -> str | None:
+        normalized = type_name.lstrip("\\").lower()
+        if normalized in {"twilio\\rest\\client", "twilio\\rest\\clientfactory"} and (type_name.startswith("\\") or global_namespace(offset)):
+            return normalized.rsplit("\\", 1)[-1]
+        return aliases.get((namespace_at(offset), normalized))
+
+    analyzer = load_script("lint-required-messaging-profile")
+    # Index braces once so bindings cannot leak between functions/classes.
+    braces = {}
+    stack = []
+    for offset, character in enumerate(code):
+        if character == "{":
+            stack.append(offset)
+        elif character == "}" and stack:
+            braces[stack.pop()] = offset
+    functions = []
+    classes = []
+    for pattern, spans in ((r"\bfunction\s*\w*\s*\([^;{]*\)[^;{]*\{", functions),
+                           (r"\bclass\s+\w+[^;{]*\{", classes)):
+        for match in re.finditer(pattern, code):
+            opening = match.end() - 1
+            if opening in braces:
+                spans.append((match.start(), braces[opening]))
+
+    def owner(offset: int, spans: list[tuple[int, int]]):
+        return next((span for span in reversed(spans) if span[0] <= offset < span[1]), None)
+
+    variable = r"\$[A-Za-z_]\w*(?:\s*->\s*[A-Za-z_]\w*)?"
+    assignments = list(re.finditer(r"(" + variable + r")\s*=(?!=|>)\s*([^;\n]+)", code))
+    typed = list(re.finditer(r"(?<![\w\\])([\\\w]+)\s+(\$\w+)\b", code))
+
+    def compact(value: str) -> str:
+        return re.sub(r"\s+", "", value)
+
+    def resolve(expression: str, use: int, seen: frozenset = frozenset()) -> str | None:
+        expression = expression.strip()
+        identity = (expression, use)
+        if identity in seen or len(seen) > 32:
+            return None
+        seen = seen | {identity}
+        constructed = re.match(r"new\s+([\\\w]+)\s*\(", expression, re.I)
+        if constructed:
+            return kind(constructed[1], use)
+        factory = re.match(r"(" + variable + r")\s*->\s*create\s*\(", expression, re.I)
+        if factory:
+            return "client" if resolve(factory[1], use, seen) == "clientfactory" else None
+        if not re.fullmatch(variable, expression):
+            return None
+        name = compact(expression)
+        candidates = []
+        for match in assignments:
+            if compact(match[1]) != name:
+                continue
+            if name.startswith("$this->"):
+                # Only a constructor initializes an instance property for a
+                # later method; arbitrary other method writes are not definite.
+                function = owner(match.start(), functions)
+                same_function = function == owner(use, functions)
+                constructor = function and re.match(r"function\s+__construct\b", code[function[0]:], re.I)
+                if owner(use, classes) is None or owner(use, classes) != owner(match.start(), classes) or not (same_function or constructor):
+                    continue
+                if same_function and match.start() >= use:
+                    continue
+            elif owner(use, functions) != owner(match.start(), functions):
+                continue
+            elif match.start() >= use:
+                continue
+            if namespace_at(match.start()) != namespace_at(use):
+                continue
+            if not name.startswith("$this->") and not analyzer.scope_contains(code, match.start(), use):
+                continue
+            # An assignment in the currently executing method overrides a
+            # constructor initializer regardless of source declaration order.
+            candidates.append((owner(match.start(), functions) == owner(use, functions), match.start(), match[2]))
+        if candidates:
+            _, offset, value = max(candidates)
+            return resolve(value, offset, seen)
+        for match in reversed(typed):
+            if namespace_at(match.start()) != namespace_at(use):
+                continue
+            function = owner(match.start(), functions)
+            # A type hint is in the parameter header, not `return $client` or
+            # another keyword/expression in the function body.
+            parameter = function is not None and match.start() < code.find("{", function[0])
+            if parameter and match.start() < use and compact(match[2]) == name and owner(use, functions) == function:
+                return kind(match[1], match.start())
+            promoted = False
+            if parameter:
+                parameter_start = max(code.rfind("(", function[0], match.start()),
+                                      code.rfind(",", function[0], match.start()))
+                promoted = bool(re.search(
+                    r"\b(?:public|protected|private)\b",
+                    code[parameter_start + 1:match.start()],
+                    re.I,
+                ))
+            if (promoted and name == "$this->" + match[2][1:]
+                    and re.match(r"function\s+__construct\b", code[function[0]:], re.I)
+                    and owner(use, classes) == owner(match.start(), classes)):
+                return kind(match[1], match.start())
+            if name == "$this->" + match[2][1:] and owner(match.start(), functions) is None and owner(use, classes) is not None and owner(use, classes) == owner(match.start(), classes):
+                return kind(match[1], match.start())
+        return None
+
+    php_products = {"messages": "messaging", "calls": "voice", "verify": "verify",
+                    "video": "video", "lookups": "lookup"}
+    for match in re.finditer(r"(" + variable + r")\s*->\s*(messages|calls|verify|video|lookups)\b", code, re.I):
+        if resolve(match[1], match.start()) == "client":
+            result.append((source.count("\n", 0, match.start()) + 1, php_products[match[2].lower()]))
+    return result
+
+
+def go_contextual_calls(source: str, lexed) -> list[tuple[int, str]]:
+    """Attribute standard Go SDK service calls through local client bindings."""
+    analyzer = load_script("lint-required-messaging-profile")
+    code = lexed.code
+    resolver = analyzer.SourceEndpointResolver(lexed, ".go")
+    # The shared graph already indexes initialized locals and parameters. Add
+    # Go's uninitialized `var client Type` form so it shadows an outer SDK
+    # binding in exactly the same lexical lookup.
+    for declaration in re.finditer(
+            r"(?m)\bvar\s+([A-Za-z_]\w*)\s+(?![=(])[^=;\n]+(?=;|\n|$)", code):
+        scope = resolver.scope_at(declaration.start())
+        resolver.graph.add_binding(
+            declaration[1], scope, declaration.start(), declaration.start(),
+            "declaration")
+    packages = set()
+    for token in lexed.strings:
+        if token.contents != "github.com/twilio/twilio-go":
+            continue
+        line_start = code.rfind("\n", 0, token.start) + 1
+        prefix = code[line_start:token.start]
+        single = re.fullmatch(r"\s*import\s+(?:(\w+)\s+)?", prefix)
+        grouped = re.fullmatch(r"\s*(?:(\w+)\s+)?", prefix)
+        group_start = code.rfind("import", 0, token.start)
+        in_group = group_start >= 0 and re.match(r"import\s*\(", code[group_start:])
+        if in_group:
+            opening = code.find("(", group_start)
+            closing = analyzer.matching_delimiter(code, opening, "(", ")")
+            in_group = closing is not None and token.start < closing
+        imported = single or (grouped if in_group else None)
+        if imported:
+            packages.add(imported[1] or "twilio")
+    # This shared pattern excludes selector suffixes (`holder.client = ...`),
+    # which are mutations of a different binding.
+    assignments = resolver.root_assignments
+
+    def assignment(name: str, before: int):
+        use_binding = resolver.graph.visible_binding(
+            name, resolver.scope_at(before), before)
+        for match in reversed(assignments):
+            if (match[1].lstrip("$") != name or match.start() >= before
+                    or not analyzer.scope_contains(code, match.start(), before)):
+                continue
+            binding = resolver.assignment_bindings.get(match.start())
+            if binding is None:
+                binding = resolver.graph.visible_binding(
+                    name, resolver.scope_at(match.start()), match.start())
+            if binding == use_binding:
+                value = re.match(r"([^;\n]+)", code[match.end():])
+                return (match, value[1].strip()) if value else None
+        return None
+
+    def client(name: str, before: int, seen: frozenset = frozenset()) -> bool:
+        identity = (name, before)
+        if identity in seen or len(seen) >= 32:
+            return False
+        resolved = assignment(name, before)
+        if resolved is None:
+            return False
+        match, value = resolved
+        created = re.match(r"(\w+)\s*\.\s*NewRestClient(?:WithParams)?\s*\(", value)
+        if created:
+            package_binding = resolver.graph.visible_binding(
+                created[1], resolver.scope_at(match.start()), match.start())
+            return created[1] in packages and package_binding is None
+        return bool(re.fullmatch(r"\w+", value) and client(value, match.start(), seen | {identity}))
+
+    products = {"Api": {"Message": "messaging", "Call": "voice", "IncomingPhoneNumber": "phone-numbers"},
+                "VerifyV2": {"Verification": "verify"},
+                "LookupsV2": {"PhoneNumber": "lookup"},
+                "VideoV1": {"Room": "video"}}
+    result = []
+    for match in re.finditer(r"\b(\w+)\s*\.\s*(\w+)\s*\.\s*"
+                            r"(?:Create|Fetch|Update|Delete|Read|List)(\w+)\s*\(", code):
+        product = products.get(match[2], {}).get(match[3])
+        if product and client(match[1], match.start()):
+            result.append((source.count("\n", 0, match.start()) + 1, product))
+    return result
+
+
+def main() -> int:
+    if len(sys.argv) != 2:
+        return 2
+    root = Path(sys.argv[1])
+    scanner = load_script("scan-twilio-deep")
+    failed = False
+    for path in scanner.walk_project(root):
+        if path.suffix not in {".java", ".kt", ".kts", ".scala", ".php", ".phtml", ".go", ".cs", ".cshtml"}:
+            continue
+        try:
+            if not path.stat().st_mode & 0o444 or not os.access(path, os.R_OK):
+                raise OSError("source is not readable")
+            source = path.read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as error:
+            print(f"Cannot inspect SDK ownership in {str(path)!r}: {error}", file=sys.stderr)
+            failed = True
+            continue
+        if "\x00" in source:
+            continue
+        lines = source.splitlines()
+        for line, product in contextual_calls(source, path.suffix):
+            for value in (str(path), product, lines[line - 1].strip()):
+                sys.stdout.buffer.write(value.encode("utf-8") + b"\x00")
+    return 2 if failed else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
