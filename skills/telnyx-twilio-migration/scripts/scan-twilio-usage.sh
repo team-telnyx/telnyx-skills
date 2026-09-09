@@ -118,6 +118,21 @@ run_grep() {
   grep -rnI "${EXCLUDE_ARGS[@]}" "$@" "$PROJECT_ROOT" 2>/dev/null || true
 }
 
+run_source_fixed_grep() {
+  grep -rnI "${EXCLUDE_ARGS[@]}" --exclude='*.razor' --exclude='*.cshtml' "$@" "$PROJECT_ROOT" 2>/dev/null || true
+  # Razor mixes inert markup and executable C#. Recheck candidate lines on
+  # the shared executable view, retaining the original fixed-string semantics.
+  local filter_pattern script_dir filepath locator
+  filter_pattern="$(printf '%s' "$2" | sed 's/[][\\.^$*+?(){}|]/\\&/g')"
+  script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  while IFS= read -r -d '' filepath && IFS= read -r locator; do
+    printf '%s\0%s\n' "$filepath" "$locator" |
+      python3 "$script_dir/filter-source-matches.py" --mode code \
+        --analyzer "$script_dir/lint-required-messaging-profile.py" --pattern "$filter_pattern"
+  done < <(grep -rnIH --null --include='*.razor' --include='*.cshtml' \
+    "${EXCLUDE_ARGS[@]}" "$@" "$PROJECT_ROOT" 2>/dev/null || true)
+}
+
 # Detect language from file extension
 detect_language() {
   local f="$1"
@@ -130,7 +145,7 @@ detect_language() {
     *.java)                   echo "java" ;;
     *.php|*.phtml)             echo "php" ;;
     *.scala)                  echo "scala" ;;
-    *.cs|*.cshtml)             echo "csharp" ;;
+    *.cs|*.cshtml|*.razor)     echo "csharp" ;;
     *.sh|*.bash)              echo "shell" ;;
     *.xml)                    echo "xml" ;;
     *.json)                   echo "json" ;;
@@ -340,7 +355,7 @@ for pat in "${SDK_PATTERNS[@]}"; do
         record_file "$rel" "$lang" "$p" "$trimmed"
       done
     fi
-  done < <(run_grep -F "$pat")
+  done < <(run_source_fixed_grep -F "$pat")
 done
 
 for pat in "${SDK_REGEX_PATTERNS[@]}"; do
@@ -427,7 +442,7 @@ for entry in "${PRODUCT_PATTERNS_FIXED[@]}"; do
     fi
     trimmed="$(echo "$content" | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')"
     record_file "$rel" "$lang" "$product" "$trimmed"
-  done < <(run_grep -F "$pat")
+  done < <(run_source_fixed_grep -F "$pat")
 done
 
 # Case-insensitive regex patterns for common method calls

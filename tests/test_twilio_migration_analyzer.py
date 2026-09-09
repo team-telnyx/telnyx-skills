@@ -11024,6 +11024,85 @@ class ComposerConstraintContracts(unittest.TestCase):
 
 
 class DiscoveryAndValidationRegressionContracts(unittest.TestCase):
+    def test_razor_code_blocks_and_markup_siblings(self) -> None:
+        directive = "@using Twilio.Rest.Api.V2010.Account\n"
+        self.global_using_scan({
+            "Code.razor": directive + "@code { void Send() { MessageResource.Create(args); } }",
+            "Block.razor": directive + "@{ CallResource.Create(args); }",
+            "Markup.razor": "<p>using Twilio.Rest.Api.V2010.Account; MessageResource.Create(args);</p>",
+            "Comment.razor": "@* using Twilio.Rest.Api.V2010.Account; MessageResource.Create(args); *@",
+            "Unowned.razor": "@code { void Send() { MessageResource.Create(args); } }",
+        }, {"Code.razor": {"messaging"}, "Block.razor": {"voice"},
+            "Markup.razor": set(), "Comment.razor": set(), "Unowned.razor": set()})
+
+    def test_razor_global_alias_from_another_file(self) -> None:
+        self.global_using_scan({
+            "Imports.cs": "global using Sms = Twilio.Rest.Api.V2010.Account.MessageResource;",
+            "Code.razor": "@code { void Send() { Sms.Create(args); } }",
+            "Block.razor": "@{ Sms.Create(args); }",
+            "Markup.razor": "<p>Sms.Create(args);</p>",
+            "String.razor": '@code { string example = "Sms.Create(args);"; }',
+        }, {"Code.razor": {"messaging"}, "Block.razor": {"messaging"},
+            "Markup.razor": set(), "String.razor": set()})
+
+    def test_go_package_clients_cross_file_siblings(self) -> None:
+        for declaration in (
+            'import "github.com/twilio/twilio-go"\nvar client = twilio.NewRestClient()',
+            'import "github.com/twilio/twilio-go"\nvar client *twilio.RestClient = twilio.NewRestClient()',
+            'import sdk "github.com/twilio/twilio-go"\nvar client = sdk.NewRestClientWithParams(params)',
+            'import (\n sdk "github.com/twilio/twilio-go"\n)\nvar (\n client = sdk.NewRestClient()\n)',
+        ):
+            with self.subTest(declaration=declaration):
+                self.global_using_scan({
+                    "client.go": "package app\n" + declaration,
+                    "alias.go": "package app\nvar copied = client",
+                    "send.go": "package app\nfunc send() { copied.Api.CreateMessage(nil) }",
+                    "voice.go": "package app\nfunc call() { client.Api.CreateCall(nil) }",
+                    "local.go": "package app\nfunc sendLocal() { alias := client; alias.Api.CreateMessage(nil) }",
+                    "shadow.go": "package app\nfunc other(client Other) { client.Api.CreateMessage(nil) }",
+                    "uninitialized.go": "package app\nfunc another() { var client Other; client.Api.CreateMessage(nil) }",
+                    "rebound.go": "package app\nfunc rebound() { client = other; client.Api.CreateMessage(nil) }",
+                    "different.go": "package other\nfunc send() { client.Api.CreateMessage(nil) }",
+                    "sub/send.go": "package app\nfunc send() { client.Api.CreateMessage(nil) }",
+                }, {"send.go": {"messaging"}, "voice.go": {"voice"}, "local.go": {"messaging"},
+                    "shadow.go": set(), "uninitialized.go": set(), "rebound.go": set(),
+                    "different.go": set(), "sub/send.go": set()})
+
+    def test_go_package_clients_reject_nonpackage_evidence(self) -> None:
+        for name, source in (
+            ("client.go", 'package app\nimport "unrelated/sdk"\nvar client = sdk.NewRestClient()'),
+            ("client.go", 'package app\nimport "github.com/twilio/twilio-go"\nfunc initClient() { client := twilio.NewRestClient() }'),
+            ("client_test.go", 'package app\nimport "github.com/twilio/twilio-go"\nvar client = twilio.NewRestClient()'),
+            ("client.go", '//go:build special\npackage app\nimport "github.com/twilio/twilio-go"\nvar client = twilio.NewRestClient()'),
+            ("client.go", 'package app\n// var client = twilio.NewRestClient()'),
+        ):
+            with self.subTest(name=name, source=source):
+                self.global_using_scan({name: source, "send.go": "package app\nfunc send() { client.Api.CreateMessage(nil) }"},
+                                       {"send.go": set()})
+
+    def test_go_package_clients_respect_typed_and_grouped_local_vars(self) -> None:
+        imports = 'package app\nimport "github.com/twilio/twilio-go"\n'
+        declarations = {
+            "pointer": "var client *Other = other",
+            "value": "var client Other = other",
+            "group_pointer": "var (\nclient *Other = other\n)",
+            "group_value": "var (\nclient Other = other\n)",
+            "group_uninitialized": "var (\nclient Other\n)",
+            "multiple": "var a, client *Other",
+            "multiple_initialized": "var a, client *Other = first, other",
+            "group_multiple": "var (\na, client *Other = first, other\n)",
+            "sdk_pointer": "var client *twilio.RestClient = twilio.NewRestClient()",
+            "sdk_group": "var (\nclient *twilio.RestClient = twilio.NewRestClient()\n)",
+        }
+        files = {"client.go": imports + "var client = twilio.NewRestClient()"}
+        expected = {}
+        for name, declaration in declarations.items():
+            filename = name + ".go"
+            files[filename] = (imports + "func send() {\n" + declaration
+                               + "\nclient.Api.CreateMessage(nil)\n}")
+            expected[filename] = {"messaging"} if name.startswith("sdk_") else set()
+        self.global_using_scan(files, expected)
+
     def global_using_scan(self, files: dict[str, str], expected: dict[str, set[str]]) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -11038,6 +11117,12 @@ class DiscoveryAndValidationRegressionContracts(unittest.TestCase):
                 found = {item["path"]: set(item["products"]) - {"general"} for item in report["files"]}
                 for name, products in expected.items():
                     self.assertEqual(products, found.get(name, set()), (command, name, report))
+                    if name.endswith(".razor"):
+                        if not products:
+                            self.assertNotIn(name, found, report)
+                        else:
+                            item = next(item for item in report["files"] if item["path"] == name)
+                            self.assertEqual("csharp", item["language"], report)
 
     def test_csharp_global_using_forms_across_files(self) -> None:
         for resource, product in (("MessageResource", "messaging"), ("CallResource", "voice"),

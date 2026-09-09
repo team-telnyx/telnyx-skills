@@ -181,7 +181,7 @@ GO_EXTENSIONS = {".go"}
 RUBY_EXTENSIONS = {".rb", ".rake"}
 JAVA_EXTENSIONS = {".java", ".kt", ".kts", ".scala"}
 PHP_EXTENSIONS = {".php", ".phtml"}
-CSHARP_EXTENSIONS = {".cs", ".cshtml"}
+CSHARP_EXTENSIONS = {".cs", ".cshtml", ".razor"}
 OTHER_TEXT_EXTENSIONS = {".xml", ".yaml", ".yml"}
 
 # Directories to skip
@@ -794,14 +794,14 @@ _CSHARP_ENV_RE = re.compile(
 _CSHARP_TWILIO_RE = re.compile(r"\btwilio\b", re.IGNORECASE)
 
 
-def scan_go_file(filepath: Path, lines: List[str]) -> List[Detection]:
+def scan_go_file(filepath: Path, lines: List[str], go_clients: frozenset[str] = frozenset()) -> List[Detection]:
     """Regex-based scanning for Go files."""
     detections: List[Detection] = []
     detected_lines: Set[int] = set()
     source = "\n".join(lines)
     lexed = _ownership.lexed_source(source, ".go")
     lines = lexed.without_comments.split("\n")
-    for line, product in _ownership.contextual_calls(source, ".go"):
+    for line, product in _ownership.contextual_calls(source, ".go", go_clients=go_clients):
         detections.append(Detection(
             pattern=lines[line - 1].strip(), line=line, detection_method="regex",
             context=get_context_lines(lines, line), confidence="high", product=product))
@@ -1353,6 +1353,7 @@ def run_scan(project_root: Path) -> Dict[str, Any]:
 
     paths = list(walk_project(project_root))
     global_usings = _ownership.CsharpGlobalUsings(project_root, paths)
+    go_clients = _ownership.GoPackageClients(paths)
     for filepath in paths:
         ext = filepath.suffix.lower()
         name = filepath.name
@@ -1471,11 +1472,12 @@ def run_scan(project_root: Path) -> Dict[str, Any]:
                 text = filepath.read_text(errors="replace")
             except (OSError, PermissionError):
                 continue
-            if "twilio" not in text.lower():
+            package_clients = go_clients.for_file(filepath)
+            if "twilio" not in text.lower() and not package_clients:
                 continue
             lines = text.splitlines()
             rel = str(filepath.relative_to(project_root))
-            go_detections = scan_go_file(filepath, lines)
+            go_detections = scan_go_file(filepath, lines, package_clients)
             if go_detections:
                 fr = FileResult(rel, "go")
                 fr.detections = go_detections

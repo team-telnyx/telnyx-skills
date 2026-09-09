@@ -147,13 +147,21 @@ class CsharpGlobalUsings:
         return self.contexts.get(self.owner(path), "")
 
 
-def contextual_calls(source: str, suffix: str, global_using_code: str = "") -> list[tuple[int, str]]:
+def contextual_calls(source: str, suffix: str, global_using_code: str = "",
+                     go_clients: frozenset[str] = frozenset()) -> list[tuple[int, str]]:
     lexed = lexed_source(source, suffix)
     code = lexed.code
     if suffix == ".go":
-        return go_contextual_calls(source, lexed)
-    if suffix in {".cs", ".cshtml"}:
+        return go_contextual_calls(source, lexed, go_clients)
+    if suffix in {".cs", ".cshtml", ".razor"}:
         analyzer = load_script("lint-required-messaging-profile")
+        if suffix in {".cshtml", ".razor"}:
+            # Razor @using directives are newline-terminated, unlike C# using
+            # declarations. Only executable lexer output can supply imports.
+            directives = re.findall(
+                r"(?m)^\s*@using\s+((?:static\s+)?(?:\w+\s*=\s*)?"
+                r"(?:global\s*::\s*)?\w+(?:\s*\.\s*\w+)*)\s*;?\s*$", code)
+            global_using_code += "\n" + "\n".join("using " + item + ";" for item in directives)
         resolver = analyzer.SourceEndpointResolver(lexed, ".cs")
         resources = (
             ("Twilio.Rest.Api.V2010.Account.MessageResource", "messaging"),
@@ -427,20 +435,10 @@ def contextual_calls(source: str, suffix: str, global_using_code: str = "") -> l
     return result
 
 
-def go_contextual_calls(source: str, lexed) -> list[tuple[int, str]]:
-    """Attribute standard Go SDK service calls through local client bindings."""
+def go_import_packages(lexed) -> set[str]:
+    """Return file-local names importing the actual Twilio Go SDK."""
     analyzer = load_script("lint-required-messaging-profile")
     code = lexed.code
-    resolver = analyzer.SourceEndpointResolver(lexed, ".go")
-    # The shared graph already indexes initialized locals and parameters. Add
-    # Go's uninitialized `var client Type` form so it shadows an outer SDK
-    # binding in exactly the same lexical lookup.
-    for declaration in re.finditer(
-            r"(?m)\bvar\s+([A-Za-z_]\w*)\s+(?![=(])[^=;\n]+(?=;|\n|$)", code):
-        scope = resolver.scope_at(declaration.start())
-        resolver.graph.add_binding(
-            declaration[1], scope, declaration.start(), declaration.start(),
-            "declaration")
     packages = set()
     for token in lexed.strings:
         if token.contents != "github.com/twilio/twilio-go":
@@ -458,9 +456,117 @@ def go_contextual_calls(source: str, lexed) -> list[tuple[int, str]]:
         imported = single or (grouped if in_group else None)
         if imported:
             packages.add(imported[1] or "twilio")
+    return packages
+
+
+def go_var_declarations(code: str):
+    """Yield Go var bindings; multi-name declarations only establish shadows."""
+    analyzer = load_script("lint-required-messaging-profile")
+    declaration = re.compile(r"([A-Za-z_]\w*)[ \t]*(?:[^=;,\n)]+)?(?P<equals>=)?")
+    for keyword in re.finditer(r"\bvar\s+", code):
+        start = keyword.end()
+        if code[start:start + 1] == "(":
+            end = analyzer.matching_delimiter(code, start, "(", ")")
+            if end is None:
+                continue
+            starts, stack = [start + 1], []
+            for position in range(start + 1, end):
+                char = code[position]
+                if char in "([{":
+                    stack.append(char)
+                elif char in ")]}":
+                    if stack:
+                        stack.pop()
+                elif char in ";\n" and not stack:
+                    starts.append(position + 1)
+        else:
+            starts, end = [start], len(code)
+        for position in starts:
+            while position < end and code[position] in " \t\r":
+                position += 1
+            multiple = re.compile(r"(?:\w+[ \t]*,[ \t]*)+\w+").match(code, position, end)
+            if multiple:
+                yield from re.compile(r"(\w+)(?P<equals>=)?").finditer(code, position, multiple.end())
+                continue
+            match = declaration.match(code, position, end)
+            if match:
+                yield match
+
+
+class GoPackageClients:
+    """Resolve static package client initializers without sharing file imports."""
+
+    def __init__(self, paths: list[Path]):
+        self.keys: dict[Path, tuple[Path, str]] = {}
+        declarations: dict[tuple[Path, str], dict[str, list[tuple[bool, str]]]] = {}
+        analyzer = load_script("lint-required-messaging-profile")
+        for path in paths:
+            if path.suffix != ".go":
+                continue
+            try:
+                source = path.read_text(encoding="utf-8")
+            except (OSError, UnicodeError):
+                continue
+            lexed = lexed_source(source, ".go")
+            package = re.search(r"\bpackage\s+(\w+)", lexed.code)
+            if package is None:
+                continue
+            key = (path.parent, package[1])
+            self.keys[path] = key
+            # Test declarations and build-constrained variants must not seed
+            # unconditional ownership in production files.
+            if path.name.endswith("_test.go") or re.search(r"(?m)^\s*//\s*(?:go:build|\+build)\b", source):
+                continue
+            imports = go_import_packages(lexed)
+            resolver = analyzer.SourceEndpointResolver(lexed, ".go")
+            assignments = list(resolver.root_assignments)
+            known_ends = {(match[1], match.end()) for match in assignments}
+            assignments.extend(match for match in go_var_declarations(lexed.code)
+                               if match["equals"] and (match[1], match.end()) not in known_ends)
+            for match in assignments:
+                if analyzer.curly_ancestry(lexed.code, match.start()):
+                    continue
+                value = re.match(r"[^;\n]+", lexed.code[match.end():])
+                if not value:
+                    continue
+                expression = value[0].strip()
+                constructor = re.match(r"(\w+)\s*\.\s*NewRestClient(?:WithParams)?\s*\(", expression)
+                owned = bool(constructor and constructor[1] in imports)
+                declarations.setdefault(key, {}).setdefault(match[1], []).append((owned, expression))
+        self.clients: dict[tuple[Path, str], frozenset[str]] = {}
+        for key, bindings in declarations.items():
+            known: set[str] = set()
+            for _ in range(len(bindings) + 1):
+                added = {name for name, values in bindings.items() if len(values) == 1
+                         and (values[0][0] or values[0][1] in known)} - known
+                if not added:
+                    break
+                known.update(added)
+            self.clients[key] = frozenset(known)
+
+    def for_file(self, path: Path) -> frozenset[str]:
+        return self.clients.get(self.keys.get(path), frozenset())
+
+
+def go_contextual_calls(source: str, lexed, package_clients: frozenset[str] = frozenset()) -> list[tuple[int, str]]:
+    """Attribute SDK calls through local bindings, then package initializers."""
+    analyzer = load_script("lint-required-messaging-profile")
+    code = lexed.code
+    resolver = analyzer.SourceEndpointResolver(lexed, ".go")
+    assignments = list(resolver.root_assignments)
+    known_ends = {(match[1], match.end()) for match in assignments}
+    for declaration in go_var_declarations(code):
+        if declaration["equals"] and (declaration[1], declaration.end()) in known_ends:
+            continue
+        scope = resolver.scope_at(declaration.start())
+        binding = resolver.graph.add_binding(declaration[1], scope, declaration.start(), declaration.start(), "declaration")
+        if declaration["equals"]:
+            assignments.append(declaration)
+            resolver.assignment_bindings[declaration.start()] = binding
+    packages = go_import_packages(lexed)
     # This shared pattern excludes selector suffixes (`holder.client = ...`),
     # which are mutations of a different binding.
-    assignments = resolver.root_assignments
+    assignments.sort(key=lambda match: match.start())
 
     def assignment(name: str, before: int):
         use_binding = resolver.graph.visible_binding(
@@ -484,7 +590,10 @@ def go_contextual_calls(source: str, lexed) -> list[tuple[int, str]]:
             return False
         resolved = assignment(name, before)
         if resolved is None:
-            return False
+            binding = resolver.graph.visible_binding(name, resolver.scope_at(before), before)
+            return name in package_clients and (binding is None or (
+                resolver.graph.bindings[binding].kind != "parameter"
+                and not analyzer.curly_ancestry(code, resolver.graph.bindings[binding].declaration_start)))
         match, value = resolved
         created = re.match(r"(\w+)\s*\.\s*NewRestClient(?:WithParams)?\s*\(", value)
         if created:
@@ -514,8 +623,9 @@ def main() -> int:
     failed = False
     paths = list(scanner.walk_project(root))
     global_usings = CsharpGlobalUsings(root, paths)
+    go_clients = GoPackageClients(paths)
     for path in paths:
-        if path.suffix not in {".java", ".kt", ".kts", ".scala", ".php", ".phtml", ".go", ".cs", ".cshtml"}:
+        if path.suffix not in {".java", ".kt", ".kts", ".scala", ".php", ".phtml", ".go", ".cs", ".cshtml", ".razor"}:
             continue
         try:
             if not path.stat().st_mode & 0o444 or not os.access(path, os.R_OK):
@@ -528,7 +638,7 @@ def main() -> int:
         if "\x00" in source:
             continue
         lines = source.splitlines()
-        for line, product in contextual_calls(source, path.suffix, global_usings.for_file(path)):
+        for line, product in contextual_calls(source, path.suffix, global_usings.for_file(path), go_clients.for_file(path)):
             for value in (str(path), product, lines[line - 1].strip()):
                 sys.stdout.buffer.write(value.encode("utf-8") + b"\x00")
     return 2 if failed else 0
