@@ -10539,6 +10539,19 @@ class DeclaredSdkVersionContracts(unittest.TestCase):
         self.assertEqual("pass" if declared else "fail", checks["telnyx_sdk_dependency"])
         self.assertEqual("pass" if pinned else "warn", checks["telnyx_sdk_version_pinned"])
 
+    def test_source_import_fallback_respects_file_filters(self) -> None:
+        # Run under GNU grep in CI and BSD grep on macOS: excluded files and
+        # non-source manifests must not supply evidence of an SDK import.
+        for name, expected in (
+            ("app.py", "warn"), ("app.js", "warn"),
+            ("notes.txt", "fail"), ("metadata.json", "fail"),
+            ("go.mod", "fail"), ("libs.versions.toml", "fail"),
+            ("node_modules/app.js", "fail"), (".git/app.py", "fail"),
+        ):
+            with self.subTest(name=name):
+                checks = self.checks({name: "import telnyx\n"})
+                self.assertEqual(expected, checks["telnyx_sdk_dependency"])
+
     def test_node_exact_and_declared_dependency_sections(self) -> None:
         for section in ("dependencies", "devDependencies", "optionalDependencies", "peerDependencies"):
             with self.subTest(section=section):

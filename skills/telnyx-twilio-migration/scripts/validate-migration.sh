@@ -204,8 +204,10 @@ search_files() {
   for glob in "$@"; do
     include_args="$include_args --include=$glob"
   done
+  # GNU grep defaults unmatched files to included if an exclusion comes first.
+  # Put the allowlist first and exclusions last so both GNU and BSD grep agree.
   # shellcheck disable=SC2086
-  grep -rnI $GREP_EXCLUDES $include_args -E "$pattern" "$PROJECT_ROOT" 2>/dev/null || true
+  grep -rnI $include_args $GREP_EXCLUDES -E "$pattern" "$PROJECT_ROOT" 2>/dev/null || true
 }
 
 # Search helper that excludes .md files and minified JS (for config/env var checks)
@@ -218,7 +220,7 @@ search_source_files() {
     include_args="$include_args --include=$glob"
   done
   # shellcheck disable=SC2086
-  grep -rnI $GREP_EXCLUDES --exclude='*.md' --exclude='*.min.js' $include_args -E "$pattern" "$PROJECT_ROOT" 2>/dev/null || true
+  grep -rnI $include_args $GREP_EXCLUDES --exclude='*.md' --exclude='*.min.js' -E "$pattern" "$PROJECT_ROOT" 2>/dev/null || true
 }
 
 # Auth-related names are common in unrelated SDKs. Require Telnyx context in
