@@ -14552,6 +14552,7 @@ def csharp_twilio_message_calls(
 def csharp_twilio_resource_calls(
     lexed: LexedSource, target: str, methods: tuple[str, ...],
     source: SourceEndpointResolver | None = None,
+    global_using_code: str = "",
 ) -> list[Call]:
     """Resolve the SDK resource's C# using/alias forms before checking its body.
 
@@ -14567,27 +14568,54 @@ def csharp_twilio_resource_calls(
         return max((span for span in namespaces if span[0] < offset < span[1]),
                    key=lambda span: span[0], default=None)
 
-    imports = []
-    for match in re.finditer(
+    using_pattern = re.compile(
         r"\b(?:global\s+)?using\s+(?:(?P<static>static)\s+)?"
         r"(?:(?P<alias>\w+)\s*=\s*)?(?:global\s*::\s*)?"
-        r"(?P<target>\w+(?:\s*\.\s*\w+)*)\s*;", code
-    ):
+        r"(?P<target>\w+(?:\s*\.\s*\w+)*)\s*;"
+    )
+    global_imports = [(match, re.sub(r"\s+", "", match.group("target")))
+                      for match in using_pattern.finditer(global_using_code)]
+    imports = []
+    for match in using_pattern.finditer(code):
         imports.append((match, re.sub(r"\s+", "", match.group("target")),
                         namespace_at(match.start())))
     candidates = calls_matching(lexed, re.compile(
         r"(?<![\w$.])(?:global\s*::\s*)?(?:\w+\s*\.\s*)*(?:"
         + "|".join(re.escape(method) for method in methods) + r")\s*\("
     ))
+    # Unqualified static imports lose to local methods/delegates. Keep method
+    # declarations out of call evidence and retain their enclosing scope.
+    local_methods = []
+    for candidate in candidates:
+        if not re.fullmatch(r"\w+", code[candidate.start:candidate.open_paren].strip()):
+            continue
+        closing = matching_delimiter(code, candidate.open_paren, "(", ")")
+        if closing is None:
+            continue
+        tail = code[closing + 1:]
+        prefix = code[max(0, candidate.start - 100):candidate.start]
+        if (re.match(r"\s*(?:\{|=>)", tail)
+                and re.search(r"\b[\w<>?\[\].]+\s+$", prefix)
+                and not re.search(r"\bnew\s+$", prefix)):
+            local_methods.append(candidate)
     result = []
     for call in candidates:
         head = re.sub(r"\s+", "", code[call.start:call.open_paren])
         receiver = head.rsplit(".", 1)[0] if "." in head else ""
+        if not receiver:
+            if re.search(r"\bnew\s+$", code[max(0, call.start - 100):call.start]):
+                continue
+            if any(code[item.start:item.open_paren].strip() == head
+                   and scope_contains(code, item.start, call.start)
+                   for item in local_methods):
+                continue
+            if source.graph.visible_binding(head, source.scope_at(call.start), call.start) is not None:
+                continue
         if receiver.startswith("global::"):
             if receiver.removeprefix("global::") == target:
                 result.append(call)
             continue
-        visible = [(match, name) for match, name, scope in imports
+        visible = global_imports + [(match, name) for match, name, scope in imports
                    if scope is None or scope[0] < call.start < scope[1]]
         aliases = {match.group("alias"): name for match, name in visible
                    if match.group("alias")}

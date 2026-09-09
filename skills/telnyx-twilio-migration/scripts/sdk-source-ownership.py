@@ -93,7 +93,61 @@ def scala_indent_regions(code: str) -> list[tuple[int, int]]:
     return regions
 
 
-def contextual_calls(source: str, suffix: str) -> list[tuple[int, str]]:
+class CsharpGlobalUsings:
+    """Index unconditional source global usings within project-directory bounds.
+
+    This does not evaluate MSBuild or preprocessor symbols. Conditional imports
+    are not promoted to project-wide evidence. Without a csproj, the scan root
+    is the boundary; nested/sibling csproj directories never share imports.
+    """
+
+    def __init__(self, root: Path, paths: list[Path]):
+        self.root = root
+        self.projects = {path.parent for path in paths if path.suffix.lower() == ".csproj"}
+        self.imports: dict[Path, list[str]] = {}
+        for path in paths:
+            if path.suffix.lower() != ".cs":
+                continue
+            try:
+                source = path.read_text(encoding="utf-8-sig")
+            except (OSError, UnicodeError):
+                continue  # The scanner retains its own read-error policy.
+            if "global" not in source or "\x00" in source:
+                continue
+            code = lexed_source(source, ".cs").code
+            # Preserve offsets while removing conditional regions. A using in
+            # one possible build configuration is not definite ownership.
+            depth, unconditional = 0, []
+            for line in code.splitlines(keepends=True):
+                directive = re.match(r"\s*#\s*(if|endif)\b", line)
+                if directive and directive[1] == "if":
+                    depth += 1
+                unconditional.append("\n" if depth or directive else line)
+                if directive and directive[1] == "endif":
+                    depth = max(0, depth - 1)
+            code = "".join(unconditional)
+            analyzer = load_script("lint-required-messaging-profile")
+            for match in re.finditer(
+                r"\bglobal\s+using\s+(?:static\s+)?(?:\w+\s*=\s*)?"
+                r"(?:global\s*::\s*)?\w+(?:\s*\.\s*\w+)*\s*;", code
+            ):
+                # Global directives are compilation-unit declarations, never
+                # members of a namespace/type body.
+                if analyzer.curly_ancestry(code, match.start()):
+                    continue
+                self.imports.setdefault(self.owner(path), []).append(match[0])
+        self.contexts = {owner: "\n".join(dict.fromkeys(imports))
+                         for owner, imports in self.imports.items()
+                         if any(re.search(r"\bTwilio\s*\.", item) for item in imports)}
+
+    def owner(self, path: Path) -> Path:
+        return next((parent for parent in path.parents if parent in self.projects), self.root)
+
+    def for_file(self, path: Path) -> str:
+        return self.contexts.get(self.owner(path), "")
+
+
+def contextual_calls(source: str, suffix: str, global_using_code: str = "") -> list[tuple[int, str]]:
     lexed = lexed_source(source, suffix)
     code = lexed.code
     if suffix == ".go":
@@ -123,7 +177,7 @@ def contextual_calls(source: str, suffix: str) -> list[tuple[int, str]]:
         return [(source.count("\n", 0, call.start) + 1, product)
                 for target, product in resources
                 for call in analyzer.csharp_twilio_resource_calls(lexed,
-                    target, methods, resolver)]
+                    target, methods, resolver, global_using_code)]
     result = []
     products = {"Message": "messaging", "Call": "voice",
                 "IncomingPhoneNumber": "phone-numbers"}
@@ -458,7 +512,9 @@ def main() -> int:
     root = Path(sys.argv[1])
     scanner = load_script("scan-twilio-deep")
     failed = False
-    for path in scanner.walk_project(root):
+    paths = list(scanner.walk_project(root))
+    global_usings = CsharpGlobalUsings(root, paths)
+    for path in paths:
         if path.suffix not in {".java", ".kt", ".kts", ".scala", ".php", ".phtml", ".go", ".cs", ".cshtml"}:
             continue
         try:
@@ -472,7 +528,7 @@ def main() -> int:
         if "\x00" in source:
             continue
         lines = source.splitlines()
-        for line, product in contextual_calls(source, path.suffix):
+        for line, product in contextual_calls(source, path.suffix, global_usings.for_file(path)):
             for value in (str(path), product, lines[line - 1].strip()):
                 sys.stdout.buffer.write(value.encode("utf-8") + b"\x00")
     return 2 if failed else 0

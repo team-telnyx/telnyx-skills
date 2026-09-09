@@ -11024,6 +11024,81 @@ class ComposerConstraintContracts(unittest.TestCase):
 
 
 class DiscoveryAndValidationRegressionContracts(unittest.TestCase):
+    def global_using_scan(self, files: dict[str, str], expected: dict[str, set[str]]) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for name, text in files.items():
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(text, encoding="utf-8")
+            for command in ([BASH, str(SCAN_USAGE_SCRIPT)], [sys.executable, str(DEEP_SCAN_SCRIPT)]):
+                result = subprocess.run(command + [str(root)], capture_output=True, text=True, timeout=45)
+                self.assertEqual(0, result.returncode, result.stderr)
+                report = json.loads(result.stdout)
+                found = {item["path"]: set(item["products"]) - {"general"} for item in report["files"]}
+                for name, products in expected.items():
+                    self.assertEqual(products, found.get(name, set()), (command, name, report))
+
+    def test_csharp_global_using_forms_across_files(self) -> None:
+        for resource, product in (("MessageResource", "messaging"), ("CallResource", "voice"),
+                                  ("IncomingPhoneNumberResource", "phone-numbers")):
+            target = "Twilio.Rest.Api.V2010.Account."
+            for directive, call in (
+                ("global using " + target[:-1] + ";", resource + ".Create(args);"),
+                ("global using Resource = global::" + target + resource + ";", "Resource.ReadAsync(args);"),
+                ("global using Account = " + target[:-1] + ";", "Account." + resource + ".Fetch(args);"),
+                ("global using static " + target + resource + ";", "CreateAsync(args);"),
+            ):
+                with self.subTest(directive=directive):
+                    self.global_using_scan({"Imports.cs": directive, "Send.cs": call,
+                                            "View.cshtml": "@{ " + call + " }"},
+                                           {"Send.cs": {product}, "View.cshtml": {product}})
+
+    def test_csharp_global_using_negative_and_shadow_siblings(self) -> None:
+        directive = "global using Twilio.Rest.Api.V2010.Account;"
+        for imports, consumer in (
+            ("// " + directive, "MessageResource.Create(args);"),
+            ('var text = "' + directive + '";', "MessageResource.Create(args);"),
+            ('var text = """' + directive + '""";', "MessageResource.Create(args);"),
+            ("using Twilio.Rest.Api.V2010.Account;", "MessageResource.Create(args);"),
+            ("#if false\n" + directive + "\n#endif", "MessageResource.Create(args);"),
+            ("global using Unrelated;", "MessageResource.Create(args);"),
+            (directive, "class MessageResource {}\nMessageResource.Create(args);"),
+            ("global using Resource = Twilio.Rest.Api.V2010.Account.MessageResource;",
+             "using Resource = Unrelated.MessageResource;\nResource.Create(args);"),
+            ("global using Resource = Twilio.Rest.Api.V2010.Account.MessageResource;",
+             "var Resource = other;\nResource.Create(args);"),
+            ("global using static Twilio.Rest.Api.V2010.Account.MessageResource;",
+             "class App { void Create(object x) {} void Run() { Create(args); } }"),
+            ("global using static Twilio.Rest.Api.V2010.Account.MessageResource;",
+             "Action<object> Create = handler; Create(args);"),
+            ("global using static Twilio.Rest.Api.V2010.Account.MessageResource;",
+             "var x = new Create(args) { Value = 1 };"),
+        ):
+            with self.subTest(imports=imports, consumer=consumer):
+                self.global_using_scan({"Imports.cs": imports, "Send.cs": consumer}, {"Send.cs": set()})
+
+    def test_csharp_global_usings_stay_in_project(self) -> None:
+        call = "MessageResource.Create(args);"
+        ownership = runpy.run_path(str(DEEP_SCAN_SCRIPT.parent / "sdk-source-ownership.py"))
+        self.assertEqual([(2, "messaging")], ownership["contextual_calls"](
+            "var x = new Create(args) { Value = 1 };\nCreate(args);", ".cs",
+            "global using static Twilio.Rest.Api.V2010.Account.MessageResource;"))
+        self.global_using_scan({"Imports.cs": "global using static Twilio.Rest.Api.V2010.Account.MessageResource;",
+                                "Send.cs": "var x = new Create(args) { Value = 1 }; Create(args);"},
+                               {"Send.cs": {"messaging"}})
+        self.global_using_scan({"Config/Imports.cs": "global using Twilio.Rest.Api.V2010.Account;",
+                                "Services/Send.cs": call}, {"Services/Send.cs": {"messaging"}})
+        self.global_using_scan({
+            "A/A.csproj": '<Project Sdk="Microsoft.NET.Sdk"/>',
+            "A/Imports.cs": "global using Twilio.Rest.Api.V2010.Account;",
+            "A/Send.cs": call, "A/Sub/Send.cs": call,
+            "B/B.csproj": '<Project Sdk="Microsoft.NET.Sdk"/>', "B/Send.cs": call,
+            "A/Nested/Nested.csproj": '<Project Sdk="Microsoft.NET.Sdk"/>',
+            "A/Nested/Send.cs": call, "Send.cs": call,
+        }, {"A/Send.cs": {"messaging"}, "A/Sub/Send.cs": {"messaging"},
+            "B/Send.cs": set(), "A/Nested/Send.cs": set(), "Send.cs": set()})
+
     maxDiff = None
 
     def test_discovery_pipeline_does_not_certify_failed_or_empty_scans(self) -> None:

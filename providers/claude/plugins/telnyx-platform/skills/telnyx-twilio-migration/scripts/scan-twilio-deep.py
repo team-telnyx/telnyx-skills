@@ -1195,7 +1195,7 @@ def scan_php_file(filepath: Path, lines: List[str]) -> List[Detection]:
     return detections
 
 
-def scan_csharp_file(filepath: Path, lines: List[str]) -> List[Detection]:
+def scan_csharp_file(filepath: Path, lines: List[str], global_using_code: str = "") -> List[Detection]:
     """Regex-based scanning for C# files."""
     detections: List[Detection] = []
     detected_lines: Set[int] = set()
@@ -1203,7 +1203,7 @@ def scan_csharp_file(filepath: Path, lines: List[str]) -> List[Detection]:
     lexed = _ownership.lexed_source(source, filepath.suffix)
     syntax_lines = lexed.code.split("\n")
     lines = lexed.without_comments.split("\n")
-    for line, product in _ownership.contextual_calls(source, filepath.suffix):
+    for line, product in _ownership.contextual_calls(source, filepath.suffix, global_using_code):
         detections.append(Detection(
             pattern=lines[line - 1].strip(), line=line, detection_method="regex",
             context=get_context_lines(lines, line), confidence="high", product=product))
@@ -1351,7 +1351,9 @@ def run_scan(project_root: Path) -> Dict[str, Any]:
     method_counts: Dict[str, int] = {"ast": 0, "regex": 0, "heuristic": 0}
     confidence_counts: Dict[str, int] = {"high": 0, "medium": 0, "low": 0}
 
-    for filepath in walk_project(project_root):
+    paths = list(walk_project(project_root))
+    global_usings = _ownership.CsharpGlobalUsings(project_root, paths)
+    for filepath in paths:
         ext = filepath.suffix.lower()
         name = filepath.name
 
@@ -1592,11 +1594,12 @@ def run_scan(project_root: Path) -> Dict[str, Any]:
                 text = filepath.read_text(errors="replace")
             except (OSError, PermissionError):
                 continue
-            if "twilio" not in text.lower():
+            global_using_code = global_usings.for_file(filepath)
+            if "twilio" not in text.lower() and not global_using_code:
                 continue
             lines = text.splitlines()
             rel = str(filepath.relative_to(project_root))
-            csharp_detections = scan_csharp_file(filepath, lines)
+            csharp_detections = scan_csharp_file(filepath, lines, global_using_code)
             if csharp_detections:
                 fr = FileResult(rel, "csharp")
                 fr.detections = csharp_detections
